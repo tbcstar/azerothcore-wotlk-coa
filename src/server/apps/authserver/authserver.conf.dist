@@ -1,25 +1,25 @@
 ###############################################
-# AzerothCore Auth Server configuration file #
+# AzerothCore 认证服务器配置文件			  #
 ###############################################
 [authserver]
 
 ###################################################################################################
 # SECTION INDEX
 #
-#    EXAMPLE CONFIG
-#    AUTH SERVER SETTINGS
-#    MYSQL SETTINGS
-#    CRYPTOGRAPHY
-#    UPDATE SETTINGS
-#    LOGGING SYSTEM SETTINGS
-#    NETWORK
+#    EXAMPLE CONFIG			示例配置
+#    AUTH SERVER SETTINGS	认证服务器设置
+#    MYSQL SETTINGS			MySQL 设置
+#    CRYPTOGRAPHY			加密设置
+#    UPDATE SETTINGS		更新设置
+#    LOGGING SYSTEM SETTINGS日志系统设置
+#    NETWORK				网络
 #
 ###################################################################################################
 
 ###################################################################################################
-# EXAMPLE CONFIG
+# EXAMPLE CONFIG	示例配置
 #
-#    Variable
+#    Variable	变量
 #        Description: Brief description what the variable is doing.
 #        Important:   Annotation for important things about this variable.
 #        Example:     "Example, i.e. if the value is a string"
@@ -32,27 +32,27 @@
 ###################################################################################################
 
 ###################################################################################################
-# AUTH SERVER SETTINGS
+# AUTH SERVER SETTINGS-认证服务器设置
 #
 #    LogsDir
-#        Description: Logs directory setting.
-#        Important:   LogsDir needs to be quoted, as the string might contain space characters.
-#                     Logs directory must exists, or log file creation will be disabled.
+#        Description: 日志目录设置。
+#        Important:   LogsDir 需要使用引号，因为字符串可能包含空格字符。
+#                     日志目录必须存在，否则将禁用日志文件创建。
 #        Example:     "/home/youruser/azerothcore/logs"
-#        Default:     "" - (Log files will be stored in the current path)
+#        Default:     "" - (日志文件将存储在 current 路径中)
 
-LogsDir = ""
+LogsDir = "/root/azerothcore-coa/env/dist/log"
 
 #
 #    MaxPingTime
-#        Description: Time (in minutes) between database pings.
+#        Description: 数据库 ping 之间的时间间隔（以分钟为单位）。
 #        Default:     30
 
 MaxPingTime = 30
 
 #
 #    RealmServerPort
-#        Description: TCP port to reach the auth server.
+#        Description: 用于访问认证服务器的 TCP 端口。
 #        Default:     3724
 
 RealmServerPort = 3724
@@ -60,16 +60,16 @@ RealmServerPort = 3724
 #
 #
 #    BindIP
-#        Description: Bind auth server to IP/hostname
-#        Default:     "0.0.0.0" - (Bind to all IPs on the system)
+#        Description: 将认证服务器绑定到 IP/主机名
+#        Default:     "0.0.0.0" - (绑定到系统上的所有 IP)
 
 BindIP = "0.0.0.0"
 
 #
 #    EnableProxyProtocol
-#        Description: Enables Proxy Protocol v2. When your server is behind a proxy,
-#                     load balancer, or similar component, you need to enable Proxy Protocol v2 on both
-#                     this server and the proxy/load balancer to track the real IP address of players.
+#        Description: 启用代理协议 v2。当你的服务器位于代理之后时，
+#                     负载均衡器或类似组件，你需要在此服务器和代理/负载均衡器上
+#                     启用代理协议 v2 以跟踪玩家的真实 IP 地址。
 #        Example:     1 - (Enabled)
 #        Default:     0 - (Disabled)
 
@@ -77,7 +77,7 @@ EnableProxyProtocol = 0
 
 #
 #    PidFile
-#        Description: Auth server PID file.
+#        Description: 认证服务器 PID 文件。
 #        Example:     "./authserver.pid"  - (Enabled)
 #        Default:     ""                  - (Disabled)
 
@@ -85,21 +85,21 @@ PidFile = ""
 
 #
 #    UseProcessors
-#        Description: Processors mask for Windows and Linux based multi-processor systems.
-#        Example:  For a computer with 3 CPUs:
-#                     1 - 1st CPU only
-#                     2 - 2nd CPU only
-#                     4 - 3rd CPU only
-#                     6 - 2nd + 3rd CPUs, because "2 | 4" -> 6
-#        Default:     0  - (Selected by OS)
-#                     1+ - (Bit mask value of selected processors)
+#        Description: 基于 Windows 和 Linux 的多处理器系统的处理器掩码。
+#        Example:  对于具有 3 个 CPU 的计算机：
+#                     1 - 仅第 1 个 CPU
+#                     2 - 仅第 2 个 CPU
+#                     4 - 仅第 3 个 CPU
+#                     6 - 第 2 个 + 第 3 个 CPU，因为 "2 | 4" -> 6
+#        Default:     0  - (由操作系统选择)
+#                     1+ - (所选处理器的位掩码值)
 
 UseProcessors = 0
 
 #
 #    ProcessPriority
-#        Description: Process priority setting for Windows and Linux based systems.
-#        Details:     On Linux, a nice value of -15 is used. (requires superuser). On Windows, process is set to HIGH class.
+#        Description: 基于 Windows 和 Linux 系统的进程优先级设置。
+#        Details:     在 Linux 上，使用 nice 值 -15。（需要超级用户权限）。在 Windows 上，进程设置为 HIGH 类。
 #        Default:     0 - (Normal)
 #                     1 - (High)
 
@@ -107,7 +107,7 @@ ProcessPriority = 0
 
 #
 #    RealmsStateUpdateDelay
-#        Description: Time (in seconds) between realm list updates.
+#        Description: 领域列表更新之间的时间间隔（以秒为单位）。
 #        Default:     20 - (Enabled)
 #                     0  - (Disabled)
 
@@ -115,8 +115,8 @@ RealmsStateUpdateDelay = 20
 
 #
 #    WrongPass.MaxCount
-#        Description: Number of login attempts with wrong password before the account or IP will be
-#                     banned.
+#        Description: 在账户或 IP 被禁用之前，使用错误密码登录的尝试次数。
+#                     封禁。
 #        Default:     0  - (Disabled)
 #                     1+ - (Enabled)
 
@@ -124,15 +124,15 @@ WrongPass.MaxCount = 0
 
 #
 #    WrongPass.BanTime
-#        Description: Time (in seconds) for banning account or IP for invalid login attempts.
-#        Default:     600 - (10 minutes)
-#                     0   - (Permanent ban)
+#        Description: 对无效登录尝试封禁账户或 IP 的时间（以秒为单位）。
+#        Default:     600 - (10 分钟)
+#                     0   - (永久封禁)
 
 WrongPass.BanTime = 600
 
 #
 #    WrongPass.BanType
-#        Description: Ban type for invalid login attempts.
+#        Description: 无效登录尝试的封禁类型。
 #        Default:     0 - (Ban IP)
 #                     1 - (Ban Account)
 
@@ -140,7 +140,7 @@ WrongPass.BanType = 0
 
 #
 #    WrongPass.Logging
-#        Description: Additionally log attempted wrong password logging
+#        Description: 额外记录尝试的错误密码日志
 #        Default:     0 - (Disabled)
 #                     1 - (Enabled)
 
@@ -148,7 +148,7 @@ WrongPass.Logging = 0
 
 #
 #    BanExpiryCheckInterval
-#        Description: Time (in seconds) between checks for expired bans
+#        Description: 检查过期封禁之间的时间间隔（以秒为单位）
 #        Default:     60
 #
 
@@ -156,7 +156,7 @@ BanExpiryCheckInterval = 60
 
 #
 #    StrictVersionCheck
-#        Description: Prevent modified clients from connecting
+#        Description: 阻止修改过的客户端连接
 #        Default:     0 - (Disabled)
 #                     1 - (Enabled)
 #
@@ -165,17 +165,17 @@ StrictVersionCheck = 0
 
 #
 #    SourceDirectory
-#        Description: The path to your AzerothCore source directory.
-#                     If the path is left empty, the built-in CMAKE_SOURCE_DIR is used.
+#        Description: 你的 AzerothCore 源代码目录的路径。
+#                     如果路径留空，则使用内置的 CMAKE_SOURCE_DIR。
 #        Example:     "../AzerothCore"
 #        Default:     ""
 #
 
-SourceDirectory = ""
+SourceDirectory = "/root/azerothcore-coa"
 
 #
 #    MySQLExecutable
-#        Description: The path to your MySQL CLI binary.
+#        Description: 你的 MySQL CLI 二进制文件的路径。
 #                     If the path is left empty, built-in path from cmake is used.
 #        Example:     "C:/Program Files/MySQL/MySQL Server 8.4/bin/mysql.exe"
 #                     "mysql.exe"
@@ -187,17 +187,17 @@ MySQLExecutable = ""
 
 #
 #    TempDir
-#        Description: Temp directory setting.
-#        Important:   TempDir needs to be quoted, as the string might contain space characters.
-#                     TempDir directory must exists, or the server can't work properly
+#        Description: 临时目录设置。
+#        Important:   TempDir 需要使用引号，因为字符串可能包含空格字符。
+#                     TempDir 目录必须存在，否则服务器无法正常工作
 #        Example:     "/home/youruser/azerothcore/temp"
-#        Default:     "" - (Temp files will be stored in the current path)
+#        Default:     "" - (临时文件将存储在 current 路径中)
 
-TempDir = ""
+TempDir = "/root/azerothcore-coa/env/dist/temp"
 
 #
 #    IPLocationFile
-#        Description: The path to your IP2Location database CSV file.
+#        Description: 你的 IP2Location 数据库 CSV 文件的路径。
 #        Example:     "C:/acore/IP2LOCATION-LITE-DB1.CSV"
 #                     "/home/acore/IP2LOCATION-LITE-DB1.CSV"
 #        Default:     ""  - (Disabled)
@@ -206,7 +206,7 @@ IPLocationFile = ""
 
 #
 #    AllowLoggingIPAddressesInDatabase
-#        Description: Specifies if IP addresses can be logged to the database
+#        Description: 指定是否可以将 IP 地址记录到数据库中
 #        Default:     1 - (Enabled)
 #                     0 - (Disabled)
 #
@@ -217,27 +217,27 @@ AllowLoggingIPAddressesInDatabase = 1
 ###################################################################################################
 
 ###################################################################################################
-# MYSQL SETTINGS
+# MYSQL SETTINGS-MySQL 设置
 #
 #    LoginDatabaseInfo
-#        Description: Database connection settings for the realm server.
+#        Description: 领域服务器的数据库连接设置。
 #        Example:     "hostname;port;username;password;database"
-#                     ".;somenumber;username;password;database" - (Use named pipes on Windows
-#                                                                 "enable-named-pipe" to [mysqld]
+#                     ".;somenumber;username;password;database" - (在 Windows 上使用命名管道
+#                                                                 "enable-named-pipe" 添加到 [mysqld]
 #                                                                 section my.ini)
-#                     ".;/path/to/unix_socket;username;password;database" - (use Unix sockets on
-#                                                                           Unix/Linux)
+#                     ".;/path/to/unix_socket;username;password;database" - (在 Unix/Linux 上
+#                                                                           使用 Unix 套接字)
 #        Default:     "127.0.0.1;3306;acore;acore;acore_auth"
 
-LoginDatabaseInfo = "127.0.0.1;3306;acore;acore;acore_auth"
+LoginDatabaseInfo = "127.0.0.1;3306;acore;A112233a;acore_auth"
 
 #
 #    Database.Reconnect.Seconds
 #    Database.Reconnect.Attempts
 #
-#        Description: How many seconds between every reconnection attempt
-#                     and how many attempts will be performed in total
-#        Default:     20 attempts every 15 seconds
+#        Description: 每次重连尝试之间间隔多少秒
+#                     以及总共将执行多少次尝试
+#        Default:     每 15 秒尝试 20 次
 #
 
 Database.Reconnect.Seconds = 15
@@ -245,15 +245,15 @@ Database.Reconnect.Attempts = 20
 
 #
 #    LoginDatabase.WorkerThreads
-#        Description: The amount of worker threads spawned to handle asynchronous (delayed) MySQL
-#                     statements. Each worker thread is mirrored with its own connection to the
+#        Description: 生成用于处理异步（延迟）MySQL 语句的工作线程数量。
+#                     每个工作线程都镜像有自己的连接，用于
 #        Default:     1
 
 LoginDatabase.WorkerThreads = 1
 
 #
 #    LoginDatabase.SynchThreads
-#        Description: The amount of MySQL connections spawned to handle.
+#        Description: 生成用于处理的 MySQL 连接数量。
 #        Default:     1 - (LoginDatabase.WorkerThreads)
 #
 
@@ -263,16 +263,16 @@ LoginDatabase.SynchThreads = 1
 ###################################################################################################
 
 ###################################################################################################
-# CRYPTOGRAPHY
+# CRYPTOGRAPHY-加密设置
 
 #
 #    TOTPMasterSecret
-#        Description: The master key used to encrypt TOTP secrets for database storage.
-#                     If you want to change this, uncomment TOTPOldMasterSecret, then copy
-#                     your old secret there and startup authserver once. Afterwards, you can re-
-#                     comment that line and get rid of your old secret.
+#        Description: 用于加密 TOTP 密钥以存储到数据库的主密钥。
+#                     如果你想更改此项，请取消注释 TOTPOldMasterSecret，然后复制
+#                     你的旧密钥到那里并启动一次 authserver。之后，你可以重新
+#                     注释该行并删除旧密钥。
 #
-#        Default:     <blank> - (Store TOTP secrets unencrypted)
+#        Default:     <blank> - (以未加密方式存储 TOTP 密钥)
 #        Example:     000102030405060708090A0B0C0D0E0F
 
 TOTPMasterSecret =
@@ -282,12 +282,12 @@ TOTPMasterSecret =
 ###################################################################################################
 
 ###################################################################################################
-# UPDATE SETTINGS
+# UPDATE SETTINGS-更新设置
 #
 #    Updates.EnableDatabases
-#        Description: A mask that describes which databases shall be updated.
+#        Description: 描述应更新哪些数据库的掩码。
 #
-#        Following flags are available
+#        以下标志可用
 #           DATABASE_LOGIN     = 1, // Auth database
 #
 #        Default:     0  - (All Disabled)
@@ -297,7 +297,7 @@ Updates.EnableDatabases = 1
 
 #
 #    Updates.AutoSetup
-#        Description: Auto populate empty databases.
+#        Description: 自动填充空数据库。
 #        Default:     1 - (Enabled)
 #                     0 - (Disabled)
 
@@ -305,8 +305,8 @@ Updates.AutoSetup = 1
 
 #
 #    Updates.Redundancy
-#        Description: Perform data redundancy checks through hashing
-#                     to detect changes on sql updates and reapply it.
+#        Description: 通过哈希执行数据冗余检查
+#                     以检测 SQL 更新的更改并重新应用。
 #        Default:     1 - (Enabled)
 #                     0 - (Disabled)
 
@@ -314,7 +314,7 @@ Updates.Redundancy = 1
 
 #
 #    Updates.ArchivedRedundancy
-#        Description: Check hashes of archived updates (slows down startup).
+#        Description: 检查已归档更新的哈希（会减慢启动速度）。
 #        Default:     0 - (Disabled)
 #                     1 - (Enabled)
 
@@ -322,8 +322,8 @@ Updates.ArchivedRedundancy = 0
 
 #
 #    Updates.AllowRehash
-#        Description: Inserts the current file hash in the database if it is left empty.
-#                     Useful if you want to mark a file as applied but you don't know its hash.
+#        Description: 如果文件哈希留空，则将当前文件哈希插入数据库。
+#                     如果你想将文件标记为已应用但不知道其哈希，则此选项很有用。
 #        Default:     1 - (Enabled)
 #                     0 - (Disabled)
 
@@ -331,102 +331,102 @@ Updates.AllowRehash = 1
 
 #
 #    Updates.CleanDeadRefMaxCount
-#        Description: Cleans dead/ orphaned references that occur if an update was removed or renamed and edited in one step.
-#                     It only starts the clean up if the count of the missing updates is below or equal the Updates.CleanDeadRefMaxCount value.
-#                     This way prevents erasing of the update history due to wrong source directory state (maybe wrong branch or bad revision).
-#                     Disable this if you want to know if the database is in a possible "dirty state".
+#        Description: 清理因更新被删除或重命名并在一步中编辑而出现的死引用/孤立引用。
+#                     仅当缺失更新的数量低于或等于 Updates.CleanDeadRefMaxCount 值时才开始清理。
+#                     这样可以防止因错误的源目录状态（可能是错误的分支或不良修订）而擦除更新历史。
+#                     如果你想了解数据库是否处于可能的“脏状态（dirty state）”，请禁用此选项。
 #        Default:     3 - (Enabled)
 #                     0 - (Disabled)
-#                    -1 - (Enabled - unlimited)
+#                    -1 - (Enabled - 无限制)
 
 Updates.CleanDeadRefMaxCount = 3
 ###################################################################################################
 
 ###################################################################################################
 #
-#  LOGGING SYSTEM SETTINGS
+#  LOGGING SYSTEM SETTINGS-日志系统设置
 #
-#  Appender config values: Given an appender "name"
+#  Appender config values: 给定一个 appender “名称”
 #    Appender.name
-#        Description: Defines 'where to log'
+#        Description: 定义“记录到哪里”
 #        Format:      Type,LogLevel,Flags,optional1,optional2,optional3
 #
 #                     Type
-#                         0 - (None)
-#                         1 - (Console)
-#                         2 - (File)
-#                         3 - (DB)
+#                         0 - （无）
+#                         1 - （控制台）
+#                         2 - （文件）
+#                         3 - （数据库）
 #
 #                     LogLevel
-#                         0 - (Disabled)
-#                         1 - (Fatal)
-#                         2 - (Error)
-#                         3 - (Warning)
-#                         4 - (Info)
-#                         5 - (Debug)
-#                         6 - (Trace)
+#                         0 - （禁用）
+#                         1 - （致命）
+#                         2 - （错误）
+#                         3 - （警告）
+#                         4 - （信息）
+#                         5 - （调试）
+#                         6 - （跟踪）
 #
 #                     Flags:
-#                         0 - None
-#                         1 - Prefix Timestamp to the text
-#                         2 - Prefix Log Level to the text
-#                         4 - Prefix Log Filter type to the text
-#                         8 - Append timestamp to the log file name. Format: YYYY-MM-DD_HH-MM-SS (Only used with Type = 2)
-#                        16 - Make a backup of existing file before overwrite (Only used with Mode = w)
+#                         0 - 无
+#                         1 - 为文本添加时间戳前缀
+#                         2 - 为文本添加日志级别前缀
+#                         4 - 为文本添加日志过滤器类型前缀
+#                         8 - 将时间戳附加到日志文件名。格式：YYYY-MM-DD_HH-MM-SS（仅与 Type = 2 一起使用）
+#                        16 - 覆盖前备份现有文件（仅与 Mode = w 一起使用）
 #
-#                     Colors (read as optional1 if Type = Console)
+#                     Colors (如果 Type = Console，则读取为 optional1)
 #                         Format: "fatal error warn info debug trace"
-#                         0 - BLACK
-#                         1 - RED
-#                         2 - GREEN
-#                         3 - BROWN
-#                         4 - BLUE
-#                         5 - MAGENTA
-#                         6 - CYAN
-#                         7 - GREY
-#                         8 - YELLOW
-#                         9 - LRED
-#                        10 - LGREEN
-#                        11 - LBLUE
-#                        12 - LMAGENTA
-#                        13 - LCYAN
-#                        14 - WHITE
+#                         0 - 黑色
+#                         1 - 红色
+#                         2 - 绿色
+#                         3 - 棕色
+#                         4 - 蓝色
+#                         5 - 品红
+#                         6 - 青色
+#                         7 - 灰色
+#                         8 - 黄色
+#                         9 - 浅红
+#                        10 - 浅绿
+#                        11 - 浅蓝
+#                        12 - 浅品红
+#                        13 - 浅青
+#                        14 - 白色
 #                         Example: "1 9 3 6 5 8"
 #
-#                     File: Name of the file (read as optional1 if Type = File)
-#                         Allows to use one "%s" to create dynamic files
+#                     File：文件名（如果 Type = File，则读取为 optional1）
+#                         允许使用一个 "%s" 来创建动态文件
 #
-#                     Mode: Mode to open the file (read as optional2 if Type = File)
-#                          a - (Append)
-#                          w - (Overwrite)
+#                     Mode：打开文件的模式（如果 Type = File，则读取为 optional2）
+#                          a - （追加）
+#                          w - （覆盖
 #
-#                     MaxFileSize: Maximum file size of the log file before creating a new log file
-#                     (read as optional3 if Type = File)
-#                         Size is measured in bytes expressed in a 64-bit unsigned integer.
-#                         Maximum value is 4294967295 (4 GB). Leave blank for no limit.
-#                         NOTE: Does not work with dynamic filenames.
+#                     MaxFileSize：创建新日志文件之前的最大日志文件大小
+#                     （如果 Type = File，则读取为 optional3）
+#                         大小以字节为单位，使用 64 位无符号整数表示。
+#                         最大值为 4294967295（4 GB）。留空表示无限制。
+#                         注意：不适用于动态文件名。
 #                         Example:  536870912 (512 MB)
 #
 
 Appender.Console=1,5,0,"1 9 3 6 5 8"
 Appender.Auth=2,5,0,Auth.log,w
 
-#  Logger config values: Given a logger "name"
+#  Logger 配置值：给定一个 logger “名称”
 #    Logger.name
-#        Description: Defines 'What to log'
-#        Format:      LogLevel,AppenderList
+#        说明：定义“记录什么”
+#        格式：LogLevel,AppenderList
 #
 #                     LogLevel
-#                         0 - (Disabled)
-#                         1 - (Fatal)
-#                         2 - (Error)
-#                         3 - (Warning)
-#                         4 - (Info)
-#                         5 - (Debug)
-#                         6 - (Trace)
+#                         0 - （禁用）
+#                         1 - （致命）
+#                         2 - （错误）
+#                         3 - （警告）
+#                         4 - （信息）
+#                         5 - （调试）
+#                         6 - （跟踪）
 #
-#                     AppenderList: List of appenders linked to logger
-#                     (Using spaces as separator).
+#                     AppenderList：链接到 logger 的 appender 列表
+#                     （使用空格作为分隔符）。
 #
 
 Logger.root=4,Console Auth
@@ -435,13 +435,13 @@ Logger.root=4,Console Auth
 ###################################################################################################
 
 ###################################################################################################
-# NETWORK
+# NETWORK-网络
 #
 #    Network.UseSocketActivation
-#        Description: [LINUX ONLY FEATURE] Enable systemd socket activation support for the authserver.
-#                     When enabled and the process is started by systemd socket activation,
-#                     the server will use the socket passed by systemd instead of
-#                     creating and binding its own listening socket. Disabled by default.
+#        说明：[仅限 Linux 功能] 为 authserver 启用 systemd 套接字激活支持。
+#                     启用后，当进程由 systemd 套接字激活启动时，
+#                     服务器将使用 systemd 传递的套接字，而不是
+#                     创建并绑定自己的监听套接字。默认禁用。
 #
 #        Example:     1 - (Enabled)
 #        Default:     0 - (Disabled)

@@ -1,47 +1,47 @@
 ###################################################################################################
 #  mod-craftsmans-codex
 #
-#  Item 97871 "Craftsman's Codex" (and its soulbound variant 2200001) carries the on-use spell
-#  93292, whose one effect is a SPELL_EFFECT_DUMMY and whose own text reads "Unlocks a new
-#  primary profession slot. You can unlock all primary professions." A dummy effect does nothing
-#  by itself and the client ships no behaviour behind it, so this module supplies it: using a
-#  codex adds one to the character's primary profession allowance, permanently, on top of
-#  MaxPrimaryTradeSkill. The unlock is remembered per character in the `mod_craftsmans_codex`
-#  table of the characters database (data/sql/db-characters), and the spell is bound to the
-#  module's script by data/sql/db-world.
+#  物品 97871 "Craftsman's Codex"（及其灵魂绑定版本 2200001）携带使用法术
+#  93292，其唯一效果是 SPELL_EFFECT_DUMMY，其自身文字为 "Unlocks a new
+#  primary profession slot. You can unlock all primary professions." 一个 dummy 效果本身
+#  不起任何作用，客户端也没有在其后附带任何行为，因此本模块提供了它：使用
+#  一本法典会永久性地为角色的主要专业技能允许数量增加一个，叠加在
+#  MaxPrimaryTradeSkill 之上。解锁按角色记录在角色数据库的 `mod_craftsmans_codex`
+#  表中（data/sql/db-characters），并且该法术通过 data/sql/db-world 绑定到
+#  模块的脚本。
 #
-#  This code is part of the AzerothCore project. See AUTHORS file for Copyright information.
+#  此代码是 AzerothCore 项目的一部分。版权信息见 AUTHORS 文件
 ###################################################################################################
 
 #    CraftsmansCodex.Enable
-#        Description: Whether a Craftsman's Codex unlocks a profession slot.
-#                     Disabled means the item is inert rather than wasted: the cast is refused,
-#                     so the item is not consumed.
+#        说明：工匠法典是否解锁一个专业技能槽位。
+#                     禁用意味着物品是惰性的而不是被浪费：施法被拒绝，
+#                     因此物品不会被消耗。
 #        Default:     1 - (Enabled)
 #                     0 - (Disabled)
 CraftsmansCodex.Enable = 1
 
 #    CraftsmansCodex.MaxSlots
-#        Description: The most primary professions a character may hold in total, base allowance
-#                     included - the point at which "You can unlock all primary professions" is
-#                     reached and further codexes are refused instead of consumed.
-#                     0 means everything the server's SkillLine.dbc files under
-#                     SKILL_CATEGORY_PROFESSION, which is what "all primary professions" means.
-#        Default:     0 - (every primary profession the server knows)
+#        说明：角色总共可以拥有的最多主要专业技能数量，包括基础允许数量
+#                     - 达到 "You can unlock all primary professions" 这一点时，
+#                     进一步的法典会被拒绝而不是被消耗。
+#                     0 表示服务器 SkillLine.dbc 中 SKILL_CATEGORY_PROFESSION 下的所有
+#                     内容，即 "all primary professions" 的含义。
+#        Default:     0 - (服务器知道的每个主要专业技能)
 CraftsmansCodex.MaxSlots = 0
 
 #    CraftsmansCodex.VerifyOnStartup
-#        Description: Check once at startup that the codex is complete - the spell exists with the
-#                     dummy effect this module answers, the database binds it to
-#                     'spell_craftsmans_codex', the items carry it, and the per-character table
-#                     exists; log an error naming what is missing when it does not.
+#        说明：启动时检查一次法典是否完整 - 法术存在且具有
+#                     本模块响应的 dummy 效果，数据库将其绑定到
+#                     'spell_craftsmans_codex'，物品携带它，并且每个角色的表
+#                     存在；如果不存在，则记录错误并指出缺失的内容。
 #        Default:     1 - (Enabled)
 #                     0 - (Disabled)
 CraftsmansCodex.VerifyOnStartup = 1
 
 #    CraftsmansCodex.Command
-#        Description: Enable the `.codex` game master command (status / grant / reset), which
-#                     reports a character's allowance and can hand the slots out without an item.
+#        说明：启用 `.codex` 游戏管理员命令（status / grant / reset），它
+#                     报告角色的允许数量，并且可以在没有物品的情况下发放槽位。
 #        Default:     1 - (Enabled)
 #                     0 - (Disabled)
 CraftsmansCodex.Command = 1

@@ -1,60 +1,60 @@
 ###################################################################################################
-#  mod-treasure-keeper
+#  mod-宝藏管理员
 #
-#  CoA's Treasure Keeper and Celestial Treasure Keeper: non-combat companions whose right click
-#  opens the character's own bank. Their item text is the whole specification:
+#  CoA 的 Treasure Keeper 与 Celestial Treasure Keeper：非战斗伙伴，右键点击
+#  会打开角色自己的银行。它们的物品文本就是完整的规格：
 #
-#      "Right Click to summon and dismiss your companion, that acts as a portable bank while in
-#       safe zones. Cannot be summoned in High-Risk Open World."
+#      "右键点击召唤和解散你的伙伴，它在安全区域中充当便携银行。
+#       无法在高风险开放世界中召唤。"
 #
-#  The bank needs no configuration: the pets carry the banker flag and the core answers the
-#  client's own click with the native bank window. What is configured here is the one rule the
-#  text states - where the companion may not be summoned at all. Both switches are on, which is
-#  the item text enforced: the companion cannot be summoned in High-Risk Open World or in War Mode.
-#  A companion that is already out keeps its banker flag and answers the click with the reason
-#  instead, so nothing about it is silent - in the chat log and in the middle of the screen.
+#  银行无需配置：宠物携带银行家标志，核心用原生银行窗口响应
+#  客户端自己的点击。这里配置的是文本所述的一条规则——
+#  伙伴完全不能被召唤的地方。两个开关都打开，即强制执行物品文本：
+#  伙伴不能在高风险开放世界或战争模式中召唤。
+#  已经召唤出来的伙伴保留其银行家标志，并用原因回应点击，
+#  因此没有任何沉默——在聊天日志和屏幕中央。
 #
-#  A city - Stormwind, Orgrimmar, the Undercity, Thunder Bluff and the other capitals - is exempt
-#  from the rulesets altogether, because a city is not "Open World" and the realm's own PvP rulesets
-#  cannot reach a character inside one.
+#  城市——暴风城、奥格瑞玛、幽暗城、雷霆崖和其他首都——完全不受
+#  规则集限制，因为城市不是“开放世界”，领域自己的 PvP 规则集
+#  无法触及其中的角色。
 #
-#  This code is part of the AzerothCore project. See AUTHORS file for Copyright information.
+#  此代码是 AzerothCore 项目的一部分。版权信息见 AUTHORS 文件
 ###################################################################################################
 
 #    TreasureKeeper.BlockInHighRisk
-#        Description: Whether the companions are refused while the character carries the
-#                     High-Risk ruleset aura (1004019) - the "High-Risk Open World" of the item
-#                     text.
-#        Default:     1 - (Refused, as the item text says)
+#        说明：当角色携带高风险规则集光环 (1004019) 时，
+#                     伙伴是否被拒绝——
+#                     物品文本中的“高风险开放世界”。
+#        默认：1 - （拒绝，如物品文本所述）
 #                     0 - (Allowed)
 TreasureKeeper.BlockInHighRisk = 1
 
 #    TreasureKeeper.BlockInWarMode
-#        Description: Whether the companions are refused in War Mode - the War Mode aura (1004119)
-#                     without the PvE marker (9931032). A character in PvE carries that same aura as
-#                     part of its set, so the marker is what keeps PvE a separate ruleset; a
-#                     character carrying neither aura is not affected either way.
+#        说明：伙伴在战争模式中是否被拒绝——没有 PvE 标记 (9931032) 的
+#                     战争模式光环 (1004119)。PvE 中的角色作为其套装的一部分
+#                     携带相同的光环，因此标记是保持 PvE 作为独立规则集的关键；
+#                     不携带任何光环的角色不受影响。
 #        Default:     1 - (Refused)
 #                     0 - (Allowed)
 TreasureKeeper.BlockInWarMode = 1
 
 #    TreasureKeeper.AllowInCities
-#        Description: Whether the companions work in a city whatever the ruleset says. On, the
-#                     rulesets below are enforced in the open world only: a character inside a city
-#                     - the capitals flagged AREA_FLAG_CAPITAL, the flag the core's own rest and PvP
-#                     logic reads - can summon the companion and use it while in War Mode or
-#                     High-Risk. Off, the rulesets are enforced everywhere.
-#        Default:     1 - (Allowed in cities)
-#                     0 - (Enforced everywhere)
+#        说明：无论规则集如何规定，伙伴是否在城市中工作。开启时，
+#                     以下规则集仅在开放世界中强制执行：城市内的角色
+#                     ——标记为 AREA_FLAG_CAPITAL 的首都，核心自己的休息和 PvP
+#                     逻辑读取的标志——可以在战争模式或高风险中召唤和使用伙伴。
+#                     关闭时，规则集在所有地方强制执行。
+#        默认：1 - （允许在城市中）
+#                     0 - （在所有地方强制执行）
 TreasureKeeper.AllowInCities = 1
 
 #    TreasureKeeper.SeparatePveFromWarMode
-#        Description: Whether PvE counts as its own ruleset (the marker 9931032 on top of the shared
-#                     War Mode aura) and therefore keeps the companions. On, only War Mode and
-#                     High-Risk refuse them, which is what the item text says and what makes the
-#                     companions usable in PvE. Off, the shared aura alone is enough to refuse, which
-#                     also refuses PvE - and since this realm grants the PvE set at login, that means
-#                     every character is refused until no ruleset aura is on them at all.
-#        Default:     1 - (Separate: PvE keeps its companion)
-#                     0 - (Not separate: the buff alone refuses)
+#        说明：PvE 是否算作自己的规则集（共享战争模式光环之上的标记 9931032），
+#                     因此保留伙伴。开启时，只有战争模式和高风险拒绝它们，
+#                     这正是物品文本所述，也是使伙伴在 PvE 中可用的原因。
+#                     关闭时，仅共享光环就足以拒绝，这也会拒绝 PvE——
+#                     并且由于此领域在登录时授予 PvE 套装，这意味着
+#                     每个角色都会被拒绝，直到他们身上完全没有规则集光环。
+#        默认：1 - （分离：PvE 保留其伙伴）
+#                     0 - （不分离：仅增益就拒绝）
 TreasureKeeper.SeparatePveFromWarMode = 1

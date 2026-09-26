@@ -158,7 +158,7 @@ INSERT INTO `creature_template`
   FROM `creature_template` WHERE `entry` = 57500;
 
 UPDATE `creature_template` SET
-  `name`           = 'Beginner''s Book of Artisans',
+  `name`           = '工匠初学者手册',
   `type`           = 10,
   `type_flags`     = 134217728,
   `HealthModifier` = 1.31781,
@@ -193,8 +193,8 @@ REPLACE INTO `creature_default_trainer` (`CreatureId`, `TrainerId`) VALUES
 
 -- Type 2 is a tradeskill trainer and the greeting is the realm's own line for the books.
 REPLACE INTO `trainer` (`Id`, `Type`, `Requirement`, `Greeting`, `VerifiedBuild`) VALUES
-(200001, 2, 0, 'The knowledge of every craft is yours to claim, $N.', 0),
-(200002, 2, 0, 'The knowledge of every craft is yours to claim, $N.', NULL);
+(200001, 2, 0, '所有专业的学识都任你掌握，$N。', 0),
+(200002, 2, 0, '所有专业的学识都任你掌握，$N。', NULL);
 
 -- ---------------------------------------------------------------------------
 -- 4b. The list: the professions, and only the professions
@@ -352,7 +352,7 @@ INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`
 -- the module sends, filtered to the rows the character can train) and "I would like to browse
 -- your goods." (a vendor list). The text is the one the live realm's client showed.
 REPLACE INTO `npc_text` (`ID`, `text0_0`, `lang0`, `Probability0`, `VerifiedBuild`) VALUES
-(57500, 'This book holds a seemingly endless amount of knowledge...', 0, 1, NULL);
+(57500, '这本书似乎蕴含着无穷无尽的知识……', 0, 1, NULL);
 
 REPLACE INTO `gossip_menu` (`MenuID`, `TextID`) VALUES (57500, 57500);
 
@@ -361,8 +361,8 @@ REPLACE INTO `gossip_menu` (`MenuID`, `TextID`) VALUES (57500, 57500);
 -- training option without depending on the ids. `OptionNpcFlag` is the flag the option is
 -- offered under - the trainer bits and the vendor bit, both set on the creatures in section 1.
 REPLACE INTO `gossip_menu_option` (`MenuID`, `OptionID`, `OptionIcon`, `OptionText`, `OptionBroadcastTextID`, `OptionType`, `OptionNpcFlag`, `ActionMenuID`, `ActionPoiID`, `BoxCoded`, `BoxMoney`, `BoxText`, `BoxBroadcastTextID`, `VerifiedBuild`) VALUES
-(57500, 0, 3, 'I require training!', 0, 5, 48, 0, 0, 0, 0, NULL, 0, NULL),
-(57500, 1, 1, 'I would like to browse your goods.', 0, 3, 128, 0, 0, 0, 0, NULL, 0, NULL);
+(57500, 0, 3, '我需要训练！', 0, 5, 48, 0, 0, 0, 0, NULL, 0, NULL),
+(57500, 1, 1, '我想浏览你的商品。', 0, 3, 128, 0, 0, 0, 0, NULL, 0, NULL);
 
 -- The shelves are Edna Mullby's - entry 1286, "Trade Supplies" in Stormwind - row for row:
 -- the thread, dye, vials, flux, coal, salt, stock, rods and tools a craftsperson buys while
@@ -385,4 +385,4 @@ INSERT INTO `npc_vendor` (`entry`, `slot`, `item`, `maxcount`, `incrtime`, `Exte
 -- the map.
 DELETE FROM `creature` WHERE `guid` IN (9000030, 9000031, 5300681);
 INSERT INTO `creature` (`guid`, `id`, `map`, `zoneId`, `areaId`, `spawnMask`, `phaseMask`, `equipment_id`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`, `wander_distance`, `currentwaypoint`, `curhealth`, `curmana`, `MovementType`, `npcflag`, `unit_flags`, `dynamicflags`, `ScriptName`, `VerifiedBuild`, `CreateObject`, `Comment`) VALUES
-(9000031, 57524, 1, 0, 0, 1, 1, 0, -887.072, -3778.650, 11.735, 2.531474, 300, 0, 0, 1, 0, 0, 0, 0, 0, '', NULL, 0, 'Beginner''s Book of Artisans: the archive''s example sighting in the Barrens');
+(9000031, 57524, 1, 0, 0, 1, 1, 0, -887.072, -3778.650, 11.735, 2.531474, 300, 0, 0, 1, 0, 0, 0, 0, 0, '', NULL, 0, '工匠入门之书：档案在贫瘠之地的示例目击记录');

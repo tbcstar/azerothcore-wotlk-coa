@@ -1,259 +1,259 @@
 ########################################
 # mod-coa-challenges
 #
-# Challenges/trials bridge for AzerothCore WotLK (worldserver).
-# Reimplements the client C_Challenge system server-side: activation gates,
-# auras, lives, rules, objectives, completions, rewards and the Gamemodes tab.
-# See README.md for requirements, installation and the data flow.
+# AzerothCore WotLK（worldserver）的挑战/试炼桥接模块。
+# 在服务器端重新实现客户端 C_Challenge 系统：激活门控、
+# 光环、生命、规则、目标、完成、奖励和游戏模式标签页。
+# 参见 README.md 了解要求、安装和数据流。
 #
-# Notes:
-#   - Per-challenge definitions (name/icon/levels/auras/lives/rules/conditions/
-#     objectives/rewards) live in the WORLD database and are managed there
-#     (seeded by coa-analyze-export.ps1 -EmitSql; `.coa challenges reload`).
-#     This file only holds tunables.
-#   - Any key omitted from a customized .conf falls back to the code default
-#     shown below; missing keys are appended automatically on deploy.
+# 注意：
+#   - 每个挑战的定义（名称/图标/等级/光环/生命/规则/条件/
+#     目标/奖励）位于 WORLD 数据库中，并在那里管理
+#     （由 coa-analyze-export.ps1 -EmitSql 生成；`.coa challenges reload`）。
+#     此文件仅保存可调参数。
+#   - 自定义 .conf 中省略的任何键都会回退到下面显示的代码默认值；
+#     缺失的键在部署时会自动追加。
 ########################################
 
 
 ############################################################################
-# Master switch & UI tabs
+# 主开关和 UI 标签页
 ############################################################################
 
-# Master switch. When disabled, no config batch is sent on login and the
-# challenge opcodes fall through to the core NULL handlers.
+# 主开关。禁用时，登录时不发送配置批次，并且
+# 挑战操作码会落到核心的 NULL 处理器。
 # Default: 1
 CoAChallenges.Enable = 1
 
-# C_Config flag delivered in SMSG_COA_CONFIG (0x58D). Gates the Trials and
-# Challenges tabs of the client UI (patch-B.MPQ).
+# 在 SMSG_COA_CONFIG (0x58D) 中传递的 C_Config 标志。控制客户端 UI
+# 的试炼和挑战标签页（patch-B.MPQ）。
 # Default: 1
 CoAChallenges.ChallengeEnabled = 1
 
-# C_Config flag (0x58D) that gates the Custom Trials (Trial Creator) and the
-# Trial Builder (Trial Editor) tabs.
+# C_Config 标志 (0x58D)，控制自定义试炼（试炼创建器）和
+# 试炼构建器（试炼编辑器）标签页。
 # Default: 0
 CoAChallenges.ChallengeCreatorEnabled = 0
 
 
 ############################################################################
-# Database schema
+# 数据库架构
 ############################################################################
 
-# Development fallback: (re)create the module tables at runtime on startup when
-# they are missing. The authoritative schema ships as versioned SQL under
-# data/sql/{db-characters,db-world}/, applied by the AzerothCore DB updater.
-# Leave at 0 in production.
+# 开发回退：在启动时，如果模块表缺失，则在运行时（重新）创建它们。
+# 权威架构以版本化 SQL 形式随附在
+# data/sql/{db-characters,db-world}/ 下，由 AzerothCore DB 更新器应用。
+# 在生产环境中保持为 0。
 # Default: 0
 CoAChallenges.AutoCreateSchema = 0
 
 
 ############################################################################
-# Game modes (Gamemodes tab)
+# 游戏模式（游戏模式标签页）
 ############################################################################
-# The mode bitmask is SERVER-driven: a trial whose RequiredGameMode matches a
-# mode (e.g. 61 -> Nightmare 0x100) turns that mode on while active and off
-# when it stops/fails/completes. State lives in coa_character_gamemode and is
-# pushed with SMSG 0x90B (mask = Enum.GameMode).
+# 模式位掩码是服务器驱动的：一个 RequiredGameMode 匹配某个模式的试炼
+# （例如 61 -> Nightmare 0x100）在激活时打开该模式，在停止/失败/完成时关闭。
+# 状态存储在 coa_character_gamemode 中，并通过 SMSG 0x90B 推送
+# （mask = Enum.GameMode）。
 
-# Enable the custom game modes subsystem.
+# 启用自定义游戏模式子系统。
 # Default: 1
 CoAChallenges.GameModes.Enable = 1
 
-# Allow players to toggle modes from the Gamemodes tab (CMSG 0x5A4). When 0
-# (default) the CONFIG_<MODE>_ENABLED flags are sent as 0 (rows locked) and
-# player toggles are ignored, so modes are purely trial-driven. When enabled,
-# a player toggle is remembered for the session and ORed into the trial-driven
-# mask, so a login/activate recompute does not clear it (it is not persisted
-# separately, so it is dropped on relog).
-# NOTE: enable only for testing.
+# 允许玩家从游戏模式标签页切换模式（CMSG 0x5A4）。
+# 当为 0 （默认）时，
+# CONFIG_<MODE>_ENABLED 标志发送为 0（行锁定），
+# 玩家切换被忽略，因此模式纯由试炼驱动。启用时，
+# 玩家切换会为会话记住，并与试炼驱动的掩码进行 OR 运算，
+# 因此登录/激活重新计算不会清除它（它不会单独持久化，因此重新登录时会丢失）。
+# 注意：仅用于测试时启用。
 # Default: 0
 CoAChallenges.GameModes.PlayerToggle = 0
 
-# Rows hidden from the Gamemodes tab (client CONFIG_*_HIDDEN), sent in the
-# 0x58D batch. Comma-separated wire names: Ironman, Survivalist, Draft,
-# Resolute, WildCard, Felforged, Nightmare, BuildDraft, Crusader. Hidden rows
-# are presentation-only: a mode that is ACTIVE still shows on the client.
-# Empty = show all. Unknown names are ignored.
+# 从游戏模式标签页隐藏的行（客户端 CONFIG_*_HIDDEN），在
+# 0x58D 批次中发送。逗号分隔的线上名称：Ironman, Survivalist, Draft,
+# Resolute, WildCard, Felforged, Nightmare, BuildDraft, Crusader。隐藏行
+# 仅用于显示：处于 ACTIVE 状态的模式仍会在客户端显示。
+# 空 = 显示全部。未知名称会被忽略。
 # Default: Draft,Resolute,WildCard,Felforged,BuildDraft,Crusader
 CoAChallenges.GameModes.Hidden = Draft,Resolute,WildCard,Felforged,BuildDraft,Crusader
 
 
 ############################################################################
-# Completion, failure & lifecycle
+# 完成、失败和生命周期
 ############################################################################
 
-# Auto-complete active challenges whose tracked requirements are met when the
-# character is at MaxPlayerLevel (also runs on login). Set 0 to disable
-# (useful while testing lives/mechanics on a max-level character).
+#  当角色达到 MaxPlayerLevel 时，自动完成已满足跟踪要求的活动挑战
+# （登录时也会运行）。设置为 0 以禁用
+# （在满级角色上测试生命/机制时有用）。
 # Default: 1
 CoAChallenges.CompleteAtLevelCap = 1
 
-# Reject Activate for a challenge with no rewards (code 2 = NO_REWARDS), using
-# the `coa_challenge_definition.noRewards` flag. Off by default: several
-# challenges legitimately have no rewards.
+# 拒绝激活没有奖励的挑战（代码 2 = NO_REWARDS），使用
+# `coa_challenge_definition.noRewards` 标志。默认关闭：多个
+# 挑战合法地没有奖励。
 # Default: 0
 CoAChallenges.EnforceNoRewards = 0
 
-# Reject Activate for already-failed challenges (code 12 = RULE_BROKEN). Set 0
-# to allow retests (also: DELETE FROM coa_challenge_failure).
+# 拒绝激活已失败的挑战（代码 12 = RULE_BROKEN）。设置为 0
+# 以允许重新测试（同时：DELETE FROM coa_challenge_failure）。
 # Default: 1
 CoAChallenges.BlockFailedReactivate = 1
 
-# When 1, ANY failure locks the character out of every challenge/trial (not
-# just the one that failed): a failed character cannot start anything.
+# 当为 1 时，任何失败都会将角色锁定在所有挑战/试炼之外（不仅
+# 仅是失败的那个）：失败的角色无法开始任何内容。
 # Default: 1
 CoAChallenges.BlockAllAfterFailure = 1
 
-# When 1, deactivating a challenge that has lives is a FREE cancel while the
-# character is still "pristine" (no objective progress, no deaths, activation
-# conditions unbroken) - lets a fresh character undo a wrong pick. Once any
-# progress is made, deactivating fails it.
+# 当为 1 时，在角色仍然“原始”时
+# （无目标进度、无死亡、激活条件未破坏），
+# 停用有生命的挑战是免费取消 - 让新角色撤销错误的选择。
+# 一旦取得任何进度，停用就会使其失败。
 # Default: 1
 CoAChallenges.FreeCancelIfPristine = 1
 
-# Reject Activate for already-completed challenges. The client UI has no
-# "completed" button state, so the server refuses it. Set 0 to allow repeating
-# a completed trial.
+# 拒绝激活已完成的挑战。客户端 UI 没有
+# “已完成”按钮状态，因此服务器拒绝它。设置为 0 以允许重复
+# 已完成的试炼。
 # Default: 1
 CoAChallenges.BlockCompletedReactivate = 1
 
 
 ############################################################################
-# Rewards (delivered on completion, always by mail)
+# 奖励（完成时交付，始终通过邮件）
 ############################################################################
 
-# Master switch for challenge/trial rewards. Data comes from the world DB
-# `coa_challenge_reward` table. Achievements are only granted when the id exists
-# in the server Achievement.dbc (custom achievements require the client
-# Achievement.dbc; missing ids are logged). See README.md (Rewards).
+# 挑战/试炼奖励的主开关。数据来自世界数据库
+# `coa_challenge_reward` 表。仅当 id 存在于服务器 Achievement.dbc 中时
+# 才授予成就（自定义成就需要客户端 Achievement.dbc；缺失的 id 会被记录）。
+# 参见 README.md（奖励）。
 # Default: 1
 CoAChallenges.GrantRewards = 1
 
-# Mail subject/body used for reward delivery. Plain text; the subject appears
-# in the mailbox list.
+# 用于奖励交付的邮件主题/正文。纯文本；主题出现在
+# 邮箱列表中。
 # Defaults: Challenge Reward / Your challenge reward is enclosed.
 CoAChallenges.Reward.MailSubject = Challenge Reward
 CoAChallenges.Reward.MailBody = Your challenge reward is enclosed.
 
 
 ############################################################################
-# Announcements & client state sync
+# 公告和客户端状态同步
 ############################################################################
 
-# Realm-wide chat announcement on completion, using Name/Icon from the world DB
-# (coa_challenge_definition). Live format:
+# 完成时全领域聊天公告，使用世界数据库中的 Name/Icon
+# （coa_challenge_definition）。实时格式：
 #   <icon>[<TrialName>] <Player> has completed their Trial!
 # Default: 1
 CoAChallenges.AnnounceCompletion = 1
 
-# Send SMSG 0x5C8 on completion (client completion event/toast). Separate from
-# the chat line above.
+# 完成时发送 SMSG 0x5C8（客户端完成事件/提示）。
+# 与上面的聊天行分开。
 # Default: 1
 CoAChallenges.SendCompletionAdded = 1
 
-# Send SMSG 0x5CB when the last challenge of an active custom trial completes,
-# so open trial leaderboards update live. The completion row is always
-# recorded (CMSG 0x5C9 leaderboard source).
+# 当活动自定义试炼的最后一个挑战完成时发送 SMSG 0x5CB，
+# 以便打开的试炼排行榜实时更新。完成行始终
+# 记录（CMSG 0x5C9 排行榜来源）。
 # Default: 1
 CoAChallenges.SendTrialCompletionAdded = 1
 
-# Realm-wide failure announcement on death. Live format:
+# 死亡时全领域失败公告。实时格式：
 #   <icon>[<TrialName>] <Player> (Level N) has been killed by [<Killer>].
-# Creature/player killers are clickable; special causes (Falling/Suicide/
-# mechanics) are plain red.
+# 生物/玩家击杀者可点击；特殊原因（坠落/自杀/
+# 机制）为纯红色。
 # Default: 1
 CoAChallenges.AnnounceFailure = 1
 
-# Minimum level for failure announcements (official behavior was level 10).
+# 失败公告的最低等级（官方行为为 10 级）。
 # Range: 1-255. Default: 10
 CoAChallenges.AnnounceFailureMinLevel = 10
 
-# Announce mechanic deaths (starved, missed objective, fell asleep). The
-# official server does NOT announce these; set 0 for that behavior.
+# 公告机制死亡（饥饿、错过目标、睡着）。
+# 官方服务器不公告这些；设置为 0 以获得该行为。
 # Default: 1
 CoAChallenges.AnnounceMechanicFailures = 1
 
-# Push the SMSG 0x5A2 failure history on login (restores the client list).
+# 登录时推送 SMSG 0x5A2 失败历史（恢复客户端列表）。
 # Default: 1
 CoAChallenges.SendFailureList = 1
 
-# Push the completion history on login (restores the client completed list).
+# 登录时推送完成历史（恢复客户端已完成列表）。
 # Default: 1
 CoAChallenges.SendCompletedList = 1
 
-# Drive the per-objective banner: SMSG 0x599 criteria list on login/activation
-# plus SMSG 0x59A update when a tracked objective completes. The client fires
-# CHALLENGE_CRITERIA_COMPLETED on the 0 -> nonzero progress transition. Set 0
-# if the criteria cache misbehaves while iterating on entry semantics.
+# 驱动每个目标横幅：登录/激活时 SMSG 0x599 条件列表，
+# 以及跟踪目标完成时 SMSG 0x59A 更新。客户端在 0 -> 非零进度
+# 转换时触发 CHALLENGE_CRITERIA_COMPLETED。如果在迭代条目语义时
+# 条件缓存行为异常，设置为 0。
 # Default: 1
 CoAChallenges.SendCriteria = 1
 
-# Send SMSG 0x5A6 DEATH_UPDATE when a player with an active challenge dies.
+# 当有活动挑战的玩家死亡时发送 SMSG 0x5A6 DEATH_UPDATE。
 # Default: 1
 CoAChallenges.RespondToDeath = 1
 
 
 ############################################################################
-# Grouping
+# 组队
 ############################################################################
 
-# Official grouping rule: players can only group with others in the exact same
-# challenge set (both with no challenge = free grouping). Server-side mechanic,
-# not encoded in the client definitions.
+# 官方组队规则：玩家只能与处于完全相同挑战集的其他人组队
+# （两者都没有挑战 = 自由组队）。服务器端机制，
+# 不在客户端定义中编码。
 # Default: 1
 CoAChallenges.RequireSameChallengeToGroup = 1
 
-# Group challenge sync (SMSG 0x59B / CMSG 0x59C). When 1, activating/stopping a
-# challenge sends the rest of the party a CHALLENGES_SYNC / _REMOVE popup;
-# accepting applies the same set to that member (opt-in) instead of the
-# immediate kick. Set 0 to keep the kick-only behavior.
+# 队伍挑战同步（SMSG 0x59B / CMSG 0x59C）。当为 1 时，激活/停止
+# 挑战会向队伍其他成员发送 CHALLENGES_SYNC / _REMOVE 弹窗；
+# 接受会将相同的集合应用于该成员（选择加入），而不是
+# 立即踢出。设置为 0 以保持仅踢出行为。
 # Default: 1
 CoAChallenges.SyncChallengesWithGroup = 1
 
 
 ############################################################################
-# Hunger / thirst (Survivalist; coa_challenge_definition.survivalist)
+# 饥饿/口渴（Survivalist；coa_challenge_definition.survivalist）
 ############################################################################
-# Server-driven; observed live: thirst +1/10s, hunger +1/16s, eating/drinking
-# DECREASES, death at max. Displayed as stacks on separate meter auras. Only
-# flagged challenges tick (75, 185, 186, 188, 213). Eat/drink detection: any
-# MOD_REGEN (84, food) / MOD_POWER_REGEN (85, drink) aura, including custom
-# foraged items.
+# 服务器驱动；实时观察：口渴 +1/10 秒，饥饿 +1/16 秒，进食/饮水
+# 减少，达到最大值时死亡。在单独的能量条光环上显示为层数。
+# 仅标记的挑战会计时（75, 185, 186, 188, 213）。进食/饮水检测：任何
+# MOD_REGEN (84, 食物) / MOD_POWER_REGEN (85, 饮料) 光环，包括自定义
+# 采集物品。
 
-# Meter spell ids shown while the counter is > 0.
+# 计数器 > 0 时显示的能量条法术 ID。
 # Defaults: 93175 / 93176
 CoAChallenges.HungerFoodSpell = 93175
 CoAChallenges.HungerDrinkSpell = 93176
 
-# Seconds per point of thirst/hunger. Range: 1-3600.
+# 每点口渴/饥饿的秒数。范围：1-3600。
 # Defaults: 10 / 16
 CoAChallenges.ThirstSecondsPerPoint = 10
 CoAChallenges.HungerSecondsPerPoint = 16
 
-# Restore per tick while the matching eat/drink aura is up. Range: 1-100.
+# 匹配的进食/饮水光环存在时，每 tick 恢复量。范围：1-100。
 # Defaults: 1 / 1
 CoAChallenges.FoodRestore = 1
 CoAChallenges.DrinkRestore = 1
 
-# Milliseconds between restore ticks (drinking drops ~2x faster than eating).
+# 恢复 tick 之间的毫秒数（饮水下降速度约为进食的 2 倍）。
 # Range: 1-10000. Defaults: 500 / 250
 CoAChallenges.FoodTickMs = 500
 CoAChallenges.DrinkTickMs = 250
 
-# Maximum hunger/thirst value (death at max). Range: 1-1000.
+# 最大饥饿/口渴值（达到最大值时死亡）。范围：1-1000。
 # Default: 100
 CoAChallenges.HungerMax = 100
 
 
 ############################################################################
-# Fatigue (Narcolepsy / FATIGUED_UNLESS_RESTED: 106/170/171/172/384/385/386)
+# 疲劳（Narcolepsy / FATIGUED_UNLESS_RESTED: 106/170/171/172/384/385/386）
 ############################################################################
-# A native "fatigue" bar (mirror-timer type FATIGUE) that starts FULL and
-# DRAINS while the player is OUTSIDE a safe area. Safe areas are rested areas
-# (inns, cities) plus sanctuaries (starter zones): there the bar is hidden and
-# the counter resets to full. When it reaches 0 the player falls asleep (dies).
-# Persisted in coa_character_fatigue.
+# 一个原生“疲劳”条（镜像计时器类型 FATIGUE），开始时为满，
+# 当玩家在安全区域外时逐渐排空。安全区域是休息区域
+# （旅店、城市）加上圣所（起始区域）：在那里能量条隐藏，
+# 计数器重置为满。当它达到 0 时，玩家入睡（死亡）。
+# 持久化在 coa_character_fatigue 中。
 
 # Range: 1-1000. Default: 100
 CoAChallenges.FatigueMax = 100
@@ -269,16 +269,16 @@ CoAChallenges.Fatigue.SafeGraceSeconds = 1
 
 
 ############################################################################
-# Mailbox (TAKE_MAIL_MONEY_OR_ITEM, #4205)
+# 邮箱（TAKE_MAIL_MONEY_OR_ITEM, #4205）
 ############################################################################
-# Taking a non-store item/currency from the mailbox taints the character for
-# the next non-prestige trial activation (a facet of OUTSIDE_INTERACTION).
-# Item entries listed here are exempt (store items / reward caches).
+# 从邮箱中取出非商店物品/货币会污染角色，使其
+# 无法进行下一次非声望试炼激活（OUTSIDE_INTERACTION 的一个方面）。
+# 此处列出的物品条目豁免（商店物品/奖励缓存）。
 CoAChallenges.MailExemptItems = "1397884;1397885;1397886"
 
 
 ############################################################################
-# Outside interactions (OUTSIDE_INTERACTION implicit condition)
+# 外部交互（OUTSIDE_INTERACTION 隐式条件）
 ############################################################################
 # Non-prestige trials cannot be started after a player-facing outside service
 # interaction: trade with another player, auction house, vendor, or guild bank
@@ -289,7 +289,7 @@ CoAChallenges.OutsideInteractionGate = 1
 
 
 ############################################################################
-# Professions (Artisan's / Survivalist's Guild)
+# 专业（Artisan's / Survivalist's Guild）
 ############################################################################
 
 # XP granted per profession skill point, as 1/PointsPerLevel of the XP needed
@@ -301,12 +301,12 @@ CoAChallenges.ProfessionXP.PointsPerLevel = 50
 
 
 ############################################################################
-# Rules (CHALLENGE_RULES_TYPE_*) tunables
+# 规则（CHALLENGE_RULES_TYPE_*）可调参数
 ############################################################################
 
-# Aura that marks a character as participating in the High Risk ruleset
-# (CoA SPELL_ASCENSION_HIGH_RISK). HIGH_RISK_ONLY challenges
-# require it to activate and fail if it is lost while active.
+# 标记角色参与高风险规则集的光环
+# （CoA SPELL_ASCENSION_HIGH_RISK）。HIGH_RISK_ONLY 挑战
+# 需要它才能激活，并且如果在激活时丢失则失败。
 # Default: 1004019
 CoAChallenges.HighRisk.Aura = 1004019
 
@@ -328,30 +328,30 @@ CoAChallenges.TestStrictCoverage = 0
 
 
 ############################################################################
-# Per-challenge definitions live in the WORLD database
+# 每个挑战的定义位于 WORLD 数据库中
 ############################################################################
-# Definitions are realm/world data: `coa_challenge_definition`,
-# `coa_challenge_spell` (level-aware auras, level 0 = union) and
-# `coa_challenge_reward`, seeded by coa-analyze-export.ps1 -EmitSql and read
-# into a memory cache at startup and on `.coa challenges reload`. The module has
-# no generated-.conf fallback: if the tables are empty the boot logs an ERROR.
+# 定义是领域/世界数据：`coa_challenge_definition`、
+# `coa_challenge_spell`（等级感知光环，等级 0 = 并集）和
+# `coa_challenge_reward`，由 coa-analyze-export.ps1 -EmitSql 生成，
+# 在启动时和 `.coa challenges reload` 时读入内存缓存。该模块
+# 没有生成的 .conf 回退：如果表为空，启动时会记录 ERROR。
 #
-# Permadeath is EXPLICIT per-id only: hardcore/1-life is NOT permadeath (dying
-# just fails the challenge). Set `noResurrect` for challenges whose about says
-# "dead forever" (e.g. 188 starvation). Example:
+# 永久死亡仅按 id 显式设置：硬核/1 命不是永久死亡（死亡
+# 只是使挑战失败）。为其描述说“永远死亡”的挑战设置 `noResurrect`
+# （例如 188 饥饿）。示例
 #   UPDATE coa_challenge_definition SET noResurrect = 1 WHERE id = 188;
 
 
 ############################################################################
 # Spellbind Roulette (FAILABLE 173/174/175/387/388/389, MEGA 429/430,
-# plain SPELLBIND_ROULETTE 193)
+# 普通 SPELLBIND_ROULETTE 193）
 ############################################################################
-# The server marks one of the player's known spells and the client paints the
-# "proc glow" (Spell Activation Overlay, SMSG 0x9B1) on that spell's action
-# button. Casting a FAILABLE mark kills the player + fails the challenge; a
-# plain mark blocks the cast. Tunables for the overlay visual:
-# Master switch (0 = off; mark is chat-only). Keep OFF until the 0x9B1 payload
-# is validated in-client: a malformed packet crashes the client on login.
+# 服务器标记玩家已知法术之一，客户端在该法术的动作按钮上
+# 绘制“触发发光”（Spell Activation Overlay, SMSG 0x9B1）。
+# 施放 FAILABLE 标记会杀死玩家 + 使挑战失败；普通标记阻止施放。
+# 覆盖层视觉的可调参数：
+# 主开关（0 = 关闭；标记仅聊天）。在 0x9B1 负载在客户端验证之前
+# 保持关闭：格式错误的数据包会在登录时使客户端崩溃。
 # Default: 0
 CoAChallenges.Spellbind.OverlayEnabled = 0
 # Default: Textures\SpellActivationOverlays\sudden_death

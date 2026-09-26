@@ -1,50 +1,50 @@
 [worldserver]
 
 ################################################################################################################
-#    Spellbook
-#        Description: the Books of Ascension as a real class trainer. Right-clicking a book
-#                     opens the trainer window with the viewer's own class abilities, ranked
-#                     and gated by level, and the Train button learns the selected one.
+#    法术书
+#        说明：将《Ascension 之书》作为真正的职业训练师。右键点击一本书
+#                     会打开训练师窗口，显示查看者自身职业的能力，按等级排序
+#                     并按等级门控，点击训练按钮学习所选技能。
 #
-#        Spellbook.Enable: 1 (Default) Serve the books.
-#                          0            Leave them inert, as if this module were absent.
+#        Spellbook.Enable: 1（默认）提供书籍服务。
+#                          0            使它们保持惰性，就像此模块不存在一样。
 #
-#        The books' behaviour comes from the creature script "npc_spellbook_trainer"; the
-#        templates that carry it are set by the world database updates, not here.
+#        书籍的行为来自生物脚本 "npc_spellbook_trainer"；
+#        携带它的模板由世界数据库更新设置，而不是在此处
 #
 
-#        Spellbook.Notify.Enable: 1 (Default) Announce every purchase. Before a spell is
-#                                 learned the client is sent the row its own SpellCustomAttr
-#                                 table holds for it with the "notable" bit set, which is what
-#                                 makes it show the New Spell Learned alert and play its sound.
-#                                 Without this the client stays silent for every spell whose row
-#                                 lacks that bit (rank ups of abilities that are not mana
-#                                 powered, and spells the table has no row for at all): the
-#                                 purchase succeeds and only the chat line appears.
-#                                 0            Leave the client's table alone.
+#        Spellbook.Notify.Enable: 1（默认）公告每次购买。在法术被
+#                                 学习之前，客户端会收到其自身 SpellCustomAttr 表中该法术的行，
+#                                 并设置 "notable" 位，这正是
+#                                 使其显示“学习新法术”警报并播放声音的原因。
+#                                 没有这个，客户端对每一行缺少该位的法术都保持沉默
+#                                 （非法力驱动的能力升级，以及表中
+#                                 完全没有行的法术）：
+#                                 购买成功，只显示聊天行。
+#                                 0            不修改客户端的表。
 #
-#        Spellbook.Notify.OnClientReady: 1  Also mark every spell the viewer's book offers, as
-#                                        soon as the client reports its extension handlers are
-#                                        up, so abilities the realm grants outside the window
-#                                        (automatic progression) are announced as well.
-#                                        0 (Default) Announce only what the book itself learns.
-#                                        Left off by default because the client rebuilds its
-#                                        whole spell index once per row it already knew, so this
-#                                        is a visible pause at login.
+#        Spellbook.Notify.OnClientReady: 1  还标记查看者书籍提供的每个法术，
+#                                        一旦客户端报告其扩展处理器
+#                                        启动，这样领域在窗口之外授予的能力
+#                                        （自动进度）也会被公告。
+#                                        0（默认）仅公告书籍本身学习的内容。
+#                                        默认关闭，因为客户端会重建其
+#                                        整个法术索引，每行它已知的内容一次，所以这
+#                                        是登录时可见的暂停。
 #
 Spellbook.Enable = 1
 Spellbook.Notify.Enable = 1
 Spellbook.Notify.OnClientReady = 0
 
-#        Spellbook.Cost.Enable: 1 (Default) Charge the prices the window shows. The curve is
-#                               the realm's own trainer table halved - level driven, quadratic,
-#                               with the same band breaks - and utility rows (kits, leathers,
-#                               keys, movement forms) cost half again. See
-#                               SpellbookCostData.h for the bands and the list.
-#                               0            Serve everything free.
+#        Spellbook.Cost.Enable: 1（默认）收取窗口显示的价格。曲线是
+#                               领域自身训练师表的一半 - 等级驱动，二次方，
+#                               具有相同的等级段断点 - 而实用行（工具包、皮革、
+#                               钥匙、移动形态）再花费一半。参见
+#                               SpellbookCostData.h 了解等级段和列表。
+#                               0            免费提供一切。
 #
-#        Spellbook.Cost.Multiplier: 1.0 (Default) Scale every price by this, for retuning
-#                                   without a rebuild.
+#        Spellbook.Cost.Multiplier: 1.0（默认）按此缩放每个价格，以便
+#                                   无需重建即可重新调整。
 #
 Spellbook.Cost.Enable = 1
 Spellbook.Cost.Multiplier = 1.0

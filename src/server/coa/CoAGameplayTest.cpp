@@ -109,7 +109,7 @@ void Require(bool condition, std::string const& message)
 
 std::list<GameObject*> OwnedGameObjects(Player* player, uint32 entry)
 {
-    Require(sObjectMgr->GetGameObjectTemplate(entry) != nullptr, "Unknown gameobject entry");
+    Require(sObjectMgr->GetGameObjectTemplate(entry) != nullptr, "未知的游戏对象条目");
     std::list<GameObject*> objects;
     player->GetGameObjectListWithEntryInGrid(objects, entry, 100.0f);
     objects.remove_if([player](GameObject* object)
@@ -121,7 +121,7 @@ std::list<GameObject*> OwnedGameObjects(Player* player, uint32 entry)
 
 void WriteResult(std::string const& path, Tree const& result)
 {
-    Require(!path.empty() && !std::filesystem::exists(path), "Output path must be new");
+    Require(!path.empty() && !std::filesystem::exists(path), "输出路径必须是新的");
     std::string temporary = path + ".tmp";
     boost::property_tree::write_json(temporary, result);
     std::filesystem::rename(temporary, path);

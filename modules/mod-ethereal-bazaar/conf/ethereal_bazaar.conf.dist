@@ -1,53 +1,53 @@
 #
-# Ethereal Bazaar - Tiraxis and the Bazaar Token economy
+# 虚空集市 - 提拉西斯与集市令牌经济
 #
 
 [worldserver]
 
-# Turn the whole module off without removing it. Tiraxis stays in the world but
-# stops answering; his rotation does not run.
+# 完全关闭模块而不删除它。提拉西斯仍留在世界中但
+# 停止回应；他的轮换不会运行。
 # Default: 1 (enabled)
 EtherealBazaar.Enable = 1
 
-# How long one rotation lasts. A new interval is drawn for every rotation, so
-# the shop does not change at a time players can set their watch by.
+# 一次轮换持续多长时间。每次轮换都会抽取一个新的间隔，因此
+# 商店不会在玩家可以按表设定时间的时候改变。
 # Default: 3 to 6 hours
 EtherealBazaar.RotationMinHours = 3
 EtherealBazaar.RotationMaxHours = 6
 
-# How many items each price band contributes to a rotation.
+# 每个价格区间为一次轮换贡献多少物品。
 #
-# These are deliberately uneven. The pool is uneven: roughly 3300 items below
-# 1000 tokens, 440 between 1000 and 1500, and 190 above. Equal slot counts
-# would make an expensive item come round far MORE often than a cheap one,
-# because it is drawn from a much smaller bag. With the numbers below a given
-# cheap item returns about every 27 days, a mid one every 36, an expensive one
-# every 48, at four rotations a day.
+# 这些是有意不均匀的。池子是不均匀的：大约 3300 件物品低于
+# 1000 令牌，440 件在 1000 到 1500 之间，190 件高于此。相等的槽位
+# 数量会让一件昂贵物品出现的频率远高于便宜物品，
+# 因为它从一个更小的袋子中抽取。使用下面的数字，一件给定的
+# 便宜物品大约每 27 天回归一次，中等物品每 36 天，昂贵物品
+# 每 48 天，每天四次轮换。
 #
-# If you change the pool, check those three numbers again before you change
-# these. Slots follow the size of the band, not how rare the item should feel.
+# 如果你更改池子，在更改这些之前请再次检查那三个数字。槽位
+# 跟随区间的大小，而不是物品应该感觉多稀有。
 EtherealBazaar.Slots.Cheap = 30
 EtherealBazaar.Slots.Mid = 3
 EtherealBazaar.Slots.Expensive = 1
 
 #
-# The module logs under "module.bazaar": what the pool holds, what each
-# rotation drew, and when the next one is due. AzerothCore only prints a
-# logger that is configured, and an unconfigured one falls back to the root
-# logger, which normally shows errors only. To see any of it, add this to
-# worldserver.conf next to the other Logger lines:
+# 模块在 "module.bazaar" 下记录日志：池子包含什么、每次
+# 轮换抽取了什么，以及下一次何时到期。AzerothCore 只打印
+# 已配置的 logger，未配置的会回退到根
+# logger，通常只显示错误。要看到任何内容，请将以下内容添加到
+# worldserver.conf 中其他 Logger 行旁边：
 #
 #   Logger.module.bazaar=4,Console Server
 #
-# Without it the module runs exactly the same, it just says nothing.
+# 没有它，模块运行完全相同，只是什么都不说。
 
 #
-# Where Bazaar Tokens come from
+# 集市令牌来自哪里
 #
-# Ascension sold them for money and let players trade them on the auction
-# house. With the shop gone the only source left is playing, so a little comes
-# from everything and more from harder content. The lower two ranges start at
-# zero on purpose: most kills give nothing, which keeps a token worth noticing.
+# Ascension 用它们换钱，并让玩家在拍卖
+# 行交易它们。商店消失后，唯一剩下的来源就是游玩，因此一点点来自
+# 一切，更多来自更难的内容。下面两个范围故意从
+# 零开始：大多数击杀什么都不给，这让令牌值得注意。
 # Default: 1 (enabled)
 EtherealBazaar.Tokens.Enable = 1
 
@@ -60,12 +60,12 @@ EtherealBazaar.Tokens.DungeonBoss.Max = 22
 EtherealBazaar.Tokens.RaidBoss.Min = 41
 EtherealBazaar.Tokens.RaidBoss.Max = 53
 
-# From this level on every amount is multiplied by the percentage below, so a
-# character who has stopped levelling does not stop earning.
+# 从此等级起，每个数量都会乘以下面的百分比，因此
+# 停止升级的角色不会停止赚取。
 EtherealBazaar.Tokens.BonusLevel = 60
 EtherealBazaar.Tokens.BonusPercent = 150
 
-# The "item received" toast in the top right. Tokens drop often enough that it
-# turns into noise; the bag updates either way.
+# 右上角的“收到物品”提示。令牌掉落足够频繁，以至于
+# 它变成了噪音；袋子无论如何都会更新。
 # Default: 0 (no toast)
 EtherealBazaar.Tokens.Announce = 0

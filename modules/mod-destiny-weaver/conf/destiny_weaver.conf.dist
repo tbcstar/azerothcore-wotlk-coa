@@ -1,107 +1,107 @@
 ###################################################################################################
 #  mod-destiny-weaver
 #
-#  The Destiny Weaver NPC and the two per-character choices it offers: open-world level scaling
-#  and experience bonus control. Both are stored in `character_settings` under "core.destiny_weaver".
+#  命运编织者 NPC 及其提供的两个角色专属选择：开放世界等级缩放
+#  和经验奖励控制。两者都存储在 `character_settings` 中的 "core.destiny_weaver" 下。
 #
-#  Both choices are per character. Creatures are scaled for the character who asked for it, and only
-#  for them: the level, pool, mana, armor and damage of a creature are delivered per recipient, so two
-#  characters can fight the same one at two different levels while everybody else sees it authored.
-#  Quest levels and the tuning of what a scaled quest pays are per character as well.
+#  两个选择都是角色专属的。生物会为请求它的角色进行缩放，并且仅对该角色生效：
+#  生物的等级、生命池、法力、护甲和伤害是按接收者分别传递的，因此两个
+#  角色可以在两个不同等级上与同一个生物战斗，而其他所有人看到的是其原始设定。
+#  任务等级以及缩放后任务报酬的调整也是角色专属的。
 #
-#  The realm-wide lift in CoA (CoA.LevelScaling) is a different model - it
-#  raises the creature object itself, which every client is told about - so it stands aside while this
-#  module owns the answer (see CreatureScalingOwnedPerViewer in LocalLevelScaling.h). Its configuration
-#  is left as it is, and it takes over again when DestinyWeaver.LevelScaling is set to 0.
+#  CoA 中的全领域提升（CoA.LevelScaling）是另一种模型 - 它
+#  提升生物对象本身，每个客户端都会被告知 - 因此当本模块拥有答案时，
+#  它会退让（参见 LocalLevelScaling.h 中的 CreatureScalingOwnedPerViewer）。其配置
+#  保持原样，当 DestinyWeaver.LevelScaling 设置为 0 时它会重新接管。
 #
-#  This code is part of the AzerothCore project. See AUTHORS file for Copyright information.
+#  此代码是 AzerothCore 项目的一部分。版权信息见 AUTHORS 文件。
 ###################################################################################################
 
 #    DestinyWeaver.Enable
-#        Description: Enable the Destiny Weaver menu and both of its services.
+#        Description: 启用命运编织者菜单及其两个服务。
 #        Default:     1 - (Enabled)
 #                     0 - (Disabled)
 DestinyWeaver.Enable = 1
 
 #    DestinyWeaver.LevelScaling
-#        Description: Whether the scaling service exists at all - open-world creature scaling and
-#                     quest scaling together. 0 leaves the choice in the menu without effect: every
-#                     creature is met at its authored level and every quest plays at its authored
-#                     level, and the realm-wide lift in CoA is handed back.
+#        说明：缩放服务是否根本存在 - 开放世界生物缩放和
+#                     任务缩放一起。0 表示菜单中保留选择但无效果：每个
+#                     生物都以其原始等级遇到，每个任务都以其原始
+#                     等级进行，并且 CoA 中的全领域提升会被交还。
 #        Default:     1 - (Enabled)
 #                     0 - (Disabled)
 #        Reloadable:  yes (.reload config)
 DestinyWeaver.LevelScaling = 1
 
 #    DestinyWeaver.LevelScaling.Default
-#        Description: What a character that has never made the choice gets. 1 scales the world and its
-#                     quests to the character's own level, 0 leaves both at their authored level until
-#                     the character asks for scaling.
+#        说明：从未做出过选择的角色获得什么。1 将世界及其
+#                     任务缩放到角色自身等级，0 将两者都保持在其原始等级，直到
+#                     角色请求缩放。
 #        Default:     1 - (Enabled)
 #                     0 - (Disabled)
 #        Reloadable:  yes (.reload config)
 DestinyWeaver.LevelScaling.Default = 1
 
 #    DestinyWeaver.Scaling.Offset
-#        Description: How far below the character a scaled creature sits. A level 40 character pulls
-#                     creatures up to level 37 with the default, so the world stays a step behind.
-#                     One definition for both models: the per-character view and the realm-wide lift
-#                     read the same offset.
+#        说明：缩放后的生物比角色低多少。默认情况下，40 级角色会将
+#                     生物拉到 37 级，因此世界保持落后一步。
+#                     两种模型共用一个定义：按角色视图和全领域提升
+#                     读取相同的偏移量。
 #        Default:     3
 #        Reloadable:  yes (.reload config)
 #
-#        The ceiling on how far a creature may be lifted belongs to the realm-wide path
-#        (CoA.LevelScalingMaxLift in coa.conf) and is not applied here: a
-#        view is delivered to one client, so there is nobody else for a high view to be wrong for.
+#        生物可以被提升多少的上限属于全领域路径
+#        （coa.conf 中的 CoA.LevelScalingMaxLift），此处不应用：一个
+#        视图仅传递给一个客户端，因此高视图不会对其他人出错。
 
 DestinyWeaver.Scaling.Offset = 3
 
 #    DestinyWeaver.Scaling.QuestMoneyKeepShare
-#        Description: How much of a scaled quest's money a quest keeps when it is lifted all the way
-#                     from the bottom of the level range to the character's level, in per cent. The
-#                     rest is lost in proportion to how much of that range the quest spans, so a
-#                     quest at the character's own level always keeps all of it, and 100 turns the
-#                     discount off entirely.
-#                     The reward class says nothing about level - the median class is the same in
-#                     every level band - so paid at full strength a rich quest from a starting zone
-#                     would pay what a rich level-appropriate one pays while being trivial to clear.
-#                     The discount is what keeps the old zones worth playing without making the easy
-#                     content the profitable content: it only ever scales down from what the quest's
-#                     class pays at the character's level, so old content can never out-pay
-#                     level-appropriate content, and it never reduces a reward below its authored
-#                     value.
-#        Range:       0-100 (100 = no discount, the quest's class pays in full)
+#        说明：当一个缩放任务从等级范围底部一直提升到角色等级时，
+#                     该任务保留其金钱的百分比。其余部分
+#                     按任务跨越该范围的比例损失，因此
+#                     角色自身等级的任务始终保留全部，100 则完全
+#                     关闭折扣。
+#                     奖励类别与等级无关 - 中位类别在每个等级段都相同 -
+#                     因此如果全额支付，来自起始区域的丰厚任务
+#                     将支付与等级相称的丰厚任务相同的报酬，同时却很容易完成。
+#                     折扣是保持旧区域值得游玩而不使简单
+#                     内容成为有利可图内容的关键：它只从任务类别在角色等级
+#                     支付的金额向下缩放，因此旧内容永远不会超过
+#                     等级相称内容的报酬，并且它永远不会将奖励降低到其原始
+#                     值以下。
+#        Range:       0-100 (100 = 无折扣，任务类别全额支付)
 #        Default:     60
 #        Reloadable:  yes (.reload config)
 DestinyWeaver.Scaling.QuestMoneyKeepShare = 60
 
 #    DestinyWeaver.Scaling.QuestXpKeepShare
-#        Description: The same discount for experience. Left at 100 by default: the promise scaling
-#                     makes is that scaled content always awards experience, and levelling through
-#                     the old zones is exactly what the system is for - discounting experience here
-#                     would put the dead zones back. Lower it to bound how much of a character's
-#                     progress can come from content far below them.
-#        Range:       0-100 (100 = no discount)
+#        说明：经验值的相同折扣。默认保持为 100：缩放
+#                     所做的承诺是缩放内容始终奖励经验，而通过
+#                     旧区域升级正是该系统的目的 - 在此折扣经验
+#                     会使死区回归。降低它可限制角色
+#                     进度有多少可以来自远低于他们的内容
+#        Range:       0-100 (100 = 无折扣)
 #        Default:     100
 #        Reloadable:  yes (.reload config)
 DestinyWeaver.Scaling.QuestXpKeepShare = 100
 
 #    DestinyWeaver.ExperienceBonusControl
-#        Description: Whether the Experience Bonus Control service exists at all. A character who
-#                     turns it on stops receiving the bonus experience sources - Potions of
-#                     Experience, Auras of Experience and the recruit-a-friend bonus - and
-#                     progresses at the base rate.
+#        说明：经验奖励控制服务是否根本存在。开启它的角色
+#                     将停止接收奖励经验来源 - 经验药水、
+#                     经验光环和招募好友奖励 - 并以基础速率
+#                     进展。
 #        Default:     1 - (Enabled)
 #                     0 - (Disabled)
 DestinyWeaver.ExperienceBonusControl = 1
 
 #    DestinyWeaver.DisplayStream.Enable
-#        Description: Whether a client is told the rows behind this module's character models when
-#                     it logs in. The live service streamed them (its client has handlers for
-#                     SMSG_PATCH_CREATURE_DISPLAY_INFO and ..._EXTRA and no such rows on disk);
-#                     this realm does the same, so the tables here are the single source of truth
-#                     and a model change never needs a client patch. 0 leaves whatever the client
-#                     already has on disk as its only source, i.e. the patched tables.
+#        说明：客户端登录时是否被告知本模块角色模型背后的行。
+#                     实时服务会流式传输它们（其客户端有
+#                     SMSG_PATCH_CREATURE_DISPLAY_INFO 和 ..._EXTRA 的处理器，并且磁盘上没有此类行）；
+#                     此领域做同样的事，因此这里的表是唯一事实来源，
+#                     模型更改永远不需要客户端补丁。0 将客户端
+#                     磁盘上已有的内容保留为其唯一来源，即修补后的表。
 #        Default:     1 - (Enabled)
 #                     0 - (Disabled)
 DestinyWeaver.DisplayStream.Enable = 1

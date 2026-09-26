@@ -1,122 +1,122 @@
 #
-# CoA: Ascension client compatibility
+# CoA：Ascension 客户端兼容性
 #
 
 [worldserver]
 
-# Enable the compatibility packet filter.
+# 启用兼容性数据包过滤器。
 CoA.Enable = 1
 
-# Apply the Ascension protocol settings to remote connections as well as loopback
-# (world headers, extension opcodes, ping interval, spell-modifier layout, class-10 mapping).
-# Enable only on realms dedicated to the matching Ascension client build.
-# Authentication proofs and packet size checks remain required. Restart to apply.
-CoA.AllowRemoteClients = 0
+# 将 Ascension 协议设置应用于远程连接以及回环连接
+# （世界包头、扩展操作码、ping 间隔、法术修正布局、职业 10 映射）。
+# 仅在专用于匹配 Ascension 客户端构建的领域上启用。
+# 认证证明和数据包大小检查仍然是必需的。重启后生效。
+CoA.AllowRemoteClients = 1
 
-# This Ascension client keeps world packet headers plaintext after its valid
-# CMSG_AUTH_SESSION proof. Remote use also requires AllowRemoteClients above.
+# 此 Ascension 客户端在其有效的 CMSG_AUTH_SESSION 证明后保持世界数据包头为明文。
+# 远程使用还需要上面启用 AllowRemoteClients。
 CoA.PlaintextWorldHeaders = 1
 
-# Ascension's classless character creator submits reserved WotLK class ID 10.
-# Use a stock warrior shell until the classless progression backend is added.
+# Ascension 的无职业角色创建器提交保留的 WotLK 职业 ID 10。
+# 在添加无职业进度后端之前，使用标准的战士外壳。
 CoA.MapClass10ToWarrior = 1
 
-# Log each consumed extension packet during protocol discovery.
+# 在协议发现期间记录每个消耗的扩展数据包。
 CoA.LogConsumedPackets = 1
 
-# Ascension character screen: enable/disable (activate/deactivate) and the
-# per-account character list sort order.
-# Requests: CMSG 0x072E / 0x072F / 0x0772.
-# Responses: SMSG 0x075E / 0x075F / 0x0760 / 0x076F / 0x0770 / 0x0771.
+# Ascension 角色屏幕：启用/禁用（激活/停用）以及
+# 每个账户的角色列表排序顺序。
+# 请求：CMSG 0x072E / 0x072F / 0x0772。
+# 响应：SMSG 0x075E / 0x075F / 0x0760 / 0x076F / 0x0770 / 0x0771。
 CoA.CharacterSelectionEnable = 1
 
-# Maximum simultaneously active characters per account (1-128).
-# Deactivated characters stay stored, are hidden from the standard character
-# list and can be re-activated later.
+# 每个账户同时激活的最大角色数量（1-128）。
+# 停用的角色仍然存储，
+# 从标准角色列表中隐藏，并且可以稍后重新激活。
 CoA.CharacterSelectionMaxActive = 10
 
-# Automatically add appearance and vanity entries for items obtained by a character.
+# 自动为角色获得的物品添加外观和装饰条目。
 CoA.AutoCollectAppearances = 1
 
-# Solo-server convenience: unlock the complete local appearance catalog. The
-# per-category value balances the initial snapshot; remaining appearances are
-# streamed afterward to stay below the legacy client's 64 KiB packet limit.
+# 单人服务器便利：解锁完整的本地外观目录。
+# 每类别值平衡初始快照；其余外观随后流式传输，
+# 以保持在旧版客户端 64 KiB 数据包限制以下。
 CoA.UnlockLocalAppearanceCatalog = 1
 CoA.AppearanceCatalogPerCategory = 500
 
-# Solo-server convenience: expose every static VanityCollection entry as account-owned.
-# Custom Ascension-only entries still require matching server item/spell templates to deliver.
+# 单人服务器便利：将每个静态 VanityCollection 条目公开为账户所有。
+# 仅限 Ascension 的自定义条目仍然需要匹配的服务器物品/法术模板才能交付。
 CoA.UnlockAllVanity = 1
 
-# If a vanity item has no server item template but its DBC row names a valid spell,
-# learn that spell directly when delivery is requested.
+# 如果装饰物品没有服务器物品模板，但其 DBC 行指定了有效的法术，
+# 则在请求交付时直接学习该法术。
 CoA.AllowLearnedSpellDelivery = 1
 
-# Teach owned Vanity mount/companion spells permanently, in small login batches.
-# Ownership remains unchanged. Entries without a local spell are not invented.
+# 永久教授已拥有的装饰坐骑/伙伴法术，以小的登录批次进行。
+# 所有权保持不变。没有本地法术的条目不会被虚构。
 CoA.LearnOwnedCompanions = 1
 
-# Solo-server convenience: all riding ranks (300/300) and Cold Weather Flying
-# from the first login, including level-one characters. No profession grants.
+# 单人服务器便利：从首次登录起所有骑术等级（300/300）和寒冷天气飞行，
+# 包括一级角色。不授予专业。
 CoA.MaxRidingFromStart = 1
 
-# Give a character that carries none of the three PvP ruleset auras the PvE set at login,
-# because character creation grants no ruleset and the client's selection frame is level- and
-# rested-area gated. The PvE set is the shared marker 1004119 plus 9931032, exactly what pressing
-# "PvE Mode" applies, so the character also gains the +15% kill experience that marker carries and
-# shows its "War Mode" buff alongside "PvE Mode" until the client data is patched.
-# Set to 0 to leave such characters on Ruleset.None instead.
+# 在登录时，为不携带三种 PvP 规则集光环中任何一种的角色提供 PvE 规则集，
+# 因为角色创建不授予规则集，并且客户端的选择框架受等级和休息区域限制。
+# PvE 规则集是共享标记 1004119 加上 9931032，正是按下“PvE 模式”所应用的内容，
+# 因此角色还会获得该标记携带的 +15% 击杀经验，并在客户端数据修补之前
+# 与“PvE 模式”一起显示其“战争模式”增益。
+# 设置为 0 以将此类角色留在 Ruleset.None 上。
 CoA.RulesetLoginDefault = 1
 
-# Local solo scaling. A creature below the player-minus-three floor is raised
-# with stock AzerothCore stat curves. Creatures one or two levels below, equal,
-# or higher stay unchanged. Friendly NPCs, pets, critters and triggers are not mobs.
+# 本地单人缩放。低于玩家等级减三下限的生物会使用
+# 标准 AzerothCore 属性曲线提升。低一或两级、相等或更高的生物保持不变。
+# 友好 NPC、宠物、小动物和触发器不是怪物。
 #
-# A module that gives each character their own version of a creature owns this
-# answer while it is enabled, and this path stands aside for as long as it is:
-# raising the object is a change every client is told about, so it cannot be one
-# character's alone. Nothing needs to change here either way, the takeover is
-# logged at config load, and switching that module off hands this path back
-# exactly as it was.
+# 当某个模块为每个角色提供自己的生物版本时，只要它启用，它就拥有这个答案
+# 而此路径会一直让位：
+# 提升对象是每个客户端都会被告知的更改，因此它不能仅属于一个角色。
+# 无论哪种方式，这里都不需要更改，
+# 接管会在配置加载时记录，
+# 关闭该模块会将此路径完全恢复原样。
 CoA.LevelScaling = 1
 
-# Lower-level quests report the player's level and use the matching QuestXP row.
-# Quests already above the player remain higher. Shared quest templates are immutable.
+# 较低等级的任务报告玩家的等级并使用匹配的 QuestXP 行。
+# 已经高于玩家的任务保持更高。共享任务模板是不可变的。
 CoA.QuestLevelScaling = 1
 
-# Automatic progression: hand out the class abilities and rank upgrades for the
-# character's class and level as they level up. Set to 0 to stop that
-# and let the player ask instead - a Book of Ascension grants them, so a realm that
-# wants the books to be the way abilities are earned runs with this off. A talent
-# tree's free nodes are granted either way: the books do not sell them. Reloadable.
+# 自动进度：随着角色升级，发放其职业和等级对应的职业技能和等级升级。
+# 设置为 0 以停止该行为，
+# 让玩家自行请求 - 一本《Ascension 之书》会授予它们，
+# 因此希望以书籍作为获取技能方式的领域可以关闭此选项。
+# 天赋树的免费节点无论如何都会授予：书籍不出售它们。可重新加载。
 CoA.AutoProgression = 0
 
-# Extension range derived from the installed client's opcode dispatch table.
-# Keep these values decimal because ConfigMgr numeric values are parsed as decimal.
+# 从已安装客户端操作码分发表派生的扩展范围。
+# 保持这些值为十进制，因为 ConfigMgr 数值按十进制解析。
 CoA.FirstExtensionOpcode = 1311
 CoA.LastExtensionOpcode = 2515
 
-# Experimental local Manastorm. Requires the matching character migration and client UI patch.
-# Startup-only: solo levels 10-59, three scenes, depths 1-15. Realm level cap is unchanged.
-# Enable only with the reviewed installation package; native gameplay acceptance is still required.
+# 实验性本地 Manastorm。需要匹配的角色迁移和客户端 UI 补丁。
+# 仅启动时：单人等级 10-59，三个场景，深度 1-15。领域等级上限不变。
+# 仅在经过审查的安装包中启用；仍然需要原生游戏验收。
 Ascension.Manastorm.Enable = 0
 
-# What kind of realm the client is told it is on: live, seasonal, league, ptr
-# or development. Exactly one is sent.
+# 告诉客户端它所在领域的类型：live、seasonal、league、ptr
+# 或 development。只发送一个。
 #
-# This is not cosmetic. The client builds its vanity catalogue only from rows
-# that match an active realm type, so with none set the Vanity Collection stays
-# empty no matter what the account owns.
+# 这不是装饰性的。
+# 客户端仅从匹配活动领域类型的行构建其装饰目录，
+# 因此如果没有设置，无论账户拥有什么，装饰收藏都会保持为空。
 # Default: live
 CoA.RealmType = "live"
 
 #
 #    CoA.ClassModel
-#        Description: Character-creation mode advertised to the client in
-#                     SMSG_REALM_INFO when the character list is requested.
-#                     "coa"  - Conquest of Azeroth classes. Default.
-#                     "wcr"  - Warcraft Reborn (classic) classes.
-#                     "hero" - free-pick Hero.
+#        说明：在请求角色列表时，通过 SMSG_REALM_INFO 向客户端通告的
+#                     角色创建模式。
+#                     "coa"  - Conquest of Azeroth 职业。默认。
+#                     "wcr"  - Warcraft Reborn（经典）职业。
+#                     "hero" - 自由选择英雄。
 #        Default:     "coa"
 #
 
@@ -124,40 +124,40 @@ CoA.ClassModel = "coa"
 
 #
 #    CoA.LevelScalingMaxLift
-#        Description: How many levels above its own a creature may be lifted by
-#                     LevelScaling. Without a cap, a level 30 player crossing a
-#                     starting zone lifts every creature around to 27, and the
-#                     low level bots fighting them are killed by creatures that
-#                     were never theirs.
-#                     A creature has a single level, broadcast to every client:
-#                     it cannot be 27 for a player and 2 for a bot. Bounding the
-#                     lift is the only compromise between keeping content
-#                     relevant and keeping the world playable for whoever is
-#                     already in it.
-#                     0 disables the cap and restores the original behaviour.
+#        Description: LevelScaling 可以将生物提升到其自身等级之上多少级。
+#                     如果没有上限，一个 30 级玩家穿过起始区域会将周围
+#                     每个生物提升到 27 级，
+#                     而与它们战斗的低等级机器人会被从来不属于它们的生物杀死。
+#                     一个生物只有一个等级，
+#                     广播给每个客户端：
+#                     它不可能对玩家是 27 级而对机器人是 2 级。
+#                     限制提升是在保持内容相关性
+#                     和保持世界对已有玩家可玩性之间
+#                     唯一的折中。
+#                     0 禁用上限并恢复原始行为。
 #        Default:     5
 
 CoA.LevelScalingMaxLift = 5
 
 ###################################################################################################
-# HIGH-RISK PACKAGE
+# HIGH-RISK PACKAGE-高风险包
 #
 #    HighRisk.Losses
-#        Description: Deaths in the open world while under the High-Risk ruleset (aura 1004019) move
-#                     tradeable equipment, bag resources and gold into a persistent chest that any
-#                     living High-Risk player nearby can recover. Kill XP is unchanged: the ruleset
-#                     aura already carries the native bonus.
+#        说明：在高风险规则集（光环 1004019）下，开放世界中的死亡会将
+#                     可交易装备、背包资源和金币移入一个持久宝箱，附近任何
+#                     存活的高风险玩家都可以取回。击杀经验不变：规则集
+#                     光环已经携带原生奖励。
 #        Default:     0 - (Disabled)
 #                     1 - (Enabled)
 
-HighRisk.Losses = 0
+HighRisk.Losses = 1
 
 #    HighRisk.GearChance
 #    HighRisk.ResourceChance
 #    HighRisk.GoldChance
-#        Description: Percent chance, per eligible death, that each category is lost. Realm tuning,
-#                     not verified Ascension rates. If every roll misses, one available category is
-#                     still chosen so an eligible death never silently produces no chest.
+#        说明：每次符合条件的死亡，每个类别丢失的百分比几率。领域调整，
+#                     不是已验证的 Ascension 速率。如果所有掷骰都未命中，仍然会
+#                     选择一个可用类别，因此符合条件的死亡永远不会静默地不产生宝箱。
 #        Default:     50
 
 HighRisk.GearChance = 50
@@ -165,20 +165,20 @@ HighRisk.ResourceChance = 50
 HighRisk.GoldChance = 50
 
 #    PvpPower.Enable
-#        Description: Item spells named "PvP Power (+N)" scale damage and healing at level 60, capped at
-#                     495 points. Damage +0.05% per point against players (and against uncontrolled
-#                     creatures for a High-Risk attacker in the open world); creature damage received
-#                     there -0.05% per point; healing and shields +0.02% per point in War Mode,
-#                     High-Risk open world and battlegrounds.
+#        说明：名为“PvP Power (+N)”的物品法术在 60 级时缩放伤害和治疗，上限为
+#                     495 点。对玩家（以及开放世界中高风险攻击者对不受控
+#                     生物）的伤害每点 +0.05%；在那里受到的生物伤害
+#                     每点 -0.05%；战争模式、高风险开放世界和战场中
+#                     治疗和护盾每点 +0.02%。
 #        Default:     0 - (Disabled)
 #                     1 - (Enabled)
 
 PvpPower.Enable = 0
 
 #    Bloodforged.Enable
-#        Description: Adds one independent Bloodforged roll to eligible open-world creature corpses
-#                     for High-Risk players from level 15, drawn from the reviewed catalogue in
-#                     coa_bloodforged_catalogue. Requires PvpPower.Enable.
+#        说明：为 15 级及以上的高风险玩家，向符合条件的开放世界生物尸体
+#                     添加一次独立的 Bloodforged 掷骰，从 coa_bloodforged_catalogue
+#                     中经过审查的目录中抽取。需要 PvpPower.Enable。
 #        Default:     0 - (Disabled)
 #                     1 - (Enabled)
 
@@ -189,8 +189,8 @@ Bloodforged.Enable = 0
 #    Bloodforged.Rates35
 #    Bloodforged.Rates45
 #    Bloodforged.Rates55
-#        Description: Percent per eligible corpse for the level band starting at that level, as three
-#                     values: uncommon, rare, epic. Independent rolls, one quality per roll.
+#        说明：从该等级开始的等级段，每个符合条件尸体的百分比，作为三个
+#                     值：优秀、稀有、史诗。独立掷骰，每次掷骰一个品质。
 #        Default:     "4.50 0.50 0.00", "4.00 1.00 0.00", "3.80 1.40 0.15", "3.60 1.80 0.25", "3.40 2.20 0.40"
 
 Bloodforged.Rates15 = "4.50 0.50 0.00"
@@ -201,79 +201,79 @@ Bloodforged.Rates55 = "3.40 2.20 0.40"
 
 #
 #    Ascension.PrestigiousCache.ReleaseStage
-#        Description: The newest tier the realm has released, 1-6. A Prestigious Cache pays
-#                     tokens of its own content only, and never one from a tier above this
-#                     one, so a Classic-stage realm never hands out a Tier 6 token. Tier
-#                     2.5 counts as 2.5, so 3 still covers it.
+#        说明：领域已发布的最新层级，1-6。一个 Prestigious Cache 只支付
+#                     其自身内容的令牌，并且永远不会支付高于此层级的令牌，
+#                     因此 Classic 阶段的领域永远不会发放 Tier 6 令牌。
+#                     Tier2.5 计为 2.5，所以 3 仍然覆盖它。
 #        Default:     6
 
 Ascension.PrestigiousCache.ReleaseStage = 6
 
 #
 #    Ascension.PrestigiousCache.TokenChancePercent
-#        Description: Chance for a Prestigious Cache to also hand over one of its own tier's
-#                     tokens, "a chance of one or more global tier tokens, if tiers are
-#                     released" as the cache's own description puts it. A cache whose
-#                     content has no token of its own pays none.
+#        Description: Prestigious Cache 同时交出自身层级令牌的几率，
+#                     正如该 cache 自己的描述所说，
+#                     “如果层级已发布，有机会获得一个或多个全局层级令牌”。
+#                     内容没有自己令牌的 cache 不支付任何令牌。
 #        Default:     25
 
 Ascension.PrestigiousCache.TokenChancePercent = 25
 
 #
 #    Ascension.PrestigiousCache.SecondTokenChancePercent
-#        Description: Chance for that first token to be two.
+#        Description: 第一个令牌变为两个的几率。
 #        Default:     5
 
 Ascension.PrestigiousCache.SecondTokenChancePercent = 5
 
 #
 #    Ascension.PrestigiousCache.ClassicStages
-#        Description: How many of the Classic Prestigious Caches are released, 0-8, in the
-#                     order 1287304 held for Heroic Dungeons, Zul'Gurub, Molten Core,
-#                     Onyxia, Blackwing Lair, Ruins of Ahn'Qiraj, Temple of Ahn'Qiraj,
-#                     Naxxramas. The generic "most recent Prestigious Cache available"
-#                     resolves to the newest released one.
+#        说明：已发布多少个 Classic Prestigious Cache，0-8，按顺序
+#                     1287304 依次对应英雄地下城、祖尔格拉布、熔火之心、
+#                     奥妮克希亚、黑翼之巢、安其拉废墟、安其拉神殿、
+#                     纳克萨玛斯。通用的“最近可用的 Prestigious Cache”
+#                     解析为最新发布的那个。
 #        Default:     8
 
 Ascension.PrestigiousCache.ClassicStages = 8
 
 #
 #    Ascension.PrestigiousCache.TbcStages
-#        Description: How many of the Burning Crusade Prestigious Caches are released, 0-9,
-#                     in the order 1297310 held for Karazhan, Gruul's Lair, Magtheridon's
-#                     Lair, Serpentshrine Caverns, Tempest Keep, Zul'Aman, The Battle for
-#                     Mount Hyjal, Black Temple, Sunwell. Zero keeps the generic caches on
-#                     the Classic ladder.
+#        Description: 已发布多少个燃烧的远征 Prestigious Cache，0-9，
+#                     按顺序 1297310 依次对应
+#                     卡拉赞、格鲁尔的巢穴、玛瑟里顿的巢穴、
+#                     毒蛇神殿、风暴要塞、祖阿曼、海加尔山之战、黑暗神殿、太阳井。
+#                     零将通用 cache 保持在 Classic 阶梯上。
 #        Default:     0
 
 Ascension.PrestigiousCache.TbcStages = 0
 
 #
 #    Ascension.CallboardCache.ReleaseStage
-#        Description: The realm's current content progression stage, 0-7, in the order the
-#                     Callboard Caches released: Heroic and Mythic Dungeons, Zul'Gurub,
-#                     Molten Core, Onyxia's Lair, Blackwing Lair, Ruins of Ahn'Qiraj,
-#                     Temple of Ahn'Qiraj, Naxxramas. A generic Callboard Cache resolves
-#                     to a tier at or below this stage.
+#        Description: 领域当前的内容进度阶段，0-7，
+#                     按 Callboard Cache 发布顺序：
+#                     英雄和史诗地下城、祖尔格拉布、熔火之心、奥妮克希亚的巢穴、
+#                     黑翼之巢、安其拉废墟、安其拉神殿、纳克萨玛斯。
+#                     通用 Callboard Cache 解析为此阶段或以下的层级。
 #        Default:     7
 
 Ascension.CallboardCache.ReleaseStage = 7
 
 #
 #    Ascension.CallboardCache.PreviousStageOnly
-#        Description: Hold every generic Callboard Cache one stage below the released one.
-#                     The 1378050 cache promises "gear up to the previous tier released"
-#                     and stops there on its own whatever this is set to.
+#        说明：将每个通用 Callboard Cache 保持在已发布阶段低一个阶段。
+#                     1378050 cache 承诺“装备达到上一个已发布层级”，
+#                     无论此设置如何，它自己都会在那里停止。
 #        Default:     0
 
 Ascension.CallboardCache.PreviousStageOnly = 0
 
 #
 #    Ascension.CallboardCache.ItemLevelAllowance
-#        Description: How far above the opener's average equipped item level a Callboard
-#                     Cache may reach: "This Callboard Cache gives you rewards based on
-#                     your item level." Rewards are preferred at the opener's own level or
-#                     above, never further up than this allowance.
+#        Description: Callboard Cache 可以超过开启者平均装备物品等级多少：
+#                     “此 Callboard Cache 根据你的物品等级给予奖励。”
+#                     奖励优先在开启者自身等级或以上，
+#                     永远不会超过此允许值。
 #        Default:     6
 
 Ascension.CallboardCache.ItemLevelAllowance = 6

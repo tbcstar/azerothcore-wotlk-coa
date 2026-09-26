@@ -2,17 +2,17 @@
 
 #
 #    Worldforged.CostFactor
-#        Description: Multiplies every upgrade price.
+#        说明：乘以每个升级价格。
 #
-#                     The prices in `worldforged_upgrade` are computed, not
-#                     recovered. No captured store response survives and no
-#                     ItemExtendedCost row names a Worldforged base item, so the
-#                     numbers come from a formula: a base amount, Blizzard's own
-#                     slot weights, and the target item level. This factor is the
-#                     one knob that moves them all without regenerating the table.
+#                     `worldforged_upgrade` 中的价格是计算出来的，不是
+#                     恢复的。没有捕获的商店响应留存，也没有
+#                     ItemExtendedCost 行命名 Worldforged 基础物品，因此
+#                     数字来自公式：基础金额、暴雪自己的
+#                     槽位权重和目标物品等级。此因子是
+#                     一个旋钮，可以在不重新生成表的情况下调整它们全部。
 #
-#                     Should a real capture ever turn up, replace the `cost`
-#                     column and set this back to 1.
+#                     如果将来出现真实捕获，替换 `cost`
+#                     列并将此项设回 1。
 #        Default:     1.0
 #
 

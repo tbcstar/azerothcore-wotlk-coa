@@ -1,29 +1,30 @@
 ###################################################################################################
 #  mod-portablemail
 #
-#  Restores the world objects that CoA's portable gadgets summon - the Gnomish Portable Post
-#  Tube is a mailbox, the transpolyporters are spellcasters, the Mystic Enchanting Altar is a
-#  binder. The objects themselves are inserted by data/sql/db-world/portablemail.sql, which the
-#  DB updater applies at startup; that file also carries the Fel Gateway's spell override, which
-#  sets its lifetime to the 30 seconds the gadget's own text promises. This config file only
-#  controls the module's own checks.
+#  恢复 CoA 便携装置所召唤的世界对象 - 侏儒便携邮箱管是邮箱，
+#  传送器是施法者，神秘附魔祭坛是绑定者。
+#  这些对象本身由 data/sql/db-world/portablemail.sql 插入，
+#  数据库更新器会在启动时应用；
+#  该文件还包含邪能传送门的法术覆盖，
+#  将其存在时间设置为装置自身文字所承诺的 30 秒。
+#  此配置文件仅控制模块自身的检查。
 #
-#  This code is part of the AzerothCore project. See AUTHORS file for Copyright information.
+#  此代码是 AzerothCore 项目的一部分。版权信息见 AUTHORS 文件。
 ###################################################################################################
 
 #    PortableMail.VerifyOnStartup
-#        Description: Check once at startup that each listed item's on-use spell summons the
-#                     expected object with the expected lifetime, type, model and size, and
-#                     that each portal's click spell is the expected teleport and exists.
-#                     Log an error naming any broken link. This verifies server data only;
-#                     it does not validate the altars' client enchanting feature.
+#        说明：在启动时检查一次，每个列出物品的使用法术是否召唤
+#                     预期的对象，并具有预期的存在时间、类型、模型和大小，以及
+#                     每个传送门的点击法术是否为预期的传送法术并且存在。
+#                     记录错误并指出任何损坏的链接。这仅验证服务器数据；
+#                     它不验证祭坛的客户端附魔功能
 #        Default:     1 - (Enabled)
 #                     0 - (Disabled)
 PortableMail.VerifyOnStartup = 1
 
 #    PortableMail.Command
-#        Description: Enable the `.portablemail status` game master command, which reports the
-#                     same list on demand.
+#        说明：启用 `.portablemail status` 游戏管理员命令，它会按需报告
+#                     相同的列表。
 #        Default:     1 - (Enabled)
 #                     0 - (Disabled)
 PortableMail.Command = 1

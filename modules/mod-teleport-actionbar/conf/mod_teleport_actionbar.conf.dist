@@ -1,74 +1,74 @@
 #
-# Teleport tokens: usable from the spellbook collection and from an action bar button
+# 传送令牌：可从法术书收藏和动作条按钮使用
 #
-# CoA teleport tokens (the Stone of Retreat collection, Arcane and Balance Tomes)
-# teach their teleport spell only when the item is used, and the matching Ascension
-# client does not let a player pick those spells up from its spellbook or collection
-# panel. This module makes the tokens usable where a player expects them:
+# CoA 传送令牌（撤退之石收藏、奥术和平衡法典）
+# 仅在使用物品时教授其传送法术，而匹配的 Ascension
+# 客户端不允许玩家从其法术书或收藏面板中
+# 拾取这些法术。此模块使令牌在玩家期望的地方可用：
 #
-#   * using a token casts the teleport that token unlocked, so a stone dragged from
-#     the collection onto an action bar button still teleports when clicked,
-#   * every teleport token spell a character knows is placed on a free action bar
-#     button, which the client shows, moves and removes like any other button,
-#   * a stone whose hub belongs to the other faction is refused, from the spellbook,
-#     from an action bar button, or by using the stone itself. Shared hubs (Dalaran,
-#     Shattrath, Booty Bay, instance terraces ...) stay usable by both sides.
+#   * 使用令牌会施放该令牌解锁的传送，因此从
+#     收藏拖到动作条按钮上的石头在点击时仍会传送，
+#   * 角色知道的每个传送令牌法术都会放置在一个空闲动作条
+#     按钮上，客户端会像任何其他按钮一样显示、移动和移除它，
+#   * 其枢纽属于另一阵营的石头会被拒绝，无论是从法术书、
+#     从动作条按钮，还是使用石头本身。共享枢纽（达拉然、
+#     沙塔斯、藏宝海湾、副本露台……）双方阵营均可使用。
 #
-# The module never creates or grants items; the stones live in the client's
-# collection UI and on the action bar only.
+# 此模块从不创建或授予物品；石头仅存在于客户端的
+# 收藏 UI 和动作条上。
 #
-# A token is an item that teaches a spell through the LEARN_SPELL item trigger and
-# whose taught spell points at a fixed destination in `spell_target_position`.
+# 令牌是一种通过 LEARN_SPELL 物品触发器教授法术的物品，
+# 其教授的法术在 `spell_target_position` 中指向固定目的地。
 
 [worldserver]
 
-# Enable the module.
+# 启用模块。
 TeleportActionBar.Enable = 1
 
-# Using a token (from an action bar item button) casts the teleport that token
-# unlocked, after the item has taught it. Disable to restore CoA's plain behavior,
-# where the item only teaches its spell and does nothing on later uses.
+# 使用令牌（从动作条物品按钮）会施放该令牌
+# 解锁的传送，在物品教授它之后。禁用可恢复 CoA 的普通行为，
+# 即物品只教授其法术，在后续使用时不执行任何操作。
 TeleportActionBar.CastFromItem = 1
 
-# Refuse a token whose hub belongs to the other faction, so an Alliance character
-# cannot use a Horde stone and vice versa. The hub's side comes from the generated
-# table in the module (src/StoneFactionData.h): it is read from the NPCs standing at
-# each destination, and hubs that are shared by both sides are left open to both.
+# 拒绝其枢纽属于另一阵营的令牌，因此联盟角色
+# 不能使用部落石头，反之亦然。枢纽的阵营来自模块中
+# 生成的表（src/StoneFactionData.h）：它从站在每个目的地的 NPC
+# 读取，双方共享的枢纽对双方开放。
 TeleportActionBar.EnforceFaction = 1
 
-# Automatic placement is off: stones only reach a bar when the player drags them
-# there. Set these to 1 to have the module fill empty slots for known token spells.
-# Assign missing buttons when a character logs in.
+# 自动放置已关闭：石头只有在玩家将其拖到
+# 动作条时才会到达动作条。将这些设置为 1 以让模块为已知令牌法术填充空槽位。
+# 角色登录时分配缺失的按钮。
 TeleportActionBar.OnLogin = 0
 
-# Assign a button as soon as a teleport token spell is learned (using a stone).
+# 一旦学习传送令牌法术（使用石头），就分配一个按钮
 TeleportActionBar.OnLearnSpell = 0
 
-# Assign missing buttons after a dual-spec switch, because action buttons are per spec.
+# 双天赋切换后分配缺失的按钮，因为动作按钮是按天赋区分的。
 TeleportActionBar.OnSpecChange = 0
 
-# Convenience: also teach the teleport spell of every token item the character
-# carries, so stones that were never used also get a button. CoA learns these spells
-# from using the item, so this is off by default. Grants are batched (4 spells every
-# 250 ms) to keep the legacy client UI responsive.
+# 便利：还教授角色携带的每个令牌物品的传送法术，
+# 因此从未使用过的石头也会获得一个按钮。CoA 通过使用物品学习这些法术，
+# 因此默认关闭。授予是批量的（每 250 毫秒 4 个法术）
+# 以保持旧版客户端 UI 响应。
 TeleportActionBar.LearnCarriedTokens = 0
 
-# Include token items stored in the bank when LearnCarriedTokens is enabled.
+# 当 LearnCarriedTokens 启用时，包括银行中存储的令牌物品。
 TeleportActionBar.LearnCarriedTokensFromBank = 0
 
-# Maximum number of buttons placed per character. 0 means as many as the button
-# range below has free slots for.
+# 每个角色放置的最大按钮数量。0 表示下方按钮范围
+# 中可用空槽位的数量
 TeleportActionBar.MaxButtons = 24
 
-# Button slots the module may use, 0-143 (12 pages of 12). Only empty slots are ever
-# used, and a spell that already sits on a button in this range is left alone, so the
-# player's own layout is never overwritten. Lower LastButton to keep the main bar
-# clear, e.g. 12-35 for the two secondary bars.
+# 模块可以使用的按钮槽位，0-143（12 页，每页 12 个）。仅使用空槽位，
+# 并且已经位于此范围内按钮上的法术不会被改动，因此
+# 玩家自己的布局永远不会被覆盖。降低 LastButton 以保持主动作条
+# 干净，例如 12-35 用于两个次要动作条。
 TeleportActionBar.FirstButton = 0
 TeleportActionBar.LastButton = 143
 
-# Restrict token items by name (`LIKE` pattern). Empty matches every item-taught
-# teleport, which includes the Arcane Tome and Balance Tome books and therefore also
-# adds character teleports such as Teleport: Stormwind. Set this to "" only if you
-# want those on the bars as well.
+# 按名称（`LIKE` 模式）限制令牌物品。空匹配每个物品教授的
+# 传送，包括奥术法典和平衡法典书籍，因此也会
+# 添加角色传送，如传送：暴风城。仅当你
+# 也希望这些出现在动作条上时，才将其设置为 ""。
 TeleportActionBar.ItemNameFilter = "Stone of Retreat%"

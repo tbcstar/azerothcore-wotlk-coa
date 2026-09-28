@@ -5,5 +5,5 @@
 START TRANSACTION;
 DELETE FROM `spell_bonus_data` WHERE `entry` = 806313;
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
-(806313, 0, 0.12, 0, 0, 'Local Chronomancer: Infinite Keeper - vortex tick, spell power term from its description');
+(806313, 0, 0.12, 0, 0, 'Local 时空法师：无限守护者 - 漩涡跳数，法术强度项来自其描述');
 COMMIT;

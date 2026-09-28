@@ -8,4 +8,4 @@
 -- Blood Curse and drops with it.
 DELETE FROM `spell_linked_spell` WHERE `spell_trigger` = 562720 AND `spell_effect` = 563124 AND `type` = 2;
 INSERT INTO `spell_linked_spell` (`spell_trigger`, `spell_effect`, `type`, `comment`) VALUES
-(562720, 563124, 2, 'CoA Blood Curse - worgen transform helper');
+(562720, 563124, 2, 'CoA 血咒 - 狼人变形助手');

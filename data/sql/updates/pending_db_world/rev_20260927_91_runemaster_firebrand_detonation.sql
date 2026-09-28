@@ -8,4 +8,4 @@ DELETE FROM `spell_script_names` WHERE `spell_id` = 653210 AND `ScriptName` = 'a
 
 DELETE FROM `spell_bonus_data` WHERE `entry` = 653210;
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
-(653210, 0, 0.2, 0, 0.075, 'CoA Fire Engraving - Firebrand detonation per stack');
+(653210, 0, 0.2, 0, 0.075, 'CoA 火焰铭文 - 每层火印引爆');

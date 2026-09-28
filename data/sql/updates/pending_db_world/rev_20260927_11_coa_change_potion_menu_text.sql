@@ -19,4 +19,4 @@
 -- The id is also the constant GossipTextId in modules/mod-coa-change-potions/src/change_potions.cpp.
 
 DELETE FROM `npc_text` WHERE `ID` IN (9000090, 9000091, 9000092);
-INSERT INTO `npc_text` (`ID`, `text0_0`, `text0_1`, `Probability0`) VALUES (9000092, 'Choose your new class. Your Class Change Potion is spent when you pick one.', 'Choose your new class. Your Class Change Potion is spent when you pick one.', 1);
+INSERT INTO `npc_text` (`ID`, `text0_0`, `text0_1`, `Probability0`) VALUES (9000092, '选择你的新职业。当你选择后，你的职业转换药水就会被消耗。', '选择你的新职业。当你选择后，你的职业转换药水就会被消耗。', 1);

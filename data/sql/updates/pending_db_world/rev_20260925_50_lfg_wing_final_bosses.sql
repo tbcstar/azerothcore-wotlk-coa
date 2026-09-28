@@ -16,4 +16,4 @@ UPDATE `instance_encounters` SET `lastEncounterDungeon` = 601 WHERE `entry` = 23
 UPDATE `instance_encounters` SET `lastEncounterDungeon` = 51 WHERE `entry` = 463; -- Darkmaster Gandling: Lower Scholomance
 DELETE FROM `instance_encounters` WHERE `entry` = 3457;
 INSERT INTO `instance_encounters` (`entry`, `creditType`, `creditEntry`, `lastEncounterDungeon`, `comment`) VALUES
-(3457, 0, 10508, 54, 'Ras Frostwhisper');
+(3457, 0, 10508, 54, '拉丝·冰语');

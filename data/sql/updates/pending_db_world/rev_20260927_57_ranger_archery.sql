@@ -9,4 +9,4 @@ INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES
 -- and is kept on the Ranger for exactly as long as Skirmish (802039) is.
 DELETE FROM `spell_linked_spell` WHERE `spell_trigger` = 802039 AND `spell_effect` = 803335 AND `type` = 2;
 INSERT INTO `spell_linked_spell` (`spell_trigger`, `spell_effect`, `type`, `comment`) VALUES
-(802039, 803335, 2, 'Ranger Skirmish - Skirmish SLS (Brutal Shot guaranteed critical strike)');
+(802039, 803335, 2, '游侠冲突 - 冲突 SLS（残忍射击必定暴击）');

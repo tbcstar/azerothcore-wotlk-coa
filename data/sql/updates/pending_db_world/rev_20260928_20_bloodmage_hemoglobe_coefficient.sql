@@ -4,4 +4,4 @@
 -- ApplyAscensionBloodmageHemoglobeContract now does for this exact record shape.
 DELETE FROM `spell_bonus_data` WHERE `entry` = 524906;
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
-(524906, 0.1125, 0, 0, 0, 'Bloodmage - Hemoglobe (Hemopulse tick)');
+(524906, 0.1125, 0, 0, 0, '血法师 - 血球（血脉冲跳动）');

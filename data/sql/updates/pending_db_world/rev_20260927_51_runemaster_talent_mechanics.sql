@@ -22,4 +22,4 @@ INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES
 -- Turbulent Spiral (707153): ${$707153m1+$707153ppl1+$AP*0.135} Nature damage every sec.
 DELETE FROM `spell_bonus_data` WHERE `entry` = 707153;
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
-(707153, 0, 0, 0, 0.135, 'Ascension Runemaster Turbulent Spiral - AP');
+(707153, 0, 0, 0, 0.135, 'Ascension 符文大师 湍流漩涡 - AP');

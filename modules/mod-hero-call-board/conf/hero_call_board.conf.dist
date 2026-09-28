@@ -1,19 +1,19 @@
 ###################################################################################################
 #  mod-hero-call-board
 #
-#  The Hero's Call Board (Stormwind) and the Warchief's Command Board (Orgrimmar): the Ascension
-#  client's Call Board window with its PvE, Profession and PvP daily categories. Accepting, turning
-#  in or abandoning a board quest keeps the open category on screen, so "Accept All" and batch
-#  turn-ins work. The module also credits the dailies that need a server event: duel victories,
-#  battleground wins and dungeon finder clears by difficulty.
+#  英雄的召唤板（暴风城）与酋长的命令板（奥格瑞玛）：
+#  Ascension 客户端的召唤板窗口，包含其PvE、专业和 PvP 日常类别。
+#  接受、交付或放弃召唤板任务时，已打开的类别会保持在屏幕上，
+#  因此“全部接受”和批量交付都能正常工作。该模块还会为需要服务器事件的日常任务计入进度：
+#  决斗胜利、战场胜利以及按难度划分的地下城查找器通关。
 #
-#  This code is part of the AzerothCore project. See AUTHORS file for Copyright information.
+#  此代码是 AzerothCore 项目的一部分。版权信息请参见 AUTHORS 文件。
 ###################################################################################################
 
 [worldserver]
 
 #    HeroCallBoard.Enable
-#        Description: Whether the Call Boards answer with their categories and credit their dailies.
+#        Description: 召唤板是否响应其类别并为日常任务计入进度。
 #        Default:     1 - (Enabled)
-#                     0 - (Disabled; the boards behave as ordinary quest givers)
+#                     0 - (Disabled; 召唤板表现为普通任务给予者)
 HeroCallBoard.Enable = 1

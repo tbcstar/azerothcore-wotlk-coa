@@ -1,19 +1,19 @@
 ###################################################################################################
 #  mod-coa-change-potions
 #
-#  The change potions of the Ethereal Bazaar family: race, faction and appearance customs and
-#  the class change potion.  See modules/mod-coa-change-potions/README.md.
+#  虚灵集市系列的变更药水：种族、阵营和外观定制，以及职业变更药水。
+#  参见 modules/mod-coa-change-potions/README.md。
 ###################################################################################################
 
 [worldserver]
 
 ###################################################################################################
 #  ChangePotions.ClassChangeEnable
-#        Enable the class change potion (97858).
-#        The class change is the one part of this module that is not a restoration: the client and
-#        the core have no class-change contract at all, so the module supplies the class menu and
-#        the swap itself (see the README).  Set to 0 to have the potion answer that class changes
-#        are unavailable instead of opening the menu.
+#        启用职业转换药水（97858）。
+#        职业变更是本模块中唯一不是恢复性的部分：客户端和核心根本没有职业变更的约定，
+#        因此模块自行提供职业菜单和交换本身（见 README）。
+#        设为 0 时，药水会回答职业变更不可用，
+#        而不是打开菜单。
 #        Default:     1 - enabled
 #                     0 - disabled
 ###################################################################################################
@@ -21,24 +21,24 @@ ChangePotions.ClassChangeEnable = 1
 
 ###################################################################################################
 #  ChangePotions.NoticeAccent
-#        The colour a potion notice paints the words the player is meant to act on: the ten
-#        seconds of the countdown and the name of the button (or the class) the potion is about.
-#        Those two share one colour on purpose - a line that carries two "look here" colours next
-#        to the realm's notice yellow reads as two different instructions.
-#        A bare six-digit RGB, no leading # or 0x.  Read when a notice is sent, so
-#        `.reload config` retunes it without a restart; anything that is not six hex digits falls
-#        back to the default instead of breaking the line.
-#        Each of these was rendered over the notice's own background before it was chosen:
-#          ffb340  amber - chosen
-#          00ff9a  the teal the client's own class pages use for a clickable word
-#          00e0ff  bright cyan
-#          40c4ff  sky blue
-#          7fd8ff  pale ice blue
-#          a8e6ff  near-white ice
-#          00ffd0  mint
-#          66ff66  bright green
-#          b6ff4d  lime
-#          ffd100  gold, which is what the countdown used to be - too close to the yellow
+#        药水通知为玩家需要操作的文字所涂的颜色：倒计时的十秒以及药水所涉及的按钮（或职业）的名称。
+#        这两个故意共用一种颜色——一行中带有两个“看这里”的颜色，
+#        紧挨着服务器的通知黄色，会被读成两条不同的指令。
+#        纯六位 RGB，没有前导 # 或 0x。在发送通知时读取，
+#        因此 `.reload config` 无需重启
+#        即可重新调整；
+#        任何不是六位十六进制数字的内容都会回退到默认值，而不会破坏该行。
+#        以下每种颜色都是在选择之前渲染在通知自身背景上的：
+#          ffb340  琥珀色 - 已选用
+#          00ff9a  客户端自身职业页面用于可点击文字的青色
+#          00e0ff  亮青色
+#          40c4ff  天蓝色
+#          7fd8ff  淡冰蓝色
+#          a8e6ff  近白色冰
+#          00ffd0  薄荷绿
+#          66ff66  亮绿色
+#          b6ff4d  酸橙绿
+#          ffd100  金色，这是倒计时曾经使用的颜色——与黄色太接近
 #        Default:     "ffb340"
 ###################################################################################################
 ChangePotions.NoticeAccent = "ffb340"

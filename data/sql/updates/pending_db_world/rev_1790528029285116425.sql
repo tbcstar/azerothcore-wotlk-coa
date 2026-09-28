@@ -24,10 +24,10 @@ INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
 
 DELETE FROM `spell_group_stack_rules` WHERE `group_id` IN (1039, 1040, 1041, 1042, 1043, 1044, 1140);
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
-(1039, 1, 'Local CoA: Knight\'s Edict and Greater Knight\'s Edict'),
-(1040, 1, 'Local CoA: Inquisitor\'s Edict and Greater Inquisitor\'s Edict'),
-(1041, 1, 'Local CoA: Witching Edict and Greater Witching Edict'),
-(1042, 1, 'Local CoA: Etching of the Dextrous and its Greater version'),
-(1043, 1, 'Local CoA: Etching of the Leylines and its Greater version'),
-(1044, 1, 'Local CoA: Etching of the Magi and its Greater version'),
-(1140, 2, 'Local CoA: one Runemaster Etching per caster on each recipient');
+(1039, 1, 'Local CoA: 骑士敕令与强效骑士敕令'),
+(1040, 1, 'Local CoA: 审判官敕令与强效审判官敕令'),
+(1041, 1, 'Local CoA: 巫术敕令与强效巫术敕令'),
+(1042, 1, 'Local CoA: 灵巧蚀刻及其强效版本'),
+(1043, 1, 'Local CoA: 地脉蚀刻及其强效版本'),
+(1044, 1, 'Local CoA: 法师蚀刻及其强效版本'),
+(1140, 2, 'Local CoA: 每位施法者在每个目标身上只能施加一个符文大师蚀刻');

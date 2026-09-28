@@ -1,21 +1,21 @@
 ###################################################################################################
 #  mod-war-games
 #
-#  Teri Glozilk arranges War Games: private arena matches between two groups. A group leader picks
-#  an arena and names the opposing leader; once that leader accepts, both rosters are sent into a
-#  fresh private instance. Private matches are never rated, never enter the public queues and give
-#  no arena points.
+#  Teri Glozilk 安排战争游戏：两组之间的私人竞技场比赛。
+#  队伍领袖选择一个竞技场并指定对方领袖；
+#  一旦该领袖接受，双方名单都会被送入一个全新的私人副本。
+#  私人比赛从不计入评级，从不进入公共队列，也不给予竞技场点数。
 #
-#  Nagrand Arena, Blade's Edge Arena and the Ruins of Lordaeron are available. The twelve custom
-#  Ascension arenas in Teri's list are shown but refused until their maps are restored.
+#  可用的有纳格兰竞技场、刀锋山竞技场和洛丹伦废墟。Teri 列表中的十二个自定义 Ascension
+#  竞技场会显示，但在其地图被恢复之前会被拒绝。
 #
-#  This code is part of the AzerothCore project. See AUTHORS file for Copyright information.
+#  此代码是 AzerothCore 项目的一部分。版权信息请参见 AUTHORS 文件。
 ###################################################################################################
 
 [worldserver]
 
 #    WarGames.Enable
-#        Description: Whether Teri Glozilk arranges War Games.
+#        Description: Teri Glozilk 是否安排战争游戏。
 #        Default:     1 - (Enabled)
-#                     0 - (Disabled; Teri shows no War Games menu)
+#                     0 - (Disabled; Teri 不显示战争游戏菜单)
 WarGames.Enable = 1

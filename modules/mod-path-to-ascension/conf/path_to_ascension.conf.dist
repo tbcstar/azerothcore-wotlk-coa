@@ -1,59 +1,59 @@
 ###################################################################################################
 #  mod-path-to-ascension
 #
-#  Path to Ascension: the Ascension client's tutorial book (Tutorial.dbc and its companion tables)
-#  with verified objective progress, one-time rewards and optional quest-log tracking views.
+#  飞升之路：Ascension 客户端的教程书（Tutorial.dbc 及其配套表），带有已验证的目标进度、
+#  一次性奖励和可选的任务日志追踪视图。
 #
-#  The module reads Tutorial.dbc, TutorialCategories.dbc, TutorialObjectives.dbc and
-#  TutorialRewards.dbc from DataDir/dbc at startup. A missing or different catalog disables the
-#  module with an error; it never replaces client data.
+#  该模块在启动时从 DataDir/dbc 读取 Tutorial.dbc、TutorialCategories.dbc、
+#  TutorialObjectives.dbc 和 TutorialRewards.dbc。缺失或不同的目录会禁用该模块并报错；
+#  它绝不会替换客户端数据。
 #
-#  Progress is kept in the character's core.ascension.* settings. All options are read at startup.
+#  进度保存在角色的 core.ascension.* 设置中。所有选项在启动时读取。
 #
-#  This code is part of the AzerothCore project. See AUTHORS file for Copyright information.
+#  此代码是 AzerothCore 项目的一部分。版权信息请参见 AUTHORS 文件。
 ###################################################################################################
 
 [worldserver]
 
 #    PathToAscension.Enable
-#        Description: Load the tutorial catalog and run Path to Ascension.
+#        Description: 加载教程目录并运行飞升之路。
 #        Default:     1 - (Enabled)
 #                     0 - (Disabled)
 PathToAscension.Enable = 1
 
 #    PathToAscension.RealmProfile
-#        Description: The realm column of Tutorial.dbc that decides which tutorials this realm offers:
-#                     0 - Live, 1 - Seasonal, 2 - League, 3 - PTR, 4 - Development.
-#                     The installed catalog matches the Rexxar PTR data, so PTR offers the complete set.
-#                     Tutorials offered here but hidden for the client's own realm type (CoA.RealmType)
-#                     are made visible to the client at login.
+#        Description: Tutorial.dbc 中决定该服务器提供哪些教程的服务器列：
+#                     0 - 正式服，1 - 赛季服，2 - 联赛服，3 - PTR，4 - 开发服。
+#                     已安装的目录与 Rexxar PTR 数据匹配，因此 PTR 提供完整集合。
+#                     此处提供但客户端自身服务器类型（CoA.RealmType）
+#                     隐藏的教程会在登录时对客户端可见。
 #        Default:     3 - (PTR)
 PathToAscension.RealmProfile = 3
 
 #    PathToAscension.VerifiedProgress.Enable
-#        Description: Record objective progress from the server events the module observes.
+#        Description: 从模块观察到的服务器事件记录目标进度。
 #        Default:     1 - (Enabled)
 PathToAscension.VerifiedProgress.Enable = 1
 
 #    PathToAscension.Rewards.Enable
-#        Description: Answer the client's reward claims. Every reward is granted once per character.
+#        Description: 响应客户端的奖励领取。每个奖励每个角色只授予一次。
 #        Default:     1 - (Enabled)
 PathToAscension.Rewards.Enable = 1
 
 #    PathToAscension.Tracking.Enable
-#        Description: Offer the tutorials' quest-log tracking views. They complete with the tutorial and are
-#                     removed when its reward is claimed; they never pay a reward of their own.
+#        描述：提供教程的任务日志追踪视图。它们随教程完成而完成，并在领取其奖励时移除；
+#                     它们本身从不支付奖励。
 #        Default:     1 - (Enabled)
 PathToAscension.Tracking.Enable = 1
 
 #    PathToAscension.LegacyContent.Enable
-#        Description: Also offer the restored Vanilla and Burning Crusade raid and gear tutorials that have
-#                     no Wrath of the Lich King variant. Their objectives and rewards are unchanged.
+#        描述：还提供已恢复的经典旧世和燃烧的远征团队副本与装备教程，这些教程没有
+#                     巫妖王之怒版本。它们的目标和奖励不变。
 #        Default:     0 - (Disabled)
 PathToAscension.LegacyContent.Enable = 0
 
 #    PathToAscension.StarterMountBridge.Enable
-#        Description: Riding trainers hand a character its race's starter mount once, after it learned
-#                     Apprentice Riding, so the starter mount tutorials can be completed.
+#        描述：骑术训练师在角色学会初级骑术后，一次性交给它其种族的初始坐骑，
+#                     以便初始坐骑教程可以完成。
 #        Default:     0 - (Disabled)
 PathToAscension.StarterMountBridge.Enable = 0

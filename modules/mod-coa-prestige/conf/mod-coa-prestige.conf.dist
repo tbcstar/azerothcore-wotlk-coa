@@ -1,41 +1,41 @@
 ###################################################################################################
 #  mod-coa-prestige
 #
-#  Chromie's Prestige Mode. A character at the Prestige level asks Chromie (creature 178081,
-#  beside the Worldforged guardian in Stormwind and Orgrimmar) to wind back time: it returns to
-#  level 1 in its starting zone, its active specialization loses its talents and abilities and
-#  stays locked until the Prestige level is reached again, and it earns the Prestige rewards and
-#  a multiplied experience rate on the way back up.
+#  克罗米的转生模式。
+#  达到转生等级的角色请求克罗米（生物 178081，
+#  位于暴风城和奥格瑞玛的世界铸造守护者旁）倒转时间：它回到
+#  起始区域的 1 级，其激活专精失去天赋和技能，并保持锁定直到再次达到转生等级，
+#  并在重新升级的过程中获得转生奖励和乘算的经验速率。
 #
-#  This code is part of the AzerothCore project. See AUTHORS file for Copyright information.
+#  此代码是 AzerothCore 项目的一部分。版权信息请参见 AUTHORS 文件。
 ###################################################################################################
 
 #    CoAPrestige.Enable
-#        Description: Whether Chromie offers Prestige Mode. Disabled keeps every character's
-#                     Prestige level and state; it only stops activation, the experience bonus
-#                     and the specialization lock.
+#        描述：克罗米是否提供转生模式。禁用会保留每个角色的
+#                     转生等级和状态；它只停止激活、经验奖励
+#                     和专精锁定。
 #        Default:     1 - (Enabled)
 #                     0 - (Disabled)
 CoAPrestige.Enable = 1
 
 #    CoAPrestige.RequiredLevel
-#        Description: The level a character must reach to activate Prestige Mode, and to complete
-#                     it again. The client's Prestige window checks level 60 on its own.
+#        描述：角色激活转生模式以及再次完成它所需达到的等级。
+#                     客户端的转生窗口会自行检查 60 级。
 #        Default:     60
 CoAPrestige.RequiredLevel = 60
 
 #    CoAPrestige.ExperienceBonusPercent
-#        Description: Total experience, in percent, for a character in an active prestige cycle
-#                     (the Prestige Challenge aura 9930831). mod-coa-challenges applies it and
-#                     skips it while a Resolute / NO_BONUS_EXPERIENCE challenge is active. The
-#                     aura is SPELL_AURA_DUMMY (no mechanical effect); the client tooltip says
-#                     "by 300%".
+#        描述：处于活跃转生周期（转生挑战光环 9930831）的角色获得的
+#                     总经验百分比。mod-coa-challenges 应用它，并在
+#                     坚决 / NO_BONUS_EXPERIENCE 挑战激活时跳过它。该
+#                     光环是 SPELL_AURA_DUMMY（无机制效果）；客户端提示说
+#                     “by 300%”。
 #        Default:     300 - (3 times the experience)
 CoAPrestige.ExperienceBonusPercent = 300
 
 #    CoAPrestige.Rewards
-#        Description: The items every activation pays, as item:count pairs. Whatever does not fit
-#                     in the character's bags is mailed.
-#        Default:     "1287330:1 375250:100000 90004:100"
-#                     - one Prestigious Cache, 100000 Runes of Ascension and 100 Tokens of Prestige
+#        描述：每次激活支付的物品，以 物品:数量 对表示。装不进
+#                     角色背包的都会邮寄。
+#        默认值：     "1287330:1 375250:100000 90004:100"
+#                     - 一个转生宝箱、100000 个飞升符文和 100 个转生代币
 CoAPrestige.Rewards = "1287330:1 375250:100000 90004:100"

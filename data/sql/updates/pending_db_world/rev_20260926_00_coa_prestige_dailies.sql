@@ -9,7 +9,7 @@
 --
 -- Delivery: the daily is granted by mod-coa-prestige (CoAPrestige.cpp, Activate)
 -- when the character prestiges, and turned in at Chromie 178081
--- (creature_questender), matching QuestCompletionLog "Return to Chromie.".
+-- (creature_questender), matching QuestCompletionLog "返回克罗米处。".
 -- Only one daily is offered per day via three rotating game events (191/192/193).
 -- PrestigeMode.lua matches the gossip label "^Today's Prestige Quest is (.*)$".
 --
@@ -31,10 +31,10 @@
 -- quest's ObjectiveText supplies the display string.
 REPLACE INTO `creature_template` (`entry`, `name`, `subname`, `minlevel`, `maxlevel`, `faction`, `npcflag`)
 VALUES
-(900001, 'Prestige Daily Credit: Max Level Reached',       '', 1, 1, 0, 0),
-(900002, 'Prestige Daily Credit: Battlegrounds Completed', '', 1, 1, 0, 0),
-(900003, 'Prestige Daily Credit: Dungeons Completed',      '', 1, 1, 0, 0),
-(900004, 'Prestige Daily Credit: Daily Quests Completed',  '', 1, 1, 0, 0);
+(900001, '转生日常计入：达到最高等级',       '', 1, 1, 0, 0),
+(900002, '转生日常计入：已完成战场', '', 1, 1, 0, 0),
+(900003, '转生日常计入：已完成地下城',      '', 1, 1, 0, 0),
+(900004, '转生日常计入：已完成日常任务',  '', 1, 1, 0, 0);
 
 -- ------------------------------------------------------------------ quests
 -- Two aims per daily, both credited by module hooks:
@@ -52,29 +52,29 @@ REPLACE INTO `quest_template`
  `QuestCompletionLog`, `VerifiedBuild`)
 VALUES
 (80954, 2, -1, 0, 11211, 0, 0, 0, 0, 4160,
- 900001, 1, 'Max Level Reached', 900002, 5, 'Battlegrounds Completed',
+ 900001, 1, '达到最高等级', 900002, 5, '已完成战场',
  375250, 25000, 90004, 100, 0, 0,
- 'Prestige: Battlegrounds',
- 'Prestige with an extra bonus in Battlegrounds.',
- 'This quest will give you and everyone currently prestiging in your party in your party bonus experience in Battlegrounds. This quests will only grant the bonus experience while doing that content. Reach max level and complete the objectives to claim the additional Prestige rewards!',
+ '转生：战场',
+ '在战场中转生并获得额外奖励。',
+ '此任务将为你以及你队伍中所有当前正在转生的成员提供战场中的额外经验。此任务只在进行该内容时授予额外经验。达到最高等级并完成目标以领取额外的转生奖励！',
  '',
- 'Return to Chromie.', 12340),
+ '返回克罗米处。', 12340),
 (80955, 2, -1, 0, 11211, 0, 0, 0, 0, 4160,
- 900001, 1, 'Max Level Reached', 900003, 5, 'Dungeons Completed',
+ 900001, 1, '达到最高等级', 900003, 5, '已完成地下城',
  375250, 25000, 90004, 100, 0, 0,
- 'Prestige: Dungeons',
- 'Prestige with an extra bonus in Dungeons.',
- 'This quest will give you and everyone currently prestiging in your party bonus experience in Dungeons. This quests will only grant the bonus experience while doing that content. Reach max level and complete the objectives to claim the additional Prestige rewards!',
+ '转生：地下城',
+ '在地下城中转生并获得额外奖励。',
+ '此任务将为你以及你队伍中所有当前正在转生的成员提供地下城中的额外经验。此任务只在进行该内容时授予额外经验。达到最高等级并完成目标以领取额外的转生奖励！',
  '',
- 'Return to Chromie.', 12340),
+ '返回克罗米处。', 12340),
 (80956, 2, -1, 0, 11211, 0, 0, 0, 0, 4160,
- 900001, 1, 'Max Level Reached', 900004, 25, 'Daily Quests Completed',
+ 900001, 1, '达到最高等级', 900004, 25, '已完成日常任务',
  375250, 25000, 90004, 200, 0, 0,
- 'Prestige: Open World',
- 'Prestige with an extra bonus in the Open World.',
- 'This quest will give you and everyone currently prestiging in your party bonus experience in the Open World. This quests will only grant the bonus experience while doing that content. Reach max level and complete the objectives to claim the additional Prestige rewards!',
+ '转生：开放世界',
+ '在开放世界中转生并获得额外奖励。',
+ '此任务将为你以及你队伍中所有当前正在转生的成员提供开放世界中的额外经验。此任务只在进行该内容时授予额外经验。达到最高等级并完成目标以领取额外的转生奖励！',
  '',
- 'Return to Chromie.', 12340);
+ '返回克罗米处。', 12340);
 
 -- ---------------------------------------------------------- daily rotation
 -- Events 191/192/193 rotate the three dailies on a 3-day cycle: each is active
@@ -84,9 +84,9 @@ INSERT INTO `game_event`
 (`eventEntry`, `start_time`, `end_time`, `occurence`, `length`, `holiday`, `holidayStage`,
  `description`, `world_event`, `announce`)
 VALUES
-(191, '2024-01-01 03:00:00', NULL, 4320, 1440, 0, 0, 'Prestige Daily: Battlegrounds', 0, 0),
-(192, '2024-01-02 03:00:00', NULL, 4320, 1440, 0, 0, 'Prestige Daily: Dungeons',     0, 0),
-(193, '2024-01-03 03:00:00', NULL, 4320, 1440, 0, 0, 'Prestige Daily: Open World',   0, 0);
+(191, '2024-01-01 03:00:00', NULL, 4320, 1440, 0, 0, '转生日常：战场', 0, 0),
+(192, '2024-01-02 03:00:00', NULL, 4320, 1440, 0, 0, '转生日常：地下城',     0, 0),
+(193, '2024-01-03 03:00:00', NULL, 4320, 1440, 0, 0, '转生日常：开放世界',   0, 0);
 
 -- -------------------------------------------------- availability conditions
 -- None: the rotation (game events 191/192/193) decides which daily the prestige

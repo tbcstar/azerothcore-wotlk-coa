@@ -9,9 +9,9 @@ INSERT INTO `creature_template`
    `speed_walk`, `speed_run`, `unit_class`, `unit_flags`, `unit_flags2`, `type`, `AIName`,
    `MovementType`, `HealthModifier`, `RegenHealth`, `flags_extra`, `ScriptName`)
 VALUES
-  (178081, 'Chromie', 'Prestige', 0, 63, 63, 35, 131, 1, 1.14286, 1, 33536, 2048, 2, '', 0, 1.35, 1, 2,
+  (178081, '克罗米', '转生', 0, 63, 63, 35, 131, 1, 1.14286, 1, 33536, 2048, 2, '', 0, 1.35, 1, 2,
    'npc_coa_prestige_chromie'),
-  (990782, 'Chromie - Experience Items', NULL, 0, 1, 1, 35, 128, 1, 1.14286, 1, 0, 0, 7, '', 0, 1, 1, 0, '')
+  (990782, '克罗米 - 经验物品', NULL, 0, 1, 1, 35, 128, 1, 1.14286, 1, 0, 0, 7, '', 0, 1, 1, 0, '')
 ON DUPLICATE KEY UPDATE
   `name` = VALUES(`name`), `subname` = VALUES(`subname`), `gossip_menu_id` = VALUES(`gossip_menu_id`),
   `minlevel` = VALUES(`minlevel`), `maxlevel` = VALUES(`maxlevel`), `faction` = VALUES(`faction`),

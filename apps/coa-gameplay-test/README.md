@@ -405,6 +405,10 @@ assert stable maximums and final levels when testing damage coefficients.
 | `cancel_aura` | Player `actor`, `spell`: native `CMSG_CANCEL_AURA` handler; assert the resulting aura state. |
 | `talent` | `actor`, `talent`, zero-based `rank`: learn with normal point/prerequisite checks. |
 | `reset_talents` | `actor`: reset active talents through normal removal, without a trainer fee. |
+| `specialization` | Player `actor`, `ChrSpecs.dbc` `id`: the client's specialization switch. Uploads the class tree plus the specialization's identity and signature entries as native `0x0727`, as `SwitchActiveChrSpec` and `ApplyPendingBuild` do, then waits up to 2 s for the server to activate it. With `refused: true` it instead waits for the upload's `0x072C` result and requires the specialization to stay inactive. |
+| `advancement_rank` | Player `actor`, CharacterAdvancement `entry`, `rank` (0 removes): uploads the known entries with that rank as native `0x0727`, then waits up to 2 s for the server to apply it. |
+| `client_packet` | Player `actor`, `opcode`, optional `fields` (a list of one-key objects: `u8`, `u32`, `u64`, `string` as a C string, `buyback_guid` slot, `actor_guid` player id) and `consumed` (default true): sends the request through the early packet hook as the client would. |
+| `apply_appearances` | Player `actor`, `selection` mapping category ids to appearance ids: sends the complete array as native `CMSG_APPLY_APPEARANCES` (`0x0697`); unlisted categories are 0. The next step sees the result. |
 | `cast` | `actor`, `spell`, optional `target` (self by default): normal session cast handler. |
 | `attack` | `actor`, `target`: native melee attack request; optional `pet: true` sends the pet's attack command. Verify combat or damage with assertions. |
 | `stop_attack` | Player `actor`: native melee stop request. |
@@ -483,6 +487,8 @@ Boolean metrics use 0/1. Spell/aura metrics require `spell`; `item_count` requir
 `carried_item_count` sums the stack counts of equipped items (bags included), the backpack and the bags' contents.
 `aura_positive` reads the applied aura's beneficial flag; check `aura` separately to distinguish absence from a debuff.
 `gossip_options` counts the player's current server-side gossip options; it does not verify client rendering.
+`gossip_option_text` needs `index` (zero-based) and `text` and returns whether that option carries exactly that
+text, which is how a scenario holds the server to a client window that finds its buttons by their wording.
 `trainer_list_packets` counts the trainer windows the session has been sent, `trainer_window_rows` is the row
 count of the last one, and `trainer_window_state` requires `spell` and returns the state byte that window gave
 the spell's row (`0` available, `1` unavailable, `2` known), or `-1` when the window does not hold that row.

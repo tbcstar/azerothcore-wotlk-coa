@@ -282,6 +282,42 @@ TOTPMasterSecret =
 ###################################################################################################
 
 ###################################################################################################
+# REALM CARDS-服务器选择卡片
+#
+#    RealmCards.Enable
+#        Description: 额外为每个服务器列出一个离线卡片条目，命名为
+#                     "realm!expansion!gamemode!image!unlocked!page!index!spell"。Ascension 客户端的
+#                     服务器列表从这些条目读取其卡片，并隐藏没有卡片的服务器。
+#        Default:     1 - (Enabled)
+#                     0 - (Disabled)
+
+RealmCards.Enable = 1
+
+#
+#    RealmCards.Category
+#        Description: 卡片条目的服务器类别（Cfg_Categories.dbc id）。客户端仅从
+#                     其最后一个类别读取卡片，因此这必须排在每个服务器自身类别
+#                     （realmlist.timezone）之后。
+#        Default:     41
+
+RealmCards.Category = 41
+
+#
+#    RealmCards.Expansion
+#    RealmCards.GameMode
+#    RealmCards.Image
+#        Description: 卡片资料片（EXPANSION_COLORS 索引）、游戏模式（Enum.RealmGameMode，
+#                     11 = Conquest of Azeroth) 和背景 (Interface\Glues\RealmList\<image>).
+#        Default:     2, 11, "Default"
+
+RealmCards.Expansion = 2
+RealmCards.GameMode = 11
+RealmCards.Image = "Default"
+
+#
+###################################################################################################
+
+###################################################################################################
 # UPDATE SETTINGS-更新设置
 #
 #    Updates.EnableDatabases

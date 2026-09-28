@@ -8,17 +8,13 @@
 CoA.Enable = 1
 
 # 将 Ascension 协议设置应用于远程连接以及回环连接
-# （世界包头、扩展操作码、ping 间隔、法术修正布局、职业 10 映射）。
-# 仅在专用于匹配 Ascension 客户端构建的领域上启用。
-# 认证证明和数据包大小检查仍然是必需的。重启后生效。
-CoA.AllowRemoteClients = 1
-
-# 此 Ascension 客户端在其有效的 CMSG_AUTH_SESSION 证明后保持世界数据包头为明文。
-# 远程使用还需要上面启用 AllowRemoteClients。
-CoA.PlaintextWorldHeaders = 1
+# （扩展操作码、ping 间隔、法术修改器布局、职业 10 映射）。
+# 仅在对应该 Ascension 客户端版本的专用服务器上启用。
+# 身份验证证明和数据包大小检查仍然需要。重启以应用。
+CoA.AllowRemoteClients = 0
 
 # Ascension 的无职业角色创建器提交保留的 WotLK 职业 ID 10。
-# 在添加无职业进度后端之前，使用标准的战士外壳。
+# 在添加无职业进阶后端之前，使用原版战士外壳。
 CoA.MapClass10ToWarrior = 1
 
 # 在协议发现期间记录每个消耗的扩展数据包。

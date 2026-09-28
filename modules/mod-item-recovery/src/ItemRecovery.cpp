@@ -1,5 +1,6 @@
 /* Copyright (C) 2016+ AzerothCore, GNU AGPL v3. */
 
+#include "AscensionCoAConfig.h"
 #include "Config.h"
 #include "DatabaseEnv.h"
 #include "Item.h"
@@ -23,7 +24,6 @@ namespace
     constexpr uint16 SMSG_QUERY_VENDORED_ITEM_RECOVERY_RESULT = 0x05DF;
     constexpr uint16 CMSG_RECOVER_VENDORED_ITEM = 0x05E0;
     constexpr uint16 SMSG_RECOVER_VENDORED_ITEM_RESULT = 0x05E1;
-    constexpr uint16 SMSG_CLIENT_CONFIG = 0x058D;
     constexpr char RecoveryConfigKey[] = "CONFIG_RECOVERY_VENDORED_ITEM_ENABLED";
     constexpr std::size_t MaxQueuedRequests = 16;
     constexpr std::size_t RequestsPerUpdate = 4;
@@ -222,21 +222,8 @@ public:
 
     void OnPlayerLogin(Player* player) override
     {
-        {
-            std::lock_guard<std::mutex> lock(stateMutex);
-            states.erase(player->GetSession()->GetAccountId());
-        }
-
-        if (!enabled.load() || player->GetSession()->IsBot())
-            return;
-
-        // SMSG 0x58D config strings are length-prefixed, unlike the recovery record strings.
-        std::string const key = RecoveryConfigKey;
-        WorldPacket config(SMSG_CLIENT_CONFIG, 80);
-        config << uint32(0) << uint32(1) << uint32(key.size());
-        config.append(key.data(), key.size());
-        config << uint8(1) << uint32(0) << uint32(0);
-        player->SendDirectMessage(&config);
+        std::lock_guard<std::mutex> lock(stateMutex);
+        states.erase(player->GetSession()->GetAccountId());
     }
 
     void OnPlayerLogout(Player* player) override
@@ -279,6 +266,11 @@ public:
 
 void AddItemRecoveryScripts()
 {
+    RegisterAscensionClientConfig([](AscensionClientConfig& config)
+    {
+        if (enabled.load())
+            config.Booleans.emplace_back(RecoveryConfigKey, true);
+    });
     new ItemRecoveryWorld();
     new ItemRecoveryNetwork();
     new ItemRecoveryPlayer();

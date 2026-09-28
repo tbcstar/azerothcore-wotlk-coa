@@ -50,6 +50,7 @@
 #include "WorldPacket.h"
 #include "WorldScript.h"
 #include "WorldSession.h"
+#include <algorithm>
 #include <atomic>
 #include <cmath>
 #include <deque>
@@ -57,6 +58,7 @@
 #include <map>
 #include <mutex>
 #include <set>
+#include <string_view>
 
 namespace
 {
@@ -321,6 +323,7 @@ namespace
                 } while (result->NextRow());
             }
             SendProgress(player, run, true);
+            run.progressDirty = run.databaseReady;
             LoadBonusAndSlots(player, run);
             SendCapability(player, run.databaseReady);
             SendLoadout(player, run);
@@ -446,8 +449,14 @@ namespace
                     WorldPacket update(UpdateSlot, 8);
                     update << run.pendingSlot << run.slots[run.pendingSlot];
                     player->SendDirectMessage(&update);
+                    if (std::string_view(run.slotResult) == "SET_MANASTORM_LOADOUT_OK")
+                        sScriptMgr->OnPlayerCoAProgress(player, CoAProgressEvent::ManastormActiveSlot,
+                            run.slots[run.pendingSlot]);
                     run.slotResult = nullptr;
                 }
+                if (std::all_of(run.slots.begin(), run.slots.end(), [player](uint32 spell)
+                    { return spell && player->HasSpell(spell); }))
+                    sScriptMgr->OnPlayerCoAProgress(player, CoAProgressEvent::ManastormFullLoadout, 0);
             }
             auto delivered = readyMails.find(player->GetGUID());
             if (delivered != readyMails.end())
@@ -467,6 +476,9 @@ namespace
             {
                 run.progressDirty = false;
                 SendProgress(player, run, false);
+                for (auto const& depths : run.progress)
+                    for (uint32 depth : depths)
+                        sScriptMgr->OnPlayerCoAProgress(player, CoAProgressEvent::ManastormDepthCleared, depth);
             }
             if (run.databaseReady && run.pendingXP && !run.xpClaimPending && !player->IsBeingTeleported() && player->IsAlive()
                 && (run.encounter->phase == Phase::Idle || run.encounter->phase == Phase::Completed))
@@ -628,6 +640,7 @@ namespace
                 UpdateLink(player, run);
             SendProgress(player, run, false);
             SendResult(player, EnterResult, "ENTER_MANASTORM_OK");
+            sScriptMgr->OnPlayerCoAProgress(player, CoAProgressEvent::ManastormEntered, 0);
             SendCapability(player, run.databaseReady);
             player->SaveToDB(false, false);
         }
@@ -948,6 +961,7 @@ namespace
                 return;
             player->DestroyItemCount(currency, price, true);
             player->SendNewItem(item, count, true, false);
+            sScriptMgr->OnPlayerCoAProgress(player, CoAProgressEvent::ManastormPurchase, entry);
             player->SaveToDB(false, false);
         }
 
@@ -1916,8 +1930,16 @@ namespace
                     result = utility;
             }
         }
-        void OnSpellHitResult(Spell* spell, Unit*, uint8 miss, uint32, uint32, bool) override
+        void OnSpellHitResult(Spell* spell, Unit* target, uint8 miss, uint32, uint32, bool) override
         {
+            uint32 const id = spell->GetSpellInfo()->Id;
+            if (!miss && target == spell->GetCaster() && spell->m_CastItem
+                && ((id == 254440 && spell->m_CastItem->GetEntry() == 254041)
+                    || (id == 93311 && spell->m_CastItem->GetEntry() == 254042)))
+                if (Player* player = target->ToPlayer(); player && player->IsInWorld()
+                    && ManastormService::Get().CheckUtility(player, id) == SPELL_CAST_OK)
+                    sScriptMgr->OnPlayerCoAProgress(player, id == 254440 ? CoAProgressEvent::ManastormPotion
+                        : CoAProgressEvent::ManastormEscape, id);
             if (!miss && spell->GetSpellInfo()->Id == 93309)
                 if (Player* player = spell->GetCaster()->ToPlayer())
                     ManastormService::Get().UsedResurrection(player);

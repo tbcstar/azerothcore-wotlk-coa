@@ -52,6 +52,7 @@ def main():
     objects = source('src/server/game/Globals/ObjectMgr.h')
     buffer = source('src/server/shared/Packets/ByteBuffer.cpp')
     timer = source('src/common/Utilities/Timer.cpp')
+    player_script = source('src/server/game/Scripting/ScriptDefines/PlayerScript.h')
     harness = (HERE / 'harness.cpp').read_text(encoding='utf-8')
     for marker, text in [
         ('BYTE_BUFFER', '\n'.join(method(buffer, signature) for signature in (
@@ -65,6 +66,7 @@ def main():
             items, 'void WorldSession::SendItemQuerySingleResponse(',
             'void WorldSession::SendItemQuerySingleResponse(uint32) { }')),
         ('OPCODES', opcodes(compat)),
+        ('PROGRESS_EVENT', method(player_script, 'enum class CoAProgressEvent') + ';'),
         ('QUEUE_LIMIT', constant(compat, 'MAX_QUEUED_EXTENSION_PACKETS')),
         ('CONFIG_KEYS', method(compat, 'enum class AscensionCompatConfig') + ';'),
         ('SEND_REALM_INFO', method(compat, 'void SendRealmInfo(WorldSession *session')),

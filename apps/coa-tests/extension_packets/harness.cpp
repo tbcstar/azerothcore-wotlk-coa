@@ -189,6 +189,18 @@ struct Player
     void SendInitialSpells() { }
 };
 
+// ACTUAL_PROGRESS_EVENT
+
+struct ScriptMgr
+{
+    std::vector<std::pair<CoAProgressEvent, uint32>> Progress;
+
+    void OnPlayerCoAProgress(Player*, CoAProgressEvent event, uint32 value) { Progress.emplace_back(event, value); }
+};
+
+ScriptMgr scriptMgr;
+ScriptMgr* const sScriptMgr = &scriptMgr;
+
 class ChatHandler
 {
 public:
@@ -688,6 +700,7 @@ struct Delivery
     std::vector<std::string> Messages;
     uint32 EquipErrors = 0;
     uint32 NewItemNotices = 0;
+    std::vector<uint32> Reported;
 
     bool operator==(Delivery const&) const = default;
 };
@@ -704,6 +717,7 @@ Delivery Deliver(VanitySetup const& setup, std::vector<WorldPacket> const& reque
     ascensionCompatConfig.UnlockAllVanity = setup.UnlockAll;
     ascensionCompatConfig.LearnedSpellDelivery = setup.LearnedSpellDelivery;
     AscensionCollectionService& service = AscensionCollectionService::Instance();
+    scriptMgr.Progress.clear();
     service.State = std::make_shared<PlayerCollectionState>();
     service.State->OwnedVanityItems = {1001, 1003, 1004, 56925, 134985};
     WorldSession session;
@@ -722,7 +736,11 @@ Delivery Deliver(VanitySetup const& setup, std::vector<WorldPacket> const& reque
     service.OnPlayerUpdate(&player, 1);
     service.State.reset();
     assert(consumed);
-    return {player.Stored, player.Learned, session.Messages, player.EquipErrors, player.NewItemNotices};
+    std::vector<uint32> reported;
+    for (auto const& [event, value] : scriptMgr.Progress)
+        if (event == CoAProgressEvent::VanityDelivered)
+            reported.push_back(value);
+    return {player.Stored, player.Learned, session.Messages, player.EquipErrors, player.NewItemNotices, reported};
 }
 
 void TestVanityDelivery()
@@ -759,13 +777,16 @@ void TestVanityDelivery()
         bank.Stored == std::vector<uint32>{134985} && bank.Learned == std::vector<uint32>{200002} &&
         spell.Learned == std::vector<uint32>{133},
         "Donation Points requests deliver owned items, banks and learned spells");
+    Check(owned.Reported == std::vector<uint32>{1001} && bank.Reported == std::vector<uint32>{134985} &&
+        spell.Reported == std::vector<uint32>{1003},
+        "each delivered vanity item or spell is reported once as progress");
 
     VanitySetup const locked{false, true, false};
     Delivery const refused = Deliver(locked, {DonationPointsRequest(1002), DonationPointsRequest(56925),
         DonationPointsRequest(110000), DonationPointsRequest(424242), DonationPointsRequest(1004)});
     Delivery const full = Deliver({true, true, true}, {DonationPointsRequest(1001)});
     Check(refused.Stored.empty() && refused.Learned.empty() && refused.Messages.size() == 5 &&
-        full.Stored.empty() && full.EquipErrors == 1,
+        full.Stored.empty() && full.EquipErrors == 1 && refused.Reported.empty() && full.Reported.empty(),
         "locked, sigil, unowned bank, unknown and templateless items and full bags are refused");
 
     WorldPacket shortRequest(0x0523, 4);

@@ -9,10 +9,8 @@
 #  角色可以在两个不同等级上与同一个生物战斗，而其他所有人看到的是其原始设定。
 #  任务等级以及缩放后任务报酬的调整也是角色专属的。
 #
-#  CoA 中的全领域提升（CoA.LevelScaling）是另一种模型 - 它
-#  提升生物对象本身，每个客户端都会被告知 - 因此当本模块拥有答案时，
-#  它会退让（参见 LocalLevelScaling.h 中的 CreatureScalingOwnedPerViewer）。其配置
-#  保持原样，当 DestinyWeaver.LevelScaling 设置为 0 时它会重新接管。
+#  这个模块是唯一的开放世界生物缩放:当它或它的缩放服务关闭时，
+#  每个生物都会保留其原始设定的等级。
 #
 #  此代码是 AzerothCore 项目的一部分。版权信息见 AUTHORS 文件。
 ###################################################################################################
@@ -24,10 +22,10 @@
 DestinyWeaver.Enable = 1
 
 #    DestinyWeaver.LevelScaling
-#        说明：缩放服务是否根本存在 - 开放世界生物缩放和
-#                     任务缩放一起。0 表示菜单中保留选择但无效果：每个
-#                     生物都以其原始等级遇到，每个任务都以其原始
-#                     等级进行，并且 CoA 中的全领域提升会被交还。
+#        描述：缩放服务是否存在——开放世界生物缩放和任务缩放整体而言。
+#                     设为 0 时，菜单中的选项仍然保留但不起作用：
+#                     每个生物都会以原始设定的等级遇到，
+#                     每个任务也会以原始设定的等级进行。
 #        Default:     1 - (Enabled)
 #                     0 - (Disabled)
 #        Reloadable:  yes (.reload config)
@@ -43,16 +41,12 @@ DestinyWeaver.LevelScaling = 1
 DestinyWeaver.LevelScaling.Default = 1
 
 #    DestinyWeaver.Scaling.Offset
-#        说明：缩放后的生物比角色低多少。默认情况下，40 级角色会将
-#                     生物拉到 37 级，因此世界保持落后一步。
-#                     两种模型共用一个定义：按角色视图和全领域提升
-#                     读取相同的偏移量。
+#        描述：缩放的生物比角色低多少级。
+#                     默认情况下，40 级角色会将生物提升至 37 级，
+#                     因此世界始终落后一步。
+#                     提升没有上限：视图是发送给单个客户端的，所以高等级视图不会对其他人造成错误。
 #        Default:     3
 #        Reloadable:  yes (.reload config)
-#
-#        生物可以被提升多少的上限属于全领域路径
-#        （coa.conf 中的 CoA.LevelScalingMaxLift），此处不应用：一个
-#        视图仅传递给一个客户端，因此高视图不会对其他人出错。
 
 DestinyWeaver.Scaling.Offset = 3
 

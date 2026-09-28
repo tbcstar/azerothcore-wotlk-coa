@@ -47,6 +47,7 @@
 #include "AscensionReaperTalents.h"
 #include "AscensionReaperSoulStrike.h"
 #include "AscensionReaperDeathwind.h"
+#include "AscensionBloodmageHemoglobe.h"
 #include "AscensionReaperPainmail.h"
 #include "AscensionReaperScytheRush.h"
 #include "AscensionVenomancerCatalyst.h"
@@ -168,6 +169,13 @@ constexpr uint8 VANITY_CURRENCY_DONATION_POINTS = 2;
 constexpr std::array<uint16, 4> QUEUED_EXTENSION_OPCODES = {
     CMSG_APPLY_APPEARANCES, CMSG_SET_CAN_SEE_APPEARANCES,
     CMSG_EXTENSION_INITIALIZED, CMSG_CUSTOM_ASCENSION_POINT_SPEND_REQUEST};
+
+constexpr uint16 CMSG_QUERY_VENDORED_ITEM_RECOVERY = 0x05DE;
+constexpr uint16 CMSG_RECOVER_VENDORED_ITEM = 0x05E0;
+constexpr uint16 CMSG_CLAIM_TUTORIAL_REWARD = 0x06A8;
+
+constexpr std::array<uint16, 3> MODULE_EXTENSION_OPCODES = {
+    CMSG_QUERY_VENDORED_ITEM_RECOVERY, CMSG_RECOVER_VENDORED_ITEM, CMSG_CLAIM_TUTORIAL_REWARD};
 
 struct ExtensionOpcodeIdentity {
   uint16 Opcode;
@@ -351,7 +359,6 @@ enum class AscensionCompatConfig {
   ALLOW_LEARNED_SPELL_DELIVERY,
   LEARN_OWNED_COMPANIONS,
   MAX_RIDING_FROM_START,
-  LEVEL_SCALING,
   QUEST_LEVEL_SCALING,
   AUTO_PROGRESSION,
 
@@ -393,8 +400,6 @@ public:
                          "CoA.LearnOwnedCompanions", true);
     SetConfigValue<bool>(AscensionCompatConfig::MAX_RIDING_FROM_START,
                          "CoA.MaxRidingFromStart", true);
-    SetConfigValue<bool>(AscensionCompatConfig::LEVEL_SCALING,
-                         "CoA.LevelScaling", true);
     SetConfigValue<bool>(AscensionCompatConfig::QUEST_LEVEL_SCALING,
                          "CoA.QuestLevelScaling", true);
     SetConfigValue<bool>(AscensionCompatConfig::AUTO_PROGRESSION,
@@ -666,7 +671,7 @@ public:
                                AscensionCompatConfig::AUTO_PROGRESSION) ||
         botCannotBuyBooksOfAscension;
     for (uint32 spellId : racialSpells)
-        if (automaticProgression && !player->HasSpell(spellId) && sSpellMgr->GetSpellInfo(spellId))
+        if (!player->HasSpell(spellId) && sSpellMgr->GetSpellInfo(spellId))
         {
             player->learnSpell(spellId, false);
             ++learned;
@@ -2933,8 +2938,16 @@ private:
 
     static bool HarvestTimePreserves(Player const* player, SpellInfo const* spellInfo)
     {
-        return spellInfo->CasterAuraSpell == SPELL_REAPER_SOUL_INFUSION &&
-            player->HasAura(SPELL_REAPER_HARVEST_TIME);
+        if (spellInfo->CasterAuraSpell != SPELL_REAPER_SOUL_INFUSION ||
+            !player->HasAura(SPELL_REAPER_HARVEST_TIME))
+            return false;
+
+        SpellInfo const* harvestTime = sSpellMgr->GetSpellInfo(SPELL_REAPER_HARVEST_TIME);
+        if (!harvestTime)
+            return false;
+
+        float const preserveChance = std::abs(harvestTime->Effects[EFFECT_1].CalcValue());
+        return roll_chance_f(preserveChance);
     }
 
     static bool WasAvoidedByEveryTarget(Player const* player, Spell* spell)
@@ -3639,6 +3652,9 @@ public:
           appearanceItr->second.SourceItem) {
         player->SetUInt32Value(PLAYER_VISIBLE_ITEM_1_ENTRYID + slot * 2,
                                appearanceItr->second.SourceItem);
+        if (state->CollectedAppearances.contains(appearanceId) &&
+            appearanceItr->second.SourceItem != item->GetEntry())
+          sScriptMgr->OnPlayerCoAProgress(player, CoAProgressEvent::Transmogrified, appearanceId);
       }
     }
 
@@ -3783,7 +3799,10 @@ public:
       }
 
       if (Item* delivered = player->StoreNewItem(destinations, itemId, true))
+      {
         player->SendNewItem(delivered, 1, true, false);
+        sScriptMgr->OnPlayerCoAProgress(player, CoAProgressEvent::VanityDelivered, itemId);
+      }
 
       if (IsBankVanityItem(itemId))
         LearnOwnedBankSpells(player, *state, false);
@@ -3797,6 +3816,8 @@ public:
             AscensionCompatConfig::ALLOW_LEARNED_SPELL_DELIVERY) &&
         sSpellMgr->GetSpellInfo(learnedSpell)) {
       player->learnSpell(learnedSpell);
+      if (player->HasSpell(learnedSpell))
+        sScriptMgr->OnPlayerCoAProgress(player, CoAProgressEvent::VanityDelivered, itemId);
       ChatHandler(player->GetSession())
           .PSendSysMessage("Learned vanity spell {} because item {} has no "
                            "local server template.",
@@ -4054,12 +4075,24 @@ private:
     }
   }
 
+  static bool IsEquipmentAppearance(AppearanceInfo const& appearance)
+  {
+    for (uint32 category : {appearance.PrimaryCategory, appearance.SecondaryCategory,
+             appearance.TertiaryCategory})
+      if (category >= 1 && category <= 14)
+        return true;
+    return false;
+  }
+
   void CollectItem(Player *player, PlayerCollectionState &state, uint32 itemId,
                    bool notifyClient) {
     auto mappingItr = _itemAppearances.find(itemId);
     if (mappingItr != _itemAppearances.end())
     {
       uint32 appearanceId = mappingItr->second;
+      auto const appearance = _appearances.find(appearanceId);
+      if (appearance != _appearances.end() && IsEquipmentAppearance(appearance->second))
+        sScriptMgr->OnPlayerCoAProgress(player, CoAProgressEvent::AppearanceCollected, appearanceId);
       if (_appearances.contains(appearanceId) &&
           state.CollectedAppearances.insert(appearanceId).second) {
         CharacterDatabase.Execute(
@@ -4072,6 +4105,9 @@ private:
           SendAppearanceAdded(player, appearanceId, itemId);
       }
     }
+
+    if (_vanityItems.contains(itemId))
+      sScriptMgr->OnPlayerCoAProgress(player, CoAProgressEvent::VanityCollected, itemId);
 
     if (!ascensionCompatConfig.GetConfigValue<bool>(
             AscensionCompatConfig::UNLOCK_ALL_VANITY) &&
@@ -4646,11 +4682,17 @@ void SendBankPermissions(Player* player, uint8 kind)
     return sum / count;
 }
 
-void SendAverageItemLevel(Player* player, uint8 emptiedSlot = EQUIPMENT_SLOT_END)
+[[nodiscard]] WorldPacket BuildAverageItemLevel(Player* player, uint8 emptiedSlot = EQUIPMENT_SLOT_END)
 {
     WorldPacket data(SMSG_UPDATE_OBJECT_ADDON, 16);
     data << player->GetGUID() << PLAYER_ADDON_FIELD_AVERAGE_ITEM_LEVEL
          << AverageEquippedItemLevel(player, emptiedSlot);
+    return data;
+}
+
+void SendAverageItemLevel(Player* player, uint8 emptiedSlot = EQUIPMENT_SLOT_END)
+{
+    WorldPacket data = BuildAverageItemLevel(player, emptiedSlot);
     player->SendMessageToSet(&data, true);
 }
 
@@ -4814,6 +4856,16 @@ public:
         if (packet.GetOpcode() == CMSG_SET_ACTIVE_MOVER)
             AscensionClassService::Instance().OnPlayerActiveMover(session->GetPlayer());
 
+        if (packet.GetOpcode() == CMSG_INSPECT && packet.size() >= sizeof(uint64))
+        {
+            if (Player* target = ObjectAccessor::GetPlayer(*session->GetPlayer(), packet.read<ObjectGuid>(0)))
+            {
+                WorldPacket data = BuildAverageItemLevel(target);
+                session->SendPacket(&data);
+            }
+            return true;
+        }
+
         if (packet.GetOpcode() == CMSG_GET_MIRRORIMAGE_DATA && packet.size() >= sizeof(uint64))
         {
             ObjectGuid guid = packet.read<ObjectGuid>(0);
@@ -4942,6 +4994,10 @@ public:
     };
     if (std::find(kChallengeCmsgs.begin(), kChallengeCmsgs.end(), opcode) !=
         kChallengeCmsgs.end())
+      return true;
+
+    if (std::find(MODULE_EXTENSION_OPCODES.begin(), MODULE_EXTENSION_OPCODES.end(), opcode) !=
+        MODULE_EXTENSION_OPCODES.end())
       return true;
 
     if (QueueAscensionManastormPacket(session, packet))
@@ -5551,8 +5607,22 @@ public:
       return true;
 
     handled = true;
-    return AscensionClassService::Instance().InitializeLiveBaseline(player) &&
-           AscensionClassService::Instance().InitializeLiveStarterKit(player);
+    if (!AscensionClassService::Instance().InitializeLiveBaseline(player))
+      return false;
+
+    PlaceStartingActionButtons(player);
+    return AscensionClassService::Instance().InitializeLiveStarterKit(player);
+  }
+
+  static void PlaceStartingActionButtons(Player* player)
+  {
+    PlayerInfo const* info = sObjectMgr->GetPlayerInfo(player->getRace(true), player->getClass());
+    if (!info)
+      return;
+
+    for (PlayerCreateInfoAction const& action : info->action)
+      if (!player->GetActionButton(action.button))
+        player->addActionButton(action.button, action.action, action.type);
   }
 
   bool OnPlayerCheckItemInSlotAtLoadInventory(Player* player, Item* item, uint8 slot,
@@ -6015,6 +6085,7 @@ public:
             ApplyAscensionChangelogSpellChanges(spellInfo);
             ApplyAscensionExperienceContracts(spellInfo);
             ApplyAdventureModeDifficultyContracts(spellInfo);
+            AscensionClassTuning::DisablePvpHealingTuning(spellInfo);
             switch (spellInfo->Id)
             {
                 case 19743:
@@ -6058,182 +6129,7 @@ public:
             ApplyAscensionVenomancerCatalystContract(spellInfo);
             ApplyAscensionReaperDeathwindContracts(spellInfo);
             ApplyAscensionReaperScytheRushContracts(spellInfo);
-        }
-    }
-};
-
-namespace
-{
-struct LevelScalingState
-{
-  uint8 Original;
-  uint32 Timer;
-};
-
-std::mutex g_levelScalingLock;
-std::unordered_map<uint64, LevelScalingState> g_levelScalingStates;
-
-std::unordered_map<uint64, uint8> g_levelScalingPendingEngager;
-
-bool CanScaleCreature(Creature const* creature)
-{
-  if (LocalLevelScaling::CreatureScalingOwnedPerViewer.load(std::memory_order_relaxed))
-    return false;
-
-  return LocalLevelScaling::CreatureEnabled.load(std::memory_order_relaxed) && creature &&
-      !creature->GetMap()->IsScriptedPrivateInstance() &&
-      !creature->IsPet() && !creature->IsTotem() && !creature->IsTrigger() && !creature->IsCritter() &&
-      creature->GetCreatureType() != CREATURE_TYPE_NON_COMBAT_PET && !creature->GetCharmerOrOwner() &&
-      !LocalLevelScaling::IsUnscaledFixture(creature->GetPhaseMask(), creature->GetGUID().GetRawValue());
-}
-}
-
-class AscensionCompatLevelScalingScript : public AllCreatureScript
-{
-public:
-  AscensionCompatLevelScalingScript()
-      : AllCreatureScript("AscensionCompatLevelScalingScript") {}
-
-  void OnBeforeCreatureSelectLevel(CreatureTemplate const*,
-                                   Creature* creature, uint8& level) override
-  {
-    if (!CanScaleCreature(creature))
-      return;
-
-    uint64 guid = creature->GetGUID().GetRawValue();
-    uint8 original = level;
-    {
-      std::lock_guard<std::mutex> guard(g_levelScalingLock);
-      auto [itr, inserted] = g_levelScalingStates.try_emplace(guid, LevelScalingState{level, 1000});
-      original = itr->second.Original;
-      if (inserted)
-        itr->second.Original = level;
-    }
-
-    level = DesiredLevel(creature, original);
-  }
-
-  void OnAllCreatureUpdate(Creature* creature, uint32 diff) override
-  {
-    if (!CanScaleCreature(creature) || creature->IsInCombat() || !creature->IsAlive() ||
-        creature->GetHealth() != creature->GetMaxHealth())
-      return;
-
-    uint64 guid = creature->GetGUID().GetRawValue();
-    uint8 original;
-    {
-      std::lock_guard<std::mutex> guard(g_levelScalingLock);
-      LevelScalingState& state =
-          g_levelScalingStates.try_emplace(guid, LevelScalingState{creature->GetLevel(), 1000}).first->second;
-      if (state.Timer > diff)
-      {
-        state.Timer -= diff;
-        return;
-      }
-      state.Timer = 1000;
-      original = state.Original;
-    }
-
-    if (DesiredLevel(creature, original) == creature->GetLevel())
-      return;
-
-    creature->SelectLevel();
-    if (CreatureTemplate const* creatureTemplate = creature->GetCreatureTemplate())
-    {
-      CreatureBaseStats const* stats = sObjectMgr->GetCreatureBaseStats(
-          creature->GetLevel(), creatureTemplate->unit_class);
-      creature->SetStatFlatModifier(UNIT_MOD_ARMOR, BASE_VALUE, stats->GenerateArmor(creatureTemplate));
-    }
-  }
-
-  void OnCreatureRemoveWorld(Creature* creature) override
-  {
-    LocalLevelScaling::ForgetFixture(creature->GetGUID().GetRawValue());
-    std::lock_guard<std::mutex> guard(g_levelScalingLock);
-    g_levelScalingStates.erase(creature->GetGUID().GetRawValue());
-    g_levelScalingPendingEngager.erase(creature->GetGUID().GetRawValue());
-  }
-
-  static uint8 DesiredLevel(Creature const* creature, uint8 original)
-  {
-    Map* map = creature->GetMap();
-    if (!map)
-      return original;
-
-    bool const useNearestPlayer = LocalLevelScaling::CreatureMaxLift.load(std::memory_order_relaxed) != 0;
-    uint8 desired = original;
-    float range = creature->GetSightRange();
-    float meilleure = -1.0f;
-    for (auto const& reference : map->GetPlayers())
-    {
-        Player* player = reference.GetSource();
-        if (!player || !player->IsAlive() || player->IsGameMaster() ||
-            !creature->InSamePhase(player) || !creature->IsWithinDistInMap(player, range) ||
-            !player->IsValidAttackTarget(creature))
-            continue;
-        float distance = creature->GetExactDist(player);
-        if (useNearestPlayer && meilleure >= 0.0f && distance >= meilleure)
-            continue;
-        meilleure = distance;
-        uint8 const scaledLevel = LocalLevelScaling::ScaleCreatureLevel(original, player->GetLevel(),
-            LocalLevelScaling::CreatureOffset.load(std::memory_order_relaxed));
-        desired = useNearestPlayer ? scaledLevel : std::max(desired, scaledLevel);
-    }
-
-    std::lock_guard<std::mutex> guard(g_levelScalingLock);
-    if (auto itr = g_levelScalingPendingEngager.find(creature->GetGUID().GetRawValue());
-        itr != g_levelScalingPendingEngager.end())
-    {
-      uint8 const scaledLevel = LocalLevelScaling::ScaleCreatureLevel(original, itr->second,
-          LocalLevelScaling::CreatureOffset.load(std::memory_order_relaxed));
-      desired = useNearestPlayer ? scaledLevel : std::max(desired, scaledLevel);
-      g_levelScalingPendingEngager.erase(itr);
-    }
-    return desired;
-  }
-};
-
-class AscensionCompatLevelScalingEngageScript : public UnitScript
-{
-public:
-    AscensionCompatLevelScalingEngageScript()
-        : UnitScript("AscensionCompatLevelScalingEngageScript", true,
-            {UNITHOOK_ON_UNIT_ENTER_COMBAT, UNITHOOK_ON_DAMAGE}) { }
-
-    void OnUnitEnterCombat(Unit* unit, Unit* victim) override
-    {
-        ScaleForEngager(unit ? unit->ToCreature() : nullptr, victim);
-    }
-
-    void OnDamage(Unit* attacker, Unit* victim, uint32& damage) override
-    {
-        Creature* creature = victim ? victim->ToCreature() : nullptr;
-        if (damage && attacker != victim && creature && !creature->IsEngaged())
-            ScaleForEngager(creature, attacker);
-    }
-
-private:
-    static void ScaleForEngager(Creature* creature, Unit* engager)
-    {
-        if (!CanScaleCreature(creature) || !engager || !creature->IsAlive() ||
-            creature->GetHealth() != creature->GetMaxHealth())
-            return;
-
-        Player* player = engager->GetCharmerOrOwnerPlayerOrPlayerItself();
-        if (!player || !player->IsAlive() || player->IsGameMaster())
-            return;
-
-        {
-            std::lock_guard<std::mutex> guard(g_levelScalingLock);
-            g_levelScalingPendingEngager[creature->GetGUID().GetRawValue()] = player->GetLevel();
-        }
-
-        creature->SelectLevel();
-        if (CreatureTemplate const* creatureTemplate = creature->GetCreatureTemplate())
-        {
-            CreatureBaseStats const* stats = sObjectMgr->GetCreatureBaseStats(
-                creature->GetLevel(), creatureTemplate->unit_class);
-            creature->SetStatFlatModifier(UNIT_MOD_ARMOR, BASE_VALUE, stats->GenerateArmor(creatureTemplate));
+            ApplyAscensionBloodmageHemoglobeContract(spellInfo);
         }
     }
 };
@@ -6248,14 +6144,8 @@ public:
   void OnBeforeConfigLoad(bool reload) override {
     ascensionCompatConfig.Initialize(reload);
     bool enabled = ascensionCompatConfig.GetConfigValue<bool>(AscensionCompatConfig::ENABLED);
-    LocalLevelScaling::CreatureEnabled.store(enabled && ascensionCompatConfig.GetConfigValue<bool>(
-        AscensionCompatConfig::LEVEL_SCALING), std::memory_order_relaxed);
     LocalLevelScaling::QuestEnabled.store(enabled && ascensionCompatConfig.GetConfigValue<bool>(
         AscensionCompatConfig::QUEST_LEVEL_SCALING), std::memory_order_relaxed);
-
-    uint32 lift = sConfigMgr->GetOption<uint32>("CoA.LevelScalingMaxLift", 5);
-    LocalLevelScaling::CreatureMaxLift.store(
-        static_cast<std::uint8_t>(std::min<uint32>(lift, 255)), std::memory_order_relaxed);
   }
 
   void OnAfterConfigLoad(bool reload) override {
@@ -6586,8 +6476,9 @@ class spell_ascension_reaper_ruin : public AuraScript
 {
     PrepareAuraScript(spell_ascension_reaper_ruin);
 
-    static constexpr std::array<uint32, 5> ShudderScythe =
-        {{572382, 578261, 578262, 801322, 805708}};
+    static constexpr std::array<uint32, 13> RuinTriggers =
+        {{572382, 578261, 578262, 801322, 805708,
+          500376, 502679, 502680, 502681, 502682, 502683, 502684, 504622}};
 
     bool Load() override
     {
@@ -6597,8 +6488,8 @@ class spell_ascension_reaper_ruin : public AuraScript
     bool CheckProc(ProcEventInfo& eventInfo)
     {
         SpellInfo const* spellInfo = eventInfo.GetSpellInfo();
-        return spellInfo && std::find(ShudderScythe.begin(), ShudderScythe.end(), spellInfo->Id) !=
-            ShudderScythe.end();
+        return spellInfo && std::find(RuinTriggers.begin(), RuinTriggers.end(), spellInfo->Id) !=
+            RuinTriggers.end();
     }
 
     void Register() override
@@ -7007,8 +6898,6 @@ void AddAscensionCompatScripts() {
   new AscensionCompatAllSpellScript();
   new AscensionCompatUnitScript();
   new AscensionCompatChangelogScript();
-  new AscensionCompatLevelScalingScript();
-  new AscensionCompatLevelScalingEngageScript();
   new AscensionCompatWorldScript();
   new AscensionCompatAllCreatureScript();
 }

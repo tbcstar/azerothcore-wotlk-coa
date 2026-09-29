@@ -9,6 +9,6 @@ INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES
 -- Runemaster Primordial Salvos (800752): ${$800730m1+$SP*0.06} per unleashed Glyph, in the Glyph's school.
 DELETE FROM `spell_bonus_data` WHERE `entry` IN (800729, 800730, 800731);
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
-(800729, 0.06, 0, 0, 0, 'Ascension Runemaster Primordial Salvos - Flame Salvo'),
-(800730, 0.06, 0, 0, 0, 'Ascension Runemaster Primordial Salvos - Frost Salvo'),
-(800731, 0.06, 0, 0, 0, 'Ascension Runemaster Primordial Salvos - Arcane Salvo');
+(800729, 0.06, 0, 0, 0, '飞升符文大师 原始齐射 - 火焰齐射'),
+(800730, 0.06, 0, 0, 0, '飞升符文大师 原始齐射 - 冰霜齐射'),
+(800731, 0.06, 0, 0, 0, '飞升符文大师 原始齐射 - 奥术齐射');

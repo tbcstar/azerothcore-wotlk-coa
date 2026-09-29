@@ -15,7 +15,7 @@ DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 24 AND `SourceEntry` 
 INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`,
     `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`,
     `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
-(24, 0, 520917, 0, 0, 1, 0, 806982, 0, 0, 0, 0, 0, '', 'Stone Savant only procs while Earthen Fists is active');
+(24, 0, 520917, 0, 0, 1, 0, 806982, 0, 0, 0, 0, 0, '', '岩石学者仅在土灵之拳激活时触发');
 
 -- Granite Shield 806996 (#883) grants 520822 only while the caster's own Runic Tattoos: Earth is active.
 DELETE FROM `spell_script_names` WHERE `spell_id` IN (806996, 800753) AND `ScriptName` IN

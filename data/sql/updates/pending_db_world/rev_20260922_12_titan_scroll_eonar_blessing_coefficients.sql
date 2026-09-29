@@ -8,4 +8,4 @@
 -- energize effect (mana) would not scale the same way.
 DELETE FROM `spell_bonus_data` WHERE `entry` = 993963;
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
-(993963, 0, 0, 0, 0, 'Titan Scroll: Eonar — heal amount is script-computed, no native SP/AP coefficient');
+(993963, 0, 0, 0, 0, '泰坦卷轴：艾欧娜尔 — 治疗量由脚本计算，无原生法术强度/攻击强度系数');

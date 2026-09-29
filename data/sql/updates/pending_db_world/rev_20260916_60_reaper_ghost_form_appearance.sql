@@ -15,7 +15,7 @@ DELETE FROM `creature_template_model` WHERE `CreatureID` = 841213;
 DELETE FROM `creature_template` WHERE `entry` = 841213;
 
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`) VALUES
-(841213, 'Ghost Form', 1, 1, 35, 1, 6);
+(841213, '幽灵形态', 1, 1, 35, 1, 6);
 
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) VALUES
 (841213, 0, 5430, 1, 1);
@@ -26,4 +26,4 @@ INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`,
 -- full falling damage. Ride it on the form with SPELL_LINK_AURA (type 2) so it applies and drops with it.
 DELETE FROM `spell_linked_spell` WHERE `spell_trigger` = 561083 AND `spell_effect` = 561087 AND `type` = 2;
 INSERT INTO `spell_linked_spell` (`spell_trigger`, `spell_effect`, `type`, `comment`) VALUES
-(561083, 561087, 2, 'CoA Ghost Form - feather fall helper so the form does not take falling damage');
+(561083, 561087, 2, 'CoA 幽灵形态 - 羽落助手，使该形态不承受坠落伤害');

@@ -323,292 +323,292 @@ DELETE FROM `spell_script_names` WHERE `spell_id` = 811117 AND `ScriptName` = 'a
 INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES (811117, 'aura_ascension_witch_doctor_lifecycle');
 DELETE FROM `spell_bonus_data` WHERE `entry` IN (500015, 500473, 500478, 500747, 500950, 501080, 501081, 501082, 501083, 501084, 501085, 501086, 501087, 501088, 501114, 501115, 501116, 501117, 501118, 501134, 501139, 501140, 501141, 501142, 501143, 501144, 501145, 501146, 501147, 501148, 501149, 501150, 501153, 501154, 501155, 501156, 501157, 501158, 501174, 501175, 501176, 501177, 501178, 501179, 501180, 501181, 501198, 501199, 501200, 501201, 501202, 501203, 501204, 501205, 501206, 501207, 501208, 501209, 501210, 501211, 501212, 501213, 504452, 504582, 504606, 504608, 547574, 560747, 562715, 562716, 562717, 562718, 562719, 567731, 567732, 567733, 567734, 567735, 567736, 570156, 570185, 570240, 570241, 572336, 572337, 572364, 572365, 572577, 572837, 573021, 573022, 573023, 573024, 573025, 573026, 573027, 573265, 573430, 573431, 573432, 573433, 573434, 573435, 680906, 680908, 680909, 680910, 705929, 706553, 706898, 712415, 712453, 801607, 801661, 801669, 801670, 801674, 801677, 801693, 801696, 801797, 802087, 802489, 802703, 802704, 802710, 802712, 802717, 802971, 803287, 803699, 804684, 805403, 806289, 806346, 806473, 806616, 807037, 807042, 807211, 807477, 807480, 808002, 808057, 808648, 808876, 809365, 811111, 811112, 811113, 811114, 811115, 811117, 899906);
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
-(500015, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(500473, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(500478, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(500747, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(500950, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501080, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501081, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501082, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501083, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501084, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501085, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501086, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501087, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501088, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501114, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501115, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501116, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501117, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501118, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501134, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501139, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501140, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501141, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501142, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501143, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501144, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501145, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501146, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501147, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501148, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501149, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501150, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501153, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501154, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501155, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501156, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501157, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501158, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501174, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501175, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501176, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501177, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501178, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501179, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501180, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501181, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501198, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501199, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501200, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501201, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501202, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501203, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501204, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501205, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501206, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501207, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501208, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501209, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501210, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501211, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501212, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(501213, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(504452, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(504582, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(504606, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(504608, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(547574, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(560747, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(562715, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(562716, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(562717, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(562718, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(562719, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(567731, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(567732, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(567733, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(567734, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(567735, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(567736, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(570156, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(570185, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(570240, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(570241, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(572336, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(572337, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(572364, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(572365, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(572577, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(572837, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(573021, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(573022, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(573023, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(573024, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(573025, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(573026, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(573027, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(573265, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(573430, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(573431, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(573432, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(573433, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(573434, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(573435, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(680906, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(680908, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(680909, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(680910, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(705929, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(706553, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(706898, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(712415, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(712453, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(801607, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(801661, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(801669, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(801670, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(801674, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(801677, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(801693, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(801696, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(801797, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(802087, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(802489, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(802703, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(802704, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(802710, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(802712, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(802717, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(802971, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(803287, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(803699, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(804684, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(805403, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(806289, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(806346, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(806473, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(806616, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(807037, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(807042, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(807211, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(807477, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(807480, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(808002, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(808057, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(808648, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(808876, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(809365, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(811111, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(811112, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(811113, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(811114, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(811115, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(811117, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient'),
-(899906, 0, 0, 0, 0, 'Witch Doctor: explicit base or forwarded coefficient');
+(500015, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(500473, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(500478, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(500747, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(500950, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501080, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501081, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501082, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501083, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501084, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501085, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501086, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501087, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501088, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501114, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501115, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501116, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501117, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501118, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501134, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501139, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501140, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501141, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501142, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501143, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501144, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501145, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501146, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501147, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501148, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501149, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501150, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501153, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501154, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501155, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501156, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501157, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501158, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501174, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501175, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501176, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501177, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501178, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501179, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501180, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501181, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501198, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501199, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501200, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501201, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501202, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501203, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501204, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501205, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501206, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501207, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501208, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501209, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501210, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501211, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501212, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(501213, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(504452, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(504582, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(504606, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(504608, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(547574, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(560747, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(562715, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(562716, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(562717, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(562718, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(562719, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(567731, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(567732, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(567733, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(567734, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(567735, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(567736, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(570156, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(570185, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(570240, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(570241, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(572336, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(572337, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(572364, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(572365, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(572577, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(572837, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(573021, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(573022, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(573023, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(573024, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(573025, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(573026, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(573027, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(573265, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(573430, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(573431, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(573432, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(573433, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(573434, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(573435, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(680906, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(680908, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(680909, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(680910, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(705929, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(706553, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(706898, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(712415, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(712453, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(801607, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(801661, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(801669, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(801670, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(801674, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(801677, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(801693, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(801696, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(801797, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(802087, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(802489, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(802703, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(802704, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(802710, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(802712, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(802717, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(802971, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(803287, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(803699, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(804684, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(805403, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(806289, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(806346, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(806473, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(806616, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(807037, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(807042, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(807211, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(807477, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(807480, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(808002, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(808057, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(808648, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(808876, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(809365, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(811111, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(811112, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(811113, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(811114, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(811115, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(811117, 0, 0, 0, 0, '巫医：显式基础或传递系数'),
+(899906, 0, 0, 0, 0, '巫医：显式基础或传递系数');
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `ScriptName`)
-SELECT 50104, 'Healing Ward', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
+SELECT 50104, '治疗结界', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50104);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 50104, 0, 15292, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50104);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `ScriptName`)
-SELECT 50105, 'Serpent Ward', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
+SELECT 50105, '毒蛇结界', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50105);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 50105, 0, 16986, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50105);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `ScriptName`)
-SELECT 50106, 'Spirit Idol', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
+SELECT 50106, '灵魂雕像', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50106);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 50106, 0, 410147, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50106);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `ScriptName`)
-SELECT 50108, 'Stasis Ward', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
+SELECT 50108, '停滞结界', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50108);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 50108, 0, 1421, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50108);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `ScriptName`)
-SELECT 50116, 'Serene Idol', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
+SELECT 50116, '宁静雕像', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50116);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 50116, 0, 410144, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50116);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `ScriptName`)
-SELECT 50117, 'Dark Idol', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
+SELECT 50117, '黑暗雕像', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50117);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 50117, 0, 401712, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50117);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `ScriptName`)
-SELECT 50118, 'Swift Idol', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
+SELECT 50118, '迅捷雕像', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50118);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 50118, 0, 410145, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50118);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `ScriptName`)
-SELECT 50119, 'Shadow Effigy', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
+SELECT 50119, '暗影肖像', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50119);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 50119, 0, 411083, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50119);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `ScriptName`)
-SELECT 50120, 'Hexing Effigy', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
+SELECT 50120, '妖术肖像', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50120);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 50120, 0, 412985, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50120);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `ScriptName`)
-SELECT 50121, 'Cursed Effigy', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
+SELECT 50121, '诅咒肖像', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50121);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 50121, 0, 427391, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50121);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `ScriptName`)
-SELECT 50122, 'Graven Effigy', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
+SELECT 50122, '雕刻肖像', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50122);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 50122, 0, 25017, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50122);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `ScriptName`)
-SELECT 50129, 'Drakkari War Golem', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
+SELECT 50129, '达卡莱战争魔像', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50129);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 50129, 0, 26576, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50129);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `ScriptName`)
-SELECT 50217, 'Cleansing Idol', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
+SELECT 50217, '净化雕像', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50217);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 50217, 0, 401712, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50217);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `ScriptName`)
-SELECT 50587, 'Serpent Ward', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
+SELECT 50587, '毒蛇结界', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50587);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 50587, 0, 16986, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50587);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `ScriptName`)
-SELECT 51104, 'Sentry Ward', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
+SELECT 51104, '岗哨结界', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 51104);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 51104, 0, 23229, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 51104);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `ScriptName`)
-SELECT 51105, 'Viper Ward', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
+SELECT 51105, '蝰蛇结界', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 51105);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 51105, 0, 411030, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 51105);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `ScriptName`)
-SELECT 55117, 'Jungle Idol', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
+SELECT 55117, '丛林雕像', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 55117);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 55117, 0, 401712, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 55117);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `ScriptName`)
-SELECT 216377, 'Polymorphed Frogduck', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
+SELECT 216377, '变形蛙鸭', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 216377);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 216377, 0, 106677, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 216377);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `ScriptName`)
-SELECT 300659, 'Mimic Ward', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
+SELECT 300659, '拟态结界', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 300659);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 300659, 0, 411428, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 300659);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `ScriptName`)
-SELECT 300660, 'Fool''s Play', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
+SELECT 300660, '愚人戏法', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 300660);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 300660, 0, 11686, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 300660);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `ScriptName`)
-SELECT 300661, 'Puppeteer''s Grasp', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
+SELECT 300661, '傀儡师之握', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 300661);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 300661, 0, 11686, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 300661);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `ScriptName`)
-SELECT 310659, 'Spirit of Bwonsamdi', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
+SELECT 310659, '邦桑迪之灵', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 310659);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 310659, 0, 75961, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 310659);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `ScriptName`)
-SELECT 506011, 'Cauldron Hidden Periodic', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
+SELECT 506011, '大锅隐藏周期性', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 506011);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 506011, 0, 401941, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 506011);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `ScriptName`)
-SELECT 522106, 'Spirit Link Idol', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
+SELECT 522106, '灵魂链接雕像', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 522106);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 522106, 0, 410144, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 522106);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `ScriptName`)
-SELECT 554239, 'Spirit', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
+SELECT 554239, '灵魂', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 554239);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 554239, 0, 100003, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 554239);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `ScriptName`)
-SELECT 759611, 'Spirit of Bwonsamdi', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
+SELECT 759611, '邦桑迪之灵', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 759611);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 759611, 0, 759611, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 759611);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `ScriptName`)
-SELECT 840000, 'Uncanny Likeness', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
+SELECT 840000, '诡异肖像', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_witch_doctor'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 840000);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 840000, 0, 11686, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 840000);
@@ -639,10 +639,10 @@ SELECT 427391, 0.30000, 1.00000, 2 WHERE NOT EXISTS (SELECT 1 FROM `creature_mod
 INSERT INTO `creature_model_info` (`DisplayID`, `BoundingRadius`, `CombatReach`, `Gender`)
 SELECT 759611, 2.03128, 1.00000, 2 WHERE NOT EXISTS (SELECT 1 FROM `creature_model_info` WHERE `DisplayID` = 759611);
 INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `size`, `Data0`, `Data1`, `Data2`)
-SELECT 9000003, 5, 1013678, 'Voodoo Cauldron', 1, 0, 0, 0
+SELECT 9000003, 5, 1013678, '巫毒大锅', 1, 0, 0, 0
 WHERE NOT EXISTS (SELECT 1 FROM `gameobject_template` WHERE `entry` = 9000003);
 INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `size`, `Data0`, `Data1`, `Data2`)
-SELECT 129364, 22, 1013678, 'Mojo Cauldron', 1, 572413, 25, 1
+SELECT 129364, 22, 1013678, '魔精大锅', 1, 572413, 25, 1
 WHERE NOT EXISTS (SELECT 1 FROM `gameobject_template` WHERE `entry` = 129364);
 DELETE FROM `spell_ranks` WHERE `spell_id` = 801674;
 INSERT INTO `spell_ranks` (`first_spell_id`, `spell_id`, `rank`) VALUES (801674, 801674, 1);

@@ -13,7 +13,7 @@ DELETE FROM `creature_template` WHERE `entry` = 9780020;
 DROP TEMPORARY TABLE IF EXISTS `vael_orb`;
 CREATE TEMPORARY TABLE `vael_orb` AS SELECT * FROM `creature_template` WHERE `entry` = 12999;
 UPDATE `vael_orb` SET
-    `entry` = 9780020, `name` = 'Orb of Corruption', `subname` = '',
+    `entry` = 9780020, `name` = '腐蚀之球', `subname` = '',
     `minlevel` = 63, `maxlevel` = 63, `faction` = 14,
     `unit_flags` = 33554434,        -- non attackable | not selectable
     `flags_extra` = 0,              -- not a trigger: players must see it

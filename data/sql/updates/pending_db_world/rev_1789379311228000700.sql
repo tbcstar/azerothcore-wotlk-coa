@@ -174,7 +174,7 @@ INSERT INTO `spell_linked_spell` (`spell_trigger`, `spell_effect`, `type`, `comm
 -- Captured Creature entry 503201 supplies display 29352 (existing model 3134).
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 503201;
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `ScriptName`)
-SELECT 503201, 'Power Sphere', 1, 1, 35, 2, 4, 'npc_ascension_power_sphere'
+SELECT 503201, '能量球', 1, 1, 35, 2, 4, 'npc_ascension_power_sphere'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 503201);
 UPDATE `creature_template` SET `ScriptName` = 'npc_ascension_power_sphere' WHERE `entry` = 503201;
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 503201;
@@ -184,7 +184,7 @@ INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`,
 -- Captured Creature entry 50171 uses display 11686; Clone Me supplies the player's appearance.
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 50171;
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `ScriptName`)
-SELECT 50171, 'Decoy', 1, 1, 35, 1, 7, 'npc_ascension_outmaneuver_decoy'
+SELECT 50171, '诱饵', 1, 1, 35, 1, 7, 'npc_ascension_outmaneuver_decoy'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50171);
 UPDATE `creature_template` SET `ScriptName` = 'npc_ascension_outmaneuver_decoy' WHERE `entry` = 50171;
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 50171;
@@ -194,7 +194,7 @@ INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`,
 -- Captured Rift Clone entry 840004 uses display 11686 before Clone Me applies the owner's appearance.
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 840004;
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `ScriptName`)
-SELECT 840004, 'Rift Clone', 1, 1, 35, 2, 7, 'npc_ascension_rift_clone'
+SELECT 840004, '裂隙克隆', 1, 1, 35, 2, 7, 'npc_ascension_rift_clone'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 840004);
 UPDATE `creature_template` SET `ScriptName` = 'npc_ascension_rift_clone' WHERE `entry` = 840004;
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 840004;
@@ -204,19 +204,19 @@ INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`,
 -- Captured transformation entries. The corresponding DBC rows are prepared by secondary_appearances.py.
 DELETE FROM `creature_template_model` WHERE `CreatureID` IN (346852, 377942, 421460, 462071);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`)
-SELECT 346852, 'Ancient of Lore', 1, 1, 35, 1, 7
+SELECT 346852, '远古知识守护者', 1, 1, 35, 1, 7
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 346852);
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 377942;
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`)
-SELECT 377942, 'Conduit', 1, 1, 35, 1, 4
+SELECT 377942, '导管', 1, 1, 35, 1, 4
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 377942);
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 421460;
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`)
-SELECT 421460, 'Natural Disguise', 1, 1, 35, 1, 7
+SELECT 421460, '自然伪装', 1, 1, 35, 1, 7
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 421460);
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 462071;
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`)
-SELECT 462071, 'Hemostasis', 1, 1, 35, 1, 7
+SELECT 462071, '止血', 1, 1, 35, 1, 7
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 462071);
 DELETE FROM `creature_template_model` WHERE `CreatureID` IN (346852, 377942, 421460, 462071);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) VALUES

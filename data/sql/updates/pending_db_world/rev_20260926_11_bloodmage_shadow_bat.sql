@@ -11,7 +11,7 @@
 -- Levels are pinned to 1/1 like the War Falcons: Guardian::InitStatsForLevel re-derives the stats from the owner.
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `exp`, `faction`, `unit_class`, `type`,
 `BaseAttackTime`, `RangeAttackTime`) VALUES
-(50069, 'Shadow Bat', 1, 1, 0, 35, 1, 12, 2000, 2000)
+(50069, '暗影蝙蝠', 1, 1, 0, 35, 1, 12, 2000, 2000)
 ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `minlevel` = VALUES(`minlevel`), `maxlevel` = VALUES(`maxlevel`),
 `exp` = VALUES(`exp`), `faction` = VALUES(`faction`), `unit_class` = VALUES(`unit_class`), `type` = VALUES(`type`),
 `BaseAttackTime` = VALUES(`BaseAttackTime`), `RangeAttackTime` = VALUES(`RangeAttackTime`);

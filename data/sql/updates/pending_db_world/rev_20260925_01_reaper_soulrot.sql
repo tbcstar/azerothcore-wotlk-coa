@@ -10,7 +10,7 @@ DELETE FROM `spell_bonus_data` WHERE `entry` = 805089;
 INSERT INTO `spell_bonus_data`
   (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`)
 VALUES
-  (805089, 0, 0, 2, 0, 'Reaper: Soulrot dispel retaliation');
+  (805089, 0, 0, 2, 0, '收割者：灵魂腐烂驱散报复');
 
 DELETE FROM `spell_script_names` WHERE `spell_id` = 804660
   AND `ScriptName` = 'aura_ascension_reaper_soulrot';

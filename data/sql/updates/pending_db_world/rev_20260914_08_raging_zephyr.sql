@@ -2,7 +2,7 @@
 -- Model DBC preparation is deferred to apps/coa-spells/raging_zephyr.py when packaging is requested.
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 4078281;
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `ScriptName`)
-SELECT 4078281, 'Raging Zephyr', 1, 1, 35, 1, 11, 'npc_ascension_stormbringer_zephyr'
+SELECT 4078281, '狂怒和风', 1, 1, 35, 1, 11, 'npc_ascension_stormbringer_zephyr'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 4078281);
 UPDATE `creature_template` SET `ScriptName` = 'npc_ascension_stormbringer_zephyr' WHERE `entry` = 4078281;
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 4078281;

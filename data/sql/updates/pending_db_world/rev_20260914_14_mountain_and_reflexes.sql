@@ -14,4 +14,4 @@ INSERT INTO `spell_proc`
 
 DELETE FROM `spell_bonus_data` WHERE `entry` = 573050;
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
-(573050, 0.1, 0, 0.05, 0, 'Spiritual Reflexes - Soul Harvest leech');
+(573050, 0.1, 0, 0.05, 0, '灵魂反射 - 灵魂收割吸血');

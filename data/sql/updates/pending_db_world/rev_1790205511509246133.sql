@@ -6,4 +6,4 @@ INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
 
 DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 111010;
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
-(111010, 2, 'Stormbringer Aegis - exclusive from same caster');
+(111010, 2, '风暴使者神盾 - 同一施法者互斥');

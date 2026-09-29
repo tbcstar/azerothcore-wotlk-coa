@@ -1,7 +1,7 @@
 -- #88: captured green Dream Flower marker and spells; native pickup visual, radius and heal remain intact.
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 454239;
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `ScriptName`)
-SELECT 454239, 'Dream Flower', 1, 1, 35, 1, 11, 'npc_ascension_ranger_flower'
+SELECT 454239, '梦境之花', 1, 1, 35, 1, 11, 'npc_ascension_ranger_flower'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 454239);
 UPDATE `creature_template` SET `ScriptName` = 'npc_ascension_ranger_flower' WHERE `entry` = 454239;
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 454239;

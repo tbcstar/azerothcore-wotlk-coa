@@ -343,246 +343,246 @@ DELETE FROM `spell_script_names` WHERE `spell_id` = 899901 AND `ScriptName` = 's
 INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES (899901, 'spell_ascension_necromancer_summon');
 DELETE FROM `spell_bonus_data` WHERE `entry` IN (302509, 500237, 500267, 500338, 500365, 500585, 500968, 501855, 501856, 501857, 501858, 501859, 501860, 501861, 501890, 501891, 501892, 501940, 501941, 501942, 501969, 501970, 501971, 501972, 501973, 501974, 501975, 501976, 501977, 501978, 501979, 501980, 503095, 503640, 504022, 505224, 505225, 533240, 561095, 561318, 570042, 570050, 570131, 572842, 572843, 572844, 572845, 573242, 583255, 583256, 680928, 681463, 706450, 706662, 707002, 707010, 707194, 707284, 707575, 707592, 707598, 801241, 801411, 801513, 801514, 801516, 801518, 801545, 801722, 801728, 801945, 802122, 802130, 802132, 802353, 803779, 805031, 808016);
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
-(302509, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(500237, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(500267, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(500338, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(500365, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(500585, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(500968, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(501855, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(501856, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(501857, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(501858, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(501859, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(501860, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(501861, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(501890, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(501891, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(501892, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(501940, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(501941, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(501942, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(501969, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(501970, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(501971, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(501972, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(501973, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(501974, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(501975, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(501976, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(501977, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(501978, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(501979, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(501980, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(503095, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(503640, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(504022, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(505224, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(505225, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(533240, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(561095, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(561318, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(570042, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(570050, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(570131, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(572842, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(572843, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(572844, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(572845, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(573242, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(583255, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(583256, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(680928, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(681463, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(706450, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(706662, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(707002, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(707010, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(707194, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(707284, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(707575, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(707592, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(707598, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(801241, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(801411, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(801513, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(801514, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(801516, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(801518, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(801545, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(801722, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(801728, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(801945, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(802122, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(802130, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(802132, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(802353, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(803779, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(805031, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result'),
-(808016, 0, 0, 0, 0, 'Necromancer: explicit base or forwarded actual result');
+(302509, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(500237, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(500267, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(500338, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(500365, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(500585, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(500968, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(501855, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(501856, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(501857, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(501858, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(501859, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(501860, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(501861, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(501890, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(501891, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(501892, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(501940, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(501941, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(501942, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(501969, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(501970, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(501971, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(501972, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(501973, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(501974, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(501975, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(501976, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(501977, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(501978, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(501979, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(501980, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(503095, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(503640, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(504022, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(505224, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(505225, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(533240, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(561095, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(561318, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(570042, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(570050, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(570131, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(572842, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(572843, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(572844, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(572845, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(573242, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(583255, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(583256, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(680928, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(681463, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(706450, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(706662, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(707002, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(707010, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(707194, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(707284, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(707575, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(707592, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(707598, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(801241, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(801411, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(801513, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(801514, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(801516, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(801518, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(801545, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(801722, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(801728, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(801945, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(802122, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(802130, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(802132, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(802353, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(803779, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(805031, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果'),
+(808016, 0, 0, 0, 0, '死灵法师：显式基础或转发的实际结果');
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 50065, 'Lesser Skeletal Warrior', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
+SELECT 50065, '次级骷髅战士', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50065);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 50065, 0, 9786, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50065);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 50067, 'Raised Gargoyle', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
+SELECT 50067, '复活的石像鬼', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50067);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 50067, 0, 33924, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50067);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 50068, 'Abomination', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
+SELECT 50068, '憎恶', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50068);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 50068, 0, 15958, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50068);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 50073, 'Ghoul', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
+SELECT 50073, '食尸鬼', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50073);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 50073, 0, 10626, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50073);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 50075, 'Skeletal Mage', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
+SELECT 50075, '骷髅法师', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50075);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 50075, 0, 11396, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50075);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 50076, 'Skeletal Archer', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
+SELECT 50076, '骷髅弓箭手', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50076);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 50076, 0, 7550, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50076);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 50078, 'Skeletal Rogue', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
+SELECT 50078, '骷髅盗贼', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50078);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 50078, 0, 136859, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50078);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 50115, 'Decaying Colossus', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
+SELECT 50115, '腐烂巨像', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50115);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 50115, 0, 95426, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50115);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 50132, 'Phylactery', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
+SELECT 50132, '命匣', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50132);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 50132, 0, 24889, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50132);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 50133, 'Muckworm', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
+SELECT 50133, '泥虫', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50133);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 50133, 0, 9905, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50133);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 50173, 'Frenzied Ghoul', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
+SELECT 50173, '狂乱食尸鬼', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50173);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 50173, 0, 14708, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50173);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 50177, 'Frost Wyrm', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
+SELECT 50177, '冰霜巨龙', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50177);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 50177, 0, 27064, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50177);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 50261, 'Skeletal Smith', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
+SELECT 50261, '骷髅铁匠', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50261);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 50261, 0, 25498, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50261);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 50303, 'Rotling', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
+SELECT 50303, '腐烂者', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50303);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 50303, 0, 98192, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50303);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 50309, 'Bone Wraith', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
+SELECT 50309, '白骨怨灵', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50309);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 50309, 0, 30810, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50309);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 50320, 'Tomb King', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
+SELECT 50320, '陵墓之王', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50320);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 50320, 0, 94932, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50320);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 50323, 'Crypt Fiend', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
+SELECT 50323, '地穴恶魔', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50323);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 50323, 0, 17308, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50323);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 50385, 'Plaguefather', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
+SELECT 50385, '瘟疫之父', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50385);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 50385, 0, 94473, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50385);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 51065, 'Greater Skeletal Warrior', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
+SELECT 51065, '强效骷髅战士', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 51065);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 51065, 0, 775, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 51065);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 51275, 'Rotting Frost Giant', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
+SELECT 51275, '腐烂冰霜巨人', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 51275);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 51275, 0, 402059, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 51275);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 444914, 'Foul Invocation', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
+SELECT 444914, '邪恶祈唤', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 444914);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 444914, 0, 310061, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 444914);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 500482, 'Gravebound Champion', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
+SELECT 500482, '墓缚勇士', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 500482);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 500482, 0, 561889, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 500482);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 500483, 'Spellbound Champion', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
+SELECT 500483, '缚法勇士', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 500483);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 500483, 0, 561890, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 500483);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 500484, 'Icebound Champion', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
+SELECT 500484, '冰缚勇士', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 500484);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 500484, 0, 561888, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 500484);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 500650, 'Banshee', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
+SELECT 500650, '女妖', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 500650);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 500650, 0, 10752, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 500650);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 503030, 'Lesser Zombie', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
+SELECT 503030, '次级僵尸', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 503030);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 503030, 0, 10971, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 503030);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 503031, 'Zombie', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
+SELECT 503031, '僵尸', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 503031);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 503031, 0, 10975, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 503031);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 503032, 'Greater Zombie', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
+SELECT 503032, '强效僵尸', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 503032);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 503032, 0, 10973, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 503032);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 503200, 'Bone Construct', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
+SELECT 503200, '白骨构造体', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 503200);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 503200, 0, 12073, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 503200);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 523032, 'Zombie', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
+SELECT 523032, '僵尸', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 523032);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 523032, 0, 25495, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 523032);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 542064, 'Tombstone', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
+SELECT 542064, '墓碑', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 542064);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 542064, 0, 977363, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 542064);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 542065, 'Risen Ghoul', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
+SELECT 542065, '复生食尸鬼', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 542065);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 542065, 0, 26079, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 542065);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 575091, 'Scourge Transporter', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
+SELECT 575091, '天灾传送器', 1, 1, 35, 1, 6, 2000, 2000, 64, 'npc_ascension_necromancer'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 575091);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 575091, 0, 405700, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 575091);

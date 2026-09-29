@@ -13,7 +13,7 @@ INSERT INTO `creature_template`
    `speed_walk`, `speed_run`, `unit_class`, `unit_flags`, `type`, `AIName`, `MovementType`,
    `flags_extra`, `ScriptName`)
 VALUES
-  (557911, 'Soulstone Lure', NULL, 0, 80, 80, 35, 0, 1, 1.14286, 1, 0, 11, '', 0, 0, 'npc_ascension_reaper_soulstone_lure')
+  (557911, '灵魂石诱饵', NULL, 0, 80, 80, 35, 0, 1, 1.14286, 1, 0, 11, '', 0, 0, 'npc_ascension_reaper_soulstone_lure')
 ON DUPLICATE KEY UPDATE
   `name` = VALUES(`name`), `minlevel` = VALUES(`minlevel`), `maxlevel` = VALUES(`maxlevel`),
   `faction` = VALUES(`faction`), `npcflag` = VALUES(`npcflag`), `unit_class` = VALUES(`unit_class`),

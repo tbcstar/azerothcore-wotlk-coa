@@ -9,7 +9,7 @@
 -- The entry exists purely as a display lookup for the transform aura and is never spawned.
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 56332;
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`)
-SELECT 56332, 'Tank Worgen Form', 1, 1, 35, 1, 7
+SELECT 56332, '坦克狼人形态', 1, 1, 35, 1, 7
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 56332);
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 56332;
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) VALUES

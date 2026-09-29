@@ -53,13 +53,13 @@ CREATE TABLE IF NOT EXISTS `coa_boss` (
 DELETE FROM `coa_boss` WHERE `entry` IN (12118,12259,12057,12264,12056,12098,11988);
 DELETE FROM `coa_boss_schedule` WHERE `entry` IN (12118,12259,12057,12264,12056,12098,11988);
 
-INSERT INTO `coa_boss` VALUES (12118, 0, 0, 'Lucifron');
-INSERT INTO `coa_boss` VALUES (12259, 2, 0, 'Gehennas');
-INSERT INTO `coa_boss` VALUES (12057, 3, 0, 'Garr');
-INSERT INTO `coa_boss` VALUES (12264, 4, 0, 'Shazzrah');
-INSERT INTO `coa_boss` VALUES (12056, 5, 0, 'Baron Geddon');
-INSERT INTO `coa_boss` VALUES (12098, 6, 0, 'Sulfuron Harbinger');
-INSERT INTO `coa_boss` VALUES (11988, 7, 0, 'Golemagg the Incinerator');
+INSERT INTO `coa_boss` VALUES (12118, 0, 0, '鲁西弗隆');
+INSERT INTO `coa_boss` VALUES (12259, 2, 0, '基赫纳斯');
+INSERT INTO `coa_boss` VALUES (12057, 3, 0, '加尔');
+INSERT INTO `coa_boss` VALUES (12264, 4, 0, '沙斯拉尔');
+INSERT INTO `coa_boss` VALUES (12056, 5, 0, '迦顿男爵');
+INSERT INTO `coa_boss` VALUES (12098, 6, 0, '萨弗隆先驱者');
+INSERT INTO `coa_boss` VALUES (11988, 7, 0, '焚化者古雷曼格');
 
 INSERT INTO `coa_boss_schedule` VALUES (12118, 0, 2105212, 2105212, 2105212, 2105212, 2105213, 5300, 15100, 0, 3, 'Shadow Bolt');
 INSERT INTO `coa_boss_schedule` VALUES (12118, 1, 975011, 975011, 975011, 975011, 0, 8400, 7800, 0, 0, 'Fierce Blow');

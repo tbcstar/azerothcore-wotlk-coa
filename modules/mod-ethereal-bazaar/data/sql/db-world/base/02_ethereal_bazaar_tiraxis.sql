@@ -16,7 +16,7 @@ INSERT INTO `creature_template`
   `AIName`,`MovementType`,`HealthModifier`,`ManaModifier`,`ArmorModifier`,
   `movementId`,`RegenHealth`,`flags_extra`,`ScriptName`)
 VALUES
- (900007,'Tiraxis','The Ethereal Bazaar',80,80,2,35,129,
+ (900007,'提拉西斯','虚灵集市',80,80,2,35,129,
   1,1.14286,1,1,2,7,134217728,
   '',0,2.48016,1,1,
   999,1,2,'npc_tiraxis');
@@ -27,4 +27,4 @@ VALUES (900007,0,20986,1,1);
 
 DELETE FROM `npc_text` WHERE `ID` = 900007;
 INSERT INTO `npc_text` (`ID`,`text0_0`,`text0_1`,`Probability0`)
-VALUES (900007,'*Tiraxis eyes you up and down before speaking*$b$b Who I am, is unimportant. What matters is if we can bargain...$b$b Please, browse at your leisure... But do not idle, I have extremely limited stock pull new items from the ether multiple times a day.$b$bBazaar Tokens can be gathered by killing creatures, completing quests and are offered in the auction house.','*Tiraxis eyes you up and down before speaking*$b$b Who I am, is unimportant. What matters is if we can bargain...$b$b Please, browse at your leisure... But do not idle, I have extremely limited stock pull new items from the ether multiple times a day.$b$bBazaar Tokens can be gathered by killing creatures, completing quests and are offered in the auction house.',1);
+VALUES (900007,'*提拉西斯上下打量你，然后开口*$b$b我是谁并不重要。重要的是我们能否做成交易……$b$b请随意浏览……但别闲着，我的库存极其有限，每天会多次从虚空中抽取新物品。$b$b集市代币可以通过击杀生物、完成任务获得，也会在拍卖行中出现。','*提拉西斯上下打量你，然后开口*$b$b我是谁并不重要。重要的是我们能否做成交易……$b$b请随意浏览……但别闲着，我的库存极其有限，每天会多次从虚空中抽取新物品。$b$b集市代币可以通过击杀生物、完成任务获得，也会在拍卖行中出现。',1);

@@ -12,7 +12,7 @@
 -- because 681036's healing is periodic.
 DELETE FROM `spell_bonus_data` WHERE `entry` = 681036;
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
-(681036, 0, 0.1, 0, 0, 'Dark Essence - tooltip $BH*0.1 per periodic heal tick');
+(681036, 0, 0.1, 0, 0, '黑暗精华 - 提示 $BH*0.1 每次周期性治疗跳');
 
 DELETE FROM `spell_script_names` WHERE `ScriptName` = 'spell_ascension_dark_essence';
 INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES

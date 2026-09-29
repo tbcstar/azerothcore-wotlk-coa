@@ -43,8 +43,8 @@ DELETE FROM `gameobject_template` WHERE `entry` IN (254156, 254193);
 
 -- The two pickups the client cache holds, row for row as the cache captured them.
 REPLACE INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `IconName`, `castBarCaption`, `unk1`, `size`, `Data0`, `Data1`, `Data2`, `Data3`, `Data4`, `Data5`, `Data6`, `Data7`, `Data8`, `Data9`, `Data10`, `Data11`, `Data12`, `Data13`, `Data14`, `Data15`, `Data16`, `Data17`, `Data18`, `Data19`, `Data20`, `Data21`, `Data22`, `Data23`, `ScriptName`) VALUES
-(254156, 3, 254036, 'Ancient Furbolg Totem', '', 'Looting', '', 2, 1689, 254156, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 'worldforged_pickup'),
-(254193, 3, 980926, 'Broken Highborne Lamp', '', 'Looting', '', 1, 1689, 254193, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 'worldforged_pickup');
+(254156, 3, 254036, '古代熊怪图腾', '', 'Looting', '', 2, 1689, 254156, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 'worldforged_pickup'),
+(254193, 3, 980926, '破损的上层精灵灯', '', 'Looting', '', 1, 1689, 254193, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 'worldforged_pickup');
 
 REPLACE INTO `gameobject_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 (254156, 354068, 0, 100.0000, 0, 1, 0, 1, 1, 'AscensionWorldforged Ancient Furbolg Totem | client cache entry 254156 | pin Ammen Vale on Area 52 - Free-Pick'),

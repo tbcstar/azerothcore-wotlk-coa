@@ -4,5 +4,5 @@
 START TRANSACTION;
 DELETE FROM `spell_bonus_data` WHERE `entry` = 561277;
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
-(561277, 0, 0, 0.22, 0, 'Local Templar: Lightkeeper - burst damage, attack power term from its description');
+(561277, 0, 0, 0.22, 0, '本地圣殿骑士：守光者 - 爆发伤害，攻击强度项来自其描述');
 COMMIT;

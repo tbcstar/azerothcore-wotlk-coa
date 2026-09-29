@@ -10,7 +10,7 @@
 DELETE FROM `creature_template` WHERE `entry` = 9780021;
 DROP TEMPORARY TABLE IF EXISTS `nef_clone`;
 CREATE TEMPORARY TABLE `nef_clone` AS SELECT * FROM `creature_template` WHERE `entry` = 12459;
-UPDATE `nef_clone` SET `entry` = 9780021, `name` = 'Shadow Clone', `subname` = 'Stolen Soul',
+UPDATE `nef_clone` SET `entry` = 9780021, `name` = '暗影克隆', `subname` = '被窃取的灵魂',
     `difficulty_entry_1` = 0, `difficulty_entry_2` = 0, `difficulty_entry_3` = 0,
     `AIName` = '', `ScriptName` = 'npc_nefarian_shadow_clone', `lootid` = 0, `pickpocketloot` = 0, `skinloot` = 0;
 INSERT INTO `creature_template` SELECT * FROM `nef_clone`;

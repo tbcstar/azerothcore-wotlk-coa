@@ -37,10 +37,10 @@ SELECT n.entry, n.name, '', 63, 63, 0, 14, 0, t.speed_walk, t.speed_run, t.detec
   t.RangeAttackTime, t.BaseVariance, t.RangeVariance, 1, 0, 0, 0, 0, n.type, t.type_flags, 0, '', 0, 1, 1, 1, t.ArmorModifier, 1,
   0, 0, 1, n.immune, n.extra, n.script, 12340
 FROM `creature_template` t
-JOIN (SELECT 64600 AS entry, 'Setis' AS name, 3 AS rnk, 7 AS type, 20.45 AS dmg, -294 AS immune, 1 AS extra, 'boss_setis_coa' AS script
-      UNION ALL SELECT 64627, 'Korrim Snowgrave', 3, 5, 20.45, -294, 1, 'boss_snowgrave_coa'
-      UNION ALL SELECT 64605, 'The Will of Soggoth', 3, 10, 20.45, -294, 1, 'boss_soggoth_coa'
-      UNION ALL SELECT 454004, 'Psychophage', 1, 10, 4, 0, 0, 'npc_psychophage_coa') n
+JOIN (SELECT 64600 AS entry, '塞蒂斯' AS name, 3 AS rnk, 7 AS type, 20.45 AS dmg, -294 AS immune, 1 AS extra, 'boss_setis_coa' AS script
+      UNION ALL SELECT 64627, '科里姆·雪墓', 3, 5, 20.45, -294, 1, 'boss_snowgrave_coa'
+      UNION ALL SELECT 64605, '索戈斯之愿', 3, 10, 20.45, -294, 1, 'boss_soggoth_coa'
+      UNION ALL SELECT 454004, '噬灵者', 1, 10, 4, 0, 0, 'npc_psychophage_coa') n
 WHERE t.entry = 6109;
 
 -- Setis: the model of the Silithus rare he is named after. Korrim: the client's
@@ -77,10 +77,10 @@ INSERT INTO `creature` (`guid`,`id`,`map`,`zoneId`,`areaId`,`spawnMask`,`phaseMa
 (9780103, 64627, 889, 0, 0, 15, 1, 0, 4741.1, -4935.0, 695.8, 0, 604800, 0, 0, 0, 0, 0, 0, 0, 0);
 
 -- GM teleports to each graveyard.
-DELETE FROM `game_tele` WHERE `name` IN ('SetisBossMap', 'SoggothBossMap', 'SnowgraveBossMap');
+DELETE FROM `game_tele` WHERE `name` IN ('塞蒂斯首领地图', '索戈斯首领地图', '雪墓首领地图');
 INSERT INTO `game_tele` (`id`, `position_x`, `position_y`, `position_z`, `orientation`, `map`, `name`)
-SELECT COALESCE(MAX(`id`), 0) + 1, -8093.0, 1663.6, 12.9, 0, 880, 'SetisBossMap' FROM `game_tele`;
+SELECT COALESCE(MAX(`id`), 0) + 1, -8093.0, 1663.6, 12.9, 0, 880, '塞蒂斯首领地图' FROM `game_tele`;
 INSERT INTO `game_tele` (`id`, `position_x`, `position_y`, `position_z`, `orientation`, `map`, `name`)
-SELECT MAX(`id`) + 1, 4410.5, 269.3, 78.0, 0, 883, 'SoggothBossMap' FROM `game_tele`;
+SELECT MAX(`id`) + 1, 4410.5, 269.3, 78.0, 0, 883, '索戈斯首领地图' FROM `game_tele`;
 INSERT INTO `game_tele` (`id`, `position_x`, `position_y`, `position_z`, `orientation`, `map`, `name`)
-SELECT MAX(`id`) + 1, 4741.1, -4935.0, 695.8, 0, 889, 'SnowgraveBossMap' FROM `game_tele`;
+SELECT MAX(`id`) + 1, 4741.1, -4935.0, 695.8, 0, 889, '雪墓首领地图' FROM `game_tele`;

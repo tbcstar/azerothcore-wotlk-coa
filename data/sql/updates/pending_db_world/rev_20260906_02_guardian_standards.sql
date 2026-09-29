@@ -5,20 +5,20 @@ START TRANSACTION;
 DELETE FROM `creature_template_model` WHERE `CreatureID` IN (50053, 50055, 50057, 50153, 60057, 60058, 60059, 60060, 60061, 60062, 60063, 60064, 60065, 220871);
 DELETE FROM `creature_template` WHERE `entry` IN (50053, 50055, 50057, 50153, 60057, 60058, 60059, 60060, 60061, 60062, 60063, 60064, 60065, 220871);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `ScriptName`) VALUES
-(50053, 'Standard of Recovery', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_guardian_standard'),
-(50055, 'Standard of Rallying', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_guardian_standard'),
-(50057, 'Standard of Valiance', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_guardian_standard'),
-(50153, 'Standard of Might', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_guardian_standard'),
-(60057, 'Standard of Valiance', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_guardian_standard'),
-(60058, 'Standard of Valiance', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_guardian_standard'),
-(60059, 'Standard of Valiance', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_guardian_standard'),
-(60060, 'Standard of Valiance', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_guardian_standard'),
-(60061, 'Standard of Valiance', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_guardian_standard'),
-(60062, 'Standard of Valiance', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_guardian_standard'),
-(60063, 'Standard of Valiance', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_guardian_standard'),
-(60064, 'Standard of Valiance', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_guardian_standard'),
-(60065, 'Standard of Supremacy', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_guardian_standard'),
-(220871, 'Standard of Spellwarding', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_guardian_standard');
+(50053, '恢复旌旗', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_guardian_standard'),
+(50055, '集结旌旗', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_guardian_standard'),
+(50057, '英勇旌旗', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_guardian_standard'),
+(50153, '力量旌旗', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_guardian_standard'),
+(60057, '英勇旌旗', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_guardian_standard'),
+(60058, '英勇旌旗', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_guardian_standard'),
+(60059, '英勇旌旗', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_guardian_standard'),
+(60060, '英勇旌旗', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_guardian_standard'),
+(60061, '英勇旌旗', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_guardian_standard'),
+(60062, '英勇旌旗', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_guardian_standard'),
+(60063, '英勇旌旗', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_guardian_standard'),
+(60064, '英勇旌旗', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_guardian_standard'),
+(60065, '霸权旌旗', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_guardian_standard'),
+(220871, '法术防护旌旗', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_guardian_standard');
 DELETE FROM `creature_template_model` WHERE `CreatureID` IN (50053, 50055, 50057, 50153, 60057, 60058, 60059, 60060, 60061, 60062, 60063, 60064, 60065, 220871);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) VALUES
 (50053, 0, 147833, 1, 1),
@@ -73,6 +73,6 @@ INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES
 (803938, 'spell_ascension_guardian_standard');
 DELETE FROM `spell_bonus_data` WHERE `entry` IN (500248, 800335);
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
-(500248, 0, 0, 0, 0, 'Local Guardian Recovery: explicit owner Strength in aura script'),
-(800335, 0, 0, 0, 0, 'Local Guardian Valiance: explicit owner AP in aura script');
+(500248, 0, 0, 0, 0, '本地守护者恢复：光环脚本中使用明确的所有者力量'),
+(800335, 0, 0, 0, 0, '本地守护者英勇：光环脚本中使用明确的所有者攻击强度');
 COMMIT;

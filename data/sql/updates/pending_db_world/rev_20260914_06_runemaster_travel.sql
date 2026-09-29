@@ -2,10 +2,10 @@
 -- Requires matching CreatureDisplayInfo/CreatureModelData from apps/coa-spells/runemaster_travel.py.
 DELETE FROM `creature_template_model` WHERE `CreatureID` IN (50063, 51335);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `ScriptName`)
-SELECT 50063, 'Echo Rune', 1, 1, 35, 1, 11, 'npc_ascension_runemaster_marker'
+SELECT 50063, '回声符文', 1, 1, 35, 1, 11, 'npc_ascension_runemaster_marker'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50063)
 UNION ALL
-SELECT 51335, 'Warpdagger', 1, 1, 35, 1, 11, 'npc_ascension_runemaster_marker'
+SELECT 51335, '曲空匕首', 1, 1, 35, 1, 11, 'npc_ascension_runemaster_marker'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 51335);
 UPDATE `creature_template` SET `ScriptName` = 'npc_ascension_runemaster_marker' WHERE `entry` IN (50063, 51335);
 DELETE FROM `creature_template_model` WHERE `CreatureID` IN (50063, 51335);
@@ -24,5 +24,5 @@ INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES
 (500587, 'spell_ascension_runemaster_return');
 DELETE FROM `spell_bonus_data` WHERE `entry` IN (500272, 500495);
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
-(500272, 0, 0, 1.5, 0, 'Runemaster Echo Rune: native heal with 150% AP'),
-(500495, 0.44, 0, 0.2, 0, 'Runemaster Warpdagger: native arrival damage with 44% SP and 20% AP');
+(500272, 0, 0, 1.5, 0, '符文大师回声符文：原生治疗，150% 攻击强度'),
+(500495, 0.44, 0, 0.2, 0, '符文大师曲空匕首：原生抵达伤害，44% 法术强度和 20% 攻击强度');

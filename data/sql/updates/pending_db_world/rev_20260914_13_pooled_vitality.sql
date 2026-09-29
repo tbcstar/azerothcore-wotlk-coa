@@ -1,7 +1,7 @@
 -- Pooled Vitality's completed empowerment casts release the native nearby-ally heal.
 DELETE FROM `spell_bonus_data` WHERE `entry` = 681025;
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
-(681025, 0.25, 0, 0, 0, 'Vitality for Later - Spirit added before native healing bonuses');
+(681025, 0.25, 0, 0, 0, '为日后蓄力 - 在原生治疗加成之前添加精神');
 
 DELETE FROM `spell_script_names` WHERE `ScriptName` = 'spell_ascension_bloodmage_empowered';
 INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES

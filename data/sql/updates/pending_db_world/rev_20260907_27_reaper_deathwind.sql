@@ -3,6 +3,6 @@
 START TRANSACTION;
 DELETE FROM `spell_bonus_data` WHERE `entry` IN (800174, 500376);
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
-(800174, 0, 0.04, 0, 0.15, 'Local Reaper: Deathwind periodic leech'),
-(500376, 0, 0, 0.18, 0, 'Local Reaper: Murder direct damage');
+(800174, 0, 0.04, 0, 0.15, '本地收割者：死亡之风周期性吸血'),
+(500376, 0, 0, 0.18, 0, '本地收割者：谋杀直接伤害');
 COMMIT;

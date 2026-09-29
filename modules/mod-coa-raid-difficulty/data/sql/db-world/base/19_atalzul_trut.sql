@@ -36,14 +36,14 @@ SELECT n.entry, n.name, '', n.lvl, n.lvl, 0, 14, 0, t.speed_walk, t.speed_run, t
   t.RangeAttackTime, t.BaseVariance, t.RangeVariance, n.cls, n.uflags, 0, 0, 0, n.type, t.type_flags, 0, '', 0, 1, 1, 1,
   t.ArmorModifier, 1, 0, 0, n.regen, n.immune, n.extra, n.script, 12340
 FROM `creature_template` t
-JOIN (SELECT 67532 AS entry, 'Atal''zul, the Soulreaver' AS name, 63 AS lvl, 3 AS rnk, 20.45 AS dmg, 8 AS cls, 0 AS uflags, 6 AS type, 1 AS regen, -294 AS immune, 1 AS extra, 'boss_atalzul_coa' AS script
-      UNION ALL SELECT 67533, 'Zul''rogg', 63, 3, 20.45, 1, 0, 7, 1, -294, 0, 'boss_zulrogg_coa'
-      UNION ALL SELECT 67534, 'Damned Wight', 62, 1, 4, 1, 0, 6, 1, 0, 0, 'npc_custom_add_coa'
-      UNION ALL SELECT 67535, 'Restless Spirit', 62, 1, 1, 1, 0, 6, 0, 0, 0, 'npc_restless_spirit_coa'
-      UNION ALL SELECT 67536, 'Soul Vessel', 63, 1, 0, 1, 0, 10, 0, 0, 0, 'npc_soul_vessel_coa'
-      UNION ALL SELECT 9780029, 'Trut-K''hahn', 63, 3, 20.45, 1, 0, 1, 1, -294, 1, 'boss_trut_khahn_coa'
-      UNION ALL SELECT 9780030, 'Trut-K''hahn''s Flock', 62, 1, 4, 1, 0, 1, 1, 0, 0, 'npc_custom_add_coa'
-      UNION ALL SELECT 9780031, 'Feather Storm', 63, 0, 1, 1, 33554432 | 2, 10, 0, 0, 0, 'npc_feather_storm_coa') n
+JOIN (SELECT 67532 AS entry, '阿塔祖尔，灵魂掠夺者' AS name, 63 AS lvl, 3 AS rnk, 20.45 AS dmg, 8 AS cls, 0 AS uflags, 6 AS type, 1 AS regen, -294 AS immune, 1 AS extra, 'boss_atalzul_coa' AS script
+      UNION ALL SELECT 67533, '祖尔罗格', 63, 3, 20.45, 1, 0, 7, 1, -294, 0, 'boss_zulrogg_coa'
+      UNION ALL SELECT 67534, '诅咒尸鬼', 62, 1, 4, 1, 0, 6, 1, 0, 0, 'npc_custom_add_coa'
+      UNION ALL SELECT 67535, '不宁之魂', 62, 1, 1, 1, 0, 6, 0, 0, 0, 'npc_restless_spirit_coa'
+      UNION ALL SELECT 67536, '灵魂容器', 63, 1, 0, 1, 0, 10, 0, 0, 0, 'npc_soul_vessel_coa'
+      UNION ALL SELECT 9780029, '特鲁特-卡恩', 63, 3, 20.45, 1, 0, 1, 1, -294, 1, 'boss_trut_khahn_coa'
+      UNION ALL SELECT 9780030, '特鲁特-卡恩的鸟群', 62, 1, 4, 1, 0, 1, 1, 0, 0, 'npc_custom_add_coa'
+      UNION ALL SELECT 9780031, '羽毛风暴', 63, 0, 1, 1, 33554432 | 2, 10, 0, 0, 0, 'npc_feather_storm_coa') n
 WHERE t.entry = 6109;
 
 -- No model for any of them in the data here. Stand-ins: Jammal'an the Prophet
@@ -75,6 +75,6 @@ INSERT INTO `creature` (`guid`,`id`,`map`,`zoneId`,`areaId`,`spawnMask`,`phaseMa
 (9780108, 67536, 890, 0, 0, 15, 1, 0, 3297.4, -4860.2, 169.7, 0, 604800, 0, 0, 0, 0, 0, 0, 0, 0),
 (9780109, 67536, 890, 0, 0, 15, 1, 0, 3328.6, -4860.2, 166.3, 0, 604800, 0, 0, 0, 0, 0, 0, 0, 0);
 
-DELETE FROM `game_tele` WHERE `name` = 'AtalzulBossMap';
+DELETE FROM `game_tele` WHERE `name` = '阿塔祖尔首领地图';
 INSERT INTO `game_tele` (`id`, `position_x`, `position_y`, `position_z`, `orientation`, `map`, `name`)
-SELECT MAX(`id`) + 1, 3353.0, -4844.6, 167.4, 0, 890, 'AtalzulBossMap' FROM `game_tele`;
+SELECT MAX(`id`) + 1, 3353.0, -4844.6, 167.4, 0, 890, '阿塔祖尔首领地图' FROM `game_tele`;

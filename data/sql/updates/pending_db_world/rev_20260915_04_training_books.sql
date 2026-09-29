@@ -5,4 +5,4 @@ WHERE `entry` IN (73427, 75115, 75119, 75136, 75137, 75139, 80054, 80890, 98499,
 
 DELETE FROM `npc_text` WHERE `ID` = 900370;
 INSERT INTO `npc_text` (`ID`, `text0_0`, `Probability0`) VALUES
-(900370, 'Class abilities advance automatically. Restore missing spells here; select talents in Character Advancement.', 1);
+(900370, '职业能力会自动提升。在此恢复缺失的法术；在角色进阶中选择天赋。', 1);

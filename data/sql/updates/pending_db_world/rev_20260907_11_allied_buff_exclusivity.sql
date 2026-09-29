@@ -8,7 +8,7 @@ INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
 (1135, 680307);
 DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1135;
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
-(1135, 2, 'Local CoA: one Chronomancer Wisdom per caster on each recipient');
+(1135, 2, '本地 CoA：每个施法者在每个接受者身上只能应用一个时空法师智慧');
 DELETE FROM `spell_group` WHERE `id` = 1136;
 INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
 (1136, 706742),
@@ -17,5 +17,5 @@ INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
 (1136, 803665);
 DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1136;
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
-(1136, 2, 'Local CoA: one Tinker Module per caster on each recipient');
+(1136, 2, '本地 CoA：每个施法者在每个接受者身上只能应用一个修补匠模块');
 COMMIT;

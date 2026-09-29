@@ -1,7 +1,7 @@
 -- #88: Petalkeeper's captured red flower; model tables are prepared only when packaging is requested.
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 454240;
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `ScriptName`)
-SELECT 454240, 'Red Dream Flower', 1, 1, 35, 1, 11, 'npc_ascension_ranger_red_flower'
+SELECT 454240, '红色梦境之花', 1, 1, 35, 1, 11, 'npc_ascension_ranger_red_flower'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 454240);
 UPDATE `creature_template` SET `ScriptName` = 'npc_ascension_ranger_red_flower' WHERE `entry` = 454240;
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 454240;

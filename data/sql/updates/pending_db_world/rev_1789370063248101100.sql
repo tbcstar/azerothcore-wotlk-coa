@@ -16,14 +16,14 @@ INSERT INTO `spell_proc` (`SpellId`, `SchoolMask`, `SpellFamilyName`, `SpellFami
 
 DELETE FROM `spell_bonus_data` WHERE `entry` IN (560355, 560374, 583921);
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
-(560355, 0, 0, 0, 0, 'Chronomancer - Renewal copies Epoch healing'),
-(560374, 0, 0, 0, 0, 'Chronomancer - Protection copies Epoch healing'),
-(583921, 0, 0, 0, 0, 'Chronomancer - Oblivion copies Epoch healing');
+(560355, 0, 0, 0, 0, '时空法师 - 更新 复制 纪元 治疗'),
+(560374, 0, 0, 0, 0, '时空法师 - 保护 复制 纪元 治疗'),
+(583921, 0, 0, 0, 0, '时空法师 - 湮灭 复制 纪元 治疗');
 
 -- Copied Creature.dbc entry 50071 uses invisible display 11686; native Clone Me supplies the owner's appearance.
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`,
 `BaseAttackTime`, `RangeAttackTime`, `ScriptName`)
-SELECT 50071, 'Infinite Clone', 1, 1, 35, 8, 7, 2000, 2000, 'npc_ascension_infinite_clone'
+SELECT 50071, '无限克隆体', 1, 1, 35, 8, 7, 2000, 2000, 'npc_ascension_infinite_clone'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50071);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 50071, 0, 11686, 1, 1
@@ -32,8 +32,8 @@ WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 5
 -- First stage uses the native ritual portal display; completion uses the installed Caverns of Time hourglass.
 -- Two participants are the Chronomancer and one helper. The completed hourglass uses native meeting-stone rules.
 INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `size`, `data0`, `data1`, `data6`, `data7`)
-SELECT 194109, 18, 7358, 'Hourglass of Time Ritual', 1, 2, 1200007, 1, 1
+SELECT 194109, 18, 7358, '时间仪式沙漏', 1, 2, 1200007, 1, 1
 WHERE NOT EXISTS (SELECT 1 FROM `gameobject_template` WHERE `entry` = 194109);
 INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `size`, `data0`, `data1`)
-SELECT 194112, 23, 7133, 'Hourglass of Time', 0.025, 1, 300
+SELECT 194112, 23, 7133, '时间沙漏', 0.025, 1, 300
 WHERE NOT EXISTS (SELECT 1 FROM `gameobject_template` WHERE `entry` = 194112);

@@ -39,7 +39,7 @@ REPLACE INTO `gameobject_template`
 VALUES
 -- Gnomish Portable Post Tube - the mailbox item 1903512 (spell 985210) creates. Type 19 mailbox;
 -- model World\Custom\7dl_dalaran_postofficepipe01.mdx (GameObjectDisplayInfo 12003).
-(1903511, 19, 12003, 'Gnomish Portable Post Tube', '', '', '', 0.75,
+(1903511, 19, 12003, '侏儒便携邮筒', '', '', '', 0.75,
  0, 0, 0, 0, 0, 0, 0, 0,
  0, 0, 0, 0, 0, 0, 0, 0,
  0, 0, 0, 0, 0, 0, 0, 0,
@@ -47,7 +47,7 @@ VALUES
 
 -- Gnomish Portable Transpolyporter - item 1903510 (spell 979611). Type 22 spellcaster, Data0 is
 -- the spell the device casts when used (979612, the teleport), model World\Goober\G_GoblinTeleporter.mdx.
-(1903510, 22, 2047, 'Gnomish Portable Transpolyporter', '', '', '', 1,
+(1903510, 22, 2047, '侏儒便携传送器', '', '', '', 1,
  979612, 0, 0, 0, 0, 0, 0, 0,
  0, 0, 0, 0, 0, 0, 0, 0,
  0, 0, 0, 0, 0, 0, 0, 0,
@@ -55,7 +55,7 @@ VALUES
 
 -- Portable Mystic Altar - items 1903513 and 1903514 (spells 985211 / 985212). Type 4 binder;
 -- model World\Custom\7nb_nightborn_cage01.mdx. Data1 carries the realm's own value.
-(1903512, 4, 12004, 'Portable Mystic Altar', '', '', '', 0.5,
+(1903512, 4, 12004, '便携神秘祭坛', '', '', '', 0.5,
  0, 45004, 0, 0, 0, 0, 0, 0,
  0, 0, 0, 0, 0, 0, 0, 0,
  0, 0, 0, 0, 0, 0, 0, 0,
@@ -63,7 +63,7 @@ VALUES
 
 -- Demonic Portable Transpolyporter - item 1903515 "Fel-Infused Gateway" (spell 979411). Type 22
 -- spellcaster, Data0 is the spell it casts (979612), model 7fx_orderhallportal_deadscarrift.mdx.
-(1903520, 22, 138000, 'Demonic Portable Transpolyporter', '', '', '', 1,
+(1903520, 22, 138000, '恶魔便携传送器', '', '', '', 1,
  979612, 0, 0, 0, 0, 0, 0, 0,
  0, 0, 0, 0, 0, 0, 0, 0,
  0, 0, 0, 0, 0, 0, 0, 0,

@@ -313,9 +313,9 @@ DELETE FROM `gameobject_template`      WHERE `entry` IN (90634, 90635, 93008);
 DELETE FROM `gameobject`               WHERE `guid`  BETWEEN 6960001 AND 6960099;
 
 REPLACE INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `IconName`, `castBarCaption`, `unk1`, `size`, `Data0`, `Data1`, `Data2`, `Data3`, `Data4`, `Data5`, `Data6`, `Data7`, `Data8`, `Data9`, `Data10`, `Data11`, `Data12`, `Data13`, `Data14`, `Data15`, `Data16`, `Data17`, `Data18`, `Data19`, `Data20`, `Data21`, `Data22`, `Data23`, `ScriptName`) VALUES
-(90634, 3, 980926, 'Brother''s Cherry Pie', '', 'Looting', '', 1, 1689, 90634, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 'worldforged_pickup'),
-(90635, 5, 5493, 'Cherry Pie prop', '', 'Looting', '', 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, ''),
-(93008, 3, 175455, 'Bloodied Axe', '', 'Inspecting', '', 1, 1689, 93008, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 'worldforged_pickup');
+(90634, 3, 980926, '兄弟的樱桃派', '', 'Looting', '', 1, 1689, 90634, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 'worldforged_pickup'),
+(90635, 5, 5493, '樱桃派道具', '', 'Looting', '', 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, ''),
+(93008, 3, 175455, '染血的斧头', '', 'Inspecting', '', 1, 1689, 93008, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 'worldforged_pickup');
 
 -- Brother''s Cherry Pie hands out Brother Danil's Cherry Pie (694540).
 REPLACE INTO `gameobject_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES

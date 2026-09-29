@@ -426,155 +426,155 @@ DELETE FROM `spell_script_names` WHERE `spell_id` = 850020 AND `ScriptName` = 's
 INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES (850020, 'spell_ascension_tinker_ability');
 DELETE FROM `spell_bonus_data` WHERE `entry` IN (500220, 500232, 500249, 500579, 500601, 500612, 502510, 502511, 502512, 502513, 502514, 502515, 502516, 502517, 502533, 502534, 502535, 502536, 502564, 502573, 502574, 502575, 502576, 502577, 502578, 502579, 502580, 502581, 504667, 505160, 520375, 524903, 547209, 560600, 560601, 560602, 560603, 560709, 560710, 560746, 560786, 561267, 573054, 573268, 574152, 575027, 578335, 680196, 681296, 681297, 681298, 681513, 705847, 706255, 706648, 706689, 706694, 706700, 706829, 707238, 800347, 801005, 801009, 801639, 801707, 801982, 802176, 802477, 802684, 802685, 802686, 802687, 802688, 802689, 802690, 802691, 803639, 805657, 806074, 806628, 806763, 806781);
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
-(500220, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(500232, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(500249, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(500579, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(500601, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(500612, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(502510, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(502511, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(502512, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(502513, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(502514, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(502515, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(502516, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(502517, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(502533, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(502534, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(502535, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(502536, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(502564, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(502573, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(502574, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(502575, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(502576, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(502577, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(502578, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(502579, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(502580, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(502581, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(504667, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(505160, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(520375, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(524903, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(547209, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(560600, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(560601, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(560602, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(560603, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(560709, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(560710, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(560746, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(560786, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(561267, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(573054, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(573268, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(574152, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(575027, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(578335, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(680196, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(681296, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(681297, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(681298, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(681513, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(705847, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(706255, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(706648, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(706689, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(706694, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(706700, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(706829, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(707238, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(800347, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(801005, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(801009, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(801639, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(801707, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(801982, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(802176, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(802477, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(802684, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(802685, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(802686, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(802687, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(802688, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(802689, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(802690, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(802691, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(803639, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(805657, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(806074, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(806628, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(806763, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount'),
-(806781, 0, 0, 0, 0, 'Tinker: explicit coefficient or forwarded amount');
-INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 50046, 'Sentry Turret', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50046);
+(500220, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(500232, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(500249, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(500579, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(500601, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(500612, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(502510, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(502511, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(502512, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(502513, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(502514, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(502515, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(502516, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(502517, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(502533, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(502534, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(502535, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(502536, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(502564, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(502573, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(502574, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(502575, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(502576, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(502577, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(502578, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(502579, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(502580, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(502581, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(504667, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(505160, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(520375, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(524903, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(547209, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(560600, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(560601, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(560602, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(560603, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(560709, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(560710, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(560746, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(560786, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(561267, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(573054, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(573268, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(574152, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(575027, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(578335, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(680196, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(681296, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(681297, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(681298, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(681513, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(705847, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(706255, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(706648, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(706689, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(706694, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(706700, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(706829, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(707238, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(800347, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(801005, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(801009, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(801639, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(801707, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(801982, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(802176, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(802477, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(802684, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(802685, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(802686, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(802687, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(802688, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(802689, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(802690, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(802691, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(803639, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(805657, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(806074, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(806628, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(806763, 0, 0, 0, 0, '修补匠：显式系数或转发数值'),
+(806781, 0, 0, 0, 0, '修补匠：显式系数或转发数值');
+INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 50046, '哨戒炮塔', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50046);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) SELECT 50046, 0, 28526, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50046);
-INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 50048, 'Scrapmaw', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_pet' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50048);
+INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 50048, '废料之喉', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_pet' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50048);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) SELECT 50048, 0, 110049, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50048);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 500481, 'ZIGGI-6K', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_pet' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 500481);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) SELECT 500481, 0, 274803, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 500481);
-INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 60671, 'Mechano-Bear', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_pet' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 60671);
+INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 60671, '机械熊', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_pet' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 60671);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) SELECT 60671, 0, 94943, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 60671);
-INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 60070, 'Clockwork Assistant', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_pet' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 60070);
+INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 60070, '发条助手', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_pet' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 60070);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) SELECT 60070, 0, 40388, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 60070);
-INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 60672, 'Rusthound', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_pet' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 60672);
+INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 60672, '锈猎犬', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_pet' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 60672);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) SELECT 60672, 0, 337532, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 60672);
-INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 226312, 'Deathball', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 226312);
+INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 226312, '死亡之球', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 226312);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) SELECT 226312, 0, 10045, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 226312);
-INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 500362, 'MY GREATEST INVENTION', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 500362);
+INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 500362, '我最伟大的发明', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 500362);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) SELECT 500362, 0, 28830, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 500362);
-INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 500360, 'Replenishment Beacon', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 500360);
+INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 500360, '补给信标', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 500360);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) SELECT 500360, 0, 461411, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 500360);
-INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 500361, 'Alarm Beacon', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 500361);
+INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 500361, '警报信标', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 500361);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) SELECT 500361, 0, 461414, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 500361);
-INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 50600, 'Shrapnel Mine', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50600);
+INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 50600, '破片地雷', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50600);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) SELECT 50600, 0, 421993, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50600);
-INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 500366, 'Repulsion Unit', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 500366);
+INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 500366, '排斥装置', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 500366);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) SELECT 500366, 0, 404286, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 500366);
-INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 51204, 'Oil Spill Pylon', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 51204);
+INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 51204, '油污塔柱', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 51204);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) SELECT 51204, 0, 416909, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 51204);
-INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 50045, 'Blast Mine', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50045);
+INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 50045, '爆破地雷', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50045);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) SELECT 50045, 0, 6271, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50045);
-INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 50037, 'Restorative Beacon', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50037);
+INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 50037, '复原信标', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50037);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) SELECT 50037, 0, 561413, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50037);
-INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 467073, 'Spider Bomb Factory', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 467073);
+INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 467073, '蜘蛛炸弹工厂', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 467073);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) SELECT 467073, 0, 407073, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 467073);
-INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 50300, 'Destructo-Bot', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50300);
+INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 50300, '毁灭机器人', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50300);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) SELECT 50300, 0, 6977, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50300);
-INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 289612, 'Anti-Block Dummy', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 289612);
+INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 289612, '反格挡假人', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 289612);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) SELECT 289612, 0, 200003, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 289612);
-INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 506051, 'Battery Recharge Station', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 506051);
+INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 506051, '电池充能站', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 506051);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) SELECT 506051, 0, 406700, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 506051);
-INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 500711, 'Clockwork Guardian', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 500711);
+INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 500711, '发条守卫', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 500711);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) SELECT 500711, 0, 29118, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 500711);
-INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 52036, 'Noise Box', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 52036);
+INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 52036, '噪音盒', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 52036);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) SELECT 52036, 0, 461417, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 52036);
-INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 226012, 'Spider Bomb', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 226012);
+INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 226012, '蜘蛛炸弹', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 226012);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) SELECT 226012, 0, 408331, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 226012);
-INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 226112, 'Firepot Drone', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 226112);
+INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 226112, '火罐无人机', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 226112);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) SELECT 226112, 0, 22878, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 226112);
-INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 229921, 'Build:Mechsuit', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 229921);
+INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 229921, '建造：机械装甲', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 229921);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) SELECT 229921, 0, 916645, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 229921);
-INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 50036, 'Shield Beacon', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50036);
+INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 50036, '护盾信标', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50036);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) SELECT 50036, 0, 461417, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50036);
-INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 51036, 'Shield Beacon', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 51036);
+INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 51036, '护盾信标', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 51036);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) SELECT 51036, 0, 461417, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 51036);
-INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 53036, 'Shield Beacon', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 53036);
+INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 53036, '护盾信标', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 53036);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) SELECT 53036, 0, 461417, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 53036);
-INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 54036, 'Shield Beacon', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 54036);
+INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 54036, '护盾信标', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 54036);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) SELECT 54036, 0, 461417, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 54036);
-INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 55036, 'Shield Beacon', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 55036);
+INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 55036, '护盾信标', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 55036);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) SELECT 55036, 0, 461417, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 55036);
-INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 56036, 'Shield Beacon', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 56036);
+INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 56036, '护盾信标', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 56036);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) SELECT 56036, 0, 461417, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 56036);
-INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 347770, 'Battle Turret X-13', 1, 80, 35, 0, 9, 116, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 347770);
+INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 347770, '战斗炮塔 X-13', 1, 80, 35, 0, 9, 116, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 347770);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) SELECT 347770, 0, 27101, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 347770);
-INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 457771, 'Battle Turret X-13', 1, 80, 35, 0, 9, 116, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 457771);
+INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 457771, '战斗炮塔 X-13', 1, 80, 35, 0, 9, 116, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 457771);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) SELECT 457771, 0, 27101, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 457771);
-INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 457772, 'Battle Turret X-13', 1, 80, 35, 0, 9, 116, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 457772);
+INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 457772, '战斗炮塔 X-13', 1, 80, 35, 0, 9, 116, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 457772);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) SELECT 457772, 0, 27101, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 457772);
-INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 840028, 'Heavy Spider Bomb', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 840028);
+INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_flags`, `type`, `VehicleId`, `ScriptName`) SELECT 840028, '重型蜘蛛炸弹', 1, 80, 35, 0, 9, 0, 'npc_ascension_tinker_device' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 840028);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) SELECT 840028, 0, 408331, 1.5, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 840028);
 INSERT INTO `creature_template_spell` (`CreatureID`, `Index`, `Spell`) SELECT 50300, 0, 802176 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_spell` WHERE `CreatureID` = 50300 AND `Index` = 0);
 INSERT INTO `creature_template_spell` (`CreatureID`, `Index`, `Spell`) SELECT 347770, 0, 706689 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_spell` WHERE `CreatureID` = 347770 AND `Index` = 0);
@@ -583,8 +583,8 @@ INSERT INTO `creature_template_spell` (`CreatureID`, `Index`, `Spell`) SELECT 45
 INSERT INTO `creature_template_spell` (`CreatureID`, `Index`, `Spell`) SELECT 457771, 1, 706694 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_spell` WHERE `CreatureID` = 457771 AND `Index` = 1);
 INSERT INTO `creature_template_spell` (`CreatureID`, `Index`, `Spell`) SELECT 457772, 0, 706689 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_spell` WHERE `CreatureID` = 457772 AND `Index` = 0);
 INSERT INTO `creature_template_spell` (`CreatureID`, `Index`, `Spell`) SELECT 457772, 1, 706694 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_spell` WHERE `CreatureID` = 457772 AND `Index` = 1);
-INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `size`, `data0`, `data1`, `ScriptName`) SELECT 2201005, 8, 1248, 'Portable Sawmill', 1, 1653, 10, '' WHERE NOT EXISTS (SELECT 1 FROM `gameobject_template` WHERE `entry` = 2201005);
-INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `size`, `data0`, `data1`, `ScriptName`) SELECT 9000007, 10, 1010827, 'Battery Recharge Station', 1, 0, 0, 'go_ascension_tinker_battery' WHERE NOT EXISTS (SELECT 1 FROM `gameobject_template` WHERE `entry` = 9000007);
+INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `size`, `data0`, `data1`, `ScriptName`) SELECT 2201005, 8, 1248, '便携式锯木机', 1, 1653, 10, '' WHERE NOT EXISTS (SELECT 1 FROM `gameobject_template` WHERE `entry` = 2201005);
+INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `size`, `data0`, `data1`, `ScriptName`) SELECT 9000007, 10, 1010827, '电池充能站', 1, 0, 0, 'go_ascension_tinker_battery' WHERE NOT EXISTS (SELECT 1 FROM `gameobject_template` WHERE `entry` = 9000007);
 INSERT INTO `creature_model_info` (`DisplayID`, `BoundingRadius`, `CombatReach`, `Gender`) SELECT 40388, 0.61111, 2.03128, 2 WHERE NOT EXISTS (SELECT 1 FROM `creature_model_info` WHERE `DisplayID` = 40388);
 INSERT INTO `creature_model_info` (`DisplayID`, `BoundingRadius`, `CombatReach`, `Gender`) SELECT 94943, 0.61111, 2.03128, 2 WHERE NOT EXISTS (SELECT 1 FROM `creature_model_info` WHERE `DisplayID` = 94943);
 INSERT INTO `creature_model_info` (`DisplayID`, `BoundingRadius`, `CombatReach`, `Gender`) SELECT 110049, 2.03128, 1.0, 2 WHERE NOT EXISTS (SELECT 1 FROM `creature_model_info` WHERE `DisplayID` = 110049);
@@ -601,5 +601,5 @@ INSERT INTO `creature_model_info` (`DisplayID`, `BoundingRadius`, `CombatReach`,
 INSERT INTO `creature_model_info` (`DisplayID`, `BoundingRadius`, `CombatReach`, `Gender`) SELECT 461417, 0.3, 1.0, 2 WHERE NOT EXISTS (SELECT 1 FROM `creature_model_info` WHERE `DisplayID` = 461417);
 INSERT INTO `creature_model_info` (`DisplayID`, `BoundingRadius`, `CombatReach`, `Gender`) SELECT 561413, 0.3, 1.0, 2 WHERE NOT EXISTS (SELECT 1 FROM `creature_model_info` WHERE `DisplayID` = 561413);
 INSERT INTO `creature_model_info` (`DisplayID`, `BoundingRadius`, `CombatReach`, `Gender`) SELECT 916645, 0.6111, 2.031, 2 WHERE NOT EXISTS (SELECT 1 FROM `creature_model_info` WHERE `DisplayID` = 916645);
--- Native charged/enchantment scripts retain their logic; admit resolved blocks and absorbs too.
+-- 原生充能/附魔脚本保留其逻辑；同时接纳已解析的格挡和吸收效果。
 UPDATE `spell_proc` SET `HitMask` = 9283 WHERE `SpellId` IN (653232, 653235, 653237, 653243, 653246, 801827, 707403, 805305);

@@ -10,4 +10,4 @@ INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
 (1138, 681442);
 DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1138;
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
-(1138, 2, 'Local CoA: one Witch Hunter Edict per caster on each recipient');
+(1138, 2, '本地 CoA：每个施法者在每个接受者身上只能应用一个巫猎手法令');

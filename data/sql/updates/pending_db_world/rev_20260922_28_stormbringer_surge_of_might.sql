@@ -14,5 +14,5 @@ DELETE FROM `spell_script_names` WHERE `spell_id` = 520084 AND `ScriptName` = @S
 INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES (520084, @ScriptName);
 DELETE FROM `spell_bonus_data` WHERE `entry` = 573254;
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
-(573254, 0, 0, 0, 0, 'Surge of Might: forwarded caster SP, no second coefficient');
+(573254, 0, 0, 0, 0, '力量涌动：转发施法者法术强度，无第二个系数');
 COMMIT;

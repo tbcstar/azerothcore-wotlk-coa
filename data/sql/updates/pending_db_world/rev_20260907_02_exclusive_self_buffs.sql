@@ -10,7 +10,7 @@ INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
 (1128, 805423);
 DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1128;
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
-(1128, 2, 'Local Templar: one active Libram per caster');
+(1128, 2, '本地圣殿骑士：每个施法者只能激活一个圣契');
 DELETE FROM `spell_group` WHERE `id` = 1129;
 INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
 (1129, 504296),
@@ -18,7 +18,7 @@ INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
 (1129, 504897);
 DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1129;
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
-(1129, 2, 'Local Bloodmage: one active Shield per caster');
+(1129, 2, '本地血法师：每个施法者只能激活一个护盾');
 DELETE FROM `spell_group` WHERE `id` = 1130;
 INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
 (1130, 680388),
@@ -26,7 +26,7 @@ INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
 (1130, 681529);
 DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1130;
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
-(1130, 2, 'Local Necromancer: one active Ward per caster');
+(1130, 2, '本地死灵法师：每个施法者只能激活一个结界');
 DELETE FROM `spell_group` WHERE `id` = 1131;
 INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
 (1131, 803489),
@@ -37,7 +37,7 @@ INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
 (1131, 807749);
 DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1131;
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
-(1131, 2, 'Local Sun Cleric: one active Vow per caster');
+(1131, 2, '本地太阳牧师：每个施法者只能激活一个誓言');
 DELETE FROM `spell_group` WHERE `id` = 1132;
 INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
 (1132, 500935),
@@ -47,5 +47,5 @@ INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
 (1132, 800137);
 DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1132;
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
-(1132, 2, 'Local Primalist: one active Boon per caster');
+(1132, 2, '本地原始主义者：每个施法者只能激活一个恩赐');
 COMMIT;

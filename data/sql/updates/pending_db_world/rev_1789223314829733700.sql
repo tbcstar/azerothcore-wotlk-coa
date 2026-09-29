@@ -7,5 +7,5 @@ INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
 (1137, 500985);
 DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1137;
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
-(1137, 2, 'Necromancer: one active Undead Stance per caster');
+(1137, 2, '死灵法师：每个施法者只能激活一种亡灵姿态');
 COMMIT;

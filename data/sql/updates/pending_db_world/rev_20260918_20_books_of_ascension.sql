@@ -32,7 +32,7 @@ REPLACE INTO `creature_template` (`entry`, `difficulty_entry_1`, `difficulty_ent
     `difficulty_entry_3`,
     `KillCredit1`,
     `KillCredit2`,
-    'Beginner''s Book of Ascension',
+    '初学者飞升之书',
     `subname`,
     `IconName`,
     `gossip_menu_id`,
@@ -90,7 +90,7 @@ REPLACE INTO `creature_template` (`entry`, `difficulty_entry_1`, `difficulty_ent
     `difficulty_entry_3`,
     `KillCredit1`,
     `KillCredit2`,
-    'Book of Ascension',
+    '飞升之书',
     `subname`,
     `IconName`,
     `gossip_menu_id`,
@@ -164,8 +164,8 @@ REPLACE INTO `creature_template` (`entry`, `difficulty_entry_1`, `difficulty_ent
     `difficulty_entry_3`,
     `KillCredit1`,
     `KillCredit2`,
-    'Tiraxis',
-    'The Ethereal Bazaar',
+    '提拉西斯',
+    '虚灵市集',
     `IconName`,
     90007,
     `minlevel`,
@@ -223,11 +223,11 @@ REPLACE INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`
 -- menu (MenuID 0 / OptionID 1) carries, copied verbatim.
 REPLACE INTO `gossip_menu` (`MenuID`, `TextID`) VALUES (90007, 90007);
 REPLACE INTO `gossip_menu_option` (`MenuID`, `OptionID`, `OptionIcon`, `OptionText`, `OptionBroadcastTextID`, `OptionType`, `OptionNpcFlag`, `ActionMenuID`, `ActionPoiID`, `BoxCoded`, `BoxMoney`, `BoxText`, `BoxBroadcastTextID`, `VerifiedBuild`) VALUES
-  (90007, 1, 1, 'I want to browse your goods', 3370, 3, 128, 0, 0, 0, 0, '', 0, 0);
+  (90007, 1, 1, '我想浏览你的货物', 3370, 3, 128, 0, 0, 0, 0, '', 0, 0);
 
 DELETE FROM `creature` WHERE `guid` BETWEEN 9000001 AND 9000010;
 INSERT INTO `creature` (`guid`, `id`, `map`, `zoneId`, `areaId`, `spawnMask`, `phaseMask`, `equipment_id`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`, `wander_distance`, `currentwaypoint`, `curhealth`, `curmana`, `MovementType`, `npcflag`, `unit_flags`, `dynamicflags`, `ScriptName`, `VerifiedBuild`, `CreateObject`, `Comment`) VALUES
-(9000001, 900007, 0, 0, 0, 1, 1, 0, -8803.780, 670.239, 96.200, 4.712, 300, 0, 0, 1, 0, 0, 0, 0, 0, '', NULL, 0, 'Books of Ascension: Tiraxis (restored)');
+(9000001, 900007, 0, 0, 0, 1, 1, 0, -8803.780, 670.239, 96.200, 4.712, 300, 0, 0, 1, 0, 0, 0, 0, 0, '', NULL, 0, '飞升之书：提拉西斯（已恢复）');
 
 -- Book of Ascension, 350 Bazaar Tokens.  ExtendedCost 3015 is the client's own
 -- ItemExtendedCost row for exactly 975001 x 350, so the price is the recovered one.
@@ -238,7 +238,7 @@ REPLACE INTO `npc_vendor` (`entry`, `slot`, `item`, `maxcount`, `incrtime`, `Ext
 -- 3. The recovered gossip text itself
 -- ---------------------------------------------------------------------------
 REPLACE INTO `npc_text` (`ID`, `text0_0`, `text0_1`, `Probability0`) VALUES
-(22, 'I am the Beginner''s Book of Ascension, and I can help you rank up your spells and abilities until you reach level 20. I''m also your guide to the Beginner''s Questline, Path to Ascension!  At level 20, I will be unable to rank up your abilities, but you can ask to use a Book of Ascension owned by other players, or obtain one for yourself!', 'I am the Beginner''s Book of Ascension, and I can help you rank up your spells and abilities until you reach level 20. I''m also your guide to the Beginner''s Questline, Path to Ascension!  At level 20, I will be unable to rank up your abilities, but you can ask to use a Book of Ascension owned by other players, or obtain one for yourself!', 1),
-(19107, 'The [Class Trainer] specialize in a specific class and will Rank Up spells from that class and can be found in many towns and capital cities.    [Beginner''s Book of Ascension] can also be used to rank up any spell from any class up to level 15.    You can also obtain a [Book of Ascension] from the auction house, Tiraxis or the web shop, which is a portable Companion and a all-in-one [Class Trainer] for any spell and any class.', 'The [Class Trainer] specialize in a specific class and will Rank Up spells from that class and can be found in many towns and capital cities.    [Beginner''s Book of Ascension] can also be used to rank up any spell from any class up to level 15.    You can also obtain a [Book of Ascension] from the auction house, Tiraxis or the web shop, which is a portable Companion and a all-in-one [Class Trainer] for any spell and any class.', 1),
-(19108, 'The [Class Trainer] specialize in a specific class and will Rank Up spells from that class.    [Beginner''s Book of Ascension] can also be used to rank up any spell from any class up to level 15.    You can also obtain a [Book of Ascension] from the auction house, Tiraxis or the web shop, which is a portable Companion and a all-in-one [Class Trainer] for any spell and any class.    The position of the closest [Class Trainer] has been marked on your map with a small red flag.    You can find any nearby [Class Trainers] by using the [Map Lens] on your mini-map and select the option [Class Trainer].', 'The [Class Trainer] specialize in a specific class and will Rank Up spells from that class.    [Beginner''s Book of Ascension] can also be used to rank up any spell from any class up to level 15.    You can also obtain a [Book of Ascension] from the auction house, Tiraxis or the web shop, which is a portable Companion and a all-in-one [Class Trainer] for any spell and any class.    The position of the closest [Class Trainer] has been marked on your map with a small red flag.    You can find any nearby [Class Trainers] by using the [Map Lens] on your mini-map and select the option [Class Trainer].', 1),
-(90007, '*Tiraxis eyes you up and down before speaking*$b$b Who I am, is unimportant. What matters is if we can bargain...$b$b Please, browse at your leisure... But do not idle, I have extremely limited stock pull new items from the ether multiple times a day.    Ethereal Bazaar tokens are obtained via the auctionhouse and Ascension Shop.', '*Tiraxis eyes you up and down before speaking*$b$b Who I am, is unimportant. What matters is if we can bargain...$b$b Please, browse at your leisure...', 1);
+(22, '我是初学者飞升之书，我可以在你达到 20 级之前帮助你提升法术和能力等级。我也是你初学者任务线"飞升之路"的向导！达到 20 级后，我将无法提升你的能力等级，但你可以请求使用其他玩家拥有的飞升之书，或者为自己获取一本！', '我是初学者飞升之书，我可以在你达到 20 级之前帮助你提升法术和能力等级。我也是你初学者任务线"飞升之路"的向导！达到 20 级后，我将无法提升你的能力等级，但你可以请求使用其他玩家拥有的飞升之书，或者为自己获取一本！', 1),
+(19107, '[职业训练师]专精于特定职业，并将提升该职业的法术等级，可在许多城镇和首都中找到。    [初学者飞升之书]也可用于将任何职业的任何法术提升至 15 级。    你还可以从拍卖行、提拉西斯或网店获得[飞升之书]，它是一个便携伙伴，也是适用于任何法术和任何职业的一体化[职业训练师]。', '[职业训练师]专精于特定职业，并将提升该职业的法术等级，可在许多城镇和首都中找到。    [初学者飞升之书]也可用于将任何职业的任何法术提升至 15 级。    你还可以从拍卖行、提拉西斯或网店获得[飞升之书]，它是一个便携伙伴，也是适用于任何法术和任何职业的一体化[职业训练师]。', 1),
+(19108, '[职业训练师]专精于特定职业，并将提升该职业的法术等级。    [初学者飞升之书]也可用于将任何职业的任何法术提升至 15 级。    你还可以从拍卖行、提拉西斯或网店获得[飞升之书]，它是一个便携伙伴，也是适用于任何法术和任何职业的一体化[职业训练师]。    最近的[职业训练师]位置已用小红旗标记在你的地图上。    你可以通过使用小地图上的[地图透镜]并选择[职业训练师]选项来找到任何附近的[职业训练师]。', '[职业训练师]专精于特定职业，并将提升该职业的法术等级。    [初学者飞升之书]也可用于将任何职业的任何法术提升至 15 级。    你还可以从拍卖行、提拉西斯或网店获得[飞升之书]，它是一个便携伙伴，也是适用于任何法术和任何职业的一体化[职业训练师]。    最近的[职业训练师]位置已用小红旗标记在你的地图上。    你可以通过使用小地图上的[地图透镜]并选择[职业训练师]选项来找到任何附近的[职业训练师]。', 1),
+(90007, '*提拉西斯上下打量你一番后开口说道*$b$b 我是谁，并不重要。重要的是我们能否成交……$b$b 请随意浏览……但不要闲逛，我的库存极其有限，每天会从以太中拉取多次新物品。    虚灵市集代币可通过拍卖行和飞升商店获得。', '*提拉西斯上下打量你一番后开口说道*$b$b 我是谁，并不重要。重要的是我们能否成交……$b$b 请随意浏览……', 1);

@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `character_worldforged_loot` (
   `looted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`guid`,`spawn_id`),
   KEY `idx_spawn` (`spawn_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Worldforged pickups already looted, per character';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='已拾取的世界铸造拾取物，按角色';
 
 -- The first pass used a differently shaped table for the same idea.
 DROP TABLE IF EXISTS `character_worldforged_cache`;

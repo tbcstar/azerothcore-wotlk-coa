@@ -25,15 +25,15 @@
 -- 19175 is the pointer text that sends new characters here; it is corrected the same way.
 
 UPDATE `npc_text` SET
-    `text0_0` = 'Greetings, Hero.$B$BI offer two services to customize your adventure:$B$BExperience bonuses: I can disable every bonus experience source - Potions of Experience, Auras of Experience and Refer a Friend - so you progress at the base rate.$B$BOpen world scaling: I can make creatures in the open world match your level, for a consistent challenge.',
-    `text0_1` = 'Greetings, Hero.$B$BI offer two services to customize your adventure:$B$BExperience bonuses: I can disable every bonus experience source - Potions of Experience, Auras of Experience and Refer a Friend - so you progress at the base rate.$B$BOpen world scaling: I can make creatures in the open world match your level, for a consistent challenge.',
-    `text1_0` = 'Greetings, Hero.$B$BI offer two services to customize your adventure:$B$BExperience bonuses: I can disable every bonus experience source - Potions of Experience, Auras of Experience and Refer a Friend - so you progress at the base rate.$B$BOpen world scaling: I can make creatures in the open world match your level, for a consistent challenge.',
-    `text1_1` = 'Greetings, Hero.$B$BI offer two services to customize your adventure:$B$BExperience bonuses: I can disable every bonus experience source - Potions of Experience, Auras of Experience and Refer a Friend - so you progress at the base rate.$B$BOpen world scaling: I can make creatures in the open world match your level, for a consistent challenge.'
+    `text0_0` = '你好，英雄。$B$B我提供两项服务来定制你的冒险：$B$B经验加成：我可以禁用所有经验加成来源——经验药水、经验光环和战友招募——让你以基础速率推进。$B$B开放世界缩放：我可以让开放世界中的生物匹配你的等级，以获得一致的挑战。',
+    `text0_1` = '你好，英雄。$B$B我提供两项服务来定制你的冒险：$B$B经验加成：我可以禁用所有经验加成来源——经验药水、经验光环和战友招募——让你以基础速率推进。$B$B开放世界缩放：我可以让开放世界中的生物匹配你的等级，以获得一致的挑战。',
+    `text1_0` = '你好，英雄。$B$B我提供两项服务来定制你的冒险：$B$B经验加成：我可以禁用所有经验加成来源——经验药水、经验光环和战友招募——让你以基础速率推进。$B$B开放世界缩放：我可以让开放世界中的生物匹配你的等级，以获得一致的挑战。',
+    `text1_1` = '你好，英雄。$B$B我提供两项服务来定制你的冒险：$B$B经验加成：我可以禁用所有经验加成来源——经验药水、经验光环和战友招募——让你以基础速率推进。$B$B开放世界缩放：我可以让开放世界中的生物匹配你的等级，以获得一致的挑战。'
 WHERE `ID` = 30520;
 
 UPDATE `npc_text` SET
-    `text0_0` = 'To enable or disable your experience bonuses and open world scaling, seek out the Destiny Weaver.$B$BThe location has been marked on your map with a red flag.',
-    `text0_1` = 'To enable or disable your experience bonuses and open world scaling, seek out the Destiny Weaver.$B$BThe location has been marked on your map with a red flag.',
-    `text1_0` = 'To enable or disable your experience bonuses and open world scaling, seek out the Destiny Weaver.$B$BThe location has been marked on your map with a red flag.',
-    `text1_1` = 'To enable or disable your experience bonuses and open world scaling, seek out the Destiny Weaver.$B$BThe location has been marked on your map with a red flag.'
+    `text0_0` = '要启用或禁用你的经验加成和开放世界缩放，请寻找命运编织者。$B$B该位置已用红旗标记在你的地图上。',
+    `text0_1` = '要启用或禁用你的经验加成和开放世界缩放，请寻找命运编织者。$B$B该位置已用红旗标记在你的地图上。',
+    `text1_0` = '要启用或禁用你的经验加成和开放世界缩放，请寻找命运编织者。$B$B该位置已用红旗标记在你的地图上。',
+    `text1_1` = '要启用或禁用你的经验加成和开放世界缩放，请寻找命运编织者。$B$B该位置已用红旗标记在你的地图上。'
 WHERE `ID` = 19175;

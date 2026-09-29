@@ -3,8 +3,8 @@
 START TRANSACTION;
 DELETE FROM `spell_bonus_data` WHERE `entry` IN (500075, 807237);
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
-(500075, 0, 0, 0.485, 0, 'Local Ranger: Precision Shot explicit RAP'),
-(807237, 0, 0, 0, 0.1, 'Local Ranger: Toxic Dart explicit RAP');
+(500075, 0, 0, 0.485, 0, '本地游侠：精准射击 明确远程攻击强度'),
+(807237, 0, 0, 0, 0.1, '本地游侠：毒镖 明确远程攻击强度');
 DELETE FROM `spell_group` WHERE `id` = 1127;
 INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
 (1127, 574360),
@@ -15,5 +15,5 @@ INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
 (1127, 805356);
 DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1127;
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
-(1127, 2, 'Local Starcaller: one active Aspect per caster');
+(1127, 2, '本地唤星者：每个施法者只能激活一个守护');
 COMMIT;

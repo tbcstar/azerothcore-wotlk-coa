@@ -10,7 +10,7 @@ DELETE FROM `item_loot_template` WHERE `Entry` = 1397885;
 INSERT INTO `item_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`,
 `MinCount`, `MaxCount`, `Comment`)
 SELECT 1397885, `entry`, 0, 0, 0, 1, 1, 1, CASE WHEN `class` = 4 THEN 1 ELSE 3 END,
-'Adventurer cache - local supplies and world-drop armor'
+'冒险者宝箱 - 本地补给品和世界掉落护甲'
 FROM `item_template` WHERE `entry` IN
 (117, 2287, 3770, 3771, 4599, 8952, 159, 1179, 1205, 1708, 1645, 8766,
 118, 858, 929, 1710, 3928, 13446, 2455, 3385, 3827, 6149, 13443,

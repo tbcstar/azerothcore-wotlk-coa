@@ -20,9 +20,9 @@ DROP TABLE IF EXISTS `ethereal_bazaar_set_cache`;
 CREATE TABLE `ethereal_bazaar_set_cache` (
   `cache_item`  INT UNSIGNED NOT NULL,
   `member_item` INT UNSIGNED NOT NULL,
-  `idx`         TINYINT UNSIGNED NOT NULL COMMENT 'position in the client row, kept for reading',
+  `idx`         TINYINT UNSIGNED NOT NULL COMMENT '客户端行中的位置，仅用于阅读',
   PRIMARY KEY (`cache_item`, `member_item`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Contents of the set caches, from VanityCollection';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='套装宝箱的内容，来自 VanityCollection';
 
 INSERT INTO `ethereal_bazaar_set_cache` (`cache_item`,`member_item`,`idx`) VALUES
 (10115,10296,0),

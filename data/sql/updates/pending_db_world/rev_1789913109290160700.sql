@@ -3,7 +3,7 @@
 -- Archived NPC 421493 uses display 328642 (Unleashed Golden Saberon), present in the copied client.
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 421493;
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `family`)
-SELECT 421493, 'Incarnation: Unleashed Golden Saberon', 1, 1, 35, 1, 1, 1
+SELECT 421493, '化身：释放的金色刃豹', 1, 1, 35, 1, 1, 1
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 421493);
 
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 421493;

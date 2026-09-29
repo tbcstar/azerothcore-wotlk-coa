@@ -256,98 +256,98 @@ DELETE FROM `spell_script_names` WHERE `spell_id` = 807699 AND `ScriptName` = 's
 INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES (807699, 'spell_ascension_xoroth_ability');
 DELETE FROM `spell_bonus_data` WHERE `entry` IN (500020, 501488, 501489, 501490, 503361, 503362, 503363, 503364, 503365, 503366, 503367, 520292, 520294, 520857, 524897, 524919, 560664, 560665, 560666, 560667, 560668, 560817, 573336, 573448, 630931, 680204, 681206, 704974, 705002, 800081, 800341, 800444, 801004, 801018, 801037, 801055, 801059, 801064, 802411, 802412, 802413, 802414, 802415, 802608, 802620, 802855, 803254, 804169, 804353, 804702, 804704, 804886, 805074, 805671, 805680, 806219, 806965, 806966, 806967, 806968, 806969, 806970);
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
-(500020, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(501488, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(501489, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(501490, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(503361, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(503362, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(503363, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(503364, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(503365, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(503366, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(503367, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(520292, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(520294, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(520857, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(524897, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(524919, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(560664, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(560665, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(560666, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(560667, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(560668, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(560817, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(573336, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(573448, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(630931, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(680204, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(681206, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(704974, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(705002, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(800081, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(800341, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(800444, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(801004, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(801018, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(801037, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(801055, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(801059, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(801064, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(802411, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(802412, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(802413, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(802414, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(802415, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(802608, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(802620, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(802855, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(803254, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(804169, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(804353, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(804702, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(804704, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(804886, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(805074, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(805671, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(805680, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(806219, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(806965, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(806966, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(806967, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(806968, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(806969, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result'),
-(806970, 0, 0, 0, 0, 'Xoroth: explicit coefficient or copied result');
+(500020, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(501488, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(501489, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(501490, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(503361, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(503362, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(503363, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(503364, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(503365, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(503366, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(503367, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(520292, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(520294, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(520857, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(524897, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(524919, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(560664, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(560665, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(560666, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(560667, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(560668, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(560817, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(573336, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(573448, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(630931, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(680204, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(681206, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(704974, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(705002, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(800081, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(800341, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(800444, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(801004, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(801018, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(801037, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(801055, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(801059, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(801064, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(802411, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(802412, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(802413, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(802414, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(802415, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(802608, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(802620, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(802855, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(803254, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(804169, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(804353, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(804702, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(804704, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(804886, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(805074, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(805671, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(805680, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(806219, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(806965, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(806966, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(806967, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(806968, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(806969, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果'),
+(806970, 0, 0, 0, 0, '索洛斯：显式系数或复制的结果');
 DELETE FROM `spell_group` WHERE `id` = 1029 AND `spell_id` = 704994;
 INSERT INTO `spell_group` (`id`, `spell_id`) VALUES (1029, 704994);
 DELETE FROM `spell_group` WHERE `id` = 2000181 AND `spell_id` = 520372;
 INSERT INTO `spell_group` (`id`, `spell_id`) VALUES (2000181, 520372);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 510100, 'Greater Imp', 1, 1, 35, 8, 3, 2000, 2000, 64, '' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 510100);
+SELECT 510100, '强效小鬼', 1, 1, 35, 8, 3, 2000, 2000, 64, '' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 510100);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 510100, 0, 4449, 0.85, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 510100);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 50301, 'Hellfire Imp', 1, 1, 35, 8, 3, 2000, 2000, 64, 'npc_ascension_xoroth_summon' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50301);
+SELECT 50301, '地狱火小鬼', 1, 1, 35, 8, 3, 2000, 2000, 64, 'npc_ascension_xoroth_summon' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50301);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 50301, 0, 4449, 0.55, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50301);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 50375, 'Hellfire Abyssal', 1, 1, 35, 1, 3, 2000, 2000, 64, 'npc_ascension_xoroth_summon' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50375);
+SELECT 50375, '地狱火深渊魔', 1, 1, 35, 1, 3, 2000, 2000, 64, 'npc_ascension_xoroth_summon' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50375);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 50375, 0, 169, 0.7, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50375);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 51323, 'Chains of Xoroth', 1, 1, 35, 1, 3, 2000, 2000, 64, 'npc_ascension_xoroth_summon' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 51323);
+SELECT 51323, '索洛斯之链', 1, 1, 35, 1, 3, 2000, 2000, 64, 'npc_ascension_xoroth_summon' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 51323);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 51323, 0, 11686, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 51323);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 50268, 'Dreadsteed Portal', 1, 1, 35, 1, 3, 2000, 2000, 64, 'npc_ascension_xoroth_summon' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50268);
+SELECT 50268, '恐惧战马传送门', 1, 1, 35, 1, 3, 2000, 2000, 64, 'npc_ascension_xoroth_summon' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50268);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 50268, 0, 9510, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 50268);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 914505, 'Xorothian Warsteed', 1, 1, 35, 1, 3, 2000, 2000, 64, '' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 914505);
+SELECT 914505, '索洛斯战马', 1, 1, 35, 1, 3, 2000, 2000, 64, '' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 914505);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 914505, 0, 14554, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 914505);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 177480, 'Doomguard', 1, 1, 35, 1, 3, 2000, 2000, 64, '' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 177480);
+SELECT 177480, '末日守卫', 1, 1, 35, 1, 3, 2000, 2000, 64, '' WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 177480);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 177480, 0, 68, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 177480);
 INSERT INTO `pet_levelstats` (`creature_entry`, `level`, `hp`, `mana`, `armor`, `str`, `agi`, `sta`, `inte`, `spi`, `min_dmg`, `max_dmg`)
@@ -511,6 +511,6 @@ SELECT 510100, 79, 3709, 2850, 6078, 270, 74, 116, 364, 360, 295, 444 WHERE NOT 
 INSERT INTO `pet_levelstats` (`creature_entry`, `level`, `hp`, `mana`, `armor`, `str`, `agi`, `sta`, `inte`, `spi`, `min_dmg`, `max_dmg`)
 SELECT 510100, 80, 3867, 2908, 6273, 297, 79, 118, 369, 367, 305, 458 WHERE NOT EXISTS (SELECT 1 FROM `pet_levelstats` WHERE `creature_entry` = 510100 AND `level` = 80);
 INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `size`, `Data0`, `Data1`)
-SELECT 132847, 8, 209, 'Hell''s Forge', 1, 3, 10 WHERE NOT EXISTS (SELECT 1 FROM `gameobject_template` WHERE `entry` = 132847);
+SELECT 132847, 8, 209, '地狱熔炉', 1, 3, 10 WHERE NOT EXISTS (SELECT 1 FROM `gameobject_template` WHERE `entry` = 132847);
 INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `size`, `Data0`, `Data1`)
-SELECT 391505, 8, 273, 'Hell''s Anvil', 1, 1, 10 WHERE NOT EXISTS (SELECT 1 FROM `gameobject_template` WHERE `entry` = 391505);
+SELECT 391505, 8, 273, '地狱铁砧', 1, 1, 10 WHERE NOT EXISTS (SELECT 1 FROM `gameobject_template` WHERE `entry` = 391505);

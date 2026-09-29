@@ -4,5 +4,5 @@
 -- entrance, so this is the whole removal, not just the random pool.
 DELETE FROM `disables` WHERE `sourceType` = 8 AND `entry` IN (936, 937);
 INSERT INTO `disables` (`sourceType`, `entry`, `flags`, `params_0`, `params_1`, `comment`) VALUES
-(8, 936, 0, '', '', 'Vaults of Inquisition removed from Dungeon Finder'),
-(8, 937, 0, '', '', 'Road to De Other Side removed from Dungeon Finder');
+(8, 936, 0, '', '', '审判宝库已从地下城查找器中移除'),
+(8, 937, 0, '', '', '通往彼岸之路已从地下城查找器中移除');

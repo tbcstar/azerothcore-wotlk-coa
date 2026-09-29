@@ -5,7 +5,7 @@ ALTER TABLE `characters`
 
 ALTER TABLE `gm_ticket`
   MODIFY `name` varchar(25) CHARACTER SET `utf8mb4` COLLATE `utf8mb4_unicode_ci` NOT NULL
-    COMMENT 'Name of ticket creator';
+    COMMENT '工单创建者名称';
 
 ALTER TABLE `reserved_name`
   MODIFY `name` varchar(25) CHARACTER SET `utf8mb4` COLLATE `utf8mb4_bin` NOT NULL;

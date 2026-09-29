@@ -37,23 +37,24 @@
 -- 1. The recovered text
 -- ---------------------------------------------------------------------------
 REPLACE INTO `npc_text` (`ID`, `text0_0`, `text0_1`, `Probability0`) VALUES
-(30520, 'Greetings, Hero.    I offer two services to customize your adventure:    **Experience Bonus Control**: I can disable all bonus experience sources - Potions of Experience, Auras of Experience, and Refer a Friend bonuses - allowing you to progress at the base rate.    **Open World Scaling**: I can enable creatures in the open world to automatically match your level for consistent challenge.', 'Greetings, Hero.    I offer two services to customize your adventure:    **Experience Bonus Control**: I can disable all bonus experience sources - Potions of Experience, Auras of Experience, and Refer a Friend bonuses - allowing you to progress at the base rate.    **Open World Scaling**: I can enable creatures in the open world to automatically match your level for consistent challenge.', 1),
-(19175, 'To enable or disable your experience bonuses and creature scaling in the open world, seek out the Destiny Weaver.     The location has been marked on your map with a red flag.', 'To enable or disable your experience bonuses and creature scaling in the open world, seek out the Destiny Weaver.     The location has been marked on your map with a red flag.', 1);
+REPLACE INTO `npc_text` (`ID`, `text0_0`, `text0_1`, `Probability0`) VALUES
+(30520, '你好，英雄。    我提供两项服务来定制你的冒险：    **经验加成控制**：我可以禁用所有经验加成来源——经验药水、经验光环和战友招募奖励——让你以基础速率推进。    **开放世界缩放**：我可以让开放世界中的生物自动匹配你的等级，以获得一致的挑战。', '你好，英雄。    我提供两项服务来定制你的冒险：    **经验加成控制**：我可以禁用所有经验加成来源——经验药水、经验光环和战友招募奖励——让你以基础速率推进。    **开放世界缩放**：我可以让开放世界中的生物自动匹配你的等级，以获得一致的挑战。', 1),
+(19175, '要启用或禁用你的经验加成和开放世界中的生物缩放，请寻找命运编织者。     该位置已用红旗标记在你的地图上。', '要启用或禁用你的经验加成和开放世界中的生物缩放，请寻找命运编织者。     该位置已用红旗标记在你的地图上。', 1);
 
 -- ---------------------------------------------------------------------------
 -- 2. The ten creatures
 -- ---------------------------------------------------------------------------
 REPLACE INTO `creature_template` (`entry`, `name`, `subname`, `IconName`, `gossip_menu_id`, `minlevel`, `maxlevel`, `faction`, `npcflag`, `speed_walk`, `speed_run`, `detection_range`, `rank`, `dmgschool`, `DamageModifier`, `BaseAttackTime`, `RangeAttackTime`, `unit_class`, `unit_flags`, `unit_flags2`, `dynamicflags`, `family`, `type`, `type_flags`, `AIName`, `MovementType`, `HoverHeight`, `HealthModifier`, `ManaModifier`, `ArmorModifier`, `ExperienceModifier`, `RacialLeader`, `movementId`, `RegenHealth`, `flags_extra`, `ScriptName`, `VerifiedBuild`) VALUES
-(449340, 'Tav''vin',              'Destiny Weaver', 'Speak', 0, 40, 40, 35, 1, 1, 1.14286, 20, 0, 0, 1, 2000, 2000, 1, 768, 2048, 0, 0, 7, 134217728, '', 0, 1, 1.64062, 1, 1, 1, 0, 999, 1, 2, 'npc_destiny_weaver', 12340),
-(449341, 'Magistrix Benjamin',   'Destiny Weaver', 'Speak', 0, 40, 40, 35, 1, 1, 1.14286, 20, 0, 0, 1, 2000, 2000, 1, 768, 2048, 0, 0, 7, 134217728, '', 0, 1, 1.64062, 1, 1, 1, 0, 999, 1, 2, 'npc_destiny_weaver', 12340),
-(449342, 'Thrain Galewin',       'Destiny Weaver', 'Speak', 0, 40, 40, 35, 1, 1, 1.14286, 20, 0, 0, 1, 2000, 2000, 1, 768, 2048, 0, 0, 7, 134217728, '', 0, 1, 1.64062, 1, 1, 1, 0, 999, 1, 2, 'npc_destiny_weaver', 12340),
-(449345, 'Elundra Moonsong',     'Destiny Weaver', 'Speak', 0, 40, 40, 35, 1, 1, 1.14286, 20, 0, 0, 1, 2000, 2000, 1, 768, 2048, 0, 0, 7, 134217728, '', 0, 1, 1.64062, 1, 1, 1, 0, 999, 1, 2, 'npc_destiny_weaver', 12340),
-(449347, 'Galric Olim',          'Destiny Weaver', 'Speak', 0, 40, 40, 35, 1, 1, 1.14286, 20, 0, 0, 1, 2000, 2000, 1, 768, 2048, 0, 0, 7, 134217728, '', 0, 1, 1.64062, 1, 1, 1, 0, 999, 1, 2, 'npc_destiny_weaver', 12340),
-(449350, 'Tav''ral',             'Destiny Weaver', 'Speak', 0, 40, 40, 35, 1, 1, 1.14286, 20, 0, 0, 1, 2000, 2000, 1, 768, 2048, 0, 0, 7, 134217728, '', 0, 1, 1.64062, 1, 1, 1, 0, 999, 1, 2, 'npc_destiny_weaver', 12340),
-(449351, 'Magistrix Belanor',    'Destiny Weaver', 'Speak', 0, 40, 40, 35, 1, 1, 1.14286, 20, 0, 0, 1, 2000, 2000, 1, 768, 2048, 0, 0, 7, 134217728, '', 0, 1, 1.64062, 1, 1, 1, 0, 999, 1, 2, 'npc_destiny_weaver', 12340),
-(449352, 'Thrainnor Galestrom',  'Destiny Weaver', 'Speak', 0, 40, 40, 35, 1, 1, 1.14286, 20, 0, 0, 1, 2000, 2000, 1, 768, 2048, 0, 0, 7, 134217728, '', 0, 1, 1.64062, 1, 1, 1, 0, 999, 1, 2, 'npc_destiny_weaver', 12340),
-(449355, 'Elundrel Moonsinger',  'Destiny Weaver', 'Speak', 0, 40, 40, 35, 1, 1, 1.14286, 20, 0, 0, 1, 2000, 2000, 1, 768, 2048, 0, 0, 7, 134217728, '', 0, 1, 1.64062, 1, 1, 1, 0, 999, 1, 2, 'npc_destiny_weaver', 12340),
-(449357, 'Galrin Olemar',        'Destiny Weaver', 'Speak', 0, 40, 40, 35, 1, 1, 1.14286, 20, 0, 0, 1, 2000, 2000, 1, 768, 2048, 0, 0, 7, 134217728, '', 0, 1, 1.64062, 1, 1, 1, 0, 999, 1, 2, 'npc_destiny_weaver', 12340);
+(449340, '塔夫文',              '命运编织者', 'Speak', 0, 40, 40, 35, 1, 1, 1.14286, 20, 0, 0, 1, 2000, 2000, 1, 768, 2048, 0, 0, 7, 134217728, '', 0, 1, 1.64062, 1, 1, 1, 0, 999, 1, 2, 'npc_destiny_weaver', 12340),
+(449341, '女法师本杰明',   '命运编织者', 'Speak', 0, 40, 40, 35, 1, 1, 1.14286, 20, 0, 0, 1, 2000, 2000, 1, 768, 2048, 0, 0, 7, 134217728, '', 0, 1, 1.64062, 1, 1, 1, 0, 999, 1, 2, 'npc_destiny_weaver', 12340),
+(449342, '瑟雷恩·盖尔温',       '命运编织者', 'Speak', 0, 40, 40, 35, 1, 1, 1.14286, 20, 0, 0, 1, 2000, 2000, 1, 768, 2048, 0, 0, 7, 134217728, '', 0, 1, 1.64062, 1, 1, 1, 0, 999, 1, 2, 'npc_destiny_weaver', 12340),
+(449345, '艾伦德拉·月歌',     '命运编织者', 'Speak', 0, 40, 40, 35, 1, 1, 1.14286, 20, 0, 0, 1, 2000, 2000, 1, 768, 2048, 0, 0, 7, 134217728, '', 0, 1, 1.64062, 1, 1, 1, 0, 999, 1, 2, 'npc_destiny_weaver', 12340),
+(449347, '加尔里克·奥利姆',          '命运编织者', 'Speak', 0, 40, 40, 35, 1, 1, 1.14286, 20, 0, 0, 1, 2000, 2000, 1, 768, 2048, 0, 0, 7, 134217728, '', 0, 1, 1.64062, 1, 1, 1, 0, 999, 1, 2, 'npc_destiny_weaver', 12340),
+(449350, '塔夫拉尔',             '命运编织者', 'Speak', 0, 40, 40, 35, 1, 1, 1.14286, 20, 0, 0, 1, 2000, 2000, 1, 768, 2048, 0, 0, 7, 134217728, '', 0, 1, 1.64062, 1, 1, 1, 0, 999, 1, 2, 'npc_destiny_weaver', 12340),
+(449351, '女法师贝拉诺',    '命运编织者', 'Speak', 0, 40, 40, 35, 1, 1, 1.14286, 20, 0, 0, 1, 2000, 2000, 1, 768, 2048, 0, 0, 7, 134217728, '', 0, 1, 1.64062, 1, 1, 1, 0, 999, 1, 2, 'npc_destiny_weaver', 12340),
+(449352, '瑟雷诺·盖尔斯托姆',  '命运编织者', 'Speak', 0, 40, 40, 35, 1, 1, 1.14286, 20, 0, 0, 1, 2000, 2000, 1, 768, 2048, 0, 0, 7, 134217728, '', 0, 1, 1.64062, 1, 1, 1, 0, 999, 1, 2, 'npc_destiny_weaver', 12340),
+(449355, '艾伦德雷尔·月咏者',  '命运编织者', 'Speak', 0, 40, 40, 35, 1, 1, 1.14286, 20, 0, 0, 1, 2000, 2000, 1, 768, 2048, 0, 0, 7, 134217728, '', 0, 1, 1.64062, 1, 1, 1, 0, 999, 1, 2, 'npc_destiny_weaver', 12340),
+(449357, '加尔林·奥勒玛',        '命运编织者', 'Speak', 0, 40, 40, 35, 1, 1, 1.14286, 20, 0, 0, 1, 2000, 2000, 1, 768, 2048, 0, 0, 7, 134217728, '', 0, 1, 1.64062, 1, 1, 1, 0, 999, 1, 2, 'npc_destiny_weaver', 12340);
 
 -- ---------------------------------------------------------------------------
 -- 3. Their models: the original display ids, one per pair

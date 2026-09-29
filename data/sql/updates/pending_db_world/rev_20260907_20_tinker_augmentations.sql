@@ -25,11 +25,11 @@ INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES
 (653240, 'aura_ascension_tinker_stim');
 DELETE FROM `spell_bonus_data` WHERE `entry` IN (653268, 653276, 653238, 653274, 653247);
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
-(653268, 0, 0, 0, 0, 'Local CoA Piercing Augmentation: 11% RAP in launch script, no SP'),
-(653276, 0.1, 0, 0, 0, 'Local CoA Magic Augmentation: 10% SP and 4.5% RAP in launch script'),
-(653238, 0.25, 0, 0, 0, 'Local CoA Explosive Augmentation: 25% Fire SP and 10% RAP in launch script'),
-(653274, 0.155, 0, 0, 0, 'Local CoA Aether Augmentation: 15.5% Arcane SP'),
-(653247, 0, 0.15, 0, 0, 'Local CoA Tracer Augmentation: 15% Fire SP with scalingbp and 8% RAP in cast script');
+(653268, 0, 0, 0, 0, '本地 CoA 穿刺强化：启动脚本中 11% 远程攻击强度，无法术强度'),
+(653276, 0.1, 0, 0, 0, '本地 CoA 魔法强化：启动脚本中 10% 法术强度和 4.5% 远程攻击强度'),
+(653238, 0.25, 0, 0, 0, '本地 CoA 爆炸强化：启动脚本中 25% 火焰法术强度和 10% 远程攻击强度'),
+(653274, 0.155, 0, 0, 0, '本地 CoA 以太强化：15.5% 奥术法术强度'),
+(653247, 0, 0.15, 0, 0, '本地 CoA 追踪强化：施法脚本中 15% 火焰法术强度（带 scalingbp）和 8% 远程攻击强度');
 DELETE FROM `spell_proc` WHERE `SpellId` IN (653232, 653235, 653237, 653243, 653246, 653240);
 INSERT INTO `spell_proc` (`SpellId`, `SchoolMask`, `SpellFamilyName`, `SpellFamilyMask0`, `SpellFamilyMask1`, `SpellFamilyMask2`, `ProcFlags`, `SpellTypeMask`, `SpellPhaseMask`, `HitMask`, `AttributesMask`, `DisableEffectsMask`, `ProcsPerMinute`, `Chance`, `Cooldown`, `Charges`) VALUES
 (653232, 0, 0, 0, 0, 0, 320, 1, 2, 3, 0, 3, 0, 100, 0, 0),
@@ -40,5 +40,5 @@ INSERT INTO `spell_proc` (`SpellId`, `SchoolMask`, `SpellFamilyName`, `SpellFami
 (653240, 0, 0, 0, 0, 0, 17408, 2, 2, 3, 0, 0, 0, 100, 0, 0);
 DELETE FROM `spell_linked_spell` WHERE `spell_trigger` = 653232 AND `spell_effect` = 653275 AND `type` = 2;
 INSERT INTO `spell_linked_spell` (`spell_trigger`, `spell_effect`, `type`, `comment`) VALUES
-(653232, 653275, 2, 'Local CoA Aether Augmentation: magic damage reduction while equipped');
+(653232, 653275, 2, '本地 CoA 以太强化：装备时减少魔法伤害');
 COMMIT;

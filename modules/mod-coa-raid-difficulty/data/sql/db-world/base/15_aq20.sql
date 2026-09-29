@@ -26,7 +26,7 @@ UPDATE `creature_template` SET `AIName` = '', `ScriptName` = 'npc_rajaxx_legion_
 DELETE FROM `creature_template` WHERE `entry` = 9780023;
 DROP TEMPORARY TABLE IF EXISTS `aq_brood`;
 CREATE TEMPORARY TABLE `aq_brood` AS SELECT * FROM `creature_template` WHERE `entry` = 15555;
-UPDATE `aq_brood` SET `entry` = 9780023, `name` = 'Sandreaver Broodling', `subname` = NULL,
+UPDATE `aq_brood` SET `entry` = 9780023, `name` = '裂沙者幼体', `subname` = NULL,
     `difficulty_entry_1` = 0, `difficulty_entry_2` = 0, `difficulty_entry_3` = 0,
     `AIName` = '', `ScriptName` = '', `lootid` = 0, `pickpocketloot` = 0, `skinloot` = 0;
 INSERT INTO `creature_template` SELECT * FROM `aq_brood`;

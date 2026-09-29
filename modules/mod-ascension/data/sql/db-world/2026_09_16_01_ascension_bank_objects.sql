@@ -14,8 +14,8 @@
 -- applying this twice leaves the same five rows.
 REPLACE INTO `gameobject_template`
     (`entry`, `type`, `displayId`, `name`, `size`, `Data0`) VALUES
-(475001, 34, 138006, 'Personal Belongings',          1,   0),
-(475002, 34, 138007, 'Personal Belongings',          1,   0),
-(80782,  34, 8691,   'Celestial Personal Belongings', 0.7, 0),
-(80159,  34, 138006, 'Realm Belongings',             1,   0),
-(80160,  34, 138007, 'Realm Belongings',             1,   0);
+(475001, 34, 138006, '私有物品',          1,   0),
+(475002, 34, 138007, '私有物品',          1,   0),
+(80782,  34, 8691,   '天界私有财物', 0.7, 0),
+(80159,  34, 138006, '服务器物品',             1,   0),
+(80160,  34, 138007, '服务器物品',             1,   0);

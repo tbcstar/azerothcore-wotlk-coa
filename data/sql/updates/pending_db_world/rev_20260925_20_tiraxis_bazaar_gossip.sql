@@ -10,9 +10,9 @@ UPDATE `creature_template` SET `ScriptName` = 'npc_tiraxis', `gossip_menu_id` = 
 -- The greeting's last line named the Ascension Shop, which this realm does not have.
 UPDATE `npc_text` SET
     `text0_0` = REPLACE(`text0_0`, 'Ethereal Bazaar tokens are obtained via the auctionhouse and Ascension Shop.',
-        'Bazaar Tokens can be gathered by killing creatures, completing quests and are offered in the auction house.'),
+        '市集代币可以通过击杀生物、完成任务获得，并在拍卖行出售。'),
     `text0_1` = REPLACE(`text0_1`, 'Ethereal Bazaar tokens are obtained via the auctionhouse and Ascension Shop.',
-        'Bazaar Tokens can be gathered by killing creatures, completing quests and are offered in the auction house.')
+        '市集代币可以通过击杀生物、完成任务获得，并在拍卖行出售。')
 WHERE `ID` IN (900007, 90007);
 
 -- One Tiraxis: the spawn the Books of Ascension update placed (9000001) stays.

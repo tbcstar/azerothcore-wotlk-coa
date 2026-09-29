@@ -23,5 +23,5 @@ INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES
 (707148, 'spell_ascension_runemaster_brand_runeblade');
 DELETE FROM `spell_bonus_data` WHERE `entry` = 712324;
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
-(712324, 0, 0, 0.185, 0, 'Ascension Runic Explosion - visible Marked contract');
+(712324, 0, 0, 0.185, 0, '飞升符文爆炸 - 可见的标记契约');
 COMMIT;

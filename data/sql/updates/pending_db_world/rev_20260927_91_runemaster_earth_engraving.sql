@@ -7,7 +7,7 @@
 -- and melee, ranged and magic damage spells on hit; Chance 0 keeps the Spell.dbc 15%.
 DELETE FROM `spell_linked_spell` WHERE `spell_trigger` = 653219 AND `spell_effect` = 653221 AND `type` = 2;
 INSERT INTO `spell_linked_spell` (`spell_trigger`, `spell_effect`, `type`, `comment`) VALUES
-(653219, 653221, 2, 'CoA Earth Engraving - Weapon Engraving: Earth proc aura');
+(653219, 653221, 2, 'CoA 大地铭刻 - 武器铭刻：大地触发光环');
 
 -- Steam Conjurer 805743 (Runic talent): "Damage dealt by Weapon Engraving: Earth now has a $h% chance to cast Wild
 -- Steam. Can only occur once every 3 sec." ProcFlags 0 in Spell.dbc, so it never procced. 653272 (family 38 mask1

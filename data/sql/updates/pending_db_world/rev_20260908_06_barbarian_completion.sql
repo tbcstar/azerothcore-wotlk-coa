@@ -296,17 +296,17 @@ DELETE FROM `spell_script_names` WHERE `spell_id` = 807861 AND `ScriptName` = 'a
 INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES (807861, 'aura_ascension_barbarian_event');
 DELETE FROM `spell_bonus_data` WHERE `entry` IN (800152, 560932, 255846, 804143, 783054, 782801, 300870, 707660, 524675, 500534, 805785);
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
-(800152, 0, 0, 1.2, 0, 'Barbarian completion'),
-(560932, 0, 0, 0.3, 0, 'Barbarian completion'),
-(255846, 0, 0, 0, 0, 'Barbarian completion'),
-(804143, 0, 0, 0, 0, 'Barbarian completion'),
-(783054, 0, 0, 0, 0, 'Barbarian completion'),
-(782801, 0, 0, 0, 0, 'Barbarian completion'),
-(300870, 0, 0, 0, 0, 'Barbarian completion'),
-(707660, 0, 0, 0, 0, 'Barbarian completion'),
-(524675, 0, 0, 0, 0, 'Barbarian completion'),
-(500534, 0, 0, 0, 0, 'Barbarian completion'),
-(805785, 0, 0, 0, 0, 'Barbarian completion');
+(800152, 0, 0, 1.2, 0, '野蛮人完成'),
+(560932, 0, 0, 0.3, 0, '野蛮人完成'),
+(255846, 0, 0, 0, 0, '野蛮人完成'),
+(804143, 0, 0, 0, 0, '野蛮人完成'),
+(783054, 0, 0, 0, 0, '野蛮人完成'),
+(782801, 0, 0, 0, 0, '野蛮人完成'),
+(300870, 0, 0, 0, 0, '野蛮人完成'),
+(707660, 0, 0, 0, 0, '野蛮人完成'),
+(524675, 0, 0, 0, 0, '野蛮人完成'),
+(500534, 0, 0, 0, 0, '野蛮人完成'),
+(805785, 0, 0, 0, 0, '野蛮人完成');
 DELETE FROM `spell_group` WHERE `id` = 2000181 AND `spell_id` = 560821;
 INSERT INTO `spell_group` (`id`, `spell_id`) VALUES (2000181, 560821);
 DELETE FROM `spell_group` WHERE `id` = 2000182 AND `spell_id` = 560946;

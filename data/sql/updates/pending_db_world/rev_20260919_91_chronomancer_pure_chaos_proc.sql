@@ -33,4 +33,4 @@ INSERT INTO `spell_proc` (`SpellId`, `SchoolMask`, `SpellFamilyName`, `SpellFami
 -- Chronomancer dealing the damage and CONDITION_AURA (1) on 570067 Incarnation of Chaos is the gate.
 DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 24 AND `SourceGroup` = 0 AND `SourceEntry` = 807569 AND `SourceId` = 0;
 INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
-(24, 0, 807569, 0, 0, 1, 0, 570067, 0, 0, 0, 0, 0, '', 'Pure Chaos only procs while Incarnation of Chaos is active');
+(24, 0, 807569, 0, 0, 1, 0, 570067, 0, 0, 0, 0, 0, '', '纯粹混乱仅在混乱化身激活时触发');

@@ -17,5 +17,5 @@ INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
 (2000184, 560545);
 DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 2000184;
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
-(2000184, 3, 'Local CoA: only the strongest raid damage percent aura applies');
+(2000184, 3, '本地 CoA：只有最强的团队伤害百分比光环生效');
 COMMIT;

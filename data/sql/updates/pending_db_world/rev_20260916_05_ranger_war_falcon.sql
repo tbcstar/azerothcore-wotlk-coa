@@ -26,12 +26,12 @@
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 50264;
 INSERT INTO `creature_template`
 (`entry`, `name`, `minlevel`, `maxlevel`, `exp`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`)
-SELECT 50264, 'War Falcon', 1, 1, 0, 35, 1, 1, 2000, 2000
+SELECT 50264, '战隼', 1, 1, 0, 35, 1, 1, 2000, 2000
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50264);
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 50393;
 INSERT INTO `creature_template`
 (`entry`, `name`, `minlevel`, `maxlevel`, `exp`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`)
-SELECT 50393, 'War Falcon', 1, 1, 0, 35, 1, 1, 2000, 2000
+SELECT 50393, '战隼', 1, 1, 0, 35, 1, 1, 2000, 2000
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 50393);
 DELETE FROM `creature_template_model` WHERE `CreatureID` IN (50264, 50393);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) VALUES
@@ -43,5 +43,5 @@ INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`,
 -- place as well. The predicate matches only the exact row the previous revision wrote, leaving an
 -- operator-supplied or package-supplied template untouched, and is a no-op on a first-time install.
 UPDATE `creature_template` SET `minlevel` = 1, `maxlevel` = 1, `exp` = 0 WHERE `entry` IN (50264, 50393)
-AND `name` = 'War Falcon' AND `minlevel` = 1 AND `maxlevel` = 80 AND `exp` = 0 AND `faction` = 35
+AND `name` = '战隼' AND `minlevel` = 1 AND `maxlevel` = 80 AND `exp` = 0 AND `faction` = 35
 AND `unit_class` = 1 AND `type` = 1;

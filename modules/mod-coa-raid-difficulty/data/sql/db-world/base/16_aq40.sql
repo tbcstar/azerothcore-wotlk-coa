@@ -32,7 +32,7 @@ DELETE FROM `creature_template` WHERE `entry` IN (9780024,9780025,9780026,978002
 DELETE FROM `creature_template_model` WHERE `CreatureID` IN (9780024,9780025,9780026,9780027,9780028);
 DROP TEMPORARY TABLE IF EXISTS `aq_dread`;
 CREATE TEMPORARY TABLE `aq_dread` AS SELECT * FROM `creature_template` WHERE `entry` = 15236;
-UPDATE `aq_dread` SET `entry` = 9780024, `name` = 'Nightmare Murloc', `subname` = NULL, `minlevel` = 63, `maxlevel` = 63,
+UPDATE `aq_dread` SET `entry` = 9780024, `name` = '梦魇鱼人', `subname` = NULL, `minlevel` = 63, `maxlevel` = 63,
     `difficulty_entry_1` = 0, `difficulty_entry_2` = 0, `difficulty_entry_3` = 0,
     `AIName` = '', `ScriptName` = 'npc_skeram_nightmare_coa', `lootid` = 0, `pickpocketloot` = 0, `skinloot` = 0;
 INSERT INTO `creature_template` SELECT * FROM `aq_dread`;
@@ -40,7 +40,7 @@ DROP TEMPORARY TABLE `aq_dread`;
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`, `VerifiedBuild`) VALUES (9780024, 0, 1305, 1.2, 1, 0);
 DROP TEMPORARY TABLE IF EXISTS `aq_dread`;
 CREATE TEMPORARY TABLE `aq_dread` AS SELECT * FROM `creature_template` WHERE `entry` = 15236;
-UPDATE `aq_dread` SET `entry` = 9780025, `name` = 'Nightmare Spider', `subname` = NULL, `minlevel` = 63, `maxlevel` = 63,
+UPDATE `aq_dread` SET `entry` = 9780025, `name` = '梦魇蜘蛛', `subname` = NULL, `minlevel` = 63, `maxlevel` = 63,
     `difficulty_entry_1` = 0, `difficulty_entry_2` = 0, `difficulty_entry_3` = 0,
     `AIName` = '', `ScriptName` = 'npc_skeram_nightmare_coa', `lootid` = 0, `pickpocketloot` = 0, `skinloot` = 0;
 INSERT INTO `creature_template` SELECT * FROM `aq_dread`;
@@ -48,7 +48,7 @@ DROP TEMPORARY TABLE `aq_dread`;
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`, `VerifiedBuild`) VALUES (9780025, 0, 6808, 1.0, 1, 0);
 DROP TEMPORARY TABLE IF EXISTS `aq_dread`;
 CREATE TEMPORARY TABLE `aq_dread` AS SELECT * FROM `creature_template` WHERE `entry` = 15236;
-UPDATE `aq_dread` SET `entry` = 9780026, `name` = 'Nightmare Bee', `subname` = NULL, `minlevel` = 63, `maxlevel` = 63,
+UPDATE `aq_dread` SET `entry` = 9780026, `name` = '梦魇蜜蜂', `subname` = NULL, `minlevel` = 63, `maxlevel` = 63,
     `difficulty_entry_1` = 0, `difficulty_entry_2` = 0, `difficulty_entry_3` = 0,
     `AIName` = '', `ScriptName` = 'npc_skeram_nightmare_coa', `lootid` = 0, `pickpocketloot` = 0, `skinloot` = 0;
 INSERT INTO `creature_template` SELECT * FROM `aq_dread`;
@@ -56,7 +56,7 @@ DROP TEMPORARY TABLE `aq_dread`;
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`, `VerifiedBuild`) VALUES (9780026, 0, 15335, 1.0, 1, 0);
 DROP TEMPORARY TABLE IF EXISTS `aq_dread`;
 CREATE TEMPORARY TABLE `aq_dread` AS SELECT * FROM `creature_template` WHERE `entry` = 15236;
-UPDATE `aq_dread` SET `entry` = 9780027, `name` = 'Nightmare Cat', `subname` = NULL, `minlevel` = 63, `maxlevel` = 63,
+UPDATE `aq_dread` SET `entry` = 9780027, `name` = '梦魇猫', `subname` = NULL, `minlevel` = 63, `maxlevel` = 63,
     `difficulty_entry_1` = 0, `difficulty_entry_2` = 0, `difficulty_entry_3` = 0,
     `AIName` = '', `ScriptName` = 'npc_skeram_nightmare_coa', `lootid` = 0, `pickpocketloot` = 0, `skinloot` = 0;
 INSERT INTO `creature_template` SELECT * FROM `aq_dread`;
@@ -64,7 +64,7 @@ DROP TEMPORARY TABLE `aq_dread`;
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`, `VerifiedBuild`) VALUES (9780027, 0, 613, 1.2, 1, 0);
 DROP TEMPORARY TABLE IF EXISTS `aq_dread`;
 CREATE TEMPORARY TABLE `aq_dread` AS SELECT * FROM `creature_template` WHERE `entry` = 15236;
-UPDATE `aq_dread` SET `entry` = 9780028, `name` = 'Nightmarish Monstrosity', `subname` = NULL, `minlevel` = 63, `maxlevel` = 63,
+UPDATE `aq_dread` SET `entry` = 9780028, `name` = '梦魇巨兽', `subname` = NULL, `minlevel` = 63, `maxlevel` = 63,
     `difficulty_entry_1` = 0, `difficulty_entry_2` = 0, `difficulty_entry_3` = 0,
     `AIName` = '', `ScriptName` = 'npc_skeram_nightmare_coa', `lootid` = 0, `pickpocketloot` = 0, `skinloot` = 0;
 INSERT INTO `creature_template` SELECT * FROM `aq_dread`;

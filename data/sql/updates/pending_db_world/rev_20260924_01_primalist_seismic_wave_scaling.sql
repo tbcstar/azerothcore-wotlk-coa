@@ -6,7 +6,7 @@
 START TRANSACTION;
 DELETE FROM `spell_bonus_data` WHERE `entry` = 805462;
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
-(805462, 0.3, 0, 0.28, 0, 'Seismic Wave: heal gets another 0.3 SP from its script');
+(805462, 0.3, 0, 0.28, 0, '地震波：其脚本还会额外获得 0.3 法术强度的治疗');
 DELETE FROM `spell_script_names` WHERE `spell_id` = -805462 AND `ScriptName` = 'spell_ascension_seismic_wave';
 INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES (-805462, 'spell_ascension_seismic_wave');
 COMMIT;

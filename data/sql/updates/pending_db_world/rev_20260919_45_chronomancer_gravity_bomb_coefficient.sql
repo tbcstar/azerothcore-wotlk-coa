@@ -16,4 +16,4 @@
 -- decision the parity contract forbids guessing, so the 0.3 term stays unimplemented and #3202 stays open.
 DELETE FROM `spell_bonus_data` WHERE `entry` = 801282;
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
-(801282, 1.2, 0, 0, 0, 'Local Chronomancer: Gravity Bomb - explosion spell power coefficient');
+(801282, 1.2, 0, 0, 0, '本地时空法师：重力炸弹 - 爆炸法术强度系数');

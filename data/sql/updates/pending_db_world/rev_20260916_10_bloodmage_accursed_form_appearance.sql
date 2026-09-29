@@ -47,4 +47,4 @@ INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`,
 -- makes it reachable for the first time.
 DELETE FROM `spell_linked_spell` WHERE `spell_trigger` = 562572 AND `spell_effect` = 562722 AND `type` = 2;
 INSERT INTO `spell_linked_spell` (`spell_trigger`, `spell_effect`, `type`, `comment`) VALUES
-(562572, 562722, 2, 'CoA Accursed Form - gargoyle transform and Polymorph immunity helper');
+(562572, 562722, 2, 'CoA 被诅咒的形态 - 石像鬼变形和变形术免疫助手');

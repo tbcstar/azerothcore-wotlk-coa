@@ -9,7 +9,7 @@ INSERT INTO `spell_proc` (`SpellId`, `SchoolMask`, `SpellFamilyName`, `SpellFami
 -- Archived NPC 840002 identifies display 8824; its Ent model exists in the copied client.
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 840002;
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`)
-SELECT 840002, 'Spirit of Life', 1, 1, 35, 1, 6
+SELECT 840002, '生命之灵', 1, 1, 35, 1, 6
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 840002);
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 840002;
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)

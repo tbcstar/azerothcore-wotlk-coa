@@ -8,4 +8,4 @@ INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES
 
 DELETE FROM `spell_bonus_data` WHERE `entry` = 500627;
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
-(500627, 0, 0, 0.4, 0, 'Reaper - Soul Bolt (Reliquary of the Lost)');
+(500627, 0, 0, 0.4, 0, '收割者 - 灵魂箭（失落遗物）');

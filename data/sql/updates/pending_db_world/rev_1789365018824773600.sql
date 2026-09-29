@@ -5,9 +5,9 @@ DELETE FROM `creature_template_model` WHERE `CreatureID` IN (315301, 325301, 335
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`)
 SELECT `summon`.`entry`, `summon`.`name`, 1, 1, 14, 1, 8
 FROM (
-    SELECT 315301 AS `entry`, 'Animated Blood' AS `name`
-    UNION ALL SELECT 325301, 'Blood Worm'
-    UNION ALL SELECT 335301, 'Blood Parasite'
+    SELECT 315301 AS `entry`, '活化之血' AS `name`
+    UNION ALL SELECT 325301, '血虫'
+    UNION ALL SELECT 335301, '血寄生虫'
 ) AS `summon`
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = `summon`.`entry`);
 

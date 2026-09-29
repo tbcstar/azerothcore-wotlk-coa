@@ -40,7 +40,7 @@ INSERT INTO `creature_template`
   (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `family`, `AIName`,
    `MovementType`, `ScriptName`)
 VALUES
-  (310603, 'Electrified Water Elemental', 80, 80, 35, 2, 4, 0, '', 0,
+  (310603, '带电水元素', 80, 80, 35, 2, 4, 0, '', 0,
    'npc_ascension_electrified_water_elemental')
 ON DUPLICATE KEY UPDATE
   `name` = VALUES(`name`), `minlevel` = VALUES(`minlevel`), `maxlevel` = VALUES(`maxlevel`),

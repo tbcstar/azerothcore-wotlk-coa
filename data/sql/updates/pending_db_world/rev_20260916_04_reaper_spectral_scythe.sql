@@ -11,7 +11,7 @@
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 250305;
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`,
 `BaseAttackTime`, `RangeAttackTime`, `flags_extra`)
-SELECT 250305, 'Spectral Scythe', 1, 1, 35, 1, 6, 2000, 2000, 64
+SELECT 250305, '幽灵镰刀', 1, 1, 35, 1, 6, 2000, 2000, 64
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 250305);
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 250305;
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) VALUES

@@ -50,5 +50,5 @@ INSERT INTO `spell_proc` (`SpellId`, `SchoolMask`, `SpellFamilyName`, `SpellFami
 -- (src/server/game/Conditions/ConditionMgr.h, src/server/shared/SharedDefines.h).
 DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 24 AND `SourceEntry` = 704692;
 INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
-(24, 0, 704692, 0, 0, 24, 1, 7, 0, 0, 0, 0, 0, '', 'Corrupted Blood only corrupts a Humanoid target'),
-(24, 0, 704692, 0, 1, 24, 1, 1, 0, 0, 0, 0, 0, '', 'Corrupted Blood only corrupts a Beast target');
+(24, 0, 704692, 0, 0, 24, 1, 7, 0, 0, 0, 0, 0, '', '腐化之血只能腐化人型生物目标'),
+(24, 0, 704692, 0, 1, 24, 1, 1, 0, 0, 0, 0, 0, '', '腐化之血只能腐化野兽目标');

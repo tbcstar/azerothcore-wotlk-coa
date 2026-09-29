@@ -27,4 +27,4 @@ DELETE FROM `creature` WHERE `guid` = 9000025;
 DELETE FROM `creature` WHERE `guid` IN (9000013, 9000014, 9000015, 9000016, 9000017, 9000018,
                                         9000021, 9000022, 9000023, 9000024, 9000026);
 
-UPDATE `creature` SET `map` = 1, `position_x` = 1621.81, `position_y` = -4385.91, `position_z` = 12.5408, `orientation` = 1.10337, `Comment` = 'Destiny Weaver: Tav''ral (Orgrimmar)' WHERE `guid` = 9000012;
+UPDATE `creature` SET `map` = 1, `position_x` = 1621.81, `position_y` = -4385.91, `position_z` = 12.5408, `orientation` = 1.10337, `Comment` = '命运编织者：塔夫拉尔（奥格瑞玛）' WHERE `guid` = 9000012;

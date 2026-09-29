@@ -8,7 +8,7 @@
 -- so 173031 gets 0.8091 and 2.325. Levels are pinned to 1/1: Pet::InitStatsForLevel takes the owner's level.
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `exp`, `faction`, `unit_class`, `type`,
 `BaseAttackTime`, `RangeAttackTime`) VALUES
-(51265, 'Honored Ancestor', 1, 1, 0, 35, 1, 1, 2000, 2000)
+(51265, '荣耀先祖', 1, 1, 0, 35, 1, 1, 2000, 2000)
 ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `minlevel` = VALUES(`minlevel`), `maxlevel` = VALUES(`maxlevel`),
 `exp` = VALUES(`exp`), `faction` = VALUES(`faction`), `unit_class` = VALUES(`unit_class`), `type` = VALUES(`type`),
 `BaseAttackTime` = VALUES(`BaseAttackTime`), `RangeAttackTime` = VALUES(`RangeAttackTime`);

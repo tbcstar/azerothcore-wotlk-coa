@@ -48,4 +48,4 @@ INSERT INTO `spell_proc` (`SpellId`, `SchoolMask`, `SpellFamilyName`, `SpellFami
 
 DELETE FROM `spell_linked_spell` WHERE `spell_trigger` = 807357 AND `spell_effect` = 807358;
 INSERT INTO `spell_linked_spell` (`spell_trigger`, `spell_effect`, `type`, `comment`) VALUES
-(807357, 807358, 0, 'Relentless - cast the orphaned Aortic Assault cooldown reduction with the buff');
+(807357, 807358, 0, '无情 - 随增益一起施放孤立的主动脉突袭冷却缩减');

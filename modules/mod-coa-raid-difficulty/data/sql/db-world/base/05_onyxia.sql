@@ -16,7 +16,7 @@
 DELETE FROM `creature_template` WHERE `entry` = 110184;
 DROP TEMPORARY TABLE IF EXISTS `ony_tier`;
 CREATE TEMPORARY TABLE `ony_tier` AS SELECT * FROM `creature_template` WHERE `entry` = 10184;
-UPDATE `ony_tier` SET `entry` = 110184, `name` = 'Onyxia',
+UPDATE `ony_tier` SET `entry` = 110184, `name` = '奥妮克希亚',
     `difficulty_entry_1` = 0, `difficulty_entry_2` = 0, `difficulty_entry_3` = 0;
 INSERT INTO `creature_template` SELECT * FROM `ony_tier`;
 DROP TEMPORARY TABLE `ony_tier`;
@@ -60,7 +60,7 @@ DROP TEMPORARY TABLE `ony_tier`;
 DELETE FROM `creature_template` WHERE `entry` = 210184;
 DROP TEMPORARY TABLE IF EXISTS `ony_tier`;
 CREATE TEMPORARY TABLE `ony_tier` AS SELECT * FROM `creature_template` WHERE `entry` = 10184;
-UPDATE `ony_tier` SET `entry` = 210184, `name` = 'Onyxia',
+UPDATE `ony_tier` SET `entry` = 210184, `name` = '奥妮克希亚',
     `difficulty_entry_1` = 0, `difficulty_entry_2` = 0, `difficulty_entry_3` = 0;
 INSERT INTO `creature_template` SELECT * FROM `ony_tier`;
 DROP TEMPORARY TABLE `ony_tier`;
@@ -104,7 +104,7 @@ DROP TEMPORARY TABLE `ony_tier`;
 DELETE FROM `creature_template` WHERE `entry` = 310184;
 DROP TEMPORARY TABLE IF EXISTS `ony_tier`;
 CREATE TEMPORARY TABLE `ony_tier` AS SELECT * FROM `creature_template` WHERE `entry` = 10184;
-UPDATE `ony_tier` SET `entry` = 310184, `name` = 'Onyxia',
+UPDATE `ony_tier` SET `entry` = 310184, `name` = '奥妮克希亚',
     `difficulty_entry_1` = 0, `difficulty_entry_2` = 0, `difficulty_entry_3` = 0;
 INSERT INTO `creature_template` SELECT * FROM `ony_tier`;
 DROP TEMPORARY TABLE `ony_tier`;

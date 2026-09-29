@@ -275,18 +275,18 @@ DELETE FROM `spell_script_names` WHERE `spell_id` = 807794 AND `ScriptName` = 'a
 INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES (807794, 'aura_ascension_guardian_lifecycle');
 DELETE FROM `spell_bonus_data` WHERE `entry` IN (803131, 802874, 500673, 520651, 706808, 705380, 524091, 575831, 573275);
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
-(803131, 0, 0, 0.06, 0, 'Guardian completion'),
-(802874, 0, 0, 0, 0.2575, 'Guardian completion'),
-(500673, 0, 0, 0.1, 0, 'Guardian completion'),
-(520651, 0, 0, 0, 0, 'Guardian completion'),
-(706808, 0, 0, 0, 0, 'Guardian completion'),
-(705380, 0, 0, 0, 0, 'Guardian completion'),
-(524091, 0, 0, 0, 0, 'Guardian completion'),
-(575831, 0, 0, 0, 0, 'Guardian completion'),
-(573275, 0, 0, 0, 0, 'Guardian completion');
+(803131, 0, 0, 0.06, 0, '守护者完成'),
+(802874, 0, 0, 0, 0.2575, '守护者完成'),
+(500673, 0, 0, 0.1, 0, '守护者完成'),
+(520651, 0, 0, 0, 0, '守护者完成'),
+(706808, 0, 0, 0, 0, '守护者完成'),
+(705380, 0, 0, 0, 0, '守护者完成'),
+(524091, 0, 0, 0, 0, '守护者完成'),
+(575831, 0, 0, 0, 0, '守护者完成'),
+(573275, 0, 0, 0, 0, '守护者完成');
 -- New template only; never replace an existing object definition.
 INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `size`, `ScriptName`)
-SELECT 9000117, 5, 7217, 'Battle Drums', 1, 'go_ascension_guardian_drum'
+SELECT 9000117, 5, 7217, '战鼓', 1, 'go_ascension_guardian_drum'
 WHERE NOT EXISTS (SELECT 1 FROM `gameobject_template` WHERE `entry` = 9000117);
 DELETE FROM `spell_group` WHERE `id` = 2000180;
 INSERT INTO `spell_group` (`id`, `spell_id`) VALUES

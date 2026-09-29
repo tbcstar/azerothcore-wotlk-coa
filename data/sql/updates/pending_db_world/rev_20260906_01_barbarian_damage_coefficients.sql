@@ -4,14 +4,14 @@
 START TRANSACTION;
 DELETE FROM `spell_bonus_data` WHERE `entry` IN (500918, 500919, 520523, 520577, 800838, 801576, 805808, 805809, 806960, 850022);
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
-(500918, 0, 0, 0.5, 0, 'Local Barbarian: Ancestral Roar'),
-(500919, 0, 0, 0.15, 0, 'Local Barbarian: Whirling Advance'),
-(520523, 0, 0, 0.375, 0, 'Local Barbarian: Headbutt'),
-(520577, 0, 0, 0.4, 0, 'Local Barbarian: Gutspiller - Guts Spilled'),
-(800838, 0, 0, 0.2, 0, 'Local Barbarian: Breath of the North'),
-(801576, 0, 0, 0.4, 0, 'Local Barbarian: Ancestral Strike'),
-(805808, 0, 0, 0.15, 0, 'Local Barbarian: Keg Smash - physical'),
-(805809, 0, 0, 0.25, 0, 'Local Barbarian: Keg Smash - frost'),
-(806960, 0, 0, 0.4, 0, 'Local Barbarian: Berserker Axe - each axe'),
-(850022, 0, 0, 0.3, 0, 'Local Barbarian: Killing Spree');
+(500918, 0, 0, 0.5, 0, '本地野蛮人：先祖咆哮'),
+(500919, 0, 0, 0.15, 0, '本地野蛮人：旋风突进'),
+(520523, 0, 0, 0.375, 0, '本地野蛮人：头槌'),
+(520577, 0, 0, 0.4, 0, '本地野蛮人：溢肠者 - 肠子溢出'),
+(800838, 0, 0, 0.2, 0, '本地野蛮人：北方之息'),
+(801576, 0, 0, 0.4, 0, '本地野蛮人：先祖打击'),
+(805808, 0, 0, 0.15, 0, '本地野蛮人：酒桶猛击 - 物理'),
+(805809, 0, 0, 0.25, 0, '本地野蛮人：酒桶猛击 - 冰霜'),
+(806960, 0, 0, 0.4, 0, '本地野蛮人：狂战士之斧 - 每把斧头'),
+(850022, 0, 0, 0.3, 0, '本地野蛮人：杀戮盛宴');
 COMMIT;

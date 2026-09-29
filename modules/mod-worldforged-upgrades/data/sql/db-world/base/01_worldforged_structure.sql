@@ -14,10 +14,10 @@
 DROP TABLE IF EXISTS `worldforged_upgrade`;
 CREATE TABLE `worldforged_upgrade` (
   `id`          INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `store`       TINYINT UNSIGNED NOT NULL COMMENT '8 weapons, 9 armour - the client own Enum.CustomStores',
-  `base_item`   INT UNSIGNED NOT NULL COMMENT 'consumed on purchase',
-  `target_item` INT UNSIGNED NOT NULL COMMENT 'handed out',
-  `cost`        INT UNSIGNED NOT NULL COMMENT 'Runes of Ascension, item 375250; computed, not recovered',
+  `store`       TINYINT UNSIGNED NOT NULL COMMENT '8 武器，9 护甲 - 客户端自有的 Enum.CustomStores',
+  `base_item`   INT UNSIGNED NOT NULL COMMENT '购买时消耗',
+  `target_item` INT UNSIGNED NOT NULL COMMENT '发放',
+  `cost`        INT UNSIGNED NOT NULL COMMENT '飞升符文，物品 375250；已计算，未恢复',
   PRIMARY KEY (`id`),
   UNIQUE KEY `base` (`base_item`),
   KEY `store` (`store`)

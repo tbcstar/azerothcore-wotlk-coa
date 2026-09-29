@@ -13,8 +13,8 @@
 DELETE FROM `npc_text` WHERE `ID` = 790250;
 INSERT INTO `npc_text` (`ID`, `text0_0`, `text0_1`, `lang0`, `Probability0`) VALUES
 (790250,
- 'Greetings Hero!$B$BCall upon me in the dark depths of a dungeon and I shall commune across great distances to connect you with those seeking a Hero to carry out quests within the dungeon.',
- 'Greetings Hero!$B$BCall upon me in the dark depths of a dungeon and I shall commune across great distances to connect you with those seeking a Hero to carry out quests within the dungeon.',
+ '问候，英雄！$B$B在地牢的黑暗深处召唤我，我将跨越遥远的距离进行沟通，将你与那些寻求英雄来执行地下城内任务的人联系起来。',
+ '问候，英雄！$B$B在地牢的黑暗深处召唤我，我将跨越遥远的距离进行沟通，将你与那些寻求英雄来执行地下城内任务的人联系起来。',
  0, 1);
 
 REPLACE INTO `gossip_menu` (`MenuID`, `TextID`) VALUES (790250, 790250);

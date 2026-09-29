@@ -14,7 +14,7 @@ INSERT INTO `creature_template`
    `speed_walk`, `speed_run`, `unit_class`, `unit_flags`, `type`, `AIName`, `MovementType`,
    `flags_extra`, `ScriptName`)
 VALUES
-  (50074, 'Thunder Orb', NULL, 0, 1, 1, 35, 0, 1, 1.14286, 2, 0, 4, '', 0, 0, 'npc_ascension_thunder_orb')
+  (50074, '雷电宝珠', NULL, 0, 1, 1, 35, 0, 1, 1.14286, 2, 0, 4, '', 0, 0, 'npc_ascension_thunder_orb')
 ON DUPLICATE KEY UPDATE
   `name` = VALUES(`name`), `minlevel` = VALUES(`minlevel`), `maxlevel` = VALUES(`maxlevel`),
   `faction` = VALUES(`faction`), `npcflag` = VALUES(`npcflag`), `unit_class` = VALUES(`unit_class`),

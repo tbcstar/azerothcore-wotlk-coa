@@ -20,21 +20,21 @@ INSERT INTO `item_template`
   `spellid_1`,`spelltrigger_1`,`spellcooldown_1`,
   `Description`,`Material`,`ScriptName`)
 VALUES
-(8950001,15,0,'Lost Weapon Cache',61898,6,0,1,0,0,0,0,1,3,60034,0,30000,'A weapon appearance that used to be sold for Donation Points and has no other source left. One of 123 possible items.',1,'item_ethereal_lost_cache'),
-(8950002,15,0,'Lost Armor Cache',61898,6,0,1,0,0,0,0,1,3,60034,0,30000,'An armor appearance that used to be sold for Donation Points and has no other source left. One of 260 possible items.',1,'item_ethereal_lost_cache'),
-(8950003,15,0,'Lost Mount Cache',61898,6,0,1,0,0,0,0,1,3,60034,0,30000,'A mount that used to be sold for Donation Points and has no other source left. One of 147 possible items.',1,'item_ethereal_lost_cache'),
-(8950004,15,0,'Lost Spell Cache',61898,6,0,1,0,0,0,0,1,3,60034,0,30000,'A spell appearance that used to be sold for Donation Points and has no other source left. One of 142 possible items.',1,'item_ethereal_lost_cache'),
-(8950005,15,0,'Lost Pet Cache',61898,6,0,1,0,0,0,0,1,3,60034,0,30000,'A companion that used to be sold for Donation Points and has no other source left. One of 59 possible items.',1,'item_ethereal_lost_cache'),
-(8950006,15,0,'Lost Beast Cache',61898,6,0,1,0,0,0,0,1,3,60034,0,30000,'A tamed pet appearance that used to be sold for Donation Points and has no other source left. One of 43 possible items.',1,'item_ethereal_lost_cache'),
-(8950007,15,0,'Lost Convenience Cache',61898,6,0,1,0,0,0,0,1,3,60034,0,30000,'A convenience item that used to be sold for Donation Points and has no other source left. One of 151 possible items.',1,'item_ethereal_lost_cache'),
-(8950008,15,0,'Lost Curio Cache',61898,6,0,1,0,0,0,0,1,3,60034,0,30000,'A tabard, shirt, backpack or illusion that used to be sold for Donation Points. One of 67 possible items.',1,'item_ethereal_lost_cache'),
-(8950009,15,0,'Lost Toy Cache',61898,6,0,1,0,0,0,0,1,3,60034,0,30000,'A toy that used to be sold for Donation Points and has no other source left. One of 20 possible items.',1,'item_ethereal_lost_cache');
+(8950001,15,0,'失落武器宝箱',61898,6,0,1,0,0,0,0,1,3,60034,0,30000,'一种曾以捐赠点数出售、现已无其他获取途径的武器外观。可能物品之一，共 123 种。',1,'item_ethereal_lost_cache'),
+(8950002,15,0,'失落护甲宝箱',61898,6,0,1,0,0,0,0,1,3,60034,0,30000,'一种曾以捐赠点数出售、现已无其他获取途径的护甲外观。可能物品之一，共 260 种。',1,'item_ethereal_lost_cache'),
+(8950003,15,0,'失落坐骑宝箱',61898,6,0,1,0,0,0,0,1,3,60034,0,30000,'一只曾以捐赠点数出售、现已无其他获取途径的坐骑。可能物品之一，共 147 种。',1,'item_ethereal_lost_cache'),
+(8950004,15,0,'失落技能宝箱',61898,6,0,1,0,0,0,0,1,3,60034,0,30000,'一种曾以捐赠点数出售、现已无其他获取途径的法术外观。可能物品之一，共 142 种。',1,'item_ethereal_lost_cache'),
+(8950005,15,0,'失落宠物宝箱',61898,6,0,1,0,0,0,0,1,3,60034,0,30000,'一只曾以捐赠点数出售、现已无其他获取途径的伙伴。可能物品之一，共 59 种。',1,'item_ethereal_lost_cache'),
+(8950006,15,0,'失落野兽宝箱',61898,6,0,1,0,0,0,0,1,3,60034,0,30000,'一种曾以捐赠点数出售、现已无其他获取途径的驯服宠物外观。可能物品之一，共 43 种。',1,'item_ethereal_lost_cache'),
+(8950007,15,0,'失落便利宝箱',61898,6,0,1,0,0,0,0,1,3,60034,0,30000,'一件曾以捐赠点数出售、现已无其他获取途径的便利物品。可能物品之一，共 151 种。',1,'item_ethereal_lost_cache'),
+(8950008,15,0,'失落珍玩宝箱',61898,6,0,1,0,0,0,0,1,3,60034,0,30000,'一件曾以捐赠点数出售的战袍、衬衫、背包或幻象。可能物品之一，共 67 种。',1,'item_ethereal_lost_cache'),
+(8950009,15,0,'失落玩具宝箱',61898,6,0,1,0,0,0,0,1,3,60034,0,30000,'一件曾以捐赠点数出售、现已无其他获取途径的玩具。可能物品之一，共 20 种。',1,'item_ethereal_lost_cache');
 
 -- The Ethereal Cache of Wares. Ascension's own entry; only the script, the use
 -- spell and the description are set here, the rest of the row stays theirs.
 UPDATE `item_template`
    SET `ScriptName` = 'item_ethereal_cache_of_wares',
-       `Description` = 'One random item out of everything Tiraxis has ever carried. Most of it is junk. Some of it is not.',
+       `Description` = '提拉西斯曾携带过的所有物品中的随机一件。大部分是垃圾。有些不是。',
        `spellid_1` = 60034, `spelltrigger_1` = 0, `spellcooldown_1` = 30000,
        `Flags` = `Flags` & ~4
  WHERE `entry` = 969029;

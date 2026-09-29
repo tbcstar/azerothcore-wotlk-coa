@@ -13,6 +13,6 @@ INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES
 
 DELETE FROM `spell_bonus_data` WHERE `entry` IN (560385, 560387, 503826);
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
-(560385, 0.125, 0, 0, 0, 'Eternity Warper - Rippling Renewal pulse'),
-(560387, 0.385, 0, 0, 0, 'Eternity Warper - Rippling Oblivion pulse'),
-(503826, 0.25, 0, 0, 0, 'End of Time - Anomaly Spike');
+(560385, 0.125, 0, 0, 0, '永恒扭曲者 - 涟漪更新脉冲'),
+(560387, 0.385, 0, 0, 0, '永恒扭曲者 - 涟漪湮灭脉冲'),
+(503826, 0.25, 0, 0, 0, '时间尽头 - 异常尖刺');

@@ -5,4 +5,4 @@ INSERT INTO `spell_proc` (`SpellId`, `ProcFlags`, `SpellTypeMask`, `SpellPhaseMa
 VALUES (92145, 332116, 1, 2, 3, 2, 100);
 DELETE FROM `spell_bonus_data` WHERE `entry` = 805720;
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
-(805720, 0, 0, 0, 0.05, 'Reaper - Soul Splinter: 5% AP per tick; 3.5% Stamina in the base-value hook');
+(805720, 0, 0, 0, 0.05, '收割者 - 灵魂裂片：每跳5%攻击强度；基础数值钩子中3.5%耐力');

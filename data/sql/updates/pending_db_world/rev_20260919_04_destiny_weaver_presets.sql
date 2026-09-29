@@ -32,12 +32,12 @@
 -- 1. The six creatures that were never placed
 -- ---------------------------------------------------------------------------
 REPLACE INTO `creature_template` (`entry`, `name`, `subname`, `IconName`, `gossip_menu_id`, `minlevel`, `maxlevel`, `faction`, `npcflag`, `speed_walk`, `speed_run`, `detection_range`, `rank`, `dmgschool`, `DamageModifier`, `BaseAttackTime`, `RangeAttackTime`, `unit_class`, `unit_flags`, `unit_flags2`, `dynamicflags`, `family`, `type`, `type_flags`, `AIName`, `MovementType`, `HoverHeight`, `HealthModifier`, `ManaModifier`, `ArmorModifier`, `ExperienceModifier`, `RacialLeader`, `movementId`, `RegenHealth`, `flags_extra`, `ScriptName`, `VerifiedBuild`) VALUES
-(449343, 'Veylae', 'Destiny Weaver', 'Speak', 0, 40, 40, 35, 1, 1, 1.14286, 20, 0, 0, 1, 2000, 2000, 1, 768, 2048, 0, 0, 7, 134217728, '', 0, 1, 1.64062, 1, 1, 1, 0, 999, 1, 2, 'npc_destiny_weaver', 12340),
-(449344, 'Saltheris Dawnborn', 'Destiny Weaver', 'Speak', 0, 40, 40, 35, 1, 1, 1.14286, 20, 0, 0, 1, 2000, 2000, 1, 768, 2048, 0, 0, 7, 134217728, '', 0, 1, 1.64062, 1, 1, 1, 0, 999, 1, 2, 'npc_destiny_weaver', 12340),
-(449346, 'Waerun Cliffwalker', 'Destiny Weaver', 'Speak', 0, 40, 40, 35, 1, 1, 1.14286, 20, 0, 0, 1, 2000, 2000, 1, 768, 2048, 0, 0, 7, 134217728, '', 0, 1, 1.64062, 1, 1, 1, 0, 999, 1, 2, 'npc_destiny_weaver', 12340),
-(449353, 'Veylin', 'Destiny Weaver', 'Speak', 0, 40, 40, 35, 1, 1, 1.14286, 20, 0, 0, 1, 2000, 2000, 1, 768, 2048, 0, 0, 7, 134217728, '', 0, 1, 1.64062, 1, 1, 1, 0, 999, 1, 2, 'npc_destiny_weaver', 12340),
-(449354, 'Salthoril Dawnspire', 'Destiny Weaver', 'Speak', 0, 40, 40, 35, 1, 1, 1.14286, 20, 0, 0, 1, 2000, 2000, 1, 768, 2048, 0, 0, 7, 134217728, '', 0, 1, 1.64062, 1, 1, 1, 0, 999, 1, 2, 'npc_destiny_weaver', 12340),
-(449356, 'Waeric Cliffstrider', 'Destiny Weaver', 'Speak', 0, 40, 40, 35, 1, 1, 1.14286, 20, 0, 0, 1, 2000, 2000, 1, 768, 2048, 0, 0, 7, 134217728, '', 0, 1, 1.64062, 1, 1, 1, 0, 999, 1, 2, 'npc_destiny_weaver', 12340);
+(449343, '维莱', '命运编织者', 'Speak', 0, 40, 40, 35, 1, 1, 1.14286, 20, 0, 0, 1, 2000, 2000, 1, 768, 2048, 0, 0, 7, 134217728, '', 0, 1, 1.64062, 1, 1, 1, 0, 999, 1, 2, 'npc_destiny_weaver', 12340),
+(449344, '萨瑟里斯·黎明生', '命运编织者', 'Speak', 0, 40, 40, 35, 1, 1, 1.14286, 20, 0, 0, 1, 2000, 2000, 1, 768, 2048, 0, 0, 7, 134217728, '', 0, 1, 1.64062, 1, 1, 1, 0, 999, 1, 2, 'npc_destiny_weaver', 12340),
+(449346, '瓦尔伦·峭壁行者', '命运编织者', 'Speak', 0, 40, 40, 35, 1, 1, 1.14286, 20, 0, 0, 1, 2000, 2000, 1, 768, 2048, 0, 0, 7, 134217728, '', 0, 1, 1.64062, 1, 1, 1, 0, 999, 1, 2, 'npc_destiny_weaver', 12340),
+(449353, '维林', '命运编织者', 'Speak', 0, 40, 40, 35, 1, 1, 1.14286, 20, 0, 0, 1, 2000, 2000, 1, 768, 2048, 0, 0, 7, 134217728, '', 0, 1, 1.64062, 1, 1, 1, 0, 999, 1, 2, 'npc_destiny_weaver', 12340),
+(449354, '萨索里尔·黎明尖塔', '命运编织者', 'Speak', 0, 40, 40, 35, 1, 1, 1.14286, 20, 0, 0, 1, 2000, 2000, 1, 768, 2048, 0, 0, 7, 134217728, '', 0, 1, 1.64062, 1, 1, 1, 0, 999, 1, 2, 'npc_destiny_weaver', 12340),
+(449356, '瓦尔里克·峭壁阔步者', '命运编织者', 'Speak', 0, 40, 40, 35, 1, 1, 1.14286, 20, 0, 0, 1, 2000, 2000, 1, 768, 2048, 0, 0, 7, 134217728, '', 0, 1, 1.64062, 1, 1, 1, 0, 999, 1, 2, 'npc_destiny_weaver', 12340);
 
 -- ---------------------------------------------------------------------------
 -- 2. Their models: the three display ids the captures name for these pairs

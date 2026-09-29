@@ -2,7 +2,7 @@
 START TRANSACTION;
 DELETE FROM `spell_bonus_data` WHERE `entry` IN (680537);
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
-(680537, 0, 0, 0.675, 0, 'Local CoA Stake: 67.5% melee AP, no SP');
+(680537, 0, 0, 0.675, 0, '本地 CoA 木桩：67.5% 近战攻击强度，无法术强度');
 DELETE FROM `spell_script_names` WHERE `spell_id` IN (-680537) AND `ScriptName` = 'spell_ascension_witch_hunter_stake';
 INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES
 (-680537, 'spell_ascension_witch_hunter_stake');

@@ -12,6 +12,6 @@ INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES
 (712307, 'spell_ascension_runemaster_brand_weapons');
 DELETE FROM `spell_bonus_data` WHERE `entry` IN (707141, 712322);
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
-(707141, 0.3, 0, 0.3, 0, 'Ascension Runeblade - current rank chain direct AP and SP'),
-(712322, 0.15, 0, 0.28, 0, 'Ascension Runic Brand - each weapon helper AP and SP');
+(707141, 0.3, 0, 0.3, 0, '飞升符文之刃 - 当前等级链直接攻击强度和法术强度'),
+(712322, 0.15, 0, 0.28, 0, '飞升符文烙印 - 每把武器助手攻击强度和法术强度');
 COMMIT;

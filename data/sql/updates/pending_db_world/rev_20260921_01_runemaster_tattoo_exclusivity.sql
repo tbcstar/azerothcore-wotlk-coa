@@ -20,4 +20,4 @@ INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
 
 DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 111001;
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
-(111001, 1, 'Runemaster: one active Runic Tattoo');
+(111001, 1, '符文大师：只能激活一个符文纹身');

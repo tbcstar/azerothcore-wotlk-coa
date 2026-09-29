@@ -284,134 +284,134 @@ DELETE FROM `spell_script_names` WHERE `spell_id` = 807962 AND `ScriptName` = 'a
 INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES (807962, 'aura_ascension_felsworn_lifecycle');
 DELETE FROM `spell_bonus_data` WHERE `entry` IN (300469, 501270, 501271, 501272, 501281, 501282, 501283, 501284, 501285, 501286, 501287, 501288, 501289, 501290, 501291, 501292, 501293, 501294, 501295, 501296, 501297, 501298, 501299, 501314, 501315, 501316, 501317, 501318, 501319, 501320, 501321, 520236, 520262, 520688, 520689, 520690, 520691, 520692, 520693, 520806, 520832, 555742, 556503, 560284, 560627, 560839, 563271, 563730, 563731, 563732, 563733, 563734, 563735, 570159, 572585, 572615, 572616, 572617, 574166, 705124, 705129, 707523, 707524, 707525, 707526, 707527, 712399, 712483, 800204, 800207, 800208, 800355, 800598, 801312, 801895, 802060, 802676, 802677, 802678, 803467, 803484, 803485, 803486, 803487, 803715, 805240, 805241, 805748, 806062, 806096, 806112, 807347, 807554);
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
-(300469, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(501270, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(501271, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(501272, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(501281, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(501282, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(501283, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(501284, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(501285, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(501286, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(501287, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(501288, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(501289, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(501290, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(501291, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(501292, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(501293, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(501294, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(501295, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(501296, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(501297, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(501298, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(501299, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(501314, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(501315, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(501316, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(501317, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(501318, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(501319, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(501320, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(501321, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(520236, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(520262, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(520688, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(520689, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(520690, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(520691, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(520692, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(520693, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(520806, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(520832, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(555742, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(556503, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(560284, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(560627, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(560839, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(563271, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(563730, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(563731, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(563732, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(563733, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(563734, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(563735, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(570159, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(572585, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(572615, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(572616, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(572617, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(574166, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(705124, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(705129, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(707523, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(707524, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(707525, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(707526, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(707527, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(712399, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(712483, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(800204, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(800207, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(800208, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(800355, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(800598, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(801312, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(801895, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(802060, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(802676, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(802677, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(802678, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(803467, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(803484, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(803485, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(803486, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(803487, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(803715, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(805240, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(805241, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(805748, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(806062, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(806096, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(806112, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(807347, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result'),
-(807554, 0, 0, 0, 0, 'Felsworn: explicit coefficient or actual result');
+(300469, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(501270, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(501271, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(501272, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(501281, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(501282, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(501283, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(501284, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(501285, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(501286, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(501287, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(501288, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(501289, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(501290, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(501291, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(501292, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(501293, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(501294, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(501295, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(501296, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(501297, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(501298, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(501299, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(501314, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(501315, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(501316, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(501317, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(501318, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(501319, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(501320, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(501321, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(520236, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(520262, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(520688, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(520689, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(520690, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(520691, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(520692, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(520693, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(520806, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(520832, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(555742, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(556503, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(560284, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(560627, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(560839, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(563271, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(563730, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(563731, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(563732, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(563733, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(563734, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(563735, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(570159, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(572585, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(572615, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(572616, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(572617, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(574166, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(705124, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(705129, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(707523, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(707524, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(707525, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(707526, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(707527, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(712399, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(712483, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(800204, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(800207, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(800208, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(800355, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(800598, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(801312, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(801895, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(802060, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(802676, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(802677, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(802678, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(803467, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(803484, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(803485, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(803486, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(803487, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(803715, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(805240, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(805241, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(805748, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(806062, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(806096, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(806112, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(807347, 0, 0, 0, 0, '邪誓：显式系数或实际结果'),
+(807554, 0, 0, 0, 0, '邪誓：显式系数或实际结果');
 -- Match the native Mark/Gift of the Wild group without rewriting its existing members.
 DELETE FROM `spell_group` WHERE `id` = 1078 AND `spell_id` IN (523478, 523495);
 INSERT INTO `spell_group` (`id`, `spell_id`) VALUES (1078, 523478), (1078, 523495);
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `flags_extra`, `ScriptName`)
-SELECT 51320, 'Fel Infernal', 1, 1, 35, 1, 3, 2000, 2000, 64, 'npc_ascension_felsworn_infernal'
+SELECT 51320, '邪能地狱火', 1, 1, 35, 1, 3, 2000, 2000, 64, 'npc_ascension_felsworn_infernal'
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 51320);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)
 SELECT 51320, 0, 169, 0.65, 1 WHERE NOT EXISTS (SELECT 1 FROM `creature_template_model` WHERE `CreatureID` = 51320);
 INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `size`, `ScriptName`)
-SELECT 9000140, 10, 4396, 'Fel Rift: Stormwind', 1, 'go_ascension_felsworn_rift'
+SELECT 9000140, 10, 4396, '邪能裂隙：暴风城', 1, 'go_ascension_felsworn_rift'
 WHERE NOT EXISTS (SELECT 1 FROM `gameobject_template` WHERE `entry` = 9000140);
 INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `size`, `ScriptName`)
-SELECT 9000141, 10, 4394, 'Fel Rift: Ironforge', 1, 'go_ascension_felsworn_rift'
+SELECT 9000141, 10, 4394, '邪能裂隙：铁炉堡', 1, 'go_ascension_felsworn_rift'
 WHERE NOT EXISTS (SELECT 1 FROM `gameobject_template` WHERE `entry` = 9000141);
 INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `size`, `ScriptName`)
-SELECT 9000142, 10, 4393, 'Fel Rift: Darnassus', 1, 'go_ascension_felsworn_rift'
+SELECT 9000142, 10, 4393, '邪能裂隙：达纳苏斯', 1, 'go_ascension_felsworn_rift'
 WHERE NOT EXISTS (SELECT 1 FROM `gameobject_template` WHERE `entry` = 9000142);
 INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `size`, `ScriptName`)
-SELECT 9000143, 10, 4395, 'Fel Rift: Orgrimmar', 1, 'go_ascension_felsworn_rift'
+SELECT 9000143, 10, 4395, '邪能裂隙：奥格瑞玛', 1, 'go_ascension_felsworn_rift'
 WHERE NOT EXISTS (SELECT 1 FROM `gameobject_template` WHERE `entry` = 9000143);
 INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `size`, `ScriptName`)
-SELECT 9000144, 10, 4397, 'Fel Rift: Thunder Bluff', 1, 'go_ascension_felsworn_rift'
+SELECT 9000144, 10, 4397, '邪能裂隙：雷霆崖', 1, 'go_ascension_felsworn_rift'
 WHERE NOT EXISTS (SELECT 1 FROM `gameobject_template` WHERE `entry` = 9000144);
 INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `size`, `ScriptName`)
-SELECT 9000145, 10, 4398, 'Fel Rift: Undercity', 1, 'go_ascension_felsworn_rift'
+SELECT 9000145, 10, 4398, '邪能裂隙：幽暗城', 1, 'go_ascension_felsworn_rift'
 WHERE NOT EXISTS (SELECT 1 FROM `gameobject_template` WHERE `entry` = 9000145);
 INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `size`, `ScriptName`)
-SELECT 9000146, 10, 7848, 'Fel Rift: Theramore', 1, 'go_ascension_felsworn_rift'
+SELECT 9000146, 10, 7848, '邪能裂隙：塞拉摩', 1, 'go_ascension_felsworn_rift'
 WHERE NOT EXISTS (SELECT 1 FROM `gameobject_template` WHERE `entry` = 9000146);
 INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `size`, `ScriptName`)
-SELECT 9000147, 10, 4398, 'Fel Rift: Altar of Storms', 1, 'go_ascension_felsworn_rift'
+SELECT 9000147, 10, 4398, '邪能裂隙：风暴祭坛', 1, 'go_ascension_felsworn_rift'
 WHERE NOT EXISTS (SELECT 1 FROM `gameobject_template` WHERE `entry` = 9000147);
 INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `size`, `ScriptName`)
-SELECT 9000148, 10, 4398, 'Fel Rift: Mannoroc Coven', 1, 'go_ascension_felsworn_rift'
+SELECT 9000148, 10, 4398, '邪能裂隙：玛诺洛克集会所', 1, 'go_ascension_felsworn_rift'
 WHERE NOT EXISTS (SELECT 1 FROM `gameobject_template` WHERE `entry` = 9000148);
 INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `size`, `ScriptName`)
-SELECT 9000149, 10, 4398, 'Fel Rift: Dark Whisper Gorge', 1, 'go_ascension_felsworn_rift'
+SELECT 9000149, 10, 4398, '邪能裂隙：暗语峡谷', 1, 'go_ascension_felsworn_rift'
 WHERE NOT EXISTS (SELECT 1 FROM `gameobject_template` WHERE `entry` = 9000149);

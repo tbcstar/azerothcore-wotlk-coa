@@ -5,7 +5,7 @@
 -- any duration modifier that applies to both rows.
 DELETE FROM `spell_linked_spell` WHERE `spell_trigger` = 681110 AND `spell_effect` = 681187 AND `type` = 2;
 INSERT INTO `spell_linked_spell` (`spell_trigger`, `spell_effect`, `type`, `comment`) VALUES
-(681110, 681187, 2, 'CoA Storm Ascendance: companion transform and magic damage taken reduction');
+(681110, 681187, 2, 'CoA 风暴飞升：伙伴变形和魔法伤害承受减免');
 
 -- "In addition, your damaging spells now generate an additional 10 Static. Can only occur once every sec."
 -- That clause is 681110's effect 0, an aura 42 proc triggering 804084 (Add 10 Static), but 681110's Spell.dbc

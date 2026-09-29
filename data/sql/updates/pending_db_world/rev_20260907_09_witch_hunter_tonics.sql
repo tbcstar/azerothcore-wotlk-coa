@@ -11,7 +11,7 @@ INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
 (1134, 803535);
 DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1134;
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
-(1134, 2, 'Local CoA: one active Witch Hunter Tonic');
+(1134, 2, '本地 CoA：只能激活一种巫猎手补剂');
 DELETE FROM `spell_script_names` WHERE `spell_id` = -680491 AND `ScriptName` = 'spell_ascension_witch_hunter_dark_tonic';
 DELETE FROM `spell_script_names` WHERE `spell_id` = 802276 AND `ScriptName` = 'spell_ascension_witch_hunter_vampiric_tonic';
 DELETE FROM `spell_script_names` WHERE `spell_id` = 802826 AND `ScriptName` = 'spell_ascension_witch_hunter_holy_water_tonic';

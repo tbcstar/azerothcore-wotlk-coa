@@ -20,7 +20,7 @@ REPLACE INTO `creature_template`
  `RegenHealth`, `CreatureImmunitiesId`, `flags_extra`, `ScriptName`, `VerifiedBuild`)
 VALUES
 (79025, 0, 0, 0, 0, 0,
- 'Wondrous Wisdomball', NULL, NULL, 0, 1, 1, 0, 35, 3,
+ '奇妙智慧球', NULL, NULL, 0, 1, 1, 0, 35, 3,
  1, 1.14286, 1, 1, 20, 0, 0,
  1, 2000, 2000, 1, 1, 1,
  0, 0, 0, 0, 12, 0, 0, 0,

@@ -8,7 +8,7 @@ INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES
 -- Wild Steam (803737): ${$m1*$<scalingbp>+$AP*.25} Frostfire damage.
 DELETE FROM `spell_bonus_data` WHERE `entry` = 803737;
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
-(803737, 0, 0, 0.25, 0, 'Ascension Runemaster Wild Steam - AP');
+(803737, 0, 0, 0.25, 0, '飞升符文大师 野性蒸汽 - 攻击强度');
 
 -- Runemaster Prismatic Flow (705581, #593): Spell.dbc carries ProcFlags 0, so SpellMgr::LoadSpellProcs generates no
 -- entry and its SPELL_AURA_PROC_TRIGGER_SPELL never casts 705582 (+40% movement speed for 2 sec). Casting Phase Out
@@ -23,4 +23,4 @@ INSERT INTO `spell_proc` (`SpellId`, `SchoolMask`, `SpellFamilyName`, `SpellFami
 -- Runemaster Fracture (803018, #595): ${$m1+0+$AP*1.5} Frost damage.
 DELETE FROM `spell_bonus_data` WHERE `entry` = 803018;
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
-(803018, 0, 0, 1.5, 0, 'Ascension Runemaster Fracture - AP');
+(803018, 0, 0, 1.5, 0, '飞升符文大师 碎裂 - 攻击强度');

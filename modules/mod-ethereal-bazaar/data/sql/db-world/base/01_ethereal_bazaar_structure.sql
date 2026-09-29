@@ -9,16 +9,16 @@
 DROP TABLE IF EXISTS `ethereal_bazaar_pool`;
 CREATE TABLE `ethereal_bazaar_pool` (
   `item`          INT UNSIGNED NOT NULL,
-  `extended_cost` INT UNSIGNED NOT NULL COMMENT 'ItemExtendedCost row that charges `price` in Bazaar Tokens',
+  `extended_cost` INT UNSIGNED NOT NULL COMMENT '以集市代币收取 `price` 的 ItemExtendedCost 行',
   `price`         INT UNSIGNED NOT NULL COMMENT 'kept for readers; the client is charged through extended_cost',
-  `band`          TINYINT UNSIGNED NOT NULL COMMENT '0 below 1000, 1 up to 1499, 2 from 1500',
+  `band`          TINYINT UNSIGNED NOT NULL COMMENT '0 低于 1000，1 至 1499，2 从 1500 起',
   PRIMARY KEY (`item`),
   KEY `band` (`band`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='What Tiraxis can draw a rotation from';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='提拉西斯可从中抽取轮换的内容';
 
 DROP TABLE IF EXISTS `ethereal_bazaar_cache_pool`;
 CREATE TABLE `ethereal_bazaar_cache_pool` (
-  `cache_item`  INT UNSIGNED NOT NULL COMMENT 'the cache the player opens',
-  `reward_item` INT UNSIGNED NOT NULL COMMENT 'one of the items it can contain',
+  `cache_item`  INT UNSIGNED NOT NULL COMMENT '玩家打开的宝箱',
+  `reward_item` INT UNSIGNED NOT NULL COMMENT '它可能包含的物品之一',
   PRIMARY KEY (`cache_item`, `reward_item`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Former webshop-only items, by category';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='原仅限网页商店的物品，按类别';

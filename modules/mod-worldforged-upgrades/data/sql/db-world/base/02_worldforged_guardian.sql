@@ -21,7 +21,7 @@ INSERT INTO `creature_template`
   `rank`,`speed_walk`,`speed_run`,`type`,`type_flags`,`RegenHealth`,
   `flags_extra`,`AIName`,`ScriptName`)
 VALUES
- (9780012,'Guardian of Time','Runes of Ascension',80,80,35,1,1,
+ (9780012,'时间守护者','飞升符文',80,80,35,1,1,
   0,1,1.14286,7,0,1,
   2,'','npc_worldforged_guardian');
 
@@ -47,4 +47,4 @@ VALUES (48516,3.5,35,2);
 
 DELETE FROM `npc_text` WHERE `ID` = 9780012;
 INSERT INTO `npc_text` (`ID`,`text0_0`,`text0_1`,`VerifiedBuild`)
-VALUES (9780012,'Time wears everything down. Bring me what the world forged, and runes enough, and I will make it whole again.','Time wears everything down. Bring me what the world forged, and runes enough, and I will make it whole again.',1);
+VALUES (9780012,'时间会磨灭一切。把世界锻造之物带给我，再带来足够的符文，我将让它重归完整。','时间会磨灭一切。把世界锻造之物带给我，再带来足够的符文，我将让它重归完整。',1);

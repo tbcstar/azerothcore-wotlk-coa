@@ -2,7 +2,7 @@
 -- Family 0 and class 2 use native summoned-pet stat defaults; no guessed Freepick pet-family spell list.
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 500941;
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `family`)
-SELECT 500941, 'Air Elemental', 1, 1, 35, 2, 4, 0
+SELECT 500941, '空气元素', 1, 1, 35, 2, 4, 0
 WHERE NOT EXISTS (SELECT 1 FROM `creature_template` WHERE `entry` = 500941);
 DELETE FROM `creature_template_spell` WHERE `CreatureID` = 500941;
 INSERT INTO `creature_template_spell` (`CreatureID`, `Index`, `Spell`) VALUES

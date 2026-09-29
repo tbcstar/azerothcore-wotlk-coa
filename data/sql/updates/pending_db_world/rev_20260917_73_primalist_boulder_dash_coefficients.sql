@@ -10,5 +10,5 @@
 START TRANSACTION;
 DELETE FROM `spell_bonus_data` WHERE `entry` = 500693;
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
-(500693, 1, 0, 0.5, 0, 'Local Primalist: Boulder Dash - damage per enemy rolled over');
+(500693, 1, 0, 0.5, 0, '本地原始主义者：巨石冲撞 - 每碾压一个敌人造成的伤害');
 COMMIT;

@@ -165,9 +165,11 @@ constexpr uint16 SMSG_UPDATE_OBJECT_ADDON = 0x0578;
 constexpr uint32 PLAYER_ADDON_FIELD_AVERAGE_ITEM_LEVEL = 5;
 
 constexpr uint16 SMSG_REALM_INFO = 0x09BC;
+constexpr uint16 SMSG_ASCENSION_SECURE_ADDONS = 0x094E;
 constexpr uint8 REALM_CREATION_FLAG_CONQUEST_OF_AZEROTH = 6;
 constexpr uint8 REALM_CREATION_FLAG_WARCRAFT_REBORN = 7;
 constexpr uint8 REALM_INFO_ADDONS_ALLOWED = 1;
+constexpr uint16 SMSG_GAME_MODE_STATE = 0x090B;
 
 constexpr uint16 SMSG_BANK_PERMISSIONS = 0x0769;
 
@@ -375,6 +377,9 @@ enum class AscensionCompatConfig {
   MAX_RIDING_FROM_START,
   QUEST_LEVEL_SCALING,
   AUTO_PROGRESSION,
+  GAME_MODE_MASK,
+  CLIENT_BOOLEAN_CONFIGS,
+  CLIENT_INTEGER_CONFIGS,
 
   NUM_CONFIGS,
 };
@@ -408,6 +413,9 @@ public:
                                 "CoA.RealmType", "live");
     SetConfigValue<std::string>(AscensionCompatConfig::CLASS_MODEL,
                                 "CoA.ClassModel", "coa");
+    SetConfigValue<uint32>(AscensionCompatConfig::GAME_MODE_MASK, "CoA.GameModeMask", 0);
+    SetConfigValue<std::string>(AscensionCompatConfig::CLIENT_BOOLEAN_CONFIGS, "CoA.ClientBooleanConfigs", "");
+    SetConfigValue<std::string>(AscensionCompatConfig::CLIENT_INTEGER_CONFIGS, "CoA.ClientIntegerConfigs", "");
     SetConfigValue<bool>(AscensionCompatConfig::ALLOW_LEARNED_SPELL_DELIVERY,
                          "CoA.AllowLearnedSpellDelivery", true);
     SetConfigValue<bool>(AscensionCompatConfig::LEARN_OWNED_COMPANIONS,
@@ -1293,7 +1301,10 @@ public:
 
   void OnPlayerLogin(Player *player) {
     if (!IsAscensionCustomClass(player))
+    {
+      QueueCharacterAdvancementState(player);
       return;
+    }
 
     uint32 const specializationId = player->GetPlayerSetting(ASCENSION_ACTIVE_SPEC_SETTING, 0).value;
     if (specializationId)
@@ -3296,6 +3307,7 @@ public:
     SendOutfitCollection(player, *state);
     SendAppearanceVisibility(player, *state);
     SendRealmInfo(player);
+    SendGameModeState(player);
     SendVanityCollection(player, *state);
     SendOwnedVanityStoreRecords(player, *state);
     RefreshVisibleItems(player);
@@ -4102,6 +4114,7 @@ private:
         AscensionClassService::Instance().SendInspectResult(player, ObjectGuid(packet.read<uint64>()));
         break;
       case CMSG_EXTENSION_INITIALIZED:
+        SendSecureAddonList(player->GetSession());
         player->SendAllSpellChargeStates();
         SendAscensionRunemasterEchoesCooldown(player);
         LOG_DEBUG("coa", "Resent spell charge state to {} after client world entry",
@@ -4349,6 +4362,29 @@ public:
              "Realm info sent to {}: type {}, class model {}, realm {} ({}).",
              who, art, model, realm.Id.Realm, realm.Name);
   }
+
+  void SendGameModeState(Player *player) {
+    if (!player || !player->GetSession())
+      return;
+
+    uint32 const mask = ascensionCompatConfig.GetConfigValue<uint32>(
+        AscensionCompatConfig::GAME_MODE_MASK);
+    WorldPacket p(SMSG_GAME_MODE_STATE, sizeof(uint32));
+    p << mask;
+    player->GetSession()->SendPacket(&p);
+  }
+
+    void SendSecureAddonList(WorldSession* session)
+    {
+        if (!session)
+            return;
+
+        WorldPacket packet(SMSG_ASCENSION_SECURE_ADDONS, 32);
+        packet << uint32(1);
+        packet << "Ascension_HelpUI";
+        packet << uint8(1);
+        session->SendPacket(&packet);
+    }
 
 private:
   void SendOutfitCollection(Player *player, PlayerCollectionState const &state)
@@ -4988,7 +5024,9 @@ public:
     else if (opcode == CMSG_CHAR_ENUM)
     {
       SendAscensionCharacterListInfo(session);
-      AscensionCollectionService::Instance().SendRealmInfo(session);
+      AscensionCollectionService& service = AscensionCollectionService::Instance();
+      service.SendRealmInfo(session);
+      service.SendSecureAddonList(session);
     }
 
     uint32 firstOpcode = ascensionCompatConfig.GetConfigValue<uint32>(
@@ -6108,6 +6146,20 @@ class AscensionTradesmanScroll : public ItemScript
 public:
     AscensionTradesmanScroll() : ItemScript("ascension_tradesman_scroll") { }
 
+    static std::vector<uint32> MissingRankSpells(Player const* player, uint32 skillId)
+    {
+        uint16 const currentStep = player->GetSkillStep(skillId);
+        uint16 const maxStep = GetMaxProfessionSkillStep(player->GetSession()->Expansion());
+        std::vector<uint32> missing;
+        for (uint32 rankSpell : sSpellMgr->GetSkillRankSpells(skillId))
+        {
+            uint16 const step = sSpellMgr->GetSpellLearnSkill(rankSpell)->step;
+            if (step > currentStep && step <= maxStep && !player->HasSpell(rankSpell))
+                missing.push_back(rankSpell);
+        }
+        return missing;
+    }
+
     bool OnUse(Player* player, Item* item, SpellCastTargets const&) override
     {
         if (!player || !item)
@@ -6120,7 +6172,8 @@ public:
             std::string label = prof.name;
             if (!player->HasSkill(prof.skillId))
                 label += " (not learned)";
-            else if (player->GetSkillValue(prof.skillId) >= player->GetPureMaxSkillValue(prof.skillId))
+            else if (MissingRankSpells(player, prof.skillId).empty() &&
+                     player->GetSkillValue(prof.skillId) >= player->GetPureMaxSkillValue(prof.skillId))
                 label += " (already maxed)";
 
             AddGossipItemFor(player, GOSSIP_ICON_TRAINER, label, kSenderScroll, i);
@@ -6148,6 +6201,9 @@ public:
                 "You must learn {} before the scroll can raise it.", prof.name);
             return;
         }
+
+        for (uint32 rankSpell : MissingRankSpells(player, prof.skillId))
+            player->learnSpell(rankSpell);
 
         uint16 const cap = player->GetPureMaxSkillValue(prof.skillId);
         if (!cap)
@@ -6748,10 +6804,20 @@ public:
   }
 };
 
+void AppendConfiguredClientConfigs(AscensionClientConfig& config) {
+  AppendAscensionClientConfigList(ascensionCompatConfig.GetConfigValue<std::string>(
+                                      AscensionCompatConfig::CLIENT_BOOLEAN_CONFIGS),
+                                  config.Booleans);
+  AppendAscensionClientConfigList(ascensionCompatConfig.GetConfigValue<std::string>(
+                                      AscensionCompatConfig::CLIENT_INTEGER_CONFIGS),
+                                  config.Integers);
+}
+
 void AddAscensionCompatScripts() {
   RegisterAscensionClientConfig([](AscensionClientConfig& config) {
     config.Booleans.emplace_back("CONFIG_CHARACTER_ADVANCEMENT_BUILD_INSPECT_ENABLED", true);
   });
+  RegisterAscensionClientConfig(AppendConfiguredClientConfigs);
   new npc_ascension_training_book();
   RegisterSpellScript(spell_ascension_personal_bank);
   RegisterSpellScript(spell_ascension_experience_potion);

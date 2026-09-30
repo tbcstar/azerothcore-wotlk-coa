@@ -15,8 +15,8 @@ AzerothCore is a C++ MMORPG server emulator for World of Warcraft 3.3.5a (WotLK)
   are separate scopes. Repeat passing checks only after changes or a specific unresolved concern.
 - In CoA-owned code, express intent through names, structure and tests; do not add explanatory comments or
   docstrings. Preserve legal notices, tool directives and test generator markers. Scope is
-  `src/server/coa/`, `apps/coa-tests/`, `apps/coa-bugreport/`, `apps/coa-{dbc,gameplay-test,mechanics}/`,
-  `tools/` and `.github/scripts/`.
+  `src/server/coa/`, `apps/coa-tests/`, `apps/coa-bugreport/`,
+  `apps/coa-{dbc,gameplay-test,mechanics,world-content}/`, `tools/` and `.github/scripts/`.
   The `source` stage of `tools/verify_all.py` enforces this for C++ and Python; without `--base` it audits the
   full scope.
 - In inherited AzerothCore source, keep existing comments so upstream merges stay clean; change a comment only

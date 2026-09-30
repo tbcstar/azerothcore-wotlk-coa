@@ -22,6 +22,7 @@ MECHANICS = 'apps/coa-mechanics/'
 COA = 'src/server/coa/'
 COA_TESTS = 'apps/coa-tests/'
 NATIVE_DBC = 'src/server/shared/DataStores/'
+CONTENT = 'apps/coa-world-content/'
 CONTROL_FILES = {'tools/check_source.py', 'tools/test_source.py', '.github/workflows/quality.yml'}
 SUITES = {
     'source-tools': {
@@ -53,6 +54,10 @@ SUITES = {
         'commands': [[GAMEPLAY + 'test_runner.py'], [GAMEPLAY + 'test_world_cache.py'],
                      [GAMEPLAY + 'test_verification.py'], [GAMEPLAY + 'test_batch.py'],
                      [GAMEPLAY + 'catalog.py', '--check']],
+    },
+    'world-content': {
+        'paths': [CONTENT + '*.py'],
+        'commands': [[CONTENT + 'test_validate_content.py'], [CONTENT + 'test_archive.py']],
     },
     'registrations': {
         'paths': [COA + '*.cpp', COA + '*.h', COA + 'CMakeLists.txt', 'src/server/apps/worldserver/Main.cpp',

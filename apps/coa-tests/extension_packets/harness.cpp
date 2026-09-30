@@ -1055,6 +1055,26 @@ void TestTalentRequests()
         "the native known-entries upload and talent reset are consumed and queued for the account");
 }
 
+void TestCoreHandledRequests()
+{
+    WorldSession session;
+    Check(Receive(session, WorldPacket(CMSG_RESET_DUNGEONS, 0)),
+        "the portrait menu's reset all dungeons reaches the core handler");
+    Check(Receive(session, WorldPacket(CMSG_PORT_GRAVEYARD, 0)),
+        "the ghost frame's return to graveyard reaches the core handler");
+    Check(Receive(session, WorldPacket(CMSG_TAXI_REQUEST_EARLY_LANDING, 0)),
+        "the flight's early landing request reaches the core handler");
+    WorldPacket deletePet(CMSG_STABLE_DELETE_PET, 4);
+    deletePet << uint32(1);
+    Check(Receive(session, deletePet), "the stable window's delete request reaches the core handler");
+    Check(Receive(session, WorldPacket(CMSG_QUERY_INSTANCE_BINDS, 0)),
+        "the instance bind query reaches the core handler");
+    WorldPacket resetInstance(CMSG_RESET_INSTANCE, 5);
+    resetInstance << uint32(36) << uint8(0);
+    Check(Receive(session, resetInstance), "the single instance reset reaches the core handler");
+    Check(session.Sent.empty(), "the early hook answers none of the requests the core handles");
+}
+
 int main()
 {
     TestRealmInfo();
@@ -1063,6 +1083,7 @@ int main()
     TestWorldEntryResend();
     TestStorePackets();
     TestTalentRequests();
+    TestCoreHandledRequests();
     TestItemQueries();
     TestVanityDelivery();
     TestRejectedPacketWarnings();

@@ -387,6 +387,7 @@ struct Actor
     std::map<uint64, std::map<uint16, uint32>> unitValues;
     std::map<uint32, uint32> creatureQueryRank;
     uint32 lastQuestWindow = 0;
+    uint32 lastStableResult = 0;
     std::map<uint16, uint32> extensionPackets;
     std::map<uint16, std::vector<std::string>> extensionPayloads;
     std::string observerError;
@@ -586,6 +587,8 @@ void ObserveExtensionPacket(Actor& actor, WorldPacket const& packet)
 void ObservePacket(Actor& actor, WorldPacket const& packet)
 {
     ObserveExtensionPacket(actor, packet);
+    if (packet.GetOpcode() == SMSG_STABLE_RESULT && packet.size() == sizeof(uint8))
+        actor.lastStableResult = packet.read<uint8>(0);
     ObserveSpellCasts(actor, packet);
     ObserveSpellDamage(actor, packet);
     ObserveSpellHealing(actor, packet);
@@ -1363,6 +1366,42 @@ private:
                 return item->GetGUID().ToString();
 
         throw std::runtime_error("No bought-back item of entry " + std::to_string(entry));
+    }
+
+    double ListedInstanceBinds(Tree const& step) const
+    {
+        auto const& payloads = _actors.at(step.get<std::string>("actor")).extensionPayloads;
+        auto const answers = payloads.find(uint16(SMSG_QUERY_INSTANCE_BINDS_RESULT));
+        Require(answers != payloads.end() && !answers->second.empty(), "No instance bind answer was received");
+        std::string const& answer = answers->second.back();
+        std::size_t const end = answer.find('\0');
+        Require(end != std::string::npos, "The instance bind answer has no result string");
+        if (answer.compare(0, end, "QUERY_INSTANCE_BINDS_OK"))
+            return -1;
+
+        ByteBuffer binds;
+        binds.append(reinterpret_cast<uint8 const*>(answer.data()) + end + 1, answer.size() - end - 1);
+        uint32 const count = binds.read<uint32>();
+        Require(binds.size() == sizeof(uint32) + std::size_t(count) * 3 * sizeof(uint32),
+            "The instance bind answer does not hold its count of binds");
+        auto const map = step.get_optional<uint32>("id");
+        uint32 listed = 0;
+        for (uint32 index = 0; index < count; ++index)
+        {
+            binds.read_skip<uint32>();
+            uint32 const bindMap = binds.read<uint32>();
+            binds.read_skip<uint32>();
+            listed += !map || bindMap == *map;
+        }
+        return listed;
+    }
+
+    static uint32 StabledPetNumber(Player* player, uint32 slot)
+    {
+        PetStable const* stable = player->GetPetStable();
+        Require(stable && slot < stable->StabledPets.size() && stable->StabledPets[slot],
+            "No stabled pet in stable slot " + std::to_string(slot));
+        return stable->StabledPets[slot]->PetNumber;
     }
 
     WorldObject* GetQuestGiver(Player* player, Tree const& step)
@@ -2192,6 +2231,30 @@ private:
             return player->GetBankBagSlotCount();
         if (metric == "taxi_node")
             return player->m_taxi.IsTaximaskNodeKnown(step.get<uint32>("entry"));
+        if (metric == "in_flight")
+            return player->IsInFlight();
+        if (metric == "stabled_pet_count")
+        {
+            PetStable const* stable = player->GetPetStable();
+            return stable ? std::count_if(stable->StabledPets.begin(), stable->StabledPets.end(),
+                [](Optional<PetStable::PetInfo> const& pet) { return pet.has_value(); }) : 0;
+        }
+        if (metric == "instance_binds_listed")
+            return ListedInstanceBinds(step);
+        if (metric == "stable_result")
+            return _actors.at(step.get<std::string>("actor")).lastStableResult;
+        if (metric == "pet_rows")
+        {
+            auto const slot = step.get_optional<uint32>("slot");
+            QueryResult const result = slot
+                ? CharacterDatabase.Query("SELECT COUNT(*) FROM character_pet WHERE owner = {} AND slot = {}",
+                    player->GetGUID().GetCounter(), *slot)
+                : CharacterDatabase.Query("SELECT COUNT(*) FROM character_pet WHERE owner = {}",
+                    player->GetGUID().GetCounter());
+            return result ? result->Fetch()[0].Get<uint64>() : 0;
+        }
+        if (metric == "taxi_destination")
+            return player->m_taxi.empty() ? 0 : player->m_taxi.GetPath().back();
         if (metric == "private_instance")
             return player->GetMap()->IsScriptedPrivateInstance();
         if (metric == "controls_self")
@@ -2259,6 +2322,25 @@ private:
             if (Creature* creature = GetOwnedCreature(player, entry))
                 return double(creature->GetObjectScale());
             return 0.0;
+        }
+        if (metric == "owned_creature_weapon_damage_min")
+        {
+            uint32 entry = step.get<uint32>("entry");
+            Require(sObjectMgr->GetCreatureTemplate(entry) != nullptr, "Unknown creature entry in metric");
+            std::list<Creature*> creatures;
+            player->GetCreatureListWithEntryInGrid(creatures, entry, 100.0f);
+            double lowest = 0.0;
+            bool found = false;
+            for (Creature* creature : creatures)
+            {
+                if (!creature->IsAlive() || creature->GetOwnerGUID() != player->GetGUID() ||
+                    !player->InSamePhase(creature))
+                    continue;
+                double const damage = double(creature->GetFloatValue(UNIT_FIELD_MINDAMAGE));
+                lowest = found ? std::min(lowest, damage) : damage;
+                found = true;
+            }
+            return lowest;
         }
         if (metric == "bank_shows")
             return double(_actors.at(step.get<std::string>("actor")).bankShows);
@@ -2745,8 +2827,10 @@ private:
                             request << value.get_value<std::string>();
                         else if (kind == "buyback_guid")
                             request << BuybackGuid(player, value.get_value<uint32>());
+                        else if (kind == "stabled_pet")
+                            request << StabledPetNumber(player, value.get_value<uint32>());
                         else if (kind == "actor_guid")
-                            request << GetPlayer(value.get_value<std::string>())->GetGUID().GetRawValue();
+                            request << GetUnit(value.get_value<std::string>())->GetGUID().GetRawValue();
                         else
                             throw std::runtime_error("Unknown packet field type: " + kind);
                     }
@@ -2759,6 +2843,9 @@ private:
             Require(consumed == step.get<bool>("consumed", true), consumed
                 ? Acore::StringFormat("The packet was consumed by the {}", hook)
                 : Acore::StringFormat("No {} consumed the packet", hook));
+            if (early && !consumed)
+                if (char const* handler = DeliverToSession(player, request))
+                    record.put("core_handler", handler);
         }
         else if (action == "specialization" || action == "advancement_rank")
         {
@@ -3586,6 +3673,12 @@ private:
             player->TeleportTo(map, x, y, z, o);
             record.put("result", "teleport sent");
         }
+        else if (action == "discover_taxi_node")
+        {
+            uint32 const node = step.get<uint32>("entry");
+            Require(sTaxiNodesStore.LookupEntry(node) != nullptr, "Unknown taxi node");
+            player->m_taxi.SetTaximaskNode(node);
+        }
         else if (action == "quest_accept" || action == "quest_turn_in")
         {
             uint32 quest = step.get<uint32>("quest");
@@ -3712,6 +3805,20 @@ private:
         {
             return !sScriptMgr->CanPacketReceiveEarly(session, packet);
         }).get();
+    }
+
+    static char const* DeliverToSession(Player* player, WorldPacket& packet)
+    {
+        if (packet.GetOpcode() >= NUM_OPCODE_HANDLERS)
+            return nullptr;
+
+        ClientOpcodeHandler const* handler = opcodeTable[static_cast<OpcodeClient>(packet.GetOpcode())];
+        if (!handler || handler->Status != STATUS_LOGGEDIN || !player->IsInWorld())
+            return nullptr;
+
+        packet.rpos(0);
+        handler->Call(player->GetSession(), packet);
+        return handler->Name;
     }
 
     void Advance()

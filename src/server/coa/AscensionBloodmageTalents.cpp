@@ -4,6 +4,7 @@
 #include "Log.h"
 #include "Player.h"
 #include "ScriptMgr.h"
+#include "ScriptedCreature.h"
 #include "SpellAuraEffects.h"
 #include "SpellAuras.h"
 #include "SpellScript.h"
@@ -235,6 +236,21 @@ class spell_ascension_animated_blood : public SpellScript
         BeforeCast += SpellCastFn(spell_ascension_animated_blood::ReplacePreviousBrood);
         OnEffectLaunch += SpellEffectFn(spell_ascension_animated_blood::HandleExtraWorms,
             EFFECT_1, SPELL_EFFECT_TRIGGER_SPELL);
+    }
+};
+
+struct npc_ascension_animated_blood : public ScriptedAI
+{
+    npc_ascension_animated_blood(Creature* creature) : ScriptedAI(creature) { }
+
+    void IsSummonedBy(WorldObject* summoner) override
+    {
+        me->SetReactState(REACT_DEFENSIVE);
+        Unit* owner = summoner ? summoner->ToUnit() : nullptr;
+        if (!owner || !owner->IsInCombat())
+            return;
+        if (Unit* target = owner->GetVictim(); target && me->CanStartAttack(target, true))
+            AttackStart(target);
     }
 };
 
@@ -689,6 +705,7 @@ void AddSC_AscensionBloodmageTalents()
     new bloodmage_talent_contracts();
     RegisterSpellScript(spell_ascension_bloodmage_sanguine_rupture);
     RegisterSpellScript(spell_ascension_animated_blood);
+    RegisterCreatureAI(npc_ascension_animated_blood);
     RegisterSpellScript(aura_ascension_bloodmage_crimson_feast);
     RegisterSpellScript(aura_ascension_bloodmage_coagulation);
     RegisterSpellScript(aura_ascension_bloodmage_taldarams_torment);

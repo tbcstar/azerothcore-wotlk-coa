@@ -423,6 +423,19 @@ supports. Client binaries are maintained outside this repository.
 - `SMSG_ACCOUNT_INFO` (0x09BB) is sent at login with the account's GM level and characters.
 - Help menu tickets use the ticket packets 0x0701-0x071E and the `.support` GM commands; see
   [player tickets](player-tickets.md).
+- Requests the core session handles like stock ones, registered in its opcode table and let
+  through the CoA packet filter: the portrait menu's reset all dungeons (`CMSG_RESET_DUNGEONS`,
+  0x061F); the ghost frame's return to graveyard (`CMSG_PORT_GRAVEYARD`, 0x0544), which
+  moves a released ghost to its closest graveyard; and the flight's early landing request
+  (`CMSG_TAXI_REQUEST_EARLY_LANDING`, 0x05F2), which ends the flight at the next discovered
+  flight point on its route, so the later legs are neither flown nor paid; and the stable
+  window's delete button (`CMSG_STABLE_DELETE_PET`, 0x067C), which deletes a stabled pet and
+  answers `SMSG_STABLE_RESULT` 8, after which the client lists the stable again.
+- `CMSG_QUERY_INSTANCE_BINDS` (0x06FD), sent at every world entry, is answered with
+  `SMSG_QUERY_INSTANCE_BINDS_RESULT` (0x06FE): `QUERY_INSTANCE_BINDS_OK`, then the player's binds
+  that can still be reset as instance id, map and difficulty. The portrait menu's Reset Instances
+  list shows them, and `CMSG_RESET_INSTANCE` (0x058C: u32 map, u8 difficulty) resets one of them
+  like the stock reset: only outside a group or by its leader, and not while players are inside.
 
 The `gtOCTRegenHP`, `gtRegenHPPerSpt` and `gtRegenMPPerSpt` client files each contain
 3,200 single-float rows indexed by class and level. Their SQL overlay tables are empty,

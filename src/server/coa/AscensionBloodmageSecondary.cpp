@@ -39,6 +39,8 @@ enum BloodmageSecondarySpells : uint32
     SPELL_BLOOD_FEAST_RESTORE = 706608,
     SPELL_ROTCLAW = 804197,
     SPELL_ROTCLAW_ENERGIZE = 805352,
+    SPELL_LUNGE = 500126,
+    SPELL_LUNGE_ENERGIZE = 804864,
     SPELL_BLOOD_THIRST = 706613,
     SPELL_TORTURE = 504071,
     SPELL_TORTURE_DURATION = 561152,
@@ -237,6 +239,11 @@ public:
         {
             spell->SetScriptValue(SPELL_ROTCLAW_ENERGIZE, 1);
             player->CastSpell(player, SPELL_ROTCLAW_ENERGIZE, true);
+        }
+        if (RankOf(id, SPELL_LUNGE) && !spell->GetScriptValue(SPELL_LUNGE_ENERGIZE))
+        {
+            spell->SetScriptValue(SPELL_LUNGE_ENERGIZE, 1);
+            player->CastSpell(player, SPELL_LUNGE_ENERGIZE, true);
         }
         if (IsVampiricFang(id) && !spell->GetScriptValue(SPELL_VAMPIRIC_FANG))
         {

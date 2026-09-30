@@ -21,6 +21,7 @@
 #include "DBCEnums.h"
 #include "Define.h"
 #include "EnumFlag.h"
+#include <bit>
 #include <cassert>
 
 float const GROUND_HEIGHT_TOLERANCE = 0.05f; // Extra tolerance to z position to check if it is in air or on ground.
@@ -211,6 +212,13 @@ constexpr uint32 ExpandLegacyClassMask(uint32 classMask)
             result |= uint32(1) << (classId - 1);
 
     return result;
+}
+
+// A quest for a single stock class is that class's own quest and stays closed to custom classes. A quest shared
+// by several stock classes restricts by gear family, so it also admits the custom classes of those families.
+constexpr uint32 ExpandLegacyQuestClassMask(uint32 classMask)
+{
+    return std::popcount(classMask) > 1 ? ExpandLegacyClassMask(classMask) : classMask;
 }
 
 // valid classes for creature_template.unit_class

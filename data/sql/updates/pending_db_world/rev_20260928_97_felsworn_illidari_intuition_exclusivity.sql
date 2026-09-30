@@ -10,5 +10,5 @@ INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
 (1154, 680308);
 DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1154;
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
-(1154, 2, 'Local CoA: one Illidari Intuition per caster on each recipient');
+(1154, 2, '本地 CoA：每个施法者在每个接受者身上只能应用一个伊利达雷直觉');
 COMMIT;

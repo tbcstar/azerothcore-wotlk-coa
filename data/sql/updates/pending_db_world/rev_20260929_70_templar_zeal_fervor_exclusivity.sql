@@ -12,5 +12,5 @@ INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
 (1160, 680306);
 DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1160;
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
-(1160, 2, 'Local CoA: Templar Gift of Fervor/Gift of Zeal and their raid versions are mutually exclusive per caster (#4449)');
+(1160, 2, '本地 CoA：圣殿骑士的狂热之赐/热忱之赐及其团队版本按施法者互斥（#4449）');
 COMMIT;

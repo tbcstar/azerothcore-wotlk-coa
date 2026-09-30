@@ -108,18 +108,18 @@ CoA.ClassModel = "coa"
 
 #
 #    CoA.GameModeMask
-#        Description: Custom game-mode bits sent to the client when a character logs in, which
-#                     turn on the matching client UI and rules. Add values to combine modes.
-#                     2    - Ironman
-#                     4    - Survivalist
-#                     8    - Draft
-#                     32   - Resolute
-#                     64   - Wildcard
-#                     128  - Felforged
-#                     256  - Nightmare
-#                     2048 - Build Draft
-#                     4096 - Crusader
-#        Default:     0 - no custom game mode
+#        Description: 角色登录时发送给客户端的自定义游戏模式位，用于开启对应的客户端 UI 和规则。
+#                     添加数值可以组合多个模式。
+#                     2    - 铁人
+#                     4    - 生存专家
+#                     8    - 轮抽
+#                     32   - 坚定
+#                     64   - 外卡
+#                     128  - 邪能锻造
+#                     256  - 梦魇
+#                     2048 - 构筑轮抽
+#                     4096 - 十字军
+#        默认值：     0 - 无自定义游戏模式
 #
 
 CoA.GameModeMask = 0
@@ -127,10 +127,10 @@ CoA.GameModeMask = 0
 #
 #    CoA.ClientBooleanConfigs
 #    CoA.ClientIntegerConfigs
-#        Description: Extra client configs sent in SMSG_COA_CONFIG, as a comma-separated NAME=value list.
-#                     They select realm-specific client UI, for example
-#                     "CONFIG_LEGACY_CHARACTER_ADVANCEMENT_ENABLED=0" loads the current Character
-#                     Advancement UI instead of the Season 9 one on a free-pick realm.
+#        Description: 通过 SMSG_COA_CONFIG 发送的额外客户端配置，格式为逗号分隔的 NAME=value list.
+#                     它们用于选择服务器特定的客户端 UI，例如
+#                     "CONFIG_LEGACY_CHARACTER_ADVANCEMENT_ENABLED=0" 会在自由选择服务器上
+#                     加载当前的角色进阶界面，而不是第 9 赛季的界面。
 #        Default:     "" - none
 #
 

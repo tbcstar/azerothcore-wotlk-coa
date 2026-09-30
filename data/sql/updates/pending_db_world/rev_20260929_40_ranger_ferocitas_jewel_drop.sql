@@ -6,4 +6,4 @@
 -- chance as the necklace, the neighbouring quest drop on the same creature (#5260).
 DELETE FROM `creature_loot_template` WHERE `Entry` = 7234 AND `Item` = 8050;
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
-(7234, 8050, 0, 100, 1, 1, 0, 1, 1, 'Ferocitas the Dream Eater - Tallonkai\'s Jewel (quest 2459 objective)');
+(7234, 8050, 0, 100, 1, 1, 0, 1, 1, 'F食梦者菲罗塞塔斯 - 塔隆凯的宝石（任务 2459 目标）');

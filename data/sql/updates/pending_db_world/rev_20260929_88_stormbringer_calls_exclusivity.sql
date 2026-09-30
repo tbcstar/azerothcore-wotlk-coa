@@ -27,6 +27,6 @@ INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
 
 DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1171;
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
-(1171, 2, 'Local CoA: one Stormbringer Call (of the Storm or Wind) per caster on each recipient');
+(1171, 2, '本地 CoA：每个施法者在每个接受者身上只能应用一个风暴使者呼唤（风暴或狂风）');
 
 COMMIT;

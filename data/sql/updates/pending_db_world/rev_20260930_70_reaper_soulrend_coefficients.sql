@@ -4,5 +4,5 @@
 -- standalone copy with the same tooltip. MaxLevel 0 keeps the spell level penalty out of the spell power term.
 DELETE FROM `spell_bonus_data` WHERE `entry` IN (573316, 802731);
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
-(573316, 0.297, 0, 0.36, 0, 'Reaper - Soulrend'),
-(802731, 0.297, 0, 0.36, 0, 'Reaper - Soulrend');
+(573316, 0.297, 0, 0.36, 0, '收割者 - 灵魂撕裂'),
+(802731, 0.297, 0, 0.36, 0, '收割者 - 灵魂撕裂');

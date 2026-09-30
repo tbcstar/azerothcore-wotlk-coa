@@ -20,6 +20,6 @@ INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
 
 DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1170;
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
-(1170, 2, 'Local CoA: one Stormbringer Pressure aura per caster on each recipient');
+(1170, 2, '本地 CoA：每个施法者在每个接受者身上只能应用一个风暴使者压力光环');
 
 COMMIT;

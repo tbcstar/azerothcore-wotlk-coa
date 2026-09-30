@@ -15,5 +15,5 @@ INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
 (1152, 804436);
 DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1152;
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
-(1152, 2, 'Local Chronomancer: one active Continuum spell per caster');
+(1152, 2, '本地时空法师：每个施法者只能激活一个连续体法术');
 COMMIT;

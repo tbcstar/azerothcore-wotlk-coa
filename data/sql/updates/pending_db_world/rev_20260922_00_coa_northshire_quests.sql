@@ -73,13 +73,13 @@
 -- ---------------------------------------------------------------------------
 INSERT INTO `item_template` (`entry`, `class`, `subclass`, `name`, `displayid`, `Quality`, `Flags`, `BuyPrice`, `SellPrice`, `InventoryType`, `ItemLevel`, `RequiredLevel`, `maxcount`, `stackable`, `bonding`, `description`)
 VALUES
-(559130, 0, 0, 'Lost Page I', 138854, 1, 2048, 0, 0, 0, 1, 0, 1, 1, 4, ''),
-(559131, 0, 0, 'Lost Page II', 138854, 1, 2048, 0, 0, 0, 1, 0, 1, 1, 4, ''),
-(559132, 0, 0, 'Lost Page III', 138854, 1, 2048, 0, 0, 0, 1, 0, 1, 1, 4, ''),
-(559133, 0, 0, 'Lost Page IV', 138854, 1, 2048, 0, 0, 0, 1, 0, 1, 1, 4, ''),
-(559160, 0, 0, 'Prophet''s Oracular Orb', 137929, 1, 2048, 0, 0, 0, 1, 0, 3, 3, 4, '<The blind surface of the eye shimmers with visions of an uncertain future: shadows of demons, a foreign sky, a frozen wasteland… and fire. A single ember, igniting a blaze that sets the world aflame.>'),
-(559176, 2, 7, 'Tempered Steel Sword', 15733, 2, 0, 11503, 55, 13, 7, 3, 1, 1, 1, ''),
-(559182, 4, 1, 'Cloak of the Seven Virtues', 38432, 3, 0, 1534, 30, 16, 3, 3, 0, 1, 1, '')
+(559130, 0, 0, '遗失的书页 I', 138854, 1, 2048, 0, 0, 0, 1, 0, 1, 1, 4, ''),
+(559131, 0, 0, '遗失的书页 II', 138854, 1, 2048, 0, 0, 0, 1, 0, 1, 1, 4, ''),
+(559132, 0, 0, '遗失的书页 III', 138854, 1, 2048, 0, 0, 0, 1, 0, 1, 1, 4, ''),
+(559133, 0, 0, '遗失的书页 IV', 138854, 1, 2048, 0, 0, 0, 1, 0, 1, 1, 4, ''),
+(559160, 0, 0, '先知的神谕宝珠', 137929, 1, 2048, 0, 0, 0, 1, 0, 3, 3, 4, '<失明的眼球表面闪烁着不确定未来的幻象：恶魔的暗影、异域的天空、冰封的荒原……以及火焰。一点余烬，点燃将世界焚毁的烈焰。>'),
+(559176, 2, 7, '淬火钢剑', 15733, 2, 0, 11503, 55, 13, 7, 3, 1, 1, 1, ''),
+(559182, 4, 1, '七美德披风', 38432, 3, 0, 1534, 30, 16, 3, 3, 0, 1, 1, '')
 ON DUPLICATE KEY UPDATE `class` = VALUES(`class`), `subclass` = VALUES(`subclass`), `name` = VALUES(`name`), `displayid` = VALUES(`displayid`), `Quality` = VALUES(`Quality`), `Flags` = VALUES(`Flags`), `BuyPrice` = VALUES(`BuyPrice`), `SellPrice` = VALUES(`SellPrice`), `InventoryType` = VALUES(`InventoryType`), `ItemLevel` = VALUES(`ItemLevel`), `RequiredLevel` = VALUES(`RequiredLevel`), `maxcount` = VALUES(`maxcount`), `stackable` = VALUES(`stackable`), `bonding` = VALUES(`bonding`), `description` = VALUES(`description`);
 
 -- ---------------------------------------------------------------------------
@@ -87,28 +87,28 @@ ON DUPLICATE KEY UPDATE `class` = VALUES(`class`), `subclass` = VALUES(`subclass
 -- ---------------------------------------------------------------------------
 INSERT INTO `creature_template` (`entry`, `name`, `subname`, `minlevel`, `maxlevel`, `exp`, `faction`, `npcflag`, `rank`, `unit_class`, `unit_flags`, `type`, `lootid`, `AIName`, `MovementType`, `HealthModifier`, `ManaModifier`, `ArmorModifier`, `RegenHealth`, `flags_extra`, `gossip_menu_id`)
 VALUES
-(161700, 'Bianca Spada', NULL, 5, 6, 0, 35, 2, 0, 1, 0, 7, 0, 'SmartAI', 0, 0.96, 1, 1, 1, 0, 0),
-(161701, 'Moroi Spada', 'Seminarian of Northshire Abbey', 5, 6, 0, 35, 2, 0, 1, 0, 7, 0, '', 0, 0.98, 1, 1, 1, 0, 0),
-(161702, 'Sister Alma', 'Ancient Priestess of Northshire', 5, 6, 0, 35, 2, 0, 1, 0, 6, 0, '', 0, 1.0, 1, 1, 1, 0, 0),
-(161705, 'Injured Northshire Guard', NULL, 5, 6, 0, 35, 3, 0, 1, 0, 7, 0, '', 0, 1.0, 1, 1, 1, 0, 62631),
-(161716, 'Shadewell Murloc', NULL, 4, 5, 0, 7, 0, 0, 1, 0, 7, 0, '', 0, 0.93, 1, 1, 1, 0, 0),
-(161717, 'Shadewell Murloc Oracle', NULL, 5, 6, 0, 7, 0, 0, 1, 0, 7, 161717, '', 0, 0.93, 1, 1, 1, 0, 0),
-(161736, 'Defias Plunderer', NULL, 5, 6, 0, 14, 0, 0, 1, 0, 7, 0, '', 0, 0.93, 1, 1, 1, 0, 0),
-(161707, 'Shadewell Spider', NULL, 4, 5, 0, 7, 0, 0, 1, 0, 1, 0, '', 0, 0.93, 1, 1, 1, 0, 0),
-(161712, 'Accursed Censor', NULL, 7, 7, 0, 14, 0, 1, 1, 0, 6, 0, '', 0, 2.79, 1, 1, 1, 0, 0),
-(161708, 'Accursed Judge', NULL, 5, 6, 0, 14, 0, 0, 1, 0, 6, 0, '', 0, 0.93, 1, 1, 1, 0, 0),
-(161713, 'Wayward Theologian', NULL, 7, 7, 0, 14, 0, 1, 1, 0, 7, 0, 'SmartAI', 0, 5.76, 1, 1, 1, 0, 0),
-(161904, 'Wayward Theologian', NULL, 6, 6, 0, 14, 0, 1, 1, 0, 7, 0, 'SmartAI', 0, 1.0, 1, 1, 1, 64, 0),
-(161711, 'Living Heresy', NULL, 5, 6, 0, 14, 0, 0, 1, 0, 0, 0, 'SmartAI', 0, 1.0, 1, 1, 1, 0, 0),
-(161703, '[KC] Hidden Path', NULL, 1, 1, 0, 35, 0, 0, 1, 33555202, 10, 0, '', 0, 1, 1, 1, 1, 130, 0),
-(161704, '[KC] Ruined Estate', NULL, 1, 1, 0, 35, 0, 0, 1, 33555202, 10, 0, '', 0, 1, 1, 1, 1, 130, 0),
-(161714, '[KC] Dungeon Entrance', NULL, 1, 1, 0, 35, 0, 0, 1, 33555202, 10, 0, 'SmartAI', 0, 1, 1, 1, 1, 130, 0),
-(161715, '[KC] Purify Relics', NULL, 1, 1, 0, 35, 0, 0, 1, 33555202, 10, 0, '', 0, 1, 1, 1, 1, 130, 0),
-(161824, '[KC] Purify Staff', NULL, 1, 1, 0, 35, 0, 0, 1, 33555202, 10, 0, '', 0, 1, 1, 1, 1, 130, 0),
-(161825, '[KC] Purify Idol', NULL, 1, 1, 0, 35, 0, 0, 1, 33555202, 10, 0, '', 0, 1, 1, 1, 1, 130, 0),
-(161826, '[KC] Purify Jewel', NULL, 1, 1, 0, 35, 0, 0, 1, 33555202, 10, 0, '', 0, 1, 1, 1, 1, 130, 0),
-(161908, 'Wayward Theologian', NULL, 1, 1, 0, 35, 0, 0, 1, 33555202, 9, 0, 'SmartAI', 0, 1, 1, 1, 1, 130, 0),
-(161909, 'Wayward Theologian', NULL, 1, 1, 0, 35, 0, 0, 1, 33555202, 9, 0, 'SmartAI', 0, 1, 1, 1, 1, 130, 0)
+(161700, '比安卡·斯帕达', NULL, 5, 6, 0, 35, 2, 0, 1, 0, 7, 0, 'SmartAI', 0, 0.96, 1, 1, 1, 0, 0),
+(161701, '莫罗伊·斯帕达', '北郡修道院神学院学生', 5, 6, 0, 35, 2, 0, 1, 0, 7, 0, '', 0, 0.98, 1, 1, 1, 0, 0),
+(161702, '阿尔玛修女', '北郡古代女祭司', 5, 6, 0, 35, 2, 0, 1, 0, 6, 0, '', 0, 1.0, 1, 1, 1, 0, 0),
+(161705, '受伤的北郡守卫', NULL, 5, 6, 0, 35, 3, 0, 1, 0, 7, 0, '', 0, 1.0, 1, 1, 1, 0, 62631),
+(161716, '暗井鱼人', NULL, 4, 5, 0, 7, 0, 0, 1, 0, 7, 0, '', 0, 0.93, 1, 1, 1, 0, 0),
+(161717, '暗井鱼人先知', NULL, 5, 6, 0, 7, 0, 0, 1, 0, 7, 161717, '', 0, 0.93, 1, 1, 1, 0, 0),
+(161736, '迪菲亚掠夺者', NULL, 5, 6, 0, 14, 0, 0, 1, 0, 7, 0, '', 0, 0.93, 1, 1, 1, 0, 0),
+(161707, '暗井蜘蛛', NULL, 4, 5, 0, 7, 0, 0, 1, 0, 1, 0, '', 0, 0.93, 1, 1, 1, 0, 0),
+(161712, '被诅咒的监察官', NULL, 7, 7, 0, 14, 0, 1, 1, 0, 6, 0, '', 0, 2.79, 1, 1, 1, 0, 0),
+(161708, '被诅咒的法官', NULL, 5, 6, 0, 14, 0, 0, 1, 0, 6, 0, '', 0, 0.93, 1, 1, 1, 0, 0),
+(161713, '误入歧途的神学家', NULL, 7, 7, 0, 14, 0, 1, 1, 0, 7, 0, 'SmartAI', 0, 5.76, 1, 1, 1, 0, 0),
+(161904, '误入歧途的神学家', NULL, 6, 6, 0, 14, 0, 1, 1, 0, 7, 0, 'SmartAI', 0, 1.0, 1, 1, 1, 64, 0),
+(161711, '活体异端', NULL, 5, 6, 0, 14, 0, 0, 1, 0, 0, 0, 'SmartAI', 0, 1.0, 1, 1, 1, 0, 0),
+(161703, '[KC] 隐藏路径', NULL, 1, 1, 0, 35, 0, 0, 1, 33555202, 10, 0, '', 0, 1, 1, 1, 1, 130, 0),
+(161704, '[KC] 废墟庄园', NULL, 1, 1, 0, 35, 0, 0, 1, 33555202, 10, 0, '', 0, 1, 1, 1, 1, 130, 0),
+(161714, '[KC] 地下城入口', NULL, 1, 1, 0, 35, 0, 0, 1, 33555202, 10, 0, 'SmartAI', 0, 1, 1, 1, 1, 130, 0),
+(161715, '[KC] 净化遗物', NULL, 1, 1, 0, 35, 0, 0, 1, 33555202, 10, 0, '', 0, 1, 1, 1, 1, 130, 0),
+(161824, '[KC] 净化法杖', NULL, 1, 1, 0, 35, 0, 0, 1, 33555202, 10, 0, '', 0, 1, 1, 1, 1, 130, 0),
+(161825, '[KC] 净化神像', NULL, 1, 1, 0, 35, 0, 0, 1, 33555202, 10, 0, '', 0, 1, 1, 1, 1, 130, 0),
+(161826, '[KC] 净化珠宝', NULL, 1, 1, 0, 35, 0, 0, 1, 33555202, 10, 0, '', 0, 1, 1, 1, 1, 130, 0),
+(161908, '误入歧途的神学家', NULL, 1, 1, 0, 35, 0, 0, 1, 33555202, 9, 0, 'SmartAI', 0, 1, 1, 1, 1, 130, 0),
+(161909, '误入歧途的神学家', NULL, 1, 1, 0, 35, 0, 0, 1, 33555202, 9, 0, 'SmartAI', 0, 1, 1, 1, 1, 130, 0)
 ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `subname` = VALUES(`subname`), `minlevel` = VALUES(`minlevel`), `maxlevel` = VALUES(`maxlevel`), `exp` = VALUES(`exp`), `faction` = VALUES(`faction`), `npcflag` = VALUES(`npcflag`), `rank` = VALUES(`rank`), `unit_class` = VALUES(`unit_class`), `unit_flags` = VALUES(`unit_flags`), `type` = VALUES(`type`), `lootid` = VALUES(`lootid`), `AIName` = VALUES(`AIName`), `MovementType` = VALUES(`MovementType`), `HealthModifier` = VALUES(`HealthModifier`), `ManaModifier` = VALUES(`ManaModifier`), `ArmorModifier` = VALUES(`ArmorModifier`), `RegenHealth` = VALUES(`RegenHealth`), `flags_extra` = VALUES(`flags_extra`), `gossip_menu_id` = VALUES(`gossip_menu_id`);
 
 DELETE FROM `creature_template_model` WHERE `CreatureID` IN (161700, 161701, 161702, 161705, 161716, 161717, 161736, 161707, 161712, 161708, 161713, 161904, 161711, 161703, 161704, 161714, 161715, 161824, 161825, 161826, 161908, 161909);
@@ -155,18 +155,18 @@ VALUES
 -- ---------------------------------------------------------------------------
 INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `IconName`, `castBarCaption`, `size`, `Data0`, `Data1`, `Data2`, `Data3`, `Data4`, `Data5`, `Data6`, `Data7`, `Data8`, `Data9`, `Data10`, `Data11`, `Data12`, `Data13`, `Data14`, `Data15`, `Data16`, `Data17`, `Data18`, `Data19`, `Data20`, `Data21`, `Data22`, `Data23`, `AIName`, `ScriptName`)
 VALUES
-(96001, 2, 164, 'Smudged Note', '', '', 0.75, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', ''),
-(685237, 10, 7717, 'Grappling Hook Rope', '', '', 0.075, 93, 0, 0, 3000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', 'go_coa_theologian_rope'),
-(2300500, 3, 210, 'Lost Page I', '', '', 1, 1689, 2300500, 0, 1, 0, 0, 0, 0, 1660001, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'SmartGameObjectAI', ''),
-(2300501, 0, 300449, 'Dungeon Door', '', '', 1, 0, 0, 5000, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', ''),
-(2300503, 3, 210, 'Lost Page II', '', '', 1, 1689, 2300503, 0, 1, 0, 0, 0, 0, 1660001, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'SmartGameObjectAI', ''),
-(2300504, 3, 210, 'Lost Page III', '', '', 1, 1689, 2300504, 0, 1, 0, 0, 0, 0, 1660001, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'SmartGameObjectAI', ''),
-(2300505, 3, 210, 'Lost Page IV', '', '', 1, 1689, 2300505, 0, 1, 0, 0, 0, 0, 1660001, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'SmartGameObjectAI', ''),
-(2300517, 3, 210, 'Lost Page VI', '', '', 1, 1689, 2300517, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'SmartGameObjectAI', ''),
-(2300520, 10, 1029136, 'Abbess’ Journal', '', '', 1, 0, 1660003, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', 'go_coa_abbess_relic'),
-(2300521, 10, 87111, 'Abbess’s Staff', '', '', 1.25, 0, 1660003, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', 'go_coa_abbess_relic'),
-(2300522, 10, 63523, 'Heretical Idol Purified', '', '', 1.5, 0, 1660003, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', 'go_coa_abbess_relic'),
-(2300523, 10, 7075, 'Jewel', '', '', 0.75, 0, 1660003, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', 'go_coa_abbess_relic')
+(96001, 2, 164, '污迹斑斑的便条', '', '', 0.75, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', ''),
+(685237, 10, 7717, '抓钩绳索', '', '', 0.075, 93, 0, 0, 3000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', 'go_coa_theologian_rope'),
+(2300500, 3, 210, '遗失的书页 I', '', '', 1, 1689, 2300500, 0, 1, 0, 0, 0, 0, 1660001, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'SmartGameObjectAI', ''),
+(2300501, 0, 300449, '地下城大门', '', '', 1, 0, 0, 5000, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', ''),
+(2300503, 3, 210, '遗失的书页 II', '', '', 1, 1689, 2300503, 0, 1, 0, 0, 0, 0, 1660001, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'SmartGameObjectAI', ''),
+(2300504, 3, 210, '遗失的书页 III', '', '', 1, 1689, 2300504, 0, 1, 0, 0, 0, 0, 1660001, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'SmartGameObjectAI', ''),
+(2300505, 3, 210, '遗失的书页 IV', '', '', 1, 1689, 2300505, 0, 1, 0, 0, 0, 0, 1660001, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'SmartGameObjectAI', ''),
+(2300517, 3, 210, '遗失的书页 VI', '', '', 1, 1689, 2300517, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'SmartGameObjectAI', ''),
+(2300520, 10, 1029136, '女修道院长的日志', '', '', 1, 0, 1660003, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', 'go_coa_abbess_relic'),
+(2300521, 10, 87111, '女修道院长的法杖', '', '', 1.25, 0, 1660003, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', 'go_coa_abbess_relic'),
+(2300522, 10, 63523, '净化后的异端神像', '', '', 1.5, 0, 1660003, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', 'go_coa_abbess_relic'),
+(2300523, 10, 7075, '珠宝', '', '', 0.75, 0, 1660003, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', 'go_coa_abbess_relic')
 ON DUPLICATE KEY UPDATE `type` = VALUES(`type`), `displayId` = VALUES(`displayId`), `name` = VALUES(`name`), `IconName` = VALUES(`IconName`), `castBarCaption` = VALUES(`castBarCaption`), `size` = VALUES(`size`), `Data0` = VALUES(`Data0`), `Data1` = VALUES(`Data1`), `Data2` = VALUES(`Data2`), `Data3` = VALUES(`Data3`), `Data4` = VALUES(`Data4`), `Data5` = VALUES(`Data5`), `Data6` = VALUES(`Data6`), `Data7` = VALUES(`Data7`), `Data8` = VALUES(`Data8`), `Data9` = VALUES(`Data9`), `Data10` = VALUES(`Data10`), `Data11` = VALUES(`Data11`), `Data12` = VALUES(`Data12`), `Data13` = VALUES(`Data13`), `Data14` = VALUES(`Data14`), `Data15` = VALUES(`Data15`), `Data16` = VALUES(`Data16`), `Data17` = VALUES(`Data17`), `Data18` = VALUES(`Data18`), `Data19` = VALUES(`Data19`), `Data20` = VALUES(`Data20`), `Data21` = VALUES(`Data21`), `Data22` = VALUES(`Data22`), `Data23` = VALUES(`Data23`), `AIName` = VALUES(`AIName`), `ScriptName` = VALUES(`ScriptName`);
 
 -- ---------------------------------------------------------------------------
@@ -174,14 +174,14 @@ ON DUPLICATE KEY UPDATE `type` = VALUES(`type`), `displayId` = VALUES(`displayId
 -- ---------------------------------------------------------------------------
 INSERT INTO `quest_template` (`ID`, `QuestType`, `QuestLevel`, `MinLevel`, `QuestSortID`, `QuestInfoID`, `SuggestedGroupNum`, `RequiredFactionId1`, `RequiredFactionId2`, `RequiredFactionValue1`, `RequiredFactionValue2`, `RewardNextQuest`, `RewardXPDifficulty`, `RewardMoney`, `RewardMoneyDifficulty`, `RewardDisplaySpell`, `RewardSpell`, `RewardHonor`, `RewardKillHonor`, `StartItem`, `Flags`, `RequiredPlayerKills`, `RewardItem1`, `RewardAmount1`, `RewardItem2`, `RewardAmount2`, `RewardItem3`, `RewardAmount3`, `RewardItem4`, `RewardAmount4`, `ItemDrop1`, `ItemDropQuantity1`, `ItemDrop2`, `ItemDropQuantity2`, `ItemDrop3`, `ItemDropQuantity3`, `ItemDrop4`, `ItemDropQuantity4`, `RewardChoiceItemID1`, `RewardChoiceItemQuantity1`, `RewardChoiceItemID2`, `RewardChoiceItemQuantity2`, `RewardChoiceItemID3`, `RewardChoiceItemQuantity3`, `RewardChoiceItemID4`, `RewardChoiceItemQuantity4`, `RewardChoiceItemID5`, `RewardChoiceItemQuantity5`, `RewardChoiceItemID6`, `RewardChoiceItemQuantity6`, `POIContinent`, `POIx`, `POIy`, `POIPriority`, `RewardTitle`, `RewardTalents`, `RewardArenaPoints`, `RewardFactionID1`, `RewardFactionValue1`, `RewardFactionOverride1`, `RewardFactionID2`, `RewardFactionValue2`, `RewardFactionOverride2`, `RewardFactionID3`, `RewardFactionValue3`, `RewardFactionOverride3`, `RewardFactionID4`, `RewardFactionValue4`, `RewardFactionOverride4`, `RewardFactionID5`, `RewardFactionValue5`, `RewardFactionOverride5`, `LogTitle`, `LogDescription`, `QuestDescription`, `AreaDescription`, `QuestCompletionLog`, `RequiredNpcOrGo1`, `RequiredNpcOrGo2`, `RequiredNpcOrGo3`, `RequiredNpcOrGo4`, `RequiredNpcOrGoCount1`, `RequiredNpcOrGoCount2`, `RequiredNpcOrGoCount3`, `RequiredNpcOrGoCount4`, `RequiredItemId1`, `RequiredItemId2`, `RequiredItemId3`, `RequiredItemId4`, `RequiredItemId5`, `RequiredItemId6`, `RequiredItemCount1`, `RequiredItemCount2`, `RequiredItemCount3`, `RequiredItemCount4`, `RequiredItemCount5`, `RequiredItemCount6`, `ObjectiveText1`, `ObjectiveText2`, `ObjectiveText3`, `ObjectiveText4`)
 VALUES
-(1660000, 2, 6, 3, 9, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'Bookworm', 'Speak with Seminarian Moroi, brother of Bianca Spada.', '<A woman greets you, visibly agitated. A sharp mix of anger and worry flashes in her eyes.>$b$bSorry, I didn’t mean to make a scene, but… that blasted brother of mine, always buried in his books! I’ve been out here forever, yelling my lungs out, and nothing. The guards have already warned me about “disturbing the abbey’s peace” one more time.$b$bWould you mind going in there and dragging him out by the ears if you have to? Our mother’s on her deathbed, and I’ve traveled a long way to fetch him so he can say goodbye. The ungrateful wretch.', '', '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '', ''),
-(1660001, 2, 6, 3, 9, 0, 0, 0, 0, 0, 0, 0, 4, 15, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'Knowledge Corrupts', 'Recover the missing pages from Moroi’s unclassified manuscript, scattered throughout the abbey.', 'Go on, take a look.$b$b<Moroi gestures toward the book holding his attention: a thin, battered manuscript, not unlike its reader.>$b$bI stumbled across it in the library; it’s not listed in the abbey’s records. I think it’s some sort of chronicle about an old abbess accused of heresy. In my haste, I’ve misplaced several pages. I’ve been trying to piece them back together, but some are still missing.$b$bCould you have a look around the abbey and recover the pages I lost? This is a banned book; if anyone finds out I’ve been poking my nose where it doesn’t belong, they’ll ship me back home… to my sister.$b$bDo me a mercy, will you?', '', 'Return to Moroi.', 0, 0, 0, 0, 0, 0, 0, 0, 559130, 559131, 559132, 559133, 0, 0, 1, 1, 1, 1, 0, 0, '', '', '', ''),
-(1660002, 2, -1, 3, 9, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'The Ruins of Northshire', 'Locate the cellar entrance to the Secret Inquisitorial Dungeon.', 'A visit to the dungeon where the abbess was tried might shed some light…$b$bAccording to the book, the now-abandoned town of Northshire held a secret entrance to the Inquisitorial Dungeon.$b$bI’ll mark it on your map, but tread carefully. No one’s set foot in that place for years… I’d rather not imagine what vermin have claimed its ruins.', '', 'Speak with the spectral priestess.', 161714, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'Secret Inquisitorial Dungeon entrance found', '', '', ''),
-(1660003, 2, -1, 3, 9, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 8, 0, 5571, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'Accursed Sisterhood', 'Purify the belongings of the former abbess, scattered throughout the Secret Inquisitorial Dungeon.', 'The way is shut. The abbess cursed those who judged her, binding them to wander as restless spirits.$b$bThose who died are still chained by her power. The dignity and belongings they stripped from her became shackles. A simple prayer. A sincere plea. That would be enough...$b$bThey’ll find no rest until someone purifies the abbess’s relics, scattered throughout the dungeon.$b$bBut the Dead guard them well. And so, the way remains shut.', '', 'Speak with Sister Alma.', 161715, 161824, 161825, 161826, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'Abbess’ Journal Purified', 'Abbess’s Staff Purified', 'Heretical Idol Purified', 'Jewel Purified'),
-(1660004, 2, 6, 3, 9, 0, 2, 0, 0, 0, 0, 0, 7, 35, 0, 0, 0, 0, 0, 0, 8, 0, 559182, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'Words that Shepherd Madness', 'Find the hidden path leading to the top of the waterfall and confront the sins of the former abbess of Northshire.', 'Sitis was... a storm. Her teachings were unorthodox; dangerous, even. Many students left the Church because of her.$b$bSo when the inquisitorial court summoned me to testify, I agreed to speak against her.$b$bI had learned she was holding secret gatherings with her closest circle at an old manor above the waterfall. In those meetings, Sitis spoke of the Light, of life, of death...$b$bAnd of the nature of the Shadow.$b$bHer heresy still stains that land. But beware if you go there; she had no shortage of followers, and the Inquisition never caught them all...', '', 'Return to Moroi and report what you’ve discovered about the former abbess and her crimes.', 161703, 161704, 161713, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'Hidden Path found', 'Ruined Estate discovered', 'Wayward Theologian confronted', ''),
-(1660005, 2, 6, 3, 9, 0, 0, 0, 0, 0, 0, 0, 6, 20, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'The Threat Swept Downstream', 'Defeat the Defias lurking in the ruined tower and thin the ranks of the Shadewell murlocs atop the waterfall, across the rope bridge.', 'I need… help.$b$b<The soldier’s voice comes ragged, choked with pain. Each grimace is a fresh wound.>$b$bI was ordered to find the murloc village, to cut off their threat. But, as you can see, the road has not been kind to me. And worse yet: the only path to the upper river runs straight through that tower.$b$b<He nods weakly toward the looming, ruined structure.>$b$bYou, though… you might succeed where I could not.$b$bDeal with the Defias infesting the tower, thin the ranks of the murlocs above the falls, and you’ll be doing me a favor the whole kingdom will thank you for.', '', 'Return to the injured guard.', 161736, 161716, 0, 0, 5, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'Defias Plunderer slain', 'Shadewell Murloc slain', '', ''),
-(1660036, 2, 6, 3, 9, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'Oracular Idol', 'Collect three Prophet’s Oracular Orbs from the murloc oracles roaming the Shadewell Spring.', '<After the spasms and convulsions of a brutal death, the murloc slumps into the wet earth, dropping a sphere that rolls to a stop at your boots.>$b$b<On closer inspection, you realize it’s no common jewel at all; it’s an eyeball. Its slick surface reflects vague images that do not match the world around you. It’s as if… it’s as if it shows you what’s yet to come.>$b$b<Perhaps you should strike down the other oracles and examine their strange, blind eyes.>', '', 'Find someone at the Abbey to share your discovery with.', 0, 0, 0, 0, 0, 0, 0, 0, 559160, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, '', '', '', ''),
-(1660038, 2, -1, 3, 9, 0, 2, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 559176, 1, 559177, 1, 559178, 1, 559179, 1, 559180, 1, 559181, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'The Saddest Among Us', 'Defeat the Cursed Censor in the Secret Inquisitorial Dungeon.', 'Slave to the hunger of the flames, always demanding more books to devour. When there were no more blasphemies left, they turned on the sacred texts instead.$b$bThe fire burns in his hollow sockets; there are no more tears left to shed.$b$bOnly death can release the Cursed Censor…', '', 'Return to Sister Alma.', 161712, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '', '')
+(1660000, 2, 6, 3, 9, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '书虫', '与比安卡·斯帕达的兄弟，神学院学生莫罗伊交谈。', '<一位女子向你打招呼，显然焦躁不安。她的眼中闪过愤怒与担忧交织的锐利神色。>$b$b抱歉，我不是有意要闹出动静，但是……我那个该死的兄弟，总是埋头在他的书堆里！我在这里喊了半天，嗓子都喊哑了，却毫无回应。卫兵已经警告过我，说我“扰乱修道院的安宁”，再有下次就不客气了。$b$b你能否进去一趟，就算要揪着耳朵，也把他给拖出来？我们的母亲已经奄奄一息，我长途跋涉来找他，就是为了让他回去见最后一面。这个不知感恩的混账。', '', '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '', ''),
+(1660001, 2, 6, 3, 9, 0, 0, 0, 0, 0, 0, 0, 4, 15, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '知识腐化', '找回莫罗伊那本未归类手稿中遗失的书页，它们散落在修道院各处。', '来吧，看一眼。$b$b<莫罗伊指向那本吸引他注意的书：一本薄薄的、破旧的手稿，与它的读者倒有几分相似。>$b$b我在图书馆里偶然发现了它；修道院的记录里并没有这本书。我想它是某种编年史，记载着一位被指控为异端的老女修道院长。我匆忙之中弄丢了好几页。我一直在试图把它们拼回去，但还有些仍然缺失。$b$b你能否在修道院里找一找，帮我找回丢失的书页？这是一本禁书；如果被人发现我在不该探听的地方乱翻，他们就会把我送回老家……送回我姐姐那儿。$b$b行行好，帮帮我，好吗？', '', '回到莫罗伊那里。', 0, 0, 0, 0, 0, 0, 0, 0, 559130, 559131, 559132, 559133, 0, 0, 1, 1, 1, 1, 0, 0, '', '', '', ''),
+(1660002, 2, -1, 3, 9, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '北郡废墟', '找到秘密审判庭地牢的地窖入口。', '去一趟女修道院长受审的地牢，也许能有所发现……$b$b根据书中的记载，如今已被废弃的北郡镇曾有一个通往审判庭地牢的秘密入口。$b$b我会在地图上给你标出来，但务必小心。那地方已经多年无人踏足……我可不愿去想，废墟里如今盘踞着什么样的害虫。', '', '与幽灵女祭司交谈。', 161714, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '已找到秘密审判庭地牢入口', '', '', ''),
+(1660003, 2, -1, 3, 9, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 8, 0, 5571, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '被诅咒的修女会', '净化前任女修道院长的遗物，它们散落在秘密审判庭地牢各处。', '道路已被封闭。女修道院长诅咒了那些审判她的人，将他们束缚为不得安息的幽灵。$b$b那些死去的人仍被她的力量所禁锢。他们从她身上剥夺的尊严与财物，化作了枷锁。一句简单的祈祷。一个真诚的恳求。那就足够了……$b$b除非有人净化女修道院长的遗物——它们散落在这座地牢各处——否则他们永远无法安息。$b$b但亡者看守得十分严密。因此，道路依旧封闭。', '', '与阿尔玛修女交谈。', 161715, 161824, 161825, 161826, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '女修道院长的日志已净化', '女修道院长的法杖已净化', '异端神像已净化', '珠宝已净化'),
+(1660004, 2, 6, 3, 9, 0, 2, 0, 0, 0, 0, 0, 7, 35, 0, 0, 0, 0, 0, 0, 8, 0, 559182, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '引向疯狂的言语', '找到通往瀑布顶端的隐藏路径，直面北郡前任女修道院长的罪孽。', '西蒂斯……曾是一场风暴。她的教义不合正统，甚至危险。许多学生因她而离开了教会。$b$b所以当审判庭传唤我作证时，我同意出面指证她。$b$b我得知她曾在瀑布上方的一座旧庄园里，与她最亲近的圈子举行秘密集会。在那些集会中，西蒂斯谈论圣光，谈论生，谈论死……$b$b还谈论暗影的本质。$b$b她的异端至今仍玷污着那片土地。但如果你要去那里，务必小心；她的追随者从来不少，而审判庭从未将他们一网打尽……', '', '回到莫罗伊那里，汇报你关于前任女修道院长及其罪行的发现。', 161703, 161704, 161713, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '已找到隐藏路径', '已发现废墟庄园', '已直面误入歧途的神学家', ''),
+(1660005, 2, 6, 3, 9, 0, 0, 0, 0, 0, 0, 0, 6, 20, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '顺流而下的威胁', '击败潜伏在废墟塔楼中的迪菲亚，并削减瀑布上方、绳索桥对岸的暗井鱼人。', '我需要……帮助。$b$b<士兵的声音沙哑，因痛苦而哽咽。每一次皱眉都像一道新伤。>$b$b我奉命去寻找鱼人村落，消除他们的威胁。但如你所见，这条路对我并不友好。更糟的是：通往上游河流的唯一道路，正好穿过那座塔楼。$b$b<他虚弱地朝那座隐约可见的废墟建筑点了点头。>$b$b但你……你也许能完成我未能做到的事。$b$b解决盘踞在塔楼里的迪菲亚，削减瀑布上方的鱼人，你就是在帮我一个大忙，整个王国都会感谢你。', '', '回到受伤的守卫那里。', 161736, 161716, 0, 0, 5, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '迪菲亚掠夺者已击杀', '暗井鱼人已击杀', '', ''),
+(1660036, 2, 6, 3, 9, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '神谕神像', '从游荡在暗井泉的鱼人先知身上收集三个先知的神谕宝珠。', '<在剧烈死亡的痉挛与抽搐之后，鱼人瘫倒在湿润的泥土中，一颗球体滚落下来，停在了你的靴边。>$b$b<仔细一看，你意识到那根本不是什么普通珠宝；那是一颗眼球。它光滑的表面映出模糊的影像，与周围的世界并不相符。就好像……就好像它在向你展示尚未发生之事。>$b$b<也许你应该击倒其他先知，检查它们那怪异而失明的眼睛。>', '', '在修道院找个人分享你的发现。', 0, 0, 0, 0, 0, 0, 0, 0, 559160, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, '', '', '', ''),
+(1660038, 2, -1, 3, 9, 0, 2, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 559176, 1, 559177, 1, 559178, 1, 559179, 1, 559180, 1, 559181, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '我们中最悲伤者', '在秘密审判庭地牢中击败被诅咒的监察官。', '他是火焰饥饿的奴隶，总是要求吞噬更多书籍。当再没有亵渎之言可烧时，他们便转向了神圣的典籍。$b$b火焰在他空洞的眼窝中燃烧；再也没有眼泪可流。$b$b唯有死亡才能让被诅咒的监察官解脱……', '', '回到阿尔玛修女那里。', 161712, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '', '')
 ON DUPLICATE KEY UPDATE `QuestType` = VALUES(`QuestType`), `QuestLevel` = VALUES(`QuestLevel`), `MinLevel` = VALUES(`MinLevel`), `QuestSortID` = VALUES(`QuestSortID`), `QuestInfoID` = VALUES(`QuestInfoID`), `SuggestedGroupNum` = VALUES(`SuggestedGroupNum`), `RequiredFactionId1` = VALUES(`RequiredFactionId1`), `RequiredFactionId2` = VALUES(`RequiredFactionId2`), `RequiredFactionValue1` = VALUES(`RequiredFactionValue1`), `RequiredFactionValue2` = VALUES(`RequiredFactionValue2`), `RewardNextQuest` = VALUES(`RewardNextQuest`), `RewardXPDifficulty` = VALUES(`RewardXPDifficulty`), `RewardMoney` = VALUES(`RewardMoney`), `RewardMoneyDifficulty` = VALUES(`RewardMoneyDifficulty`), `RewardDisplaySpell` = VALUES(`RewardDisplaySpell`), `RewardSpell` = VALUES(`RewardSpell`), `RewardHonor` = VALUES(`RewardHonor`), `RewardKillHonor` = VALUES(`RewardKillHonor`), `StartItem` = VALUES(`StartItem`), `Flags` = VALUES(`Flags`), `RequiredPlayerKills` = VALUES(`RequiredPlayerKills`), `RewardItem1` = VALUES(`RewardItem1`), `RewardAmount1` = VALUES(`RewardAmount1`), `RewardItem2` = VALUES(`RewardItem2`), `RewardAmount2` = VALUES(`RewardAmount2`), `RewardItem3` = VALUES(`RewardItem3`), `RewardAmount3` = VALUES(`RewardAmount3`), `RewardItem4` = VALUES(`RewardItem4`), `RewardAmount4` = VALUES(`RewardAmount4`), `ItemDrop1` = VALUES(`ItemDrop1`), `ItemDropQuantity1` = VALUES(`ItemDropQuantity1`), `ItemDrop2` = VALUES(`ItemDrop2`), `ItemDropQuantity2` = VALUES(`ItemDropQuantity2`), `ItemDrop3` = VALUES(`ItemDrop3`), `ItemDropQuantity3` = VALUES(`ItemDropQuantity3`), `ItemDrop4` = VALUES(`ItemDrop4`), `ItemDropQuantity4` = VALUES(`ItemDropQuantity4`), `RewardChoiceItemID1` = VALUES(`RewardChoiceItemID1`), `RewardChoiceItemQuantity1` = VALUES(`RewardChoiceItemQuantity1`), `RewardChoiceItemID2` = VALUES(`RewardChoiceItemID2`), `RewardChoiceItemQuantity2` = VALUES(`RewardChoiceItemQuantity2`), `RewardChoiceItemID3` = VALUES(`RewardChoiceItemID3`), `RewardChoiceItemQuantity3` = VALUES(`RewardChoiceItemQuantity3`), `RewardChoiceItemID4` = VALUES(`RewardChoiceItemID4`), `RewardChoiceItemQuantity4` = VALUES(`RewardChoiceItemQuantity4`), `RewardChoiceItemID5` = VALUES(`RewardChoiceItemID5`), `RewardChoiceItemQuantity5` = VALUES(`RewardChoiceItemQuantity5`), `RewardChoiceItemID6` = VALUES(`RewardChoiceItemID6`), `RewardChoiceItemQuantity6` = VALUES(`RewardChoiceItemQuantity6`), `POIContinent` = VALUES(`POIContinent`), `POIx` = VALUES(`POIx`), `POIy` = VALUES(`POIy`), `POIPriority` = VALUES(`POIPriority`), `RewardTitle` = VALUES(`RewardTitle`), `RewardTalents` = VALUES(`RewardTalents`), `RewardArenaPoints` = VALUES(`RewardArenaPoints`), `RewardFactionID1` = VALUES(`RewardFactionID1`), `RewardFactionValue1` = VALUES(`RewardFactionValue1`), `RewardFactionOverride1` = VALUES(`RewardFactionOverride1`), `RewardFactionID2` = VALUES(`RewardFactionID2`), `RewardFactionValue2` = VALUES(`RewardFactionValue2`), `RewardFactionOverride2` = VALUES(`RewardFactionOverride2`), `RewardFactionID3` = VALUES(`RewardFactionID3`), `RewardFactionValue3` = VALUES(`RewardFactionValue3`), `RewardFactionOverride3` = VALUES(`RewardFactionOverride3`), `RewardFactionID4` = VALUES(`RewardFactionID4`), `RewardFactionValue4` = VALUES(`RewardFactionValue4`), `RewardFactionOverride4` = VALUES(`RewardFactionOverride4`), `RewardFactionID5` = VALUES(`RewardFactionID5`), `RewardFactionValue5` = VALUES(`RewardFactionValue5`), `RewardFactionOverride5` = VALUES(`RewardFactionOverride5`), `LogTitle` = VALUES(`LogTitle`), `LogDescription` = VALUES(`LogDescription`), `QuestDescription` = VALUES(`QuestDescription`), `AreaDescription` = VALUES(`AreaDescription`), `QuestCompletionLog` = VALUES(`QuestCompletionLog`), `RequiredNpcOrGo1` = VALUES(`RequiredNpcOrGo1`), `RequiredNpcOrGo2` = VALUES(`RequiredNpcOrGo2`), `RequiredNpcOrGo3` = VALUES(`RequiredNpcOrGo3`), `RequiredNpcOrGo4` = VALUES(`RequiredNpcOrGo4`), `RequiredNpcOrGoCount1` = VALUES(`RequiredNpcOrGoCount1`), `RequiredNpcOrGoCount2` = VALUES(`RequiredNpcOrGoCount2`), `RequiredNpcOrGoCount3` = VALUES(`RequiredNpcOrGoCount3`), `RequiredNpcOrGoCount4` = VALUES(`RequiredNpcOrGoCount4`), `RequiredItemId1` = VALUES(`RequiredItemId1`), `RequiredItemId2` = VALUES(`RequiredItemId2`), `RequiredItemId3` = VALUES(`RequiredItemId3`), `RequiredItemId4` = VALUES(`RequiredItemId4`), `RequiredItemId5` = VALUES(`RequiredItemId5`), `RequiredItemId6` = VALUES(`RequiredItemId6`), `RequiredItemCount1` = VALUES(`RequiredItemCount1`), `RequiredItemCount2` = VALUES(`RequiredItemCount2`), `RequiredItemCount3` = VALUES(`RequiredItemCount3`), `RequiredItemCount4` = VALUES(`RequiredItemCount4`), `RequiredItemCount5` = VALUES(`RequiredItemCount5`), `RequiredItemCount6` = VALUES(`RequiredItemCount6`), `ObjectiveText1` = VALUES(`ObjectiveText1`), `ObjectiveText2` = VALUES(`ObjectiveText2`), `ObjectiveText3` = VALUES(`ObjectiveText3`), `ObjectiveText4` = VALUES(`ObjectiveText4`);
 
 DELETE FROM `quest_template_addon` WHERE `ID` IN (1660000, 1660001, 1660002, 1660003, 1660004, 1660005, 1660036, 1660038);
@@ -199,26 +199,26 @@ VALUES
 DELETE FROM `quest_offer_reward` WHERE `ID` IN (1660000, 1660001, 1660002, 1660003, 1660004, 1660005, 1660036, 1660038);
 INSERT INTO `quest_offer_reward` (`ID`, `RewardText`)
 VALUES
-(1660000, 'Did my sister send you, by any chance?$B$BI already told her this isn’t a good time; although honestly, there’s never a good time to deal with her.$B$BAnyway, I’m in the middle of a discovery that… has me completely absorbed. Maybe you’d be interested in lending a hand?'),
-(1660001, 'Well, what do we have here?$B$B<Moroi eagerly inspects the pages you’ve brought him.>$B$BThat clears up a few gaps: the abbess accused of heresy was tried by the Inquisition and excommunicated. No wonder the Church wanted the whole thing wiped from the records. It’s almost a miracle they forgot to burn this book.$B$BMakes you wonder what she did to earn such a punishment, doesn’t it?'),
-(1660002, 'The way is shut, mortal.$B$BThe dungeon is home to the Dead, and the Dead keep it so.$B$BJailers in life, prisoners in death… all of us, victims of her curse.$B$BThe way is shut.'),
-(1660003, 'The curse…$B$BThe way has opened. I can feel it; a warm light calling my spirit elsewhere.$B$B<The priestess seems more awake, more aware than before.>$B$BI was once called Sister Alma, priestess of Northshire Abbey.$B$BYou came down here seeking knowledge. You’re not the first. But I trust you’ll be the last.$B$BVery well. I will tell you about Sitis.'),
-(1660004, '<Moroi listens to your account intently.>$B$BThey say the pen is mightier than the sword, and Sitis... fitting name. It means “thirst.” From what you’ve told me, she was a woman thirsty for truth and knowledge.$B$BI hardly think that’s a sin.$B$BHere’s my plan, $N: I’ll go with my sister, say my goodbyes to my mother, and on my way back to the abbey, I’ll stop by that place you spoke of, where Sitis held her most daring gatherings.$B$B“There is no darkness but ignorance.” I thank you for the warning, but my mind won’t rest until I uncover the truth... no matter the risks you’ve mentioned.'),
-(1660005, 'You did it… <he gasps for breath.>$B$BIt shames the uniform I wear with such pride that I had to turn to someone outside the army.$B$BIt should have been my duty to see it done, but, as you can see, I haven’t the strength to even limp back to the Abbey.$B$BStormwind owes you thanks, $C… and so do I.'),
-(1660036, '<The priest listens intently as you recount the events.>$B$BAn interesting discovery.$B$BIt is curious… almost every saint to whom we ascribe visions suffered some form of blindness.$B$BIn any case <he tosses the murloc eyes into the waste bin> only the Light knows what the future holds.$B$BWhatever you think you saw in these heretical creatures was nothing but deception. Murlocs are an insult to the human spirit. Best you put this curiosity of yours to rest.'),
-(1660038, 'The fire cannot burn forever without someone to indulge its whims.$B$BBy killing him, you’ve set him free. Now the flames must content themselves with licking his bones until both are dust and ash.$B$BBut these chambers hold more than dust and ash… Choose your reward, mortal.');
+(1660000, '难道是我姐姐派你来的？$B$B我已经告诉过她现在不是好时机；不过说实话，应付她从来就没有好时机。$B$B总之，我正有个发现……让我完全沉浸其中。也许你有兴趣搭把手？'),
+(1660001, '那么，我们这儿有什么？$B$B<莫罗伊急切地检查你带来的书页。>$B$B这填补了一些空白：那位被指控为异端的女修道院长受到了审判庭的审判并被逐出教会。难怪教会想把整件事从记录中抹去。他们居然忘了烧掉这本书，简直是奇迹。$B$B这不禁让人好奇，她究竟做了什么才招致这样的惩罚，对吧？'),
+(1660002, '道路已封闭，凡人。$B$B地牢是亡者的家园，而亡者使之如此。$B$B生时为狱卒，死后为囚徒……我们所有人，都是她诅咒的受害者。$B$B道路已封闭。'),
+(1660003, '诅咒……$B$B道路已经打开。我能感觉到；一道温暖的光芒在召唤我的灵魂前往他处。$B$B<女祭司看起来比之前更加清醒，更加有意识。>$B$B我曾被称为阿尔玛修女，北郡修道院的女祭司。$B$B你下来这里寻求知识。你不是第一个。但我相信你会是最后一个。$B$B很好。我会告诉你关于西蒂斯的事。'),
+(1660004, '<莫罗伊专注地听着你的叙述。>$B$B他们说笔胜于剑，而西蒂斯……名字起得真贴切。它的意思是“渴望”。从你告诉我的来看，她是一个渴望真理与知识的女人。$B$B我可不认为那是罪过。$B$B这是我的计划，$N：我会和我姐姐一起回去，向母亲告别，然后在回修道院的路上，我会去你提到的那个地方看看，就是西蒂斯举行她最大胆集会的所在。$B$B“除了无知，别无黑暗。”我感谢你的警告，但在揭开真相之前，我的心无法安宁……无论你提到的风险有多大。'),
+(1660005, '你做到了……<他喘着气。>$B$B我如此自豪地穿着这身军装，却不得不求助于军队之外的人，这让我感到羞愧。$B$B本该是我的职责去完成这件事，但如你所见，我连一瘸一拐地走回修道院的力气都没有了。$B$B暴风城欠你一声感谢，$C……我也是。'),
+(1660036, '<牧师专注地听着你叙述事情的经过。>$B$B一个有趣的发现。$B$B说来奇怪……我们归于其名下的几乎每一位曾见过异象的圣人都患有某种形式的失明。$B$B无论如何<他把鱼人的眼睛扔进废料桶>只有圣光才知道未来会怎样。$B$B无论你以为从这些异端生物身上看到了什么，那都不过是欺骗。鱼人是对人类精神的侮辱。你最好把这好奇心收起来。'),
+(1660038, '若无人满足其欲望，火焰无法永远燃烧。$B$B杀了他，你就解放了他。现在火焰只能满足于舔舐他的骨头，直到两者都化为尘土与灰烬。$B$B但这些房间所藏的不止尘土与灰烬……选择你的奖励吧，凡人。');
 
 DELETE FROM `quest_request_items` WHERE `ID` IN (1660000, 1660001, 1660002, 1660003, 1660004, 1660005, 1660036, 1660038);
 INSERT INTO `quest_request_items` (`ID`, `CompletionText`)
 VALUES
 (1660000, ''),
-(1660001, 'Have you found the pages?'),
-(1660002, 'The way is shut…'),
-(1660003, 'The way is still shut, mortal...$B$BAn eternal Dark Night of the Soul.'),
-(1660004, 'Learned anything?'),
-(1660005, 'Don’t worry about me; I can’t follow, but I can still hold my ground.'),
-(1660036, 'Can I help you with something, child?'),
-(1660038, 'Have you granted the censor both death and freedom?');
+(1660001, '你找到那些书页了吗？'),
+(1660002, '道路已封闭……'),
+(1660003, '道路依旧封闭，凡人……$B$B一场永恒的灵魂暗夜。'),
+(1660004, '有什么发现吗？'),
+(1660005, '别担心我；我无法跟随，但我仍能坚守阵地。'),
+(1660036, '我能帮你什么吗，孩子？'),
+(1660038, '你是否已赐予监察官死亡与自由？');
 
 -- ---------------------------------------------------------------------------
 -- 5. Who offers and who takes them back
@@ -252,17 +252,17 @@ VALUES
 DELETE FROM `creature_loot_template` WHERE `Entry` = 161717;
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`)
 VALUES
-(161717, 559159, 0, 100, 0, 1, 0, 1, 1, 'CoA Northshire: Shadewell Murloc Oracle drops the Oracular Idol, which starts quest 1660036 (itemcache startquest)'),
-(161717, 559160, 0, 100, 1, 1, 0, 1, 1, 'CoA Northshire: Shadewell Murloc Oracle drops the Prophet''s Oracular Orb (creaturecache questItem1)');
+(161717, 559159, 0, 100, 0, 1, 0, 1, 1, '飞升计划北郡：暗井鱼人先知掉落神谕神像，可开启任务1660036（itemcache startquest）'),
+(161717, 559160, 0, 100, 1, 1, 0, 1, 1, '飞升计划北郡：暗井鱼人先知掉落先知的神谕宝珠（creaturecache questItem1）');
 
 DELETE FROM `gameobject_loot_template` WHERE `Entry` IN (2300500, 2300503, 2300504, 2300505, 2300517);
 INSERT INTO `gameobject_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`)
 VALUES
-(2300500, 559130, 0, 100, 1, 1, 0, 1, 1, 'CoA Northshire: Lost Page I'),
-(2300503, 559131, 0, 100, 1, 1, 0, 1, 1, 'CoA Northshire: Lost Page II'),
-(2300504, 559132, 0, 100, 1, 1, 0, 1, 1, 'CoA Northshire: Lost Page III'),
-(2300505, 559133, 0, 100, 1, 1, 0, 1, 1, 'CoA Northshire: Lost Page IV'),
-(2300517, 559154, 0, 100, 0, 1, 0, 1, 1, 'CoA Northshire: Lost Page VI, a readable page no quest needs');
+(2300500, 559130, 0, 100, 1, 1, 0, 1, 1, '飞升计划北郡：遗失的书页 I'),
+(2300503, 559131, 0, 100, 1, 1, 0, 1, 1, '飞升计划北郡：遗失的书页 II'),
+(2300504, 559132, 0, 100, 1, 1, 0, 1, 1, '飞升计划北郡：遗失的书页 III'),
+(2300505, 559133, 0, 100, 1, 1, 0, 1, 1, '飞升计划北郡：遗失的书页 IV'),
+(2300517, 559154, 0, 100, 0, 1, 0, 1, 1, '飞升计划北郡：遗失的书页 VI，可阅读的书页，无任务需要');
 
 DELETE FROM `creature_questitem` WHERE `CreatureEntry` = 161717;
 INSERT INTO `creature_questitem` (`CreatureEntry`, `Idx`, `ItemId`)
@@ -280,10 +280,10 @@ VALUES
 DELETE FROM `page_text` WHERE `ID` IN (50009, 50011, 50012, 50013);
 INSERT INTO `page_text` (`ID`, `Text`, `NextPageID`)
 VALUES
-(50009, '<Time has not been kind to the book, and this page bears the marks of age.>$b$b“… thus the Abbess was summoned before the Inquisitorial Tribunal, by direct order of Archbishop Faol, with whom she had already clashed more than once in the past.”', 0),
-(50011, '<Time has not been kind to the book, and this page bears the marks of age.>$b$b“... of course, the history of Northshire is steeped in blood. It was decided that the old Inquisitorial Dungeon, though barely preserved, would host the tribunal that was to judge our wayward Abbess.”', 0),
-(50012, '<Time has not been kind to the book, and this page bears the marks of age.>$b$b“... discretion was chosen. One need only imagine the uproar, the suspicions that would fall upon the Church if word spread: <The Abbess of Northshire, put on inquisitorial trial, accused of heresy and excommunicated.>”', 0),
-(50013, '<Time has not been kind to the book, and this page bears the marks of age.>$b$b“The old village remains largely in ruins. The shadow of what the Horde did in this valley still weighs upon its stones, I think. In any case, the site is ideal. The Abbess will be brought to the village and, through the cellar of one of the houses, led down into the Inquisitorial Dungeon, where she will be judged. Of course, we already know the verdict: excommunication.”', 0);
+(50009, '<岁月并未善待这本书，这一页上留下了岁月的痕迹。>$b$b“……因此，女修道院长被传唤至审判庭，这是大主教法奥的直接命令，她过去已经与他发生过不止一次冲突。”', 0),
+(50011, '<岁月并未善待这本书，这一页上留下了岁月的痕迹。>$b$b“……当然，北郡的历史浸透着鲜血。已经决定，那座古老的审判庭地牢，虽然几乎未能保存下来，将作为审判我们那误入歧途的女修道院长的法庭。”', 0),
+(50012, '<岁月并未善待这本书，这一页上留下了岁月的痕迹。>$b$b“……选择了谨慎行事。只需想象一下，如果消息传开，将会引起怎样的轩然大波，以及教会将面临怎样的猜疑：<北郡女修道院长，接受审判庭审判，被指控为异端并逐出教会。>”', 0),
+(50013, '<岁月并未善待这本书，这一页上留下了岁月的痕迹。>$b$b“那个古老的村庄大部分仍是废墟。我认为，部落在这个山谷中所作所为的阴影仍然压在这些石头上。无论如何，这个地方很理想。女修道院长将被带到村庄，然后通过其中一座房子的地窖，被带入审判庭地牢，在那里接受审判。当然，我们已经知道判决：逐出教会。”', 0);
 
 -- ---------------------------------------------------------------------------
 -- 7. Spawns
@@ -528,9 +528,9 @@ VALUES
 DELETE FROM `creature_text` WHERE `CreatureID` = 161713;
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Probability`, `comment`)
 VALUES
-(161713, 0, 0, 'You''ve come for Sitis, haven''t you? Then you''ve already gone too far... I''m sorry for what must follow.', 12, 100, 'Wayward Theologian - pull (INFERRED)'),
-(161713, 1, 0, 'I am sorry. Truly. But your death is a mercy, compared to the dark path you would have walked.', 12, 100, 'Wayward Theologian - in combat between shield phases (INFERRED)'),
-(161713, 2, 0, 'I beg you... Don''t speak her name... Don''t read her words... Her philosophy... will be your end...', 12, 100, 'Wayward Theologian - death (INFERRED)');
+(161713, 0, 0, '你是为西蒂斯而来的，对吧？那你已经走得太远了……接下来要发生的事，我很抱歉。', 12, 100, '误入歧途的神学家 - 拉怪（推断）'),
+(161713, 1, 0, '我很抱歉。真的。但与你会走上的黑暗道路相比，你的死亡反倒是一种仁慈。', 12, 100, '误入歧途的神学家 - 战斗中盾牌阶段之间（推断）'),
+(161713, 2, 0, '我求你……不要说出她的名字……不要读她的话……她的哲学……会要了你的命……', 12, 100, '误入歧途的神学家 - 死亡（推断）');
 
 -- ---------------------------------------------------------------------------
 -- 10. Bianca and the injured guard
@@ -539,7 +539,7 @@ VALUES
 DELETE FROM `creature_text` WHERE `CreatureID` = 161700;
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Probability`, `comment`)
 VALUES
-(161700, 0, 0, 'Moroi, I know you''re in there! We don''t have all day. Mother doesn''t either! Get out here you scoundrel!', 14, 100, 'Bianca Spada - calls for her brother');
+(161700, 0, 0, '莫罗伊，我知道你在里面！我们没时间了。母亲也没时间了！出来，你这个无赖！', 14, 100, '比安卡·斯帕达 - 呼唤她的兄弟');
 
 DELETE FROM `smart_scripts` WHERE `entryorguid` = 161700 AND `source_type` = 0;
 INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase_mask`, `event_chance`, `event_flags`, `event_param1`, `event_param2`, `event_param3`, `event_param4`, `event_param5`, `event_param6`, `action_type`, `action_param1`, `action_param2`, `action_param3`, `action_param4`, `action_param5`, `action_param6`, `target_type`, `target_param1`, `target_param2`, `target_param3`, `target_param4`, `target_x`, `target_y`, `target_z`, `target_o`, `comment`)
@@ -549,7 +549,7 @@ VALUES
 DELETE FROM `npc_text` WHERE `ID` IN (62631);
 INSERT INTO `npc_text` (`ID`, `text0_0`, `text0_1`, `lang0`, `Probability0`)
 VALUES
-(62631, '<The soldier gasps, his fist barely clenched around the hilt of his sword. His arm dangles useless from a shoulder skewered clean through by an arrow shaft still jutting from the wound.>$b$bNorthshire Valley was supposed to be a quiet post… “a stroke of luck”, they said, to have me stationed here!$b$b<He spits his bitterness to the ground and growls:>$b$bTo hell with that. I’m not dying here.', '<The soldier gasps, his fist barely clenched around the hilt of his sword. His arm dangles useless from a shoulder skewered clean through by an arrow shaft still jutting from the wound.>$b$bNorthshire Valley was supposed to be a quiet post… “a stroke of luck”, they said, to have me stationed here!$b$b<He spits his bitterness to the ground and growls:>$b$bTo hell with that. I’m not dying here.', 0, 1);
+(62631, '<士兵喘息着，拳头勉强攥住剑柄。他的手臂无力地垂着，肩膀被一支仍插在伤口上的箭杆彻底穿透。>$b$b北郡山谷本该是个安静的驻地……他们说，把我派驻到这里是“运气好”！$b$b<他把苦涩啐到地上，低吼道：>$b$b去他的。我不能死在这里。', '<士兵喘息着，拳头勉强攥住剑柄。他的手臂无力地垂着，肩膀被一支仍插在伤口上的箭杆彻底穿透。>$b$b北郡山谷本该是个安静的驻地……他们说，把我派驻到这里是“运气好”！$b$b<他把苦涩啐到地上，低吼道：>$b$b去他的。我不能死在这里。', 0, 1);
 
 DELETE FROM `gossip_menu` WHERE `MenuID` IN (62631);
 INSERT INTO `gossip_menu` (`MenuID`, `TextID`)

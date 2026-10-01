@@ -181,4 +181,4 @@ VALUES
 -- 8. The Boar Hunter
 -- ---------------------------------------------------------------------------
 -- 183: CoA asks for 8 Small Crag Boars (questcache); 57 are spawned in Coldridge.
-UPDATE `quest_template` SET `RequiredNpcOrGoCount1` = 8, `LogDescription` = 'Talin Keeneye would like you to kill 8 Small Crag Boars.' WHERE `ID` = 183;
+UPDATE `quest_template` SET `RequiredNpcOrGoCount1` = 8, `LogDescription` = '塔林·锐眼希望你杀死8只小峭壁野猪。' WHERE `ID` = 183;

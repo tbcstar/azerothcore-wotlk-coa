@@ -13,5 +13,5 @@ INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
 (1210, 681441);
 DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1210;
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
-(1210, 2, 'Local CoA: one Barbarian shout (Brutal or Enduring) per caster on each recipient');
+(1210, 2, '本地 CoA：每个施法者在每个受术者身上只能有一个野蛮人战吼（残酷或持久）');
 COMMIT;

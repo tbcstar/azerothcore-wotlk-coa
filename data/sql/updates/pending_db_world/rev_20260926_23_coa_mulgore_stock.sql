@@ -124,7 +124,7 @@ DELETE FROM `gameobject` WHERE `guid` IN (213975, 214084, 214139, 214153, 214209
 DELETE FROM `game_graveyard` WHERE `ID` = 6077;
 INSERT INTO `game_graveyard` (`ID`, `Map`, `x`, `y`, `z`, `Comment`)
 VALUES
-(6077, 1, -3627.28, -1007.71, 204.562, 'Red Cloud Mesa, Hard Basin Graveyard');
+(6077, 1, -3627.28, -1007.71, 204.562, '红云台地，硬盆地墓地');
 
 -- Spirit Healer (9011650): open basin floor 4.4 yd north-east of the WorldSafeLocs point, facing it, clear of
 -- the fallen trees and the rock outcrop.
@@ -142,18 +142,18 @@ VALUES
 DELETE FROM `graveyard_zone` WHERE (`ID`, `GhostZone`) IN ((34, 10128), (89, 10128), (249, 10128), (851, 10128), (1435, 10128), (1436, 10128), (34, 10129), (89, 10129), (249, 10129), (851, 10129), (1435, 10129), (1436, 10129), (6077, 10209), (6077, 10210), (6077, 10211));
 INSERT INTO `graveyard_zone` (`ID`, `GhostZone`, `Faction`, `Comment`)
 VALUES
-(34, 10128, 67, 'Palemane Rock - Mulgore, Red Cloud Mesa'),
-(89, 10128, 67, 'Palemane Rock - Mulgore, Bloodhoof Village'),
-(249, 10128, 469, 'Palemane Rock - The Barrens, Ratchet'),
-(851, 10128, 67, 'Palemane Rock - Mulgore, Thunder Bluff'),
-(1435, 10128, 0, 'Palemane Rock - Mulgore, Southeast GY'),
-(1436, 10128, 0, 'Palemane Rock - Mulgore, Red Rocks'),
-(34, 10129, 67, 'The Venture Co. Mine - Mulgore, Red Cloud Mesa'),
-(89, 10129, 67, 'The Venture Co. Mine - Mulgore, Bloodhoof Village'),
-(249, 10129, 469, 'The Venture Co. Mine - The Barrens, Ratchet'),
-(851, 10129, 67, 'The Venture Co. Mine - Mulgore, Thunder Bluff'),
-(1435, 10129, 0, 'The Venture Co. Mine - Mulgore, Southeast GY'),
-(1436, 10129, 0, 'The Venture Co. Mine - Mulgore, Red Rocks'),
-(6077, 10209, 0, 'Grimtotem Mountain Path - Hard Basin Graveyard'),
-(6077, 10210, 0, 'Hard Basin - Hard Basin Graveyard'),
-(6077, 10211, 0, 'Three Totem Village - Hard Basin Graveyard');
+(34, 10128, 67, '灰白岩 - 莫高雷，红云台地'),
+(89, 10128, 67, '灰白岩 - 莫高雷，血蹄村'),
+(249, 10128, 469, '灰白岩 - 贫瘠之地，棘齿城'),
+(851, 10128, 67, '灰白岩 - 莫高雷，雷霆崖'),
+(1435, 10128, 0, '灰白岩 - 莫高雷，东南墓地'),
+(1436, 10128, 0, '灰白岩 - 莫高雷，红岩'),
+(34, 10129, 67, '风险投资公司矿洞 - 莫高雷，红云台地'),
+(89, 10129, 67, '风险投资公司矿洞 - 莫高雷，血蹄村'),
+(249, 10129, 469, '风险投资公司矿洞 - 贫瘠之地，棘齿城'),
+(851, 10129, 67, '风险投资公司矿洞 - 莫高雷，雷霆崖'),
+(1435, 10129, 0, '风险投资公司矿洞 - 莫高雷，东南墓地'),
+(1436, 10129, 0, '风险投资公司矿洞 - 莫高雷，红岩'),
+(6077, 10209, 0, '恐怖图腾山径 - 硬盆地墓地'),
+(6077, 10210, 0, '硬盆地 - 硬盆地墓地'),
+(6077, 10211, 0, '三图腾村 - 硬盆地墓地');

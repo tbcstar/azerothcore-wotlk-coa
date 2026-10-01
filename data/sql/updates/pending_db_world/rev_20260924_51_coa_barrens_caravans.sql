@@ -47,7 +47,7 @@
 -- Display 4464 (orc male, as 314873 and Kildar) stands in for the cached 449159, which does not resolve.
 INSERT INTO `creature_template` (`entry`, `name`, `subname`, `IconName`, `minlevel`, `maxlevel`, `exp`, `faction`, `npcflag`, `speed_walk`, `speed_run`, `BaseAttackTime`, `RangeAttackTime`, `unit_class`, `unit_flags`, `unit_flags2`, `type`, `type_flags`, `VehicleId`, `AIName`, `MovementType`, `HealthModifier`, `ManaModifier`, `ArmorModifier`, `RegenHealth`, `flags_extra`, `ScriptName`)
 VALUES
-(314858, 'Durotar Caravan Master', NULL, NULL, 1, 1, 0, 29, 0, 1, 1.14286, 2000, 2000, 1, 768, 2048, 7, 0, 0, '', 0, 1, 1, 1, 1, 8194, '')
+(314858, '杜隆塔尔商队首领', NULL, NULL, 1, 1, 0, 29, 0, 1, 1.14286, 2000, 2000, 1, 768, 2048, 7, 0, 0, '', 0, 1, 1, 1, 1, 8194, '')
 ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `subname` = VALUES(`subname`), `IconName` = VALUES(`IconName`), `minlevel` = VALUES(`minlevel`), `maxlevel` = VALUES(`maxlevel`), `exp` = VALUES(`exp`), `faction` = VALUES(`faction`), `npcflag` = VALUES(`npcflag`), `speed_walk` = VALUES(`speed_walk`), `speed_run` = VALUES(`speed_run`), `BaseAttackTime` = VALUES(`BaseAttackTime`), `RangeAttackTime` = VALUES(`RangeAttackTime`), `unit_class` = VALUES(`unit_class`), `unit_flags` = VALUES(`unit_flags`), `unit_flags2` = VALUES(`unit_flags2`), `type` = VALUES(`type`), `type_flags` = VALUES(`type_flags`), `VehicleId` = VALUES(`VehicleId`), `AIName` = VALUES(`AIName`), `MovementType` = VALUES(`MovementType`), `HealthModifier` = VALUES(`HealthModifier`), `ManaModifier` = VALUES(`ManaModifier`), `ArmorModifier` = VALUES(`ArmorModifier`), `RegenHealth` = VALUES(`RegenHealth`), `flags_extra` = VALUES(`flags_extra`), `ScriptName` = VALUES(`ScriptName`);
 
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 314858;
@@ -75,12 +75,12 @@ VALUES
 DELETE FROM `vehicle_accessory` WHERE `guid` IN (9006200, 9006201, 9006202);
 INSERT INTO `vehicle_accessory` (`guid`, `accessory_entry`, `seat_id`, `minion`, `description`, `summontype`, `summontimer`)
 VALUES
-(9006200, 314860, 1, 1, 'Tauren Caravan Master', 8, 0),
-(9006200, 9303000, 2, 1, 'Caravan Harness', 8, 0),
-(9006201, 314858, 1, 1, 'Durotar Caravan Master', 8, 0),
-(9006201, 9303000, 2, 1, 'Caravan Harness', 8, 0),
-(9006202, 314860, 1, 1, 'Tauren Caravan Master', 8, 0),
-(9006202, 9303000, 2, 1, 'Caravan Harness', 8, 0);
+(9006200, 314860, 1, 1, '牛头人商队首领', 8, 0),
+(9006200, 9303000, 2, 1, '商队挽具', 8, 0),
+(9006201, 314858, 1, 1, '杜隆塔尔商队首领', 8, 0),
+(9006201, 9303000, 2, 1, '商队挽具', 8, 0),
+(9006202, 314860, 1, 1, '牛头人商队首领', 8, 0),
+(9006202, 9303000, 2, 1, '商队挽具', 8, 0);
 
 -- ---------------------------------------------------------------------------
 -- 3. Spawns: cart 50470 on its road, path guid x 100

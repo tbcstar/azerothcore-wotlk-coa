@@ -3,7 +3,7 @@
 -- column and only matters for pets, so it stays 0.
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`,
 `type_flags`, `family`, `HealthModifier`, `ManaModifier`, `movementId`, `ScriptName`) VALUES
-(315303, 'Blood Orb', 1, 1, 35, 1, 6, 1, 0, 0.2, 1, 999, 'npc_ascension_bloodmage_blood_orb')
+(315303, '鲜血宝珠', 1, 1, 35, 1, 6, 1, 0, 0.2, 1, 999, 'npc_ascension_bloodmage_blood_orb')
 ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `minlevel` = VALUES(`minlevel`), `maxlevel` = VALUES(`maxlevel`),
 `faction` = VALUES(`faction`), `unit_class` = VALUES(`unit_class`), `type` = VALUES(`type`),
 `type_flags` = VALUES(`type_flags`), `family` = VALUES(`family`), `HealthModifier` = VALUES(`HealthModifier`),

@@ -63,23 +63,23 @@
 --   Brown Horse, seat 3 314871 Brown Horse
 INSERT INTO `creature_template` (`entry`, `name`, `subname`, `IconName`, `minlevel`, `maxlevel`, `exp`, `faction`, `npcflag`, `speed_walk`, `speed_run`, `BaseAttackTime`, `RangeAttackTime`, `unit_class`, `unit_flags`, `unit_flags2`, `type`, `type_flags`, `VehicleId`, `AIName`, `MovementType`, `HealthModifier`, `ManaModifier`, `ArmorModifier`, `RegenHealth`, `flags_extra`, `ScriptName`)
 VALUES
-(50470, 'Pack Kodo Caravan Cart', NULL, 'vehichleCursor', 1, 1, 0, 29, 16777216, 1, 1.14286, 2000, 2000, 1, 768, 2048, 9, 2048, 1527, '', 0, 1, 1, 1, 1, 8194, 'npc_coa_caravan_cart'),
-(50473, 'Tirisfal Caravan Cart', NULL, 'vehichleCursor', 1, 1, 0, 68, 16777216, 1, 1.14286, 2000, 2000, 1, 768, 2048, 9, 2048, 1529, '', 0, 1, 1, 1, 1, 8194, 'npc_coa_caravan_cart'),
-(50474, 'Dun Morogh Caravan Cart', NULL, 'vehichleCursor', 1, 1, 0, 55, 16777216, 1, 1.14286, 2000, 2000, 1, 768, 2048, 9, 2048, 1530, '', 0, 1, 1, 1, 1, 8194, 'npc_coa_caravan_cart'),
-(50475, 'Teldrassil Caravan Cart', NULL, 'vehichleCursor', 1, 1, 0, 80, 16777216, 1, 1.14286, 2000, 2000, 1, 768, 2048, 9, 2048, 1531, '', 0, 1, 1, 1, 1, 8194, 'npc_coa_caravan_cart'),
-(50476, 'Elwynn Caravan Cart', NULL, 'vehichleCursor', 1, 1, 0, 12, 16777216, 1, 1.14286, 2000, 2000, 1, 768, 2048, 9, 2048, 1532, '', 0, 1, 1, 1, 1, 8194, 'npc_coa_caravan_cart'),
-(314872, 'Human Caravan Master', NULL, NULL, 1, 1, 0, 12, 0, 1, 1.14286, 2000, 2000, 1, 768, 2048, 7, 0, 0, '', 0, 1, 1, 1, 1, 8194, ''),
-(314868, 'Dwarf Caravan Master', NULL, NULL, 1, 1, 0, 55, 0, 1, 1.14286, 2000, 2000, 1, 768, 2048, 7, 0, 0, '', 0, 1, 1, 1, 1, 8194, ''),
-(314870, 'Nightelf Caravan Master', NULL, NULL, 1, 1, 0, 80, 0, 1, 1.14286, 2000, 2000, 1, 768, 2048, 7, 0, 0, '', 0, 1, 1, 1, 1, 8194, ''),
-(314864, 'Undead Caravan Master', NULL, NULL, 1, 1, 0, 68, 0, 1, 1.14286, 2000, 2000, 1, 768, 2048, 7, 0, 0, '', 0, 1, 1, 1, 1, 8194, ''),
-(314860, 'Tauren Caravan Master', NULL, NULL, 1, 1, 0, 104, 0, 1, 1.14286, 2000, 2000, 1, 768, 2048, 7, 0, 0, '', 0, 1, 1, 1, 1, 8194, ''),
-(314873, 'Durotar Caravan Master', NULL, NULL, 1, 1, 0, 29, 0, 1, 1.14286, 2000, 2000, 1, 768, 2048, 7, 0, 0, '', 0, 1, 1, 1, 1, 8194, ''),
-(314865, 'Purple Skeletal Warhorse', NULL, NULL, 1, 1, 0, 68, 0, 1, 1.14286, 2000, 2000, 1, 768, 2048, 6, 1, 0, '', 0, 1, 1, 1, 1, 8194, ''),
-(314866, 'Green Skeletal Warhorse', NULL, NULL, 1, 1, 0, 68, 0, 1, 1.14286, 2000, 2000, 1, 768, 2048, 6, 1, 0, '', 0, 1, 1, 1, 1, 8194, ''),
-(314867, 'White Riding Ram Mount', NULL, NULL, 1, 1, 0, 55, 0, 1, 1.14286, 2000, 2000, 1, 768, 2048, 6, 1, 0, '', 0, 1, 1, 1, 1, 8194, ''),
-(314869, 'Swift Stormsaber', NULL, NULL, 1, 1, 0, 80, 0, 1, 1.14286, 2000, 2000, 1, 768, 2048, 7, 0, 0, '', 0, 1, 1, 1, 1, 8194, ''),
-(314871, 'Brown Horse', NULL, NULL, 1, 1, 0, 12, 0, 1, 1.14286, 2000, 2000, 1, 768, 2048, 7, 0, 0, '', 0, 1, 1, 1, 1, 8194, ''),
-(9303000, 'Caravan Harness', NULL, NULL, 1, 1, 0, 29, 0, 1, 1.14286, 2000, 2000, 1, 33555200, 2048, 10, 0, 0, '', 0, 1, 1, 1, 1, 8322, '')
+(50470, '驮运科多兽商队货车', NULL, 'vehichleCursor', 1, 1, 0, 29, 16777216, 1, 1.14286, 2000, 2000, 1, 768, 2048, 9, 2048, 1527, '', 0, 1, 1, 1, 1, 8194, 'npc_coa_caravan_cart'),
+(50473, '提瑞斯法商队货车', NULL, 'vehichleCursor', 1, 1, 0, 68, 16777216, 1, 1.14286, 2000, 2000, 1, 768, 2048, 9, 2048, 1529, '', 0, 1, 1, 1, 1, 8194, 'npc_coa_caravan_cart'),
+(50474, '丹莫罗商队货车', NULL, 'vehichleCursor', 1, 1, 0, 55, 16777216, 1, 1.14286, 2000, 2000, 1, 768, 2048, 9, 2048, 1530, '', 0, 1, 1, 1, 1, 8194, 'npc_coa_caravan_cart'),
+(50475, '泰达希尔商队货车', NULL, 'vehichleCursor', 1, 1, 0, 80, 16777216, 1, 1.14286, 2000, 2000, 1, 768, 2048, 9, 2048, 1531, '', 0, 1, 1, 1, 1, 8194, 'npc_coa_caravan_cart'),
+(50476, '艾尔文商队货车', NULL, 'vehichleCursor', 1, 1, 0, 12, 16777216, 1, 1.14286, 2000, 2000, 1, 768, 2048, 9, 2048, 1532, '', 0, 1, 1, 1, 1, 8194, 'npc_coa_caravan_cart'),
+(314872, '人类商队首领', NULL, NULL, 1, 1, 0, 12, 0, 1, 1.14286, 2000, 2000, 1, 768, 2048, 7, 0, 0, '', 0, 1, 1, 1, 1, 8194, ''),
+(314868, '矮人商队首领', NULL, NULL, 1, 1, 0, 55, 0, 1, 1.14286, 2000, 2000, 1, 768, 2048, 7, 0, 0, '', 0, 1, 1, 1, 1, 8194, ''),
+(314870, '暗夜精灵商队首领', NULL, NULL, 1, 1, 0, 80, 0, 1, 1.14286, 2000, 2000, 1, 768, 2048, 7, 0, 0, '', 0, 1, 1, 1, 1, 8194, ''),
+(314864, '亡灵商队首领', NULL, NULL, 1, 1, 0, 68, 0, 1, 1.14286, 2000, 2000, 1, 768, 2048, 7, 0, 0, '', 0, 1, 1, 1, 1, 8194, ''),
+(314860, '牛头人商队首领', NULL, NULL, 1, 1, 0, 104, 0, 1, 1.14286, 2000, 2000, 1, 768, 2048, 7, 0, 0, '', 0, 1, 1, 1, 1, 8194, ''),
+(314873, '杜隆塔尔商队首领', NULL, NULL, 1, 1, 0, 29, 0, 1, 1.14286, 2000, 2000, 1, 768, 2048, 7, 0, 0, '', 0, 1, 1, 1, 1, 8194, ''),
+(314865, '紫色骷髅战马', NULL, NULL, 1, 1, 0, 68, 0, 1, 1.14286, 2000, 2000, 1, 768, 2048, 6, 1, 0, '', 0, 1, 1, 1, 1, 8194, ''),
+(314866, '绿色骷髅战马', NULL, NULL, 1, 1, 0, 68, 0, 1, 1.14286, 2000, 2000, 1, 768, 2048, 6, 1, 0, '', 0, 1, 1, 1, 1, 8194, ''),
+(314867, '白色骑乘山羊坐骑', NULL, NULL, 1, 1, 0, 55, 0, 1, 1.14286, 2000, 2000, 1, 768, 2048, 6, 1, 0, '', 0, 1, 1, 1, 1, 8194, ''),
+(314869, '迅捷风暴刃豹', NULL, NULL, 1, 1, 0, 80, 0, 1, 1.14286, 2000, 2000, 1, 768, 2048, 7, 0, 0, '', 0, 1, 1, 1, 1, 8194, ''),
+(314871, '棕色马', NULL, NULL, 1, 1, 0, 12, 0, 1, 1.14286, 2000, 2000, 1, 768, 2048, 7, 0, 0, '', 0, 1, 1, 1, 1, 8194, ''),
+(9303000, '商队挽具', NULL, NULL, 1, 1, 0, 29, 0, 1, 1.14286, 2000, 2000, 1, 33555200, 2048, 10, 0, 0, '', 0, 1, 1, 1, 1, 8322, '')
 ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `subname` = VALUES(`subname`), `IconName` = VALUES(`IconName`), `minlevel` = VALUES(`minlevel`), `maxlevel` = VALUES(`maxlevel`), `exp` = VALUES(`exp`), `faction` = VALUES(`faction`), `npcflag` = VALUES(`npcflag`), `speed_walk` = VALUES(`speed_walk`), `speed_run` = VALUES(`speed_run`), `BaseAttackTime` = VALUES(`BaseAttackTime`), `RangeAttackTime` = VALUES(`RangeAttackTime`), `unit_class` = VALUES(`unit_class`), `unit_flags` = VALUES(`unit_flags`), `unit_flags2` = VALUES(`unit_flags2`), `type` = VALUES(`type`), `type_flags` = VALUES(`type_flags`), `VehicleId` = VALUES(`VehicleId`), `AIName` = VALUES(`AIName`), `MovementType` = VALUES(`MovementType`), `HealthModifier` = VALUES(`HealthModifier`), `ManaModifier` = VALUES(`ManaModifier`), `ArmorModifier` = VALUES(`ArmorModifier`), `RegenHealth` = VALUES(`RegenHealth`), `flags_extra` = VALUES(`flags_extra`), `ScriptName` = VALUES(`ScriptName`);
 
 DELETE FROM `creature_template_model` WHERE `CreatureID` IN (50470, 50473, 50474, 50475, 50476, 314860, 314864, 314865, 314866, 314867, 314868, 314869, 314870, 314871, 314872, 314873, 9303000);
@@ -155,26 +155,26 @@ VALUES
 DELETE FROM `vehicle_template_accessory` WHERE `entry` IN (50470, 50473, 50474, 50475, 50476);
 INSERT INTO `vehicle_template_accessory` (`entry`, `accessory_entry`, `seat_id`, `minion`, `description`, `summontype`, `summontimer`)
 VALUES
-(50476, 314872, 1, 1, 'Human Caravan Master', 8, 0),
-(50476, 314871, 2, 1, 'Brown Horse', 8, 0),
-(50476, 314871, 3, 1, 'Brown Horse', 8, 0),
-(50474, 314868, 1, 1, 'Dwarf Caravan Master', 8, 0),
-(50474, 314867, 2, 1, 'White Riding Ram Mount', 8, 0),
-(50474, 314867, 3, 1, 'White Riding Ram Mount', 8, 0),
-(50475, 314870, 1, 1, 'Nightelf Caravan Master', 8, 0),
-(50475, 314869, 2, 1, 'Swift Stormsaber', 8, 0),
-(50475, 314869, 3, 1, 'Swift Stormsaber', 8, 0),
-(50473, 314864, 1, 1, 'Undead Caravan Master', 8, 0),
-(50473, 314865, 2, 1, 'Purple Skeletal Warhorse', 8, 0),
-(50473, 314866, 3, 1, 'Green Skeletal Warhorse', 8, 0);
+(50476, 314872, 1, 1, '人类商队首领', 8, 0),
+(50476, 314871, 2, 1, '棕色马', 8, 0),
+(50476, 314871, 3, 1, '棕色马', 8, 0),
+(50474, 314868, 1, 1, '矮人商队首领', 8, 0),
+(50474, 314867, 2, 1, '白色骑乘山羊坐骑', 8, 0),
+(50474, 314867, 3, 1, '白色骑乘山羊坐骑', 8, 0),
+(50475, 314870, 1, 1, '暗夜精灵商队首领', 8, 0),
+(50475, 314869, 2, 1, '迅捷风暴刃豹', 8, 0),
+(50475, 314869, 3, 1, '迅捷风暴刃豹', 8, 0),
+(50473, 314864, 1, 1, '亡灵商队首领', 8, 0),
+(50473, 314865, 2, 1, '紫色骷髅战马', 8, 0),
+(50473, 314866, 3, 1, '绿色骷髅战马', 8, 0);
 
 DELETE FROM `vehicle_accessory` WHERE `guid` IN (9006000, 9006001, 9006002, 9006003, 9006004, 9006005, 9006006, 9006007) OR `guid` BETWEEN 9006000 AND 9006199;
 INSERT INTO `vehicle_accessory` (`guid`, `accessory_entry`, `seat_id`, `minion`, `description`, `summontype`, `summontimer`)
 VALUES
-(9006004, 314860, 1, 1, 'Tauren Caravan Master', 8, 0),
-(9006004, 9303000, 2, 1, 'Caravan Harness', 8, 0),
-(9006005, 314873, 1, 1, 'Durotar Caravan Master', 8, 0),
-(9006005, 9303000, 2, 1, 'Caravan Harness', 8, 0);
+(9006004, 314860, 1, 1, '牛头人商队首领', 8, 0),
+(9006004, 9303000, 2, 1, '商队挽具', 8, 0),
+(9006005, 314873, 1, 1, '杜隆塔尔商队首领', 8, 0),
+(9006005, 9303000, 2, 1, '商队挽具', 8, 0);
 
 -- ---------------------------------------------------------------------------
 -- 4. Spawns: each cart stands on its first stop, facing the way it leaves

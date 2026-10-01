@@ -60,16 +60,16 @@ UPDATE `gameobject` SET `position_x` = 1331.5, `position_y` = -4344, `position_z
 DELETE FROM `graveyard_zone` WHERE (`ID`, `GhostZone`) IN ((709, 365), (32, 371), (649, 371), (709, 371), (850, 371), (32, 10123), (649, 10123), (709, 10123), (850, 10123), (709, 10205));
 INSERT INTO `graveyard_zone` (`ID`, `GhostZone`, `Faction`, `Comment`)
 VALUES
-(709, 365, 0, 'Burning Blade Coven - Durotar, Valley of Trials GY'),
-(32, 371, 0, 'Dustwind Cave - Durotar, Razor Hill GY'),
-(649, 371, 67, 'Dustwind Cave - Durotar, Sen''jin Village GY'),
-(709, 371, 67, 'Dustwind Cave - Durotar, Valley of Trials GY'),
-(850, 371, 67, 'Dustwind Cave - Durotar, Northern Durotar GY'),
-(32, 10123, 0, 'Skull Rock - Durotar, Razor Hill GY'),
-(649, 10123, 67, 'Skull Rock - Durotar, Sen''jin Village GY'),
-(709, 10123, 67, 'Skull Rock - Durotar, Valley of Trials GY'),
-(850, 10123, 67, 'Skull Rock - Durotar, Northern Durotar GY'),
-(709, 10205, 0, 'Sinister Lair - Durotar, Valley of Trials GY');
+(709, 365, 0, '燃烧之刃集会所 - 杜隆塔尔，试炼谷墓地'),
+(32, 371, 0, '尘风洞穴 - 杜隆塔尔，剃刀岭墓地'),
+(649, 371, 67, '尘风洞穴 - 杜隆塔尔，森金村墓地'),
+(709, 371, 67, '尘风洞穴 - 杜隆塔尔，试炼谷墓地'),
+(850, 371, 67, '尘风洞穴 - 杜隆塔尔，北杜隆塔尔墓地'),
+(32, 10123, 0, '骷髅石 - 杜隆塔尔，剃刀岭墓地'),
+(649, 10123, 67, '骷髅石 - 杜隆塔尔，森金村墓地'),
+(709, 10123, 67, '骷髅石 - 杜隆塔尔，试炼谷墓地'),
+(850, 10123, 67, '骷髅石 - 杜隆塔尔，北杜隆塔尔墓地'),
+(709, 10205, 0, '邪恶巢穴 - 杜隆塔尔，试炼谷墓地');
 
 -- ---------------------------------------------------------------------------
 -- 4. CoA props
@@ -77,16 +77,16 @@ VALUES
 -- Kolkar tent 90601 held back: it would cover the worldforged Shabby Knife 6941806.
 INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `IconName`, `castBarCaption`, `size`, `Data0`, `Data1`, `Data2`, `Data3`, `Data4`, `Data5`, `Data6`, `Data7`, `Data8`, `Data9`, `Data10`, `Data11`, `Data12`, `Data13`, `Data14`, `Data15`, `Data16`, `Data17`, `Data18`, `Data19`, `Data20`, `Data21`, `Data22`, `Data23`)
 VALUES
-(90592, 5, 1014012, 'Blood pool RPG PROP', '', 'Inspecting', 0.15, 43, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(90595, 5, 7241, 'Wagon RPG PROP', '', 'Inspecting', 0.75, 43, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(90602, 5, 1053888, 'Seat RPG PROP', '', 'Inspecting', 0.5, 43, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(90603, 5, 192, 'Bonfire RPG PROP', '', 'Inspecting', 1, 43, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(90604, 5, 500023, 'Grunt Shoulder RPG PROP', '', 'Inspecting', 1.5, 43, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(90605, 5, 174789, 'Grunt Axe RPG PROP', '', 'Inspecting', 1.5, 43, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(95669, 5, 1015795, 'Skeleton RPG Prop', '', '', 1.35, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(96376, 5, 6370, 'Torch RPG Prop', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(96500, 5, 328, 'Warlock Shrine RPG Prop', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(3288421, 5, 1026565, 'Hay Bale', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+(90592, 5, 1014012, '血池 RPG 道具', '', '检查中', 0.15, 43, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(90595, 5, 7241, '货车 RPG 道具', '', '检查中', 0.75, 43, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(90602, 5, 1053888, '座位 RPG 道具', '', '检查中', 0.5, 43, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(90603, 5, 192, '篝火 RPG 道具', '', '检查中', 1, 43, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(90604, 5, 500023, '步兵肩甲 RPG 道具', '', '检查中', 1.5, 43, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(90605, 5, 174789, '步兵斧 RPG 道具', '', '检查中', 1.5, 43, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(95669, 5, 1015795, '骷髅 RPG 道具', '', '', 1.35, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(96376, 5, 6370, '火炬 RPG 道具', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(96500, 5, 328, '术士神龛 RPG 道具', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(3288421, 5, 1026565, '干草捆', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 ON DUPLICATE KEY UPDATE `type` = VALUES(`type`), `displayId` = VALUES(`displayId`), `name` = VALUES(`name`), `IconName` = VALUES(`IconName`), `castBarCaption` = VALUES(`castBarCaption`), `size` = VALUES(`size`), `Data0` = VALUES(`Data0`), `Data1` = VALUES(`Data1`), `Data2` = VALUES(`Data2`), `Data3` = VALUES(`Data3`), `Data4` = VALUES(`Data4`), `Data5` = VALUES(`Data5`), `Data6` = VALUES(`Data6`), `Data7` = VALUES(`Data7`), `Data8` = VALUES(`Data8`), `Data9` = VALUES(`Data9`), `Data10` = VALUES(`Data10`), `Data11` = VALUES(`Data11`), `Data12` = VALUES(`Data12`), `Data13` = VALUES(`Data13`), `Data14` = VALUES(`Data14`), `Data15` = VALUES(`Data15`), `Data16` = VALUES(`Data16`), `Data17` = VALUES(`Data17`), `Data18` = VALUES(`Data18`), `Data19` = VALUES(`Data19`), `Data20` = VALUES(`Data20`), `Data21` = VALUES(`Data21`), `Data22` = VALUES(`Data22`), `Data23` = VALUES(`Data23`);
 
 DELETE FROM `gameobject` WHERE `guid` IN (7917321, 7917322, 7917323, 7917324, 7917325, 7917326, 7917327, 7917328, 7917329, 7917330, 7917331) OR `guid` BETWEEN 7917320 AND 7917379;

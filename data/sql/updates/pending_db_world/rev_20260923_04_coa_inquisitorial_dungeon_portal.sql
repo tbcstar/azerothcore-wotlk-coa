@@ -32,8 +32,8 @@ DELETE FROM `areatrigger_teleport` WHERE `ID` IN (8002, 8003);
 INSERT INTO `areatrigger_teleport` (`ID`, `Name`, `target_map`, `target_position_x`, `target_position_y`,
     `target_position_z`, `target_orientation`)
 VALUES
-(8002, 'Secret Inquisitorial Dungeon - Vaults of the Inquisition', 936, -6658.54, -5565, 175.05, 4.712389),
-(8003, 'Vaults of the Inquisition - Secret Inquisitorial Dungeon', 0, -8628.39, -479, 43.56, 1.5707964);
+(8002, '秘密审判庭地牢 - 审判庭宝库', 936, -6658.54, -5565, 175.05, 4.712389),
+(8003, '审判庭宝库 - 秘密审判庭地牢', 0, -8628.39, -479, 43.56, 1.5707964);
 
 DELETE FROM `instance_template` WHERE `map` = 936;
 INSERT INTO `instance_template` (`map`, `parent`, `script`, `allowMount`)
@@ -43,9 +43,9 @@ VALUES
 INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `IconName`, `castBarCaption`, `size`,
     `Data0`, `Data1`, `AIName`, `ScriptName`)
 VALUES
-(2300565, 31, 8196, 'Doodad_InstanceNewPortal_Purple01', '', '', 1.75, 936, 0, '', ''),
-(2300566, 31, 8197, 'Doodad_InstanceNewPortal_Purple_Skull01', '', '', 1.75, 936, 1, '', ''),
-(2300567, 31, 9040, 'Doodad_InstancePortal_Green_5Man_Mythic01', '', '', 1.5, 936, 2, '', '')
+(2300565, 31, 8196, '装饰物_副本新传送门_紫色01', '', '', 1.75, 936, 0, '', ''),
+(2300566, 31, 8197, '装饰物_副本新传送门_紫色_骷髅01', '', '', 1.75, 936, 1, '', ''),
+(2300567, 31, 9040, '装饰物_副本传送门_绿色_5人_史诗01', '', '', 1.5, 936, 2, '', '');
 ON DUPLICATE KEY UPDATE `type` = VALUES(`type`), `displayId` = VALUES(`displayId`), `name` = VALUES(`name`),
     `IconName` = VALUES(`IconName`), `castBarCaption` = VALUES(`castBarCaption`), `size` = VALUES(`size`),
     `Data0` = VALUES(`Data0`), `Data1` = VALUES(`Data1`), `AIName` = VALUES(`AIName`),

@@ -62,11 +62,11 @@ VALUES
 DELETE FROM `graveyard_zone` WHERE (`ID`, `GhostZone`) IN ((6075, 10198), (6075, 10199), (6075, 10200), (6079, 85), (94, 10118));
 INSERT INTO `graveyard_zone` (`ID`, `GhostZone`, `Faction`, `Comment`)
 VALUES
-(6075, 10198, 0, 'Cain Family Estate - Deathknell, Cain family Graveyard'),
-(6075, 10199, 0, 'Cain Family Manor - Deathknell, Cain family Graveyard'),
-(6075, 10200, 0, 'Cain Family Crypt - Deathknell, Cain family Graveyard'),
-(6079, 85, 67, 'Tirisfal Glades - Tirisfal Glades, Fields of Grief'),
-(94, 10118, 0, 'Night Web''s Hollow - Tirisfal Glades, Deathknell');
+(6075, 10198, 0, '该隐家族庄园 - 丧钟镇，该隐家族墓地'),
+(6075, 10199, 0, '该隐家族宅邸 - 丧钟镇，该隐家族墓地'),
+(6075, 10200, 0, '该隐家族墓穴 - 丧钟镇，该隐家族墓地'),
+(6079, 85, 67, '提瑞斯法林地 - 提瑞斯法林地，悲伤之野'),
+(94, 10118, 0, '夜网之洞 - 提瑞斯法林地，丧钟镇');
 
 -- ---------------------------------------------------------------------------
 -- 4. Holiday rows
@@ -107,15 +107,15 @@ UPDATE `gameobject` SET `position_x` = 2244, `position_y` = 480, `position_z` = 
 -- ---------------------------------------------------------------------------
 INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `IconName`, `castBarCaption`, `size`, `Data0`, `Data1`, `Data2`, `Data3`, `Data4`, `Data5`, `Data6`, `Data7`, `Data8`, `Data9`, `Data10`, `Data11`, `Data12`, `Data13`, `Data14`, `Data15`, `Data16`, `Data17`, `Data18`, `Data19`, `Data20`, `Data21`, `Data22`, `Data23`)
 VALUES
-(224, 5, 75323, 'Terokkar Web 04', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(65802, 5, 10, 'Gunther''s Lockbox', '', 'Looting', 0.6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(95699, 5, 1044953, 'Skeleton Hand RPG Prop', '', '', 0.35, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(515003, 5, 7517, 'Murloc Hut 1', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(515419, 5, 7517, 'Murloc Hut 01', '', '', 3, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(515420, 5, 7518, 'Murloc Hut 02', '', '', 3, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(515422, 5, 7518, 'Murloc Hut 2', '', '', 1, 43, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0),
-(515458, 5, 39, 'Wooden Chair, no sit', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(515459, 5, 39, 'Chair', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+(224, 5, 75323, '泰罗卡蛛网 04', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(65802, 5, 10, '冈瑟的锁箱', '', '拾取中', 0.6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(95699, 5, 1044953, '骷髅手 RPG 道具', '', '', 0.35, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(515003, 5, 7517, '鱼人小屋 1', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(515419, 5, 7517, '鱼人小屋 01', '', '', 3, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(515420, 5, 7518, '鱼人小屋 02', '', '', 3, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(515422, 5, 7518, '鱼人小屋 2', '', '', 1, 43, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0),
+(515458, 5, 39, '木椅，不可坐', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(515459, 5, 39, '椅子', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 ON DUPLICATE KEY UPDATE `type` = VALUES(`type`), `displayId` = VALUES(`displayId`), `name` = VALUES(`name`), `IconName` = VALUES(`IconName`), `castBarCaption` = VALUES(`castBarCaption`), `size` = VALUES(`size`), `Data0` = VALUES(`Data0`), `Data1` = VALUES(`Data1`), `Data2` = VALUES(`Data2`), `Data3` = VALUES(`Data3`), `Data4` = VALUES(`Data4`), `Data5` = VALUES(`Data5`), `Data6` = VALUES(`Data6`), `Data7` = VALUES(`Data7`), `Data8` = VALUES(`Data8`), `Data9` = VALUES(`Data9`), `Data10` = VALUES(`Data10`), `Data11` = VALUES(`Data11`), `Data12` = VALUES(`Data12`), `Data13` = VALUES(`Data13`), `Data14` = VALUES(`Data14`), `Data15` = VALUES(`Data15`), `Data16` = VALUES(`Data16`), `Data17` = VALUES(`Data17`), `Data18` = VALUES(`Data18`), `Data19` = VALUES(`Data19`), `Data20` = VALUES(`Data20`), `Data21` = VALUES(`Data21`), `Data22` = VALUES(`Data22`), `Data23` = VALUES(`Data23`);
 
 DELETE FROM `gameobject` WHERE `guid` IN (7916400, 7916401, 7916402, 7916403, 7916404, 7916405, 7916409, 7916410, 7916411, 7916412) OR `guid` BETWEEN 7916400 AND 7916429;

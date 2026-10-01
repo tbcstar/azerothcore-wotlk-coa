@@ -264,7 +264,7 @@ VALUES
 (162881, '阿莱娜·低语枝', NULL, 85162, 25, 25, 0, 80, 3, 1, 1.14286, 20, 0, 2000, 2000, 1, 0, 2048, 7, 0, 0, 'SmartAI', 0, 1, 1, 1, 1, 0, ''),
 (162876, '碎皮白蚁', NULL, 0, 6, 6, 0, 22, 0, 1, 1.14286, 20, 0, 2000, 2000, 1, 0, 2048, 1, 0, 0, '', 0, 0.96, 1, 1, 1, 0, ''),
 (162877, '碎皮白蚁女王', NULL, 0, 8, 8, 0, 22, 0, 1, 1.14286, 20, 0, 2000, 2000, 1, 0, 2048, 1, 0, 0, '', 0, 0.96, 1, 1, 1, 0, ''),
-(162875, '白蚁', NULL, 0, 1, 1, 0, 188, 0, 1, 1.14286, 20, 0, 2000, 2000, 1, 0, 2048, 8, 0, 0, '', 0, 0.93, 1, 1, 1, 0, '');
+(162875, '白蚁', NULL, 0, 1, 1, 0, 188, 0, 1, 1.14286, 20, 0, 2000, 2000, 1, 0, 2048, 8, 0, 0, '', 0, 0.93, 1, 1, 1, 0, '')
 ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `subname` = VALUES(`subname`), `gossip_menu_id` = VALUES(`gossip_menu_id`), `minlevel` = VALUES(`minlevel`), `maxlevel` = VALUES(`maxlevel`), `exp` = VALUES(`exp`), `faction` = VALUES(`faction`), `npcflag` = VALUES(`npcflag`), `speed_walk` = VALUES(`speed_walk`), `speed_run` = VALUES(`speed_run`), `detection_range` = VALUES(`detection_range`), `rank` = VALUES(`rank`), `BaseAttackTime` = VALUES(`BaseAttackTime`), `RangeAttackTime` = VALUES(`RangeAttackTime`), `unit_class` = VALUES(`unit_class`), `unit_flags` = VALUES(`unit_flags`), `unit_flags2` = VALUES(`unit_flags2`), `type` = VALUES(`type`), `type_flags` = VALUES(`type_flags`), `lootid` = VALUES(`lootid`), `AIName` = VALUES(`AIName`), `MovementType` = VALUES(`MovementType`), `HealthModifier` = VALUES(`HealthModifier`), `ManaModifier` = VALUES(`ManaModifier`), `ArmorModifier` = VALUES(`ArmorModifier`), `RegenHealth` = VALUES(`RegenHealth`), `flags_extra` = VALUES(`flags_extra`), `ScriptName` = VALUES(`ScriptName`);
 
 DELETE FROM `creature_template_model` WHERE `CreatureID` IN (162875, 162876, 162877, 162879, 162881);

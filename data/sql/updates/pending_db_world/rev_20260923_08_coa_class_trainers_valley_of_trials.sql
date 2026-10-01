@@ -361,7 +361,7 @@ VALUES
 -- 9302430 Soul Harvest: the Reaper letter item, with the name, look and description of CoA's Reaper letter 650151 and the item fields of the Valley letter 54016 (SOURCED-CACHE itemcache).
 INSERT INTO `item_template` (`entry`, `class`, `subclass`, `name`, `displayid`, `Quality`, `Flags`, `ItemLevel`, `maxcount`, `stackable`, `bonding`, `description`, `PageText`, `Material`)
 VALUES
-(9302430, 12, 0, '灵魂收割', 142197, 1, 0, 0, 1, 1, 1, '一封用黑色皮革装订的阴森信件，似乎会吸走周围的光线，并带有秋末的气息。', 931430, 0);
+(9302430, 12, 0, '灵魂收割', 142197, 1, 0, 0, 1, 1, 1, '一封用黑色皮革装订的阴森信件，似乎会吸走周围的光线，并带有秋末的气息。', 931430, 0)
 ON DUPLICATE KEY UPDATE `class` = VALUES(`class`), `subclass` = VALUES(`subclass`), `name` = VALUES(`name`), `displayid` = VALUES(`displayid`), `Quality` = VALUES(`Quality`), `Flags` = VALUES(`Flags`), `ItemLevel` = VALUES(`ItemLevel`), `maxcount` = VALUES(`maxcount`), `stackable` = VALUES(`stackable`), `bonding` = VALUES(`bonding`), `description` = VALUES(`description`), `PageText` = VALUES(`PageText`), `Material` = VALUES(`Material`);
 
 -- ---------------------------------------------------------------------------

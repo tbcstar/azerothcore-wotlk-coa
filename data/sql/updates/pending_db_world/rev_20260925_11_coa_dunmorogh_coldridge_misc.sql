@@ -9,7 +9,7 @@ INSERT INTO `creature_template` (`entry`, `name`, `subname`, `gossip_menu_id`, `
 VALUES
 (254002, '巡山者塔格努尔', NULL, 932231, 57, 57, 0, 55, 3, 1, 1.14286, 20, 0, 2000, 2000, 1, 0, 2048, 7, 0, 0, '', 0, 5, 1, 1, 1, 2, ''),
 (254004, '受损的安保机器人', NULL, 0, 1, 1, 0, 72, 0, 1, 1.14286, 20, 0, 2000, 2000, 1, 0, 2048, 9, 0, 254004, '', 0, 2.232, 1, 1, 1, 0, ''),
-(254005, '安保机器人 AN-32', NULL, 0, 1, 1, 0, 72, 0, 1, 1.14286, 20, 0, 2000, 2000, 1, 0, 2048, 9, 0, 254005, '', 0, 2.232, 1, 1, 1, 0, '');
+(254005, '安保机器人 AN-32', NULL, 0, 1, 1, 0, 72, 0, 1, 1.14286, 20, 0, 2000, 2000, 1, 0, 2048, 9, 0, 254005, '', 0, 2.232, 1, 1, 1, 0, '')
 ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `subname` = VALUES(`subname`), `gossip_menu_id` = VALUES(`gossip_menu_id`), `minlevel` = VALUES(`minlevel`), `maxlevel` = VALUES(`maxlevel`), `exp` = VALUES(`exp`), `faction` = VALUES(`faction`), `npcflag` = VALUES(`npcflag`), `speed_walk` = VALUES(`speed_walk`), `speed_run` = VALUES(`speed_run`), `detection_range` = VALUES(`detection_range`), `rank` = VALUES(`rank`), `BaseAttackTime` = VALUES(`BaseAttackTime`), `RangeAttackTime` = VALUES(`RangeAttackTime`), `unit_class` = VALUES(`unit_class`), `unit_flags` = VALUES(`unit_flags`), `unit_flags2` = VALUES(`unit_flags2`), `type` = VALUES(`type`), `type_flags` = VALUES(`type_flags`), `lootid` = VALUES(`lootid`), `AIName` = VALUES(`AIName`), `MovementType` = VALUES(`MovementType`), `HealthModifier` = VALUES(`HealthModifier`), `ManaModifier` = VALUES(`ManaModifier`), `ArmorModifier` = VALUES(`ArmorModifier`), `RegenHealth` = VALUES(`RegenHealth`), `flags_extra` = VALUES(`flags_extra`), `ScriptName` = VALUES(`ScriptName`);
 
 DELETE FROM `creature_template_model` WHERE `CreatureID` IN (254002, 254004, 254005);

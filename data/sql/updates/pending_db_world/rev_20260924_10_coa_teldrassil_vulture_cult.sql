@@ -280,7 +280,7 @@ INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `castBa
 VALUES
 (2300512, 3, 84863, '堕落的志愿兵', '', 1, 'SmartGameObjectAI', 1689, 2300512, 0, 1, 0, 0, 0, 0, 1660014, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ''),
 (2300513, 10, 87025, '供奉碗', '', 1, 'SmartGameObjectAI', 0, 1660016, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ''),
-(2300526, 10, 7336, '暗夜精灵婴儿', '', 1, '', 0, 1660017, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'go_coa_baby_night_elf');
+(2300526, 10, 7336, '暗夜精灵婴儿', '', 1, '', 0, 1660017, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'go_coa_baby_night_elf')
 ON DUPLICATE KEY UPDATE `type` = VALUES(`type`), `displayId` = VALUES(`displayId`), `name` = VALUES(`name`), `castBarCaption` = VALUES(`castBarCaption`), `size` = VALUES(`size`), `AIName` = VALUES(`AIName`), `Data0` = VALUES(`Data0`), `Data1` = VALUES(`Data1`), `Data2` = VALUES(`Data2`), `Data3` = VALUES(`Data3`), `Data4` = VALUES(`Data4`), `Data5` = VALUES(`Data5`), `Data6` = VALUES(`Data6`), `Data7` = VALUES(`Data7`), `Data8` = VALUES(`Data8`), `Data9` = VALUES(`Data9`), `Data10` = VALUES(`Data10`), `Data11` = VALUES(`Data11`), `Data12` = VALUES(`Data12`), `Data13` = VALUES(`Data13`), `Data14` = VALUES(`Data14`), `Data15` = VALUES(`Data15`), `Data16` = VALUES(`Data16`), `Data17` = VALUES(`Data17`), `Data18` = VALUES(`Data18`), `Data19` = VALUES(`Data19`), `Data20` = VALUES(`Data20`), `Data21` = VALUES(`Data21`), `Data22` = VALUES(`Data22`), `Data23` = VALUES(`Data23`), `ScriptName` = VALUES(`ScriptName`);
 
 -- Cut of Good Meat from the corpses (SOURCED-EXILES gameobject_loot 2300512); the Blessed Good Flesh

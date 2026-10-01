@@ -45,7 +45,7 @@ INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `IconNa
 VALUES
 (2300565, 31, 8196, '装饰物_副本新传送门_紫色01', '', '', 1.75, 936, 0, '', ''),
 (2300566, 31, 8197, '装饰物_副本新传送门_紫色_骷髅01', '', '', 1.75, 936, 1, '', ''),
-(2300567, 31, 9040, '装饰物_副本传送门_绿色_5人_史诗01', '', '', 1.5, 936, 2, '', '');
+(2300567, 31, 9040, '装饰物_副本传送门_绿色_5人_史诗01', '', '', 1.5, 936, 2, '', '')
 ON DUPLICATE KEY UPDATE `type` = VALUES(`type`), `displayId` = VALUES(`displayId`), `name` = VALUES(`name`),
     `IconName` = VALUES(`IconName`), `castBarCaption` = VALUES(`castBarCaption`), `size` = VALUES(`size`),
     `Data0` = VALUES(`Data0`), `Data1` = VALUES(`Data1`), `AIName` = VALUES(`AIName`),

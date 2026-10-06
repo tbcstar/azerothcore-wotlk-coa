@@ -74,7 +74,8 @@ Read the relevant sections when needed for the work. Do not read every guide or 
   - SmartAI work (`smart_scripts` data) → also `.agents/docs/cpp-scripts.md`
 - Reviewing a changeset or PR → `.agents/docs/code-review.md`
 - Preparing an actual PR → `.agents/docs/self-review-rules.md`
-- Requested issue queue / issue-to-PR workflow → `.agents/skills/coa-fix-issues/SKILL.md`
+- Requested issue queue or topic fixes (class mechanics, quests, crashes, etc.) →
+  `.agents/skills/coa-fix-issues/SKILL.md` (topic requests default to 32 issues and one PR per batch)
 - Subsystem-specific questions → the relevant section in `.agents/docs/systems/`
 - Ascension damage/healing, AP/RAP/SP coefficients, triggered spells or tooltip parity →
   `.agents/docs/systems/ascension-spell-parity.md`

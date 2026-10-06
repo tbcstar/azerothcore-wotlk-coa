@@ -1894,10 +1894,10 @@ PersistentCharacterCleanFlags = 0
 # CHARACTER DELETE-角色删除
 #
 #    CharDelete.Method
-#        说明：角色删除行为。
-#        默认：0 - （从数据库中完全移除角色）
-#                     1 - （从账户取消链接角色并释放名称，
-#                         游戏内显示为已删除）
+#        Description: 角色删除行为。
+#        Default:     1 - （将角色从账号中解除关联并释放该名称，在游戏中显示为已删除；
+#                         在 CharDelete.KeepDays 过期之前可恢复）
+#                     0 - （从数据库中完全移除角色）
 
 CharDelete.Method = 0
 
@@ -2054,9 +2054,9 @@ CharactersPerAccount = 128
 #                     Ascension 角色界面在此数量的角色处于活动状态时也会隐藏其创建按钮，
 #                     因此需要有一个空闲槽位才能创建另一个。
 #        Range:       1-128
-#        Default:     10
+#        Default:     128
 
-CharactersPerRealm = 10
+CharactersPerRealm = 128
 
 #
 #    HeroicCharactersPerRealm

@@ -13,8 +13,9 @@ CoA.Enable = 1
 # 身份验证证明和数据包大小检查仍然需要。重启以应用。
 CoA.AllowRemoteClients = 0
 
-# Ascension 的无职业角色创建器提交保留的 WotLK 职业 ID 10。
-# 在添加无职业进阶后端之前，使用原版战士外壳。
+# Ascension 的无职业角色创建器提交职业 ID 10（英雄）
+# 1 - 改为创建一个原版战士空壳。
+# 0 - 创建一个英雄。在 CoA.ClassModel = "hero" 的服务器上使用此项。
 CoA.MapClass10ToWarrior = 1
 
 # 在协议发现期间记录每个消耗的扩展数据包。
@@ -26,10 +27,10 @@ CoA.LogConsumedPackets = 1
 # 响应：SMSG 0x075E / 0x075F / 0x0760 / 0x076F / 0x0770 / 0x0771。
 CoA.CharacterSelectionEnable = 1
 
-# 每个账户同时激活的最大角色数量（1-128）。
-# 停用的角色仍然存储，
-# 从标准角色列表中隐藏，并且可以稍后重新激活。
-CoA.CharacterSelectionMaxActive = 10
+# 每个账号同时激活的最大角色数量（1-128）。
+# 已停用的角色仍会被保存，并从标准角色列表中隐藏，
+# 之后可以重新激活。
+CoA.CharacterSelectionMaxActive = 128
 
 # 自动为角色获得的物品添加外观和装饰条目。
 CoA.AutoCollectAppearances = 1
@@ -85,8 +86,11 @@ CoA.LastExtensionOpcode = 2515
 # 仅在经过审查的安装包中启用；仍然需要原生游戏验收。
 Ascension.Manastorm.Enable = 0
 
-# 告诉客户端它所在领域的类型：live、seasonal、league、ptr
-# 或 development。只发送一个。
+# 客户端被告知它所在的服务器类型：可以是 live、seasonal、league、ptr 和
+# development 中的一个或多个，用空格分隔。发送的每种类型都会打开客户端中
+# 标记为该类型的行，因此 "live seasonal" 会同时显示两者的角色成长条目，
+# 就像在正式基础设施上的赛季服务器一样。
+# 空值或未知值会发送 live。
 #
 # 这不是装饰性的。
 # 客户端仅从匹配活动领域类型的行构建其装饰目录，

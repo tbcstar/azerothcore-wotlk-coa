@@ -5,14 +5,14 @@ CREATE TEMPORARY TABLE `wildcard_specialization_cache` ENGINE=InnoDB AS
     SELECT * FROM `item_template` WHERE `entry` = 2977351;
 UPDATE `wildcard_specialization_cache` SET
     `entry` = 2977359,
-    `name` = 'Specialization Cache (Soulbound)',
+    `name` = '专精宝箱（灵魂绑定）',
     `displayid` = 14575,
     `bonding` = 1,
-    `description` = CONCAT('Contains: \n  \n - 6x Mystic Enchanting: Specialization \n',
-        ' - Tome of Specialization II \n - Tome of Specialization III \n - Tome of Specialization IV \n',
-        ' - Tome of Specialization V \n - Tome of Specialization VI \n  \n',
-        ' |cFFFF5500IMPORTANT:|r Make sure you open this on the character you want to receive the rewards, as the',
-        ' |cFFFF5500contents cannot be transferred or reclaimed.|r'),
+    `description` = CONCAT('包含：\n  \n - 6x 神秘附魔：专精 \n',
+        ' - 专精之书 II \n - 专精之书 III \n - 专精之书 IV \n',
+        ' - 专精之书 V \n - 专精之书 VI \n  \n',
+        ' |cFFFF5500重要：|r 请确保在你想要接收奖励的角色上打开此物品，因为',
+        ' |cFFFF5500内容无法转移或找回。|r'),
     `ScriptName` = 'item_wildcard_specialization_cache';
 INSERT INTO `item_template` SELECT * FROM `wildcard_specialization_cache`
 ON DUPLICATE KEY UPDATE

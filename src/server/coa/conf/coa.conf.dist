@@ -11,7 +11,7 @@ CoA.Enable = 1
 # （扩展操作码、ping 间隔、法术修改器布局、职业 10 映射）。
 # 仅在对应该 Ascension 客户端版本的专用服务器上启用。
 # 身份验证证明和数据包大小检查仍然需要。重启以应用。
-CoA.AllowRemoteClients = 0
+CoA.AllowRemoteClients = 1
 
 # Ascension 的无职业角色创建器提交职业 ID 10（英雄）
 # 1 - 改为创建一个原版战士空壳。
@@ -86,8 +86,8 @@ CoA.LastExtensionOpcode = 2515
 # 仅在经过审查的安装包中启用；仍然需要原生游戏验收。
 Ascension.Manastorm.Enable = 0
 
-# 客户端被告知它所在的服务器类型：可以是 live、seasonal、league、ptr 和
-# development 中的一个或多个，用空格分隔。发送的每种类型都会打开客户端中
+# 客户端被告知它所在的服务器类型：可以是 live (正式服)、seasonal (赛季服) 、league(联赛)、ptr（公共测试服）
+# 和development 中的一个或多个，用空格分隔。发送的每种类型都会打开客户端中
 # 标记为该类型的行，因此 "live seasonal" 会同时显示两者的角色成长条目，
 # 就像在正式基础设施上的赛季服务器一样。
 # 空值或未知值会发送 live。

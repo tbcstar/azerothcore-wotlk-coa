@@ -2145,7 +2145,7 @@ EnablePlayerSettings = 0
 #        Range:       1-255
 #        Default:     80
 
-MaxPlayerLevel = 80
+MaxPlayerLevel = 60
 
 #
 #    MinDualSpecLevel

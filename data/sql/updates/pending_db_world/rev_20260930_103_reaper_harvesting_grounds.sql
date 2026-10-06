@@ -1,6 +1,6 @@
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`,
 `unit_flags`, `type`, `MovementType`, `flags_extra`, `ScriptName`) VALUES
-(300662, 'Harvesting Grounds', 80, 80, 35, 1, 33554434, 10, 0, 128, 'npc_ascension_reaper_harvesting_grounds')
+(300662, '收割场', 80, 80, 35, 1, 33554434, 10, 0, 128, 'npc_ascension_reaper_harvesting_grounds')
 ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `minlevel` = VALUES(`minlevel`),
 `maxlevel` = VALUES(`maxlevel`), `faction` = VALUES(`faction`), `unit_class` = VALUES(`unit_class`),
 `unit_flags` = VALUES(`unit_flags`), `type` = VALUES(`type`), `MovementType` = VALUES(`MovementType`),

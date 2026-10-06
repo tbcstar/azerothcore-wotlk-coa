@@ -19,6 +19,6 @@
 -- unreported question this migration does not answer.
 INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`,
 `name`, `size`) VALUES
-(195002, 22, 1013445, 'Thunderkeg', 1)
+(195002, 22, 1013445, '雷酒桶', 1)
 ON DUPLICATE KEY UPDATE `type` = VALUES(`type`), `displayId` = VALUES(`displayId`),
 `name` = VALUES(`name`), `size` = VALUES(`size`);

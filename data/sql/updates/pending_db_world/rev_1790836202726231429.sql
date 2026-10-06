@@ -2,7 +2,7 @@
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `speed_walk`, `speed_run`,
     `BaseAttackTime`, `RangeAttackTime`, `unit_class`, `unit_flags`, `unit_flags2`, `type`, `type_flags`,
     `HealthModifier`, `ManaModifier`, `ArmorModifier`, `DamageModifier`, `flags_extra`)
-SELECT 503001, 'Falcon Scout', `minlevel`, `maxlevel`, `faction`, `speed_walk`, `speed_run`, `BaseAttackTime`,
+SELECT 503001, '猎鹰斥候', `minlevel`, `maxlevel`, `faction`, `speed_walk`, `speed_run`, `BaseAttackTime`,
     `RangeAttackTime`, `unit_class`, `unit_flags`, `unit_flags2`, 1, `type_flags`, `HealthModifier`, `ManaModifier`,
     `ArmorModifier`, `DamageModifier`, `flags_extra`
 FROM `creature_template` WHERE `entry` = 4277

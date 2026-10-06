@@ -78,9 +78,9 @@ CoAChallenges.GameModes.PlayerToggle = 0
 # Default: Draft,Resolute,WildCard,Felforged,BuildDraft,Crusader
 CoAChallenges.GameModes.Hidden = Draft,Resolute,WildCard,Felforged,BuildDraft,Crusader
 
-# Modes every character on this realm plays, e.g. WildCard on a Wildcard realm.
-# Comma-separated wire names as above. They are part of every login's mask,
-# whatever the character's trials or toggles. Empty = none.
+# 该服务器上每个角色都会参与的模式，例如 WildCard 服务器上的 WildCard 模式。
+# 逗号分隔的线上名称如上。它们是每次登录掩码的一部分，
+# 无论角色的试炼或开关如何。留空 = 无。
 CoAChallenges.GameModes.Realm =
 
 
@@ -260,16 +260,16 @@ CoAChallenges.HungerMax = 100
 # 计数器重置为满。当它达到 0 时，玩家入睡（死亡）。
 # 持久化在 coa_character_fatigue 中。
 
-# Range: 1-1000. Default: 100
+# 范围：1-1000。默认：100
 CoAChallenges.FatigueMax = 100
 
-# Seconds for the full FatigueMax..0 range (max to empty). Range: 1-86400.
+# 疲劳值从满值 FatigueMax 到 0（从满到空）所需的秒数。范围：1-86400。
 # Default: 420
 CoAChallenges.FatigueSecondsToFill = 420
 
-# Grace (seconds) before the bar returns after LEAVING a safe area, so standing
-# at the inn/rest boundary does not flicker it. Entering a safe area resets
-# immediately (no grace). Range: 0-60. Default: 1
+# 离开安全区域后，进度条重新出现前的宽限时间（秒），
+# 样站在旅店/休息边界时就不会闪烁。
+# 进入安全区域会立即重置（无宽限）。范围：0-60。默认：1
 CoAChallenges.Fatigue.SafeGraceSeconds = 1
 
 
@@ -285,10 +285,10 @@ CoAChallenges.MailExemptItems = "1397884;1397885;1397886"
 ############################################################################
 # 外部交互（OUTSIDE_INTERACTION 隐式条件）
 ############################################################################
-# Non-prestige trials cannot be started after a player-facing outside service
-# interaction: trade with another player, auction house, vendor, or guild bank
-# withdrawal. Disable to turn the whole implicit gate off (the mailbox keeps
-# its own gate above).
+# 非威望试炼在玩家面向的外部服务交互之后无法开始：
+# 与其他玩家交易、拍卖行、商人或公会银行取款。
+# 禁用则关闭整个隐式门控
+# （邮箱保留其上方自己的门控）。
 # Default: 1
 CoAChallenges.OutsideInteractionGate = 1
 
@@ -297,10 +297,10 @@ CoAChallenges.OutsideInteractionGate = 1
 # 专业（Artisan's / Survivalist's Guild）
 ############################################################################
 
-# XP granted per profession skill point, as 1/PointsPerLevel of the XP needed
-# for the member's level. Shared with the whole party when
-# GROUP_PROFESSION_EXPERIENCE is present; crafted items multiply by
-# 1 + item quality (grey 1x .. epic 6x). Range: 1-1000.
+# 每点专业技能点数给予的经验值，为成员当前等级所需经验的1/PointsPerLevel。
+# 当存在 GROUP_PROFESSION_EXPERIENCE 时与整个队伍共享；
+# 制作物品乘以 1 + 物品品质（灰色 1 倍 .. 史诗 6 倍）。
+# 范围：1-1000。
 # Default: 50
 CoAChallenges.ProfessionXP.PointsPerLevel = 50
 
@@ -320,14 +320,14 @@ CoAChallenges.HighRisk.Aura = 1004019
 # Testing
 ############################################################################
 
-# Milliseconds between `.coa e2e` test steps so the scenario is visible in the
-# client. 0 = no pause. Can also be passed inline:
+# `.coa e2e` 测试步骤之间的毫秒数，以便场景在客户端中可见。
+# 0 = 不暂停。也可以通过内联方式传递：
 #   .coa e2e <player> <trialId> <milliseconds>
 # Default: 0
 CoAChallenges.TestStepMs = 0
 
-# `.coa ruletestall`: when 1, an implemented rule that has no behavioral gate
-# test fails the run (the coverage report is printed either way).
+# `.coa ruletestall`：当设为 1 时，已实现但没有行为门控测试的规则会导致运行失败
+# （无论哪种情况都会打印覆盖率报告）。
 # Default: 0
 CoAChallenges.TestStrictCoverage = 0
 

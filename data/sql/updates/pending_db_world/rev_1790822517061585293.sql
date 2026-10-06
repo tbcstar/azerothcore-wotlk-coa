@@ -8,5 +8,5 @@ INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
 (103955, 680310);
 DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 103955;
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
-(103955, 2, 'Primalist: one Instinct per caster on each recipient');
+(103955, 2, '仪祭师：每个施法者在每个目标上只能施加一个本能');
 COMMIT;

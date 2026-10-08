@@ -2,7 +2,7 @@
 -- the meats of Kaga Mistrunner 3025 and the drinks of Moodan Sungrain 3883, to whoever the village takes for one
 -- of its own: her Grimtotem faction serves only players in the Grimtotem Disguise. Heading her list, as a treat for
 -- those who get that far, are two foods that leave the eater Well Fed: Roasted Kodo Meat 5474 and Strider Stew 5477.
-UPDATE `creature_template` SET `subname` = 'Food & Drink', `npcflag` = 640 WHERE `entry` = 161838;
+UPDATE `creature_template` SET `subname` = '食物与饮料', `npcflag` = 640 WHERE `entry` = 161838;
 
 DELETE FROM `npc_vendor` WHERE `entry` = 161838;
 INSERT INTO `npc_vendor` (`entry`, `slot`, `item`, `maxcount`, `incrtime`, `ExtendedCost`) VALUES

@@ -6,15 +6,15 @@ CREATE TABLE IF NOT EXISTS `coa_client_spell_description` (
 
 DELETE FROM `coa_client_spell_description` WHERE `ID` IN (500639,534803,534804,534805,534806,534807,805380,805381,805382,807013,807322,807323);
 INSERT INTO `coa_client_spell_description` (`ID`,`Description`) VALUES
-(500639,'$?a500288[|cffffffff][|cffff3232]Requires Runeshroud|r\r\nEngrave a water rune into your palm, causing your next instance of direct Magic damage within $d to drain the target\'s mana equal to $s1% of the damage dealt.\r\n\r\nUsable while moving.'),
-(534803,'$?a500288[|cffffffff][|cffff3232]Requires Runeshroud|r\r\nEngrave a fire rune into your palm, your next direct damaging spell deals $s1% bonus damage as Fire. Lasts for $d.\r\n\r\nUsable while moving.'),
-(534804,'$?a500288[|cffffffff][|cffff3232]Requires Runeshroud|r\r\nEngrave a fire rune into your palm, your next direct damaging spell deals $s1% bonus damage as Fire. Lasts for $d.\r\n\r\nUsable while moving.'),
-(534805,'$?a500288[|cffffffff][|cffff3232]Requires Runeshroud|r\r\nEngrave a fire rune into your palm, your next direct damaging spell deals $s1% bonus damage as Fire. Lasts for $d.\r\n\r\nUsable while moving.'),
-(534806,'$?a500288[|cffffffff][|cffff3232]Requires Runeshroud|r\r\nEngrave a fire rune into your palm, your next direct damaging spell deals $s1% bonus damage as Fire. Lasts for $d.\r\n\r\nUsable while moving.'),
-(534807,'$?a500288[|cffffffff][|cffff3232]Requires Runeshroud|r\r\nEngrave a fire rune into your palm, your next direct damaging spell deals $s1% bonus damage as Fire. Lasts for $d.\r\n\r\nUsable while moving.'),
-(805380,'$?a500288[|cffffffff][|cffff3232]Requires Runeshroud|r\r\nEngrave an arcane rune into your palm, causing your next instance of direct Magic damage within $d to deal an additional $s1% of the damage dealt as Arcane damage every $807819t1 sec for $807819d and silences the target for $808020d.\r\n\r\nUsable while moving.'),
-(805381,'$?a500288[|cffffffff][|cffff3232]Requires Runeshroud|r\r\nEngrave a frost rune into your palm, causing your next instance of direct Magic damage within $d to deal $s1% of the damage dealt as Frost damage and slow the enemy\'s movement speed by $808022s1% for $808022d. \r\n\r\nUsable while moving.'),
-(805382,'$?a500288[|cffffffff][|cffff3232]Requires Runeshroud|r\r\nEngrave an earth rune into your palm, causing your next instance of direct Magic damage within $d to stun a target enemy for $807824d.\r\n\r\nUsable while moving.'),
-(807013,'$?a500288[|cffffffff][|cffff3232]Requires Runeshroud|r\r\nEngrave a wind rune into your palm, causing your next instance of direct Magic damage within $d to make you immune to movement impairing effects and increase your movement speed by $807826s3% for $807826d.\r\n\r\nUsable while moving.'),
-(807322,'$?a500288[|cffffffff][|cffff3232]Requires Runeshroud|r\r\nEngrave an arcane rune into your palm, causing your next instance of direct Magic damage within $d to deal an additional $s1% of the damage dealt as Arcane damage every $807819t1 sec for $807819d and silences the target for $808020d.\r\n\r\nUsable while moving.'),
-(807323,'$?a500288[|cffffffff][|cffff3232]Requires Runeshroud|r\r\nEngrave an arcane rune into your palm, causing your next instance of direct Magic damage within $d to deal an additional $s1% of the damage dealt as Arcane damage every $807819t1 sec for $807819d and silences the target for $808020d.\r\n\r\nUsable while moving.');
+(500639,'$?a500288[|cffffffff][|cffff3232]需要符文裹尸布|r\r\n在你的手掌中刻下一枚水符文，使你下一次在$d内造成的直接魔法伤害吸取目标相当于所造成伤害$s1%的法力值。\r\n\r\n可在移动中使用。'),
+(534803,'$?a500288[|cffffffff][|cffff3232]需要符文裹尸布|r\r\n在你的手掌中刻下一枚火焰符文，你下一次直接伤害法术造成$s1%的额外火焰伤害。持续$d。\r\n\r\n可在移动中使用。'),
+(534804,'$?a500288[|cffffffff][|cffff3232]需要符文裹尸布|r\r\n在你的手掌中刻下一枚火焰符文，你下一次直接伤害法术造成$s1%的额外火焰伤害。持续$d。\r\n\r\n可在移动中使用。'),
+(534805,'$?a500288[|cffffffff][|cffff3232]需要符文裹尸布|r\r\n在你的手掌中刻下一枚火焰符文，你下一次直接伤害法术造成$s1%的额外火焰伤害。持续$d。\r\n\r\n可在移动中使用。'),
+(534806,'$?a500288[|cffffffff][|cffff3232]需要符文裹尸布|r\r\n在你的手掌中刻下一枚火焰符文，你下一次直接伤害法术造成$s1%的额外火焰伤害。持续$d。\r\n\r\n可在移动中使用。'),
+(534807,'$?a500288[|cffffffff][|cffff3232]需要符文裹尸布|r\r\n在你的手掌中刻下一枚火焰符文，你下一次直接伤害法术造成$s1%的额外火焰伤害。持续$d。\r\n\r\n可在移动中使用。'),
+(805380,'$?a500288[|cffffffff][|cffff3232]需要符文裹尸布|r\r\n在你的手掌中刻下一枚奥术符文，使你下一次在$d内造成的直接魔法伤害额外造成相当于所造成伤害$s1%的奥术伤害，每$807819t1秒一次，持续$807819d，并使目标沉默$808020d。\r\n\r\n可在移动中使用。'),
+(805381,'$?a500288[|cffffffff][|cffff3232]需要符文裹尸布|r\r\n在你的手掌中刻下一枚冰霜符文，使你下一次在$d内造成的直接魔法伤害造成相当于所造成伤害$s1%的冰霜伤害，并使敌人的移动速度降低$808022s1%，持续$808022d。\r\n\r\n可在移动中使用。'),
+(805382,'$?a500288[|cffffffff][|cffff3232]需要符文裹尸布|r\r\n在你的手掌中刻下一枚大地符文，使你下一次在$d内造成的直接魔法伤害眩晕目标敌人$807824d。\r\n\r\n可在移动中使用。'),
+(807013,'$?a500288[|cffffffff][|cffff3232]需要符文裹尸布|r\r\n在你的手掌中刻下一枚风之符文，使你下一次在$d内造成的直接魔法伤害使你免疫移动限制效果，并使你的移动速度提高$807826s3%，持续$807826d。\r\n\r\n可在移动中使用。'),
+(807322,'$?a500288[|cffffffff][|cffff3232]需要符文裹尸布|r\r\n在你的手掌中刻下一枚奥术符文，使你下一次在$d内造成的直接魔法伤害额外造成相当于所造成伤害$s1%的奥术伤害，每$807819t1秒一次，持续$807819d，并使目标沉默$808020d。\r\n\r\n可在移动中使用。'),
+(807323,'$?a500288[|cffffffff][|cffff3232]需要符文裹尸布|r\r\n在你的手掌中刻下一枚奥术符文，使你下一次在$d内造成的直接魔法伤害额外造成相当于所造成伤害$s1%的奥术伤害，每$807819t1秒一次，持续$807819d，并使目标沉默$808020d。\r\n\r\n可在移动中使用。');

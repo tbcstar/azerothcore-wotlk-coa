@@ -1,9 +1,9 @@
 -- Molten Core trash as CoA runs it (db.exil.es export, exiles-db-export-2026-09-13).
 -- Four entries carry CoA's names; they already stand where CoA's do and fight the same role.
-UPDATE `creature_template` SET `name` = 'Corvus the Nimble', `subname` = 'Hand of the Harbinger' WHERE `entry` IN (11662, 111662, 211662, 311662);
-UPDATE `creature_template` SET `name` = 'Flamewaker Acolyte' WHERE `entry` IN (11663, 111663, 211663, 311663);
-UPDATE `creature_template` SET `name` = 'Cindermaw' WHERE `entry` IN (11672, 111672, 211672, 311672);
-UPDATE `creature_template` SET `name` = 'Lesser Son of Flame' WHERE `entry` IN (12143, 112143, 212143, 312143);
+UPDATE `creature_template` SET `name` = '敏捷的科沃斯', `subname` = '先驱之手' WHERE `entry` IN (11662, 111662, 211662, 311662);
+UPDATE `creature_template` SET `name` = '唤焰者侍僧' WHERE `entry` IN (11663, 111663, 211663, 311663);
+UPDATE `creature_template` SET `name` = '烬喉' WHERE `entry` IN (11672, 111672, 211672, 311672);
+UPDATE `creature_template` SET `name` = '次级火焰之子' WHERE `entry` IN (12143, 112143, 212143, 312143);
 -- Lava Annihilator, Lava Elemental and Lava Reaver had no AI; CoA gives each a kit. The spells are CoA's,
 -- the timers are designed after Firewalker and Flameguard (CoA records no cooldown for them).
 UPDATE `creature_template` SET `AIName` = 'SmartAI' WHERE `entry` IN (11665, 111665, 211665, 311665, 12076, 112076, 212076, 312076, 12100, 112100, 212100, 312100);

@@ -36,4 +36,4 @@
 
 DELETE FROM `coa_client_spell_description` WHERE `ID` IN (500260);
 INSERT INTO `coa_client_spell_description` (`ID`,`Description`) VALUES
-(500260,'Throw down a |cffffffffStandard of Recovery|r for $d, healing allies within $500266a yds for ${$500266m1+$STR*.25} health every $500266t1 sec, scaling with your Strength, and increasing all healing they receive by $500266s2%.\r\n\r\nOnly 1 |cffffffffStandard|r can be active at a time.');
+(500260,'投下一面 |cffffffff恢复之旗|r，持续 $d，每 $500266t1 秒为 $500266a 码内的盟友恢复 ${$500266m1+$STR*.25} 点生命值，受你的力量加成，并使他们受到的所有治疗提高 $500266s2%。\r\n\r\n同一时间只能有一面 |cffffffff旗帜|r 处于激活状态。');

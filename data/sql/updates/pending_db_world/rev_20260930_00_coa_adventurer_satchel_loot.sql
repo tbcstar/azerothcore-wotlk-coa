@@ -5,7 +5,7 @@ DELETE FROM `item_loot_template` WHERE `Entry` IN (1397884, 1397886);
 INSERT INTO `item_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`,
 `MinCount`, `MaxCount`, `Comment`)
 SELECT `pool`.`Entry`, `item`.`entry`, 0, 0, 0, 1, 1, 1, CASE WHEN `item`.`class` = 4 THEN 1 ELSE 3 END,
-'Adventurer satchel and rare cache - local supplies and world-drop armor'
+'冒险者背包和稀有宝箱 - 本地补给和世界掉落护甲'
 FROM `item_template` AS `item`
 JOIN (SELECT 1397884 AS `Entry`, 1 AS `MinQuality`, 2 AS `MaxQuality`
 UNION ALL SELECT 1397886, 3, 3) AS `pool`

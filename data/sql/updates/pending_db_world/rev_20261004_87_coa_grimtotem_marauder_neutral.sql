@@ -4,10 +4,10 @@ UPDATE `creature_template` SET `faction` = 7, `AIName` = 'SmartAI' WHERE `entry`
 
 DELETE FROM `creature_text` WHERE `CreatureID` = 161809;
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Probability`, `comment`) VALUES
-(161809, 0, 0, 'Another skull for Malgorm''s collection!', 12, 25, 'Grimtotem Marauder - aggro (CoA)'),
-(161809, 0, 1, 'Let the weaker of us die!', 12, 25, 'Grimtotem Marauder - aggro (CoA)'),
-(161809, 0, 2, 'Come! I''ll show you why the Grimtotem are the most feared of all tauren!', 12, 25, 'Grimtotem Marauder - aggro (CoA)'),
-(161809, 0, 3, 'At last, a real challenge! I was growing tired of hunting mere beasts.', 12, 25, 'Grimtotem Marauder - aggro (CoA)');
+(161809, 0, 0, '又一颗献给玛尔戈姆的头骨！', 12, 25, 'Grimtotem Marauder - aggro (CoA)'),
+(161809, 0, 1, '让我们中的弱者去死吧！', 12, 25, 'Grimtotem Marauder - aggro (CoA)'),
+(161809, 0, 2, '来吧！我会让你知道为什么恐怖图腾是所有牛头人中最令人畏惧的！', 12, 25, 'Grimtotem Marauder - aggro (CoA)'),
+(161809, 0, 3, '终于，一个真正的挑战！我已经厌倦了猎杀那些单纯的野兽。', 12, 25, 'Grimtotem Marauder - aggro (CoA)');
 
 DELETE FROM `smart_scripts` WHERE `entryorguid` = 161809 AND `source_type` = 0;
 INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase_mask`, `event_chance`,

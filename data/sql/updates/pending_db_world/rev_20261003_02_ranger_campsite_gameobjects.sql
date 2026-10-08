@@ -10,8 +10,8 @@
 -- and client GameObjectDisplayInfo.dbc.
 INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `size`, `Data0`, `Data1`, `Data2`, `Data3`)
 VALUES
-(1005767, 22, 1011606, 'Ranger''s Campsite', 1, 583404, 0, 1, 1),
-(1005768, 22, 1011282, 'Ranger''s Campsite', 1, 583404, 0, 1, 1)
+(1005767, 22, 1011606, '游侠营地', 1, 583404, 0, 1, 1),
+(1005768, 22, 1011282, '游侠营地', 1, 583404, 0, 1, 1)
 ON DUPLICATE KEY UPDATE `type` = VALUES(`type`), `displayId` = VALUES(`displayId`), `name` = VALUES(`name`),
     `size` = VALUES(`size`), `Data0` = VALUES(`Data0`), `Data1` = VALUES(`Data1`), `Data2` = VALUES(`Data2`),
     `Data3` = VALUES(`Data3`);

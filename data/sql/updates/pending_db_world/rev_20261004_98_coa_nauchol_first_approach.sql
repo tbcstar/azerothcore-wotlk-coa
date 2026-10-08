@@ -3,7 +3,7 @@
 -- CoA's, as players recorded it. It adds his text group 1 and script row 5 beside the rows other changes own.
 DELETE FROM `creature_text` WHERE `CreatureID` = 161819 AND `GroupID` = 1;
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Probability`, `comment`) VALUES
-(161819, 1, 0, 'Yeah? Who''s there?', 12, 100, 'Sage Nauchol - a player brings Morriga''s ring (CoA)');
+(161819, 1, 0, '谁？谁在那儿？', 12, 100, 'Sage Nauchol - a player brings Morriga''s ring (CoA)');
 
 DELETE FROM `smart_scripts` WHERE `entryorguid` = 161819 AND `source_type` = 0 AND `id` = 5;
 INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase_mask`, `event_chance`,

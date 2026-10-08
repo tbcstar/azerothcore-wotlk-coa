@@ -9,4 +9,4 @@ DELETE FROM `gameobject_questender` WHERE `id` = 9301257 AND `quest` = 200081;
 INSERT INTO `gameobject_questender` (`id`, `quest`) VALUES (9301257, 200081);
 DELETE FROM `quest_offer_reward` WHERE `ID` = 200081;
 INSERT INTO `quest_offer_reward` (`ID`, `RewardText`) VALUES
-(200081, 'A weathered statue of a paladin stands in the gap, hidden where few would think to look.$B$BHere the noise of the world falls away. You can see why Vaelion makes the climb.');
+(200081, '一尊风化的圣骑士雕像矗立在缝隙中，隐藏在很少有人会想到的地方。$B$B在这里，尘世的喧嚣消散。你能明白为什么维利昂要爬上来。');

@@ -25,7 +25,7 @@
 -- IGNORE on the final clone is correct for a fresh install and safe to replay.
 DROP TEMPORARY TABLE IF EXISTS `basalthane_pillar_tier`;
 CREATE TEMPORARY TABLE `basalthane_pillar_tier` AS SELECT * FROM `gameobject_template` WHERE `entry` = 68371;
-UPDATE `basalthane_pillar_tier` SET `entry` = 9500100, `displayId` = 9500100, `name` = 'Basalthane Pillar (Mantid Spike)';
+UPDATE `basalthane_pillar_tier` SET `entry` = 9500100, `displayId` = 9500100, `name` = '玄武岩柱（螳螂妖尖刺）';
 INSERT IGNORE INTO `gameobject_template` SELECT * FROM `basalthane_pillar_tier`;
 DROP TEMPORARY TABLE `basalthane_pillar_tier`;
 

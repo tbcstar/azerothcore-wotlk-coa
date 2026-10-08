@@ -32,15 +32,15 @@
 
 DELETE FROM `coa_client_spell_description` WHERE `ID` IN (500263, 500547, 706805, 800346, 803931, 803932, 803933, 803934, 803935, 803936, 803937, 803938);
 INSERT INTO `coa_client_spell_description` (`ID`,`Description`) VALUES
-(500263,'Throw down a |cffffffffStandard of Rallying|r for $d, reducing damage taken by $500265s1% and the duration of stun effects on them by $500265s3% on all allies within $500265a1 yds.\r\n\r\nOnly 1 |cffffffffStandard|r can be active at a time.'),
-(500547,'Throw down a |cffffffffStandard of Spellwarding|r for $d, reducing the spell haste of enemies within $500548a1 yds by $500548s1%.\r\n\r\nOnly 1 |cffffffffStandard|r can be active at a time.'),
-(706805,'Throw down a |cffffffffStandard of Might|r for $d, increasing the base health of allies within $500602a1 yds by $500602s1% and reducing the duration of disarm effects against them by $500602s2%.\r\n\r\nOnly 1 |cffffffffStandard|r can be active at a time.'),
-(800346,'Throw down a |cffffffffStandard of Supremacy|r for $d, increasing the critical damage of Physical attacks by party members within $500299a1 yds by $500299s1%.\r\n\r\nOnly 1 |cffffffffStandard|r can be active at a time.'),
-(803931,'Throw down a |cffffffffStandard of Valiance|r for $d, nearby enemies within the area take ${$501538m3+$501538ppl3+$AP*0.04} Physical damage every $501538T3 sec and their movement speed is slowed by $800629s1%.\r\n\r\nOnly 1 |cffffffffStandard|r can be active at a time.'),
-(803932,'Throw down a |cffffffffStandard of Valiance|r for $d, nearby enemies within the area take ${$501539m3+$501539ppl3+$AP*0.04} Physical damage every $501539T3 sec and their movement speed is slowed by $800629s1%.\r\n\r\nOnly 1 |cffffffffStandard|r can be active at a time.'),
-(803933,'Throw down a |cffffffffStandard of Valiance|r for $d, nearby enemies within the area take ${$501540m3+$501540ppl3+$AP*0.04} Physical damage every $501540T3 sec and their movement speed is slowed by $800629s1%.\r\n\r\nOnly 1 |cffffffffStandard|r can be active at a time.'),
-(803934,'Throw down a |cffffffffStandard of Valiance|r for $d, nearby enemies within the area take ${$501541m3+$501541ppl3+$AP*0.04} Physical damage every $501541T3 sec and their movement speed is slowed by $800629s1%.\r\n\r\nOnly 1 |cffffffffStandard|r can be active at a time.'),
-(803935,'Throw down a |cffffffffStandard of Valiance|r for $d, nearby enemies within the area take ${$501542m3+$501542ppl3+$AP*0.04} Physical damage every $501542T3 sec and their movement speed is slowed by $800629s1%.\r\n\r\nOnly 1 |cffffffffStandard|r can be active at a time.'),
-(803936,'Throw down a |cffffffffStandard of Valiance|r for $d, nearby enemies within the area take ${$501543m3+$501543ppl3+$AP*0.04} Physical damage every $501543T3 sec and their movement speed is slowed by $800629s1%.\r\n\r\nOnly 1 |cffffffffStandard|r can be active at a time.'),
-(803937,'Throw down a |cffffffffStandard of Valiance|r for $d, nearby enemies within the area take ${$501544m3+$501544ppl3+$AP*0.04} Physical damage every $501544T3 sec and their movement speed is slowed by $800629s1%.\r\n\r\nOnly 1 |cffffffffStandard|r can be active at a time.'),
-(803938,'Throw down a |cffffffffStandard of Valiance|r for $d, nearby enemies within the area take ${$501545m3+$501545ppl3+$AP*0.04} Physical damage every $501545T3 sec and their movement speed is slowed by $800629s1%.\r\n\r\nOnly 1 |cffffffffStandard|r can be active at a time.');
+(500263,'投下一面 |cffffffff集结之旗|r，持续 $d，使 $500265a1 码内所有盟友受到的伤害降低 $500265s1%，并使他们身上昏迷效果的持续时间缩短 $500265s3%。\r\n\r\n同一时间只能有一面 |cffffffff旗帜|r 处于激活状态。'),
+(500547,'投下一面 |cffffffff法术防护之旗|r，持续 $d，使 $500548a1 码内敌人的法术急速降低 $500548s1%。\r\n\r\n同一时间只能有一面 |cffffffff旗帜|r 处于激活状态。'),
+(706805,'投下一面 |cffffffff力量之旗|r，持续 $d，使 $500602a1 码内盟友的基础生命值提高 $500602s1%，并使他们身上缴械效果的持续时间缩短 $500602s2%。\r\n\r\n同一时间只能有一面 |cffffffff旗帜|r 处于激活状态。'),
+(800346,'投下一面 |cffffffff霸权之旗|r，持续 $d，使 $500299a1 码内小队成员的物理攻击暴击伤害提高 $500299s1%。\r\n\r\n同一时间只能有一面 |cffffffff旗帜|r 处于激活状态。'),
+(803931,'投下一面 |cffffffff英勇之旗|r，持续 $d，区域内附近的敌人每 $501538T3 秒受到 ${$501538m3+$501538ppl3+$AP*0.04} 点物理伤害，并且他们的移动速度降低 $800629s1%。\r\n\r\n同一时间只能有一面 |cffffffff旗帜|r 处于激活状态。'),
+(803932,'投下一面 |cffffffff英勇之旗|r，持续 $d，区域内附近的敌人每 $501539T3 秒受到 ${$501539m3+$501539ppl3+$AP*0.04} 点物理伤害，并且他们的移动速度降低 $800629s1%。\r\n\r\n同一时间只能有一面 |cffffffff旗帜|r 处于激活状态。'),
+(803933,'投下一面 |cffffffff英勇之旗|r，持续 $d，区域内附近的敌人每 $501540T3 秒受到 ${$501540m3+$501540ppl3+$AP*0.04} 点物理伤害，并且他们的移动速度降低 $800629s1%。\r\n\r\n同一时间只能有一面 |cffffffff旗帜|r 处于激活状态。'),
+(803934,'投下一面 |cffffffff英勇之旗|r，持续 $d，区域内附近的敌人每 $501541T3 秒受到 ${$501541m3+$501541ppl3+$AP*0.04} 点物理伤害，并且他们的移动速度降低 $800629s1%。\r\n\r\n同一时间只能有一面 |cffffffff旗帜|r 处于激活状态。'),
+(803935,'投下一面 |cffffffff英勇之旗|r，持续 $d，区域内附近的敌人每 $501542T3 秒受到 ${$501542m3+$501542ppl3+$AP*0.04} 点物理伤害，并且他们的移动速度降低 $800629s1%。\r\n\r\n同一时间只能有一面 |cffffffff旗帜|r 处于激活状态。'),
+(803936,'投下一面 |cffffffff英勇之旗|r，持续 $d，区域内附近的敌人每 $501543T3 秒受到 ${$501543m3+$501543ppl3+$AP*0.04} 点物理伤害，并且他们的移动速度降低 $800629s1%。\r\n\r\n同一时间只能有一面 |cffffffff旗帜|r 处于激活状态。'),
+(803937,'投下一面 |cffffffff英勇之旗|r，持续 $d，区域内附近的敌人每 $501544T3 秒受到 ${$501544m3+$501544ppl3+$AP*0.04} 点物理伤害，并且他们的移动速度降低 $800629s1%。\r\n\r\n同一时间只能有一面 |cffffffff旗帜|r 处于激活状态。'),
+(803938,'投下一面 |cffffffff英勇之旗|r，持续 $d，区域内附近的敌人每 $501545T3 秒受到 ${$501545m3+$501545ppl3+$AP*0.04} 点物理伤害，并且他们的移动速度降低 $800629s1%。\r\n\r\n同一时间只能有一面 |cffffffff旗帜|r 处于激活状态。');

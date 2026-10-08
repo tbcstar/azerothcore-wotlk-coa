@@ -1,6 +1,6 @@
 -- Edwin VanCleef (639): Buster Call. At 66% and 33% health three markers call red circles on the floor and drop cannonballs on them
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `speed_walk`, `speed_run`, `unit_flags`, `unit_flags2`, `unit_class`, `type`, `AIName`, `ScriptName`, `HealthModifier`, `RegenHealth`, `flags_extra`) VALUES
-(180238, 'Buster Call Marker', 21, 21, 14, 1, 1, 33554434, 2048, 1, 10, '', 'npc_ascension_buster_call_marker', 1, 0, 130) ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `faction` = VALUES(`faction`), `unit_flags` = VALUES(`unit_flags`), `AIName` = VALUES(`AIName`), `ScriptName` = VALUES(`ScriptName`), `flags_extra` = VALUES(`flags_extra`);
+(180238, '巴斯特呼叫标记', 21, 21, 14, 1, 1, 33554434, 2048, 1, 10, '', 'npc_ascension_buster_call_marker', 1, 0, 130) ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `faction` = VALUES(`faction`), `unit_flags` = VALUES(`unit_flags`), `AIName` = VALUES(`AIName`), `ScriptName` = VALUES(`ScriptName`), `flags_extra` = VALUES(`flags_extra`);
 
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 180238;
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`, `VerifiedBuild`) VALUES

@@ -8,4 +8,4 @@ ALTER TABLE `coa_client_spell_description` ADD COLUMN `ToolTip` TEXT NULL AFTER 
 
 DELETE FROM `coa_client_spell_description` WHERE `ID` IN (706654);
 INSERT INTO `coa_client_spell_description` (`ID`,`Description`,`ToolTip`) VALUES
-(706654,'Dealing damage to this target with auto attacks now restores health to you equal to 50% of the damage dealt.','Dealing damage to this target with auto attacks now restores health to you equal to 50% of the damage dealt.');
+(706654,'对目标进行自动攻击造成伤害时，现在会为你恢复相当于所造成伤害 50% 的生命值。','对目标进行自动攻击造成伤害时，现在会为你恢复相当于所造成伤害 50% 的生命值。');

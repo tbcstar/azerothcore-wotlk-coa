@@ -52,7 +52,7 @@ INSERT INTO `creature_template`
      `ArmorModifier`, `ExperienceModifier`, `RacialLeader`, `movementId`, `RegenHealth`, `CreatureImmunitiesId`,
      `flags_extra`, `ScriptName`)
 VALUES
-(92030, 0, 0, 0, 92030, 92030, 'Sacrificial Chains', NULL, NULL, 0, 63, 63, 0, 54, 0, 1, 1.14286, 1, 1, 20, 1, 0, 1,
+(92030, 0, 0, 0, 92030, 92030, '献祭锁链', NULL, NULL, 0, 63, 63, 0, 54, 0, 1, 1.14286, 1, 1, 20, 1, 0, 1,
  2000, 2000, 1, 1, 1, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0,
  'npc_sacrificial_chains_coa')
 ON DUPLICATE KEY UPDATE

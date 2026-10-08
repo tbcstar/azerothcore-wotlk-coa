@@ -25,8 +25,8 @@ UPDATE `creature_template` SET `AIName` = 'SmartAI' WHERE `entry` IN (161810, 16
 
 DELETE FROM `creature_text` WHERE `CreatureID` IN (161815, 161813);
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Probability`, `comment`) VALUES
-(161815, 0, 0, 'The red pigment of my tattoos was starting to fade...', 12, 100, 'Grimtotem Villager - aggro (CoA)'),
-(161813, 0, 0, 'Defiler! The vultures have been making do with scraps for too long. They''ll rejoice when we feed them your corpse.', 12, 100, 'Funeral Guard - aggro (CoA)');
+(161815, 0, 0, '我纹身的红色颜料开始褪色了……', 12, 100, 'Grimtotem Villager - aggro (CoA)'),
+(161813, 0, 0, '亵渎者！秃鹫们吃残羹剩饭已经太久了。当我们把你的尸体喂给它们时，它们会欢欣鼓舞的。', 12, 100, 'Funeral Guard - aggro (CoA)');
 
 DELETE FROM `smart_scripts` WHERE `entryorguid` = 161809 AND `source_type` = 0 AND `id` IN (1, 2);
 DELETE FROM `smart_scripts` WHERE `entryorguid` = 161837 AND `source_type` = 0 AND `id` IN (4, 5);

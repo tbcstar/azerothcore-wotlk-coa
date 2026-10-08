@@ -1,74 +1,74 @@
 ###################################################################################################
 #  mod-coa-mythic-plus
 #
-#  Mythic+ keystone runs in Ascension's own protocol, so the client's Mythic+ tracker, timer,
-#  banner and keystone socket work unchanged. Time limits, enemy forces totals, required
-#  encounters, keystones and scaling come from the client tables in DataDir/dbc
+#  史诗钥石地下城在扬升自己的协议中运行，因此客户端的史诗钥石追踪器、计时器、
+#  横幅和钥石插槽均保持不变。时间限制、敌方部队总数、必需
+#  遭遇、钥石和缩放来自 DataDir/dbc 中的客户端表
 #  (TimedDungeons, MythicKeystones, MythicPlusScaling).
 ###################################################################################################
 
 [worldserver]
 
 #    MythicPlus.Enable
-#        Description: Turn keystone runs on or off.
+#        Description: 开启或关闭钥石地下城。
 #        Default:     1
 
 MythicPlus.Enable = 1
 
 #    MythicPlus.RequiredDifficulty
-#        Description: Dungeon difficulty a keystone can be started on (0 Normal, 1 Heroic,
-#                     2 Mythic). -1 allows any, for testing.
+#        Description: 可以启动钥石的地下城难度（0 普通，1 英雄，
+#                     2 史诗）。-1 允许任意难度，用于测试。
 #        Default:     2
 
 MythicPlus.RequiredDifficulty = 2
 
 #    MythicPlus.AllowInDungeonFinder
-#        Description: Whether a Dungeon Finder group can start a keystone. Keystones are meant for
-#                     groups that enter on their own; on for now, to test the wing start points.
+#        Description: 地下城查找器队伍是否可以启动钥石。钥石是为
+#                     自行进入的队伍设计的；目前开启，以测试分区起始点。
 #        Default:     1
 
 MythicPlus.AllowInDungeonFinder = 1
 
 #    MythicPlus.Champion.MinLevel
-#        Description: Keystone level from which a Mythic Champion walks every path set with
-#                     .mythic setchampionpos (coa_mythic_champion_path).
+#        Description: 从该钥石等级开始，史诗勇士会行走通过 .mythic setchampionpos
+#                     设置的每一条路径（coa_mythic_champion_path）。
 #        Default:     14
 
 MythicPlus.Champion.MinLevel = 14
 
 #    MythicPlus.Champion.Required
 #    MythicPlus.Champion.RequiredCount
-#        Description: Whether a key from Champion.MinLevel on needs champions killed to finish, and how many
-#                     (at most as many as the dungeon has paths). The tracker shows "Defeat Champions" with it.
+#        Description: 从 Champion.MinLevel 开始的钥石是否需要击杀勇士才能完成，以及需要击杀多少
+#                     （最多与地下城拥有的路径数量相同）。追踪器会随此显示“击败勇士”。
 #        Default:     1, 1
 
 MythicPlus.Champion.Required = 1
 MythicPlus.Champion.RequiredCount = 1
 
 #    MythicPlus.Champion.HealthTrashFactor
-#        Description: A champion's health as a multiple of the median elite trash health of the instance.
+#        Description: 勇士的生命值，以副本中精英小怪生命值中位数的倍数表示。
 #        Default:     10
 
 MythicPlus.Champion.HealthTrashFactor = 10
 
 #    MythicPlus.Week
-#        Description: Affix week (0-52) for new runs, for testing. -1 follows the calendar
-#                     (day of the year / 7), the week the client shows.
+#        Description: 新地下城的词缀周（0-52），用于测试。-1 表示跟随日历
+#                     一年中的第几天 / 7），即客户端显示的周。
 #        Default:     -1
 
 MythicPlus.Week = -1
 
 #    MythicPlus.MaxExpansion
-#        Description: New keys only point at dungeons up to this expansion (0 Classic, 1 TBC,
-#                     2 WotLK).
+#        Description: 新钥石只会指向不超过该资料片的地下城
+#                     （0 经典旧世，1 燃烧的远征，2 巫妖王之怒）。
 #        Default:     0
 
 MythicPlus.MaxExpansion = 0
 
 #    MythicPlus.FirstKey.Enable
 #    MythicPlus.FirstKey.Difficulty
-#        Description: The final boss of a dungeon on this difficulty gives every player without
-#                     a keystone a random +1 key.
+#        Description: 在此难度下，地下城的最终首领会给每个没有
+#                      钥石的玩家一把随机 +1 钥石。
 #        Default:     1, 2
 
 MythicPlus.FirstKey.Enable = 1
@@ -76,21 +76,21 @@ MythicPlus.FirstKey.Difficulty = 2
 
 #    MythicPlus.DefaultForces.Normal
 #    MythicPlus.DefaultForces.Elite
-#        Description: Enemy forces for a creature that has no row in coa_mythic_forces. Only
-#                     creatures placed in the database count; summons need a row.
+#        Description: 没有在 coa_mythic_forces 中对应行的生物所提供的敌方部队。
+#                     只有放置在数据库中的生物才计入；召唤生物需要单独一行。
 #        Default:     1, 2
 
 MythicPlus.DefaultForces.Normal = 1
 MythicPlus.DefaultForces.Elite = 2
 
 #    MythicPlus.NoCreatureLoot
-#        Description: Creatures drop no loot during a run.
+#        Description: 地下城运行期间，生物不掉落任何战利品。
 #        Default:     1
 
 MythicPlus.NoCreatureLoot = 1
 
 #    MythicPlus.OvertimeCaches
-#        Description: Caches for a run finished after the time limit (in time: 1 to 3).
+#        Description: 在时限之后完成的地下城所获得的宝库数量（限时内为 1 到 3）。
 #        Default:     1
 
 MythicPlus.OvertimeCaches = 1
@@ -98,8 +98,8 @@ MythicPlus.OvertimeCaches = 1
 #    MythicPlus.CoinItem
 #    MythicPlus.CoinsPerLevel
 #    MythicPlus.Coins.WeeklyCap
-#        Description: Mythic Coins for a finished run: CoinsPerLevel x keystone level, up to WeeklyCap
-#                     per character and week (weeks start Tuesday 00:00 UTC).
+#        Description: 完成一次地下城获得的史诗硬币：CoinsPerLevel × 钥石等级，
+#                     每个角色每周最多可获得 WeeklyCap 数量（每周从周二 00:00 UTC 开始）。
 #        Default:     1414500, 50, 5500
 
 MythicPlus.CoinItem = 1414500
@@ -108,68 +108,68 @@ MythicPlus.Coins.WeeklyCap = 5500
 
 #
 #    MythicPlus.Caches.WeeklyCap
-#        Description: Mythical Caches a character can open per week.
+#        Description: 一个角色每周可以打开的史诗宝库数量上限。
 #        Default:     80
 
 MythicPlus.Caches.WeeklyCap = 80
 
 #
 #    MythicPlus.Spoils.MythicDungeonFinderOnly
-#        Description: Dungeon Spoils (Mythic) only for groups from the Dungeon Finder. Heroic
-#                     Dungeon Spoils come with every finished Heroic vanilla dungeon.
+#        Description: 史诗地下城战利品仅供来自地下城查找器的队伍。
+#                     英雄地下城战利品会随每个完成的英雄经典旧世地下城一起掉落。
 #        Default:     1
 
 MythicPlus.Spoils.MythicDungeonFinderOnly = 1
 
 #
 #    MythicPlus.ExcludedDungeons
-#        Description: LFG dungeons new keys never point at (space or comma separated).
-#        Default:     "2045 2046" (Blackrock Caverns, not restored yet)
+#        Description: 新钥石永不指向的随机组队地下城（以空格或逗号分隔）。
+#        Default:     "2045 2046" （黑石岩窟，尚未恢复）
 
 MythicPlus.ExcludedDungeons = "2045 2046"
 
 #
 #    MythicPlus.Forces.ClearShare
-#        Description: Share of a wing's trash that reaches 100 % enemy forces; kills are scaled up
-#                     when the wing has less than needed for that. Never scaled down.
+#        Description: 某个分区的敌方部队中达到 100% 所需的小怪比例；当该分区的击杀数
+#                     不足以达到该比例时，击杀数会被上调。永远不会被下调。
 #        Default:     0.58
 
 MythicPlus.Forces.ClearShare = 0.58
 
 #    MythicPlus.Forces.WingFactor
-#        Description: Per wing, "lfgId:factor" pairs (space separated) multiplied onto each kill's forces
-#                     after ClearShare, for wings live videos show differently.
-#                     3320 Shadowfang Keep - Halls of the Damned: 18.63 % up to Rethilgore live, 29.75 % here.
+#        Description: 每个分区的 "lfgId:factor" 配对（以空格分隔），在 ClearShare 之后
+#                     乘到每次击杀的部队上，用于实时视频中显示不同的分区。
+#                     3320 影牙城堡 - 亡灵大厅：到 Rethilgore 实时为 18.63%，此处为 29.75%。
 #        Default:     "3320:0.626"
 
 MythicPlus.Forces.WingFactor = "3320:0.626"
 
 #    MythicPlus.Health.Basis
 #    MythicPlus.Health.Offset
-#        Description: Creature health on a key, relative to Mythic:
-#                     +1 keeps the Mythic health, from +2 on
-#                     Basis x (1 + health % of MythicPlusScaling.dbc) + Offset.
-#                     Fitted to videos and combat logs of the live server.
+#        Description: 钥石中的生物生命值，相对于史诗难度：
+#                     +1 保持史诗难度的生命值，从 +2 开始为
+#                     Basis x (1 + MythicPlusScaling.dbc 的生命值百分比) + Offset。
+#                     根据实时服务器的视频和战斗日志拟合。
 #        Default:     1.1245, -0.02
 
 MythicPlus.Health.Basis = 1.1245
 MythicPlus.Health.Offset = -0.02
 
 #    MythicPlus.BossCastLog
-#        Description: Write every spell a boss of a vanilla dungeon casts on Heroic or Mythic once per
-#                     instance to Server.log (BOSSCAST / BOSSKILL lines) for the mechanics check.
+#        Description: 将经典旧世地下城的首领在英雄或史诗难度下施放的每个法术，每个副本记录一次
+#                     到 Server.log（BOSSCAST / BOSSKILL 行），用于机制检查。
 #        Default:     1
 
 MythicPlus.BossCastLog = 1
 #
 #    MythicPlus.DisabledAffixes
 #    MythicPlus.AffixSubstitutes
-#        Description: Affixes left out of every week (MythicAffixes.dbc ids, space or comma separated).
-#                     Each takes the first substitute its row does not have yet. Empty keeps
-#                     Ascension's rotation. The server sends the changed MythicAffixes.dbc rows at
-#                     login, so the client shows the same affixes.
-#        Default:     "80087" (Tiny), "80046 80044 80026 80024 80032" (Horde, Avenger, Life Stealing,
-#                     Fast, True Sight)
+#        Description: 每周被排除的词缀（MythicAffixes.dbc 的 ID，以空格或逗号分隔）。
+#                     每个词缀会取第一个其行中尚未拥有的替代词缀。
+#                     留空则保持飞升的轮换。服务器会在登录时发送更改后的 MythicAffixes.dbc 行，
+#                     因此客户端会显示相同的词缀。
+#        Default:     "80087"（微小），"80046 80044 80026 80024 80032"
+#                     （部落、复仇者、生命偷取、迅捷、真实视野）
 
 MythicPlus.DisabledAffixes = "80087"
 MythicPlus.AffixSubstitutes = "80046 80044 80026 80024 80032"

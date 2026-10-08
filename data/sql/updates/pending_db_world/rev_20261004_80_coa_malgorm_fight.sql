@@ -22,9 +22,9 @@ INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES
 
 DELETE FROM `creature_text` WHERE `CreatureID` = 161816;
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Probability`, `comment`) VALUES
-(161816, 0, 0, 'Ah... ha! You must be my daughter''s doing. I knew she wouldn''t sit idle. Very well, let''s see what you''re made of.', 14, 100, 'Malgorm - aggro (CoA)'),
-(161816, 1, 0, 'Kneel, as the rebels knelt!', 14, 100, 'Malgorm - charge'),
-(161816, 2, 0, 'Morriga thought steel could unseat me too. Ask her mate how that ended.', 14, 100, 'Malgorm - enrage'),
-(161816, 3, 0, 'I spared my daughter once. I will not spare you!', 14, 100, 'Malgorm - low health'),
-(161816, 4, 0, 'My daughter''s champion falls short of her designs. Desperation drives her, surely.', 12, 100, 'Malgorm - kills a player (CoA)'),
-(161816, 5, 0, 'Ha... ngh...! You''ll see... now that she''s had her way... she''ll show you her true face...', 12, 100, 'Malgorm - death (CoA)');
+(161816, 0, 0, '啊……哈！你一定是我女儿的杰作。我就知道她不会袖手旁观。好吧，让我看看你有什么本事。', 14, 100, 'Malgorm - aggro (CoA)'),
+(161816, 1, 0, '跪下，就像那些叛徒跪下一样！', 14, 100, 'Malgorm - charge'),
+(161816, 2, 0, '莫瑞加以为钢铁也能把我赶下台。问问她的伴侣结果如何。', 14, 100, 'Malgorm - enrage'),
+(161816, 3, 0, '我饶过我女儿一次。我不会饶过你！', 14, 100, 'Malgorm - low health'),
+(161816, 4, 0, '我女儿的冠军达不到她的期望。肯定是绝望驱使着她。', 12, 100, 'Malgorm - kills a player (CoA)'),
+(161816, 5, 0, '哈……呃……！你会看到的……既然她得逞了……她会向你展示她的真面目……', 12, 100, 'Malgorm - death (CoA)');

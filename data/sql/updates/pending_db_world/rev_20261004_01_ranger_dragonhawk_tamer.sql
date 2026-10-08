@@ -12,7 +12,7 @@ VALUES (573056, 0, 27, 0, 0, 1, 16384, 0, 1, 0, 0, 0, 0, 0, 0, 0);
 -- The existing Ranger companion hook supplies owner-level weapon damage and attack power.
 INSERT INTO `creature_template`
 (`entry`, `name`, `minlevel`, `maxlevel`, `exp`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`)
-VALUES (52393, 'Dragonhawk', 1, 1, 0, 35, 1, 1, 2000, 2000)
+VALUES (52393, '龙鹰', 1, 1, 0, 35, 1, 1, 2000, 2000)
 ON DUPLICATE KEY UPDATE `entry` = `entry`;
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 52393;
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)

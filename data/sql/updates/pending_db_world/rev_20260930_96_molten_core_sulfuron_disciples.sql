@@ -57,13 +57,13 @@ INSERT INTO `creature_template`
      `ArmorModifier`, `ExperienceModifier`, `RacialLeader`, `movementId`, `RegenHealth`, `CreatureImmunitiesId`,
      `flags_extra`, `ScriptName`)
 VALUES
-(92031, 0, 0, 0, 0, 0, 'Cull the Destroyer', 'Disciple to Gehennas', NULL, 0, 62, 62, 0, 54, 0, 1, 1.71429, 1, 1, 20,
+(92031, 0, 0, 0, 0, 0, '毁灭者卡尔', '基赫纳斯的门徒', NULL, 0, 62, 62, 0, 54, 0, 1, 1.71429, 1, 1, 20,
  1, 0, 13, 2000, 2000, 1, 1, 8, 64, 2048, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, '', 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0,
  'npc_cull_the_destroyer_coa'),
-(92032, 0, 0, 0, 0, 0, 'Proxima the Opressor', 'Disciple to Shazzrah', NULL, 0, 62, 62, 0, 54, 0, 1, 1.71429, 1, 1,
+(92032, 0, 0, 0, 0, 0, '压迫者普罗克西玛', '沙兹拉的门徒', NULL, 0, 62, 62, 0, 54, 0, 1, 1.71429, 1, 1,
  20, 1, 0, 13, 2000, 2000, 1, 1, 8, 64, 2048, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, '', 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0,
  'npc_proxima_the_opressor_coa'),
-(92033, 0, 0, 0, 0, 0, 'Ebon the Cruel', 'Disciple to Lucifron', NULL, 0, 62, 62, 0, 54, 0, 1, 1.71429, 1, 1, 20, 1,
+(92033, 0, 0, 0, 0, 0, '残酷者艾本', '鲁西弗隆的门徒', NULL, 0, 62, 62, 0, 54, 0, 1, 1.71429, 1, 1, 20, 1,
  0, 13, 2000, 2000, 1, 1, 8, 64, 2048, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, '', 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0,
  'npc_ebon_the_cruel_coa')
 ON DUPLICATE KEY UPDATE

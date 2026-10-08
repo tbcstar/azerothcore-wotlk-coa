@@ -86,9 +86,9 @@ INSERT IGNORE INTO `creature_template`
      `rank`, `unit_class`, `type`, `HealthModifier`, `ManaModifier`,
      `ArmorModifier`, `ExperienceModifier`, `RegenHealth`, `AIName`, `ScriptName`)
 VALUES
-    (10186, 'Volatile Pillar',  63, 63, 14, 1, 1.14286, 0, 1, 4, 1, 1, 1, 1, 1, '', ''),
-    (10187, 'Crumbling Pillar', 63, 63, 14, 1, 1.14286, 0, 1, 4, 1, 1, 1, 1, 1, '', ''),
-    (10188, 'Searing Pillar',   63, 63, 14, 1, 1.14286, 0, 1, 4, 1, 1, 1, 1, 1, '', '');
+    (10186, '不稳定的石柱',  63, 63, 14, 1, 1.14286, 0, 1, 4, 1, 1, 1, 1, 1, '', ''),
+    (10187, '崩塌的石柱', 63, 63, 14, 1, 1.14286, 0, 1, 4, 1, 1, 1, 1, 1, '', ''),
+    (10188, '灼热的石柱',   63, 63, 14, 1, 1.14286, 0, 1, 4, 1, 1, 1, 1, 1, '', '');
 
 DELETE FROM `creature_template_model` WHERE `CreatureID` IN (10186,10187,10188);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)

@@ -1,7 +1,7 @@
 DELETE FROM `coa_client_spell_description` WHERE `ID` = 680575;
 INSERT INTO `coa_client_spell_description` (`ID`, `Description`, `ToolTip`) VALUES (680575,
 CONCAT(
-    'While |cFFFFFFFFDreadnought|r is active, your |cFFFFFFFFTwilight Shieldtoss|r ',
-    'has a $/1000;s1 sec reduced cooldown.\r\n\r\nIn addition, your |cffffffffEldritch ',
-    'Shock|r now strikes 2 additional enemies near the primary target.'
+    '当 |cFFFFFFFF无畏|r 激活时，你的 |cFFFFFFFF暮光掷盾|r ',
+    '冷却时间缩短 $/1000;s1 秒。\r\n\r\n此外，你的 |cffffffff邪术 ',
+    '震击|r 现在会攻击主要目标附近的 2 个额外敌人。'
   ), '');

@@ -2,22 +2,22 @@
 -- Mystic Scrolls store per class (its Uncommons). Each store is an unspawned vendor-list holder
 -- the Guardian opens, which needs him flagged as a vendor as well as a gossip NPC.
 INSERT INTO `creature_template` (`entry`, `name`, `subname`, `minlevel`, `maxlevel`, `faction`, `npcflag`, `unit_class`, `type`, `flags_extra`, `ScriptName`) VALUES
-(9780012, 'Guardian of Time', 'Runes of Ascension', 80, 80, 35, 129, 1, 7, 2, 'npc_worldforged_guardian') ON DUPLICATE KEY UPDATE `npcflag` = VALUES(`npcflag`);
+(9780012, '时光守护者', '飞升符文', 80, 80, 35, 129, 1, 7, 2, 'npc_worldforged_guardian') ON DUPLICATE KEY UPDATE `npcflag` = VALUES(`npcflag`);
 
 INSERT INTO `creature_template` (`entry`, `name`, `subname`, `minlevel`, `maxlevel`, `faction`, `npcflag`, `unit_class`, `type`, `flags_extra`) VALUES
-(9781000, 'Guardian of Time', 'General Goods', 80, 80, 35, 128, 1, 7, 2),
-(9781001, 'Guardian of Time', 'Heirlooms', 80, 80, 35, 128, 1, 7, 2),
-(9781002, 'Guardian of Time', 'Mystic Scrolls: Warrior', 80, 80, 35, 128, 1, 7, 2),
-(9781003, 'Guardian of Time', 'Mystic Scrolls: Paladin', 80, 80, 35, 128, 1, 7, 2),
-(9781004, 'Guardian of Time', 'Mystic Scrolls: Hunter', 80, 80, 35, 128, 1, 7, 2),
-(9781005, 'Guardian of Time', 'Mystic Scrolls: Rogue', 80, 80, 35, 128, 1, 7, 2),
-(9781006, 'Guardian of Time', 'Mystic Scrolls: Priest', 80, 80, 35, 128, 1, 7, 2),
-(9781007, 'Guardian of Time', 'Mystic Scrolls: Death Knight', 80, 80, 35, 128, 1, 7, 2),
-(9781008, 'Guardian of Time', 'Mystic Scrolls: Shaman', 80, 80, 35, 128, 1, 7, 2),
-(9781009, 'Guardian of Time', 'Mystic Scrolls: Mage', 80, 80, 35, 128, 1, 7, 2),
-(9781010, 'Guardian of Time', 'Mystic Scrolls: Warlock', 80, 80, 35, 128, 1, 7, 2),
-(9781011, 'Guardian of Time', 'Mystic Scrolls: Druid', 80, 80, 35, 128, 1, 7, 2),
-(9781012, 'Guardian of Time', 'Altars', 80, 80, 35, 128, 1, 7, 2) ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `subname` = VALUES(`subname`), `minlevel` = VALUES(`minlevel`), `maxlevel` = VALUES(`maxlevel`), `faction` = VALUES(`faction`), `npcflag` = VALUES(`npcflag`), `unit_class` = VALUES(`unit_class`), `type` = VALUES(`type`), `flags_extra` = VALUES(`flags_extra`);
+(9781000, '时光守护者', '杂货商', 80, 80, 35, 128, 1, 7, 2),
+(9781001, '时光守护者', '传家宝', 80, 80, 35, 128, 1, 7, 2),
+(9781002, '时光守护者', '神秘卷轴：战士', 80, 80, 35, 128, 1, 7, 2),
+(9781003, '时光守护者', '神秘卷轴：圣骑士', 80, 80, 35, 128, 1, 7, 2),
+(9781004, '时光守护者', '神秘卷轴：猎人', 80, 80, 35, 128, 1, 7, 2),
+(9781005, '时光守护者', '神秘卷轴：潜行者', 80, 80, 35, 128, 1, 7, 2),
+(9781006, '时光守护者', '神秘卷轴：牧师', 80, 80, 35, 128, 1, 7, 2),
+(9781007, '时光守护者', '神秘卷轴：死亡骑士', 80, 80, 35, 128, 1, 7, 2),
+(9781008, '时光守护者', '神秘卷轴：萨满祭司', 80, 80, 35, 128, 1, 7, 2),
+(9781009, '时光守护者', '神秘卷轴：法师', 80, 80, 35, 128, 1, 7, 2),
+(9781010, '时光守护者', '神秘卷轴：术士', 80, 80, 35, 128, 1, 7, 2),
+(9781011, '时光守护者', '神秘卷轴：德鲁伊', 80, 80, 35, 128, 1, 7, 2),
+(9781012, '时光守护者', '祭坛', 80, 80, 35, 128, 1, 7, 2) ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `subname` = VALUES(`subname`), `minlevel` = VALUES(`minlevel`), `maxlevel` = VALUES(`maxlevel`), `faction` = VALUES(`faction`), `npcflag` = VALUES(`npcflag`), `unit_class` = VALUES(`unit_class`), `type` = VALUES(`type`), `flags_extra` = VALUES(`flags_extra`);
 
 DELETE FROM `creature_template_model` WHERE `CreatureID` IN (9781000, 9781001, 9781002, 9781003, 9781004, 9781005, 9781006, 9781007, 9781008, 9781009, 9781010, 9781011, 9781012);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) VALUES

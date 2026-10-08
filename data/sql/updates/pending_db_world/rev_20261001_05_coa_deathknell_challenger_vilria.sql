@@ -13,7 +13,7 @@
 INSERT INTO `creature_template` (`entry`, `name`, `subname`, `faction`, `npcflag`, `rank`, `unit_class`, `unit_flags`,
 `type`, `type_flags`)
 VALUES
-(10157358, 'Challenger Vilria', 'Leveling Challenges and Trials', 35, 3, 0, 1, 0, 7, 0)
+(10157358, '挑战者维尔莉娅', '升级挑战与试炼', 35, 3, 0, 1, 0, 7, 0)
 ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `subname` = VALUES(`subname`), `faction` = VALUES(`faction`),
 `npcflag` = VALUES(`npcflag`), `rank` = VALUES(`rank`), `unit_class` = VALUES(`unit_class`),
 `unit_flags` = VALUES(`unit_flags`), `type` = VALUES(`type`), `type_flags` = VALUES(`type_flags`);

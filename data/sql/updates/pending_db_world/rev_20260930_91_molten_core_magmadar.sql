@@ -44,28 +44,28 @@ INSERT INTO `creature_template`
      `ArmorModifier`, `ExperienceModifier`, `RacialLeader`, `movementId`, `RegenHealth`, `CreatureImmunitiesId`,
      `flags_extra`, `ScriptName`)
 VALUES
-(80642, 180642, 280642, 380642, 0, 0, 'Magmadar''s Right Head', NULL, NULL, 0, 63, 63, 0, 14, 0, 1, 1.14286, 1, 1,
+(80642, 180642, 280642, 380642, 0, 0, '玛格曼达的右头', NULL, NULL, 0, 63, 63, 0, 14, 0, 1, 1.14286, 1, 1,
  20, 3, 0, 0, 2000, 2000, 1, 1, 1, 0, 2048, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0,
  'npc_magmadar_head_coa'),
-(180642, 0, 0, 0, 0, 0, 'Magmadar''s Right Head', NULL, NULL, 0, 63, 63, 0, 14, 0, 1, 1.14286, 1, 1, 20, 3, 0, 0,
+(180642, 0, 0, 0, 0, 0, '玛格曼达的右头', NULL, NULL, 0, 63, 63, 0, 14, 0, 1, 1.14286, 1, 1, 20, 3, 0, 0,
  2000, 2000, 1, 1, 1, 0, 2048, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0,
  'npc_magmadar_head_coa'),
-(280642, 0, 0, 0, 0, 0, 'Magmadar''s Right Head', NULL, NULL, 0, 63, 63, 0, 14, 0, 1, 1.14286, 1, 1, 20, 3, 0, 0,
+(280642, 0, 0, 0, 0, 0, '玛格曼达的右头', NULL, NULL, 0, 63, 63, 0, 14, 0, 1, 1.14286, 1, 1, 20, 3, 0, 0,
  2000, 2000, 1, 1, 1, 0, 2048, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0,
  'npc_magmadar_head_coa'),
-(380642, 0, 0, 0, 0, 0, 'Magmadar''s Right Head', NULL, NULL, 0, 63, 63, 0, 14, 0, 1, 1.14286, 1, 1, 20, 3, 0, 0,
+(380642, 0, 0, 0, 0, 0, '玛格曼达的右头', NULL, NULL, 0, 63, 63, 0, 14, 0, 1, 1.14286, 1, 1, 20, 3, 0, 0,
  2000, 2000, 1, 1, 1, 0, 2048, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0,
  'npc_magmadar_head_coa'),
-(80643, 180643, 280643, 380643, 0, 0, 'Magmadar''s Left Head', NULL, NULL, 0, 63, 63, 0, 14, 0, 1, 1.14286, 1, 1,
+(80643, 180643, 280643, 380643, 0, 0, '玛格曼达的左头', NULL, NULL, 0, 63, 63, 0, 14, 0, 1, 1.14286, 1, 1,
  20, 3, 0, 0, 2000, 2000, 1, 1, 1, 0, 2048, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0,
  'npc_magmadar_head_coa'),
-(180643, 0, 0, 0, 0, 0, 'Magmadar''s Left Head', NULL, NULL, 0, 63, 63, 0, 14, 0, 1, 1.14286, 1, 1, 20, 3, 0, 0,
+(180643, 0, 0, 0, 0, 0, '玛格曼达的左头', NULL, NULL, 0, 63, 63, 0, 14, 0, 1, 1.14286, 1, 1, 20, 3, 0, 0,
  2000, 2000, 1, 1, 1, 0, 2048, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0,
  'npc_magmadar_head_coa'),
-(280643, 0, 0, 0, 0, 0, 'Magmadar''s Left Head', NULL, NULL, 0, 63, 63, 0, 14, 0, 1, 1.14286, 1, 1, 20, 3, 0, 0,
+(280643, 0, 0, 0, 0, 0, '玛格曼达的左头', NULL, NULL, 0, 63, 63, 0, 14, 0, 1, 1.14286, 1, 1, 20, 3, 0, 0,
  2000, 2000, 1, 1, 1, 0, 2048, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0,
  'npc_magmadar_head_coa'),
-(380643, 0, 0, 0, 0, 0, 'Magmadar''s Left Head', NULL, NULL, 0, 63, 63, 0, 14, 0, 1, 1.14286, 1, 1, 20, 3, 0, 0,
+(380643, 0, 0, 0, 0, 0, '玛格曼达的左头', NULL, NULL, 0, 63, 63, 0, 14, 0, 1, 1.14286, 1, 1, 20, 3, 0, 0,
  2000, 2000, 1, 1, 1, 0, 2048, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0,
  'npc_magmadar_head_coa')
 ON DUPLICATE KEY UPDATE
@@ -110,8 +110,8 @@ INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`,
 DELETE FROM `coa_boss_flex` WHERE `entry` IN (11982, 80642, 80643);
 INSERT INTO `coa_boss_flex` (`entry`, `hp_d0`, `hp_d1`, `hp_d2`, `hp_d3`, `comment`) VALUES
 (11982, 566752, 755669, 1137347, 1658331, 'Magmadar body: [designed] 70% of the existing flex total'),
-(80642, 121447, 161929, 243717, 355357, 'Magmadar''s Right Head: [designed] 15% of the existing flex total'),
-(80643, 121447, 161929, 243717, 355357, 'Magmadar''s Left Head: [designed] 15% of the existing flex total');
+(80642, 121447, 161929, 243717, 355357, '玛格曼达的右头: [designed] 15% of the existing flex total'),
+(80643, 121447, 161929, 243717, 355357, '玛格曼达的左头: [designed] 15% of the existing flex total');
 
 -- Spell scripts: dummy-then-effect chains, same idiom as the body's own stock Lava Bomb
 -- (spell_magmadar_lava_bomb) and Garr's Land Slide.

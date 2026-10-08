@@ -4,8 +4,8 @@ UPDATE `creature_template` SET `AIName` = 'SmartAI' WHERE `entry` = 161818;
 
 DELETE FROM `creature_text` WHERE `CreatureID` = 161818 AND `GroupID` IN (0, 1);
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Probability`, `comment`) VALUES
-(161818, 0, 0, 'Seldom do I voice my gratitude. Take it for the honor it is: to depart without bending the knee before the new tyrant of Three Totems.', 12, 100, 'Morriga - Death and Justice rewarded (CoA)'),
-(161818, 1, 0, 'Next time you set foot in the village, you''ll see the lake stained red with the blood of those who stood in my way.', 12, 100, 'Morriga - after Death and Justice (CoA)');
+(161818, 0, 0, '我很少表达感激之情。把这当作一种荣誉吧：不必向三图腾的新暴君屈膝就能离开。', 12, 100, 'Morriga - Death and Justice rewarded (CoA)'),
+(161818, 1, 0, '下次你踏进村庄时，你会看到湖水被那些挡我路的人的血染红。', 12, 100, 'Morriga - after Death and Justice (CoA)');
 
 DELETE FROM `smart_scripts` WHERE `entryorguid` = 161818 AND `source_type` = 0 AND `id` IN (0, 1, 2);
 INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase_mask`, `event_chance`,

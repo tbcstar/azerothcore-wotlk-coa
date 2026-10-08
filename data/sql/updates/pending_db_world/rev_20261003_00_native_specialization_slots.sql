@@ -16,133 +16,133 @@ ON DUPLICATE KEY UPDATE `entry` = VALUES(`entry`);
 DROP TEMPORARY TABLE `native_specialization_tome`;
 
 -- Restore Tome names, prerequisites and learning effects from ItemAddon.dbc and ItemSpells.dbc.
-UPDATE `item_template` SET `name` = 'Tome of Specialization II', `Quality` = 6,
+UPDATE `item_template` SET `name` = '专精之书 II', `Quality` = 6,
     `requiredspell` = 0, `spellid_1` = 55884, `spelltrigger_1` = 0,
     `spellcharges_1` = -1, `spellcooldown_1` = 0, `spellcategory_1` = 3600,
     `spellcategorycooldown_1` = -1, `spellid_2` = 979994, `spelltrigger_2` = 6,
     `spellcharges_2` = -1, `spellcooldown_2` = 0, `spellcategory_2` = 3600,
     `spellcategorycooldown_2` = -1 WHERE `entry` = 106954;
 
-UPDATE `item_template` SET `name` = 'Tome of Specialization III', `Quality` = 6,
+UPDATE `item_template` SET `name` = '专精之书 III', `Quality` = 6,
     `requiredspell` = 979994, `spellid_1` = 55884, `spelltrigger_1` = 0,
     `spellcharges_1` = 0, `spellcooldown_1` = 0, `spellcategory_1` = 3600,
     `spellcategorycooldown_1` = -1, `spellid_2` = 979995, `spelltrigger_2` = 6,
     `spellcharges_2` = -1, `spellcooldown_2` = 0, `spellcategory_2` = 3600,
     `spellcategorycooldown_2` = -1 WHERE `entry` = 106956;
 
-UPDATE `item_template` SET `name` = 'Tome of Specialization IV', `Quality` = 6,
+UPDATE `item_template` SET `name` = '专精之书 IV', `Quality` = 6,
     `requiredspell` = 979995, `spellid_1` = 55884, `spelltrigger_1` = 0,
     `spellcharges_1` = 0, `spellcooldown_1` = 0, `spellcategory_1` = 3600,
     `spellcategorycooldown_1` = -1, `spellid_2` = 979996, `spelltrigger_2` = 6,
     `spellcharges_2` = -1, `spellcooldown_2` = 0, `spellcategory_2` = 3600,
     `spellcategorycooldown_2` = -1 WHERE `entry` = 106957;
 
-UPDATE `item_template` SET `name` = 'Tome of Specialization V', `Quality` = 6,
+UPDATE `item_template` SET `name` = '专精之书 V', `Quality` = 6,
     `requiredspell` = 979996, `spellid_1` = 55884, `spelltrigger_1` = 0,
     `spellcharges_1` = 0, `spellcooldown_1` = 0, `spellcategory_1` = 3600,
     `spellcategorycooldown_1` = -1, `spellid_2` = 979997, `spelltrigger_2` = 6,
     `spellcharges_2` = -1, `spellcooldown_2` = 0, `spellcategory_2` = 3600,
     `spellcategorycooldown_2` = -1 WHERE `entry` = 106958;
 
-UPDATE `item_template` SET `name` = 'Tome of Specialization VI', `Quality` = 6,
+UPDATE `item_template` SET `name` = '专精之书 VI', `Quality` = 6,
     `requiredspell` = 979997, `spellid_1` = 55884, `spelltrigger_1` = 0,
     `spellcharges_1` = 0, `spellcooldown_1` = 0, `spellcategory_1` = 3600,
     `spellcategorycooldown_1` = -1, `spellid_2` = 979986, `spelltrigger_2` = 6,
     `spellcharges_2` = -1, `spellcooldown_2` = 0, `spellcategory_2` = 3600,
     `spellcategorycooldown_2` = -1 WHERE `entry` = 106959;
 
-UPDATE `item_template` SET `name` = 'Tome of Specialization VII', `Quality` = 6,
+UPDATE `item_template` SET `name` = '专精之书 VII', `Quality` = 6,
     `requiredspell` = 979986, `spellid_1` = 55884, `spelltrigger_1` = 0,
     `spellcharges_1` = 0, `spellcooldown_1` = 0, `spellcategory_1` = 3600,
     `spellcategorycooldown_1` = -1, `spellid_2` = 979987, `spelltrigger_2` = 6,
     `spellcharges_2` = -1, `spellcooldown_2` = 0, `spellcategory_2` = 3600,
     `spellcategorycooldown_2` = -1 WHERE `entry` = 106960;
 
-UPDATE `item_template` SET `name` = 'Tome of Specialization VIII', `Quality` = 6,
+UPDATE `item_template` SET `name` = '专精之书 VIII', `Quality` = 6,
     `requiredspell` = 979987, `spellid_1` = 55884, `spelltrigger_1` = 0,
     `spellcharges_1` = 0, `spellcooldown_1` = 0, `spellcategory_1` = 3600,
     `spellcategorycooldown_1` = -1, `spellid_2` = 979988, `spelltrigger_2` = 6,
     `spellcharges_2` = -1, `spellcooldown_2` = 0, `spellcategory_2` = 3600,
     `spellcategorycooldown_2` = -1 WHERE `entry` = 106961;
 
-UPDATE `item_template` SET `name` = 'Tome of Specialization IX', `Quality` = 6,
+UPDATE `item_template` SET `name` = '专精之书 IX', `Quality` = 6,
     `requiredspell` = 979988, `spellid_1` = 55884, `spelltrigger_1` = 0,
     `spellcharges_1` = 0, `spellcooldown_1` = 0, `spellcategory_1` = 3600,
     `spellcategorycooldown_1` = -1, `spellid_2` = 84874, `spelltrigger_2` = 6,
     `spellcharges_2` = -1, `spellcooldown_2` = 0, `spellcategory_2` = 3600,
     `spellcategorycooldown_2` = -1 WHERE `entry` = 752030;
 
-UPDATE `item_template` SET `name` = 'Tome of Specialization X', `Quality` = 6,
+UPDATE `item_template` SET `name` = '专精之书 X', `Quality` = 6,
     `requiredspell` = 84874, `spellid_1` = 55884, `spelltrigger_1` = 0,
     `spellcharges_1` = 0, `spellcooldown_1` = 0, `spellcategory_1` = 3600,
     `spellcategorycooldown_1` = -1, `spellid_2` = 84876, `spelltrigger_2` = 6,
     `spellcharges_2` = -1, `spellcooldown_2` = 0, `spellcategory_2` = 3600,
     `spellcategorycooldown_2` = -1 WHERE `entry` = 752031;
 
-UPDATE `item_template` SET `name` = 'Tome of Specialization XI', `Quality` = 6,
+UPDATE `item_template` SET `name` = '专精之书 XI', `Quality` = 6,
     `requiredspell` = 84876, `spellid_1` = 55884, `spelltrigger_1` = 0,
     `spellcharges_1` = 0, `spellcooldown_1` = 0, `spellcategory_1` = 3600,
     `spellcategorycooldown_1` = -1, `spellid_2` = 84878, `spelltrigger_2` = 6,
     `spellcharges_2` = -1, `spellcooldown_2` = 0, `spellcategory_2` = 3600,
     `spellcategorycooldown_2` = -1 WHERE `entry` = 752032;
 
-UPDATE `item_template` SET `name` = 'Tome of Specialization XII', `Quality` = 6,
+UPDATE `item_template` SET `name` = '专精之书 XII', `Quality` = 6,
     `requiredspell` = 84878, `spellid_1` = 55884, `spelltrigger_1` = 0,
     `spellcharges_1` = 0, `spellcooldown_1` = 0, `spellcategory_1` = 3600,
     `spellcategorycooldown_1` = -1, `spellid_2` = 84880, `spelltrigger_2` = 6,
     `spellcharges_2` = -1, `spellcooldown_2` = 0, `spellcategory_2` = 3600,
     `spellcategorycooldown_2` = -1 WHERE `entry` = 752033;
 
-UPDATE `item_template` SET `name` = 'Tome of Specialization XIII', `Quality` = 6,
+UPDATE `item_template` SET `name` = '专精之书 XIII', `Quality` = 6,
     `requiredspell` = 84880, `spellid_1` = 55884, `spelltrigger_1` = 0,
     `spellcharges_1` = 0, `spellcooldown_1` = 0, `spellcategory_1` = 3600,
     `spellcategorycooldown_1` = -1, `spellid_2` = 84882, `spelltrigger_2` = 6,
     `spellcharges_2` = -1, `spellcooldown_2` = 0, `spellcategory_2` = 3600,
     `spellcategorycooldown_2` = -1 WHERE `entry` = 97400;
 
-UPDATE `item_template` SET `name` = 'Tome of Specialization XIV', `Quality` = 6,
+UPDATE `item_template` SET `name` = '专精之书 XIV', `Quality` = 6,
     `requiredspell` = 84882, `spellid_1` = 55884, `spelltrigger_1` = 0,
     `spellcharges_1` = 0, `spellcooldown_1` = 0, `spellcategory_1` = 3600,
     `spellcategorycooldown_1` = -1, `spellid_2` = 84884, `spelltrigger_2` = 6,
     `spellcharges_2` = -1, `spellcooldown_2` = 0, `spellcategory_2` = 3600,
     `spellcategorycooldown_2` = -1 WHERE `entry` = 97401;
 
-UPDATE `item_template` SET `name` = 'Tome of Specialization XV', `Quality` = 6,
+UPDATE `item_template` SET `name` = '专精之书 XV', `Quality` = 6,
     `requiredspell` = 84884, `spellid_1` = 55884, `spelltrigger_1` = 0,
     `spellcharges_1` = 0, `spellcooldown_1` = 0, `spellcategory_1` = 3600,
     `spellcategorycooldown_1` = -1, `spellid_2` = 84886, `spelltrigger_2` = 6,
     `spellcharges_2` = -1, `spellcooldown_2` = 0, `spellcategory_2` = 3600,
     `spellcategorycooldown_2` = -1 WHERE `entry` = 97402;
 
-UPDATE `item_template` SET `name` = 'Tome of Specialization XVI', `Quality` = 6,
+UPDATE `item_template` SET `name` = '专精之书 XVI', `Quality` = 6,
     `requiredspell` = 84886, `spellid_1` = 55884, `spelltrigger_1` = 0,
     `spellcharges_1` = 0, `spellcooldown_1` = 0, `spellcategory_1` = 3600,
     `spellcategorycooldown_1` = -1, `spellid_2` = 84888, `spelltrigger_2` = 6,
     `spellcharges_2` = -1, `spellcooldown_2` = 0, `spellcategory_2` = 3600,
     `spellcategorycooldown_2` = -1 WHERE `entry` = 97403;
 
-UPDATE `item_template` SET `name` = 'Tome of Specialization XVII', `Quality` = 6,
+UPDATE `item_template` SET `name` = '专精之书 XVII', `Quality` = 6,
     `requiredspell` = 84888, `spellid_1` = 55884, `spelltrigger_1` = 0,
     `spellcharges_1` = 0, `spellcooldown_1` = 0, `spellcategory_1` = 3600,
     `spellcategorycooldown_1` = -1, `spellid_2` = 84890, `spelltrigger_2` = 6,
     `spellcharges_2` = -1, `spellcooldown_2` = 0, `spellcategory_2` = 3600,
     `spellcategorycooldown_2` = -1 WHERE `entry` = 97404;
 
-UPDATE `item_template` SET `name` = 'Tome of Specialization XVIII', `Quality` = 6,
+UPDATE `item_template` SET `name` = '专精之书 XVIII', `Quality` = 6,
     `requiredspell` = 84890, `spellid_1` = 55884, `spelltrigger_1` = 0,
     `spellcharges_1` = 0, `spellcooldown_1` = 0, `spellcategory_1` = 3600,
     `spellcategorycooldown_1` = -1, `spellid_2` = 84892, `spelltrigger_2` = 6,
     `spellcharges_2` = -1, `spellcooldown_2` = 0, `spellcategory_2` = 3600,
     `spellcategorycooldown_2` = -1 WHERE `entry` = 97405;
 
-UPDATE `item_template` SET `name` = 'Tome of Specialization XIX', `Quality` = 6,
+UPDATE `item_template` SET `name` = '专精之书 XIX', `Quality` = 6,
     `requiredspell` = 84892, `spellid_1` = 55884, `spelltrigger_1` = 0,
     `spellcharges_1` = 0, `spellcooldown_1` = 0, `spellcategory_1` = 3600,
     `spellcategorycooldown_1` = -1, `spellid_2` = 84894, `spelltrigger_2` = 6,
     `spellcharges_2` = -1, `spellcooldown_2` = 0, `spellcategory_2` = 3600,
     `spellcategorycooldown_2` = -1 WHERE `entry` = 97406;
 
-UPDATE `item_template` SET `name` = 'Tome of Specialization XX', `Quality` = 6,
+UPDATE `item_template` SET `name` = '专精之书 XX', `Quality` = 6,
     `requiredspell` = 84894, `spellid_1` = 55884, `spelltrigger_1` = 0,
     `spellcharges_1` = 0, `spellcooldown_1` = 0, `spellcategory_1` = 3600,
     `spellcategorycooldown_1` = -1, `spellid_2` = 84896, `spelltrigger_2` = 6,

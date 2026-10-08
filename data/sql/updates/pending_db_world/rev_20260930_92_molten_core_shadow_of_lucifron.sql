@@ -54,7 +54,7 @@
 -- keeps idx 0, replace_entry 0 (no replacement).
 DROP TABLE IF EXISTS `coa_boss_summon`;
 CREATE TABLE `coa_boss_summon` (
-  `entry`             INT UNSIGNED NOT NULL COMMENT 'boss entry, coa_boss.entry',
+  `entry`             INT UNSIGNED NOT NULL COMMENT '首领条目, coa_boss.entry',
   `idx`               INT UNSIGNED NOT NULL DEFAULT 0 COMMENT 'position within this boss, multiple summons',
   `summon_entry`      INT UNSIGNED NOT NULL DEFAULT 0,
   `summon_delay_ms`   INT UNSIGNED NOT NULL DEFAULT 0,

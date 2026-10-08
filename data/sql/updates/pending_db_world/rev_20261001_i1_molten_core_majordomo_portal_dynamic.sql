@@ -22,7 +22,7 @@ DELETE FROM `gameobject` WHERE `guid` = 9000601;
 UPDATE `gameobject_template` SET
     `type` = 10,
     `displayId` = 7161,
-    `name` = 'Portal to Ragnaros\' Lair',
+    `name` = '通往拉格纳罗斯巢穴的传送门',
     `size` = 1,
     `Data0` = 0, `Data1` = 0, `Data2` = 0, `Data3` = 0, `Data4` = 0, `Data5` = 0, `Data6` = 0,
     `Data7` = 0, `Data8` = 0, `Data9` = 0, `Data10` = 0, `Data11` = 0, `Data12` = 0, `Data13` = 0,

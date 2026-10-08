@@ -1,10 +1,10 @@
 [worldserver]
 
-# Enable the module's drops and equipped powers.
+# 启用该模块的掉落和已装备的强化能力。
 CoALegendaryItems.Enable = 0
 
-# Percent chance per eligible creature kill. At most one legendary drops per corpse.
+# 每个符合条件生物击杀的百分比几率。每具尸体最多掉落一件传奇物品。
 CoALegendaryItems.DropChance = 0.5
 
-# Players at this level or higher receive no new drops. Existing items still work.
+# 达到或高于此等级的玩家不再获得新的掉落。已有物品仍然有效。
 CoALegendaryItems.StopDropLevel = 60

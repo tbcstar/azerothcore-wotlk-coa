@@ -2,7 +2,7 @@
 DELETE FROM `creature_text` WHERE `CreatureID` = 161834 AND `GroupID` = 0;
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`,
     `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(161834, 0, 0, 'The carrion spirit senses your soul.', 42, 0, 100, 0, 0, 0, 0, 0,
+(161834, 0, 0, '腐肉之灵感知到了你的灵魂。', 42, 0, 100, 0, 0, 0, 0, 0,
     'Cruel Carrion Spirit - Dives at a Fighting Over Carrion holder');
 
 DELETE FROM `smart_scripts` WHERE `entryorguid` = 161834 AND `source_type` = 0 AND `id` IN (2, 3);

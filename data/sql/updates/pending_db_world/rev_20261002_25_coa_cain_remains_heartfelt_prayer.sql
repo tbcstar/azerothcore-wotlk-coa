@@ -7,7 +7,7 @@
 -- nothing.
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `unit_flags`,
     `dynamicflags`, `type`, `AIName`, `flags_extra`) VALUES
-(9300261, '[KC] Cain Remains', 1, 1, 35, 1, 33554432, 256, 0, 'SmartAI', 0)
+(9300261, '[KC] 凯恩的遗骸', 1, 1, 35, 1, 33554432, 256, 0, 'SmartAI', 0)
 ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `minlevel` = VALUES(`minlevel`), `maxlevel` = VALUES(`maxlevel`),
     `faction` = VALUES(`faction`), `unit_class` = VALUES(`unit_class`), `unit_flags` = VALUES(`unit_flags`),
     `dynamicflags` = VALUES(`dynamicflags`), `type` = VALUES(`type`), `AIName` = VALUES(`AIName`),

@@ -7,7 +7,7 @@ INSERT INTO `creature_template` (`entry`, `name`, `subname`, `IconName`, `minlev
     `unit_flags2`, `type`, `type_flags`, `VehicleId`, `AIName`, `MovementType`, `HealthModifier`, `ManaModifier`,
     `ArmorModifier`, `RegenHealth`, `flags_extra`, `ScriptName`)
 VALUES
-(9303002, 'Kodo Carcass', NULL, NULL, 1, 1, 0, 35, 0, 1, 1.14286, 2000, 2000, 1, 33554434, 2048, 1, 0, 0, '', 0, 1, 1,
+(9303002, '科多兽残骸', NULL, NULL, 1, 1, 0, 35, 0, 1, 1.14286, 2000, 2000, 1, 33554434, 2048, 1, 0, 0, '', 0, 1, 1,
     1, 1, 0, '')
 ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `faction` = VALUES(`faction`), `unit_flags` = VALUES(`unit_flags`),
     `type` = VALUES(`type`), `flags_extra` = VALUES(`flags_extra`);

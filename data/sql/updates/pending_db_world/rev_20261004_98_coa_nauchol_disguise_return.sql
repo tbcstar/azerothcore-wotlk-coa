@@ -3,7 +3,7 @@
 -- minute. The line is CoA's, as players recorded it. It adds his text group 2 and script row 6.
 DELETE FROM `creature_text` WHERE `CreatureID` = 161819 AND `GroupID` = 2;
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Probability`, `comment`) VALUES
-(161819, 2, 0, 'Have you brought everything we need for the disguise?', 12, 100, 'Sage Nauchol - a player returns with Death and Dishonor (CoA)');
+(161819, 2, 0, '你带齐我们伪装所需的一切了吗？', 12, 100, 'Sage Nauchol - a player returns with Death and Dishonor (CoA)');
 
 DELETE FROM `smart_scripts` WHERE `entryorguid` = 161819 AND `source_type` = 0 AND `id` = 6;
 INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase_mask`, `event_chance`,

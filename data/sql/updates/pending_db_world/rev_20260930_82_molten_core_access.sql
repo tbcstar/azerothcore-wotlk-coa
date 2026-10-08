@@ -8,5 +8,5 @@ INSERT INTO `dungeon_access_template` (`id`, `map_id`, `difficulty`, `min_level`
 (124, 409, 3, 60, 0, 0, 'Molten Core (Ascended)');
 DELETE FROM `dungeon_access_requirements` WHERE `dungeon_access_id` = 124;
 INSERT INTO `dungeon_access_requirements` (`dungeon_access_id`, `requirement_type`, `requirement_id`, `requirement_note`, `faction`, `priority`, `leader_only`, `comment`) VALUES
-(124, 1, 7848, 'You must complete the quest "Attunement to the Core" before entering the Ascended difficulty of Molten Core.', 0, NULL, 0, 'Molten Core (Ascended): Attunement to the Core (Alliance)'),
-(124, 1, 7487, 'You must complete the quest "Attunement to the Core" before entering the Ascended difficulty of Molten Core.', 1, NULL, 0, 'Molten Core (Ascended): Attunement to the Core (Horde)');
+(124, 1, 7848, '你必须完成“熔火之心的召唤”任务才能进入熔火之心的飞升难度。', 0, NULL, 0, 'Molten Core (Ascended): Attunement to the Core (Alliance)'),
+(124, 1, 7487, '你必须完成“熔火之心的召唤”任务才能进入熔火之心的飞升难度。', 1, NULL, 0, 'Molten Core (Ascended): Attunement to the Core (Horde)');

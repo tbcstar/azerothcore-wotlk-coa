@@ -16,7 +16,7 @@ VALUES (1041710, 13, 1, -1, 1, 171077, 0, 0);
 
 CREATE TEMPORARY TABLE `heartwood_key` ENGINE=InnoDB AS
     SELECT * FROM `item_template` WHERE `entry` = 1041709;
-UPDATE `heartwood_key` SET `entry` = 1041710, `name` = 'Heartwood Key', `displayid` = 171077, `spellid_1` = 808074;
+UPDATE `heartwood_key` SET `entry` = 1041710, `name` = '心木钥匙', `displayid` = 171077, `spellid_1` = 808074;
 INSERT INTO `item_template` SELECT * FROM `heartwood_key`
 ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `displayid` = VALUES(`displayid`), `spellid_1` = VALUES(`spellid_1`);
 DROP TEMPORARY TABLE `heartwood_key`;

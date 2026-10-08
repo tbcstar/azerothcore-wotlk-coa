@@ -1,6 +1,6 @@
 -- Sneed\'s Shredder (642): swap the vanilla Terrify/Distracting Pain for the Ascension saw blade spells; the saw blades are scripted in C++
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `speed_walk`, `speed_run`, `unit_flags`, `unit_flags2`, `unit_class`, `type`, `AIName`, `ScriptName`, `HealthModifier`, `RegenHealth`, `flags_extra`) VALUES
-(180237, 'Buzzing Saw Blade', 20, 20, 17, 1.2, 0.5, 33554434, 2048, 1, 10, '', 'npc_ascension_buzzing_saw_blade', 1, 0, 8256) ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `faction` = VALUES(`faction`), `speed_walk` = VALUES(`speed_walk`), `speed_run` = VALUES(`speed_run`), `unit_flags` = VALUES(`unit_flags`), `AIName` = VALUES(`AIName`), `ScriptName` = VALUES(`ScriptName`), `flags_extra` = VALUES(`flags_extra`);
+(180237, '蜂鸣锯刃', 20, 20, 17, 1.2, 0.5, 33554434, 2048, 1, 10, '', 'npc_ascension_buzzing_saw_blade', 1, 0, 8256) ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `faction` = VALUES(`faction`), `speed_walk` = VALUES(`speed_walk`), `speed_run` = VALUES(`speed_run`), `unit_flags` = VALUES(`unit_flags`), `AIName` = VALUES(`AIName`), `ScriptName` = VALUES(`ScriptName`), `flags_extra` = VALUES(`flags_extra`);
 
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 180237;
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`, `VerifiedBuild`) VALUES

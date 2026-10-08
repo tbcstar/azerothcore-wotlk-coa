@@ -9,7 +9,7 @@ INSERT INTO `creature_template` (`entry`, `name`, `subname`, `IconName`, `minlev
     `unit_flags2`, `type`, `type_flags`, `VehicleId`, `AIName`, `MovementType`, `HealthModifier`, `ManaModifier`,
     `ArmorModifier`, `RegenHealth`, `flags_extra`, `ScriptName`)
 VALUES
-(9303001, 'Pack Kodo', NULL, NULL, 1, 1, 0, 29, 0, 1, 1.14286, 2000, 2000, 1, 768, 2048, 1, 0, 0, '', 0, 1, 1, 1, 1,
+(9303001, '驮运科多兽', NULL, NULL, 1, 1, 0, 29, 0, 1, 1.14286, 2000, 2000, 1, 768, 2048, 1, 0, 0, '', 0, 1, 1, 1, 1,
     8194, '')
 ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `faction` = VALUES(`faction`), `unit_flags` = VALUES(`unit_flags`),
     `type` = VALUES(`type`), `flags_extra` = VALUES(`flags_extra`);
@@ -26,5 +26,5 @@ INSERT INTO `creature_template_addon` (`entry`, `path_id`, `mount`, `bytes1`, `b
 DELETE FROM `vehicle_accessory` WHERE `guid` IN (9006004, 9006005) AND `seat_id` = 2;
 INSERT INTO `vehicle_accessory` (`guid`, `accessory_entry`, `seat_id`, `minion`, `description`, `summontype`,
     `summontimer`) VALUES
-(9006004, 9303001, 2, 1, 'Pack Kodo', 8, 0),
-(9006005, 9303001, 2, 1, 'Pack Kodo', 8, 0);
+(9006004, 9303001, 2, 1, '驮运科多兽', 8, 0),
+(9006005, 9303001, 2, 1, '驮运科多兽', 8, 0);

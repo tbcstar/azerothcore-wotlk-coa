@@ -3,7 +3,7 @@
 -- CreatureDisplayInfo.dbc confirms model 12849 and scale 1.0; no spawn geometry is inferred.
 START TRANSACTION;
 INSERT INTO `creature_template` (`entry`, `name`, `faction`, `unit_class`, `type`) VALUES
-(161579, 'Storm Elemental', 35, 1, 4) ON DUPLICATE KEY UPDATE `name` = VALUES(`name`);
+(161579, '风暴元素', 35, 1, 4) ON DUPLICATE KEY UPDATE `name` = VALUES(`name`);
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 161579;
 INSERT INTO `creature_template_model`
 (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) VALUES

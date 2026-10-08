@@ -31,14 +31,14 @@ PathToAscension.Enable = 1
 PathToAscension.RealmProfile = 3
 
 #    PathToAscension.Expansion
-#        Description: The expansion whose tutorial variants this realm offers. Tutorials of other expansions
-#                     are hidden from the client, those of this expansion are shown whatever expansion the
-#                     client derives from MaxPlayerLevel. The Onyxia's Lair and Naxxramas tutorials of the
-#                     original game stay hidden while those raids run as Wrath of the Lich King content,
-#                     and the Mythic+ Dungeons tutorial while the server has no Mythic+ dungeons.
-#                     -1 - Follow the worldserver Expansion option
-#                      0 - Vanilla, 1 - The Burning Crusade, 2 - Wrath of the Lich King
-#        Default:     0 - (Vanilla)
+#        Description: 本服务器提供的教程变体所属的资料片。其他资料片的教程
+#                     对客户端隐藏，而本资料片的教程无论客户端从 MaxPlayerLevel
+#                     推导出哪个资料片都会显示。原版游戏中的奥妮克希亚的巢穴和纳克萨玛斯教程
+#                     在这些团队副本作为巫妖王之怒内容运行时保持隐藏，
+#                     而史诗钥石地下城教程在服务器没有史诗钥石地下城时也保持隐藏。
+#                     -1 - 跟随 worldserver 的 Expansion 选项
+#                      0 - 经典旧世，1 - 燃烧的远征，2 - 巫妖王之怒
+#        Default:     0 - （经典旧世）
 PathToAscension.Expansion = 0
 
 #    PathToAscension.VerifiedProgress.Enable

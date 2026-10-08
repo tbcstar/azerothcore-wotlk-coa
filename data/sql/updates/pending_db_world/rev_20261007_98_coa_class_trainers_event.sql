@@ -4,7 +4,7 @@
 SET @EVENT := 195;
 DELETE FROM `game_event` WHERE `eventEntry` = @EVENT;
 INSERT INTO `game_event` (`eventEntry`, `description`, `world_event`, `announce`) VALUES
-(@EVENT, 'Conquest of Azeroth - Class Trainers', 5, 0);
+(@EVENT, '征服艾泽拉斯 - 职业训练师', 5, 0);
 DELETE FROM `game_event_creature` WHERE `eventEntry` = @EVENT;
 INSERT INTO `game_event_creature` (`eventEntry`, `guid`)
 SELECT DISTINCT @EVENT, c.`guid`

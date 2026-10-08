@@ -99,7 +99,9 @@ METRICS = {
     'aoe_damage_taken', 'reputation_gain', 'spell_immune', 'spell_effect_immune', 'melee_attack_count',
     'spell_damage_count', 'spell_damage_total', 'spell_uses_armor',
     'spell_heal_count', 'spell_heal_total', 'spell_effective_heal_total',
-    'pet_aura_amount', 'pet_aura_amplitude_ms', 'pet_max_health', 'pet_attack_power', 'pet_run_speed_rate',
+    'equipped_item',
+    'pet_aura_amount', 'pet_aura_amplitude_ms', 'pet_max_health', 'pet_health', 'pet_attack_power',
+    'pet_run_speed_rate',
     'distance', 'spell_proc_count', 'spell_proc_chance', 'aura_proc_rate', 'temporary_spell_replacement',
     'spell_family_flags',
     'creature_loot_quality_rate', 'equipped_gear_loot_rate',
@@ -129,7 +131,9 @@ PLAYER_STAT_METRICS = {
     'aoe_damage_taken', 'reputation_gain', 'spell_immune', 'spell_effect_immune', 'melee_attack_count',
     'spell_damage_count', 'spell_damage_total', 'spell_uses_armor',
     'spell_heal_count', 'spell_heal_total', 'spell_effective_heal_total',
-    'pet_aura_amount', 'pet_aura_amplitude_ms', 'pet_aura_duration_ms', 'pet_max_health', 'pet_attack_power',
+    'equipped_item',
+    'pet_aura_amount', 'pet_aura_amplitude_ms', 'pet_aura_duration_ms', 'pet_max_health', 'pet_health',
+    'pet_attack_power',
     'pet_run_speed_rate',
 }
 METRIC_FIELDS = {'actor', 'metric', 'spell', 'power', 'caster', 'effect', 'item', 'entry', 'button',
@@ -547,6 +551,9 @@ def validate(scenario):
             require(step['value'] <= step['maximum'], f'{where}: health exceeds fixture maximum')
         if action in {'snapshot', 'assert'}:
             metric = step['metric']
+            if metric == 'equipped_item':
+                require(step['actor'] in player_ids, f'{where}: equipment metric needs a player')
+                number(step.get('slot'), f'{where}.slot', 0, 18, True)
             if metric in {'known_entry_rank', 'owned_creature_spell_proc_count'}:
                 require(step['actor'] in player_ids, f'{where}: metric needs a player')
                 number(step.get('entry'), f'{where}.entry', 1, 2**31 - 1, True)
@@ -828,7 +835,8 @@ def validate(scenario):
                           'wildcard_cards_collected', 'wildcard_roll_cards_set',
                           'wildcard_roll_cards_used', 'wildcard_bonus_pack_progress'} | PLAYER_STAT_METRICS:
                 require(step['actor'] in player_ids, f'{where}: metric needs a player')
-            shape = (metric, step.get('exclude'))
+            snapshot_metric = 'spell_event_count' if metric in {'spell_cast_count', 'spell_proc_count'} else metric
+            shape = (snapshot_metric, step.get('exclude'))
             if 'relative_to' in step:
                 require(snapshots.get(step['relative_to']) == shape, f'{where}: missing or incompatible snapshot')
             if 'ratio_to' in step:

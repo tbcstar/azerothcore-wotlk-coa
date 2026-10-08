@@ -5045,6 +5045,16 @@ public:
         return std::find(BankVanityItems.begin(), BankVanityItems.end(), itemId) != BankVanityItems.end();
     }
 
+    static constexpr std::array<uint32, 17> MysticAltarVanityItems = {
+        406, 203954, 203955, 503515, 1903513, 2903513, 8210192, 8210195, 8210196,
+        8210197, 8210198, 8210199, 8210200, 8210201, 8210202, 8210203, 8210250 };
+
+    [[nodiscard]] static bool IsWithheldVanityItem(uint32 itemId)
+    {
+        return !AscensionFreepick::RealmOffersMysticAltars() &&
+            std::find(MysticAltarVanityItems.begin(), MysticAltarVanityItems.end(), itemId) != MysticAltarVanityItems.end();
+    }
+
     [[nodiscard]] bool OwnsBankVanityItem(Player* player, PlayerCollectionState const& state, uint32 itemId) const
     {
         if (state.OwnedVanityItems.contains(itemId) || player->HasItemCount(itemId))
@@ -5319,6 +5329,13 @@ public:
       ChatHandler(player->GetSession())
           .PSendSysMessage(
               "Vanity item {} is not present in this client build.", itemId);
+      return;
+    }
+
+    if (IsWithheldVanityItem(itemId))
+    {
+      ChatHandler(player->GetSession())
+          .SendSysMessage("Mystic Enchanting altars are not available on this realm.");
       return;
     }
 
@@ -6145,6 +6162,12 @@ public:
             "Ascension_VanityCollection", "Ascension_Warmode", "Ascension_WarmodeLegacy", "Ascension_WildCard",
         };
 
+        static std::unordered_set<std::string_view> const secureAscensionAddons = {
+            "AscensionUI", "Ascension_CompactRaidFrames", "Ascension_EnchantCollection", "Ascension_HelpUI",
+            "Ascension_InspectUI", "Ascension_MythicPlus", "Ascension_SeasonCollection", "Ascension_TicketUI",
+            "Ascension_UIDevelopmentTools", "Ascension_WildCard",
+        };
+
         std::vector<std::string> names = session->GetClientAddonNames();
         for (std::string_view addon : ascensionAddons)
             if (std::find(names.begin(), names.end(), addon) == names.end())
@@ -6155,7 +6178,7 @@ public:
         for (std::string const& name : names)
         {
             packet << name;
-            packet << uint8(name.starts_with("Blizzard_") || name.starts_with("Ascension"));
+            packet << uint8(name.starts_with("Blizzard_") || secureAscensionAddons.contains(name));
         }
         session->SendPacket(&packet);
     }
@@ -6276,6 +6299,7 @@ private:
       vanityItems.assign(state.OwnedVanityItems.begin(),
                          state.OwnedVanityItems.end());
 
+    vanityItems.erase(std::remove_if(vanityItems.begin(), vanityItems.end(), IsWithheldVanityItem), vanityItems.end());
     std::sort(vanityItems.begin(), vanityItems.end());
     vanityItems.erase(std::unique(vanityItems.begin(), vanityItems.end()), vanityItems.end());
     WorldPacket packet(SMSG_VANITY_COLLECTION_INFO,

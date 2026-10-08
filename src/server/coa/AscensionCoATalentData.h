@@ -17,6 +17,9 @@ struct CoATalentEntry
     std::uint8_t TECost;
     std::uint8_t RequiredLevel;
     std::array<std::uint32_t, 3> SpellIds;
+    bool Talent = false;
+    bool FreeUnlearn = false;
+    std::array<std::uint32_t, 3> RequiredEntryIds{};
 };
 
 struct CoASelectableFreeEntry

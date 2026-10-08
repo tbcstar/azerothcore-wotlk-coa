@@ -83,6 +83,7 @@
 // Ascension's caster state for "only usable after the target dodges" (its Overpower and the Chaser strikes),
 // which it uses instead of the warrior's combo point.
 constexpr AuraStateType ASCENSION_AURA_STATE_TARGET_DODGED = AuraStateType(24);
+constexpr uint32 ASCENSION_SPELL_HELLKNIGHT = 800703;
 
 float baseMoveSpeed[MAX_MOVE_TYPE] =
 {
@@ -590,25 +591,33 @@ void Unit::Update(uint32 p_time)
     m_combatManager.Update(p_time);
 
     _lastDamagedTargetGuid = ObjectGuid::Empty;
-    if (_lastExtraAttackSpell)
+    // Extra attacks are queued by the spell that grants them and delivered as soon as the victim can
+    // actually be struck. Cruel Intent queues them while its Lunge is still in flight, so an entry
+    // that is out of reach yet is kept for a later update instead of being dropped with the jump.
+    for (auto itr = extraAttacksTargets.begin(); itr != extraAttacksTargets.end();)
     {
-        while (!extraAttacksTargets.empty())
+        ObjectGuid targetGuid = itr->first;
+        uint32 count = itr->second;
+        Unit* victim = ObjectAccessor::GetUnit(*this, targetGuid);
+        if (!victim || !victim->IsAlive())
         {
-            auto itr = extraAttacksTargets.begin();
-            ObjectGuid targetGuid = itr->first;
-            uint32 count = itr->second;
-            extraAttacksTargets.erase(itr);
-            if (Unit* victim = ObjectAccessor::GetUnit(*this, targetGuid))
-            {
-                if (_lastExtraAttackSpell == SPELL_SWORD_SPECIALIZATION || _lastExtraAttackSpell == SPELL_HACK_AND_SLASH
-                    || victim->IsWithinMeleeRange(this))
-                {
-                    HandleProcExtraAttackFor(victim, count);
-                }
-            }
+            itr = extraAttacksTargets.erase(itr);
+            continue;
         }
-        _lastExtraAttackSpell = 0;
+
+        if (_lastExtraAttackSpell != SPELL_SWORD_SPECIALIZATION && _lastExtraAttackSpell != SPELL_HACK_AND_SLASH
+            && !victim->IsWithinMeleeRange(this))
+        {
+            ++itr;
+            continue;
+        }
+
+        itr = extraAttacksTargets.erase(itr);
+        HandleProcExtraAttackFor(victim, count);
     }
+
+    if (extraAttacksTargets.empty())
+        _lastExtraAttackSpell = 0;
 
     // not implemented before 3.0.2
     // xinef: if attack time > 0, reduce by diff
@@ -1236,6 +1245,9 @@ uint32 Unit::DealDamage(Unit* attacker, Unit* victim, uint32 damage, CleanDamage
         ;//victim->ToPlayer()->UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_HIGHEST_HIT_RECEIVED, damage); // pussywizard: optimization
     else if (!victim->IsControlledByPlayer() || victim->IsVehicle())
     {
+        if (damage)
+            victim->ToCreature()->RegisterSharedQuestContributor(attacker);
+
         if (!victim->ToCreature()->hasLootRecipient())
             victim->ToCreature()->SetLootRecipient(attacker);
 
@@ -3145,17 +3157,23 @@ void Unit::HandleProcExtraAttackFor(Unit* victim, uint32 count)
     }
 }
 
-void Unit::AddExtraAttacks(uint32 count)
+void Unit::AddExtraAttacks(uint32 count, ObjectGuid const& target)
 {
-    ObjectGuid targetGUID = _lastDamagedTargetGuid;
+    // A spell that was triggered at a specific enemy (Cruel Intent's Lunge trigger) names the
+    // victim itself; only when it does not is the last melee hit or the current selection used.
+    ObjectGuid targetGUID = target;
     if (!targetGUID)
     {
-        if (ObjectGuid selection = GetTarget())
+        targetGUID = _lastDamagedTargetGuid;
+        if (!targetGUID)
         {
-            targetGUID = selection; // Spell was cast directly (not triggered by aura)
+            if (ObjectGuid selection = GetTarget())
+            {
+                targetGUID = selection; // Spell was cast directly (not triggered by aura)
+            }
+            else
+                return;
         }
-        else
-            return;
     }
 
     extraAttacksTargets[targetGUID] += count;
@@ -5663,15 +5681,20 @@ void Unit::RemoveOwnedAuras(std::function<bool(Aura const*)> const& check)
 
 void Unit::RemoveAppliedAuras(std::function<bool(AuraApplication const*)> const& check)
 {
-    for (AuraApplicationMap::iterator iter = m_appliedAuras.begin(); iter != m_appliedAuras.end();)
+    std::vector<std::pair<uint32, AuraApplication*>> const applications(m_appliedAuras.begin(), m_appliedAuras.end());
+    for (auto const& [spellId, aurApp] : applications)
     {
-        // RemoveAura no-ops on applications already mid-removal
-        if (!iter->second->GetRemoveMode() && check(iter->second))
+        AuraApplicationMapBoundsNonConst range = m_appliedAuras.equal_range(spellId);
+        for (AuraApplicationMap::iterator iter = range.first; iter != range.second; ++iter)
         {
-            RemoveAura(iter);
-            continue;
+            if (iter->second != aurApp)
+                continue;
+
+            if (!aurApp->GetRemoveMode() && check(aurApp))
+                RemoveAura(iter);
+
+            break;
         }
-        ++iter;
     }
 }
 
@@ -9869,6 +9892,9 @@ int32 Unit::SpellBaseDamageBonusDone(SpellSchoolMask schoolMask)
         }
         // ... and attack power
         DoneAdvertisedBenefit += int32(CalculatePct(GetTotalAttackPowerValue(BASE_ATTACK), GetTotalAuraModifierByMiscMask(SPELL_AURA_MOD_SPELL_DAMAGE_OF_ATTACK_POWER, schoolMask)));
+        if (HasAura(84866))
+            DoneAdvertisedBenefit = int32(std::clamp<int64>(int64(DoneAdvertisedBenefit) * 2,
+                std::numeric_limits<int32>::min(), std::numeric_limits<int32>::max()));
     }
     return DoneAdvertisedBenefit;
 }
@@ -10673,6 +10699,9 @@ int32 Unit::SpellBaseHealingBonusDone(SpellSchoolMask schoolMask)
 
         // ... and attack power
         AdvertisedBenefit += int32(CalculatePct(GetTotalAttackPowerValue(BASE_ATTACK), GetTotalAuraModifierByMiscMask(SPELL_AURA_MOD_SPELL_HEALING_OF_ATTACK_POWER, schoolMask)));
+        if (HasAura(84866))
+            AdvertisedBenefit = int32(std::clamp<int64>(int64(AdvertisedBenefit) * 2,
+                std::numeric_limits<int32>::min(), std::numeric_limits<int32>::max()));
     }
     return AdvertisedBenefit;
 }
@@ -10842,6 +10871,17 @@ bool Unit::IsImmunedToAuraPeriodicTick(Unit const* caster, SpellInfo const* spel
     return false;
 }
 
+static bool IsUncontrolledCreature(Unit const* unit)
+{
+    return unit->IsCreature() && !unit->IsCharmedOwnedByPlayerOrPlayer();
+}
+
+// CoA: poisons that count as bleeds still hit bleed-immune NPCs.
+static bool IsIgnoredCreatureMechanicImmunity(Unit const* unit, SpellInfo const* spellInfo, uint32 mechanic)
+{
+    return mechanic == MECHANIC_BLEED && spellInfo->Dispel == DISPEL_POISON && IsUncontrolledCreature(unit);
+}
+
 bool Unit::IsImmunedToSpell(SpellInfo const* spellInfo, Unit const* caster)
 {
     return IsImmunedToSpell(spellInfo, caster, spellInfo ? spellInfo->GetSchoolMask() : SPELL_SCHOOL_MASK_NONE);
@@ -10877,7 +10917,7 @@ bool Unit::IsImmunedToSpell(SpellInfo const* spellInfo, Unit const* caster, Spel
     }
 
     // Spells that don't have effectMechanics.
-    if (uint32 mechanic = spellInfo->Mechanic)
+    if (uint32 mechanic = spellInfo->Mechanic; mechanic && !IsIgnoredCreatureMechanicImmunity(this, spellInfo, mechanic))
     {
         SpellImmuneContainer const& mechanicList = m_spellImmune[IMMUNITY_MECHANIC];
         if (mechanicList.count(mechanic) > 0)
@@ -10952,7 +10992,8 @@ bool Unit::IsImmunedToSpellEffect(SpellInfo const* spellInfo, uint32 index, Unit
         }
     }
 
-    if (uint32 mechanic = spellInfo->Effects[index].Mechanic)
+    if (uint32 mechanic = spellInfo->Effects[index].Mechanic;
+        mechanic && !IsIgnoredCreatureMechanicImmunity(this, spellInfo, mechanic))
     {
         auto const& mechanicList = m_spellImmune[IMMUNITY_MECHANIC];
         if (mechanicList.count(mechanic) > 0)
@@ -11307,10 +11348,26 @@ private:
     uint32 _type;
 };
 
+// CoA: NPCs are never spell or damage immune to only some schools (fire elementals to fire, etc.) nor to
+// poisons; full invulnerability stays.
+static bool IsIgnoredCreatureImmunity(Unit const* unit, uint32 op, uint32 type)
+{
+    if (!IsUncontrolledCreature(unit))
+        return false;
+
+    if (op == IMMUNITY_SCHOOL || op == IMMUNITY_DAMAGE)
+        return (type & SPELL_SCHOOL_MASK_ALL) != SPELL_SCHOOL_MASK_ALL;
+
+    return op == IMMUNITY_DISPEL && type == DISPEL_POISON;
+}
+
 void Unit::ApplySpellImmune(uint32 spellId, uint32 op, uint32 type, bool apply, SpellImmuneBlockType /*blockType*/)
 {
     if (apply)
-        m_spellImmune[op].emplace(type, spellId);
+    {
+        if (!IsIgnoredCreatureImmunity(this, op, type))
+            m_spellImmune[op].emplace(type, spellId);
+    }
     else
     {
         auto bounds = m_spellImmune[op].equal_range(type);
@@ -12063,6 +12120,9 @@ void Unit::UpdateSpeed(UnitMoveType mtype, bool forced)
     // now we ready for speed calculation
     if (mtype == MOVE_RUN && !IsMounted() && IsPlayer() && getClass() == CLASS_WITCH_HUNTER && HasAura(504790))
         main_speed_mod = std::max(main_speed_mod, 20);
+    if (mtype == MOVE_RUN && !IsMounted())
+        if (AuraEffect const* hellknight = GetAuraEffect(ASCENSION_SPELL_HELLKNIGHT, EFFECT_0))
+            main_speed_mod = std::max(main_speed_mod, -hellknight->GetAmount());
     float speed = std::max(non_stack_bonus, stack_bonus);
     if (main_speed_mod)
         AddPct(speed, main_speed_mod);
@@ -13280,6 +13340,7 @@ void Unit::SetHealth(uint32 val)
             val = maxHealth;
     }
 
+    uint32 const previousHealth = GetHealth();
     float prevHealthPct = GetHealthPct();
 
     SetUInt32Value(UNIT_FIELD_HEALTH, val);
@@ -13315,6 +13376,8 @@ void Unit::SetHealth(uint32 val)
                 }
         }
     }
+    if (previousHealth != GetHealth())
+        sScriptMgr->OnHealthChanged(this);
 }
 
 void Unit::SetMaxHealth(uint32 val)
@@ -13322,6 +13385,7 @@ void Unit::SetMaxHealth(uint32 val)
     if (!val)
         val = 1;
 
+    uint32 const previousMaxHealth = GetMaxHealth();
     uint32 health = GetHealth();
     SetUInt32Value(UNIT_FIELD_MAXHEALTH, val);
 
@@ -13353,6 +13417,8 @@ void Unit::SetMaxHealth(uint32 val)
 
     if (val < health)
         SetHealth(val);
+    else if (previousMaxHealth != val)
+        sScriptMgr->OnHealthChanged(this);
 }
 
 void Unit::SetPower(Powers power, uint32 val, bool withPowerUpdate /*= true*/, bool fromRegenerate /* = false */)
@@ -14987,6 +15053,8 @@ void Unit::Kill(Unit* killer, Unit* victim, bool durabilityLoss, WeaponAttackTyp
     if (creature && creature->IsPet() && creature->GetOwnerGUID().IsPlayer())
         isRewardAllowed = false;
 
+    uint32 const killerHonorableKills = player ? player->GetUInt32Value(PLAYER_FIELD_LIFETIME_HONORABLE_KILLS) : 0;
+
     // Reward player, his pets, and group/raid members
     // call kill spell proc event (before real die and combat stop to triggering auras removed at death/combat stop)
     if (isRewardAllowed && player && player != victim)
@@ -15036,9 +15104,10 @@ void Unit::Kill(Unit* killer, Unit* victim, bool durabilityLoss, WeaponAttackTyp
         {
             Loot* loot = &creature->loot;
             loot->clear();
+            creature->FinalizeSharedQuestParticipants();
 
-            if (uint32 lootid = creature->GetCreatureTemplate()->lootid)
-                loot->FillLoot(lootid, LootTemplates_Creature, looter, false, false, creature->GetLootMode(), creature);
+            uint32 const lootid = creature->GetCreatureTemplate()->lootid;
+            loot->FillLoot(lootid, LootTemplates_Creature, looter, false, !lootid, creature->GetLootMode(), creature);
 
             if (creature->GetLootMode())
                 loot->generateMoneyLoot(creature->GetCreatureTemplate()->mingold, creature->GetCreatureTemplate()->maxgold);
@@ -15056,7 +15125,11 @@ void Unit::Kill(Unit* killer, Unit* victim, bool durabilityLoss, WeaponAttackTyp
             }
         }
 
+        ObjectGuid rewardedPlayer = player->GetGUID();
+        ObjectGuid rewardedGroup = player->GetGroup() ? player->GetGroup()->GetGUID() : ObjectGuid::Empty;
         player->RewardPlayerAndGroupAtKill(victim, false);
+        if (creature)
+            creature->RewardSharedQuestParticipants(rewardedPlayer, rewardedGroup);
     }
 
     // Do KILL and KILLED procs. KILL proc is called only for the unit who landed the killing blow (and its owner - for pets and totems) regardless of who tapped the victim
@@ -15251,6 +15324,9 @@ void Unit::Kill(Unit* killer, Unit* victim, bool durabilityLoss, WeaponAttackTyp
             else
                 bg->HandleKillUnit(victim->ToCreature(), player);
         }
+
+    if (player && victim->IsPlayer() && player->GetUInt32Value(PLAYER_FIELD_LIFETIME_HONORABLE_KILLS) > killerHonorableKills)
+        sScriptMgr->OnPlayerHonorableKillingBlow(player, victim->ToPlayer());
 
     // achievement stuff
     if (killer && victim->IsPlayer())
@@ -15680,10 +15756,14 @@ bool Unit::SetCharmedBy(Unit* charmer, CharmType type, AuraApplication const* au
         GetMotionMaster()->MoveIdle();
         StopMoving();
 
-        if (charmer->IsPlayer() && charmer->IsClass(CLASS_WARLOCK, CLASS_CONTEXT_PET_CHARM) && ToCreature()->GetCreatureTemplate()->type == CREATURE_TYPE_DEMON)
+        Creature* charmed = ToCreature();
+        bool const controlMechanical = type == CHARM_TYPE_CHARM && aurApp && aurApp->GetBase()->GetId() == 807846 &&
+            charmed->GetCreatureTemplate()->type == CREATURE_TYPE_MECHANICAL;
+        if (charmer->IsPlayer() && (controlMechanical ||
+            (charmer->IsClass(CLASS_WARLOCK, CLASS_CONTEXT_PET_CHARM) &&
+                charmed->GetCreatureTemplate()->type == CREATURE_TYPE_DEMON)))
         {
-            // Disable CreatureAI/SmartAI and switch to CharmAI when charmed by warlock
-            Creature* charmed = ToCreature();
+            // Use pet AI for Enslave Demon and Control Mechanical.
             charmed->NeedChangeAI = true;
             charmed->IsAIEnabled = false;
         }
@@ -16382,8 +16462,17 @@ void Unit::UpdateObjectVisibility(bool forced, bool /*fromUpdate*/)
     }
 }
 
+bool Unit::IsImmuneToForcedMovement() const
+{
+    Creature const* creature = ToCreature();
+    return creature && (creature->isWorldBoss() || creature->IsDungeonBoss() || creature->IsImmuneToKnockback());
+}
+
 void Unit::KnockbackFrom(float x, float y, float speedXY, float speedZ)
 {
+    if (IsImmuneToForcedMovement())
+        return;
+
     Player* player = ToPlayer();
     if (!player)
     {
@@ -17978,7 +18067,7 @@ void Unit::PatchValuesUpdate(ByteBuffer& valuesUpdateBuf, BuildValuesCachePosPoi
             if (creature->hasLootRecipient())
             {
                 dynamicFlags |= UNIT_DYNFLAG_TAPPED;
-                if (creature->isTappedBy(target))
+                if (creature->isTappedBy(target) || creature->IsSharedQuestParticipant(target))
                     dynamicFlags |= UNIT_DYNFLAG_TAPPED_BY_PLAYER;
             }
 
@@ -18119,8 +18208,10 @@ float Unit::GetCollisionWidth() const
     float defaultSize = DEFAULT_WORLD_OBJECT_SIZE * scaleMod;
 
     //! Dismounting case - use basic default model data
-    CreatureDisplayInfoEntry const* displayInfo = sCreatureDisplayInfoStore.AssertEntry(GetNativeDisplayId());
-    CreatureModelDataEntry const* modelData = sCreatureModelDataStore.AssertEntry(displayInfo->ModelId);
+    CreatureDisplayInfoEntry const* displayInfo = sCreatureDisplayInfoStore.LookupEntry(GetNativeDisplayId());
+    CreatureModelDataEntry const* modelData = displayInfo ? sCreatureModelDataStore.LookupEntry(displayInfo->ModelId) : nullptr;
+    if (!modelData)
+        return objectSize;
 
     if (IsMounted())
     {
@@ -18157,8 +18248,10 @@ float Unit::GetCollisionHeight() const
     float scaleMod = GetObjectScale(); // 99% sure about this
     float defaultHeight = DEFAULT_COLLISION_HEIGHT * scaleMod;
 
-    CreatureDisplayInfoEntry const* displayInfo = sCreatureDisplayInfoStore.AssertEntry(GetNativeDisplayId());
-    CreatureModelDataEntry const* modelData = sCreatureModelDataStore.AssertEntry(displayInfo->ModelId);
+    CreatureDisplayInfoEntry const* displayInfo = sCreatureDisplayInfoStore.LookupEntry(GetNativeDisplayId());
+    CreatureModelDataEntry const* modelData = displayInfo ? sCreatureModelDataStore.LookupEntry(displayInfo->ModelId) : nullptr;
+    if (!modelData)
+        return defaultHeight;
     float collisionHeight = 0.0f;
 
     if (IsMounted())

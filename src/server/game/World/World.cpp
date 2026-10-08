@@ -25,6 +25,7 @@
 #include "AddonMgr.h"
 #include "ArenaSeasonMgr.h"
 #include "ArenaTeamMgr.h"
+#include "AscensionServerMessageTime.h"
 #include "AuctionHouseMgr.h"
 #include "AutobroadcastMgr.h"
 #include "BattlefieldMgr.h"
@@ -413,6 +414,7 @@ void World::SetInitialWorldSettings()
 
     LOG_INFO("server.loading", "Loading Spell Rank Data...");
     sSpellMgr->LoadSpellRanks();
+    sSpellMgr->LoadAddedSpellRanks();
 
     LOG_INFO("server.loading", "Loading Spell Specific And Aura State...");
     sSpellMgr->LoadSpellSpecificAndAuraState();
@@ -560,6 +562,7 @@ void World::SetInitialWorldSettings()
 
     LOG_INFO("server.loading", "Loading Creature Base Stats...");
     sObjectMgr->LoadCreatureClassLevelStats();
+    Creature::LoadDungeonHealthOverrides();
 
     LOG_INFO("server.loading", "Loading Spawn Group Templates...");
     sObjectMgr->LoadSpawnGroupTemplates();
@@ -1605,7 +1608,7 @@ void World::ShutdownMsg(bool show, Player* player, std::string const& reason)
     ///- Display a message every 12 hours, hour, 5 minutes, minute, 30 seconds, 10 seconds and finally seconds
     if (show || twelveHours || oneHour || fiveMin || oneMin || thirtySec || tenSec || oneSec)
     {
-        std::string str = secsToTimeString(_shutdownTimer).append(".");
+        std::string str = AscensionServerMessage::ShutdownTimeString(_shutdownTimer).append(".");
         if (!reason.empty())
             str += " - " + reason;
         // Display the reason every 12 hours, hour, 5 minutes, minute. At 60 seconds and at 10 seconds

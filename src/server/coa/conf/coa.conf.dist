@@ -35,9 +35,27 @@ CoA.CharacterSelectionMaxActive = 128
 # 自动为角色获得的物品添加外观和装饰条目。
 CoA.AutoCollectAppearances = 1
 
+# 在获得奖励的击杀中，最多掉落一件与敌人可见装备相匹配的可穿戴物品。
+# 使用 NPC 显示预设或 CreatureDisplayInfoExtra，外加当前武器/盾牌条目。
+# 只有未绑定/装备后绑定、品质不高于优秀、且等级不高于敌人等级的装备才符合条件。
+# 属性优先选择施法者智力、防御者的防御/耐力，或物理力量/敏捷。
+# 每次击杀的百分比是本地重建的默认值；原始概率未被记录。
+CoA.EquippedGearLoot = 1
+CoA.EquippedGearLootChance = 5
+
+# 机器人所扮演角色的衣橱、套装、外观以及坐骑/小伙伴收藏。
+# 0 - 从不：机器人会话跳过这些收藏（默认）。
+# 1 - 仅玩家账号中作为机器人扮演的角色（小号），绝不包含随机机器人账号：
+#     它们保存的套装和外观会像玩家一样被应用。
+# 2 - 每个机器人会话。
+# 随机机器人账号通过其名字前缀 CoA.RandomBotAccountPrefix 来识别，该前缀
+# 必须与 mod-playerbots 的 AiPlayerbot.RandomBotAccountPrefix 匹配（默认：rndbot）。
+CoA.CollectionsForBots = 0
+CoA.RandomBotAccountPrefix = "rndbot"
+
 # 单人服务器便利：解锁完整的本地外观目录。
-# 每类别值平衡初始快照；其余外观随后流式传输，
-# 以保持在旧版客户端 64 KiB 数据包限制以下。
+# 每个类别的值用于平衡初始快照；剩余的幻化外观随后以流式传输，
+# 以保持在旧版客户端 64 KiB 数据包限制之下。
 CoA.UnlockLocalAppearanceCatalog = 1
 CoA.AppearanceCatalogPerCategory = 500
 
@@ -69,15 +87,32 @@ CoA.RulesetLoginDefault = 1
 # 已经高于玩家的任务仍然更高。共享的任务模板不可更改。
 CoA.QuestLevelScaling = 1
 
-# 自动进度：随着角色升级，发放其职业和等级对应的职业技能和等级升级。
-# 设置为 0 以停止该行为，
-# 让玩家自行请求 - 一本《Ascension 之书》会授予它们，
-# 因此希望以书籍作为获取技能方式的领域可以关闭此选项。
-# 天赋树的免费节点无论如何都会授予：书籍不出售它们。可重新加载。
+# 由等级缩放生物掉落的武器和护甲、由选择等级缩放的角色在宝箱中找到的，或由等级缩放任务给予的，
+# 会被提升到该内容的等级，向下取整到五级一档，作为条目从 4400001 开始的副本。
+# 衬衣、战袍和没有物品等级的物品保持原样。
+# 设为 0 以停止新的提升；
+# 已经发放的副本仍然有效。
+CoA.ItemScaling = 1
+
+# 自动进阶：在角色升级时，为其职业和等级发放职业能力和等级升级。
+# 设为 0 以停止该功能并让玩家自行请求——一本《飞之书》会授予它们，
+# 因此如果某个服务器
+# 希望以书籍作为获得能力的方式，则关闭此选项。
+# 天赋树的免费节点无论如何都会授予：书籍并不出售它们。可重载。
 CoA.AutoProgression = 0
 
-# 从已安装客户端操作码分发表派生的扩展范围。
-# 保持这些值为十进制，因为 ConfigMgr 数值按十进制解析。
+# 流式传输已安装的 Ascension 客户端无法从其自身文件中解析的 CreatureDisplayInfo 补丁行
+# （自定义显示 ID）。该流在客户端扩展握手之后开始，
+# 如果始终未到达，则有一个简短的登录回退。
+CoA.SendDisplayPatches = 1
+
+# 客户端 CreatureDisplayInfo.dbc 的未打补丁副本，用于精确流式传输
+# 客户端缺失的行。留空则选择 DataDir/dbc_clientset；当该副本不可用时，
+# 改为流式传输所有大于等于 652000 的显示 ID。
+CoA.ClientDbcDirectory = ""
+
+# 从已安装客户端的操作码分发表中导出的扩展范围。
+# 请保持这些值为十进制，因为 ConfigMgr 数值会按十进制解析。
 CoA.FirstExtensionOpcode = 1311
 CoA.LastExtensionOpcode = 2515
 
@@ -252,11 +287,16 @@ Ascension.PrestigiousCache.TbcStages = 0
 
 #
 #    Ascension.CallboardCache.ReleaseStage
-#        Description: 领域当前的内容进度阶段，0-7，
-#                     按 Callboard Cache 发布顺序：
-#                     英雄和史诗地下城、祖尔格拉布、熔火之心、奥妮克希亚的巢穴、
-#                     黑翼之巢、安其拉废墟、安其拉神殿、纳克萨玛斯。
-#                     通用 Callboard Cache 解析为此阶段或以下的层级。
+#        Description: 服务器当前的内容进度阶段，0-7，按照以下顺序：
+#                     Callboard 宝库发布：英雄和史诗地下城、祖尔格拉布、
+#                     熔火之心、奥妮克希亚的巢穴、黑翼之巢、安其拉废墟、
+#                     安其拉神殿、纳克萨玛斯。一个通用的 Callboard 宝库会解析为
+#                     等于或低于该阶段的层级。
+#                     同一阶段也会限制经典团队副本：高于该阶段的团队副本将被关闭，
+#                     进入时会显示“副本已关闭”，而登录时位于其中的角色
+#                     将被移出（0 关闭所有团队副本，2 开启祖尔格拉布和熔火之心）。
+#                     游戏管理员仍可进入；其他地图不受影响。
+#                     在 .reload config 时应用。
 #        Default:     7
 
 Ascension.CallboardCache.ReleaseStage = 7
@@ -279,3 +319,35 @@ Ascension.CallboardCache.PreviousStageOnly = 0
 #        Default:     6
 
 Ascension.CallboardCache.ItemLevelAllowance = 6
+
+#
+#    Ascension.CallboardCache.CachePoints
+#        Description: 支付一个宝库的 Callboard 宝库进度点数。每个 Callboard
+#                     任务会从 ascension_callboard_quest_points 中添加其点数；满
+#                     进度条会支付在角色达到的最高平均物品等级等于或低于时，已发布的
+#                     ascension_callboard_cache_tier 行中最高层级的宝库，
+#                     剩余点数会结转。客户端显示每项数额的十分之一：
+#                     150 点的进度条显示为 15，25 点的任务显示为 3（向上取整）。
+#        Default:     150
+
+Ascension.CallboardCache.CachePoints = 150
+
+#
+#    Ascension.CallboardCache.GoldMin
+#    Ascension.CallboardCache.GoldMax
+#        Description: 当 Callboard 宝库开启时，在物品之外支付的金币，
+#                     在这两个数额之间随机。
+#        Default:     5, 15
+
+Ascension.CallboardCache.GoldMin = 5
+Ascension.CallboardCache.GoldMax = 15
+
+#
+#    CoA.DungeonTuning.Enable
+#        Description: 允许在 5 人地下城中使用 .mythic damage 和 .mythic health。每个玩家都可以
+#                     按百分比提高或降低自己副本中生物造成的伤害和生命值，以试验数值；
+#                     每次更改都会记录为一行 TUNING 日志。
+#                     用于测试服；在正式服上请关闭。
+#        Default:     1
+
+CoA.DungeonTuning.Enable = 1

@@ -85,6 +85,7 @@ void ClearTravel(Player* player, uint32 spell)
     Creature* marker = FindMarker(player, spell);
     ForgetMarker(player->GetGUID(), spell, guid);
     player->SetTemporarySpellReplacement(spell, 0);
+    player->removeSpell(ReturnSpell(spell), SPEC_MASK_ALL, true);
     player->RemoveAurasDueToSpell(TravelAura(spell), player->GetGUID());
     if (marker)
         marker->DespawnOrUnsummon();
@@ -100,8 +101,7 @@ bool HasTravelMarker(Player* player, uint32 spell)
 
 bool CanReturn(Player* player, uint32 spell)
 {
-    return HasTravelMarker(player, spell) &&
-        (spell == SPELL_ECHO_RUNE || player->IsWithinLOSInMap(FindMarker(player, spell)));
+    return HasTravelMarker(player, spell);
 }
 
 bool ReturnToMarker(Player* player, uint32 spell, Position* arrival = nullptr)

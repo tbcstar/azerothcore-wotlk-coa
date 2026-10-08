@@ -164,7 +164,7 @@ public:
         if (spell->IsTriggered())
             return;
         Finish(player,spell);
-        if (Chance(player,500219))
+        if (!info->HasAura(SPELL_AURA_MOD_SHAPESHIFT) && Chance(player,500219))
             Cast(player,player,800861);
         if (info->SpellFamilyName != 35)
             return;
@@ -290,22 +290,23 @@ class spell_ascension_venomancer_ability : public SpellScript
             ApplyVenoms(player,target);
         if (id == 803196)
         {
-            if (Aura* stinger = target->GetAura(803206,player->GetGUID()))
+            Aura* stinger = target->GetAura(803206,player->GetGUID());
+            bool ripped = stinger != nullptr;
+            if (ripped)
             {
                 Cast(player,target,803208);
                 stinger->Remove();
                 target->RemoveAurasDueToSpell(680854,player->GetGUID());
             }
-            else
+            Cast(player,target,803206);
+            if (Aura* added = target->GetAura(803206,player->GetGUID()))
             {
-                Cast(player,target,803206);
-                if (Aura* added = target->GetAura(803206,player->GetGUID()))
-                {
-                    int32 duration = added->GetMaxDuration() + int32(GetSpell()->GetScriptValue(Exposed+1));
-                    added->SetMaxDuration(duration);
-                    added->SetDuration(duration);
-                }
+                int32 duration = added->GetMaxDuration() + int32(GetSpell()->GetScriptValue(Exposed+1));
+                added->SetMaxDuration(duration);
+                added->SetDuration(duration);
             }
+            if (!ripped)
+                Cast(player,target,803220);
         }
         if (id == 805102)
             Expose(player,15,true);

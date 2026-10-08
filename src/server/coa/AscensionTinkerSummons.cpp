@@ -274,6 +274,10 @@ struct npc_ascension_tinker_device : ScriptedAI
     {
         return me->GetEntry() == 226012 || me->GetEntry() == 840028 || me->GetEntry() == 226112;
     }
+    bool Explosive() const
+    {
+        return Bomb() || me->GetEntry() == 50045 || me->GetEntry() == 50600 || me->GetEntry() == 226312;
+    }
     void Pursue(Unit* target)
     {
         MotionMaster* motion = me->GetMotionMaster();
@@ -295,7 +299,7 @@ struct npc_ascension_tinker_device : ScriptedAI
         me->SetOwnerGUID(owner);
         player->m_Controlled.insert(me);
         me->SetFaction(player->GetFaction());
-        if (Turret(me->GetEntry()))
+        if (Turret(me->GetEntry()) || Explosive())
         {
             me->m_ControlledByPlayer = true;
             me->SetUnitFlag(UNIT_FLAG_PLAYER_CONTROLLED);
@@ -305,6 +309,13 @@ struct npc_ascension_tinker_device : ScriptedAI
         me->SetCombatMovement(Mobile());
         State(player).summons.insert(me->GetGUID());
         Scale(player,me,true);
+        if (Turret(me->GetEntry()))
+        {
+            Cast(player, player, 807293);
+            if (!player->HasSpell(500470))
+                player->learnSpell(500470, true);
+            player->SetTemporarySpellReplacement(500239, 500470);
+        }
         focus = State(player).focus;
         start = previous = me->GetPosition();
         if (!Mobile())
@@ -378,7 +389,7 @@ struct npc_ascension_tinker_device : ScriptedAI
                 Cast(me,enemy,802779);
         }
         if (id == 500601)
-            me->CastSpell(me->GetPositionX(),me->GetPositionY(),me->GetPositionZ(),500753,true);
+            player->CastSpell(me->GetPositionX(),me->GetPositionY(),me->GetPositionZ(),500753,true);
         me->DespawnOrUnsummon(100ms);
     }
     void DoAction(int32 action) override
@@ -398,6 +409,16 @@ struct npc_ascension_tinker_device : ScriptedAI
         {
             player->m_Controlled.erase(me);
             State(player).summons.erase(me->GetGUID());
+            if (Turret(me->GetEntry()))
+            {
+                auto devices = Devices(player);
+                if (std::none_of(devices.begin(), devices.end(), [](Creature* device) { return Turret(device->GetEntry()); }))
+                {
+                    player->RemoveAurasDueToSpell(807293, player->GetGUID());
+                    player->SetTemporarySpellReplacement(500239, 0);
+                    player->removeSpell(500470, SPEC_MASK_ALL, true);
+                }
+            }
         }
     }
     void OnDespawn() override { Cleanup(); }
@@ -542,7 +563,7 @@ struct npc_ascension_tinker_device : ScriptedAI
                     for (Unit* enemy : Nearby(me,Radius(500601)))
                         if (player->IsValidAttackTarget(enemy))
                             Cast(me,enemy,500601);
-                    me->CastSpell(me->GetPositionX(),me->GetPositionY(),me->GetPositionZ(),500753,true);
+                    player->CastSpell(me->GetPositionX(),me->GetPositionY(),me->GetPositionZ(),500753,true);
                 }
                 if (entry == 506051)
                     for (Unit* ally : Allies(player,me,Radius(570717)))

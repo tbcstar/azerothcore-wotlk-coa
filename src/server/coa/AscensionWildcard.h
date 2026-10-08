@@ -522,6 +522,7 @@ inline Slot Decode(std::uint32_t value)
 
 Tables const& LoadedTables();
 bool IsWildcardHero(Player const* player);
+bool IsClasslessHero(Player const* player);
 bool PlaysWildcard(std::string_view realmModes);
 
 std::uint32_t ActiveSpec(Player const* player);
@@ -533,11 +534,14 @@ void SendPrestigeInfo(Player* player);
 void SignalRollReady(Player* player);
 
 std::vector<Slot> Slots(Player const* player);
+std::vector<Slot> Slots(Player const* player, std::uint32_t spec);
 std::uint32_t PrimaryStat(Player const* player);
+std::uint32_t PrimaryStat(Player const* player, std::uint32_t spec);
 StarterCardSlots StarterCards(Player const* player);
 RollCardSlots RollCards(Player const* player);
 CardCollection Collection(Player const* player);
 std::vector<AscensionCoATalentState::KnownEntry> KnownEntries(Player const* player);
+std::vector<AscensionCoATalentState::KnownEntry> KnownEntries(Player const* player, std::uint32_t spec);
 BuildChoice ApplyBuildUpload(Player* player, std::vector<AscensionCoATalentState::KnownEntry> const& upload);
 using StarterPick = std::function<std::size_t(std::vector<std::vector<Slot>> const& candidates)>;
 void DraftBuild(Player* player, StarterPick const& pickStarters = {}, std::uint32_t starterDraws = 1);

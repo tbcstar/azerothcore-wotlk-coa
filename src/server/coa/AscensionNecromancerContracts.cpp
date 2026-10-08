@@ -30,6 +30,9 @@ void ApplyContracts(SpellInfo* info)
         info->Effects[0].ApplyAuraName = info->Effects[1].ApplyAuraName = SPELL_AURA_DUMMY;
         return;
     }
+    for (auto const& coefficient : NecromancerCoefficients)
+        if (coefficient.id == info->Id)
+            info->Effects[coefficient.effect].BonusMultiplier = 0.0f;
     if (info->SpellFamilyName != 29)
         return;
     uint32 id = info->Id;
@@ -46,7 +49,9 @@ void ApplyContracts(SpellInfo* info)
         info->Effects[index].TriggerSpell = 0;
     };
     for (SpellEffectInfo& effect : info->Effects)
-        if (effect.ApplyAuraName == 42 || effect.ApplyAuraName == 354)
+        if ((effect.ApplyAuraName == 42 || effect.ApplyAuraName == 354) &&
+            !(id == 503740 && effect.Effect == SPELL_EFFECT_ASCENSION_APPLY_AURA_TO_SUMMONS &&
+                effect.TriggerSpell == 707014))
         {
             effect.ApplyAuraName = SPELL_AURA_DUMMY;
             effect.TriggerSpell = 0;
@@ -204,6 +209,11 @@ void ApplyContracts(SpellInfo* info)
         info->Effects[0].ApplyAuraName = SPELL_AURA_SCHOOL_HEAL_ABSORB;
     if (id == 805049 || id == 807811 || id == 807813)
         info->RecoveryTime = info->CategoryRecoveryTime = 180000;
+    if (id == 808017)
+    {
+        info->Effects[2].ApplyAuraName = SPELL_AURA_SPELL_MAGNET;
+        info->ProcFlags = info->ProcCharges = 0;
+    }
     if (id == 803773)
         info->CategoryRecoveryTime = 60000;
     if (id == 807796)
@@ -323,16 +333,27 @@ void ApplyContracts(SpellInfo* info)
         info->Effects[1].TargetB = SpellImplicitTargetInfo();
         info->TargetAuraSpell = 0;
     }
+    if (id == 801530)
+    {
+        info->AttributesEx &= ~SPELL_ATTR1_EXCLUDE_CASTER;
+        info->AttributesCu &= ~(SPELL_ATTR0_CU_NEGATIVE_EFF0 | SPELL_ATTR0_CU_NEGATIVE_EFF1);
+        info->Effects[0].ApplyAuraName = SPELL_AURA_DUMMY;
+        info->Effects[1].Effect = SPELL_EFFECT_ASCENSION_APPLY_AURA_TO_SUMMONS;
+        for (auto& effect : info->Effects)
+        {
+            effect.TargetA = SpellImplicitTargetInfo(TARGET_UNIT_CASTER);
+            effect.TargetB = SpellImplicitTargetInfo();
+        }
+    }
     if (id == 801545)
         info->TargetAuraSpell = 0;
+    if (id == 531132)
+        info->AttributesEx4 |= SPELL_ATTR4_NO_CAST_LOG;
     if (id == 801514)
     {
         info->Effects[2].TargetA = SpellImplicitTargetInfo(TARGET_UNIT_MASTER);
         info->Effects[2].TargetB = SpellImplicitTargetInfo();
     }
-    for (auto const& coefficient : NecromancerCoefficients)
-        if (coefficient.id == id)
-            info->Effects[coefficient.effect].BonusMultiplier = 0.0f;
     for (uint32 child : {573242, 801241, 707575, 561318, 561095, 570050, 505225, 681463})
         if (id == child)
         {

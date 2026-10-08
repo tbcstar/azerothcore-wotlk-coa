@@ -2,7 +2,6 @@
 #include "AscensionVenomancer.h"
 #include "AscensionVenomancerData.h"
 #include "DynamicObject.h"
-#include "GameTime.h"
 #include "ObjectAccessor.h"
 #include "Player.h"
 #include "ScriptMgr.h"
@@ -74,6 +73,7 @@ class aura_ascension_venomancer_lifecycle : public AuraScript
             Cast(player,player,806152);
             if (!player->HasSpell(806217))
                 player->learnSpell(806217,true);
+            Cast(player,player,806164);
             if (player->HasAura(800878) && player->HasAura(Spider))
                 Cast(player,player,Skulk);
         }
@@ -202,6 +202,7 @@ class aura_ascension_venomancer_lifecycle : public AuraScript
         if (id == 806154)
         {
             player->RemoveAurasDueToSpell(806152);
+            player->RemoveAurasDueToSpell(806164);
             player->removeSpell(806217,SPEC_MASK_ALL,true);
         }
         if (id == Skulk && player->HasAura(706026))
@@ -217,7 +218,7 @@ class aura_ascension_venomancer_lifecycle : public AuraScript
         if (id == 800892)
             player->RemoveAurasDueToSpell(800960);
         if (id == 800848 && expired && GetAura()->GetStackAmount() < 3)
-            player->AddSpellCooldown(800848,0,uint32(GameTime::GetGameTime().count())+40,true);
+            player->AddSpellCooldown(800848, 0, 40 * IN_MILLISECONDS, true);
         if (id == Spider || id == Beetle || id == 804980 || id == 800912 || id == 705970 ||
             id == 805104 || id == 805140 || id == 704264 || id == 630932)
             Refresh(player);

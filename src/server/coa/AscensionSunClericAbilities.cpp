@@ -80,7 +80,7 @@ public:
         auto* info = spell->GetSpellInfo();
         if (!player || info->SpellFamilyName != 33 || spell->IsTriggered() || result != SPELL_CAST_OK)
             return;
-        if (info->Id == DawnCast && (Count(player, SolarPower) < 20 || player->HasAura(Dawn)))
+        if (info->Id == DawnCast && !player->HasAura(Dawn) && Count(player, SolarPower) < 20)
             result = SPELL_FAILED_NO_POWER;
         if (info->Id == 680630 && !player->HasAura(Dawn))
             result = SPELL_FAILED_CANT_DO_THAT_RIGHT_NOW;
@@ -234,6 +234,16 @@ public:
             return;
         if (info->Id == 707774 && damage)
             Copy(player,player,707522,damage / 10);
+        if (info->Id == 707522 && spell->GetCaster() == player && target == player && healing &&
+            State(player).gavelHealing && player->HasAura(301011))
+        {
+            auto allies = Allies(player, player, Radius(301012));
+            allies.remove(player);
+            if (allies.size() > 5)
+                allies.resize(5);
+            for (Unit* ally : allies)
+                Copy(player, ally, 301012, CalculatePct(healing, Amount(301011)));
+        }
         if (Derived(info) || State(player).event)
             return;
         (void)critical;
@@ -254,7 +264,10 @@ public:
             if (Named(info, 800611))
             {
                 uint32 copied = CalculatePct(damage, Amount(707521));
+                bool const oldGavelHealing = State(player).gavelHealing;
+                State(player).gavelHealing = true;
                 Copy(player, player, 707522, copied);
+                State(player).gavelHealing = oldGavelHealing;
                 if (player->HasAura(HolyForm) && player->HasAura(300353))
                     Copy(player, player, 805489, copied);
             }
@@ -376,7 +389,10 @@ class spell_ascension_sun_cleric_ability : public SpellScript
         if (id == DawnCast)
         {
             done = true;
-            ActivateDawn(player);
+            if (Aura* dawn = player->GetAura(Dawn))
+                dawn->Remove(AURA_REMOVE_BY_CANCEL);
+            else
+                ActivateDawn(player);
         }
         if (id == 680630)
         {

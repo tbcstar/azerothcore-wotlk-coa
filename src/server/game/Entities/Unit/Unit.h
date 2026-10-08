@@ -1011,7 +1011,7 @@ public:
     void HandleProcExtraAttackFor(Unit* victim, uint32 count);
     void SetLastExtraAttackSpell(uint32 spellId) { _lastExtraAttackSpell = spellId; }
     [[nodiscard]] uint32 GetLastExtraAttackSpell() const { return _lastExtraAttackSpell; }
-    void AddExtraAttacks(uint32 count);
+    void AddExtraAttacks(uint32 count, ObjectGuid const& target = ObjectGuid::Empty);
 
     // Combot points system
     [[nodiscard]] uint8 GetComboPoints(Unit const* who = nullptr) const { return (who && m_comboTarget != who) ? 0 : m_comboPoints; }
@@ -1761,6 +1761,7 @@ public:
     void KnockbackFrom(float x, float y, float speedXY, float speedZ);
     void JumpTo(float speedXY, float speedZ, bool forward = true);
     void JumpTo(WorldObject* obj, float speedZ);
+    [[nodiscard]] bool IsImmuneToForcedMovement() const;
 
     void  UpdateSpeed(UnitMoveType mtype, bool forced);
     [[nodiscard]] float GetSpeed(UnitMoveType mtype) const;

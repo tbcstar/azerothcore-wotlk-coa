@@ -53,8 +53,10 @@
 // They are plain generated data headers, so they are read rather than copied.
 #include "AscensionCoATalentData.h"
 #include "AscensionCustomClassData.h"
+#include "AscensionFelsworn.h"
 #include "AscensionGuardianCompletion.h"
 #include "AscensionSpellProgressionData.h"
+#include "AscensionTalentReplacementData.h"
 #include "SpellbookCostData.h"
 #include "SpellbookOfferData.h"
 #include "SpellbookRankData.h"
@@ -204,6 +206,17 @@ namespace
         return itr != table.end() && itr->ClassId == classId && itr->SpellId == spellId;
     }
 
+    bool CanLearnTalentReplacement(Player* player, uint32 spellId)
+    {
+        for (auto const& replacement : AscensionCompatData::TalentReplacements)
+            if (replacement.ClassId == player->getClass() &&
+                std::any_of(replacement.Ranks.begin(), replacement.Ranks.end(),
+                    [spellId](auto const& rank) { return rank.SpellId == spellId; }))
+                return replacement.SpecId == ActiveSpec(player) && player->HasSpell(replacement.ParentSpellId);
+
+        return true;
+    }
+
     /// The row set behind both the window and the announcement push.
     ///
     /// The window view is what the player is shown, and it is the only view that gets
@@ -226,6 +239,11 @@ namespace
         {
             if (!spellId || !sSpellMgr->GetSpellInfo(spellId))
                 return;
+            if (!AscensionFelsworn::CanLearnRift(player, spellId))
+                return;
+            if (windowView && classId == CLASS_FLESHWARDEN && player->HasAura(301302) &&
+                sSpellMgr->GetFirstSpellInChain(spellId) == 801016)
+                return;
             if (windowView && classId == CLASS_GUARDIAN && AscensionGuardian::Ballad(spellId) &&
                 (spec != 20 || !player->HasAura(505344)))
                 return;
@@ -233,6 +251,9 @@ namespace
             // A spell the talent trees grant is the tree's to hand out, whatever source
             // below would otherwise reach it through.
             if (windowView && IsTreeSpell(classId, spellId))
+                return;
+
+            if (windowView && !CanLearnTalentReplacement(player, spellId))
                 return;
 
             for (Row const &known : rows)
@@ -562,7 +583,9 @@ namespace
         // client is never left waiting on a purchase nothing will handle.
         if (found == rows.end())
         {
-            if (IsTreeSpell(uint32(player->getClass()), wanted) ||
+            if (!AscensionFelsworn::CanLearnRift(player, wanted) ||
+                !CanLearnTalentReplacement(player, wanted) ||
+                IsTreeSpell(uint32(player->getClass()), wanted) ||
                 HasRankOrBetter(player, wanted) ||
                 (player->getClass() == CLASS_GUARDIAN && AscensionGuardian::Ballad(wanted)))
             {
@@ -799,6 +822,10 @@ namespace Spellbook
         std::vector<uint32> spells;
         if (!player)
             return spells;
+
+        for (SpellbookOfferData::Offer const &offer : SpellbookOfferData::Offers)
+            if (offer.ClassId == player->getClass() && offer.FirstSpellId && offer.RequiredLevel > level)
+                spells.push_back(offer.SpellId);
 
         for (SpellbookRankData::Rank const &rank : SpellbookRankData::Ranks)
             if (rank.ClassId == player->getClass() && rank.RequiredLevel > level)

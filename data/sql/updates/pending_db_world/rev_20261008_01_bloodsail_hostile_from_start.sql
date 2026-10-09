@@ -18,6 +18,6 @@ INSERT INTO `faction_dbc`
 `Description_Lang_ptPT`, `Description_Lang_ptBR`, `Description_Lang_itIT`, `Description_Lang_Unk`,
 `Description_Lang_Mask`) VALUES
 (87, 0, 1791, 0, 0, 0, 0, 0, 0, 0, -6500, 0, 0, 0, 3, 0, 0, 0, 1118, 0, 0, 5, 5,
-'Bloodsail Buccaneers', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190,
-'These bloodthirsty corsairs are the bane of many a merchant in the high seas.  Sworn enemies of Booty Bay.',
+'血帆海盗', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190,
+'这些嗜血的海盗是公海上许多商人的祸根。藏宝海湾的誓死敌人。',
 '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190);

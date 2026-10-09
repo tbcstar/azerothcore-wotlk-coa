@@ -22,15 +22,15 @@ INSERT INTO `creature_formations` (`leaderGUID`, `memberGUID`, `dist`, `angle`, 
 
 DELETE FROM `pool_template` WHERE `entry` BETWEEN 9960001 AND 9960003;
 INSERT INTO `pool_template` (`entry`, `max_limit`, `description`) VALUES
-(9960001, 1, 'Shadowfang Keep - Fel Steed or Shadow Charger (stable spot 1)'),
-(9960002, 1, 'Shadowfang Keep - Fel Steed or Shadow Charger (stable spot 2)'),
-(9960003, 1, 'Shadowfang Keep - Fel Steed or Shadow Charger (stable spot 3)');
+(9960001, 1, '影牙城堡 - 邪能战马或暗影冲锋者（马厩点1）'),
+(9960002, 1, '影牙城堡 - 邪能战马或暗影冲锋者（马厩点2）'),
+(9960003, 1, '影牙城堡 - 邪能战马或暗影冲锋者（马厩点3）');
 
 DELETE FROM `pool_creature` WHERE `guid` IN (16440, 16441, 16442, 9960001, 9960002, 9960003);
 INSERT INTO `pool_creature` (`guid`, `pool_entry`, `chance`, `description`) VALUES
-(16440, 9960001, 0, 'Shadowfang Keep - Fel Steed'),
-(9960001, 9960001, 0, 'Shadowfang Keep - Shadow Charger'),
-(16441, 9960002, 0, 'Shadowfang Keep - Fel Steed'),
-(9960002, 9960002, 0, 'Shadowfang Keep - Shadow Charger'),
-(16442, 9960003, 0, 'Shadowfang Keep - Fel Steed'),
-(9960003, 9960003, 0, 'Shadowfang Keep - Shadow Charger');
+(16440, 9960001, 0, '影牙城堡 - 邪能战马'),
+(9960001, 9960001, 0, '影牙城堡 - 暗影冲锋者'),
+(16441, 9960002, 0, '影牙城堡 - 邪能战马'),
+(9960002, 9960002, 0, '影牙城堡 - 暗影冲锋者'),
+(16442, 9960003, 0, '影牙城堡 - 邪能战马'),
+(9960003, 9960003, 0, '影牙城堡 - 暗影冲锋者');

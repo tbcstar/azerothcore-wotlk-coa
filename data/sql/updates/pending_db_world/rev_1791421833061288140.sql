@@ -5,7 +5,7 @@
 -- CreatureDisplayInfo confirms model 111010 and scale 1; no spawned-creature geometry is inferred.
 START TRANSACTION;
 INSERT INTO `creature_template` (`entry`, `name`, `faction`, `unit_class`, `type`) VALUES
-(52808, 'Wildshape', 35, 1, 0) ON DUPLICATE KEY UPDATE `name` = VALUES(`name`);
+(52808, '野性形态', 35, 1, 0) ON DUPLICATE KEY UPDATE `name` = VALUES(`name`);
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 52808;
 INSERT INTO `creature_template_model`
 (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) VALUES

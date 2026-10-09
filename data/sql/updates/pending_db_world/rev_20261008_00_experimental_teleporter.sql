@@ -2,14 +2,14 @@
 -- Call Boards, in Ironforge and Darnassus, and in Booty Bay, Gadgetzan and Everlook.
 INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `size`, `Data14`, `Data15`, `Data19`,
 `Data20`, `ScriptName`) VALUES
-(323232, 10, 2047, 'First-Class Experimental Teleporter', 1, 65535, 65535, 61004, 1, 'go_coa_experimental_teleporter')
+(323232, 10, 2047, '头等实验传送器', 1, 65535, 65535, 61004, 1, 'go_coa_experimental_teleporter')
 ON DUPLICATE KEY UPDATE `type` = VALUES(`type`), `displayId` = VALUES(`displayId`), `name` = VALUES(`name`),
 `size` = VALUES(`size`), `Data14` = VALUES(`Data14`), `Data15` = VALUES(`Data15`), `Data19` = VALUES(`Data19`),
 `Data20` = VALUES(`Data20`), `ScriptName` = VALUES(`ScriptName`);
 
 DELETE FROM `npc_text` WHERE `ID` = 61004;
 INSERT INTO `npc_text` (`ID`, `text0_0`, `text0_1`, `Probability0`) VALUES
-(61004, 'Welcome to the First-Class Experimental Teleporter! $B$BFor a modest fee, this marvel of goblin engineering will hurl you across Azeroth in the blink of an eye. $B$BSimply select your destination and hold on tight. Management is not responsible for unexpected detours, rough landings, or spontaneous combustion.', 'Welcome to the First-Class Experimental Teleporter! $B$BFor a modest fee, this marvel of goblin engineering will hurl you across Azeroth in the blink of an eye. $B$BSimply select your destination and hold on tight. Management is not responsible for unexpected detours, rough landings, or spontaneous combustion.', 1);
+(61004, '欢迎使用头等实验传送器！$B$B只需支付少量费用，这项地精工程学的奇迹就能在眨眼间将你抛到艾泽拉斯的另一端。$B$B只需选择目的地并抓紧了。管理层不对意外的绕路、粗暴着陆或自燃负责。', '欢迎使用头等实验传送器！$B$B只需支付少量费用，这项地精工程学的奇迹就能在眨眼间将你抛到艾泽拉斯的另一端。$B$B只需选择目的地并抓紧了。管理层不对意外的绕路、粗暴着陆或自燃负责。', 1);
 
 DELETE FROM `gossip_menu` WHERE `MenuID` = 61004;
 INSERT INTO `gossip_menu` (`MenuID`, `TextID`) VALUES

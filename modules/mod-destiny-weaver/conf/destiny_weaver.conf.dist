@@ -41,44 +41,35 @@ DestinyWeaver.LevelScaling = 1
 DestinyWeaver.LevelScaling.Default = 1
 
 #    DestinyWeaver.Scaling.Offset
-#        描述：缩放的生物比角色低多少级。
-#                     默认情况下，40 级角色会将生物提升至 37 级，
-#                     因此世界始终落后一步。
-#                     提升没有上限：视图是发送给单个客户端的，所以高等级视图不会对其他人造成错误。
-#        Default:     3
+#        Description: 缩放后的开放世界生物比角色低多少级。默认情况下，40级
+#                     角色会把生物拉到最高36级，因此世界始终落后一步。
+#                     这种提升没有上限：一个视图只发送给一个客户端，
+#                     因此不存在其他人会因过高视图而出错。地下城不使用它：
+#                     缩放地下城中的生物站在角色自身等级，并保持在
+#                     副本的等级区间内。
+#        Default:     4
 #        Reloadable:  yes (.reload config)
 
-DestinyWeaver.Scaling.Offset = 3
+DestinyWeaver.Scaling.Offset = 4
 
-#    DestinyWeaver.Scaling.QuestMoneyKeepShare
-#        说明：当一个缩放任务从等级范围底部一直提升到角色等级时，
-#                     该任务保留其金钱的百分比。其余部分
-#                     按任务跨越该范围的比例损失，因此
-#                     角色自身等级的任务始终保留全部，100 则完全
-#                     关闭折扣。
-#                     奖励类别与等级无关 - 中位类别在每个等级段都相同 -
-#                     因此如果全额支付，来自起始区域的丰厚任务
-#                     将支付与等级相称的丰厚任务相同的报酬，同时却很容易完成。
-#                     折扣是保持旧区域值得游玩而不使简单
-#                     内容成为有利可图内容的关键：它只从任务类别在角色等级
-#                     支付的金额向下缩放，因此旧内容永远不会超过
-#                     等级相称内容的报酬，并且它永远不会将奖励降低到其原始
-#                     值以下。
-#        Range:       0-100 (100 = 无折扣，任务类别全额支付)
-#        Default:     60
+#    DestinyWeaver.Scaling.WorldMaps
+#        Description: 开放世界中生物会缩放的地图，以空格分隔的地图ID。团队副本、
+#                     战场和竞技场永远不会缩放，无论列出什么。
+#        Default:     "0 1" - （东部王国，卡利姆多）
 #        Reloadable:  yes (.reload config)
-DestinyWeaver.Scaling.QuestMoneyKeepShare = 60
 
-#    DestinyWeaver.Scaling.QuestXpKeepShare
-#        说明：经验值的相同折扣。默认保持为 100：缩放
-#                     所做的承诺是缩放内容始终奖励经验，而通过
-#                     旧区域升级正是该系统的目的 - 在此折扣经验
-#                     会使死区回归。降低它可限制角色
-#                     进度有多少可以来自远低于他们的内容
-#        Range:       0-100 (100 = 无折扣)
-#        Default:     100
+DestinyWeaver.Scaling.WorldMaps = "0 1"
+
+#    DestinyWeaver.Scaling.DungeonIds
+#        Description: 地下城查找器条目（LFGDungeons.dbc ID），其地下城会缩放，
+#                     按其普通难度。地下城中的生物站在角色自身等级，
+#                     并保持在条目的 TargetLevelMin-MaxLevel 区间内；
+#                     等级超出1-60 的条目使用 15-59，被多个条目列出的地图会覆盖所有条目。
+#                     未列出的地下城保留其原有等级。
+#        Default:     "1 4 6 8 10 12 14 16 18 20 22 24 26 28 163 164 165 272 273"
 #        Reloadable:  yes (.reload config)
-DestinyWeaver.Scaling.QuestXpKeepShare = 100
+
+DestinyWeaver.Scaling.DungeonIds = "1 4 6 8 10 12 14 16 18 20 22 24 26 28 163 164 165 272 273"
 
 #    DestinyWeaver.ExperienceBonusControl
 #        说明：经验奖励控制服务是否根本存在。开启它的角色

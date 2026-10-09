@@ -2,6 +2,8 @@
 
 #include "AscensionItemScaling.h"
 #include "AscensionItemScalingPolicy.h"
+#include "AscensionItemStatData.h"
+#include "AscensionNativeItemScaling.h"
 #include "Config.h"
 #include "Creature.h"
 #include "DBCStores.h"
@@ -18,9 +20,13 @@
 #include "Player.h"
 #include "ScriptMgr.h"
 #include "World.h"
+#include "WorldPacket.h"
+#include "WorldSession.h"
 #include <fmt/ranges.h>
 #include <algorithm>
 #include <atomic>
+#include <filesystem>
+#include <fstream>
 #include <map>
 #include <memory>
 #include <mutex>
@@ -39,6 +45,24 @@ constexpr uint32 MaximumSampleEntry = 60000;
 std::atomic<bool> liftsEnabled{true};
 std::shared_mutex unliftableMutex;
 std::unordered_set<uint32> unliftableEntries;
+CapturedStats::Table capturedStats;
+
+void LoadCapturedStats()
+{
+    auto const path = std::filesystem::path(sWorld->GetDataPath()) / "dbc" / "ItemStat.dbc";
+    std::ifstream source(path, std::ios::binary);
+    std::string error;
+    if (!capturedStats.Load(source, error))
+    {
+        LOG_ERROR("server.loading", "Unable to load captured item stats from {}: {}; using estimated scaling",
+            path.string(), error);
+        return;
+    }
+    LOG_INFO("server.loading", ">> Loaded {} captured item-stat rows", capturedStats.Size());
+    if (capturedStats.InvalidRows() || capturedStats.DuplicateRows())
+        LOG_WARN("server.loading", "Skipped {} invalid and {} duplicate captured item-stat rows from {}",
+            capturedStats.InvalidRows(), capturedStats.DuplicateRows(), path.string());
+}
 
 using CurveKey = std::tuple<uint32, uint32, uint32, uint32>;
 using CurveSet = std::map<CurveKey, LevelCurve>;
@@ -143,6 +167,19 @@ std::unique_ptr<ItemTemplate> BuildTemplate(uint32 entry, ItemTemplate const& ba
     uint32 const itemLevel = base.ItemLevel + lift;
     proto->ItemId = entry;
     proto->ItemLevel = itemLevel;
+    if (CapturedStats::Record const* record = capturedStats.Find(base.ItemId, itemLevel))
+    {
+        record->Apply(*proto);
+        if (base.BuyPrice > 0)
+        {
+            double const price = base.SellPrice ? double(proto->SellPrice) / base.SellPrice :
+                std::max(1.0, SetRatio(curves.sellPrice, KeyOf(base), base.ItemLevel, itemLevel,
+                    PointsRatio(PropertyPoints(base.ItemLevel, base.Quality),
+                        PropertyPoints(itemLevel, base.Quality))));
+            proto->BuyPrice = int32(std::min(std::round(double(base.BuyPrice) * price), double(INT32_MAX)));
+        }
+        return proto;
+    }
     proto->RequiredLevel = LiftedRequiredLevel(base.RequiredLevel, base.ItemLevel, lift,
         sWorld->getIntConfig(CONFIG_MAX_PLAYER_LEVEL));
 
@@ -335,23 +372,29 @@ ItemTemplate const* ScaledTemplate(uint32 entry)
     return Registry::Instance().Template(entry);
 }
 
+bool LiftsActive()
+{
+    return liftsEnabled.load(std::memory_order_relaxed) && !NativeItemScaling::Active();
+}
+
 uint32 EligibleLift(uint32 itemId, uint32 rawLift)
 {
     uint32 const lift = SteppedLift(rawLift);
-    if (!lift || !liftsEnabled.load(std::memory_order_relaxed))
+    if (!lift || !LiftsActive())
         return itemId;
 
     ItemTemplate const* proto = sObjectMgr->GetItemTemplate(itemId);
-    return proto && Liftable(*proto) ? Registry::Instance().Acquire(itemId, lift) : itemId;
+    if (!proto || !Liftable(*proto))
+        return itemId;
+    return Registry::Instance().Acquire(itemId, lift);
 }
 
-uint32 QuestRewardItem(Player const* player, uint32 itemId, int32 questLevel)
+uint32 QuestRewardItem(Player const* player, uint32 itemId, Quest const* quest)
 {
-    if (!player || !LocalLevelScaling::QuestScalingEnabled(player))
+    if (!player)
         return itemId;
 
-    uint8 const scaledLevel = LocalLevelScaling::ScaleQuestLevel(questLevel, player->GetLevel());
-    return EligibleLift(itemId, QuestLift(questLevel, scaledLevel));
+    return EligibleLift(itemId, QuestLift(quest->GetQuestLevel(), uint32(player->GetQuestLevel(quest))));
 }
 
 uint32 CreatureViewerLift(Player const* player, Creature const* creature)
@@ -361,7 +404,8 @@ uint32 CreatureViewerLift(Player const* player, Creature const* creature)
 
 uint32 ChestViewerLift(Player const* player, uint32 itemLevel)
 {
-    if (!LocalLevelScaling::ScalingChoiceEnabled(player))
+    if (!LocalLevelScaling::ScalingChoiceEnabled(player) ||
+        (LocalLevelScaling::ScalingBlocksFor(player) & LocalLevelScaling::ChallengeBlocksCreatureScaling))
         return 0;
     return ContentLift(itemLevel, player->GetLevel(),
         LocalLevelScaling::CreatureOffset.load(std::memory_order_relaxed));
@@ -417,6 +461,7 @@ public:
 
     void OnLoadCustomDatabaseTable() override
     {
+        LoadCapturedStats();
         Registry::Instance().Load();
     }
 
@@ -434,7 +479,7 @@ public:
     void OnAfterLootTemplateProcess(Loot* loot, LootTemplate const*, LootStore const& store, Player* owner,
         bool personal, bool, uint16) override
     {
-        if (!loot || !owner || !liftsEnabled.load(std::memory_order_relaxed) ||
+        if (!loot || !owner || !LiftsActive() ||
             (&store != &LootTemplates_Creature && &store != &LootTemplates_Gameobject))
             return;
 
@@ -480,6 +525,33 @@ std::optional<ClientItemRow> ClientRow(uint32 entry)
     if (ItemTemplate const* proto = Registry::Instance().Template(entry))
         return RowOf(*proto);
     return std::nullopt;
+}
+
+bool LiftableEntry(uint32 entry)
+{
+    ItemTemplate const* proto = sObjectMgr->GetItemTemplate(entry);
+    return proto && Liftable(*proto);
+}
+
+void HandleStatQuery(WorldSession* session, WorldPacket const& packet)
+{
+    if (!session || packet.size() != sizeof(uint64) || !capturedStats.Size())
+        return;
+
+    uint32 const item = packet.read<uint32>(0);
+    uint32 const level = packet.read<uint32>(sizeof(uint32));
+    ItemTemplate const* proto = sObjectMgr->GetItemTemplate(item);
+    if (!proto || NativeItemScaling::Handles(item))
+        return;
+    CapturedStats::Record const* record = capturedStats.Find(BaseEntry(item), level);
+    if (!record)
+        return;
+
+    std::array<uint32, 2> const damageTypes = { proto->Damage[0].DamageType, proto->Damage[1].DamageType };
+    WorldPacket response(CapturedStats::ResponseOpcode, CapturedStats::ResponseWords * sizeof(uint32));
+    for (uint32 word : record->Response(item, damageTypes))
+        response << word;
+    session->SendPacket(&response);
 }
 
 void SetUnliftableEntries(std::unordered_set<uint32> entries)

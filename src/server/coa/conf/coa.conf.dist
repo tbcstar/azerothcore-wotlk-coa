@@ -43,13 +43,29 @@ CoA.AutoCollectAppearances = 1
 CoA.EquippedGearLoot = 1
 CoA.EquippedGearLootChance = 5
 
-# 机器人所扮演角色的衣橱、套装、外观以及坐骑/小伙伴收藏。
+# 普通难度生物的生命值和伤害倍率，已根据 Ascension 的战斗日志进行调整。
+# 当生物确定其等级时，生命值会被乘以倍率；伤害适用于对玩家及其宠物的命中。
+# 英雄/史诗、战场、竞技场、宠物、召唤物、图腾、触发器、小动物和训练假人
+# 不会改变；列在 coa_boss_flex 中的团队副本生物保留其测得的弹性生命值。
+# MapHealth/MapDamage 按地图以 "mapId:multiplier" 替换上下文值。
+# 如果没有此部分，服务器会保留这些倍率，但该功能处于禁用状态。
+CoA.CreatureScaling.Enable = 1
+CoA.CreatureScaling.World.Health = 2.5
+CoA.CreatureScaling.Dungeon.Health = 2.5
+CoA.CreatureScaling.Raid.Health = 2.2
+CoA.CreatureScaling.MapHealth = "36:2.2 43:2.0 229:4.0 389:3.0 469:5.0"
+CoA.CreatureScaling.World.Damage = 2.0
+CoA.CreatureScaling.Dungeon.Damage = 1.5
+CoA.CreatureScaling.Raid.Damage = 1.0
+CoA.CreatureScaling.MapDamage = ""
+
+# 机器人所扮演角色的衣橱、套装、幻化和坐骑/同伴收藏。
 # 0 - 从不：机器人会话跳过这些收藏（默认）。
-# 1 - 仅玩家账号中作为机器人扮演的角色（小号），绝不包含随机机器人账号：
-#     它们保存的套装和外观会像玩家一样被应用。
+# 1 - 仅限玩家账号的角色被作为机器人游玩时（小号），绝不包含随机机器人账号：
+#     其保存的套装和外观会像玩家一样被应用。
 # 2 - 每个机器人会话。
-# 随机机器人账号通过其名字前缀 CoA.RandomBotAccountPrefix 来识别，该前缀
-# 必须与 mod-playerbots 的 AiPlayerbot.RandomBotAccountPrefix 匹配（默认：rndbot）。
+# 随机机器人账号通过其名称前缀 CoA.RandomBotAccountPrefix 识别，
+# 该前缀必须与 mod-playerbots 的 AiPlayerbot.RandomBotAccountPrefix 匹配（默认：rndbot）。
 CoA.CollectionsForBots = 0
 CoA.RandomBotAccountPrefix = "rndbot"
 
@@ -83,22 +99,54 @@ CoA.MaxRidingFromStart = 1
 # 设为 0 可将此类角色保留在 Ruleset.None 上。
 CoA.RulesetLoginDefault = 1
 
-# 低级任务会报告玩家等级，并使用匹配的 QuestXP 行。
-# 已经高于玩家的任务仍然更高。共享的任务模板不可更改。
+# 战争模式（1004119，不带PvE模式）和高风险（1004019）会在开放世界中关闭生物、宝箱和任务等级缩放，
+# 正如其工具提示所述：“战争模式/高风险下等级缩放已禁用”。副本保留角色自己的选择。
+# 设为0以让规则集进行缩放。
+CoA.Ruleset.DisableLevelScaling = 1
+
+# 在客户端 QuestTemplateScaling.dbc 中拥有对应行的任务会跟随角色：
+# 该行中等于或低于角色等级的最高点将任务设为该等级加上其偏移量（内置行跟随 4 到 1 级），
+# 并保持在行的最小和最大等级内，且从不低于任务自身等级。
+# 经验按该等级计价，金钱按其层级在该等级与任务自身等级之间的比例计算。
+# 没有对应行的任务保留其原有等级。
 CoA.QuestLevelScaling = 1
 
-# 由等级缩放生物掉落的武器和护甲、由选择等级缩放的角色在宝箱中找到的，或由等级缩放任务给予的，
-# 会被提升到该内容的等级，向下取整到五级一档，作为条目从 4400001 开始的副本。
-# 衬衣、战袍和没有物品等级的物品保持原样。
-# 设为 0 以停止新的提升；
-# 已经发放的副本仍然有效。
+# 使用客户端的缩放标志 (0x01000000) 在任务的曲线上标记它，这将其着色为“标准”
+# 而不是按等级。实时任务缓存从未携带该标志。
+CoA.QuestLevelScaling.ClientFlag = 0
+
+# 由等级缩放生物掉落的武器和护甲，由选择了
+# 等级缩放的角色在宝箱中找到的，或由等级缩放任务给予的，会被提升到该内容的等级，向下取整
+# 到五级一档，作为条目从 4400001 起的副本。衬衣、战袍和没有
+# 物品等级的物品保持原样。
+# 设为 0 以停止新的提升；已经发放的副本继续有效。当原生物品缩放
+# (CoA.ItemScaling.Native) 处于激活状态时，也不会制作新的副本。
 CoA.ItemScaling = 1
 
-# 自动进阶：在角色升级时，为其职业和等级发放职业能力和等级升级。
-# 设为 0 以停止该功能并让玩家自行请求——一本《飞之书》会授予它们，
-# 因此如果某个服务器
-# 希望以书籍作为获得能力的方式，则关闭此选项。
-# 天赋树的免费节点无论如何都会授予：书籍并不出售它们。可重载。
+# 客户端 ItemStat.dbc 中拥有等级阶梯的武器和护甲保留其自身条目，并被
+# 赋予一个缩放等级而不是副本：拾取者的等级加上 LootLevelOffset，从 1 到 65，在
+# 物品被拾取、在掷骰中赢得或（使用 QuestRewards 时）由任务给予时设置一次。其属性来自
+# 该等级的阶梯行，客户端使用操作码 0x6FF 请求同一行。
+# 世界锻造物品和副本路径从不提升的物品保持原样。当其激活时，副本
+# 路径 (CoA.ItemScaling) 完全不会制作新副本；已经发放的副本继续有效。
+# 仅在启动时读取。设为 0 时，物品保留其原有属性，副本路径再次处理它们。
+CoA.ItemScaling.Native = 1
+CoA.ItemScaling.Native.LootLevelOffset = 0
+CoA.ItemScaling.Native.QuestRewards = 1
+
+# LevelKeys 存储客户端的等级物品键，而不是等级本身（等级+2到20，
+# +3到30，+4到50，+5到60，即客户端上表），正如 Ascension 客户端所做的那样；
+# 任务奖励则采用任务自身的缩放等级，或玩家等级的键。
+# 预览（需要 LevelKeys）向每个角色显示他们将收到的物品版本：包括
+# 拾取窗口和尸体等级、掷骰框架、检查、邮件和拍卖。两者都仅在启动时读取。
+CoA.ItemScaling.Native.LevelKeys = 0
+CoA.ItemScaling.Native.Preview = 0
+
+# 自动进度：当角色升级时，根据其职业和等级发放职业能力和等级升级。
+# 设为0以停止该功能，改为让玩家自行请求——飞升之书会授予它们，
+# 因此希望以书籍作为获取能力方式的服务器会关闭此项。
+# 天赋树的免费节点无论如何
+# 都会授予：书籍不出售它们。可重新加载。
 CoA.AutoProgression = 0
 
 # 流式传输已安装的 Ascension 客户端无法从其自身文件中解析的 CreatureDisplayInfo 补丁行

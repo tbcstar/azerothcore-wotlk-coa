@@ -22,15 +22,15 @@ UPDATE `creature_template` SET `npcflag` = 3, `gossip_menu_id` = 1200460 WHERE `
 
 DELETE FROM `npc_text` WHERE `ID` = 1200460;
 INSERT INTO `npc_text` (`ID`, `text0_0`, `text0_1`, `Probability0`) VALUES
-(1200460, 'The dead do not rest in these crypts. Speak quickly.', 'The dead do not rest in these crypts. Speak quickly.', 1);
+(1200460, '死者在这墓穴中不得安息。快说。', '死者在这墓穴中不得安息。快说。', 1);
 DELETE FROM `gossip_menu` WHERE `MenuID` = 1200460;
 INSERT INTO `gossip_menu` (`MenuID`, `TextID`) VALUES (1200460, 1200460);
 
 DELETE FROM `gossip_menu_option` WHERE `MenuID` IN (1200458, 1200459, 1200460) AND `OptionID` = 0;
 INSERT INTO `gossip_menu_option` (`MenuID`, `OptionID`, `OptionIcon`, `OptionText`, `OptionBroadcastTextID`, `OptionType`, `OptionNpcFlag`, `ActionMenuID`, `ActionPoiID`, `BoxCoded`, `BoxMoney`, `BoxText`, `BoxBroadcastTextID`) VALUES
-(1200458, 0, 0, 'Confessor Mourn has passed the Light''s judgment on you, Samuel Crowe.', 0, 1, 1, 0, 0, 0, 0, '', 0),
-(1200459, 0, 0, 'Confessor Mourn has passed the Light''s judgment on you, Brother Aldren.', 0, 1, 1, 0, 0, 0, 0, '', 0),
-(1200460, 0, 0, 'Confessor Mourn has passed the Light''s judgment on you, Abigail.', 0, 1, 1, 0, 0, 0, 0, '', 0);
+(1200458, 0, 0, '忏悔者莫恩已将圣光的裁决降于你，塞缪尔·克罗。', 0, 1, 1, 0, 0, 0, 0, '', 0),
+(1200459, 0, 0, '忏悔者莫恩已将圣光的裁决降于你，奥尔德伦修士。', 0, 1, 1, 0, 0, 0, 0, '', 0),
+(1200460, 0, 0, '忏悔者莫恩已将圣光的裁决降于你，阿比盖尔。', 0, 1, 1, 0, 0, 0, 0, '', 0);
 
 -- Option only while 175200 is in the log and not yet complete (CONDITION_QUESTTAKEN = 9).
 DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 15 AND `SourceGroup` IN (1200458, 1200459, 1200460) AND `SourceEntry` = 0;
@@ -72,7 +72,7 @@ INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_
 --    164361 for the player, then the prisoner despawns (back after its 120 s respawn time). 6 of 6 required.
 -- ---------------------------------------------------------------------------------------------------------------
 UPDATE `quest_template` SET `RequiredNpcOrGo1` = 164361, `RequiredNpcOrGoCount1` = 6,
-  `ObjectiveText1` = 'Rockrend prisoner freed'
+  `ObjectiveText1` = '已解救碎岩囚犯'
 WHERE `ID` = 175128;
 
 UPDATE `creature_template` SET `AIName` = 'SmartAI', `npcflag` = 1, `gossip_menu_id` = 1200461
@@ -80,13 +80,13 @@ WHERE `entry` IN (164361, 164362, 164364, 164365, 164366, 164367);
 
 DELETE FROM `npc_text` WHERE `ID` = 1200461;
 INSERT INTO `npc_text` (`ID`, `text0_0`, `text0_1`, `Probability0`) VALUES
-(1200461, '<The prisoner tugs at the ropes and looks at you with desperate hope.>', '<The prisoner tugs at the ropes and looks at you with desperate hope.>', 1);
+(1200461, '<囚犯拉扯着绳索，怀着一丝绝望的希望看着你。>', '<囚犯拉扯着绳索，怀着一丝绝望的希望看着你。>', 1);
 DELETE FROM `gossip_menu` WHERE `MenuID` = 1200461;
 INSERT INTO `gossip_menu` (`MenuID`, `TextID`) VALUES (1200461, 1200461);
 
 DELETE FROM `gossip_menu_option` WHERE `MenuID` = 1200461;
 INSERT INTO `gossip_menu_option` (`MenuID`, `OptionID`, `OptionIcon`, `OptionText`, `OptionBroadcastTextID`, `OptionType`, `OptionNpcFlag`, `ActionMenuID`, `ActionPoiID`, `BoxCoded`, `BoxMoney`, `BoxText`, `BoxBroadcastTextID`) VALUES
-(1200461, 0, 0, 'Cut the ropes. Thandel is waiting for you at the mine.', 0, 1, 1, 0, 0, 0, 0, '', 0);
+(1200461, 0, 0, '割断绳索。坦德尔在矿场等你。', 0, 1, 1, 0, 0, 0, 0, '', 0);
 
 DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 15 AND `SourceGroup` = 1200461;
 INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES

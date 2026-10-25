@@ -9,7 +9,7 @@ INSERT INTO `gameobject_template`
  `Data0`, `Data1`, `Data2`, `Data3`, `Data4`, `Data5`, `Data6`, `Data7`, `Data8`, `Data9`, `Data10`,
  `Data11`, `Data12`, `Data13`, `Data14`, `Data15`, `Data16`, `Data17`, `Data18`, `Data19`, `Data20`,
  `Data21`, `Data22`, `Data23`, `AIName`, `ScriptName`, `VerifiedBuild`) VALUES
-(239828, 10, 138016, 'Void Portal', 'Pickup', '', '', 1.0,
+(239828, 10, 138016, '虚空传送门', 'Pickup', '', '', 1.0,
  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
  0, 0, 0, 0, 0, 0, 0, 0, 61003, 0,
  0, 0, 0, '', 'go_void_portal', NULL)

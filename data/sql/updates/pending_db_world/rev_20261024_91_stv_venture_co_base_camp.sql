@@ -6,7 +6,7 @@
 -- the mineable 181109 'Gold Vein' (0.5), for Venture Co. Miners to stand and mine at.
 DELETE FROM `gameobject_template` WHERE `entry` = 9000806;
 INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `IconName`, `castBarCaption`, `unk1`, `size`, `Data0`, `Data1`, `Data2`, `Data3`, `Data4`, `Data5`, `Data6`, `Data7`, `Data8`, `Data9`, `Data10`, `Data11`, `Data12`, `Data13`, `Data14`, `Data15`, `Data16`, `Data17`, `Data18`, `Data19`, `Data20`, `Data21`, `Data22`, `Data23`, `AIName`, `ScriptName`, `VerifiedBuild`) VALUES
-(9000806, 5, 311, 'Gold Vein', '', '', '', 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', '', 0);
+(9000806, 5, 311, '金矿脉', '', '', '', 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', '', 0);
 
 -- 211032 'Gold Mine' (unspawned before this change): size 2 -> 1.5 for the larger veins in the camp.
 UPDATE `gameobject_template` SET `size` = 1.5 WHERE `entry` = 211032;

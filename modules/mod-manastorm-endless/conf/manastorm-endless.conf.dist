@@ -16,9 +16,16 @@ Manastorm.WeeklyCacheLockout.Limit = 5
 # 个体进度词缀仍然需要其匹配的原生解锁/提示；这些深度保持不变。
 Manastorm.AffixMinimumLevel = 50
 
+# 1 = 终局宝箱遵循 coa.conf 中的 Ascension.CallboardCache.ReleaseStage（3 熔火之心 ... 8 纳克萨玛斯）：
+# 团本高于当前阶段的宝箱会回退到最高的已发布宝箱，
+# 贪婪恶魔的战利品保持在那些已发布宝箱所含的最高物品等级或以下。
+# 0 = 无论阶段如何，所有宝箱层级和整个贪婪恶魔池都可用。
+# 可重载。
+Manastorm.FollowReleaseStage = 0
+
 # 客户端集成模式（需要重启）：
-#   1 = 重构的 3.3.5 客户端插件传输（MANASTORM 插件前缀）
-#   2 = 原始飞升原生 Manastorm 协议（使用随附的 CoA 原生操作码桥接）
+#   1 = 重建的 3.3.5 客户端插件传输（MANASTORM 插件前缀）
+#   2 = 原始 Ascension 原生 Manastorm 协议（使用包含的 CoA 原生操作码桥接）
 Manastorm.ClientMode = 2
 
 # 匹配原始客户端 Manastorm.dbc，在模式 2 中进行只读身份验证。

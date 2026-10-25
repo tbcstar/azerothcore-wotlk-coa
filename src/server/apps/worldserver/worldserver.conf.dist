@@ -4750,11 +4750,16 @@ RecruitAFriend.MaxDifference = 4
 
 #
 #    MaxRecruitAFriendBonusDistance
-#        Description: 角色与队伍之间
-#                     获得战友招募经验倍率的最大距离。
+#        Description: 战友招募等级提升和声望奖励的最大距离。
 #        Default:     100
 
 MaxRecruitAFriendBonusDistance = 100
+
+#    MaxRecruitAFriendXPDistance
+#        Description: 战友招募经验奖励所要求的关联队伍成员之间的最大距离。
+#        Default:     200
+
+MaxRecruitAFriendXPDistance = 200
 
 #
 ###################################################################################################

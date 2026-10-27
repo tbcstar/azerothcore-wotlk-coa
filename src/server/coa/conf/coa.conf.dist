@@ -28,7 +28,14 @@ CoA.AllowRemoteClients = 1
 # 0 - 创建一个英雄。在 CoA.ClassModel = "hero" 的服务器上使用此项。
 CoA.MapClass10ToWarrior = 1
 
-# 在协议发现期间记录每个消耗的扩展数据包。
+# 客户端实验室探测中继：管理员命令 .labprobe 以插件消息形式向一个
+# 在线实验室角色密语发送只读的 CoaProbe 请求，并收集插件密语返回的分块答案。
+# 仅接受名称以 CoA.ProbeRelay.AccountPrefix 开头的账户（不区分大小写）。
+# 仅在实验室服务器上启用。默认值：0。
+CoA.ProbeRelay.Enable = 0
+CoA.ProbeRelay.AccountPrefix = "COALAB"
+
+# 在协议发现期间记录每个被消费的扩展数据包。
 CoA.LogConsumedPackets = 1
 
 # Ascension 角色屏幕：启用/禁用（激活/停用）以及
@@ -53,26 +60,41 @@ CoA.AutoCollectAppearances = 1
 CoA.EquippedGearLoot = 1
 CoA.EquippedGearLootChance = 5
 
-# 普通难度生物的生命值和伤害倍率，已根据飞升计划实机观测数据调整。
-# 生命值在生物确定等级时进行乘法计算；伤害适用于对玩家及其宠物的攻击。
-# 英雄/史诗难度、战场、竞技场、宠物、召唤物、图腾、触发器、小动物和训练假人
-# 不受影响；coa_boss_flex 中列出的团队副本生物保留其测得的弹性生命值。
-# MapHealth/MapDamage 按地图以 "mapId:multiplier" 的形式替换上下文数值。
-# 每个值也可以是基于生物等级的公式：数字、level、+ - * /、括号、min(a, b) 和
-# max(a, b)，例如 CoA.CreatureScaling.World.Health = "1.17 + 0.013 * level"。在 MapHealth/MapDamage 中写入公式时
-# 不要带空格（"43:0.3+0.08*level"），或用 ';' 分隔条目（"43: 0.3 + 0.08 * level; 36: 2.2"）。
-# World 已根据飞升计划实机视频中开放世界生物生命值（1-59 级）进行拟合；世界伤害使用
-# 相同的公式。地下城和团队副本保留此前的估算值。
-# 如果没有此段配置，服务器会保留这些倍率，但该功能处于禁用状态。
+# 普通难度生物的生命值和伤害倍率，已根据 Ascension 正式服读数进行调整。
+# 生命值在生物确定等级时相乘；伤害作用于对玩家及其宠物的命中。
+# 英雄/史诗、战场、竞技场、宠物、召唤物、图腾、触发器、小动物和训练假人
+# 不会改变；coa_boss_flex 中列出的团队副本生物保留其测得的弹性生命值。
+# MapHealth/MapDamage 按地图以 "mapId:multiplier" 形式替换上下文值。
+# 每个值也可以是生物等级的公式：数字、level、+ - * /、括号、min(a, b) 和
+# max(a, b)，例如 CoA.CreatureScaling.World.Health = "1.17 + 0.013 * level"。在 MapHealth/MapDamage 中编写公式
+# 时不要带空格（"43:0.3+0.08*level"），或用 ';' 分隔条目（"43: 0.3 + 0.08 * level; 36: 2.2"）。
+# 世界生命值根据 Ascension 正式服视频中看到的开放世界生物生命值拟合（1-59 级）。世界
+# 近战伤害是对一只 1 级夜行蝙蝠攻击一名新 1 级角色
+# （72 护甲）造成 5-8 伤害的正式服视频拟合基础值的一半（"4.32 + 0.013 * level"），与现在的正式服 PTR 一致。地下城和团队副本保留其早先的估算值。
+# 如果没有此部分，服务器会保留这些倍率，但会使该功能保持禁用。
 CoA.CreatureScaling.Enable = 1
 CoA.CreatureScaling.World.Health = "1.17 + 0.013 * level"
 CoA.CreatureScaling.Dungeon.Health = 2.5
 CoA.CreatureScaling.Raid.Health = 2.2
 CoA.CreatureScaling.MapHealth = "36:2.2 43:2.0 229:4.0 389:3.0 469:5.0"
-CoA.CreatureScaling.World.Damage = "1.17 + 0.013 * level"
+CoA.CreatureScaling.World.Damage = "2.16 + 0.013 * level"
 CoA.CreatureScaling.Dungeon.Damage = 1.5
 CoA.CreatureScaling.Raid.Damage = 1.0
 CoA.CreatureScaling.MapDamage = ""
+# 近战伤害浮动：生物最高普通命中与最低普通命中的比值，围绕相同平均值（正式服开放世界
+# 普通生物根据玩家战斗日志为 1.5-1.6；1 级时更宽，同一夜行蝙蝠视频中为 5-8）。
+# 0 保留默认范围。公式和 MapDamageSpread 同上。
+CoA.CreatureScaling.World.DamageSpread = "max(1.55, 1.85 - 0.05 * level)"
+CoA.CreatureScaling.Dungeon.DamageSpread = 0
+CoA.CreatureScaling.Raid.DamageSpread = 0
+CoA.CreatureScaling.MapDamageSpread = ""
+# 生物的法术和周期性伤害。上述伤害涵盖近战挥击和近战/远程法术（武器打击、
+# 流血）；其他所有开放世界法术则改用 World.SpellDamage。根据玩家战斗日志，正式服生物法术
+# 在生物自身等级下的伤害大约等于其法术数据值，因此默认不缩放。地下城和团队副本
+# 没有自己的法术系数：除非 MapSpellDamage 指定了地图，否则它们的法术保持 Dungeon.Damage/Raid.Damage。
+# 公式和 MapSpellDamage 同上。
+CoA.CreatureScaling.World.SpellDamage = 1
+CoA.CreatureScaling.MapSpellDamage = ""
 
 # 非玩家控制的 NPC 使用类似原版的魔法抗性，包括神圣系
 # （docs/coa/monster-linear-resistance.md）。每一点战斗等级为所有魔法学派增加 PerLevel 抗性；
@@ -171,13 +193,15 @@ CoA.QuestLevelScaling.ClientFlag = 0
 # (CoA.ItemScaling.Native) 处于激活状态时，也不会制作新的副本。
 CoA.ItemScaling = 1
 
-# 客户端 ItemStat.dbc 中拥有等级阶梯的武器和护甲保留其自身条目，并被
-# 赋予一个缩放等级而不是副本：拾取者的等级加上 LootLevelOffset，从 1 到 65，在
-# 物品被拾取、在掷骰中赢得或（使用 QuestRewards 时）由任务给予时设置一次。其属性来自
-# 该等级的阶梯行，客户端使用操作码 0x6FF 请求同一行。
-# 世界锻造物品和副本路径从不提升的物品保持原样。当其激活时，副本
-# 路径 (CoA.ItemScaling) 完全不会制作新副本；已经发放的副本继续有效。
-# 仅在启动时读取。设为 0 时，物品保留其原有属性，副本路径再次处理它们。
+# 客户端 ItemStat.dbc 中带有等级阶梯的武器和护甲保留它们自己的条目，并且
+# 获得一个缩放等级，而不是一个副本：拾取者的等级加上 LootLevelOffset，从 1 到 65，在
+# 物品被拾取、掷骰赢得，或在启用 QuestRewards 时由任务给予时设置一次。在
+# DestinyWeaver.Scaling.DungeonIds 中列出的地下城内，战利品对所有人缩放且只会向下缩放：自身
+# 物品等级等于或低于该等级的物品保留其原始属性。它们的属性来自
+# 该等级对应的阶梯行，客户端使用操作码 0x6FF 请求同一行。
+# 世界锻造物品以及复制路径从未提升的物品保持原样。当其激活时，复制
+# 路径（CoA.ItemScaling）完全不会创建新副本；已经发放的副本继续有效。
+# 仅在启动时读取。设为 0 时，物品保留其原始属性，复制路径再次处理它们。
 CoA.ItemScaling.Native = 1
 CoA.ItemScaling.Native.LootLevelOffset = 0
 CoA.ItemScaling.Native.QuestRewards = 1
@@ -417,21 +441,33 @@ HighRisk.FelCommutation.ToggleAnywhere = 0
 HighRisk.FelCommutation.ClickToggle = 0
 
 #    PvpPower.Enable
-#        说明：名为“PvP Power (+N)”的物品法术在 60 级时缩放伤害和治疗，上限为
-#                     495 点。对玩家（以及开放世界中高风险攻击者对不受控
-#                     生物）的伤害每点 +0.05%；在那里受到的生物伤害
-#                     每点 -0.05%；战争模式、高风险开放世界和战场中
-#                     治疗和护盾每点 +0.02%。
-#        Default:     0 - (Disabled)
-#                     1 - (Enabled)
+#        描述：已装备物品上的 PvP 强度（取 ItemAddon.dbc 中的值，否则取物品的“PvP 强度
+#                     (+N)”法术）在 60 级时缩放伤害和治疗，上限为 495 点。对玩家（以及在开放世界中
+#                     对高风险攻击者而言，对不受控制的生物）每点伤害 +0.05%；在那里受到的
+#                     生物伤害每点 -0.05%；在战争模式、
+#                     高风险开放世界和战场中，治疗和护盾每点 +0.02%。
+#        Default:     1 - (Enabled)
+#                     0 - (Disabled)
 
 PvpPower.Enable = 1
 
+#    PvePower.Enable
+#        描述：已装备物品上的 PvE 强度（取 ItemAddon.dbc 中的值，否则取物品的“PvE 强度
+#                     (+N)”法术）在 60 级时缩放伤害和治疗，上限为 495 点。在所有地图上，
+#                     对生物造成的伤害每点 +0.05%，受到的生物伤害每点 -0.05%；在
+#                     地下城和团队副本中，治疗和护盾每点 +0.02%。与 PvP 强度叠加。
+#        Default:     1 - (Enabled)
+#                     0 - (Disabled)
+
+PvePower.Enable = 1
+
 #    Bloodforged.Enable
-#        Description: 为 15 级及以上的高风险玩家，在符合条件的开放世界生物尸体上增加一次独立的血铸掷骰，
-#                     从 coa_bloodforged_catalogue 中经过审核的目录里抽取。
-#                     物品和概率区间跟随玩家等级；
-#                     对玩家显示为灰色的生物不提供掷骰。需要启用 PvpPower.Enable。
+#        描述：将血铸装备加入符合条件的高风险玩家（15 级起）开放世界
+#                     生物尸体的原生拾取掷骰中，物品从 coa_bloodforged_catalogue 中
+#                     经过审核的目录抽取。物品池和掉率区间跟随
+#                     玩家等级；对玩家显示为灰名的生物不产生掷骰。掉落遵循
+#                     标准尸体物品上限，并受 Rate.Drop.Item.Uncommon、.Rare 和
+#                     .Epic 缩放。需要 PvpPower.Enable。
 #        Default:     0 - (Disabled)
 #                     1 - (Enabled)
 
@@ -442,8 +478,9 @@ Bloodforged.Enable = 1
 #    Bloodforged.Rates35
 #    Bloodforged.Rates45
 #    Bloodforged.Rates55
-#        说明：从该等级开始的等级段，每个符合条件尸体的百分比，作为三个
-#                     值：优秀、稀有、史诗。独立掷骰，每次掷骰一个品质。
+#        描述：从该等级开始的等级段内，每个符合条件尸体的基础百分比，以
+#                     三个值表示： uncommon、rare、epic。每种品质各掷骰一次，均匀分布
+#                     在该品质的物品池中，且在 Rate.Drop.Item.* 乘数之前生效。
 #        Default:     "4.50 0.50 0.00", "4.00 1.00 0.00", "3.80 1.40 0.15", "3.60 1.80 0.25", "3.40 2.20 0.40"
 
 Bloodforged.Rates15 = "4.50 0.50 0.00"
@@ -481,11 +518,12 @@ Ascension.PrestigiousCache.SecondTokenChancePercent = 5
 
 #
 #    Ascension.PrestigiousCache.ClassicStages
-#        说明：已发布多少个 Classic Prestigious Cache，0-8，按顺序
-#                     1287304 依次对应英雄地下城、祖尔格拉布、熔火之心、
+#        描述：额外的经典池上限，0-8。池还必须由
+#                     Ascension.CallboardCache.ReleaseStage 发布。现有层级缓存同时遵守这两个限制。
+#                     池顺序：从 1287304 开始，依次为英雄地下城、祖尔格拉布、熔火之心、
 #                     奥妮克希亚、黑翼之巢、安其拉废墟、安其拉神殿、
-#                     纳克萨玛斯。通用的“最近可用的 Prestigious Cache”
-#                     解析为最新发布的那个。
+#                     纳克萨玛斯。通用的“最近可用的威望缓存”
+#                     解析为允许的最新且已填充的池。
 #        Default:     8
 
 Ascension.PrestigiousCache.ClassicStages = 8

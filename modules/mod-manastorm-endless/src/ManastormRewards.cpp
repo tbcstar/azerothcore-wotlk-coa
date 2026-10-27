@@ -399,7 +399,7 @@ void ManastormRewards::LoadReleasedItemLevelCaps()
 
 uint32 ManastormRewards::GetReleasedItemLevelCap() const
 {
-    if (!_loaded)
+    if (!_loaded || !ManastormModuleConfig::FollowReleaseStage())
         return std::numeric_limits<uint32>::max();
 
     return _releasedItemLevelCaps[std::min<uint32>(ManastormModuleConfig::ReleaseStage(),

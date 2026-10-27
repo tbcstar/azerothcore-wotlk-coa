@@ -2,6 +2,7 @@
 
 #include "AscensionNativeItemScaling.h"
 #include "AscensionCompatOpcodes.h"
+#include "AscensionItemAddonFile.h"
 #include "AscensionItemLadder.h"
 #include "AscensionItemScaling.h"
 #include "Bag.h"
@@ -38,10 +39,6 @@ namespace
 {
 constexpr uint32 HeaderBytes = 20;
 constexpr uint32 ScanChunkRecords = 8192;
-constexpr uint32 AddonFields = 48;
-constexpr uint32 AddonRecordSize = AddonFields * sizeof(uint32);
-constexpr uint32 AddonEntryField = 1;
-constexpr uint32 AddonRebornArmorField = 43;
 
 std::atomic<bool> enabled{false};
 std::atomic<int32> lootLevelOffset{0};
@@ -53,32 +50,15 @@ std::vector<std::pair<uint32, uint32>> authoredRebornArmor;
 
 bool LoadAuthoredRebornArmor(std::filesystem::path const& path)
 {
-    std::ifstream file(path, std::ios::binary);
-    uint32 header[5] = {};
-    if (!file || !file.read(reinterpret_cast<char*>(header), sizeof(header)) || header[0] != 0x43424457 ||
-        header[2] != AddonFields || header[3] != AddonRecordSize)
-        return false;
-
-    uint32 const records = header[1];
     std::vector<std::pair<uint32, uint32>> armor;
-    std::vector<uint8> chunk(std::size_t(ScanChunkRecords) * AddonRecordSize);
-    for (uint32 first = 0; first < records; first += ScanChunkRecords)
+    bool const scanned = ItemAddonFile::Scan(path, [&armor](uint8 const* record)
     {
-        uint32 const count = std::min(ScanChunkRecords, records - first);
-        if (!file.read(reinterpret_cast<char*>(chunk.data()), std::streamsize(count) * AddonRecordSize))
-            return false;
-
-        for (uint32 i = 0; i < count; ++i)
-        {
-            uint8 const* record = chunk.data() + std::size_t(i) * AddonRecordSize;
-            uint32 entry;
-            uint32 reborn;
-            std::memcpy(&entry, record + AddonEntryField * sizeof(uint32), sizeof(uint32));
-            std::memcpy(&reborn, record + AddonRebornArmorField * sizeof(uint32), sizeof(uint32));
-            if (reborn)
-                armor.emplace_back(entry, reborn);
-        }
-    }
+        uint32 const reborn = ItemAddonFile::Field(record, ItemAddonFile::RebornArmorField);
+        if (reborn)
+            armor.emplace_back(ItemAddonFile::Field(record, ItemAddonFile::EntryField), reborn);
+    });
+    if (!scanned)
+        return false;
 
     std::sort(armor.begin(), armor.end());
     armor.erase(std::unique(armor.begin(), armor.end(),
@@ -351,10 +331,16 @@ bool ScalingChosenBy(Player const* player)
         !(LocalLevelScaling::ScalingBlocksFor(player) & LocalLevelScaling::ChallengeBlocksCreatureScaling);
 }
 
+uint32 DropKey(Player const* looter, uint32 base)
+{
+    if (!base)
+        base = DropBase(looter);
+    return ItemLadder::ClientKey(base);
+}
+
 void AssignLevel(Player* owner, Item* item, uint32 key)
 {
-    if (!enabled.load(std::memory_order_relaxed) || !owner || !item || item->IsEquipped() ||
-        !ScalingChosenBy(owner))
+    if (!enabled.load(std::memory_order_relaxed) || !owner || !item || item->IsEquipped())
         return;
 
     ItemTemplate const* proto = item->GetTemplate();
@@ -372,14 +358,30 @@ void AssignLevel(Player* owner, Item* item, uint32 key)
     SendLevel(owner, item);
 }
 
+bool LootScalesFor(Player const* player)
+{
+    return LocalLevelScaling::DungeonLootScales(player) || ScalingChosenBy(player);
+}
+
 void AssignDropLevel(Player* looter, Item* item, uint32 base = 0)
 {
-    if (!looter)
+    if (!looter || !item)
         return;
 
-    if (!base)
-        base = DropBase(looter);
-    AssignLevel(looter, item, ItemLadder::ClientKey(base));
+    uint32 const key = DropKey(looter, base);
+    if (LocalLevelScaling::DungeonLootScales(looter))
+    {
+        if (key < item->GetTemplate()->ItemLevel)
+            AssignLevel(looter, item, key);
+    }
+    else if (ScalingChosenBy(looter))
+        AssignLevel(looter, item, key);
+}
+
+void AssignQuestRewardLevel(Player* player, Item* item)
+{
+    if (player && ScalingChosenBy(player))
+        AssignLevel(player, item, DropKey(player, 0));
 }
 
 void MasterLooted(Player* receiver, Item* item)
@@ -389,7 +391,7 @@ void MasterLooted(Player* receiver, Item* item)
 
 void QuestRewardStored(Player* player, Item* item, Quest const* quest)
 {
-    if (!questRewards.load(std::memory_order_relaxed))
+    if (!questRewards.load(std::memory_order_relaxed) || !ScalingChosenBy(player))
         return;
 
     LocalLevelScaling::QuestCurve const* curve = LocalLevelScaling::QuestCurveFor(quest->GetQuestId());
@@ -400,7 +402,7 @@ void QuestRewardStored(Player* player, Item* item, Quest const* quest)
 
 uint32 RollLevel(Player* roller)
 {
-    if (IsBot(roller) || !ScalingChosenBy(roller))
+    if (IsBot(roller) || !LootScalesFor(roller))
         return 0;
 
     uint32 const base = DropBase(roller);
@@ -412,7 +414,7 @@ uint32 RollLevel(Player* roller)
 uint32 CorpseLevel(Player* viewer, Creature const* corpse)
 {
     if (IsBot(viewer) || corpse->IsAlive() || !corpse->HasDynamicFlag(UNIT_DYNFLAG_LOOTABLE) ||
-        !viewer->isAllowedToLoot(corpse) || !ScalingChosenBy(viewer))
+        !viewer->isAllowedToLoot(corpse) || !LootScalesFor(viewer))
         return 0;
     return std::min<uint32>(DropBase(viewer), 255);
 }
@@ -624,7 +626,7 @@ public:
     void OnPlayerQuestRewardItem(Player* player, Item* item, uint32) override
     {
         if (questRewards.load(std::memory_order_relaxed))
-            AssignDropLevel(player, item);
+            AssignQuestRewardLevel(player, item);
     }
 };
 }

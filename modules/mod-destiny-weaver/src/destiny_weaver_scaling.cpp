@@ -67,6 +67,7 @@
 #include <memory>
 #include <mutex>
 #include <optional>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -158,10 +159,10 @@ namespace
         return bands;
     }
 
-    /// The bands come from LFGDungeons.dbc unless DestinyWeaver.Scaling.DungeonBands sets one. An entry with a band
-    /// of its own scales even when DestinyWeaver.Scaling.DungeonIds leaves it out: a config written before the entry
-    /// joined the default list still has the old list. The first config load runs before the store is filled, so
-    /// it publishes a scope without dungeons; startup publishes the complete one.
+    /// The bands come from LFGDungeons.dbc unless DestinyWeaver.Scaling.DungeonBands sets one. The default entries
+    /// and every entry with a band of its own scale even when DestinyWeaver.Scaling.DungeonIds leaves them out: a
+    /// config written before an entry joined the default list still has the old list. The first config load runs
+    /// before the store is filled, so it publishes a scope without dungeons; startup publishes the complete one.
     void PublishScope()
     {
         auto scope = std::make_unique<ScalingScope>();
@@ -170,6 +171,10 @@ namespace
 
         std::unordered_map<uint32, LocalLevelScaling::LevelBand> const configured = ConfigBands();
         std::vector<uint32> dungeonIds = ConfigIds("DestinyWeaver.Scaling.DungeonIds", DEFAULT_SCALING_DUNGEONS);
+        for (std::string_view token : Acore::Tokenize(DEFAULT_SCALING_DUNGEONS, ' ', false))
+            if (Optional<uint32> dungeonId = Acore::StringTo<uint32>(token))
+                if (std::find(dungeonIds.begin(), dungeonIds.end(), *dungeonId) == dungeonIds.end())
+                    dungeonIds.push_back(*dungeonId);
         for (auto const& [dungeonId, band] : configured)
             if (std::find(dungeonIds.begin(), dungeonIds.end(), dungeonId) == dungeonIds.end())
                 dungeonIds.push_back(dungeonId);
@@ -204,6 +209,22 @@ namespace
 
         auto itr = scope->DungeonBands.find(map->GetId());
         return itr != scope->DungeonBands.end() ? &itr->second : nullptr;
+    }
+
+    /// A five-player dungeon whose creatures scale, on its regular difficulty: Heroic and Mythic carry
+    /// authored level-60 health (coa_dungeon_health) and Mythic+ scales it, so a per-character view would
+    /// scale it a second time.
+    bool ScaledDungeon(Map const* map)
+    {
+        return map && map->IsDungeon() && !map->IsRaid() && !map->IsBattlegroundOrArena() &&
+               !map->IsScriptedPrivateInstance() && map->IsRegularDifficulty() && DungeonBandFor(map);
+    }
+
+    /// Installed as the core's resolver, so the loot a scaled dungeon drops follows the same rule as its
+    /// creatures.
+    bool InScaledDungeonForCore(Player const* player)
+    {
+        return player && ScaledDungeon(player->FindMap());
     }
 
     /// One row of `creature_classlevelstats`: everything the core builds a creature of a given level
@@ -273,12 +294,11 @@ namespace
     ///
     /// The maps are the open world the realm lists and the classic dungeons with a band. Raids,
     /// battlegrounds and arenas never scale, and neither does CoA's scripted private content. A dungeon
-    /// scales on its regular difficulty only: Heroic and Mythic carry authored level-60 health
-    /// (coa_dungeon_health) and Mythic+ scales it; a per-character view would scale it a second time.
+    /// scales on its regular difficulty only (`ScaledDungeon`).
     ///
-    /// There is no realm switch in front of the list: whether a character scales at all is their own
-    /// choice (`ScalingChoiceEnabled`), and the module's switch only decides whether that choice is
-    /// consulted.
+    /// There is no realm switch in front of the list: whether a character scales in the open world is
+    /// their own choice (`ScalingChoiceEnabled`), and the module's switch only decides whether that
+    /// choice is consulted. A scaled dungeon does not ask the choice at all (`ViewFor`).
     bool ViewableCreature(Creature const* creature)
     {
         if (!creature)
@@ -291,7 +311,7 @@ namespace
 
         if (map->IsDungeon())
         {
-            if (!map->IsRegularDifficulty() || !scope->DungeonBands.contains(map->GetId()))
+            if (!ScaledDungeon(map))
                 return false;
         }
         else if (!scope->WorldMaps.contains(map->GetId()))
@@ -356,10 +376,6 @@ namespace
         if (!creature || !viewer || !ScalingAvailable())
             return false;
 
-        // The character's own answer, never a neighbour's: this is what makes scaling a choice.
-        if (!LocalLevelScaling::ScalingChoiceEnabled(viewer))
-            return false;
-
         // A challenge rule or an open-world PvP ruleset holds the character to the authored world.
         if (LocalLevelScaling::ScalingBlocksFor(viewer) & LocalLevelScaling::ChallengeBlocksCreatureScaling)
             return false;
@@ -367,9 +383,16 @@ namespace
         if (!ViewableCreature(creature) || !ViewableBy(viewer, creature))
             return false;
 
+        // The Weaver's switch is open world scaling, as its menu and its messages say. A scaled dungeon
+        // scales for everyone inside it: the finder admits a group well below its authored level, and
+        // a level-60 leader whose open world switch is off must not hold the rest of the party to
+        // creatures twenty levels above them.
+        Map const* map = creature->GetMap();
+        if (!map->IsDungeon() && !LocalLevelScaling::ScalingChoiceEnabled(viewer))
+            return false;
+
         uint8 const own = creature->GetLevel();
         uint8 level = own;
-        Map const* map = creature->GetMap();
         if (map->IsDungeon())
         {
             LocalLevelScaling::LevelBand const* band = DungeonBandFor(map);
@@ -503,7 +526,7 @@ namespace
         data.put(pos.UnitDynamicFlagsPos, flags);
     }
 
-    constexpr char DAMAGE_REMAINDER_KEY[] = "DestinyWeaver.DamageRemainder";
+    std::string const DAMAGE_REMAINDER_KEY = "DestinyWeaver.DamageRemainder";
 
     // The remainder belongs to the shared health pool, not to a particular attacker.
     struct DamageRemainder : DataMap::Base
@@ -511,7 +534,7 @@ namespace
         double Value = 0.0;
     };
 
-    constexpr char SEEN_FACTION_KEY[] = "DestinyWeaver.SeenFaction";
+    std::string const SEEN_FACTION_KEY = "DestinyWeaver.SeenFaction";
 
     struct SeenFaction : DataMap::Base
     {
@@ -1130,6 +1153,8 @@ public:
                                                             std::memory_order_relaxed);
         LocalLevelScaling::ScalingChangedOwner.store(available ? &RefreshChangedScaling : nullptr,
                                                      std::memory_order_relaxed);
+        LocalLevelScaling::ScaledDungeonOwner.store(available ? &InScaledDungeonForCore : nullptr,
+                                                    std::memory_order_relaxed);
 
         LOG_INFO("module.destiny_weaver",
                  "open world scaling: creatures per character, level - {} in the open world and the "
@@ -1162,6 +1187,7 @@ public:
         LocalLevelScaling::CreatureViewLevelOwner.store(nullptr);
         LocalLevelScaling::CreatureViewMaxHealthOwner.store(nullptr);
         LocalLevelScaling::ScalingChangedOwner.store(nullptr);
+        LocalLevelScaling::ScaledDungeonOwner.store(nullptr);
     }
 };
 

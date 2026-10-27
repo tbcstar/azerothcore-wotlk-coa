@@ -327,7 +327,12 @@ void WorldConfig::BuildConfigCache()
 
     SetConfigValue<uint32>(CONFIG_MAX_RECRUIT_A_FRIEND_BONUS_PLAYER_LEVEL, "RecruitAFriend.MaxLevel", 60, ConfigValueCache::Reloadable::Yes, [this](uint32 const& value) { return value <= GetConfigValue<uint32>(CONFIG_MAX_PLAYER_LEVEL); }, "<= CONFIG_MAX_PLAYER_LEVEL");
 
-    SetConfigValue<uint32>(CONFIG_MAX_RECRUIT_A_FRIEND_BONUS_PLAYER_LEVEL_DIFFERENCE, "RecruitAFriend.MaxDifference", 4);
+    SetConfigValue<uint32>(CONFIG_MAX_RECRUIT_A_FRIEND_BONUS_PLAYER_LEVEL_DIFFERENCE, "RecruitAFriend.MaxDifference", 30);
+    if (GetConfigValue<uint32>(CONFIG_MAX_RECRUIT_A_FRIEND_BONUS_PLAYER_LEVEL_DIFFERENCE) == 4)
+    {
+        LOG_INFO("server.loading", "RecruitAFriend.MaxDifference: upgrading legacy value 4 to 30.");
+        OverwriteConfigValue<uint32>(CONFIG_MAX_RECRUIT_A_FRIEND_BONUS_PLAYER_LEVEL_DIFFERENCE, 30);
+    }
     SetConfigValue<bool>(CONFIG_ALL_TAXI_PATHS, "AllFlightPaths", false);
     SetConfigValue<uint32>(CONFIG_INSTANT_TAXI, "InstantFlightPaths", 0);
 
@@ -791,4 +796,5 @@ void WorldConfig::BuildConfigCache()
     // Achievement
     SetConfigValue<uint32>(CONFIG_ACHIEVEMENT_REALM_FIRST_KILL_WINDOW, "Achievement.RealmFirstKillWindow", 60);
     SetConfigValue<bool>(CONFIG_ACHIEVEMENT_REALM_FIRST_RACE_LIMIT_ONE_PER_CHARACTER, "Achievement.RealmFirstRaceLimitOnePerCharacter", true);
+    SetConfigValue<bool>(CONFIG_ACHIEVEMENT_REALM_FIRST_BLOCK_BOTS, "Achievement.RealmFirstBlockBots", true);
 }

@@ -15,6 +15,8 @@ namespace ManastormModuleConfig
         uint32 weeklyCacheLockoutLimit = 5;
         ManastormClientMode clientMode = ManastormClientMode::Ascension;
         bool followReleaseStage = false;
+        bool objectiveRaidSkull = true;
+        bool nativeObjectiveHighlight = false;
     }
 
     void Load(bool reload)
@@ -28,6 +30,8 @@ namespace ManastormModuleConfig
                 "expected 0..255, using 5.", requestedLimit);
         uint32 const requestedMode = sConfigMgr->GetOption<uint32>("Manastorm.ClientMode", 2);
         followReleaseStage = sConfigMgr->GetOption<bool>("Manastorm.FollowReleaseStage", false);
+        objectiveRaidSkull = sConfigMgr->GetOption<bool>("Manastorm.Objective.RaidSkull", true);
+        nativeObjectiveHighlight = sConfigMgr->GetOption<bool>("Manastorm.Objective.NativeHighlight", false);
         if (reload)
         {
             // Switching transport or disabling hooks during a run strands its
@@ -78,6 +82,10 @@ namespace ManastormModuleConfig
     {
         return clientMode == ManastormClientMode::Ascension;
     }
+
+    bool ObjectiveRaidSkull() { return objectiveRaidSkull; }
+
+    bool NativeObjectiveHighlight() { return nativeObjectiveHighlight; }
 
     bool FollowReleaseStage()
     {

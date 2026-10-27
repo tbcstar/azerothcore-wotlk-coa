@@ -53,12 +53,18 @@ authored level. The band is the `TargetLevelMin`-`MaxLevel` of the dungeon's `LF
 merged per map; entries with placeholder levels (100/100 for Wailing Caverns, Gnomeregan and Uldaman)
 use 15-59.
 
+A scaled dungeon does not consult the Destiny Weaver's switch, which is open-world scaling, as its menu
+row and its messages say. Every character inside sees their own version, whatever their own choice or
+their leader's: a level-60 leader with the switch off would otherwise hold a level-20 party to Maraudon's
+level-45 creatures. Only a challenge rule (`ScalingBlocksFor`) keeps a character on the authored
+dungeon.
+
 #### Where a creature scales
 
 | scope | rule |
 |---|---|
 | open world | the maps in `DestinyWeaver.Scaling.WorldMaps` (default `0 1`) |
-| dungeons | regular difficulty of the dungeon finder entries in `DestinyWeaver.Scaling.DungeonIds` (default the 19 classic entries: 1 4 6 8 10 12 14 16 18 20 22 24 26 28 163 164 165 272 273) |
+| dungeons | regular difficulty of the default dungeon finder entries (1 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40 44 51 54 163 164 165 272 273 274 276 601 402), plus any entry `DestinyWeaver.Scaling.DungeonIds` or `DestinyWeaver.Scaling.DungeonBands` adds |
 | never | raids, battlegrounds, arenas, scripted private instances, Heroic/Mythic dungeons |
 
 A creature on a scaled map still keeps its authored level when it is a pet, guardian, totem, trigger,
@@ -158,7 +164,7 @@ already changed it, takes the ratio of its place in the real range.
 ### Groups: the leader sets the switch, never the level
 
 While a character is grouped, `DestinyWeaver::LevelScalingEnabled` answers with the **leader's**
-switch — on, or off, for every member. It answers with nothing else of the leader's, and that is
+switch — on, or off, for every member, in the open world and for quests; a scaled dungeon ignores it. It answers with nothing else of the leader's, and that is
 load-bearing rather than incidental:
 
 - the level a creature is shown at is `ScaleCreatureLevelForViewer(original, viewer->GetLevel(), offset)` —
@@ -261,10 +267,13 @@ exception: it is dispatched to every registered unit script.
 Not scaled, deliberately, and matching the reference implementation: the creature's **resistance values**
 (template-based and level-independent there too; only the level terms above follow the view) and **loot
 tables**, which are one corpse shared by everyone who tagged it. Scaling gear on that corpse takes the level
-of whoever loots it or wins the roll, a master looter's pick the receiver's. Scaling gear from loot or a
-quest reward scales only for a character whose scaling is on, by the same answer the creature view asks
-(their choice, or their leader's in a group, and no challenge or open-world ruleset holding them to the
-authored world); everyone else receives the authored item, and their corpse and roll frame preview none.
+of whoever loots it or wins the roll, a master looter's pick the receiver's. Inside a scaled dungeon loot
+scales for everyone, whatever their own or their leader's switch, and only down: the item takes the
+looter's level when that is below its own item level, with that ladder row's stats, armor and required
+level, and otherwise stays authored. Elsewhere, scaling gear from loot or a quest reward scales only for a
+character whose scaling is on, by the same answer the creature view asks (their choice, or their leader's
+in a group, and no challenge or open-world ruleset holding them to the authored world); everyone else
+receives the authored item, and their corpse and roll frame preview none.
 
 The stored level is the client's own item key for that level
 (level + 2 up to 20, + 3 up to 30, + 4 up to 50, + 5 up to 60, the client's table above 60), and a quest

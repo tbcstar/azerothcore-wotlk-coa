@@ -120,9 +120,9 @@ BindIP = "0.0.0.0"
 #                     "127.0.0.1;3306;acore;acore;acore_world"      - (WorldDatabaseInfo)
 #                     "127.0.0.1;3306;acore;acore;acore_characters" - (CharacterDatabaseInfo)
 
-LoginDatabaseInfo     = "127.0.0.1;3306;root;A112233a!;acore_auth"
-WorldDatabaseInfo     = "127.0.0.1;3306;root;A112233a!;acore_world"
-CharacterDatabaseInfo = "127.0.0.1;3306;root;A112233a!;acore_characters"
+LoginDatabaseInfo     = "127.0.0.1;3306;acore;!QAZ2wsx#EDC4rfv;acore_auth"
+WorldDatabaseInfo     = "127.0.0.1;3306;acore;!QAZ2wsx#EDC4rfv;acore_world"
+CharacterDatabaseInfo = "127.0.0.1;3306;acore;!QAZ2wsx#EDC4rfv;acore_characters"
 
 #
 #    LoginDatabase.WorkerThreads
@@ -2334,6 +2334,15 @@ Achievement.RealmFirstKillWindow = 60
 #                     0 - (Disabled)
 
 Achievement.RealmFirstRaceLimitOnePerCharacter = 1
+
+#
+#    Achievement.RealmFirstBlockBots
+#        Description: Companions (bots) cannot earn 'Realm First!' achievements, so they never take
+#                     a server first away from real players.
+#        Default:     1 - (Enabled)
+#                     0 - (Disabled, bots can earn them like any player)
+
+Achievement.RealmFirstBlockBots = 1
 
 #
 ###################################################################################################
@@ -4742,11 +4751,12 @@ RecruitAFriend.MaxLevel = 60
 
 #
 #    RecruitAFriend.MaxDifference
-#        Description: 关联的招募者和好友能够
-#                     从战友招募经验倍率中获益的最高等级差。
-#        Default:     4
+#        Description: 已建立关联的招募者与好友之间，
+#                     能够享受招募好友经验倍率的最高等级差。
+#        Default:     30
 
-RecruitAFriend.MaxDifference = 4
+#    加载或重新加载配置时，旧值 4 会自动按 30 处理。
+RecruitAFriend.MaxDifference = 30
 
 #
 #    MaxRecruitAFriendBonusDistance

@@ -700,7 +700,9 @@ public:
     void ClearRecruitAFriendRequests();
     void UpdateRecruitAFriendRewards(bool force = false);
     bool HandleRecruitAFriendRewardsCommand(std::string const& command);
-    void RecoverRecruitAFriendRewards();
+    void UpdateRecruitMilestoneRewards();
+    void RecoverRecruitAFriendRewards(bool recruit = false);
+    void DeliverRecruitAFriendRewards(PreparedQueryResult rows, bool recruit);
 
     // Packets cooldown
     time_t GetCalendarEventCreationCooldown() const { return _calendarEventCreationCooldown; }
@@ -1282,6 +1284,11 @@ public:                                                 // opcodes handlers
     [[nodiscard]] bool IsBot() const
     {
         return _isBot;
+    }
+
+    [[nodiscard]] bool IsHeadlessBot() const
+    {
+        return _isBot && !m_Socket && !_socketlessPacketObserver;
     }
 
 private:

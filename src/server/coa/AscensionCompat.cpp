@@ -5,6 +5,7 @@
  */
 
 #include "AccountMgr.h"
+#include "AscensionAccountProgress.h"
 #include "AscensionFelsworn.h"
 #include "AscensionHighRiskPolicy.h"
 #include "AscensionItemScaling.h"
@@ -34,6 +35,7 @@
 #include "AscensionFreepick.h"
 #include "AscensionRunemasterEchoes.h"
 #include "AscensionCollectionModelData.h"
+#include "MountDisplayFallback.h"
 #include "AscensionWitchHunterCompletion.h"
 #include "AscensionAmmunitionData.h"
 #include "AscensionAverageItemLevel.h"
@@ -915,7 +917,7 @@ public:
             ++learned;
         }
     for (auto const& entry : AscensionLiveBaseline::Spells)
-      if (automaticProgression && entry.ClassId == player->getClass() &&
+      if (entry.ClassId == player->getClass() &&
           (!entry.RaceId || entry.RaceId == player->getRace()) &&
           CanGrantAscensionRacialSpell(player, entry.SpellId) &&
           !player->HasSpell(entry.SpellId) && sSpellMgr->GetSpellInfo(entry.SpellId))
@@ -1571,6 +1573,33 @@ public:
     return [player](uint32 spellId) { return player->HasSpell(spellId); };
   }
 
+  static char const* TabInvestmentShortfall(std::vector<AscensionCoATalentState::KnownEntry> const& build,
+                                            AscensionCompatData::CoATalentEntry const& entry)
+  {
+    bool const classTree = entry.SpecId == 0;
+    uint32 const threshold = classTree ? entry.TabAEInvestment : entry.TabTEInvestment;
+    if (!threshold)
+      return nullptr;
+
+    std::vector<std::pair<uint32, uint32>> contributions;
+    for (AscensionCoATalentState::KnownEntry const& other : build)
+    {
+      if (!other.Rank)
+        continue;
+      AscensionCompatData::CoATalentEntry const* otherEntry = FindTalentEntry(other.EntryId);
+      if (!otherEntry || (otherEntry->SpecId == 0) != classTree ||
+          (!classTree && otherEntry->SpecId != entry.SpecId))
+        continue;
+      uint32 const cost = (classTree ? otherEntry->AECost : otherEntry->TECost) * other.Rank;
+      uint32 const otherThreshold = classTree ? otherEntry->TabAEInvestment : otherEntry->TabTEInvestment;
+      contributions.emplace_back(cost, otherThreshold);
+    }
+
+    if (threshold <= AscensionFreepick::InvestedBelowThreshold(contributions, threshold))
+      return nullptr;
+    return classTree ? "CA_LEARN_NOT_ENOUGH_INVESTED_AE" : "CA_LEARN_NOT_ENOUGH_INVESTED_TE";
+  }
+
     static std::set<uint32> const& SharedPaidEntries()
     {
         static std::set<uint32> const shared = []
@@ -1874,6 +1903,23 @@ public:
             uint32(player->GetLevel()));
         return false;
       }
+
+      std::vector<AscensionCoATalentState::KnownEntry> projected = KnownTalentEntries(player);
+      bool replaced = false;
+      for (AscensionCoATalentState::KnownEntry& item : projected)
+        if (item.EntryId == entryId)
+        {
+          item.Rank = rank;
+          replaced = true;
+          break;
+        }
+      if (!replaced)
+        projected.push_back({ entryId, rank });
+      if (TabInvestmentShortfall(projected, entry))
+      {
+        error = Acore::StringFormat("Talent entry {} needs more points invested in its tab first.", entryId);
+        return false;
+      }
     }
 
     StorePurchasedRanks(player);
@@ -2109,6 +2155,13 @@ public:
                         item.EntryId, requiredId) };
                 return false;
             }
+        if (char const* learnResult = TabInvestmentShortfall(priced, *entry))
+        {
+            refusal = { "CA_UPDATE_ENTRIES_NOT_TRAVERSIBLE", learnResult, item.EntryId, item.Rank,
+                Acore::StringFormat("Talent entry {} needs more points invested in its tab first.",
+                    item.EntryId) };
+            return false;
+        }
     }
 
     uint32 classBudget = 0;
@@ -2531,7 +2584,7 @@ public:
 
   uint32 RestoreBuilds(Player* player, uint32 specializationId)
   {
-    uint32 restored = 0;
+    std::vector<std::pair<AscensionCompatData::CoATalentEntry const*, uint32>> picks;
     for (uint32 const tree : { uint32(0), specializationId })
       for (uint32 const pick : StoredBuild(player, tree))
       {
@@ -2542,14 +2595,27 @@ public:
           continue;
         if (KnownRank(player, *entry) >= rank)
           continue;
-
-        std::string error;
-        if (SetTalentRank(player, *entry, rank, error))
-          ++restored;
-        else
-          LOG_INFO("coa", "Stored talent entry {} rank {} not restored for {}: {}",
-                   entry->EntryId, rank, player->GetName(), error);
+        picks.emplace_back(entry, rank);
       }
+    std::stable_sort(picks.begin(), picks.end(), [](auto const& left, auto const& right)
+    {
+      auto threshold = [](AscensionCompatData::CoATalentEntry const* entry)
+      {
+        return entry->SpecId == 0 ? entry->TabAEInvestment : entry->TabTEInvestment;
+      };
+      return threshold(left.first) < threshold(right.first);
+    });
+
+    uint32 restored = 0;
+    for (auto const& [entry, rank] : picks)
+    {
+      std::string error;
+      if (SetTalentRank(player, *entry, rank, error))
+        ++restored;
+      else
+        LOG_INFO("coa", "Stored talent entry {} rank {} not restored for {}: {}",
+                 entry->EntryId, rank, player->GetName(), error);
+    }
     return restored;
   }
 
@@ -4249,6 +4315,9 @@ private:
       504582, 572343, 572344, 572345, 572383, 680902, 680903, 680904, 680905, 806288,
       572614, 804136, 806876, 806877, 806878, 806879, 806880, 806881};
   static constexpr uint32 SPELL_LEVEL_FIELD = 39;
+  static constexpr uint32 SPELL_VISUAL_FIELD = 131;
+  static constexpr uint32 VAULT_CLIENT_SPELL = 500085;
+  static constexpr uint32 CHARGE_SPELL_VISUAL = 867;
   struct ClientSpellText {
     std::string Description;
     std::string ToolTip;
@@ -5134,6 +5203,8 @@ private:
     }
     if (IsChromaticShardRank(info->Id))
       row.Values[SPELL_WIRE_SLOT(SPELL_INTERRUPT_FLAGS_FIELD)] &= ~uint32(SPELL_INTERRUPT_FLAG_MOVEMENT);
+    if (info->Id == VAULT_CLIENT_SPELL)
+      row.Values[SPELL_WIRE_SLOT(SPELL_VISUAL_FIELD)] = CHARGE_SPELL_VISUAL;
 
     if ((info->Attributes & SPELL_ATTR0_USES_RANGED_SLOT) && !info->IsAutoRepeatRangedSpell() &&
         info->CastTimeEntry && (info->CastTimeEntry->CastTime > 0 || !info->IsChanneled()))
@@ -5210,6 +5281,7 @@ private:
     for (uint32 const spellId : {801292u, 501836u, 501837u, 501838u, 501839u, 501840u, 574346u, 567543u, 567544u,
         805027u, 807938u, 807939u, 807940u, 807941u})
       Ascension::ClientSpellPatches::Instance().Register(spellId);
+    Ascension::ClientSpellPatches::Instance().Register(VAULT_CLIENT_SPELL);
     std::unordered_set<uint32> requested = Ascension::ClientSpellPatches::Instance().GetIds(true);
     for (auto const& tier : blacksmithingTiers)
     {
@@ -6547,18 +6619,13 @@ public:
 
     [[nodiscard]] bool RequiresVanityRealmLevel(ItemTemplate const* proto) const
     {
-        return proto->ItemId == ITEM_AURA_OF_EXPERIENCE ||
+        return proto->ItemId == ITEM_AURA_OF_EXPERIENCE || proto->ItemId == 818046 ||
             (proto->Quality == ITEM_QUALITY_HEIRLOOM && _vanityItems.contains(proto->ItemId));
     }
 
     static bool AccountHasVanityRealmLevel(Player* player)
     {
-        if (player->GetLevel() >= VANITY_REALM_LEVEL)
-            return true;
-
-        return CharacterDatabase.Query(
-            "SELECT 1 FROM `characters` WHERE `account` = {} AND `guid` <> {} AND `level` >= {} LIMIT 1",
-            player->GetSession()->GetAccountId(), player->GetGUID().GetCounter(), VANITY_REALM_LEVEL) != nullptr;
+        return AscensionAccountProgress::HasLevelOrPrestige(player, VANITY_REALM_LEVEL);
     }
 
     bool RefuseWithoutVanityRealmLevel(Player* player, ItemTemplate const* proto) const
@@ -6567,7 +6634,8 @@ public:
             return false;
 
         ChatHandler(player->GetSession()).PSendSysMessage(
-            "This item requires you to have a level {} on this realm to be able to {}.", VANITY_REALM_LEVEL,
+            "This item requires a level {} or a previously prestiged character on your account on this realm to {}.",
+            VANITY_REALM_LEVEL,
             proto->Class == ITEM_CLASS_CONSUMABLE ? "consume" : "use");
         return true;
     }
@@ -7894,6 +7962,12 @@ AscensionCollectionModels::Entry const* FindCollectionModel(uint32 creatureId)
             return model.CreatureId < value;
         });
     return itr != models.end() && itr->CreatureId == creatureId ? &*itr : nullptr;
+}
+
+uint32 CollectionMountDisplay(uint32 creatureId)
+{
+    AscensionCollectionModels::Entry const* model = FindCollectionModel(creatureId);
+    return model && sCreatureDisplayInfoStore.LookupEntry(model->DisplayId) ? model->DisplayId : 0;
 }
 
 bool SendCollectionCreatureQueryResponse(WorldSession* session, uint32 creatureId)
@@ -10100,6 +10174,32 @@ class spell_ascension_wildcard_mount : public SpellScript
             GetCaster()->IsPlayer();
     }
 
+    static bool IsMountSpell(SpellInfo const* spellInfo)
+    {
+        if (!spellInfo->HasAura(SPELL_AURA_MOUNTED))
+            return false;
+
+        auto const bounds = sSpellMgr->GetSkillLineAbilityMapBounds(spellInfo->Id);
+        for (auto itr = bounds.first; itr != bounds.second; ++itr)
+            if (itr->second->SkillLine == SKILL_MOUNTS)
+                return true;
+        return false;
+    }
+
+    static bool CanMountFly(SpellInfo const* spellInfo)
+    {
+        auto const& entries = AscensionCollectibles::MountWrappers;
+        auto itr = std::lower_bound(entries.begin(), entries.end(), spellInfo->Id,
+            [](AscensionCollectibles::MountWrapper const& entry, uint32 id)
+            {
+                return entry.SpellId < id;
+            });
+        if (itr != entries.end() && itr->SpellId == spellInfo->Id)
+            return itr->Flying150 || itr->Flying280 || itr->Flying310;
+
+        return spellInfo->HasAura(SPELL_AURA_MOD_INCREASE_MOUNTED_FLIGHT_SPEED);
+    }
+
     void HandleDummy(SpellEffIndex effIndex)
     {
         PreventHitDefaultEffect(effIndex);
@@ -10107,11 +10207,15 @@ class spell_ascension_wildcard_mount : public SpellScript
         if (!player)
             return;
 
+        bool const flyingOnly = GetSpellInfo()->Id == 93539;
         std::vector<uint32> known;
-        for (AscensionCollectibles::MountWrapper const& entry : AscensionCollectibles::MountWrappers)
-            if (player->HasSpell(entry.SpellId) && (GetSpellInfo()->Id != 93539 ||
-                entry.Flying150 || entry.Flying280 || entry.Flying310))
-                known.push_back(entry.SpellId);
+        for (auto const& entry : player->GetSpellMap())
+        {
+            SpellInfo const* spellInfo = sSpellMgr->GetSpellInfo(entry.first);
+            if (spellInfo && player->HasSpell(entry.first) && IsMountSpell(spellInfo) &&
+                (!flyingOnly || CanMountFly(spellInfo)))
+                known.push_back(entry.first);
+        }
 
         if (known.empty())
             return;
@@ -10590,6 +10694,7 @@ void AppendConfiguredClientConfigs(AscensionClientConfig& config) {
 }
 
 void AddAscensionCompatScripts() {
+  MountDisplayFallback::Owner.store(&CollectionMountDisplay, std::memory_order_relaxed);
   Ascension::ClientItemPatches::Instance().Register(ITEM_HEARTWOOD_KEY);
   Ascension::ClientItemPatches::Instance().Register(ITEM_CUIRBOULLI_BOOTS);
   Ascension::ClientItemPatches::Instance().Register(ITEM_RED_RIBBONED_WRAPPING_PAPER);

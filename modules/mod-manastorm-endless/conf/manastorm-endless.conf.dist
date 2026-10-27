@@ -16,10 +16,11 @@ Manastorm.WeeklyCacheLockout.Limit = 5
 # 个体进度词缀仍然需要其匹配的原生解锁/提示；这些深度保持不变。
 Manastorm.AffixMinimumLevel = 50
 
-# 1 = 终局宝箱遵循 coa.conf 中的 Ascension.CallboardCache.ReleaseStage（3 熔火之心 ... 8 纳克萨玛斯）：
-# 团本高于当前阶段的宝箱会回退到最高的已发布宝箱，
-# 贪婪恶魔的战利品保持在那些已发布宝箱所含的最高物品等级或以下。
-# 0 = 无论阶段如何，所有宝箱层级和整个贪婪恶魔池都可用。
+# 1 = 缓存跟随 coa.conf 中的 Ascension.CallboardCache.ReleaseStage：
+# 0 普通地下城，1 英雄地下城，2 史诗地下城，3 熔火之心 ... 8 纳克萨玛斯。
+# 关闭的缓存层级会回退到符合条件的最高较低层级；数据库深度/解锁要求仍然适用。
+# 贪婪恶魔战利品使用由已发布启用的终局缓存层级推导出的物品等级上限。
+# 0 = 禁用发布阶段限制；现有深度/解锁要求仍然适用。
 # 可重载。
 Manastorm.FollowReleaseStage = 0
 
@@ -28,8 +29,15 @@ Manastorm.FollowReleaseStage = 0
 #   2 = 原始 Ascension 原生 Manastorm 协议（使用包含的 CoA 原生操作码桥接）
 Manastorm.ClientMode = 2
 
-# 匹配原始客户端 Manastorm.dbc，在模式 2 中进行只读身份验证。
-# 省略时默认：<DataDir>/dbc/Manastorm.dbc。
+# 现有的团队目标骷髅标记与可选的本地客户端高亮可以独立比较。
+# NativeHighlight 使用现有的模式 2 Lua 传输；不安装任何客户端文件。
+# 实验性：由客户端控制哪些生物符合条件以及几何体是否遮挡它们。
+# 重新加载这些设置后请重新登录或更改阶段；本地高亮最多可能残留 10 秒。
+Manastorm.Objective.RaidSkull = 1
+Manastorm.Objective.NativeHighlight = 0
+
+# 匹配原始客户端 Manastorm.dbc，在模式 2 下进行只读身份验证。
+# 省略时的默认值：<DataDir>/dbc/Manastorm.dbc。
 # Manastorm.NativeDBCPath = "C:/path/to/matching/Manastorm.dbc"
 # 此模块独家拥有 Manastorm 请求和玩法。
 # 兼容性捐赠者运行服务从不注册。

@@ -97,7 +97,7 @@
     "version"
   ],
   "repackRelease": "client-compat-20260911",
-  "sha256": "169a377a69b694168b0878e4076efb34c80c7121d2e6e12ea355c7aed0f7c624",
+  "sha256": "7fabf348bcf441dd3dd4bd5c1bab0df29294981f812725997dc2406b0cbcd0f6",
   "sourceRevision": "8fefb6f0ae253c25014da13eab04ba2e3d0685c0",
   "sourceSnapshotSha256": "c1ec932ebf64a3e37797e8887ee7573712ac25157ef16984a9c37b34f9d23ca4",
   "tables": {
@@ -28345,7 +28345,7 @@
       ],
       "content": {
         "rows": 9464,
-        "sha256": "56f952aa988d3a337fa454af172f938369eb277206fc73fef026c304d5a87091"
+        "sha256": "71954e1177e1599a1a21d416e62c73972b9c4654709d6c1b427d649c2dfd99c0"
       },
       "primaryKey": [
         "ID"
@@ -29192,7 +29192,7 @@
           ""
         ]
       ],
-      "sqlSha256": "f1c1ec174ecbec047f08a46c71833f768b2118906a0bef48e59a674e83b10a38"
+      "sqlSha256": "3dafa1dc3b01c2af6cc745c970ef0ea5640e2e5ee7bf6dc8f0edbfef7b4bc886"
     },
     "quest_template_addon": {
       "columns": [

@@ -5,7 +5,7 @@ local installed = false
 
 local function Say(text)
     if CoASpecBuildMemory.debug and DEFAULT_CHAT_FRAME then
-        DEFAULT_CHAT_FRAME:AddMessage("|cff66ddffCoA spec memory:|r " .. text)
+        DEFAULT_CHAT_FRAME:AddMessage("|cff66ddffCoA规格内存:|r " .. text)
     end
 end
 
@@ -19,7 +19,7 @@ function CoASpecBuildMemory.Install(api)
         end
     end
     installed = true
-    Say("active")
+    Say("已启用")
 
     local switch = api.SwitchActiveChrSpec
     api.SwitchActiveChrSpec = function(specID, ...)
@@ -30,7 +30,7 @@ function CoASpecBuildMemory.Install(api)
         end
         local results = { switch(specID, ...) }
         if knownSpec and specID == knownSpec and from ~= specID then
-            Say("back on saved spec " .. tostring(specID) .. ", restoring its build")
+            Say("已回到保存的专精" .. tostring(specID) .. "，正在恢复其构筑")
             RefreshFromCancel = true
             api.CancelPendingBuild()
         end

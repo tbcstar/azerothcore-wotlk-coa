@@ -2,4 +2,4 @@
 -- but had no tavern row, and the area (2102) carries no rest-zone flag, so resting there never started.
 DELETE FROM `areatrigger_tavern` WHERE `id` = 710;
 INSERT INTO `areatrigger_tavern` (`id`, `name`, `faction`) VALUES
-(710, 'Dun Morogh - Kharanos - Thunderbrew Distillery', 2);
+(710, '丹莫罗 - 卡拉诺斯 - 雷酒酿酒厂', 2);

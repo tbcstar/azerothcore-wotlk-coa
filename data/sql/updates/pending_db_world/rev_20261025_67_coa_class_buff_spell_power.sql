@@ -14,4 +14,4 @@ INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
 (2110012, 575040),
 (2110012, 575045);
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
-(2110012, 1, 'CoA class buffs: spell power');
+(2110012, 1, 'CoA 职业增益：法术强度');

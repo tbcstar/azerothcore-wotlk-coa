@@ -39,7 +39,7 @@ INSERT INTO `creature_template`
      `ArmorModifier`, `ExperienceModifier`, `RacialLeader`, `movementId`, `RegenHealth`, `CreatureImmunitiesId`,
      `flags_extra`, `ScriptName`)
 VALUES
-(80644, 0, 0, 0, 0, 0, 'Flame Orb', NULL, NULL, 0, 63, 63, 0, 54, 0, 2, 1.14286, 1, 1, 20, 0, 0, 1, 2000, 2000, 1, 1,
+(80644, 0, 0, 0, 0, 0, '火焰宝珠', NULL, NULL, 0, 63, 63, 0, 54, 0, 2, 1.14286, 1, 1, 20, 0, 0, 1, 2000, 2000, 1, 1,
  1, 33554434, 2048, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 192,
  'npc_coa_gehennas_flame_orb')
 ON DUPLICATE KEY UPDATE

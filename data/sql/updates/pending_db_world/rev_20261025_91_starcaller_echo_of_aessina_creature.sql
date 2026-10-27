@@ -10,7 +10,7 @@ INSERT INTO `creature_template`
  `type`, `type_flags`, `HealthModifier`, `ManaModifier`, `ArmorModifier`, `ExperienceModifier`,
  `RegenHealth`, `flags_extra`)
 VALUES
-(901521, 'Echo of Aessina', 1, 1, 0, 35, 0, 1, 1.14286,
+(901521, '艾森娜的回响', 1, 1, 0, 35, 0, 1, 1.14286,
  20, 0, 0, 1, 2000, 2000,
  1, 1, 1, 0, 0, 0, 0,
  1, 0, 0.8, 1, 1, 1,

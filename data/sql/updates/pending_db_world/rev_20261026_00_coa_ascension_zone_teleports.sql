@@ -200,5 +200,5 @@ INSERT INTO `game_tele` (`id`, `position_x`, `position_y`, `position_z`, `orient
 DELETE FROM `mapdifficulty_dbc` WHERE `ID` IN (756, 757, 758);
 INSERT INTO `mapdifficulty_dbc` (`ID`, `MapID`, `Difficulty`, `Message_Lang_enUS`, `Message_Lang_Mask`, `RaidDuration`, `MaxPlayers`, `Difficultystring`) VALUES
 (756, 934, 0, '', 16712188, 0, 5, 'DUNGEON_DIFFICULTY_5PLAYER'),
-(757, 934, 1, 'Mythic Difficulty requires you to be level 80.', 16712190, 0, 5, 'DUNGEON_DIFFICULTY_5PLAYER_EPIC'),
-(758, 934, 2, 'Mythic Difficulty requires you to be level 80.', 16712190, 0, 5, 'DUNGEON_DIFFICULTY_5PLAYER_EPIC');
+(757, 934, 1, '史诗难度需要你达到80级。', 16712190, 0, 5, 'DUNGEON_DIFFICULTY_5PLAYER_EPIC'),
+(758, 934, 2, '史诗难度需要你达到80级。', 16712190, 0, 5, 'DUNGEON_DIFFICULTY_5PLAYER_EPIC');

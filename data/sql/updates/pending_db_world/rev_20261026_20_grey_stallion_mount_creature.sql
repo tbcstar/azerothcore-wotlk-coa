@@ -3,7 +3,7 @@
 -- capture (hertigservices/ascension-data, 2026-09-04) and exists in CreatureDisplayInfo.dbc with model 112838,
 -- ridinghorsescadeald.m2, whose CreatureModelData collision gives the model-info radii.
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`) VALUES
-(379995, 'Grey Stallion', 1, 1, 35, 1, 12, 2000, 2000) ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `minlevel` = VALUES(`minlevel`), `maxlevel` = VALUES(`maxlevel`), `faction` = VALUES(`faction`), `unit_class` = VALUES(`unit_class`), `type` = VALUES(`type`), `BaseAttackTime` = VALUES(`BaseAttackTime`), `RangeAttackTime` = VALUES(`RangeAttackTime`);
+(379995, '灰色骏马', 1, 1, 35, 1, 12, 2000, 2000) ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `minlevel` = VALUES(`minlevel`), `maxlevel` = VALUES(`maxlevel`), `faction` = VALUES(`faction`), `unit_class` = VALUES(`unit_class`), `type` = VALUES(`type`), `BaseAttackTime` = VALUES(`BaseAttackTime`), `RangeAttackTime` = VALUES(`RangeAttackTime`);
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 379995;
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) VALUES
 (379995, 0, 141902, 1, 1);

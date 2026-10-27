@@ -26,15 +26,15 @@ INSERT INTO `waypoint_data` (`id`, `point`, `position_x`, `position_y`, `positio
 -- Speech
 DELETE FROM `creature_text` WHERE (`CreatureID` = 29196) AND (`GroupID` IN (0, 1, 2, 3, 4, 5, 6, 7, 8));
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(29196, 0, 0, 'As disciples of blood, you strive to master the very lifeforce of your enemies.', 12, 0, 100, 1, 0, 0, 29867, 0, 'Lord Thorval Lecture 1'),
-(29196, 1, 0, 'Be it by blade or incantation, blood feeds our attacks and weakens our foes.', 12, 0, 100, 1, 0, 0, 29868, 0, 'Lord Thorval Lecture 2'),
-(29196, 2, 0, 'True masters learn to make blood serve more than just their strength in battle.', 12, 0, 100, 1, 0, 0, 29869, 0, 'Lord Thorval Lecture 3'),
-(29196, 3, 0, 'Stripping energy from our foes, both fighting and fallen, allows us to persevere where lesser beings fall exhausted.', 12, 0, 100, 1, 0, 0, 29870, 0, 'Lord Thorval Lecture 4'),
-(29196, 4, 0, 'And every foe that falls, energy sapped and stolen, only further fuels our assault.', 12, 0, 100, 1, 0, 0, 29871, 0, 'Lord Thorval Lecture 5'),
-(29196, 5, 0, 'As masters of blood, we know battle without end...', 12, 0, 100, 1, 0, 0, 29872, 0, 'Lord Thorval Lecture 6'),
-(29196, 6, 0, 'We know hunger never to be quenched...', 12, 0, 100, 1, 0, 0, 29873, 0, 'Lord Thorval Lecture 7'),
-(29196, 7, 0, 'We know power never to be overcome...', 12, 0, 100, 1, 0, 0, 29874, 0, 'Lord Thorval Lecture 8'),
-(29196, 8, 0, 'As masters of blood, we are masters of life and death itself.  Against us, even hope falls drained and lifeless.', 12, 0, 100, 1, 0, 0, 29875, 0, 'Lord Thorval Lecture 9');
+(29196, 0, 0, '作为鲜血的门徒，你们要努力掌握敌人最根本的生命力。', 12, 0, 100, 1, 0, 0, 29867, 0, 'Lord Thorval Lecture 1'),
+(29196, 1, 0, '无论是刀锋还是咒语，鲜血滋养我们的攻击，削弱我们的敌人。', 12, 0, 100, 1, 0, 0, 29868, 0, 'Lord Thorval Lecture 2'),
+(29196, 2, 0, '真正的大师懂得让鲜血不只服务于战斗中的力量。', 12, 0, 100, 1, 0, 0, 29869, 0, 'Lord Thorval Lecture 3'),
+(29196, 3, 0, '从我们的敌人身上——无论是活着的还是倒下的——抽取能量，让我们得以坚持下去，而那些弱者早已力竭倒下。', 12, 0, 100, 1, 0, 0, 29870, 0, 'Lord Thorval Lecture 4'),
+(29196, 4, 0, '而每一个倒下的敌人，被吸干夺走的能量，只会进一步助长我们的攻势。', 12, 0, 100, 1, 0, 0, 29871, 0, 'Lord Thorval Lecture 5'),
+(29196, 5, 0, '作为鲜血的主宰，我们懂得无尽的战斗……', 12, 0, 100, 1, 0, 0, 29872, 0, 'Lord Thorval Lecture 6'),
+(29196, 6, 0, '我们懂得永不消解的饥饿……', 12, 0, 100, 1, 0, 0, 29873, 0, 'Lord Thorval Lecture 7'),
+(29196, 7, 0, '我们懂得永不屈服的力量……', 12, 0, 100, 1, 0, 0, 29874, 0, 'Lord Thorval Lecture 8'),
+(29196, 8, 0, '作为鲜血的主宰，我们就是生死的主宰。在我们面前，就连希望也会被抽干、失去生气。', 12, 0, 100, 1, 0, 0, 29875, 0, 'Lord Thorval Lecture 9');
 -- SAI to talk on waypoint reached
 DELETE FROM `smart_scripts` WHERE (`entryorguid`= 29196 AND `source_type`= 0) OR (`entryorguid`= 2919600 AND `source_type`= 9);
 INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase_mask`, `event_chance`, `event_flags`, `event_param1`, `event_param2`, `event_param3`, `event_param4`, `event_param5`, `event_param6`, `action_type`, `action_param1`, `action_param2`, `action_param3`, `action_param4`, `action_param5`, `action_param6`, `target_type`, `target_param1`, `target_param2`, `target_param3`, `target_param4`, `target_x`, `target_y`, `target_z`, `target_o`, `comment`) VALUES

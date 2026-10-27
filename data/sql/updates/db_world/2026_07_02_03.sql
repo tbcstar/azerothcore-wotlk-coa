@@ -2,17 +2,17 @@
 -- Cross-talk text for Infected Kodo Beast delivery
 DELETE FROM `creature_text` WHERE `CreatureID` = 25596 AND `GroupID` IN (1, 2);
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(25596, 1, 0, 'One more beast saved from certain death!', 12, 0, 0, 0, 0, 0, 26284, 0, ''),
-(25596, 1, 1, 'Here\'s your kodo, Torp!', 12, 0, 0, 0, 0, 0, 24881, 0, ''),
-(25596, 1, 2, 'Door-to-door kodo delivery!', 12, 0, 0, 0, 0, 0, 24882, 0, ''),
-(25596, 1, 3, 'The Scourge are no match for me, Torp!', 12, 0, 0, 0, 0, 0, 26285, 0, ''),
-(25596, 1, 4, 'Delivered as promised, Torp!', 12, 0, 0, 0, 0, 0, 26286, 0, '');
+(25596, 1, 0, '又一头野兽从必死之境被救了下来！', 12, 0, 0, 0, 0, 0, 26284, 0, ''),
+(25596, 1, 1, '你的科多兽来了，托尔普！', 12, 0, 0, 0, 0, 0, 24881, 0, ''),
+(25596, 1, 2, '科多兽送货上门！', 12, 0, 0, 0, 0, 0, 24882, 0, ''),
+(25596, 1, 3, '天灾根本不是我的对手，托尔普！', 12, 0, 0, 0, 0, 0, 26285, 0, ''),
+(25596, 1, 4, '如约送到，托尔普！', 12, 0, 0, 0, 0, 0, 26286, 0, '');
 
 -- Cross-talk text for Farmer Torp
 DELETE FROM `creature_text` WHERE `CreatureID` = 25607 AND `GroupID` IN (0, 1);
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(25607, 0, 0, 'YES! It worked!', 12, 0, 0, 4, 0, 0, 24883, 0, ''),
-(25607, 0, 1, 'Great job!', 12, 0, 0, 4, 0, 0, 24884, 0, '');
+(25607, 0, 0, '成了！成功了！', 12, 0, 0, 4, 0, 0, 24883, 0, ''),
+(25607, 0, 1, '干得好！', 12, 0, 0, 4, 0, 0, 24884, 0, '');
 
 -- Sniffed aura for Infected Kodo Beast (was missing; SAI used to cast the wrong spell instead)
 UPDATE `creature_template_addon` SET `auras` = '45771' WHERE `entry` = 25596;

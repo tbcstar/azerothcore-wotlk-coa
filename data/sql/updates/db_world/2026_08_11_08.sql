@@ -28,8 +28,8 @@ INSERT INTO `waypoint_data` (`id`, `point`, `position_x`, `position_y`, `positio
 -- Second yell when he reaches the food (BroadcastTextId 763)
 DELETE FROM `creature_text` WHERE `CreatureID` = 1494;
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(1494, 0, 0, 'Mmmh...I SMELL FOOD!', 14, 0, 100, 0, 0, 0, 731, 0, 'Negolash - On Just Summoned'),
-(1494, 1, 0, 'AH, A FEAST!  WHO LEFT THIS HERE...?', 14, 0, 100, 0, 0, 0, 763, 0, 'Negolash - On Waypoint Path Ended');
+(1494, 0, 0, '嗯……我闻到食物了！', 14, 0, 100, 0, 0, 0, 731, 0, 'Negolash - On Just Summoned'),
+(1494, 1, 0, '啊，一顿大餐！这是谁放这儿的……？', 14, 0, 100, 0, 0, 0, 763, 0, 'Negolash - On Waypoint Path Ended');
 
 -- Conditions to avoid double spawns
 DELETE FROM `conditions` WHERE (`SourceTypeOrReferenceId` = 22) AND (`SourceGroup` = 1) AND (`SourceEntry` = 2289) AND (`SourceId` = 1) AND (`ElseGroup` = 0) AND (`ConditionTypeOrReference` = 29) AND (`ConditionTarget` = 1) AND (`ConditionValue1` = 1494) AND (`ConditionValue2` = 100) AND (`ConditionValue3` = 0);

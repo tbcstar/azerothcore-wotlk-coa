@@ -185,7 +185,7 @@ INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_
 
 DELETE FROM `creature_text` WHERE (`CreatureID` = 24473);
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(24473, 0, 0, 'Gargoyle attack! Grab yer rifles, men!', 14, 7, 100, 0, 0, 0, 23410, 0, 'Lead Archaeologist Malzie - On Quest \'Steel Gate Patrol\' Accepted');
+(24473, 0, 0, '石像鬼来袭！拿起你们的步枪，伙计们！', 14, 7, 100, 0, 0, 0, 23410, 0, 'Lead Archaeologist Malzie - On Quest \'Steel Gate Patrol\' Accepted');
 
 UPDATE `creature_template` SET `AIName` = 'SmartAI' WHERE `entry` = 24473;
 DELETE FROM `smart_scripts` WHERE (`source_type` = 0 AND `entryorguid` = 24473);

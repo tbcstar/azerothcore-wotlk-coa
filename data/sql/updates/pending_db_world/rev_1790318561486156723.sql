@@ -1,6 +1,6 @@
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`,
 `BaseAttackTime`, `RangeAttackTime`, `flags_extra`) VALUES
-(100481, 'Spectral Warden', 1, 1, 35, 1, 6, 2000, 2000, 64)
+(100481, '幽灵守卫', 1, 1, 35, 1, 6, 2000, 2000, 64)
 ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `minlevel` = VALUES(`minlevel`),
 `maxlevel` = VALUES(`maxlevel`), `faction` = VALUES(`faction`), `unit_class` = VALUES(`unit_class`),
 `type` = VALUES(`type`), `BaseAttackTime` = VALUES(`BaseAttackTime`),

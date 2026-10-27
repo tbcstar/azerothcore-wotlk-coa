@@ -30,15 +30,15 @@ INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_
 
 DELETE FROM `creature_text` WHERE (`CreatureID` = 5042);
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(5042, 0, 0, 'You\'re going to be just fine.', 12, 7, 100, 1, 0, 0, 1682, 0, 'Nurse Lillian'),
-(5042, 0, 1, 'Drink this, it will help.', 12, 7, 100, 1, 0, 0, 1679, 0, 'Nurse Lillian'),
-(5042, 0, 2, 'Let me help you with those.', 12, 7, 100, 1, 0, 0, 1685, 0, 'Nurse Lillian'),
-(5042, 0, 3, 'Feeling better I see.', 12, 7, 100, 1, 0, 0, 1678, 0, 'Nurse Lillian'),
-(5042, 0, 4, 'Some of this ointment should help.', 12, 7, 100, 1, 0, 0, 1681, 0, 'Nurse Lillian'),
-(5042, 0, 5, 'Take this, drink it down.', 12, 7, 100, 1, 0, 0, 1683, 0, 'Nurse Lillian'),
-(5042, 0, 6, 'This should ease the pain.', 12, 7, 100, 1, 0, 0, 1680, 0, 'Nurse Lillian'),
-(5042, 0, 7, 'You will keep all your fingers and toes, not to worry.', 12, 7, 100, 1, 0, 0, 1684, 0, 'Nurse Lillian'),
-(5042, 0, 8, 'You\'re going to be just fine.', 12, 7, 100, 1, 0, 0, 1682, 0, 'Nurse Lillian');
+(5042, 0, 0, '你会没事的。', 12, 7, 100, 1, 0, 0, 1682, 0, 'Nurse Lillian'),
+(5042, 0, 1, '喝下这个，会有帮助。', 12, 7, 100, 1, 0, 0, 1679, 0, 'Nurse Lillian'),
+(5042, 0, 2, '我来帮你拿这些。', 12, 7, 100, 1, 0, 0, 1685, 0, 'Nurse Lillian'),
+(5042, 0, 3, '看来你好些了。', 12, 7, 100, 1, 0, 0, 1678, 0, 'Nurse Lillian'),
+(5042, 0, 4, '这些药膏应该能帮上忙。', 12, 7, 100, 1, 0, 0, 1681, 0, 'Nurse Lillian'),
+(5042, 0, 5, '拿着这个，喝下去。', 12, 7, 100, 1, 0, 0, 1683, 0, 'Nurse Lillian'),
+(5042, 0, 6, '这应该能缓解疼痛。', 12, 7, 100, 1, 0, 0, 1680, 0, 'Nurse Lillian'),
+(5042, 0, 7, '你的手指和脚趾都会留着的，别担心。', 12, 7, 100, 1, 0, 0, 1684, 0, 'Nurse Lillian'),
+(5042, 0, 8, '你会没事的。', 12, 7, 100, 1, 0, 0, 1682, 0, 'Nurse Lillian');
 
 SET @GUID := 12837;
 

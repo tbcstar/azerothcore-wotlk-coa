@@ -13,7 +13,7 @@ INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_
 
 DELETE FROM `creature_text` WHERE (`CreatureID` = 17681);
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(17681, 0, 0, 'We\'re free! We\'re free!', 12, 7, 100, 0, 0, 0, 14346, 0, 'Expedition Researcher'),
-(17681, 0, 1, 'Woot! Thanks!', 12, 7, 100, 0, 0, 0, 14347, 0, 'Expedition Researcher'),
-(17681, 0, 2, 'By the forehead signet of Velen, I am saved!', 12, 7, 100, 0, 0, 0, 14348, 0, 'Expedition Researcher'),
-(17681, 0, 3, 'I knew Cornelius wouldn\'t leave us behind!', 12, 7, 100, 0, 0, 0, 14349, 0, 'Expedition Researcher');
+(17681, 0, 0, '我们自由了！我们自由了！', 12, 7, 100, 0, 0, 0, 14346, 0, 'Expedition Researcher'),
+(17681, 0, 1, '太棒了！谢谢！', 12, 7, 100, 0, 0, 0, 14347, 0, 'Expedition Researcher'),
+(17681, 0, 2, '以维伦的额饰起誓，我得救了！', 12, 7, 100, 0, 0, 0, 14348, 0, 'Expedition Researcher'),
+(17681, 0, 3, '我就知道科尼利厄斯不会丢下我们！', 12, 7, 100, 0, 0, 0, 14349, 0, 'Expedition Researcher');

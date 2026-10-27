@@ -87,7 +87,7 @@ UPDATE `creature_template` SET `ScriptName`='', `AIName`='SmartAI' WHERE `entry`
 -- Add missing Nozdormu option (OptionID=4)
 DELETE FROM `gossip_menu_option` WHERE `MenuID`=4763 AND `OptionID`=4;
 INSERT INTO `gossip_menu_option` (`MenuID`, `OptionID`, `OptionIcon`, `OptionText`, `OptionBroadcastTextID`, `OptionType`, `OptionNpcFlag`, `ActionMenuID`, `ActionPoiID`, `BoxCoded`, `BoxMoney`, `BoxText`) VALUES
-(4763, 4, 0, 'Nozdormu is my answer.', 0, 1, 1, 0, 0, 0, 0, '');
+(4763, 4, 0, '我的答案是诺兹多姆。', 0, 1, 1, 0, 0, 0, 0, '');
 
 -- Condition on gossip_menu: show text 5820 (quiz text) if quest 6627 is taken
 DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId`=14 AND `SourceGroup`=4763 AND `SourceEntry`=5820;

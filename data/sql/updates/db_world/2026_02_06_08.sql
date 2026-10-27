@@ -71,11 +71,11 @@ DELETE FROM `smart_scripts` WHERE (`source_type` = 0 AND `entryorguid` = 23277);
 
 DELETE FROM `creature_text` WHERE (`CreatureID` = 21838) AND (`GroupID` IN (4));
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(21838, 4, 0, 'Show me what you\'re made of, $n!', 14, 0, 100, 0, 0, 0, 21327, 0, 'Terokk Chosen One');
+(21838, 4, 0, '让我看看你有几斤几两，$n！', 14, 0, 100, 0, 0, 0, 21327, 0, 'Terokk Chosen One');
 
 DELETE FROM `creature_text` WHERE (`CreatureID` = 23377) AND (`GroupID` IN (4));
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(23377, 4, 0, 'Abort mission!  Our ground forces have been defeated.', 14, 0, 100, 0, 0, 0, 21438, 0, 'Skyguard Ace Defeat');
+(23377, 4, 0, '中止任务！我们的地面部队已被击溃。', 14, 0, 100, 0, 0, 0, 21438, 0, 'Skyguard Ace Defeat');
 
 DELETE FROM `waypoint_data` WHERE `id` IN (124781, 124782, 124783);
 INSERT INTO `waypoint_data` (`id`,`point`,`position_x`,`position_y`,`position_z`,`orientation`,`move_type`) VALUES

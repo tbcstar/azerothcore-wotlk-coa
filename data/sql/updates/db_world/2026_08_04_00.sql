@@ -20,25 +20,25 @@ DELETE FROM `creature_addon` WHERE `guid` IN (104497);
 
 DELETE FROM `creature_text` WHERE (`CreatureID` = 25439);
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(25439, 0, 0, 'Captain... Nerub\'ar flyers! Hundreds of \'em! Coming... Coming from the south! Over our defenses!', 12, 1, 100, 5, 0, 0, 24653, 0, 'Warsong Scout - What The Cold Wind Brings... Event'),
-(25439, 1, 0, 'There! There!', 12, 1, 100, 5, 0, 0, 24654, 0, 'Warsong Scout - What The Cold Wind Brings... Event');
+(25439, 0, 0, '队长……蛛魔飞兵！好几百个！从……从南边来！越过我们的防线了！', 12, 1, 100, 5, 0, 0, 24653, 0, 'Warsong Scout - What The Cold Wind Brings... Event'),
+(25439, 1, 0, '那儿！就在那儿！', 12, 1, 100, 5, 0, 0, 24654, 0, 'Warsong Scout - What The Cold Wind Brings... Event');
 
 DELETE FROM `creature_text` WHERE (`CreatureID` = 25446);
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(25446, 0, 0, 'Settle down, soldier!', 12, 1, 100, 5, 0, 0, 24655, 0, 'Warsong Captain - What The Cold Wind Brings... Event'),
-(25446, 1, 0, 'We\'ll be ready for \'em... You did a good job in warning us.', 12, 1, 100, 1, 0, 0, 24656, 0, 'Warsong Captain - What The Cold Wind Brings... Event'),
-(25446, 2, 0, 'Marksmen! Front and center! Scourge attack incoming!', 14, 1, 100, 22, 0, 0, 24657, 0, 'Warsong Captain - What The Cold Wind Brings... Event'),
-(25446, 3, 0, 'Marksmen, lock and load!', 14, 1, 100, 22, 0, 0, 24659, 0, 'Warsong Captain - What The Cold Wind Brings... Event'),
-(25446, 4, 0, 'The Nerub\'ar have been punished for their transgression!', 14, 1, 100, 22, 0, 0, 24660, 0, 'Warsong Captain - What The Cold Wind Brings... Event'),
-(25446, 5, 0, 'Leave no survivors! Let Arthas sort \'em out...', 12, 1, 100, 0, 0, 0, 24663, 0, 'Warsong Captain'),
-(25446, 5, 1, 'For Hellscream! For the Horde!', 12, 1, 100, 0, 0, 0, 24664, 0, 'Warsong Captain'),
-(25446, 5, 2, 'Yes... Let the rage consume you!', 12, 1, 100, 0, 0, 0, 24665, 0, 'Warsong Captain'),
-(25446, 6, 0, 'Let the forces of the Lich King gaze upon the carcass of this wretch and know that the Horde will not relent!', 14, 1, 100, 22, 0, 0, 24673, 0, 'Warsong Captain - What The Cold Wind Brings... Event'),
-(25446, 7, 0, 'Gather, soldiers! Gather and take your trophies from the carapace of the enemy!', 12, 1, 100, 1, 0, 0, 24674, 0, 'Warsong Captain - What The Cold Wind Brings... Event');
+(25446, 0, 0, '安静点，士兵！', 12, 1, 100, 5, 0, 0, 24655, 0, 'Warsong Captain - What The Cold Wind Brings... Event'),
+(25446, 1, 0, '我们会准备好的……你警告得很及时。', 12, 1, 100, 1, 0, 0, 24656, 0, 'Warsong Captain - What The Cold Wind Brings... Event'),
+(25446, 2, 0, '射手们！到前面来！天灾来袭！', 14, 1, 100, 22, 0, 0, 24657, 0, 'Warsong Captain - What The Cold Wind Brings... Event'),
+(25446, 3, 0, '射手们，装弹上膛！', 14, 1, 100, 22, 0, 0, 24659, 0, 'Warsong Captain - What The Cold Wind Brings... Event'),
+(25446, 4, 0, '蛛魔已为他们的僭越受到惩罚！', 14, 1, 100, 22, 0, 0, 24660, 0, 'Warsong Captain - What The Cold Wind Brings... Event'),
+(25446, 5, 0, '不留活口！让阿尔萨斯自己去挑吧……', 12, 1, 100, 0, 0, 0, 24663, 0, 'Warsong Captain'),
+(25446, 5, 1, '为了地狱咆哮！为了部落！', 12, 1, 100, 0, 0, 0, 24664, 0, 'Warsong Captain'),
+(25446, 5, 2, '是……让怒火吞噬你吧！', 12, 1, 100, 0, 0, 0, 24665, 0, 'Warsong Captain'),
+(25446, 6, 0, '让巫妖王的军队看着这个可怜虫的尸体，知道部落绝不罢休！', 14, 1, 100, 22, 0, 0, 24673, 0, 'Warsong Captain - What The Cold Wind Brings... Event'),
+(25446, 7, 0, '集合，士兵们！集合起来，从敌人的甲壳上取下你们的战利品！', 12, 1, 100, 1, 0, 0, 24674, 0, 'Warsong Captain - What The Cold Wind Brings... Event');
 
 DELETE FROM `creature_text` WHERE (`CreatureID` = 25453);
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(25453, 0, 0, 'I will take great pleasure in tearing the forces of the Horde apart... limb from limb and piece by piece...', 14, 0, 100, 0, 0, 0, 24672, 0, 'Ith\'rix the Harvester - What The Cold Wind Brings... Event');
+(25453, 0, 0, '我非常乐意把部落的军队撕成碎片……一条胳膊一条腿，一块一块地撕……', 14, 0, 100, 0, 0, 0, 24672, 0, 'Ith\'rix the Harvester - What The Cold Wind Brings... Event');
 
 DELETE FROM `creature` WHERE `guid` BETWEEN @GUID AND @GUID+24 AND `id` IN (25446, 25453, 25244) AND `map` = 571;
 INSERT INTO `creature` (`guid`, `id`, `map`, `spawnMask`, `phaseMask`, `equipment_id`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`, `VerifiedBuild`, `CreateObject`, `Comment`) VALUES

@@ -22,7 +22,7 @@
 -- Horde greeting text (wraps broadcast 13557).
 DELETE FROM `npc_text` WHERE `ID` = 8831;
 INSERT INTO `npc_text` (`ID`, `text0_0`, `BroadcastTextID0`, `Probability0`) VALUES
-(8831, 'Your presence here can only mean trouble, $g son : daughter; of the Horde.  Go in peace.', 13557, 1);
+(8831, '你出现在这里只意味着麻烦，部落的$g儿子:女儿;。  平安地去吧。', 13557, 1);
 
 -- Make the race-specific greetings selectable from menu 7376 (8824/8826/8827 already present).
 DELETE FROM `gossip_menu` WHERE `MenuID` = 7376 AND `TextID` IN (8825, 8831);

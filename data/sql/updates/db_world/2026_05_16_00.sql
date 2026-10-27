@@ -6,10 +6,10 @@ DELETE FROM `creature_addon` WHERE (`guid` IN (13178));
 -- Update Trok Creature Text
 DELETE FROM `creature_text` WHERE (`CreatureID` = 14872);
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(14872, 0, 0, 'Help! I\'m being chased by a swarm of bees!', 12, 1, 100, 0, 0, 0, 10259, 0, 'Trok'),
-(14872, 1, 0, 'I\'m so tired of running, but these bees won\'t leave me alone!', 12, 1, 100, 0, 0, 0, 10260, 0, 'Trok'),
-(14872, 2, 0, 'I didn\'t know bees didn\'t like fire!', 12, 1, 100, 0, 0, 0, 10261, 0, 'Trok'),
-(14872, 3, 0, 'Karu will you please help get these bees off of me? They sting!', 12, 1, 100, 0, 0, 0, 10262, 0, 'Trok');
+(14872, 0, 0, '救命！我被一群蜜蜂追！', 12, 1, 100, 0, 0, 0, 10259, 0, 'Trok'),
+(14872, 1, 0, '我实在跑累了，可这些蜜蜂就是不肯放过我！', 12, 1, 100, 0, 0, 0, 10260, 0, 'Trok'),
+(14872, 2, 0, '我不知道蜜蜂竟然不喜欢火！', 12, 1, 100, 0, 0, 0, 10261, 0, 'Trok'),
+(14872, 3, 0, '卡鲁，你能帮我把这些蜜蜂赶走吗？它们蜇人！', 12, 1, 100, 0, 0, 0, 10262, 0, 'Trok');
 
 -- Remove Trok old waypoint & set a new one (sniffed)
 DELETE FROM `waypoint_data` WHERE (`id` IN (1487200, 131780));

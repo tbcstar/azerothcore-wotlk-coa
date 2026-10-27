@@ -5,13 +5,13 @@
 --
 DELETE FROM `creature_text` WHERE `CreatureID` = 31023;
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(31023, 0, 0, 'Please, I''m just a delivery man!', 12, 0, 100, 431, 0, 0, 32044, 0, 'Brandon Eiredeck - Ambient');
+(31023, 0, 0, '求你了，我只是个送货的！', 12, 0, 100, 431, 0, 0, 32044, 0, 'Brandon Eiredeck - Ambient');
 
 -- Add group 3 for the Brandon Eiredeck crowd (different from Barthilas crowd)
 DELETE FROM `creature_text` WHERE `CreatureID` = 31126 AND `GroupID` = 3;
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(31126, 3, 0, 'I think it''s your grain that''s making us sick!', 12, 0, 100, 5, 0, 0, 32032, 0, 'Agitated Stratholme Citizen - Brandon Crowd'),
-(31126, 3, 1, 'We were fine until we ate from this tainted grain of yours!', 12, 0, 100, 5, 0, 0, 32035, 0, 'Agitated Stratholme Citizen - Brandon Crowd');
+(31126, 3, 0, '我看是你们的粮食让我们生病的！', 12, 0, 100, 5, 0, 0, 32032, 0, 'Agitated Stratholme Citizen - Brandon Crowd'),
+(31126, 3, 1, '我们本来好好的，直到吃了你们这批被污染的粮食！', 12, 0, 100, 5, 0, 0, 32035, 0, 'Agitated Stratholme Citizen - Brandon Crowd');
 
 -- Enable SmartAI for Brandon Eiredeck
 UPDATE `creature_template` SET `AIName` = 'SmartAI' WHERE `entry` = 31023;

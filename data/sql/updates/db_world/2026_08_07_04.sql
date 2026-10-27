@@ -36,7 +36,7 @@ INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES
 
 DELETE FROM `creature_text` WHERE (`CreatureID` = 28182);
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(28182, 0, 0, '%s motions toward the icy water below.', 16, 0, 100, 0, 0, 0, 29446, 0, 'Dusk - Finding the Phylactery');
+(28182, 0, 0, '%s 朝下方冰冷的水面示意。', 16, 0, 100, 0, 0, 0, 29446, 0, 'Dusk - Finding the Phylactery');
 
 UPDATE `gameobject_template` SET `AIName` = 'SmartGameObjectAI' WHERE `entry` = 188141;
 DELETE FROM `smart_scripts` WHERE (`source_type` = 1 AND `entryorguid` = 188141);
@@ -66,4 +66,4 @@ INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_
 
 DELETE FROM `creature_text` WHERE (`CreatureID` = 26225);
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(26225, 0, 0, 'The phylactery is not yours to take, $n!  You will pay for your transgression.', 12, 0, 100, 0, 0, 0, 25377, 0, 'Phylactery Guardian');
+(26225, 0, 0, '命匣不是你能拿的，$n！你要为你的僭越付出代价。', 12, 0, 100, 0, 0, 0, 25377, 0, 'Phylactery Guardian');

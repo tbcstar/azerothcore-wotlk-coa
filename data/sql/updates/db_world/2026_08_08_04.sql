@@ -5,26 +5,26 @@ INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES (45522, 'spel
 
 DELETE FROM `creature_text` WHERE (`CreatureID` = 25421);
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(25421, 0, 0, 'Rescued! You have my thanks and my aid, friend.', 12, 1, 100, 5, 0, 0, 24622, 0, 'Warsong Hold Shaman - Released'),
-(25421, 0, 1, 'We will battle together to rid this quarry of the Scourge!', 12, 1, 100, 5, 0, 0, 24623, 0, 'Warsong Hold Shaman - Released'),
-(25421, 1, 0, 'Ancestors be with you, hero. Farewell!', 12, 1, 100, 0, 0, 0, 24621, 0, 'Warsong Hold Shaman - Dismissed'),
-(25421, 1, 1, 'Spirits watch over you, friend. I must make my return to Warsong Hold.', 12, 1, 100, 0, 0, 0, 24620, 0, 'Warsong Hold Shaman - Dismissed');
+(25421, 0, 0, '得救了！我感谢你，也会帮你，朋友。', 12, 1, 100, 5, 0, 0, 24622, 0, 'Warsong Hold Shaman - Released'),
+(25421, 0, 1, '我们将并肩作战，把这处采石场的天灾清除干净！', 12, 1, 100, 5, 0, 0, 24623, 0, 'Warsong Hold Shaman - Released'),
+(25421, 1, 0, '愿先祖与你同在，英雄。再会！', 12, 1, 100, 0, 0, 0, 24621, 0, 'Warsong Hold Shaman - Dismissed'),
+(25421, 1, 1, '愿灵魂看顾你，朋友。我必须回战歌要塞了。', 12, 1, 100, 0, 0, 0, 24620, 0, 'Warsong Hold Shaman - Dismissed');
 
 DELETE FROM `creature_text` WHERE (`CreatureID` = 25414);
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(25414, 0, 0, 'My axe is yours, hero! Together we will destroy these insects!', 12, 1, 100, 5, 0, 0, 24614, 0, 'Warsong Hold Warrior - Released'),
-(25414, 0, 1, 'We will battle together to rid this quarry of the Scourge!', 12, 1, 100, 5, 0, 0, 24623, 0, 'Warsong Hold Warrior - Released'),
-(25414, 1, 0, 'I must return to Warsong Hold. Battle hard, hero!', 12, 1, 100, 0, 0, 0, 24615, 0, 'Warsong Hold Warrior - Dismissed'),
-(25414, 1, 1, 'I must return to Warsong Hold, hero. May you swim in the blood of our enemies and feast upon their sorrow!', 12, 1, 100, 0, 0, 0, 24616, 0, 'Warsong Hold Warrior - Dismissed'),
-(25414, 1, 2, 'Farewell, friend. I must return to Warsong Hold.', 12, 1, 100, 0, 0, 0, 24617, 0, 'Warsong Hold Warrior - Dismissed'),
-(25414, 1, 3, 'Until we meet again, hero. Duty calls!', 12, 1, 100, 0, 0, 0, 24618, 0, 'Warsong Hold Warrior - Dismissed');
+(25414, 0, 0, '我的斧头归你了，英雄！我们一起去灭了这些虫子！', 12, 1, 100, 5, 0, 0, 24614, 0, 'Warsong Hold Warrior - Released'),
+(25414, 0, 1, '我们将并肩作战，把这处采石场的天灾清除干净！', 12, 1, 100, 5, 0, 0, 24623, 0, 'Warsong Hold Warrior - Released'),
+(25414, 1, 0, '我必须回战歌要塞去了。奋战到底，英雄！', 12, 1, 100, 0, 0, 0, 24615, 0, 'Warsong Hold Warrior - Dismissed'),
+(25414, 1, 1, '我必须返回战歌要塞了，英雄。愿你在敌人的鲜血中畅游，以他们的悲伤为盛宴！', 12, 1, 100, 0, 0, 0, 24616, 0, 'Warsong Hold Warrior - Dismissed'),
+(25414, 1, 2, '再会了，朋友。我必须返回战歌要塞。', 12, 1, 100, 0, 0, 0, 24617, 0, 'Warsong Hold Warrior - Dismissed'),
+(25414, 1, 3, '再会了，英雄。职责在召唤！', 12, 1, 100, 0, 0, 0, 24618, 0, 'Warsong Hold Warrior - Dismissed');
 
 DELETE FROM `creature_text` WHERE (`CreatureID` = 25420);
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(25420, 0, 0, 'By the fury of the Sunwell, I am released!', 12, 1, 100, 5, 0, 0, 24624, 0, 'Warsong Hold Mage - Released'),
-(25420, 0, 1, 'Vengeance shall be mine! For Quel\'thalas! For the sin\'dorei!', 12, 1, 100, 5, 0, 0, 24625, 0, 'Warsong Hold Mage - Released'),
-(25420, 1, 0, 'Farewell, friend. I must return to Warsong Hold.', 12, 1, 100, 0, 0, 0, 24617, 0, 'Warsong Hold Mage - Dismissed'),
-(25420, 1, 1, 'Until we meet again, hero. Duty calls!', 12, 1, 100, 0, 0, 0, 24618, 0, 'Warsong Hold Mage - Dismissed');
+(25420, 0, 0, '以太阳之井的怒火，我被释放了！', 12, 1, 100, 5, 0, 0, 24624, 0, 'Warsong Hold Mage - Released'),
+(25420, 0, 1, '复仇必将属于我！为了奎尔萨拉斯！为了辛多雷！', 12, 1, 100, 5, 0, 0, 24625, 0, 'Warsong Hold Mage - Released'),
+(25420, 1, 0, '再会了，朋友。我必须返回战歌要塞。', 12, 1, 100, 0, 0, 0, 24617, 0, 'Warsong Hold Mage - Dismissed'),
+(25420, 1, 1, '再会了，英雄。职责在召唤！', 12, 1, 100, 0, 0, 0, 24618, 0, 'Warsong Hold Mage - Dismissed');
 
 UPDATE `creature_template` SET `AIName` = 'SmartAI' WHERE `entry` = 25420;
 DELETE FROM `smart_scripts` WHERE (`source_type` = 0 AND `entryorguid` = 25420);

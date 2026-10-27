@@ -64,7 +64,7 @@ UPDATE `creature_template` SET `ScriptName`='' WHERE `entry`=23778;
 -- Add vendor gossip_menu_option
 DELETE FROM `gossip_menu_option` WHERE `MenuID`=10210 AND `OptionID`=1;
 INSERT INTO `gossip_menu_option` (`MenuID`, `OptionID`, `OptionIcon`, `OptionText`, `OptionBroadcastTextID`, `OptionType`, `OptionNpcFlag`, `ActionMenuID`, `ActionPoiID`, `BoxCoded`, `BoxMoney`, `BoxText`, `BoxBroadcastTextID`, `VerifiedBuild`) VALUES
-(10210, 1, 1, 'I want to browse your goods.', 3370, 3, 128, 0, 0, 0, 0, '', 0, 0);
+(10210, 1, 1, '我想看看你的货物。', 3370, 3, 128, 0, 0, 0, 0, '', 0, 0);
 
 -- Condition on vendor option: HasSpell 60866 (Mechano-Hog) OR HasSpell 60867 (Mekgineer's Chopper)
 DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId`=15 AND `SourceGroup`=10210 AND `SourceEntry`=1;

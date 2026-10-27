@@ -7,7 +7,7 @@ INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_
 
 DELETE FROM `creature_text` WHERE (`CreatureID` = 25238);
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(25238, 0, 0, 'To the town hall, everyone!  We\'ve brought you weapons!  Arm yourselves and beat the Scourge back!', 14, 0, 100, 5, 0, 0, 25832, 0, 'Gamlen - Call to Arms! Quest');
+(25238, 0, 0, '大家去市政厅！我们给你们带来了武器！武装起来，把天灾打回去！', 14, 0, 100, 5, 0, 0, 25832, 0, 'Gamlen - Call to Arms! Quest');
 
 -- Timers below are sequential deltas (each starts when the previous action fires), derived from the sniff timeline.
 -- Cumulative offsets from the bell being rung: 0 / 0 / 1582 / 2761 / 4048 / 4173 / 5217 / 5217 / 6495 / 16193 / 27112 / 38017

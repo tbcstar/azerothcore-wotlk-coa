@@ -34,15 +34,15 @@ INSERT INTO `waypoint_data` (`id`, `point`, `position_x`, `position_y`, `positio
 
 DELETE FROM `creature_text` WHERE (`CreatureID` = 25589);
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(25589, 0, 0, 'I AM NOT AN APPETIZER!', 12, 7, 100, 0, 0, 0, 24780, 0, 'Bonker Togglevolt - Aggro'),
-(25589, 1, 0, 'Right then, no time to waste. Let\'s get outa here!', 12, 7, 100, 1, 0, 0, 24772, 0, 'Bonker Togglevolt - Quest Taken'),
-(25589, 0, 1, 'Filthy creature!', 12, 7, 100, 0, 0, 0, 24777, 0, 'Bonker Togglevolt - Aggro'),
-(25589, 0, 2, 'I came here to talk, but you mindless things tried to kill me instead!', 12, 7, 100, 0, 0, 0, 24778, 0, 'Bonker Togglevolt - Aggro'),
-(25589, 0, 3, 'You won\'t put me in chains again!', 12, 7, 100, 0, 0, 0, 24779, 0, 'Bonker Togglevolt - Aggro'),
-(25589, 2, 0, 'Here we go.', 12, 7, 100, 1, 0, 0, 24773, 0, 'Bonker Togglevolt - Start Escort'),
-(25589, 3, 0, 'I think it\'s up this way to the left.  Let\'s go!', 12, 7, 100, 5, 0, 0, 24776, 0, 'Bonker Togglevolt - Escort Underway'),
-(25589, 4, 0, 'Ah, fresh air! I can get myself back to the airstrip from here. Be sure to tell Fizzcrank I\'m back and safe. Thanks so much, $n!', 12, 7, 100, 1, 0, 0, 24774, 0, 'Bonker Togglevolt - Quest Completed'),
-(25589, 4, 1, 'The airstrip at last! Thank you, I can make my way from here. Be sure to tell Fizzcrank I\'m back and safe!', 12, 7, 100, 1, 0, 0, 24775, 0, 'Bonker Togglevolt - Quest Completed');
+(25589, 0, 0, '我不是开胃菜！', 12, 7, 100, 0, 0, 0, 24780, 0, 'Bonker Togglevolt - Aggro'),
+(25589, 1, 0, '那好，别浪费时间了。我们离开这儿！', 12, 7, 100, 1, 0, 0, 24772, 0, 'Bonker Togglevolt - Quest Taken'),
+(25589, 0, 1, '肮脏的家伙！', 12, 7, 100, 0, 0, 0, 24777, 0, 'Bonker Togglevolt - Aggro'),
+(25589, 0, 2, '我是来谈话的，可你们这些没脑子的东西却想杀我！', 12, 7, 100, 0, 0, 0, 24778, 0, 'Bonker Togglevolt - Aggro'),
+(25589, 0, 3, '你别想再把我关进锁链里！', 12, 7, 100, 0, 0, 0, 24779, 0, 'Bonker Togglevolt - Aggro'),
+(25589, 2, 0, '我们走吧。', 12, 7, 100, 1, 0, 0, 24773, 0, 'Bonker Togglevolt - Start Escort'),
+(25589, 3, 0, '我想就在左边上去这条路。走吧！', 12, 7, 100, 5, 0, 0, 24776, 0, 'Bonker Togglevolt - Escort Underway'),
+(25589, 4, 0, '啊，新鲜空气！我自己能从这儿回到简易机场。一定要告诉菲兹克兰克我平安回来了。太感谢你了，$n！', 12, 7, 100, 1, 0, 0, 24774, 0, 'Bonker Togglevolt - Quest Completed'),
+(25589, 4, 1, '终于到简易机场了！谢谢你，我从这儿就能自己走了。一定要告诉菲兹克兰克我平安回来了！', 12, 7, 100, 1, 0, 0, 24775, 0, 'Bonker Togglevolt - Quest Completed');
 
 UPDATE `creature_template` SET `unit_flags` = 32768, `AIName` = 'SmartAI', `ScriptName` = '' WHERE (`entry` = 25589);
 /*

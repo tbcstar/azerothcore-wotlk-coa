@@ -21,7 +21,7 @@ INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry
 -- Add missing text
 DELETE FROM `creature_text` WHERE (`CreatureID` = 33113) AND (`GroupID` IN (20));
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(33113, 20, 0, 'The Flame Leviathan begins to overload!', 41, 0, 100, 0, 0, 0, 33276, 0, 'Flame Leviathan EMOTE_OVERLOAD_START');
+(33113, 20, 0, '烈焰利维坦开始过载！', 41, 0, 100, 0, 0, 0, 33276, 0, 'Flame Leviathan EMOTE_OVERLOAD_START');
 
 DELETE FROM `spell_script_names` WHERE `spell_id` = 62336;
 INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES

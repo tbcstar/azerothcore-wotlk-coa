@@ -6,30 +6,30 @@ INSERT INTO `creature_equip_template` (`CreatureID`, `ID`, `ItemID1`, `ItemID2`,
 
 DELETE FROM `creature_text` WHERE (`CreatureID` = 25301);
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(25301, 0, 0, 'Our troops, general, consist mostly of villagers and peasants.  Good men, but not quite rid of the prejudices and superstitions of their upbringing.  They\'re not ready to fight alongside our more exotic allies.', 12, 7, 100, 1, 0, 0, 24789, 0, 'Counselor Talbot'),
-(25301, 1, 0, 'My liege, the infiltration and control of the Alliance power structure by our cultists is well underway.', 12, 0, 100, 0, 0, 14211, 25357, 0, 'Talbot - Last Rites'),
-(25301, 2, 0, 'The power you\'ve bestowed upon me has granted me great mental influence over human minds.  I bear these offerings as proof of my progress.', 12, 0, 100, 0, 0, 14212, 25358, 0, 'Talbot - Last Rites'),
-(25301, 3, 0, 'Allow me to take care of the intruders, lord.  I will feed their entrails to the maggots.', 12, 0, 100, 1, 0, 14213, 25361, 0, 'Talbot - Last Rites'),
-(25301, 4, 0, 'Yes, my lord!', 12, 0, 100, 1, 0, 14214, 25365, 0, 'Talbot - Last Rites');
+(25301, 0, 0, '将军，我们的部队大多是村民和农夫。都是好人，但还没能摆脱成长中的偏见和迷信。他们还没准备好与我们那些更奇特的盟友并肩作战。', 12, 7, 100, 1, 0, 0, 24789, 0, 'Counselor Talbot'),
+(25301, 1, 0, '我的主人，我们的教徒对联盟权力结构的渗透与控制已进展顺利。', 12, 0, 100, 0, 0, 14211, 25357, 0, 'Talbot - Last Rites'),
+(25301, 2, 0, '你赐予我的力量让我对人类的心智有了强大的精神影响力。我带来这些贡品作为进展的证明。', 12, 0, 100, 0, 0, 14212, 25358, 0, 'Talbot - Last Rites'),
+(25301, 3, 0, '大人，让我来处理这些入侵者。我会把他们的内脏喂给蛆虫。', 12, 0, 100, 1, 0, 14213, 25361, 0, 'Talbot - Last Rites'),
+(25301, 4, 0, '是，我的主人！', 12, 0, 100, 1, 0, 14214, 25365, 0, 'Talbot - Last Rites');
 
 -- Duplicated to not create issues after UpdateEntry
 DELETE FROM `creature_text` WHERE (`CreatureID` = 28189);
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(28189, 0, 0, 'Our troops, general, consist mostly of villagers and peasants.  Good men, but not quite rid of the prejudices and superstitions of their upbringing.  They\'re not ready to fight alongside our more exotic allies.', 12, 7, 100, 1, 0, 0, 24789, 0, 'Prince Valanar'),
-(28189, 1, 0, 'My liege, the infiltration and control of the Alliance power structure by our cultists is well underway.', 12, 0, 100, 0, 0, 14211, 25357, 0, 'Prince Valanar - Last Rites'),
-(28189, 2, 0, 'The power you\'ve bestowed upon me has granted me great mental influence over human minds.  I bear these offerings as proof of my progress.', 12, 0, 100, 0, 0, 14212, 25358, 0, 'Prince Valanar - Last Rites'),
-(28189, 3, 0, 'Allow me to take care of the intruders, lord.  I will feed their entrails to the maggots.', 12, 0, 100, 1, 0, 14213, 25361, 0, 'Prince Valanar - Last Rites'),
-(28189, 4, 0, 'Yes, my lord!', 12, 0, 100, 1, 0, 14214, 25365, 0, 'Prince Valanar - Last Rites');
+(28189, 0, 0, '将军，我们的部队大多是村民和农夫。都是好人，但还没能摆脱成长中的偏见和迷信。他们还没准备好与我们那些更奇特的盟友并肩作战。', 12, 7, 100, 1, 0, 0, 24789, 0, 'Prince Valanar'),
+(28189, 1, 0, '我的主人，我们的教徒对联盟权力结构的渗透与控制已进展顺利。', 12, 0, 100, 0, 0, 14211, 25357, 0, 'Prince Valanar - Last Rites'),
+(28189, 2, 0, '你赐予我的力量让我对人类的心智有了强大的精神影响力。我带来这些贡品作为进展的证明。', 12, 0, 100, 0, 0, 14212, 25358, 0, 'Prince Valanar - Last Rites'),
+(28189, 3, 0, '大人，让我来处理这些入侵者。我会把他们的内脏喂给蛆虫。', 12, 0, 100, 1, 0, 14213, 25361, 0, 'Prince Valanar - Last Rites'),
+(28189, 4, 0, '是，我的主人！', 12, 0, 100, 1, 0, 14214, 25365, 0, 'Prince Valanar - Last Rites');
 
 DELETE FROM `creature_text` WHERE (`CreatureID` = 26203);
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(26203, 0, 0, 'Your progress in this region has been impressive, blood prince.  I am pleased.', 12, 0, 100, 0, 0, 14756, 25362, 0, 'thassarian SAY_LICH_1'),
-(26203, 1, 0, 'Now this is a surprise, Thassarian.  I hadn\'t heard from Mograine or the other death knights for months.  You\'ve come to rejoin the Scourge, I take it?', 12, 0, 100, 0, 0, 14757, 25363, 0, 'thassarian SAY_LICH_2'),
-(26203, 2, 0, 'Do not fail me, San\'layn.  Return to Icecrown with this fool\'s head or do not bother to return.', 12, 0, 100, 1, 0, 14758, 25364, 0, 'thassarian SAY_LICH_3');
+(26203, 0, 0, '你在这个地区的进展令人印象深刻，血王子。我很满意。', 12, 0, 100, 0, 0, 14756, 25362, 0, 'thassarian SAY_LICH_1'),
+(26203, 1, 0, '这可真是个惊喜，萨萨里安。我好几个月没听到莫格莱尼或其他死亡骑士的消息了。我猜你是回来重新加入天灾的？', 12, 0, 100, 0, 0, 14757, 25363, 0, 'thassarian SAY_LICH_2'),
+(26203, 2, 0, '别让我失望，萨莱恩。带着这个蠢货的头颅回冰冠堡垒，否则就别回来。', 12, 0, 100, 1, 0, 14758, 25364, 0, 'thassarian SAY_LICH_3');
 
 DELETE FROM `creature_text` WHERE (`CreatureID` = 26170) AND (`GroupID` IN (2));
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(26170, 2, 0, 'I would sooner slit my own throat.  You will pay for what you did to your own men, Arthas... for what you did to me!  I swear it.', 12, 0, 100, 53, 0, 14666, 25366, 0, 'thassarian SAY_THASSARIAN_3');
+(26170, 2, 0, '我宁可割开自己的喉咙。你要为对你部下所做的一切付出代价，阿尔萨斯……为你对我做的事付出代价！我发誓。', 12, 0, 100, 53, 0, 14666, 25366, 0, 'thassarian SAY_THASSARIAN_3');
 
 UPDATE `creature` SET `ScriptName` = '' WHERE `guid` IN (101136, 101303) AND `id1` = 26170;
 

@@ -235,12 +235,12 @@ INSERT INTO `waypoint_data` (`id`, `point`, `position_x`, `position_y`, `positio
 
 DELETE FROM `creature_text` WHERE `CreatureID`= 28500;
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(28500, 0, 0, 'First, he gives away all of my precious Saronite, then he demands I begin crafting Runeblades of even greater power! Pah!', 12, 0, 100, 11, 0, 0, 0, 0, 'Master Siegesmith Corvus'),
-(28500, 0, 1, 'Fix my armor, Corvus! My blade is rusty, Corvus! ... when will these damned mortals ever learn to care for themselves?', 12, 0, 100, 11, 0, 0, 0, 0, 'Master Siegesmith Corvus'),
-(28500, 0, 2, 'I may not have any mindless servants, but at least I can see a quality blade made from time to time.', 12, 0, 100, 11, 0, 0, 0, 0, 'Master Siegesmith Corvus'),
-(28500, 0, 3, 'There is work to be done here, but do you see anyone jumping to help me? No! Wretches, all of them!', 12, 0, 100, 11, 0, 0, 0, 0, 'Master Siegesmith Corvus'),
-(28500, 0, 4, 'These Death Knights truly know no honor. First, they take my greatest arms and armor, crafted with care, forged with the Lich King''s blessing. Then they wander off to who knows where and come back dressed like Goblins, mumbling something about pawning off their armor for a few coppers! Pathetic!', 12, 0, 100, 11, 0, 0, 0, 0, 'Master Siegesmith Corvus'),
-(28500, 0, 5, 'What is this nonsense about the Light? I have weapons and armor to make!', 12, 0, 100, 11, 0, 0, 0, 0, 'Master Siegesmith Corvus');
+(28500, 0, 0, '他先是把我宝贵的萨隆邪铁全送出去，然后又要我立刻打造更强大的符文之刃！呸！', 12, 0, 100, 11, 0, 0, 0, 0, 'Master Siegesmith Corvus'),
+(28500, 0, 1, '帮我修盔甲，科尔乌斯！我的剑锈了，科尔乌斯！……这些该死的凡人什么时候才学会自己照顾自己？', 12, 0, 100, 11, 0, 0, 0, 0, 'Master Siegesmith Corvus'),
+(28500, 0, 2, '我或许没有那些没脑子的仆从，但至少偶尔能看到一把好剑被打造出来。', 12, 0, 100, 11, 0, 0, 0, 0, 'Master Siegesmith Corvus'),
+(28500, 0, 3, '这儿有活要干，可你看见有谁抢着来帮我吗？没有！全是废物！', 12, 0, 100, 11, 0, 0, 0, 0, 'Master Siegesmith Corvus'),
+(28500, 0, 4, '这些死亡骑士真是一点荣誉都不懂。先是拿走我最精良的武器和盔甲，那些都是我用心打造、以巫妖王的祝福锻造的。然后他们不知跑到哪儿去，回来时穿得像个地精，嘴里嘟囔着把盔甲当几个铜板换掉了！可悲！', 12, 0, 100, 11, 0, 0, 0, 0, 'Master Siegesmith Corvus'),
+(28500, 0, 5, '这些关于圣光的胡话是什么？我还有武器和盔甲要打造！', 12, 0, 100, 11, 0, 0, 0, 0, 'Master Siegesmith Corvus');
 
 DELETE FROM `smart_scripts` WHERE `entryorguid`= 28500 AND `source_type`= 0;
 INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase_mask`, `event_chance`, `event_flags`, `event_param1`, `event_param2`, `event_param3`, `event_param4`, `event_param5`, `event_param6`, `action_type`, `action_param1`, `action_param2`, `action_param3`, `action_param4`, `action_param5`, `action_param6`, `target_type`, `target_param1`, `target_param2`, `target_param3`, `target_param4`, `target_x`, `target_y`, `target_z`, `target_o`, `comment`) VALUES

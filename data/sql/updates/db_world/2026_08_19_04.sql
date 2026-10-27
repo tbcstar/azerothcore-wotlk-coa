@@ -14,6 +14,6 @@ INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_
 
 DELETE FROM `creature_text` WHERE (`CreatureID` = 27629) AND (`GroupID` IN (2));
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(27629, 2, 0, 'We should get out of here. I need to renew!', 42, 0, 100, 0, 0, 0, 28879, 0, 'Wyrmrest Defender'),
-(27629, 2, 1, 'I need to heal!', 42, 0, 100, 0, 0, 0, 28878, 0, 'Wyrmrest Defender'),
-(27629, 2, 2, 'I think it\'s time that I cast my renew!', 42, 0, 100, 0, 0, 0, 28880, 0, 'Wyrmrest Defender');
+(27629, 2, 0, '我们该离开这儿了。我需要放个恢复术！', 42, 0, 100, 0, 0, 0, 28879, 0, 'Wyrmrest Defender'),
+(27629, 2, 1, '我需要治疗！', 42, 0, 100, 0, 0, 0, 28878, 0, 'Wyrmrest Defender'),
+(27629, 2, 2, '我想该给自己放个恢复术了！', 42, 0, 100, 0, 0, 0, 28880, 0, 'Wyrmrest Defender');

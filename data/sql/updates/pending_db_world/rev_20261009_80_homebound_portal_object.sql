@@ -15,7 +15,7 @@ INSERT INTO `gameobject_template` (
     `Data15`, `Data16`, `Data17`, `Data18`, `Data19`, `Data20`, `Data21`, `Data22`, `Data23`, `AIName`, `ScriptName`,
     `VerifiedBuild`
 ) VALUES
-(80775, 22, 1026702, 'Homebound Portal', '', '', '', 1, 93187, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+(80775, 22, 1026702, '归乡传送门', '', '', '', 1, 93187, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, '', 'go_ascension_homebound_portal', 0)
 ON DUPLICATE KEY UPDATE
     `type` = VALUES(`type`), `displayId` = VALUES(`displayId`), `name` = VALUES(`name`),

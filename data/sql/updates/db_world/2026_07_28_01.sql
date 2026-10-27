@@ -2,9 +2,9 @@
 --
 DELETE FROM `creature_text` WHERE (`CreatureID` = 24900);
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(24900, 0, 0, 'Its power courses through me! I AM A GOD!', 12, 0, 100, 5, 0, 0, 23977, 0, 'Abdul the Insane'),
-(24900, 0, 1, 'ABDUL IS STRONG LIKE BULL!', 12, 0, 100, 5, 0, 0, 23978, 0, 'Abdul the Insane'),
-(24900, 0, 2, 'ARE YOU CHALLENGING ME? I HAVE THE STRENGTH OF TEN MEN!', 12, 0, 100, 5, 0, 0, 23979, 0, 'Abdul the Insane');
+(24900, 0, 0, '它的力量流遍我全身！我就是神！', 12, 0, 100, 5, 0, 0, 23977, 0, 'Abdul the Insane'),
+(24900, 0, 1, '阿卜杜勒壮得像头牛！', 12, 0, 100, 5, 0, 0, 23978, 0, 'Abdul the Insane'),
+(24900, 0, 2, '你是在挑战我吗？我有十个人的力气！', 12, 0, 100, 5, 0, 0, 23979, 0, 'Abdul the Insane');
 
 DELETE FROM `creature_template_addon` WHERE (`entry` = 24900);
 INSERT INTO `creature_template_addon` (`entry`, `path_id`, `mount`, `bytes1`, `bytes2`, `emote`, `visibilityDistanceType`, `auras`) VALUES

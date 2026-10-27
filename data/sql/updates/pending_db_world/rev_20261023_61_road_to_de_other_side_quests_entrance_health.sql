@@ -4,7 +4,7 @@
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 3, `gossip_menu_id` = 162933 WHERE `entry` = 162933;
 DELETE FROM `npc_text` WHERE `ID` = 162933;
 INSERT INTO `npc_text` (`ID`, `text0_0`, `BroadcastTextID0`, `lang0`, `Probability0`) VALUES
-(162933, 'Ah, it be only a matter o\' time before someone else came.$b$bDo not fear. Me name be Adlazin, Priest of Bwonsamdi. Da Loa of Death himself sent me to cut down da dangerous ambitions of Hir\'eek, Dambala, and Elortha-no-Shadra.', 0, 0, 1);
+(162933, '啊，迟早会有别人来，只是时间问题。$b$b别怕。我叫阿德拉津，邦桑迪的祭司。死亡之神亲自派我来铲除希尔埃克、丹巴拉和埃洛莎·无影的野心。', 0, 0, 1);
 DELETE FROM `gossip_menu` WHERE `MenuID` = 162933;
 INSERT INTO `gossip_menu` (`MenuID`, `TextID`) VALUES (162933, 162933);
 
@@ -16,7 +16,7 @@ INSERT INTO `creature_questender` (`id`, `quest`) VALUES (162933, 1660084), (162
 -- A Sinister Family: 8 hissers, 25 spiders, 5 bats. Bats and Lifedrinkers count for the bat credit 163814.
 DELETE FROM `creature_template` WHERE `entry` = 163814;
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `flags_extra`) VALUES
-(163814, 'Bat of the Other Side', 15, 15, 35, 1, 1, 128);
+(163814, '彼岸之蝠', 15, 15, 35, 1, 1, 128);
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 163814;
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) VALUES
 (163814, 0, 11686, 1, 1);

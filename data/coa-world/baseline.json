@@ -97,7 +97,7 @@
     "version"
   ],
   "repackRelease": "client-compat-20260911",
-  "sha256": "0364b88ccfc9c69c2221eefcce7cb2f3db3a5c5ba70fddd0d3835845160f7f91",
+  "sha256": "169a377a69b694168b0878e4076efb34c80c7121d2e6e12ea355c7aed0f7c624",
   "sourceRevision": "8fefb6f0ae253c25014da13eab04ba2e3d0685c0",
   "sourceSnapshotSha256": "c1ec932ebf64a3e37797e8887ee7573712ac25157ef16984a9c37b34f9d23ca4",
   "tables": {
@@ -9740,7 +9740,7 @@
           ""
         ]
       ],
-      "sqlSha256": "ed9fbe47d365dc65c244995fea229578650d60124607875a670e3c2cb5860ce7"
+      "sqlSha256": "a8f706ed8feaaa07f4a11b0ec28899f90eed8144d064815b722df9a7eedd7ecf"
     },
     "creature_text_locale": {
       "columns": [
@@ -18790,7 +18790,7 @@
           ""
         ]
       ],
-      "sqlSha256": "b6a370301ea72afabd7d71239cb703ae363b77807f723e1980b76b46157d7106"
+      "sqlSha256": "c7cd8c7effcc182c3b5d89a376efccb4eb1a5e7b093fccdb0dea66fbfdd7c43a"
     },
     "item_template_ascension_compat": {
       "columns": [

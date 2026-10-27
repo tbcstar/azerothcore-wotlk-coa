@@ -2,14 +2,14 @@
 -- Lines were misplaced
 DELETE FROM `creature_text` WHERE (`CreatureID` = 28006);
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(28006, 0, 0, 'You think you\'ve won, mortal? Face the unbridled power of Antiok!', 14, 0, 100, 5, 0, 0, 27415, 0, 'Antiok - Dismount 1'),
-(28006, 1, 0, 'Behold! The Scythe of Antiok!', 14, 0, 100, 397, 0, 0, 27416, 0, 'Antiok - Dismount 2'),
-(28006, 2, 0, 'Soon, the bones of Galakrond will rise from their eternal slumber and wreak havoc upon this world!', 14, 0, 100, 0, 0, 0, 27406, 0, 'Antiok - OOC Yell'),
-(28006, 2, 1, 'The Lich King demands more frost wyrms be sent to Angrathar! Meet his demands or face my wrath!', 14, 0, 100, 0, 0, 0, 27408, 0, 'Antiok - OOC Yell'),
-(28006, 2, 2, 'Faster, dogs! We mustn\'t relent in our assault against the interlopers!', 14, 0, 100, 0, 0, 0, 27405, 0, 'Antiok - OOC Yell'),
-(28006, 2, 3, 'Attackers are upon us! Let none through to this ancient grave!', 14, 0, 100, 0, 0, 0, 27409, 0, 'Antiok - OOC Yell'),
-(28006, 2, 4, 'Hear me, minions! Hear your lord, Antiok! Double your efforts or pay the consequences of failure!', 14, 0, 100, 0, 0, 0, 27407, 0, 'Antiok - OOC Yell'),
-(28006, 3, 0, 'The Scythe of Antiok drops to the ground!', 41, 0, 100, 0, 0, 0, 27410, 0, 'Antiok - On Death');
+(28006, 0, 0, '你以为你赢了，凡人？面对安提奥克毫无束缚的力量吧！', 14, 0, 100, 5, 0, 0, 27415, 0, 'Antiok - Dismount 1'),
+(28006, 1, 0, '看哪！安提奥克的镰刀！', 14, 0, 100, 397, 0, 0, 27416, 0, 'Antiok - Dismount 2'),
+(28006, 2, 0, '很快，迦拉克隆的骸骨将从永恒的沉睡中醒来，给这个世界带来浩劫！', 14, 0, 100, 0, 0, 0, 27406, 0, 'Antiok - OOC Yell'),
+(28006, 2, 1, '巫妖王要求向安格拉萨尔派遣更多冰霜巨龙！满足他的要求，否则就面对我的怒火！', 14, 0, 100, 0, 0, 0, 27408, 0, 'Antiok - OOC Yell'),
+(28006, 2, 2, '快一点，狗东西！我们对这些入侵者的攻势绝不能松懈！', 14, 0, 100, 0, 0, 0, 27405, 0, 'Antiok - OOC Yell'),
+(28006, 2, 3, '敌人来袭！不许任何人进入这座古老的墓穴！', 14, 0, 100, 0, 0, 0, 27409, 0, 'Antiok - OOC Yell'),
+(28006, 2, 4, '听我说，仆从们！听听你们的主人安提奥克！加倍努力，否则就承担失败的后果！', 14, 0, 100, 0, 0, 0, 27407, 0, 'Antiok - OOC Yell'),
+(28006, 3, 0, '安提奥克的镰刀落到了地上！', 41, 0, 100, 0, 0, 0, 27410, 0, 'Antiok - On Death');
 
 -- Set to Passive and Unset
 DELETE FROM `smart_scripts` WHERE (`source_type` = 9 AND `entryorguid` = 2800600);

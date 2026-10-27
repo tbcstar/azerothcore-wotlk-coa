@@ -23,7 +23,7 @@ UPDATE `creature_template` SET `gossip_menu_id` = 97921 WHERE `entry` = 97921;
 DELETE FROM `gossip_menu` WHERE `MenuID` = 97921;
 INSERT INTO `gossip_menu` (`MenuID`, `TextID`) VALUES (97921, 4876);
 DELETE FROM `gossip_menu_option` WHERE `MenuID` = 97921;
-INSERT INTO `gossip_menu_option` (`MenuID`, `OptionID`, `OptionIcon`, `OptionText`, `OptionBroadcastTextID`, `OptionType`, `OptionNpcFlag`) VALUES (97921, 0, 3, 'I seek training to ride a steed.', 0, 5, 16);
+INSERT INTO `gossip_menu_option` (`MenuID`, `OptionID`, `OptionIcon`, `OptionText`, `OptionBroadcastTextID`, `OptionType`, `OptionNpcFlag`) VALUES (97921, 0, 3, '我想学习骑乘。', 0, 5, 16);
 DELETE FROM `creature_loot_template` WHERE `Entry` = 996119 AND `Item` = 5055565;
 DELETE FROM `creature_loot_template` WHERE `Entry` = 991516;
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES

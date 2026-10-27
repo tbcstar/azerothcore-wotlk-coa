@@ -40,20 +40,20 @@ UPDATE `gameobject` SET `phaseMask` = `phaseMask`|4 WHERE `id` = 193004 AND `gui
 
 DELETE FROM `creature_text` WHERE (`CreatureID` = 30922);
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(30922, 0, 0, 'No one throws rocks at me!', 12, 0, 100, 0, 0, 0, 32217, 0, 'Matchmaker (13147)'),
-(30922, 0, 1, 'You wouldn\'t like me when I\'m angry...', 12, 0, 100, 0, 0, 0, 32218, 0, 'Matchmaker (13147)'),
-(30922, 0, 2, 'Finally! An excuse to squash you!', 12, 0, 100, 0, 0, 0, 32220, 0, 'Matchmaker (13147)'),
-(30922, 0, 3, 'You die for good this time, skeleton!', 12, 0, 100, 0, 0, 0, 32221, 0, 'Matchmaker (13147)'),
-(30922, 0, 4, 'Last straw...', 12, 0, 100, 0, 0, 0, 32222, 0, 'Matchmaker (13147)'),
-(30922, 0, 5, 'I was waiting for a reason to tear you bone from bone!', 12, 0, 100, 0, 0, 0, 32223, 0, 'Matchmaker (13147)'),
-(30922, 0, 6, 'That\'s the last mistake you\'ll make, skeleton.', 12, 0, 100, 0, 0, 0, 32224, 0, 'Matchmaker (13147)');
+(30922, 0, 0, '没人敢朝我扔石头！', 12, 0, 100, 0, 0, 0, 32217, 0, 'Matchmaker (13147)'),
+(30922, 0, 1, '你不会喜欢我生气的样子……', 12, 0, 100, 0, 0, 0, 32218, 0, 'Matchmaker (13147)'),
+(30922, 0, 2, '总算！终于有借口把你碾碎了！', 12, 0, 100, 0, 0, 0, 32220, 0, 'Matchmaker (13147)'),
+(30922, 0, 3, '这次你彻底死了，骷髅！', 12, 0, 100, 0, 0, 0, 32221, 0, 'Matchmaker (13147)'),
+(30922, 0, 4, '忍无可忍……', 12, 0, 100, 0, 0, 0, 32222, 0, 'Matchmaker (13147)'),
+(30922, 0, 5, '我一直在等一个把你骨头一根根拆下来的理由！', 12, 0, 100, 0, 0, 0, 32223, 0, 'Matchmaker (13147)'),
+(30922, 0, 6, '这将是你犯的最后一个错误，骷髅。', 12, 0, 100, 0, 0, 0, 32224, 0, 'Matchmaker (13147)');
 
 DELETE FROM `creature_text` WHERE (`CreatureID` = 31320);
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(31320, 0, 0, 'No one throws rocks at me!', 12, 0, 100, 0, 0, 0, 32217, 0, 'Matchmaker (13147)'),
-(31320, 0, 1, 'You wouldn\'t like me when I\'m angry...', 12, 0, 100, 0, 0, 0, 32218, 0, 'Matchmaker (13147)'),
-(31320, 0, 2, 'Finally! An excuse to squash you!', 12, 0, 100, 0, 0, 0, 32220, 0, 'Matchmaker (13147)'),
-(31320, 0, 3, 'You die for good this time, skeleton!', 12, 0, 100, 0, 0, 0, 32221, 0, 'Matchmaker (13147)'),
-(31320, 0, 4, 'Last straw...', 12, 0, 100, 0, 0, 0, 32222, 0, 'Matchmaker (13147)'),
-(31320, 0, 5, 'I was waiting for a reason to tear you bone from bone!', 12, 0, 100, 0, 0, 0, 32223, 0, 'Matchmaker (13147)'),
-(31320, 0, 6, 'That\'s the last mistake you\'ll make, skeleton.', 12, 0, 100, 0, 0, 0, 32224, 0, 'Matchmaker (13147)');
+(31320, 0, 0, '没人敢朝我扔石头！', 12, 0, 100, 0, 0, 0, 32217, 0, 'Matchmaker (13147)'),
+(31320, 0, 1, '你不会喜欢我生气的样子……', 12, 0, 100, 0, 0, 0, 32218, 0, 'Matchmaker (13147)'),
+(31320, 0, 2, '总算！终于有借口把你碾碎了！', 12, 0, 100, 0, 0, 0, 32220, 0, 'Matchmaker (13147)'),
+(31320, 0, 3, '这次你彻底死了，骷髅！', 12, 0, 100, 0, 0, 0, 32221, 0, 'Matchmaker (13147)'),
+(31320, 0, 4, '忍无可忍……', 12, 0, 100, 0, 0, 0, 32222, 0, 'Matchmaker (13147)'),
+(31320, 0, 5, '我一直在等一个把你骨头一根根拆下来的理由！', 12, 0, 100, 0, 0, 0, 32223, 0, 'Matchmaker (13147)'),
+(31320, 0, 6, '这将是你犯的最后一个错误，骷髅。', 12, 0, 100, 0, 0, 0, 32224, 0, 'Matchmaker (13147)');

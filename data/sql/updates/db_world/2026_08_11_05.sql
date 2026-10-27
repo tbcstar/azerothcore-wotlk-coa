@@ -47,7 +47,7 @@ UPDATE `creature_template` SET `unit_flags` = 32768 WHERE (`entry` = 24215);
 
 DELETE FROM `creature_text` WHERE (`CreatureID` = 24215);
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(24215, 0, 0, 'Firjus was unworthy! Test your battle progress against a true soldier of the Lich King!', 14, 0, 100, 53, 0, 0, 0, 0, 'Jlarborn the Strategist');
+(24215, 0, 0, '菲尔尤斯不配！来和巫妖王真正的战士较量一下你的战斗进度！', 14, 0, 100, 53, 0, 0, 0, 0, 'Jlarborn the Strategist');
 
 DELETE FROM `smart_scripts` WHERE (`source_type` = 9 AND `entryorguid` = 2421500);
 INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase_mask`, `event_chance`, `event_flags`, `event_param1`, `event_param2`, `event_param3`, `event_param4`, `event_param5`, `event_param6`, `action_type`, `action_param1`, `action_param2`, `action_param3`, `action_param4`, `action_param5`, `action_param6`, `target_type`, `target_param1`, `target_param2`, `target_param3`, `target_param4`, `target_x`, `target_y`, `target_z`, `target_o`, `comment`) VALUES

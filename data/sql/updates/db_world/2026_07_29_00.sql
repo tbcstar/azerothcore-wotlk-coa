@@ -52,8 +52,8 @@ INSERT INTO `waypoint_data` (`id`, `point`, `position_x`, `position_y`, `positio
 
 DELETE FROM `creature_text` WHERE (`CreatureID` = 23784) AND (`GroupID` IN (1, 5));
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(23784, 1, 0, 'Yes, let us leave... but not before we leave our Alliance hosts something to remember us by!', 12, 1, 100, 16, 0, 0, 22486, 0, 'Apothecary Hanes'),
-(23784, 5, 0, 'That\'ll teach you to mess with an apothecary, you motherless Alliance dogs!', 14, 1, 100, 14, 0, 0, 22491, 0, 'Apothecary Hanes');
+(23784, 1, 0, '是，我们离开……但在走之前，得给我们的联盟主人留点纪念！', 12, 1, 100, 16, 0, 0, 22486, 0, 'Apothecary Hanes'),
+(23784, 5, 0, '这下你知道惹一个药剂师的下场了，你们这些没娘养的联盟狗！', 14, 1, 100, 14, 0, 0, 22491, 0, 'Apothecary Hanes');
 
 UPDATE `creature_template` SET `AIName` = 'SmartAI' WHERE `entry` = 23784;
 DELETE FROM `smart_scripts` WHERE (`source_type` = 0 AND `entryorguid` = 23784);

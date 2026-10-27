@@ -9,15 +9,15 @@ INSERT INTO `conditions` (`SourceTypeOrReferenceId`,`SourceGroup`,`SourceEntry`,
 
 DELETE FROM `creature_text` WHERE `CreatureID` IN (26811,26812) AND `GroupID` = 1;
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(26811,1,0,'You take my heart, now I take yours!',12,0,100,0,0,0,26085,0,'Ancient Drakkari Warmonger'),
-(26811,1,1,'Why ya wanna mess wit me innards, mon?',12,0,100,0,0,0,26086,0,'Ancient Drakkari Warmonger'),
-(26811,1,2,'Dat me liver you be squeezin, mon!',12,0,100,0,0,0,26087,0,'Ancient Drakkari Warmonger'),
-(26811,1,3,'Come back here with me guts, $r!',12,0,100,0,0,0,26088,0,'Ancient Drakkari Warmonger'),
+(26811,1,0,'你夺走我的心，现在我要夺走你的！',12,0,100,0,0,0,26085,0,'Ancient Drakkari Warmonger'),
+(26811,1,1,'你干嘛要动俺的内脏，老兄？',12,0,100,0,0,0,26086,0,'Ancient Drakkari Warmonger'),
+(26811,1,2,'你捏的是俺的肝，老兄！',12,0,100,0,0,0,26087,0,'Ancient Drakkari Warmonger'),
+(26811,1,3,'把我的内脏还回来，$r！',12,0,100,0,0,0,26088,0,'Ancient Drakkari Warmonger'),
 
-(26812,1,0,'You take my heart, now I take yours!',12,0,100,0,0,0,26085,0,'Ancient Drakkari Soothsayer'),
-(26812,1,1,'Why ya wanna mess wit me innards, mon?',12,0,100,0,0,0,26086,0,'Ancient Drakkari Soothsayer'),
-(26812,1,2,'Dat me liver you be squeezin, mon!',12,0,100,0,0,0,26087,0,'Ancient Drakkari Soothsayer'),
-(26812,1,3,'Come back here with me guts, $r!',12,0,100,0,0,0,26088,0,'Ancient Drakkari Soothsayer');
+(26812,1,0,'你夺走我的心，现在我要夺走你的！',12,0,100,0,0,0,26085,0,'Ancient Drakkari Soothsayer'),
+(26812,1,1,'你干嘛要动俺的内脏，老兄？',12,0,100,0,0,0,26086,0,'Ancient Drakkari Soothsayer'),
+(26812,1,2,'你捏的是俺的肝，老兄！',12,0,100,0,0,0,26087,0,'Ancient Drakkari Soothsayer'),
+(26812,1,3,'把我的内脏还回来，$r！',12,0,100,0,0,0,26088,0,'Ancient Drakkari Soothsayer');
 
 DELETE FROM `smart_scripts` WHERE `entryorguid` = 26811 AND `source_type` = 0 AND `id` IN (12,13);
 DELETE FROM `smart_scripts` WHERE `entryorguid` = 26812 AND `source_type` = 0 AND `id` IN (21,22);

@@ -295,11 +295,11 @@ INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_
 -- creature texts
 DELETE FROM `creature_text` WHERE (`CreatureID` = 23504) AND (`GroupID` = 0) AND (`ID` IN (0, 1, 2, 3, 4));
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(23504, 0, 0, 'Brewfest is almost here!', 12, 0, 100.0, 0, 0, 0, 21966, 0, 'Brewfest Setup Crew'),
-(23504, 0, 1, 'Can\'t you see I\'ve got work to do here?', 12, 0, 100.0, 0, 0, 0, 21967, 0, 'Brewfest Setup Crew'),
-(23504, 0, 2, 'Won\'t be long now until the Brewfest starts!  Come back later and check to see if we\'re done.', 12, 0, 100.0, 0, 0, 0, 21968, 0, 'Brewfest Setup Crew'),
-(23504, 0, 3, 'I can\'t wait until we\'re done setting up.  Then I can kick back and enjoy the festivities.', 12, 0, 100.0, 0, 0, 0, 21969, 0, 'Brewfest Setup Crew'),
-(23504, 0, 4, 'Brewfest is a non-stop party.  Setting up for it, though, is non-stop work!', 12, 0, 100.0, 0, 0, 0, 21970, 0, 'Brewfest Setup Crew');
+(23504, 0, 0, '美酒节就要到了！', 12, 0, 100.0, 0, 0, 0, 21966, 0, 'Brewfest Setup Crew'),
+(23504, 0, 1, '你看不出来我这儿有活要干吗？', 12, 0, 100.0, 0, 0, 0, 21967, 0, 'Brewfest Setup Crew'),
+(23504, 0, 2, '用不了多久美酒节就要开始了！过会儿回来看看我们准备好没有。', 12, 0, 100.0, 0, 0, 0, 21968, 0, 'Brewfest Setup Crew'),
+(23504, 0, 3, '我迫不及待想等我们布置完。到那时我就能放松下来享受庆典了。', 12, 0, 100.0, 0, 0, 0, 21969, 0, 'Brewfest Setup Crew'),
+(23504, 0, 4, '美酒节是一场不停的派对。不过，筹备它却是不停的工作！', 12, 0, 100.0, 0, 0, 0, 21970, 0, 'Brewfest Setup Crew');
 
 UPDATE `creature_template` SET `AIName` = 'SmartAI' WHERE `entry` = 23504;
 

@@ -20,15 +20,15 @@ INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry
 
 DELETE FROM `creature_text` WHERE (`CreatureID` = 27106);
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(27106, 0, 0, 'I will protect you, friend!', 12, 1, 100, 0, 0, 0, 26173, 0, 'Injured Warsong Warrior - Picked Up');
+(27106, 0, 0, '我会保护你，朋友！', 12, 1, 100, 0, 0, 0, 26173, 0, 'Injured Warsong Warrior - Picked Up');
 
 DELETE FROM `creature_text` WHERE (`CreatureID` = 27107);
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(27107, 0, 0, 'Thank you, friend. Now these beasts shall feel the fury of the Sunwell!', 12, 1, 100, 0, 0, 0, 26174, 0, 'Injured Warsong Mage - Picked Up');
+(27107, 0, 0, '谢谢你，朋友。现在这些野兽将尝到太阳之井的怒火！', 12, 1, 100, 0, 0, 0, 26174, 0, 'Injured Warsong Mage - Picked Up');
 
 DELETE FROM `creature_text` WHERE (`CreatureID` = 27110);
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(27110, 0, 0, 'Thanks, buddy! Let\'s see if I can\'t get this hunk o\' junk movin\' faster!', 12, 1, 100, 0, 0, 0, 26172, 0, 'Injured Warsong Engineer - Picked Up');
+(27110, 0, 0, '谢了，伙计！看看我能不能让这堆破烂跑快点！', 12, 1, 100, 0, 0, 0, 26172, 0, 'Injured Warsong Engineer - Picked Up');
 
 -- Shaman has NO text it seems
 

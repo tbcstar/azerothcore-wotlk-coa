@@ -42,4 +42,4 @@ INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_
 
 DELETE FROM `creature_text` WHERE (`CreatureID` = 28375);
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(28375, 0, 0, 'So long, suckers. I\'m out of here!', 12, 0, 100, 0, 0, 0, 27829, 0, 'Glrglrglr - Quest Complete');
+(28375, 0, 0, '再见了，傻瓜们。我走了！', 12, 0, 100, 0, 0, 0, 27829, 0, 'Glrglrglr - Quest Complete');

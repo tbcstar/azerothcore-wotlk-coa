@@ -6,7 +6,7 @@
 -- the barrel next to the Crystal Ball's table, where the author recalls it from CoA (INFERRED spot), facing the rug.
 INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `IconName`, `castBarCaption`, `size`, `Data0`, `Data1`, `Data10`, `Data12`, `Data18`, `AIName`, `ScriptName`)
 VALUES
-(516984, 3, 1, 'Decayed Chest', '', '', 1, 1689, 516984, 1, 1, 1, '', 'worldforged_pickup')
+(516984, 3, 1, '腐朽的箱子', '', '', 1, 1689, 516984, 1, 1, 1, '', 'worldforged_pickup')
 ON DUPLICATE KEY UPDATE `type` = VALUES(`type`), `displayId` = VALUES(`displayId`), `name` = VALUES(`name`),
 `IconName` = VALUES(`IconName`), `castBarCaption` = VALUES(`castBarCaption`), `size` = VALUES(`size`),
 `Data0` = VALUES(`Data0`), `Data1` = VALUES(`Data1`), `Data10` = VALUES(`Data10`), `Data12` = VALUES(`Data12`),

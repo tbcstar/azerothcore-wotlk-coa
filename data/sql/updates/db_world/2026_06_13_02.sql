@@ -6,7 +6,7 @@
 -- Add gossip option (0) to learn schematic
 DELETE FROM `gossip_menu_option` WHERE (`MenuID` = 6092) AND (`OptionID` IN (0));
 INSERT INTO `gossip_menu_option` (`MenuID`, `OptionID`, `OptionIcon`, `OptionText`, `OptionBroadcastTextID`, `OptionType`, `OptionNpcFlag`, `ActionMenuID`, `ActionPoiID`, `BoxCoded`, `BoxMoney`, `BoxText`, `BoxBroadcastTextID`, `VerifiedBuild`) VALUES
-(6092, 0, 0, 'This Dimensional Imploder sounds dangerous! How can I make one?', 9994, 1, 1, 8309, 0, 0, 0, '', 0, 0);
+(6092, 0, 0, '这个次元内爆器听起来很危险！我该怎么做？', 9994, 1, 1, 8309, 0, 0, 0, '', 0, 0);
 
 -- Add gossip text for already learned schematic
 DELETE FROM `gossip_menu` WHERE (`MenuID` = 6092) AND (`TextID` IN (10366));

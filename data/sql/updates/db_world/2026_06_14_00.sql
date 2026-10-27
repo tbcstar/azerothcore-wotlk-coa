@@ -43,17 +43,17 @@ INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_
 -- Add Creature Texts
 DELETE FROM `creature_text` WHERE `CreatureID` IN (28548, 28558, 28660, 28662);
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(28548, 0, 0, "The pure of heart will be allowed to remain in New Avalon. Those that the inquisitors find bereft of the holy Light will be turned away.", 12, 0, 100, 1, 0, 0, 28580, 0, "High General Abbendis"),
-(28548, 1, 0, "SILENCE! The Light has not abandoned us! The Light is stronger than ever among the pure!", 12, 0, 100, 5, 0, 0, 28575, 0, "High General Abbendis"),
-(28548, 2, 0, "We fight! We push them back, just as we have always done!", 12, 0, 100, 5, 0, 0, 28568, 0, "High General Abbendis"),
-(28548, 3, 0, "We are sending crusaders to reclaim what is rightfully ours! Any Scourge that stand in our way will be turned to ashes.", 12, 0, 100, 1, 0, 0, 28578, 0, "High General Abbendis"),
-(28558, 0, 0, "But none of you could possibly have anything to worry about, right?", 12, 0, 100, 25, 0, 0, 28582, 0, "High Abbot Landgren"),
-(28660, 0, 0, "Where do you expect us to stay? New Avalon cannot hold all of us!", 12, 0, 100, 1, 0, 0, 28579, 0, "Citizen of Havenshire"),
-(28660, 1, 0, "The crowd gasps.", 16, 0, 100, 0, 0, 0, 28581, 0, "Citizen of Havenshire"),
-(28660, 2, 0, "What does the Light say to you now, Abbendis!", 12, 0, 100, 25, 0, 0, 28570, 0, "Citizen of Havenshire"),
-(28660, 3, 0, "Nor my husband and brothers!", 12, 0, 100, 1, 0, 0, 28572, 0, "Citizen of Havenshire"),
-(28660, 4, 0, "What do we do? We've lost everything!", 12, 0, 100, 5, 0, 0, 0, 0, "Citizen of Havenshire"),
-(28662, 0, 0, "I didn't see the Light step in to save my wife and children!", 12, 0, 100, 1, 0, 0, 28571, 0, "Citizen of Havenshire"),
-(28662, 1, 0, "The Light has abandoned us!", 12, 0, 100, 1, 0, 0, 28574, 0, "Citizen of Havenshire"),
-(28662, 2, 0, "Havenshire is lost!", 12, 0, 100, 1, 0, 0, 28576, 0, "Citizen of Havenshire"),
-(28662, 3, 0, "The stables and mill are left abandoned! What will happen to our horses?", 12, 0, 100, 1, 0, 0, 28577, 0, "Citizen of Havenshire");
+(28548, 0, 0, "心存纯净者将被允许留在新阿瓦隆。被审判官判定为缺少圣光者将被逐出。", 12, 0, 100, 1, 0, 0, 28580, 0, "High General Abbendis"),
+(28548, 1, 0, "安静！圣光没有抛弃我们！圣光在纯净者中比以往更强大！", 12, 0, 100, 5, 0, 0, 28575, 0, "High General Abbendis"),
+(28548, 2, 0, "我们战斗！我们把它们打回去，就像我们一直以来做的那样！", 12, 0, 100, 5, 0, 0, 28568, 0, "High General Abbendis"),
+(28548, 3, 0, "我们要派十字军去夺回本该属于我们的一切！任何挡路的天灾都会被化为灰烬。", 12, 0, 100, 1, 0, 0, 28578, 0, "High General Abbendis"),
+(28558, 0, 0, "但你们谁都不可能有任何可担心的，对吧？", 12, 0, 100, 25, 0, 0, 28582, 0, "High Abbot Landgren"),
+(28660, 0, 0, "你指望我们住哪儿？新阿瓦隆容不下我们所有人！", 12, 0, 100, 1, 0, 0, 28579, 0, "Citizen of Havenshire"),
+(28660, 1, 0, "人群倒吸一口冷气。", 16, 0, 100, 0, 0, 0, 28581, 0, "Citizen of Havenshire"),
+(28660, 2, 0, "圣光现在怎么跟你说的，阿比迪斯！", 12, 0, 100, 25, 0, 0, 28570, 0, "Citizen of Havenshire"),
+(28660, 3, 0, "我的丈夫和兄弟们也一样！", 12, 0, 100, 1, 0, 0, 28572, 0, "Citizen of Havenshire"),
+(28660, 4, 0, "我们该怎么办？我们什么都没了！", 12, 0, 100, 5, 0, 0, 0, 0, "Citizen of Havenshire"),
+(28662, 0, 0, "我可没看见圣光出手救我的妻儿！", 12, 0, 100, 1, 0, 0, 28571, 0, "Citizen of Havenshire"),
+(28662, 1, 0, "圣光已经抛弃了我们！", 12, 0, 100, 1, 0, 0, 28574, 0, "Citizen of Havenshire"),
+(28662, 2, 0, "避风郡失守了！", 12, 0, 100, 1, 0, 0, 28576, 0, "Citizen of Havenshire"),
+(28662, 3, 0, "马厩和磨坊都被弃置了！我们的马会怎么样？", 12, 0, 100, 1, 0, 0, 28577, 0, "Citizen of Havenshire");

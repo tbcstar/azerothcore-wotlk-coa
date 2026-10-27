@@ -10,7 +10,7 @@ INSERT INTO `creature_template`
  `type`, `type_flags`, `HealthModifier`, `ManaModifier`, `ArmorModifier`, `ExperienceModifier`,
  `RegenHealth`, `flags_extra`)
 VALUES
-(80879, 'Fix-o-Tron 5000', 1, 1, 0, 35, 0, 1, 1.14286,
+(80879, '修理工 5000 型', 1, 1, 0, 35, 0, 1, 1.14286,
  20, 0, 0, 1, 2000, 2000,
  1, 1, 1, 0, 0, 0, 0,
  12, 0, 1, 1, 1, 1,

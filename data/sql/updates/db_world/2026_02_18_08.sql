@@ -79,7 +79,7 @@ INSERT INTO `smart_scripts` (`entryorguid`,`source_type`,`id`,`link`,`event_type
 -- Add emote text (Type 16 = CHAT_MSG_MONSTER_EMOTE)
 DELETE FROM `creature_text` WHERE `CreatureID`=31397 AND `GroupID`=2;
 INSERT INTO `creature_text` (`CreatureID`,`GroupID`,`ID`,`Text`,`Type`,`Language`,`Probability`,`Emote`,`Duration`,`Sound`,`BroadcastTextId`,`TextRange`,`comment`) VALUES
-(31397,2,0,'%s goes into a frenzy!',16,0,100,0,0,0,36719,0,'Saronite Mine Slave - Frenzy Emote');
+(31397,2,0,'%s 陷入了狂乱！',16,0,100,0,0,0,36719,0,'Saronite Mine Slave - Frenzy Emote');
 
 -- Update hostile script to use emote (GroupID 2) instead of yell (GroupID 0)
 DELETE FROM `smart_scripts` WHERE `entryorguid`=3139701 AND `source_type`=9;

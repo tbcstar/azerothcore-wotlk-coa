@@ -321,12 +321,12 @@ WHERE `cache_item` BETWEEN 1339058 AND 1339071
 -- Band of the Bulwark and Ring of the ...). REPLACE of a line that is already gone changes nothing.
 UPDATE `item_template` SET `description` =
   REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(`description`,
-    CONCAT(CHAR(10), 'Contains x1 Finger of the Sorceror'), ''),
-    CONCAT(CHAR(10), 'Contains x1 Finger of the Seer'), ''),
-    CONCAT(CHAR(10), 'Contains x1 Ring of the Vanguard'), ''),
-    CONCAT(CHAR(10), 'Contains x1 Ring of the Lionhearted'), ''),
-    CONCAT(CHAR(10), 'Contains x2 Band of the Bulwark'), ''),
-    CONCAT(CHAR(10), 'Contains x2 Ring of the Bulwark'), ''),
-    CONCAT(CHAR(10), 'Contains x1 Ring of the Bulwark'), '')
+    CONCAT(CHAR(10), '包含 x1 巫师指环'), ''),
+    CONCAT(CHAR(10), '包含 x1 先知指环'), ''),
+    CONCAT(CHAR(10), '包含 x1 先锋戒指'), ''),
+    CONCAT(CHAR(10), '包含 x1 狮心指环'), ''),
+    CONCAT(CHAR(10), '包含 x2 壁垒指环'), ''),
+    CONCAT(CHAR(10), '包含 x2 壁垒指环'), ''),
+    CONCAT(CHAR(10), '包含 x1 壁垒指环'), '')
 WHERE `entry` BETWEEN 1339058 AND 1339071
   AND EXISTS (SELECT 1 FROM `coa_client_vanity_collection` WHERE `BazaarTokenCost` > 0);

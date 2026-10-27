@@ -57,5 +57,5 @@ INSERT INTO `spell_target_position` (`ID`, `EffectIndex`, `MapID`, `PositionX`, 
 -- Rider
 DELETE FROM `creature_text` WHERE `CreatureID` = 27887;
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(27887, 0, 0, 'Off we go!', 12, 7, 100, 0, 0, 0, 27225, 0, 'Valgarde Gryphon Rider'),
-(27887, 1, 0, 'Here ya go, friend! Icehammer is right inside that vrykul building! Give \'em hell!', 12, 7, 100, 0, 0, 0, 27228, 0, 'Valgarde Gryphon Rider');
+(27887, 0, 0, '我们走！', 12, 7, 100, 0, 0, 0, 27225, 0, 'Valgarde Gryphon Rider'),
+(27887, 1, 0, '给你，朋友！冰锤就在那座维库建筑里！让他们尝尝厉害！', 12, 7, 100, 0, 0, 0, 27228, 0, 'Valgarde Gryphon Rider');

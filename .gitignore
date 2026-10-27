@@ -159,3 +159,7 @@ __pycache__/
 
 # Unrelated legacy client override; not part of the four-file Manastorm package
 /modules/mod-manastorm-endless/client/overlay/Interface/FrameXML/StaticPopup.lua
+
+# DSH local runtime state (not part of the repository)
+.dsh-ops/
+.dsh-memery/

@@ -2,8 +2,8 @@
 --
 DELETE FROM `creature_text` WHERE (`CreatureID` = 25714);
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(25714, 0, 0, 'Okay, $N, here we go. Cross your fingers, toes, eyes and whatever else you can cross!', 12, 7, 100, 1, 0, 0, 24888, 0, 'Tinky Wickwhistle - Quest Reward 1'),
-(25714, 1, 0, 'Oh no, it didn\'t work! Somehow I feel... lighter.', 12, 7, 100, 5, 0, 0, 24889, 0, 'Tinky Wickwhistle - Quest Reward 2');
+(25714, 0, 0, '好，$N，来吧。手指、脚趾、眼睛，能交叉的都交叉起来！', 12, 7, 100, 1, 0, 0, 24888, 0, 'Tinky Wickwhistle - Quest Reward 1'),
+(25714, 1, 0, '哦不，没成功！不知怎么我觉得……变轻了。', 12, 7, 100, 5, 0, 0, 24889, 0, 'Tinky Wickwhistle - Quest Reward 2');
 
 UPDATE `creature_template` SET `AIName` = 'SmartAI' WHERE `entry` = 25714;
 DELETE FROM `smart_scripts` WHERE (`source_type` = 0 AND `entryorguid` = 25714);

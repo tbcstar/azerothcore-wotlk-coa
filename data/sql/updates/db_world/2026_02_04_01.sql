@@ -7,7 +7,7 @@ INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_
 
 DELETE FROM `creature_text` WHERE (`CreatureID` = 19734);
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(19734, 0, 0, '%s throws a mushroom spore at $n.', 16, 0, 100, 0, 0, 0, 18913, 0, 'Fungal Giant Unstable Shroom');
+(19734, 0, 0, '%s 朝 $n 扔出一颗蘑菇孢子。', 16, 0, 100, 0, 0, 0, 18913, 0, 'Fungal Giant Unstable Shroom');
 
 DELETE FROM `creature_template_movement` WHERE (`CreatureId` = 20479);
 INSERT INTO `creature_template_movement` (`CreatureId`, `Ground`, `Swim`, `Flight`, `Rooted`, `Chase`, `Random`, `InteractionPauseTimer`) VALUES

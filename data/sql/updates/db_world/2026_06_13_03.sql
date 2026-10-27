@@ -4,7 +4,7 @@
 -- Add gossip option (0) to learn schematic
 DELETE FROM `gossip_menu_option` WHERE (`MenuID` = 6094) AND (`OptionID` IN (0));
 INSERT INTO `gossip_menu_option` (`MenuID`, `OptionID`, `OptionIcon`, `OptionText`, `OptionBroadcastTextID`, `OptionType`, `OptionNpcFlag`, `ActionMenuID`, `ActionPoiID`, `BoxCoded`, `BoxMoney`, `BoxText`, `BoxBroadcastTextID`, `VerifiedBuild`) VALUES
-(6094, 0, 0, 'I must build a beacon for this marvelous device!', 9997, 1, 1, 6095, 0, 0, 0, '', 0, 0);
+(6094, 0, 0, '我必须为这台奇妙的装置造一座信标！', 9997, 1, 1, 6095, 0, 0, 0, '', 0, 0);
 
 -- Add gossip menu for learn schematic
 DELETE FROM `gossip_menu` WHERE (`MenuID` = 6095) AND (`TextID` IN (7252));

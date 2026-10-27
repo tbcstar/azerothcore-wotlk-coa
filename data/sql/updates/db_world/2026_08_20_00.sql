@@ -35,11 +35,11 @@ INSERT INTO `waypoint_data` (`id`, `point`, `position_x`, `position_y`, `positio
 
 DELETE FROM `creature_text` WHERE (`CreatureID` = 27903);
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(27903, 0, 0, 'Ok, enough work for now. Time for refreshments and a little conversation in the inn.', 12, 0, 100, 1, 0, 0, 27247, 0, 'Roger Owens'),
-(27903, 1, 0, 'Wait, what\'s that smell?', 12, 0, 100, 1, 0, 0, 27248, 0, 'Roger Owens'),
-(27903, 2, 0, 'Can\'t be me, I took a bath 3 days ago!', 12, 0, 100, 5, 0, 0, 27249, 0, 'Roger Owens'),
-(27903, 3, 0, 'Oh, close call. It\'s just the grain here.', 12, 0, 100, 5, 0, 0, 27250, 0, 'Roger Owens'),
-(27903, 4, 0, 'Wait a second. Grain isn\'t supposed to smell like THAT! I better go find a guard.', 12, 0, 100, 0, 0, 0, 27252, 0, 'Roger Owens');
+(27903, 0, 0, '好，先干到这儿。该去旅店吃点东西、聊几句了。', 12, 0, 100, 1, 0, 0, 27247, 0, 'Roger Owens'),
+(27903, 1, 0, '等等，那是什么味道？', 12, 0, 100, 1, 0, 0, 27248, 0, 'Roger Owens'),
+(27903, 2, 0, '不可能是我，我三天前才洗过澡！', 12, 0, 100, 5, 0, 0, 27249, 0, 'Roger Owens'),
+(27903, 3, 0, '哦，好险。只是这儿的粮食。', 12, 0, 100, 5, 0, 0, 27250, 0, 'Roger Owens'),
+(27903, 4, 0, '等等。粮食不该是那种味道！我最好去找个卫兵。', 12, 0, 100, 0, 0, 0, 27252, 0, 'Roger Owens');
 
 UPDATE `creature_template` SET `AIName` = 'SmartAI' WHERE `entry` = 27903;
 DELETE FROM `smart_scripts` WHERE (`source_type` = 0 AND `entryorguid` = 27903);
@@ -112,20 +112,20 @@ INSERT INTO `waypoint_data` (`id`, `point`, `position_x`, `position_y`, `positio
 
 DELETE FROM `creature_text` WHERE (`CreatureID` = 27877) AND (`GroupID` IN (6, 7, 8, 9));
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(27877, 6, 0, 'You don\'t mind me checking out your merchandise for signs of tampering, do you?', 12, 0, 100, 1, 0, 0, 27205, 0, 'Sergeant Morigan - Plague Grain Dispelled'),
-(27877, 7, 0, 'Wait, what is this? You\'ve been holding out on me, Perelli!', 12, 0, 100, 0, 0, 0, 27206, 0, 'Sergeant Morigan - Plague Grain Dispelled'),
-(27877, 8, 0, 'I\'m confiscating this suspicious grain, Perelli. We were looking for signs of tampered food, and it would be in your best interest to stay put while Prince Arthas checks this out.', 12, 0, 100, 1, 0, 0, 27210, 0, 'Sergeant Morigan - Plague Grain Dispelled'),
-(27877, 9, 0, 'We\'ll see about that, Perelli. We\'ll see about that.', 12, 0, 100, 25, 0, 0, 27216, 0, 'Sergeant Morigan - Plague Grain Dispelled');
+(27877, 6, 0, '你不介意我检查一下你的货物有没有被动过手脚吧？', 12, 0, 100, 1, 0, 0, 27205, 0, 'Sergeant Morigan - Plague Grain Dispelled'),
+(27877, 7, 0, '等等，这是什么？你一直在瞒着我，佩雷利！', 12, 0, 100, 0, 0, 0, 27206, 0, 'Sergeant Morigan - Plague Grain Dispelled'),
+(27877, 8, 0, '这袋可疑的粮食我没收了，佩雷利。我们在查找被动手脚的食物，你最好待在原地别动，等阿尔萨斯王子来查。', 12, 0, 100, 1, 0, 0, 27210, 0, 'Sergeant Morigan - Plague Grain Dispelled'),
+(27877, 9, 0, '那我们就走着瞧吧，佩雷利。走着瞧。', 12, 0, 100, 25, 0, 0, 27216, 0, 'Sergeant Morigan - Plague Grain Dispelled');
 
 DELETE FROM `creature_text` WHERE (`CreatureID` = 27876);
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(27876, 0, 0, 'Yes, Sergeant Morigan.', 12, 0, 100, 273, 0, 0, 27202, 0, ''),
-(27876, 0, 1, 'Yes, sir.', 12, 0, 100, 273, 0, 0, 27201, 0, ''),
-(27876, 1, 0, 'No, Sergeant.', 12, 0, 100, 1, 0, 0, 27198, 0, ''),
-(27876, 1, 1, 'No, sir.', 12, 0, 100, 1, 0, 0, 27199, 0, ''),
+(27876, 0, 0, '是，莫里根中士。', 12, 0, 100, 273, 0, 0, 27202, 0, ''),
+(27876, 0, 1, '是，长官。', 12, 0, 100, 273, 0, 0, 27201, 0, ''),
+(27876, 1, 0, '不，中士。', 12, 0, 100, 1, 0, 0, 27198, 0, ''),
+(27876, 1, 1, '不，长官。', 12, 0, 100, 1, 0, 0, 27199, 0, ''),
 (27876, 2, 0, 'Nope.', 12, 0, 100, 1, 0, 0, 27200, 0, 'Silvio Perelli - Plague Grain Dispelled'),
-(27876, 3, 0, 'What are you talking about, Sergeant!', 12, 0, 100, 5, 0, 0, 27208, 0, 'Silvio Perelli - Plague Grain Dispelled'),
-(27876, 4, 0, 'You have to believe me, I\'m innocent!', 12, 0, 100, 20, 0, 0, 27213, 0, 'Silvio Perelli - Plague Grain Dispelled');
+(27876, 3, 0, '你在说什么，中士！', 12, 0, 100, 5, 0, 0, 27208, 0, 'Silvio Perelli - Plague Grain Dispelled'),
+(27876, 4, 0, '你得相信我，我是无辜的！', 12, 0, 100, 20, 0, 0, 27213, 0, 'Silvio Perelli - Plague Grain Dispelled');
 
 DELETE FROM `smart_scripts` WHERE (`source_type` = 0 AND `entryorguid` = 27877);
 INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase_mask`, `event_chance`, `event_flags`, `event_param1`, `event_param2`, `event_param3`, `event_param4`, `event_param5`, `event_param6`, `action_type`, `action_param1`, `action_param2`, `action_param3`, `action_param4`, `action_param5`, `action_param6`, `target_type`, `target_param1`, `target_param2`, `target_param3`, `target_param4`, `target_x`, `target_y`, `target_z`, `target_o`, `comment`) VALUES
@@ -207,18 +207,18 @@ INSERT INTO `waypoint_data` (`id`, `point`, `position_x`, `position_y`, `positio
 
 DELETE FROM `creature_text` WHERE (`CreatureID` = 27885);
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(27885, 0, 0, 'Strawberries! Oh wait, they\'re not in season.', 12, 0, 100, 1, 0, 0, 27222, 0, 'Jena Anderson'),
-(27885, 0, 1, 'I need to make something healthy for him, he\'s still not recovered from that illness from last week.', 12, 0, 100, 1, 0, 0, 27221, 0, 'Jena Anderson'),
-(27885, 0, 2, 'I\'ve got plenty of cured bacon, but he had some for breakfast.', 12, 0, 100, 1, 0, 0, 27220, 0, 'Jena Anderson'),
-(27885, 0, 3, 'Let\'s see, we had chicken last night.', 12, 0, 100, 1, 0, 0, 27219, 0, 'Jena Anderson'),
-(27885, 1, 0, 'Martha, I\'m out of flour for bread. You wouldn\'t happen to have any grain from that recent shipment, would you?', 12, 0, 100, 6, 0, 0, 27224, 0, 'Jena Anderson - Plague Grain Dispelled'),
-(27885, 2, 0, 'Thanks, Martha! I owe you one.', 12, 0, 100, 1, 0, 0, 27229, 0, 'Jena Anderson - Plague Grain Dispelled'),
-(27885, 3, 0, 'Oh, dear.', 12, 0, 100, 5, 0, 0, 27230, 0, 'Jena Anderson - Plague Grain Dispelled'),
-(27885, 4, 0, 'Martha, something\'s wrong with this grain! Some of the Prince\'s soldiers were looking for this. I\'m going to go look for one.', 12, 0, 100, 0, 0, 0, 27231, 0, 'Jena Anderson - Plague Grain Dispelled');
+(27885, 0, 0, '草莓！哦等等，现在不是季节。', 12, 0, 100, 1, 0, 0, 27222, 0, 'Jena Anderson'),
+(27885, 0, 1, '我得给他做点养身的东西，他上周那场病还没好利索。', 12, 0, 100, 1, 0, 0, 27221, 0, 'Jena Anderson'),
+(27885, 0, 2, '我有不少腌好的培根，可他早饭已经吃过了。', 12, 0, 100, 1, 0, 0, 27220, 0, 'Jena Anderson'),
+(27885, 0, 3, '让我想想，我们昨晚吃了鸡。', 12, 0, 100, 1, 0, 0, 27219, 0, 'Jena Anderson'),
+(27885, 1, 0, '玛莎，我做面包的面粉用完了。你那批新到的粮食还有剩吗？', 12, 0, 100, 6, 0, 0, 27224, 0, 'Jena Anderson - Plague Grain Dispelled'),
+(27885, 2, 0, '谢谢你，玛莎！我欠你一个人情。', 12, 0, 100, 1, 0, 0, 27229, 0, 'Jena Anderson - Plague Grain Dispelled'),
+(27885, 3, 0, '哦，天哪。', 12, 0, 100, 5, 0, 0, 27230, 0, 'Jena Anderson - Plague Grain Dispelled'),
+(27885, 4, 0, '玛莎，这粮食出了问题！王子的几个士兵正在找这种东西。我去找一个来。', 12, 0, 100, 0, 0, 0, 27231, 0, 'Jena Anderson - Plague Grain Dispelled');
 
 DELETE FROM `creature_text` WHERE (`CreatureID` = 27884);
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(27884, 0, 0, 'Oh hello, Jena. Of course you can borrow some grain. Help yourself.', 12, 0, 100, 1, 0, 0, 27232, 0, 'Martha Goslin - Plague Grain Dispelled'),
+(27884, 0, 0, '哦你好，耶娜。你当然可以借些粮食。随便拿。', 12, 0, 100, 1, 0, 0, 27232, 0, 'Martha Goslin - Plague Grain Dispelled'),
 (27884, 1, 0, 'Oh, my.', 12, 0, 100, 1, 0, 0, 27235, 0, 'Martha Goslin - Plague Grain Dispelled');
 
 DELETE FROM `smart_scripts` WHERE (`source_type` = 0 AND `entryorguid` = 27885);
@@ -328,7 +328,7 @@ INSERT INTO `waypoint_data` (`id`, `point`, `position_x`, `position_y`, `positio
 
 DELETE FROM `creature_text` WHERE (`CreatureID` = 27892);
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(27892, 0, 0, '%s begins to growl...', 16, 0, 100, 0, 0, 0, 27237, 0, 'Scruffy');
+(27892, 0, 0, '%s 开始低吼……', 16, 0, 100, 0, 0, 0, 27237, 0, 'Scruffy');
 
 UPDATE `creature_template` SET `AIName` = 'SmartAI' WHERE `entry` = 27892;
 DELETE FROM `smart_scripts` WHERE (`source_type` = 0 AND `entryorguid` = 27892);
@@ -341,10 +341,10 @@ INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_
 
 DELETE FROM `creature_text` WHERE (`CreatureID` = 27891);
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(27891, 0, 0, 'Looks like a storm\'s coming in, Scruffy...', 12, 0, 100, 0, 0, 0, 27236, 0, 'Malcolm Moore'),
-(27891, 1, 0, 'What\'s wrong, pal?', 12, 0, 100, 1, 0, 0, 27238, 0, 'Malcolm Moore'),
-(27891, 2, 0, 'What did you find, boy?', 12, 0, 100, 16, 0, 0, 27240, 0, 'Malcolm Moore'),
-(27891, 3, 0, 'This is no good, Scruffy. Stay here and guard the house, I need to go find a soldier.', 12, 0, 100, 0, 0, 0, 27241, 0, 'Malcolm Moore');
+(27891, 0, 0, '看样子要来暴风雨了，斯克拉菲……', 12, 0, 100, 0, 0, 0, 27236, 0, 'Malcolm Moore'),
+(27891, 1, 0, '怎么了，伙计？', 12, 0, 100, 1, 0, 0, 27238, 0, 'Malcolm Moore'),
+(27891, 2, 0, '你发现了什么，小子？', 12, 0, 100, 16, 0, 0, 27240, 0, 'Malcolm Moore'),
+(27891, 3, 0, '这可不妙，斯克拉菲。留在这儿看着房子，我得去找个士兵。', 12, 0, 100, 0, 0, 0, 27241, 0, 'Malcolm Moore');
 
 UPDATE `creature_template` SET `AIName` = 'SmartAI' WHERE `entry` = 27891;
 DELETE FROM `smart_scripts` WHERE (`source_type` = 0 AND `entryorguid` = 27891);
@@ -411,9 +411,9 @@ INSERT INTO `waypoint_data` (`id`, `point`, `position_x`, `position_y`, `positio
 
 DELETE FROM `creature_text` WHERE (`CreatureID` = 27907) AND (`GroupID` IN (1, 2, 3));
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(27907, 1, 0, 'Well, guess I should load everything back into the cart.', 12, 0, 100, 0, 0, 0, 27257, 0, 'Bartleby Battson - Plague Grain Dispelled'),
-(27907, 2, 0, 'Oh, come on! My cart broke, my horse lost a shoe, and now the cargo goes bad!', 12, 0, 100, 5, 0, 0, 27258, 0, 'Bartleby Battson - Plague Grain Dispelled'),
-(27907, 3, 0, 'I guess I\'ll go find the authorities. If I\'m lucky they\'ll tell me it\'s the plague and that we\'re all going to die.', 12, 0, 100, 0, 0, 0, 27259, 0, 'Bartleby Battson - Plague Grain Dispelled');
+(27907, 1, 0, '好吧，看来我得把所有东西再装回车上。', 12, 0, 100, 0, 0, 0, 27257, 0, 'Bartleby Battson - Plague Grain Dispelled'),
+(27907, 2, 0, '哦，得了吧！我的车坏了，马丢了蹄铁，现在货又坏了！', 12, 0, 100, 5, 0, 0, 27258, 0, 'Bartleby Battson - Plague Grain Dispelled'),
+(27907, 3, 0, '我想我还是去找当局吧。要是运气好，他们会告诉我这是瘟疫，我们全都要死了。', 12, 0, 100, 0, 0, 0, 27259, 0, 'Bartleby Battson - Plague Grain Dispelled');
 
 DELETE FROM `smart_scripts` WHERE (`source_type` = 0 AND `entryorguid` = 27907);
 INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase_mask`, `event_chance`, `event_flags`, `event_param1`, `event_param2`, `event_param3`, `event_param4`, `event_param5`, `event_param6`, `action_type`, `action_param1`, `action_param2`, `action_param3`, `action_param4`, `action_param5`, `action_param6`, `target_type`, `target_param1`, `target_param2`, `target_param3`, `target_param4`, `target_x`, `target_y`, `target_z`, `target_o`, `comment`) VALUES

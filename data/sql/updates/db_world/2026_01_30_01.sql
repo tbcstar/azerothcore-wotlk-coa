@@ -33,16 +33,16 @@ UPDATE `smart_scripts` SET `action_param1` = 1, `action_param2` = 1 WHERE `entry
 
 DELETE FROM `creature_text` WHERE `CreatureID` = 21838 AND `GroupID` = 3;
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-    (21838,3,0,'Who calls me to this world? The stars are not yet aligned... my powers fail me! You will pay for this!',14,0,100.0,0,0,0,21639,0,'Terokk');
+    (21838,3,0,'是谁把我召唤到这个世界？星辰尚未归位……我的力量失效了！你会为此付出代价！',14,0,100.0,0,0,0,21639,0,'Terokk');
 
 UPDATE `creature_text` SET `Text` = 'Kwa! You cannot kill me, I am immortal!' WHERE `CreatureID` = 21838 AND `GroupID` = 1;
 UPDATE `creature_text` SET `BroadcastTextId` = 24020 WHERE `CreatureID` = 21838 AND `GroupID` = 1;
 
 DELETE FROM `creature_text` WHERE `CreatureID` = 23377;
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(23377,1,0,'Quickly! Use the flames and support ground troops. Its ancient magic should cleanse Terokk''s shield.',14,0,100.0,0,0,0,24021,0,'Skyguard Ace'),
-(23377,2,0,'Enemy sighted! Fall into formation and prepare for bombing maneuvers!',14,0,100.0,0,0,0,21439,0,'Skyguard Ace'),
-(23377,3,0,'They did it!  Enemy down!  Return to base!',14,0,100.0,0,0,0,21437,0,'Skyguard Ace');
+(23377,1,0,'快！用那些火焰支援地面部队。它的古老魔法应该能净化泰罗克的护盾。',14,0,100.0,0,0,0,24021,0,'Skyguard Ace'),
+(23377,2,0,'发现敌情！进入编队，准备轰炸！',14,0,100.0,0,0,0,21439,0,'Skyguard Ace'),
+(23377,3,0,'他们成功了！敌人倒下！返回基地！',14,0,100.0,0,0,0,21437,0,'Skyguard Ace');
 
 UPDATE `creature_template` SET `unit_flags` = 2 WHERE `entry` = 23377;
 

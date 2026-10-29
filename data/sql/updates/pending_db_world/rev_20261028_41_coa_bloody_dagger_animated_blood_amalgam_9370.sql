@@ -5,7 +5,7 @@
 -- #51 and #4290 already established for that display.
 INSERT INTO `creature_template`
 (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`) VALUES
-(3333313, 'Animated Blood', 1, 1, 14, 1, 8)
+(3333313, '活化的血液', 1, 1, 14, 1, 8)
 ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `minlevel` = VALUES(`minlevel`),
     `maxlevel` = VALUES(`maxlevel`), `faction` = VALUES(`faction`), `unit_class` = VALUES(`unit_class`),
     `type` = VALUES(`type`);

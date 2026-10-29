@@ -22,7 +22,7 @@ UPDATE `creature_template` SET `AIName` = 'SmartAI', `flags_extra` = `flags_extr
 DELETE FROM `creature_text` WHERE `CreatureID` = 991515;
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`,
   `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(991515, 0, 0, 'HEY! Get away from my stuff!!!', 12, 0, 100, 0, 0, 0, 0, 0, 'Lenore the Hoarder - Aggro');
+(991515, 0, 0, '嘿！离我的东西远点！！！', 12, 0, 100, 0, 0, 0, 0, 0, 'Lenore the Hoarder - Aggro');
 
 -- Sinister Strike 992957 costs energy, which creatures do not have: cast it ignoring power cost only.
 DELETE FROM `smart_scripts` WHERE `entryorguid` = 991515 AND `source_type` = 0;

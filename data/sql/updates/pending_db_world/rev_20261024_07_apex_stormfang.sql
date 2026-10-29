@@ -26,11 +26,11 @@ INSERT INTO `creature_template`
  `RegenHealth`,`CreatureImmunitiesId`,`flags_extra`,`ScriptName`,`VerifiedBuild`)
 VALUES
 -- The Stormfang: level 60 elite worg, custom Lightning Worg display 68899.
-(9916201,0,0,0,0,0,'The Stormfang','Apex Bounty',NULL,0,60,60,2,16,0,
+(9916201,0,0,0,0,0,'风暴之牙','巅峰悬赏',NULL,0,60,60,2,16,0,
  1,1.14286,1,1,20,3,0,1.2,2000,2000,1,1,1,
  0,0,0,1,1,0,0,0,0,0,0,0,0,'SmartAI',1,1,12,1,1,1,0,0,1,0,0,'',0),
 -- Storm Conduit: summoned lightning elemental add. Custom display 409947.
-(9916202,0,0,0,0,0,'Storm Conduit','Apex Bounty',NULL,0,60,60,2,16,0,
+(9916202,0,0,0,0,0,'风暴导管','巅峰悬赏',NULL,0,60,60,2,16,0,
  1,1.14286,1,1,20,1,0,1,2000,2000,1,1,1,
  0,0,0,0,4,0,0,0,0,0,0,0,0,'SmartAI',0,1,1,1,1,1,0,0,1,0,0,'',0);
 
@@ -65,11 +65,11 @@ DELETE FROM `creature_text` WHERE `CreatureID` IN (9916201, 9916202);
 INSERT INTO `creature_text`
 (`CreatureID`,`GroupID`,`ID`,`Text`,`Type`,`Language`,`Probability`,`Emote`,`Duration`,`Sound`,`BroadcastTextId`,`TextRange`,`comment`)
 VALUES
-(9916201,0,0,'The storm answers the scent of blood.',14,0,100,0,0,0,0,0,'Stormfang aggro'),
-(9916201,1,0,'You cannot outrun the thunder.',14,0,100,0,0,0,0,0,'Stormfang phase 2'),
-(9916201,2,0,'Overcharge! The hunt ends here.',14,0,100,0,0,0,0,0,'Stormfang phase 3'),
-(9916201,3,0,'The storm... fades...',14,0,100,0,0,0,0,0,'Stormfang death'),
-(9916201,4,0,'Feel the storm in your bones!',14,0,100,0,0,0,0,0,'Stormfang Thunder Howl');
+(9916201,0,0,'风暴回应着血腥的气息。',14,0,100,0,0,0,0,0,'Stormfang aggro'),
+(9916201,1,0,'你无法逃过雷霆。',14,0,100,0,0,0,0,0,'Stormfang phase 2'),
+(9916201,2,0,'超载！狩猎到此结束。',14,0,100,0,0,0,0,0,'Stormfang phase 3'),
+(9916201,3,0,'风暴……消散了……',14,0,100,0,0,0,0,0,'Stormfang death'),
+(9916201,4,0,'感受你骨中的风暴！',14,0,100,0,0,0,0,0,'Stormfang Thunder Howl');
 
 -- ---------------------------------------------------------------------------
 -- SmartAI -- The Stormfang

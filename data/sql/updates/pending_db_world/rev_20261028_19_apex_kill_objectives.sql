@@ -5,8 +5,8 @@ UPDATE `quest_template`
 SET `RequiredNpcOrGo1` = 9916214, `RequiredNpcOrGoCount1` = 1,
     `RequiredNpcOrGo2` = 9916212, `RequiredNpcOrGoCount2` = 1,
     `RequiredNpcOrGo3` = 9916213, `RequiredNpcOrGoCount3` = 1,
-    `ObjectiveText1` = 'Nytharos slain',
-    `ObjectiveText2` = 'Stormfang slain',
-    `ObjectiveText3` = 'Vaelthara slain',
-    `ObjectiveText4` = 'Hides returned'
+    `ObjectiveText1` = '尼萨罗斯已被击杀',
+    `ObjectiveText2` = '风暴之牙已被击杀',
+    `ObjectiveText3` = '瓦尔莎拉已被击杀',
+    `ObjectiveText4` = '兽皮已交回'
 WHERE `ID` IN (9916201, 9916211);

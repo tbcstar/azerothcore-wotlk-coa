@@ -48,7 +48,7 @@ ON DUPLICATE KEY UPDATE `idx` = `p`.`idx`, `count` = 1;
 
 UPDATE `item_template`
 SET `description` = REPLACE(`description`, 'contains 1 Bow and 1 Arrow Incarnation.',
-                            'contains 1 Bow, 1 Arrow Incarnation, 1 Sword, 1 Staff and 1 Wand.')
+                            '包含 1 把弓、1 个箭矢化身、1 把剑、1 把法杖和 1 根魔杖。')
 WHERE `entry` IN (198331, 198332, 198333)
   AND EXISTS (SELECT 1 FROM `coa_client_vanity_collection` WHERE `BazaarTokenCost` > 0);
 

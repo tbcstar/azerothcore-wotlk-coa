@@ -9,7 +9,7 @@ DROP TEMPORARY TABLE IF EXISTS `tmp_apex_huntmaster`;
 CREATE TEMPORARY TABLE `tmp_apex_huntmaster` AS
     SELECT * FROM `creature_template` WHERE `entry` = 9916111;
 UPDATE `tmp_apex_huntmaster`
-   SET `entry` = 9916113, `name` = 'Torvald Greyfeather', `subname` = 'Huntmaster';
+   SET `entry` = 9916113, `name` = '托瓦尔德·灰羽', `subname` = '狩猎大师';
 
 DELETE FROM `creature_template` WHERE `entry` = 9916113;
 INSERT INTO `creature_template` SELECT * FROM `tmp_apex_huntmaster`;

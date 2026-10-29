@@ -7,4 +7,4 @@
 -- repeating the client's own sentence with `${$abs(0)}` replaced by the level-scaled reference `$s1`.
 DELETE FROM `coa_client_spell_description` WHERE `ID` = 13526;
 INSERT INTO `coa_client_spell_description` (`ID`, `Description`) VALUES
-(13526, 'Corrosive acid that deals $s1 Nature damage every 3 sec and enables you to bypass $s2% of targets armor for $d.');
+(13526, '腐蚀性酸液每 3 秒造成 $s1 点自然伤害，并使你能够无视目标 $s2% 的护甲，持续 $d。');

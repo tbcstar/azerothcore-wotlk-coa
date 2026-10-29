@@ -9,7 +9,7 @@ INSERT INTO `creature_text`
 (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`,
  `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`)
 VALUES
-(9916212, 0, 0, 'The storm has come for you.', 14, 0, 100, 0, 0, 0, 0, 0, 'Stormfang encounter start');
+(9916212, 0, 0, '风暴已为你降临。', 14, 0, 100, 0, 0, 0, 0, 0, 'Stormfang encounter start');
 
 DELETE FROM `smart_scripts` WHERE `entryorguid` = 9916212 AND `id` = 1;
 INSERT INTO `smart_scripts`

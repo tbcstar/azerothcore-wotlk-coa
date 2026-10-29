@@ -1,7 +1,7 @@
 -- Anger Not Easily Appeased (175096): only pacifying a Furious Gilded Treant (164301) with the
 -- Magic Crystal (Golden Tranquility 365042) counts; killing it no longer gives kill credit
 INSERT INTO `creature_template` (`entry`, `name`, `faction`, `unit_class`, `unit_flags`, `type`)
-VALUES (445304, 'Furious Gilded Treant Pacified Credit', 35, 1, 2, 7) ON DUPLICATE KEY UPDATE `name` = VALUES(`name`);
+VALUES (445304, '狂怒的鎏金树人安抚计数', 35, 1, 2, 7) ON DUPLICATE KEY UPDATE `name` = VALUES(`name`);
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 445304;
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) VALUES
 (445304, 0, 15485, 1, 1);

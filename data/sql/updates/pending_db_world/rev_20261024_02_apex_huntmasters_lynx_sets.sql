@@ -9,8 +9,8 @@
 
 START TRANSACTION;
 
-UPDATE `creature_template` SET `name` = 'Halda Bronzebraid', `subname` = 'Huntmaster' WHERE `entry` = 9916111;
-UPDATE `creature_template` SET `name` = 'Zul''khar',        `subname` = 'Huntmaster' WHERE `entry` = 9916112;
+UPDATE `creature_template` SET `name` = '哈尔达·铜辫', `subname` = '狩猎大师' WHERE `entry` = 9916111;
+UPDATE `creature_template` SET `name` = '祖尔卡',        `subname` = '狩猎大师' WHERE `entry` = 9916112;
 
 DELETE FROM `creature_display_preset` WHERE `entry` IN (9916111, 9916112);
 INSERT INTO `creature_display_preset`

@@ -8,7 +8,7 @@ DROP TEMPORARY TABLE IF EXISTS `tmp_apex_zulkhar`;
 CREATE TEMPORARY TABLE `tmp_apex_zulkhar` AS
     SELECT * FROM `creature_template` WHERE `entry` = 9916112;
 UPDATE `tmp_apex_zulkhar`
-   SET `entry` = 9916114, `name` = 'Zul''khar', `subname` = 'Huntmaster';
+   SET `entry` = 9916114, `name` = '祖尔卡', `subname` = '狩猎大师';
 
 DELETE FROM `creature_template` WHERE `entry` = 9916114;
 INSERT INTO `creature_template` SELECT * FROM `tmp_apex_zulkhar`;

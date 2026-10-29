@@ -9,9 +9,9 @@
 INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `size`, `Data1`, `Data2`, `Data3`, `Data8`,
 `ScriptName`)
 VALUES
-(412000, 2, 138002, 'Hero''s Call Board', 0.32, 2378, 0, 12399, 1, 'native_ascension_callboard'),
-(412001, 2, 138005, 'Warchief''s Command Board', 0.32, 2378, 0, 12399, 1, 'native_ascension_callboard'),
-(422000, 2, 3053, 'Outlaw''s Contract Board', 0.5, 7009, 1, 30148, 1, 'native_ascension_callboard')
+(412000, 2, 138002, '英雄的召唤告示板', 0.32, 2378, 0, 12399, 1, 'native_ascension_callboard'),
+(412001, 2, 138005, '大酋长的命令告示板', 0.32, 2378, 0, 12399, 1, 'native_ascension_callboard'),
+(422000, 2, 3053, '亡命徒契约板', 0.5, 7009, 1, 30148, 1, 'native_ascension_callboard')
 ON DUPLICATE KEY UPDATE `type` = VALUES(`type`), `displayId` = VALUES(`displayId`), `name` = VALUES(`name`),
 `size` = VALUES(`size`), `Data1` = VALUES(`Data1`), `Data2` = VALUES(`Data2`), `Data3` = VALUES(`Data3`),
 `Data8` = VALUES(`Data8`), `ScriptName` = VALUES(`ScriptName`);

@@ -3,7 +3,7 @@
 -- ranks (the SKILL 118 rows of skill 732 in SkillLineAbility.dbc).
 DELETE FROM `trainer` WHERE `Id` = 900033;
 INSERT INTO `trainer` (`Id`, `Type`, `Requirement`, `Greeting`) VALUES
-(900033, 2, 0, 'Need help with your woodcutting?');
+(900033, 2, 0, '需要帮忙提升你的伐木技能吗？');
 DELETE FROM `trainer_spell` WHERE `TrainerId` = 900033;
 INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`) VALUES
 (900033, 13977859,   100,   0,   0,        0, 0, 0,  5),

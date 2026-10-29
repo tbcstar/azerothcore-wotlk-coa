@@ -24,9 +24,9 @@ INSERT INTO `creature_template`
  `HealthModifier`,`ManaModifier`,`ArmorModifier`,`ExperienceModifier`,`RacialLeader`,`movementId`,
  `RegenHealth`,`CreatureImmunitiesId`,`flags_extra`,`ScriptName`,`VerifiedBuild`)
 VALUES
-(9916111,0,0,0,0,0,'Huntmaster Halda Bronzebraid','Apex Huntmaster',NULL,0,60,60,2,35,3,
+(9916111,0,0,0,0,0,'狩猎大师哈尔达·铜辫','巅峰狩猎大师',NULL,0,60,60,2,35,3,
  1,1.14286,1,1,20,0,0,1,2000,2000,1,1,1,0,2048,0,0,7,134217728,0,0,0,0,0,0,0,'',0,1,1,1,1,1,0,0,1,0,0,'',0),
-(9916112,0,0,0,0,0,'Huntmaster Zul''khar','Apex Huntmaster',NULL,0,60,60,2,35,3,
+(9916112,0,0,0,0,0,'狩猎大师祖尔卡','巅峰狩猎大师',NULL,0,60,60,2,35,3,
  1,1.14286,1,1,20,0,0,1,2000,2000,1,1,1,0,2048,0,0,7,134217728,0,0,0,0,0,0,0,'',0,1,1,1,1,1,0,0,1,0,0,'',0);
 
 DELETE FROM `creature_template_model` WHERE `CreatureID` IN (9916111, 9916112);

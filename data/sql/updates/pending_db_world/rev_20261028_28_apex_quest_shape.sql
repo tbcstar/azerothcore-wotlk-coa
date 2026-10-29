@@ -3,7 +3,7 @@
 UPDATE `quest_template`
 SET `AreaDescription` = '',
     `VerifiedBuild` = 12340,
-    `ObjectiveText1` = 'The three apex hides',
+    `ObjectiveText1` = '三张巅峰兽皮',
     `ObjectiveText2` = NULL,
     `ObjectiveText3` = NULL,
     `ObjectiveText4` = NULL

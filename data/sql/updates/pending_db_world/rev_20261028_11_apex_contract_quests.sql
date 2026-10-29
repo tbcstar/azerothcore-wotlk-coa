@@ -10,8 +10,8 @@ DELETE FROM `creature_loot_template` WHERE `Entry` IN (9916212, 9916213, 9916214
 
 -- ---- gossip: each huntmaster speaks in his own voice -----------------------
 INSERT INTO `npc_text` (`ID`, `text0_0`) VALUES
-(900001, 'Mind the pelts on the rack, they''re curing. ...You''ve the look of someone who''s killed things that fought back. Good. Sit down.'),
-(900002, 'Ya smell like de road, not de city. Good. Zul''khar don''t waste words on city hunters.');
+(900001, '当心架子上那些兽皮，它们还在鞣制。……你看上去像是个杀过会反抗的猎物的人。很好。坐下吧。'),
+(900002, '你身上有路野的气味，不是城里的。很好。祖尔卡可不在城里猎人身上浪费口舌。');
 
 INSERT INTO `gossip_menu` (`MenuID`, `TextID`) VALUES
 (9916113, 900001),
@@ -24,14 +24,14 @@ UPDATE `creature_template` SET `gossip_menu_id` = 9916114 WHERE `entry` = 991611
 INSERT INTO `quest_template`
 (`ID`, `QuestType`, `QuestLevel`, `MinLevel`, `LogTitle`, `LogDescription`, `QuestDescription`,
  `QuestCompletionLog`, `QuestSortID`, `QuestInfoID`, `Flags`, `RewardNextQuest`) VALUES
-(9916200, 0, 58, 58, 'The Apex Contract',
- 'Read the bounty board and take up the hunt.',
- 'Three contracts are nailed to the board behind me, older ones under them, all of them failures. Read them, then decide whether you still like the idea.',
- 'Return to Torvald Greyfeather in the Dwarven District of Stormwind.', 0, 0, 0, 9916201),
-(9916210, 0, 58, 58, 'The Apex Contract',
- 'Read the bounty board and take up de hunt.',
- 'Three contracts nailed to de board behind me, old ones under dem, all of dem failures. Read dem, den decide if ya still like de idea.',
- 'Return to Zul''khar in de Valley of Honor of Orgrimmar.', 0, 0, 0, 9916211);
+(9916200, 0, 58, 58, '巅峰契约',
+ '阅读悬赏板并接受狩猎。',
+ '我身后的板子上钉着三份契约，下面还压着更旧的，全都失败了。读一读，然后再决定你是不是还喜欢这个主意。',
+ '回到暴风城矮人区的托瓦尔德·灰羽那里。', 0, 0, 0, 9916201),
+(9916210, 0, 58, 58, '巅峰契约',
+ '阅读悬赏板并接受这场狩猎。',
+ '我身后板子上钉着三份契约，底下压着更旧的，全都栽了。读读看，再琢磨琢磨你还想不想干这活儿。',
+ '回到奥格瑞玛荣誉谷的祖尔卡那里。', 0, 0, 0, 9916211);
 
 -- ---- the hunt: the three hides, then the diploma ---------------------------
 INSERT INTO `quest_template`
@@ -41,19 +41,19 @@ INSERT INTO `quest_template`
  `RequiredItemId3`, `RequiredItemCount3`,
  `ObjectiveText1`, `ObjectiveText2`, `ObjectiveText3`,
  `RewardItem1`, `RewardAmount1`, `RewardTitle`) VALUES
-(9916201, 0, 60, 58, 'The Three Apex Hunts',
- 'Bring the hides of Nytharos, Stormfang and Vaelthara to Torvald Greyfeather.',
- 'I''ve chased three beasts across this continent and lost every time. Not to their teeth. To their patience. Nytharos sits in the drowned ruins and lets the sea do his work for him. Stormfang runs the Hinterlands ridge and never stands still long enough to be struck. Vaelthara has been hunted by ogres for twenty years, and she learned to hunt back. Bring me their hides, and skin them yourself. I''ll know if you didn''t.',
- 'Return to Torvald Greyfeather in the Dwarven District of Stormwind.', 0, 0, 0,
+(9916201, 0, 60, 58, '三场巅峰狩猎',
+ '将尼萨罗斯、风暴之牙和瓦尔莎拉的兽皮带给托瓦尔德·灰羽。',
+ '我在这片大陆上追猎过三头野兽，每次都失败了。不是败给它们的牙齿，而是败给它们的耐心。尼萨罗斯盘踞在沉没的废墟里，让大海替它干活。风暴之牙奔跑在 Hinterlands 山脊上，从不停下脚步，让人打不中。瓦尔莎拉被食人魔猎杀了二十年，她学会了反击。把它们的兽皮带给我，而且必须是你亲手剥的。我会知道你是不是亲手剥的。',
+ '回到暴风城矮人区的托瓦尔德·灰羽那里。', 0, 0, 0,
  1009103, 1, 1009101, 1, 1009102, 1,
- 'Tide-Warped Hide', 'Stormfang Pelt', 'Scarred Owlcat Pelt',
+ '潮汐扭曲的兽皮', '风暴之牙毛皮', '伤痕累累的枭兽皮',
  1009100, 1, 231),
-(9916211, 0, 60, 58, 'The Three Apex Hunts',
- 'Bring de hides of Nytharos, Stormfang and Vaelthara to Zul''khar.',
- 'Three beasts out dere wearing de best hides on Azeroth. Nytharos, de drowned one. He don''t chase ya, he wait, and de water does de killing. Stormfang, de storm-worg. He move like lightning and hit like it too. Vaelthara, de scarred matriarch. Ogres hunt her twenty years, now she hunt everything. Kill dem. Skin dem yourself. A hide bought from a hunter is just leather.',
- 'Return to Zul''khar in de Valley of Honor of Orgrimmar.', 0, 0, 0,
+(9916211, 0, 60, 58, '三场巅峰狩猎',
+ '把尼萨罗斯、风暴之牙和瓦尔莎拉的兽皮带给祖尔卡。',
+ '有三头野兽身上披着艾泽拉斯最好的皮。尼萨罗斯，那个淹死的家伙。他不追你，他等着，让水来杀人。风暴之牙，那头风暴座狼。他动起来像闪电，打起来也像。瓦尔莎拉，那头满身伤疤的母兽。食人魔猎了她二十年，现在她猎一切。杀了他们。自己剥皮。从猎人手里买来的皮不过是皮革。',
+ '回到奥格瑞玛荣誉谷的祖尔卡那里。', 0, 0, 0,
  1009103, 1, 1009101, 1, 1009102, 1,
- 'Tide-Warped Hide', 'Stormfang Pelt', 'Scarred Owlcat Pelt',
+ '潮汐扭曲的兽皮', '风暴之牙毛皮', '伤痕累累的枭兽皮',
  1009100, 1, 231);
 
 -- ---- who offers and who takes them ----------------------------------------

@@ -10,11 +10,11 @@ INSERT INTO `quest_template`
  `RequiredNpcOrGo2`, `RequiredNpcOrGoCount2`,
  `RequiredNpcOrGo3`, `RequiredNpcOrGoCount3`,
  `VerifiedBuild`) VALUES
-(17840, 2, 60, 58, 1519, 1024, 'The Three Apex Hunts',
- 'Hunt the three apex beasts.', '', '',
+(17840, 2, 60, 58, 1519, 1024, '三场巅峰狩猎',
+ '猎杀三头巅峰野兽。', '', '',
  9916214, 1, 9916212, 1, 9916213, 1, 12340),
-(17845, 2, 60, 58, 1637, 1024, 'The Three Apex Hunts',
- 'Hunt the three apex beasts.', '', '',
+(17845, 2, 60, 58, 1637, 1024, '三场巅峰狩猎',
+ '猎杀三头巅峰野兽。', '', '',
  9916214, 1, 9916212, 1, 9916213, 1, 12340);
 
 DELETE FROM `creature_queststarter` WHERE `quest` IN (17840, 17845);

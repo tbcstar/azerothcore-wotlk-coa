@@ -43,9 +43,9 @@ VALUES
  0, 0, 0,
  0, 0, 0,
  99001, 494, 0,
- 'Stormfang Rake', 0, 'Apex Bounty',
- 'Rends the target, causing bleeding, reducing healing received by 50%, and shredding 50% of armor.', 0,
- 'Bleeding. Healing reduced by 50%. Armor reduced by 50%.', 0,
+ '风暴之牙斜掠', 0, '巅峰悬赏',
+ '撕裂目标，造成流血，使目标受到的治疗降低 50%，并削减 50% 的护甲。', 0,
+ '流血。治疗降低 50%。护甲降低 50%。', 0,
  1, 0, 0),
 -- Chain Lightning: 3-target chain, instant.
 (1004102, 65536, 1, 60, 60, 60, 0, 4,
@@ -58,9 +58,9 @@ VALUES
  3, 0, 0,
  0.6, 0, 0,
  99002, 165, 0,
- 'Stormfang Chain Lightning', 0, 'Apex Bounty',
- 'Hurls a bolt of lightning that arcs to nearby enemies.', 0,
- 'Struck by Stormfang lightning.', 0,
+ '风暴之牙闪电链', 0, '巅峰悬赏',
+ '投掷一道闪电，电弧弹射至附近敌人。', 0,
+ '被风暴之牙的闪电击中。', 0,
  8, 0, 0),
 -- Lightning Bolt: damage plus a 4 s stun.
 (1004103, 65536, 1, 60, 60, 60, 35, 4,
@@ -73,9 +73,9 @@ VALUES
  0, 0, 0,
  0, 0, 0,
  99003, 62, 0,
- 'Stormfang Lightning Bolt', 0, 'Apex Bounty',
- 'Blasts an enemy with lightning and stuns it for 4 sec.', 0,
- 'Stunned by Stormfang lightning.', 0,
+ '风暴之牙闪电箭', 0, '巅峰悬赏',
+ '用闪电冲击敌人，并使其眩晕 4 秒。', 0,
+ '被风暴之牙的闪电眩晕。', 0,
  8, 0, 0);
 
 INSERT INTO `spellvisual_dbc`

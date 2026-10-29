@@ -16,11 +16,11 @@ INSERT INTO `item_template`
 (`entry`, `class`, `subclass`, `name`, `displayid`, `Quality`, `Flags`, `BuyCount`, `BuyPrice`,
  `SellPrice`, `InventoryType`, `AllowableClass`, `AllowableRace`, `ItemLevel`, `RequiredLevel`,
  `maxcount`, `stackable`, `bonding`, `description`, `Material`, `VerifiedBuild`) VALUES
-(1009101, 12, 0, 'Stormfang Pelt',        990003, 5, 0, 1, 0, 0, 0, -1, -1, 60, 0, 1, 1, 4,
- 'Still crackling. The fur will not lie flat.', 0, 0),
-(1009102, 12, 0, 'Scarred Owlcat Pelt',   990004, 5, 0, 1, 0, 0, 0, -1, -1, 60, 0, 1, 1, 4,
- 'Twenty years of ogre spears, written in scar tissue.', 0, 0),
-(1009103, 12, 0, 'Tide-Warped Hide',      990005, 5, 0, 1, 0, 0, 0, -1, -1, 60, 0, 1, 1, 4,
- 'It smells of deep water and old drowned prayers.', 0, 0),
-(1009100, 15, 0, 'Diploma of the Apex Hunt', 990002, 5, 0, 1, 0, 0, 0, -1, -1, 60, 0, 1, 1, 1,
- 'Grants the title: Apex Hunter.', 0, 0);
+(1009101, 12, 0, '风暴之牙毛皮',        990003, 5, 0, 1, 0, 0, 0, -1, -1, 60, 0, 1, 1, 4,
+ '仍在噼啪作响。毛发无法平伏。', 0, 0),
+(1009102, 12, 0, '伤痕累累的枭兽皮',   990004, 5, 0, 1, 0, 0, 0, -1, -1, 60, 0, 1, 1, 4,
+ '二十年食人魔长矛的痕迹，写在疤痕组织里。', 0, 0),
+(1009103, 12, 0, '潮汐扭曲的兽皮',      990005, 5, 0, 1, 0, 0, 0, -1, -1, 60, 0, 1, 1, 4,
+ '闻起来有深水的气息和古老溺亡者的祈祷。', 0, 0),
+(1009100, 15, 0, '巅峰狩猎文凭', 990002, 5, 0, 1, 0, 0, 0, -1, -1, 60, 0, 1, 1, 1,
+ '授予头衔：巅峰猎人。', 0, 0);

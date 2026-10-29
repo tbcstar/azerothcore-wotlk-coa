@@ -4,7 +4,7 @@
 START TRANSACTION;
 
 UPDATE `creature_template`
-   SET `name` = 'Torvald Greyfeather', `subname` = 'Huntmaster'
+   SET `name` = '托瓦尔德·灰羽', `subname` = '狩猎大师'
  WHERE `entry` = 9916111;
 
 COMMIT;

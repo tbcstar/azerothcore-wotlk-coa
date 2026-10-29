@@ -3,12 +3,12 @@
 -- opened. Give the menus the same "browse your goods" and "Train me!" options as the default menu 0.
 DELETE FROM `gossip_menu_option` WHERE `MenuID` IN (9920063, 9920064, 9920067, 9920068);
 INSERT INTO `gossip_menu_option` (`MenuID`, `OptionID`, `OptionIcon`, `OptionText`, `OptionBroadcastTextID`, `OptionType`, `OptionNpcFlag`, `ActionMenuID`, `ActionPoiID`, `BoxCoded`, `BoxMoney`, `BoxText`, `BoxBroadcastTextID`, `VerifiedBuild`) VALUES
-(9920063, 0, 1, 'I want to browse your goods', 3370, 3, 128, 0, 0, 0, 0, '', 0, 0),
-(9920064, 0, 1, 'I want to browse your goods', 3370, 3, 128, 0, 0, 0, 0, '', 0, 0),
-(9920067, 0, 3, 'Train me!', 3266, 5, 16, 0, 0, 0, 0, '', 0, 0),
-(9920067, 1, 1, 'I want to browse your goods', 3370, 3, 128, 0, 0, 0, 0, '', 0, 0),
-(9920068, 0, 3, 'Train me!', 3266, 5, 16, 0, 0, 0, 0, '', 0, 0),
-(9920068, 1, 1, 'I want to browse your goods', 3370, 3, 128, 0, 0, 0, 0, '', 0, 0);
+(9920063, 0, 1, '我想看看你的货物', 3370, 3, 128, 0, 0, 0, 0, '', 0, 0),
+(9920064, 0, 1, '我想看看你的货物', 3370, 3, 128, 0, 0, 0, 0, '', 0, 0),
+(9920067, 0, 3, '训练我！', 3266, 5, 16, 0, 0, 0, 0, '', 0, 0),
+(9920067, 1, 1, '我想看看你的货物', 3370, 3, 128, 0, 0, 0, 0, '', 0, 0),
+(9920068, 0, 3, '训练我！', 3266, 5, 16, 0, 0, 0, 0, '', 0, 0),
+(9920068, 1, 1, '我想看看你的货物', 3370, 3, 128, 0, 0, 0, 0, '', 0, 0);
 
 -- Hilda sold herbs without a stock limit, unlike every other herb seller. Use the most common stock and restock time
 -- those vendors use for each herb.

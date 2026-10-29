@@ -13,7 +13,7 @@ ON DUPLICATE KEY UPDATE `idx` = 0, `count` = 1;
 
 -- The description lists it again, right after the first line
 UPDATE `item_template`
-SET `description` = REPLACE(`description`, 'Experience Boost to you.\n', 'Experience Boost to you.\nContains x1 Heirloom Weapon Token\n')
+SET `description` = REPLACE(`description`, 'Experience Boost to you.\n', 'Experience Boost to you.\n包含 x1 传家宝武器令牌\n')
 WHERE `entry` BETWEEN 1339051 AND 1339057
   AND `description` NOT LIKE '%Heirloom Weapon Token%'
   AND EXISTS (SELECT 1 FROM `coa_client_vanity_collection` WHERE `BazaarTokenCost` > 0);

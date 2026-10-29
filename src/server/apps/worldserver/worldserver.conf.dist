@@ -5128,9 +5128,9 @@ Cluster.IsCrossrealm=0
 ###################################################################################################
 
 # Social.AccountWideFriends
-# Share friends/notes across owner characters and follow the friend's current character.
-# Requires the Ascension client friend-metadata protocol. Not for stock 3.3.5 clients.
-# Existing character friendships are imported once per account on first use after enabling.
-# Conflicting notes or more than 50 friend accounts require administrator reconciliation.
-# Ignore lists remain character-specific. Restart required; default disabled.
+# 在同一账号下的角色之间共享好友/备注，并跟随好友当前的角色。
+# 需要 Ascension 客户端的好友元数据协议。不适用于原版 3.3.5 客户端。
+# 启用后首次使用时，每个账号会导入一次已有的角色好友关系。
+# 备注冲突或好友账号超过 50 个时，需要管理员协调处理。
+# 忽略列表仍按角色区分。需要重启；默认禁用。
 Social.AccountWideFriends = 0

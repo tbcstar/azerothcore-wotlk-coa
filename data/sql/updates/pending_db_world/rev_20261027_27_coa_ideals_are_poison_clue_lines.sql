@@ -11,11 +11,11 @@ INSERT INTO `creature` (`guid`, `id`, `map`, `zoneId`, `areaId`, `spawnMask`, `p
 
 DELETE FROM `creature_text` WHERE `CreatureID` = 164511;
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(164511, 0, 0, 'Tufts of coarse red hair are caught in a tangle of furs. Abellon passed this way.', 41, 0, 100, 0, 0, 0, 0, 0, 'Ideals Are Poison - Tangled Furs'),
-(164511, 1, 0, 'The grass is trampled by two sets of tracks, one hard on the heels of the other.', 41, 0, 100, 0, 0, 0, 0, 0, 'Ideals Are Poison - Trail in the Grass'),
-(164511, 2, 0, 'A Cresthairn militia buckler, its rim notched by a heavy blow. It must be Cairn''s.', 41, 0, 100, 0, 0, 0, 0, 0, 'Ideals Are Poison - Notched Buckler'),
-(164511, 3, 0, 'Footprints dried in the mud lead on toward the Ealdir lands. Neither brother turned back.', 41, 0, 100, 0, 0, 0, 0, 0, 'Ideals Are Poison - Dried Footprints'),
-(164511, 4, 0, 'Blood is splattered across the stones. Someone was badly hurt here.', 41, 0, 100, 0, 0, 0, 0, 0, 'Ideals Are Poison - Blood Splatter');
+(164511, 0, 0, '一簇粗糙的红发缠在乱毛皮中。阿贝隆曾经过这里。', 41, 0, 100, 0, 0, 0, 0, 0, 'Ideals Are Poison - Tangled Furs'),
+(164511, 1, 0, '草地被两组足迹踩踏，一组紧紧跟在另一组后面。', 41, 0, 100, 0, 0, 0, 0, 0, 'Ideals Are Poison - Trail in the Grass'),
+(164511, 2, 0, '一面克雷斯特海恩民兵圆盾，其边缘被重击打出缺口。这一定是凯恩的。', 41, 0, 100, 0, 0, 0, 0, 0, 'Ideals Are Poison - Notched Buckler'),
+(164511, 3, 0, '泥地里干涸的脚印通向埃尔迪尔的土地。两兄弟都没有回头。', 41, 0, 100, 0, 0, 0, 0, 0, 'Ideals Are Poison - Dried Footprints'),
+(164511, 4, 0, '鲜血溅洒在石头上。有人在这里受了重伤。', 41, 0, 100, 0, 0, 0, 0, 0, 'Ideals Are Poison - Blood Splatter');
 
 DELETE FROM `smart_scripts` WHERE `entryorguid` BETWEEN 2300646 AND 2300650 AND `source_type` = 1;
 INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase_mask`, `event_chance`, `event_flags`, `event_param1`, `event_param2`, `event_param3`, `event_param4`, `event_param5`, `event_param6`, `action_type`, `action_param1`, `action_param2`, `action_param3`, `action_param4`, `action_param5`, `action_param6`, `target_type`, `target_param1`, `target_param2`, `target_param3`, `target_param4`, `target_x`, `target_y`, `target_z`, `target_o`, `comment`) VALUES

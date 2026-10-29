@@ -5,9 +5,9 @@ UPDATE `quest_template`
 SET `RequiredNpcOrGo1` = 9916214, `RequiredNpcOrGoCount1` = 1,
     `RequiredNpcOrGo2` = 9916212, `RequiredNpcOrGoCount2` = 1,
     `RequiredNpcOrGo3` = 9916213, `RequiredNpcOrGoCount3` = 1,
-    `ObjectiveText1` = 'Tide-Warped Hide',
-    `ObjectiveText2` = 'Stormfang Pelt',
-    `ObjectiveText3` = 'Scarred Owlcat Pelt',
+    `ObjectiveText1` = '潮汐扭曲的兽皮',
+    `ObjectiveText2` = '风暴之牙毛皮',
+    `ObjectiveText3` = '伤痕累累的枭兽皮',
     `RequiredItemId1` = 0, `RequiredItemCount1` = 0,
     `RequiredItemId2` = 0, `RequiredItemCount2` = 0,
     `RequiredItemId3` = 0, `RequiredItemCount3` = 0

@@ -1,6 +1,6 @@
 UPDATE `creature_template`
-SET `name` = 'Stormfang',
-    `subname` = 'the Crackling Fury',
+SET `name` = '风暴之牙',
+    `subname` = '噼啪狂怒',
     `rank` = 1
 WHERE `entry` = 9916212;
 
@@ -27,8 +27,8 @@ INSERT INTO `creature_text`
 (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`,
  `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`)
 VALUES
-(9916212, 1, 0, 'You cannot outrun the thunder.', 14, 0, 100, 0, 0, 0, 0, 0, 'Stormfang phase 2'),
-(9916212, 2, 0, 'Overcharge! The hunt ends here.', 14, 0, 100, 0, 0, 0, 0, 0, 'Stormfang phase 3');
+(9916212, 1, 0, '你逃不过雷霆。', 14, 0, 100, 0, 0, 0, 0, 0, 'Stormfang phase 2'),
+(9916212, 2, 0, '过载！狩猎到此结束。', 14, 0, 100, 0, 0, 0, 0, 0, 'Stormfang phase 3');
 
 DELETE FROM `smart_scripts` WHERE `entryorguid` = 9916212 AND `id` IN (20, 40);
 INSERT INTO `smart_scripts`
@@ -53,7 +53,7 @@ INSERT INTO `creature_template`
  `ArmorModifier`, `RegenHealth`, `AIName`, `MovementType`, `ScriptName`,
  `flags_extra`)
 VALUES
-(9916211, 'Stormfang Spirit Wolf', '', 60, 60, 16, 0,
+(9916211, '风暴之牙幽灵狼', '', 60, 60, 16, 0,
  1, 1.14286, 1, 1, 0,
  1, 1500, 2000, 0,
  0, 1, 0, 1, 1,

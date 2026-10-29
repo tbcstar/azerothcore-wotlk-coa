@@ -5,7 +5,7 @@
 -- effigy its own creature_template, cloned from 50121's name/stats/model, bound to a separate ScriptName that
 -- is not class-gated.
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`, `ScriptName`) VALUES
-(50134, 'Cursed Effigy', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_wildcard_cursed_effigy') ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `minlevel` = VALUES(`minlevel`), `maxlevel` = VALUES(`maxlevel`), `faction` = VALUES(`faction`), `unit_class` = VALUES(`unit_class`), `type` = VALUES(`type`), `BaseAttackTime` = VALUES(`BaseAttackTime`), `RangeAttackTime` = VALUES(`RangeAttackTime`), `ScriptName` = VALUES(`ScriptName`);
+(50134, '被诅咒的雕像', 1, 1, 35, 1, 11, 2000, 2000, 'npc_ascension_wildcard_cursed_effigy') ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `minlevel` = VALUES(`minlevel`), `maxlevel` = VALUES(`maxlevel`), `faction` = VALUES(`faction`), `unit_class` = VALUES(`unit_class`), `type` = VALUES(`type`), `BaseAttackTime` = VALUES(`BaseAttackTime`), `RangeAttackTime` = VALUES(`RangeAttackTime`), `ScriptName` = VALUES(`ScriptName`);
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 50134;
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) VALUES
 (50134, 0, 427391, 1, 1);

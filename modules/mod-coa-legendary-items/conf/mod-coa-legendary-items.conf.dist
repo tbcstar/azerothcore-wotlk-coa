@@ -6,8 +6,5 @@ CoALegendaryItems.Enable = 1
 # 每次击杀符合条件的生物时的百分比掉落几率。每具尸体最多掉落一件传奇物品。
 CoALegendaryItems.DropChance = 0.05
 
-# 达到或高于此等级的玩家不会获得新的掉落。
-CoALegendaryItems.StopDropLevel = 45
-
-# 到或高于此等级的玩家无法从已装备的传奇物品中获得能力加成。
+# 达到或高于此等级的玩家不会从已装备的传说物品中获得任何能力。
 CoALegendaryItems.StopPowerLevel = 60

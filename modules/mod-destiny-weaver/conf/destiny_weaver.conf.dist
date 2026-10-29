@@ -61,8 +61,8 @@ DestinyWeaver.Scaling.Offset = 4
 DestinyWeaver.Scaling.WorldMaps = "0 1"
 
 #    DestinyWeaver.Scaling.DungeonIds
-#        描述：这些地下城查找器条目（LFGDungeons.dbc 的 ID）所对应的地下城会在其
-#                     普通难度下进行缩放。地下城中的生物等级与角色等级一致，并限制
+#        Description: 地下城查找器条目（LFGDungeons.dbc 的 ID），其地下城会在
+#                     普通难度下缩放。地下城中的生物等级与角色等级一致，并限制
 #                     在该条目的 TargetLevelMin-MaxLevel 区间内；等级范围不在
 #                     1-60 内的条目使用 15-59，而被多个条目列出的地图会覆盖所有这些条目。未
 #                     列出的地下城保持其原始设定等级。已列出的地下城会对其内
@@ -70,10 +70,10 @@ DestinyWeaver.Scaling.WorldMaps = "0 1"
 #                     选择如何；只有挑战规则会让角色保持其原始设定等级。默认
 #                     列表中的条目始终会缩放，因此在某个条目加入默认列表之前
 #                     编写的配置仍会缩放它；此处列出的条目会追加到这些默认条目中。
-#        Default:     "1 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40 44 51 54 163 164 165 272 273 274 276 601 402"
+#        Default:     "1 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40 44 51 54 163 164 165 272 273 274 276 601 402 401"
 #        Reloadable:  yes (.reload config)
 
-DestinyWeaver.Scaling.DungeonIds = "1 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40 44 51 54 163 164 165 272 273 274 276 601 402"
+DestinyWeaver.Scaling.DungeonIds = "1 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40 44 51 54 163 164 165 272 273 274 276 601 402 401"
 
 #    DestinyWeaver.Scaling.DungeonBands
 #        Description: 用于替换地下城查找器条目的 LFGDungeons.dbc 等级区间的配置，

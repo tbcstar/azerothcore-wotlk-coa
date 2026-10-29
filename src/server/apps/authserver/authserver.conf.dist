@@ -103,7 +103,7 @@ UseProcessors = 0
 #        Default:     0 - (Normal)
 #                     1 - (High)
 
-ProcessPriority = 0
+ProcessPriority = 1
 
 #
 #    RealmsStateUpdateDelay
@@ -120,7 +120,7 @@ RealmsStateUpdateDelay = 20
 #        Default:     0  - (Disabled)
 #                     1+ - (Enabled)
 
-WrongPass.MaxCount = 0
+WrongPass.MaxCount = 5
 
 #
 #    WrongPass.BanTime
@@ -136,7 +136,7 @@ WrongPass.BanTime = 600
 #        Default:     0 - (Ban IP)
 #                     1 - (Ban Account)
 
-WrongPass.BanType = 0
+WrongPass.BanType = 1
 
 #
 #    WrongPass.Logging
@@ -144,7 +144,7 @@ WrongPass.BanType = 0
 #        Default:     0 - (Disabled)
 #                     1 - (Enabled)
 
-WrongPass.Logging = 0
+WrongPass.Logging = 1
 
 #
 #    BanExpiryCheckInterval
@@ -229,7 +229,7 @@ AllowLoggingIPAddressesInDatabase = 1
 #                                                                           使用 Unix 套接字)
 #        Default:     "127.0.0.1;3306;acore;acore;acore_auth"
 
-LoginDatabaseInfo = "127.0.0.1;3306;acore;!QAZ2wsx#EDC4rfv;;acore_auth"
+LoginDatabaseInfo = "127.0.0.1;3306;acore;!QAZ2wsx#EDC4rfv;acore_auth"
 
 #
 #    Database.Reconnect.Seconds
@@ -454,8 +454,8 @@ Updates.CleanDeadRefMaxCount = 3
 #                         Example:  536870912 (512 MB)
 #
 
-Appender.Console=1,5,0,"1 9 3 6 5 8"
-Appender.Auth=2,5,0,Auth.log,w
+Appender.Console=1,4,0,"1 9 3 6 5 8"
+Appender.Auth=2,4,0,Auth.log,w
 
 #  Logger 配置值：给定一个 logger “名称”
 #    Logger.name

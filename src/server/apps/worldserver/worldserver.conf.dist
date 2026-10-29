@@ -135,9 +135,9 @@ CharacterDatabaseInfo = "127.0.0.1;3306;acore;!QAZ2wsx#EDC4rfv;acore_characters"
 #                     1 - (WorldDatabase.WorkerThreads)
 #                     1 - (CharacterDatabase.WorkerThreads)
 
-LoginDatabase.WorkerThreads     = 1
-WorldDatabase.WorkerThreads     = 1
-CharacterDatabase.WorkerThreads = 1
+LoginDatabase.WorkerThreads     = 2
+WorldDatabase.WorkerThreads     = 4
+CharacterDatabase.WorkerThreads = 8
 
 #
 #    LoginDatabase.TransactionIsolation
@@ -159,7 +159,7 @@ CharacterDatabase.WorkerThreads = 1
 
 LoginDatabase.TransactionIsolation     = ""
 WorldDatabase.TransactionIsolation     = ""
-CharacterDatabase.TransactionIsolation = ""
+CharacterDatabase.TransactionIsolation = "READ-COMMITTED"
 
 #
 #    LoginDatabase.SynchThreads
@@ -170,9 +170,9 @@ CharacterDatabase.TransactionIsolation = ""
 #                     1 - (WorldDatabase.SynchThreads)
 #                     1 - (CharacterDatabase.SynchThreads)
 
-LoginDatabase.SynchThreads     = 1
-WorldDatabase.SynchThreads     = 1
-CharacterDatabase.SynchThreads = 1
+LoginDatabase.SynchThreads     = 2
+WorldDatabase.SynchThreads     = 4
+CharacterDatabase.SynchThreads = 4
 
 #
 #    MaxPingTime
@@ -384,7 +384,7 @@ Updates.ExceptionShutdownDelay = 10000
 #        说明：网络线程数。
 #         默认：1 - （建议每 1000 个连接 1 个线程）
 
-Network.Threads = 2
+Network.Threads = 4
 
 #
 #    Network.OutKBuff
@@ -1095,7 +1095,7 @@ UpdateUptimeInterval = 10
 #                     10+ - (启用，建议 30+)
 #        Note:        如果启用且设置太低，可能导致意外崩溃。
 
-MaxCoreStuckTime = 0
+MaxCoreStuckTime = 30
 
 #
 #    SaveRespawnTimeImmediately
@@ -1367,7 +1367,7 @@ MapUpdateInterval = 10
 #        Description: 更新地图的线程数。
 #        Default:     1
 
-MapUpdate.Threads = 1
+MapUpdate.Threads = 2
 
 #
 #    MoveMaps.Enable

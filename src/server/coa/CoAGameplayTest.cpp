@@ -135,6 +135,7 @@ public:
     }
 };
 constexpr uint32 MaximumCreatures = 8;
+constexpr uint32 MeleeHitSamples = 2000;
 
 uint32 MaximumPlayers(uint32 schema)
 {
@@ -1116,7 +1117,9 @@ void ObserveExtensionPacket(Actor& actor, WorldPacket const& packet)
         packet.GetOpcode() != SMSG_DUEL_REQUESTED && packet.GetOpcode() != SMSG_DUEL_COUNTDOWN &&
         packet.GetOpcode() != SMSG_DUEL_COMPLETE && packet.GetOpcode() != SMSG_FRIEND_STATUS &&
         packet.GetOpcode() != SMSG_SEND_MAIL_RESULT && packet.GetOpcode() != SMSG_GOSSIP_MESSAGE &&
-        packet.GetOpcode() != SMSG_BINDPOINTUPDATE && packet.GetOpcode() != SMSG_PET_SPELLS &&
+        packet.GetOpcode() != SMSG_BINDPOINTUPDATE &&         packet.GetOpcode() != SMSG_PET_SPELLS &&
+        packet.GetOpcode() != SMSG_RESURRECT_REQUEST &&
+        packet.GetOpcode() != SMSG_CORPSE_RECLAIM_DELAY &&
         packet.GetOpcode() != SMSG_TRADE_STATUS)
         return;
 
@@ -2407,10 +2410,13 @@ private:
         WorldPacket create(CMSG_CHAR_CREATE, 32);
         uint32 race = actor.definition.get<uint32>("race");
         uint32 playerClass = actor.definition.get<uint32>("class");
+        uint32 gender = actor.definition.get<uint32>("gender", GENDER_MALE);
         Require(race > 0 && race <= 255 && playerClass > 0 && playerClass <= 255,
             "Race/class must fit the character creation packet");
-        create << actor.definition.get<std::string>("name", actor.name) << uint8(race) << uint8(playerClass);
-        for (uint8 i = 0; i < 7; ++i)
+        Require(gender == GENDER_MALE || gender == GENDER_FEMALE, "Gender must be 0 (male) or 1 (female)");
+        create << actor.definition.get<std::string>("name", actor.name) << uint8(race) << uint8(playerClass)
+               << uint8(gender);
+        for (uint8 i = 0; i < 6; ++i)
             create << uint8(0);
         actor.session->HandleCharCreateOpcode(create);
         Reach(actor, ActorStage::Creating);
@@ -2475,6 +2481,12 @@ private:
             player->ApplyRatingMod(CR_HIT_MELEE, *hitRating, true);
         if (auto expertise = actor.definition.get_optional<int32>("expertise_rating"))
             player->ApplyRatingMod(CR_EXPERTISE, *expertise, true);
+        if (auto power = actor.definition.get_optional<int32>("attack_power"))
+            player->HandleStatFlatModifier(UNIT_MOD_ATTACK_POWER, TOTAL_VALUE, float(*power), true);
+        if (auto power = actor.definition.get_optional<int32>("ranged_attack_power"))
+            player->HandleStatFlatModifier(UNIT_MOD_ATTACK_POWER_RANGED, TOTAL_VALUE, float(*power), true);
+        if (auto power = actor.definition.get_optional<int32>("spell_power"))
+            player->ApplySpellPowerBonus(*power, true);
         if (!actor.definition.get<bool>("allow_regeneration", true))
             NoRegenerationActors.insert(player->GetGUID());
         player->SetHealth(player->GetMaxHealth());
@@ -3047,6 +3059,16 @@ private:
         {
             Require(unit->IsPlayer(), "LFG state needs a player");
             return double(sLFGMgr->GetState(unit->GetGUID()));
+        }
+        if (metric == "lfg_selected_dungeon_count")
+        {
+            Require(unit->IsPlayer(), "LFG selected dungeons need a player");
+            return double(sLFGMgr->GetSelectedDungeons(unit->GetGUID()).size());
+        }
+        if (metric == "lfg_selected_dungeon")
+        {
+            Require(unit->IsPlayer(), "LFG selected dungeons need a player");
+            return sLFGMgr->GetSelectedDungeons(unit->GetGUID()).contains(step.get<uint32>("dungeon")) ? 1 : 0;
         }
         if (metric == "lfg_need_allowed")
         {
@@ -3841,11 +3863,35 @@ private:
         }
         if (metric == "map_creature_count")
         {
-            uint32 const entry = step.get<uint32>("entry");
+            uint32 const entry = step.get<uint32>("entry", 0);
             auto const& spawns = player->GetMap()->GetCreatureBySpawnIdStore();
             return std::count_if(spawns.begin(), spawns.end(), [entry](auto const& spawn)
             {
-                return spawn.second->GetEntry() == entry && spawn.second->IsInWorld() && spawn.second->IsAlive();
+                return (!entry || spawn.second->GetEntry() == entry) && spawn.second->IsInWorld()
+                    && spawn.second->IsAlive();
+            });
+        }
+        if (metric == "map_creatures_below_floor")
+        {
+            float constexpr tolerance = 3.0f;
+            Map* map = player->GetMap();
+            auto const& spawns = map->GetCreatureBySpawnIdStore();
+            return std::count_if(spawns.begin(), spawns.end(), [map, tolerance](auto const& spawn)
+            {
+                Creature const* creature = spawn.second;
+                if (!creature->IsInWorld() || !creature->IsAlive())
+                    return false;
+                CreatureData const* data = creature->GetCreatureData();
+                float const spawnZ = data ? data->posZ : creature->GetHomePosition().GetPositionZ();
+                float const floor = map->GetHeight(creature->GetPhaseMask(), creature->GetPositionX(),
+                    creature->GetPositionY(), std::max(creature->GetPositionZ(), spawnZ) + Z_OFFSET_FIND_HEIGHT,
+                    true, MAX_FALL_DISTANCE);
+                bool const below = floor <= INVALID_HEIGHT || creature->GetPositionZ() < floor - tolerance;
+                if (below)
+                    LOG_WARN("coa.gameplay_test", "Creature {} (entry {}) at {:.2f} {:.2f} {:.2f} is below floor {:.2f} "
+                        "(spawn z {:.2f})", creature->GetSpawnId(), creature->GetEntry(), creature->GetPositionX(),
+                        creature->GetPositionY(), creature->GetPositionZ(), floor, spawnZ);
+                return below;
             });
         }
         if (IsPlacementMetric(metric))
@@ -4107,6 +4153,12 @@ private:
         {
             Unit* attacker = GetUnit(step.get<std::string>("target"));
             SpellInfo const* info = sSpellMgr->GetSpellInfo(spell);
+            Unit* victim = player;
+            if (auto entry = step.get_optional<uint32>("entry"))
+            {
+                victim = GetOwnedCreature(player, *entry);
+                Require(victim != nullptr, "Scripted damage observation needs a present owned creature");
+            }
             if (metric == "script_melee_damage_dealt")
             {
                 uint32 damage = 1000;
@@ -4116,17 +4168,32 @@ private:
             if (metric == "script_melee_damage_taken")
             {
                 uint32 damage = 1000;
-                sScriptMgr->ModifyMeleeDamage(player, attacker, damage);
+                sScriptMgr->ModifyMeleeDamage(victim, attacker, damage);
                 float minDamage = float(damage);
                 float maxDamage = float(damage);
-                sScriptMgr->ModifyMeleeDamageRange(player, attacker, minDamage, maxDamage);
+                sScriptMgr->ModifyMeleeDamageRange(victim, attacker, minDamage, maxDamage);
                 return (minDamage + maxDamage) / 2.0f;
+            }
+            if (metric == "script_melee_hit_taken")
+            {
+                double total = 0.0;
+                for (uint32 sample = 0; sample < MeleeHitSamples; ++sample)
+                {
+                    uint32 damage = attacker->CalculateDamage(BASE_ATTACK, false, true, 0, player);
+                    damage = attacker->MeleeDamageBonusDone(player, damage, BASE_ATTACK, nullptr,
+                        SPELL_SCHOOL_MASK_NORMAL);
+                    damage = player->MeleeDamageBonusTaken(attacker, damage, BASE_ATTACK, nullptr,
+                        SPELL_SCHOOL_MASK_NORMAL);
+                    sScriptMgr->ModifyMeleeDamage(player, attacker, damage);
+                    total += damage;
+                }
+                return total / MeleeHitSamples;
             }
             Require(info != nullptr, "Unknown spell for scripted damage taken");
             if (metric == "script_spell_damage_taken")
             {
                 int32 damage = 1000;
-                sScriptMgr->ModifySpellDamageTaken(player, attacker, damage, info);
+                sScriptMgr->ModifySpellDamageTaken(victim, attacker, damage, info);
                 return damage;
             }
             if (metric == "script_heal_received")
@@ -4137,7 +4204,7 @@ private:
             }
             Require(metric == "script_periodic_damage_taken", "Unknown scripted damage metric");
             uint32 damage = 1000;
-            sScriptMgr->ModifyPeriodicDamageAurasTick(player, attacker, damage, info);
+            sScriptMgr->ModifyPeriodicDamageAurasTick(victim, attacker, damage, info);
             return damage;
         }
         if (metric == "spell_done_crit_chance" || metric == "spell_taken_crit_chance" ||
@@ -4371,10 +4438,14 @@ private:
             auto const rangedWeaponSubclass = step.get_optional<uint32>("ranged_weapon_subclass");
             Require(!rangedWeaponSubclass || *rangedWeaponSubclass < MAX_ITEM_SUBCLASS_WEAPON,
                 "Invalid ranged weapon subclass");
+            auto const sheathState = step.get_optional<uint32>("sheath_state");
+            Require(!sheathState || *sheathState < MAX_SHEATH_STATE, "Invalid sheath state");
             return std::count_if(creatures.begin(), creatures.end(),
                 [player, spell, caster, minDistance, ownerDisplay, creatorOnly,
-                 rangedWeaponSubclass](Creature* creature)
+                 rangedWeaponSubclass, sheathState](Creature* creature)
             {
+                if (sheathState && creature->GetSheath() != SheathState(*sheathState))
+                    return false;
                 if (rangedWeaponSubclass)
                 {
                     ItemTemplate const* weapon = sObjectMgr->GetItemTemplate(
@@ -4422,6 +4493,12 @@ private:
             Creature* creature = GetOwnedCreature(player, step.get<uint32>("entry"));
             Require(creature != nullptr, "Armor observation needs a present owned creature");
             return creature->GetArmor();
+        }
+        if (metric == "owned_creature_max_health")
+        {
+            Creature* creature = GetOwnedCreature(player, step.get<uint32>("entry"));
+            Require(creature != nullptr, "Health observation needs a present owned creature");
+            return creature->GetMaxHealth();
         }
         if (metric == "owned_creature_virtual_item")
         {
@@ -4575,7 +4652,7 @@ private:
             metric == "pet_attack_power" || metric == "pet_run_speed_rate" || metric == "pet_is_banker" ||
             metric == "pet_display" || metric == "pet_native_display" || metric == "pet_scale" ||
             metric == "pet_knows_spell" ||
-            metric == "pet_distance" || metric == "pet_spell_bar_count")
+            metric == "pet_distance" || metric == "pet_bearing" || metric == "pet_spell_bar_count")
         {
             Creature* pet = player->GetGuardianPet();
             if (!pet)
@@ -4592,6 +4669,11 @@ private:
                 return pet ? pet->GetNativeDisplayId() : 0;
             if (metric == "pet_scale")
                 return pet ? double(pet->GetObjectScale()) : 0.0;
+            if (metric == "pet_bearing")
+            {
+                Require(pet, "Metric needs a pet");
+                return double(player->GetRelativeAngle(pet)) * 180.0 / M_PI;
+            }
             if (metric == "pet_spell_bar_count")
             {
                 Require(pet && pet->GetCharmInfo(), "Metric needs a controllable pet");
@@ -4648,6 +4730,12 @@ private:
             Require(slot < EQUIPMENT_SLOT_END, "Equipment observation needs a slot from 0 through 18");
             Item const* item = player->GetItemByPos(INVENTORY_SLOT_BAG_0, uint8(slot));
             return item ? item->GetEntry() : 0;
+        }
+        if (metric == "visible_item")
+        {
+            uint32 slot = step.get<uint32>("slot");
+            Require(slot < EQUIPMENT_SLOT_END, "Equipment observation needs a slot from 0 through 18");
+            return player->GetUInt32Value(PLAYER_VISIBLE_ITEM_1_ENTRYID + slot * 2);
         }
         if (metric == "item_random_property" || metric == "item_suffix_factor" || metric == "item_enchantment" ||
             metric == "item_guid" || metric == "item_soulbound" || metric == "item_duration")
@@ -5812,12 +5900,20 @@ private:
                 movementFlag = MOVEMENTFLAG_STRAFE_LEFT;
             else if (direction == "strafe_right")
                 movementFlag = MOVEMENTFLAG_STRAFE_RIGHT;
+            else if (direction == "falling")
+                movementFlag = MOVEMENTFLAG_FALLING;
             else
                 Require(direction == "forward", "Unknown movement flag: " + direction);
             if (step.get<bool>("enabled"))
                 player->AddUnitMovementFlag(movementFlag);
             else
                 player->RemoveUnitMovementFlag(movementFlag);
+        }
+        else if (action == "relocate")
+        {
+            player->UpdatePosition(player->GetPositionX() + step.get<float>("dx", 0.0f),
+                player->GetPositionY() + step.get<float>("dy", 0.0f),
+                player->GetPositionZ() + step.get<float>("dz", 0.0f), player->GetOrientation());
         }
         else if (action == "stop_attack")
         {

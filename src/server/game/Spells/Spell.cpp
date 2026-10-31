@@ -5346,6 +5346,9 @@ void Spell::SendResurrectRequest(Player* target)
                                ? ""
                                : m_caster->GetNameForLocaleIdx(target->GetSession()->GetSessionDbLocaleIndex()));
 
+    if (m_caster->IsPlayer() || m_spellInfo->HasAttribute(SPELL_ATTR3_NO_RES_TIMER))
+        target->SendCorpseReclaimDelay(0);
+
     WorldPacket data(SMSG_RESURRECT_REQUEST, (8 + 4 + sentName.size() + 1 + 1 + 1 + 4));
     data << m_caster->GetGUID();
     data << uint32(sentName.size() + 1);
@@ -5354,8 +5357,8 @@ void Spell::SendResurrectRequest(Player* target)
     data << uint8(0); // null terminator
 
     data << uint8(m_caster->IsPlayer() ? 0 : 1); // "you'll be afflicted with resurrection sickness"
-    // override delay sent with SMSG_CORPSE_RECLAIM_DELAY, set instant resurrection for spells with this attribute
-    if (m_spellInfo->HasAttribute(SPELL_ATTR3_NO_RES_TIMER))
+    // override delay sent with SMSG_CORPSE_RECLAIM_DELAY, instant for player resurrections and spells with this attribute
+    if (m_caster->IsPlayer() || m_spellInfo->HasAttribute(SPELL_ATTR3_NO_RES_TIMER))
         data << uint32(0);
     target->SendDirectMessage(&data);
 }
@@ -5865,6 +5868,8 @@ SpellCastResult Spell::CheckCast(bool strict, uint32* /*param1*/, uint32* /*para
             checkForm = false;
             break;
         }
+        if (checkForm && sScriptMgr->CanIgnoreShapeshift(this))
+            checkForm = false;
         // CoA: Venomancer forms are stances, not shapeshift-locked kits; let a mount cast drop
         // them the way Unit::Mount does for every other player, instead of refusing the cast.
         bool prophetMount = m_caster->IsPlayer() && m_caster->getClass() == CLASS_PROPHET &&
@@ -6029,8 +6034,22 @@ SpellCastResult Spell::CheckCast(bool strict, uint32* /*param1*/, uint32* /*para
         if (target != m_caster)
         {
             // Must be behind the target
-            if (m_spellInfo->HasAttribute(SPELL_ATTR0_CU_REQ_CASTER_BEHIND_TARGET) && target->HasInArc(static_cast<float>(M_PI), m_caster))
-                return SPELL_FAILED_NOT_BEHIND;
+            if (m_spellInfo->HasAttribute(SPELL_ATTR0_CU_REQ_CASTER_BEHIND_TARGET) &&
+                target->HasInArc(static_cast<float>(M_PI), m_caster))
+            {
+                bool ignored = false;
+                for (AuraEffect const* effect : m_caster->GetAuraEffectsByType(SPELL_AURA_OVERRIDE_CLASS_SCRIPTS))
+                    if (effect->GetMiscValue() == ASCENSION_IGNORE_BEHIND_REQUIREMENT &&
+                        effect->IsAffectedOnSpell(m_spellInfo) &&
+                        (effect->GetMiscValueB() == ASCENSION_POSITION_SCOPE_ALL ||
+                            (effect->GetMiscValueB() == ASCENSION_POSITION_SCOPE_MONSTERS && !target->IsPlayer())))
+                    {
+                        ignored = true;
+                        break;
+                    }
+                if (!ignored)
+                    return SPELL_FAILED_NOT_BEHIND;
+            }
 
             // Target must be facing you
             if (m_spellInfo->HasAttribute(SPELL_ATTR0_CU_REQ_TARGET_FACING_CASTER) && !target->HasInArc(static_cast<float>(M_PI), m_caster))
@@ -9185,6 +9204,9 @@ void Spell::TriggerGlobalCooldown()
         else if (gcd > MAX_GCD)
             gcd = MAX_GCD;
     }
+
+    sScriptMgr->OnSpellGlobalCooldown(this, gcd);
+    gcd = std::max(gcd, 0);
 
     // Only players or controlled units have global cooldown
     if (m_caster->GetCharmInfo())

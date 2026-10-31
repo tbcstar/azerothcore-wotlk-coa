@@ -2301,6 +2301,10 @@ namespace lfg
         {
             error = LFG_TELEPORTERROR_COMBAT;
         }
+        else if (!out && !sScriptMgr->OnPlayerCanLfgTeleport(player))
+        {
+            error = LFG_TELEPORTERROR_INVALID_LOCATION;
+        }
         else if (out && error == LFG_TELEPORTERROR_OK)
         {
             if (player->GetMapId() == uint32(dungeon->map))

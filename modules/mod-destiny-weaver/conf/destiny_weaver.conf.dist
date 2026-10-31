@@ -76,13 +76,15 @@ DestinyWeaver.Scaling.WorldMaps = "0 1"
 DestinyWeaver.Scaling.DungeonIds = "1 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40 44 51 54 163 164 165 272 273 274 276 601 402 401"
 
 #    DestinyWeaver.Scaling.DungeonBands
-#        Description: 用于替换地下城查找器条目的 LFGDungeons.dbc 等级区间的配置，
-#                     格式为以空格分隔的 entry:low-high 对。
-#                     列在此处的条目即使 DestinyWeaver.Scaling.DungeonIds 未包含它，也会进行缩放。
-#        Default:     "402:15-59" - (Road to De Other Side)
-#        Reloadable:  yes (.reload config)
+#        描述：用于替换地下城查找器条目的 LFGDungeons.dbc 等级区间的区间，
+#                     格式为以空格分隔的 条目:下限-上限 对。此处列出的条目即使
+#                     DestinyWeaver.Scaling.DungeonIds 未包含它也会缩放。默认区间始终
+#                     生效：此处为其中某个默认区间列出的区间可以放宽它，但绝不能收窄它。
+#                     仅普通难度会缩放；英雄和史诗难度保持其等级。
+#        默认值：     "401:15-59 402:15-59" - （审判庭地窟、通往异界之路）
+#        可重载：     是（.reload config）
 
-DestinyWeaver.Scaling.DungeonBands = "402:15-59"
+DestinyWeaver.Scaling.DungeonBands = "401:15-59 402:15-59"
 
 #    DestinyWeaver.ExperienceBonusControl
 #        说明：经验奖励控制服务是否根本存在。开启它的角色

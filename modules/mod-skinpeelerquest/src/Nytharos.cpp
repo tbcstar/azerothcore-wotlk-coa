@@ -18,11 +18,15 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
+#include <mutex>
 #include <unordered_map>
 #include <vector>
 
 namespace
 {
+    std::unordered_map<ObjectGuid, ObjectGuid> g_spoutInitialTargets;
+    std::vector<ObjectGuid> g_spoutSummons;
+
     constexpr uint32 NYTHAROS_ENTRY = 9916224;
 
     // Full Oracle voice kit (creature\oracle\*.ogg). The oracle2 display rows
@@ -57,7 +61,7 @@ namespace
     constexpr uint32 NY_SPOUT_KIT = 99110;          // effect 145178 tornado model
     constexpr uint32 NY_SPOUT_DMG = 1004291;        // 250 nature
     constexpr uint32 NY_SPOUT_SLOW = 1004292;       // -30% for 2 s
-    constexpr uint32 NY_SOUND_TORNADO = 10045;      // TornadoLoop.wav as a one-shot
+    constexpr uint32 NY_SOUND_TORNADO = 10045;    // custom one-shot streamed SoundEntries row
     constexpr uint32 NY_EMOTE_CAST_OMNI = 463;      // ONESHOT_SPELL_CAST_OMNI
 
     constexpr uint32 NY_SPOUT_LIFE_MS = 15000;
@@ -173,12 +177,16 @@ namespace
         uint32 baseMaxHealth = 0;
         uint32 nextCrushTick = 0;
         uint32 spoutsUntil = 0;
+        uint32 secondSpoutSoundAt = 0;
 
         uint32 probeStart = 0;
         uint64 probeDamage = 0;
         bool probeDone = false;
     };
 
+    // His brain is per creature, but the state map is process-wide; the lock keeps a
+    // second instance's thread from rehashing the map under a reader.
+    std::recursive_mutex g_nytharosStateMutex;
     std::unordered_map<uint32, NytharosState> g_nytharosStates;
 
     class NytharosAI : public CreatureAI
@@ -188,7 +196,10 @@ namespace
 
         void InitializeAI() override
         {
+            std::lock_guard<std::recursive_mutex> lock(g_nytharosStateMutex);
+
             me->SetReactState(REACT_DEFENSIVE);
+            ApexScaling::TuneHitbox(me);
 
             NytharosState& state = g_nytharosStates[me->GetGUID().GetCounter()];
             state = NytharosState();
@@ -201,16 +212,29 @@ namespace
 
         void Reset() override
         {
+            std::lock_guard<std::recursive_mutex> lock(g_nytharosStateMutex);
+
+            DespawnSpouts();
+
             NytharosState& state = g_nytharosStates[me->GetGUID().GetCounter()];
             uint32 const base = state.baseMaxHealth;
             state = NytharosState();
             state.baseMaxHealth = base;
 
             ApexScaling::RestoreHealth(me, base);
+            ApexScaling::TuneHitbox(me);
+        }
+
+        void EnterEvadeMode(EvadeReason why) override
+        {
+            DespawnSpouts();
+            CreatureAI::EnterEvadeMode(why);
         }
 
         void JustEngagedWith(Unit* /*who*/) override
         {
+            std::lock_guard<std::recursive_mutex> lock(g_nytharosStateMutex);
+
             me->PlayDirectSound(NY_SOUND_AGGRO);
             me->HandleEmoteCommand(NY_EMOTE_ROAR);
 
@@ -234,6 +258,7 @@ namespace
 
         void JustDied(Unit* /*killer*/) override
         {
+            DespawnSpouts();
             me->PlayDirectSound(NY_SOUND_DEATH);
         }
 
@@ -243,8 +268,10 @@ namespace
             if (!attacker || !attacker->IsAlive() || !me->IsAlive())
                 return;
 
+            std::lock_guard<std::recursive_mutex> lock(g_nytharosStateMutex);
+
             if (!me->IsInCombat() || !me->GetVictim())
-                AttackStart(attacker);
+                ApexScaling::StartApexPull(me, attacker);
 
             me->AddThreat(attacker, 1.0f);
 
@@ -295,11 +322,30 @@ namespace
 
         void UpdateAI(uint32 /*diff*/) override
         {
+            std::lock_guard<std::recursive_mutex> lock(g_nytharosStateMutex);
+
+            // The patrol ring runs well past the 30-yard home leash, so an attack
+            // anywhere on it was rejected as out of the leash area. Keep home on
+            // his current patrol point until he is engaged; the fight itself is
+            // then leashed to wherever the pull happened, as usual.
+            if (!me->IsInCombat())
+                me->SetHomePosition(me->GetPositionX(), me->GetPositionY(),
+                    me->GetPositionZ(), me->GetOrientation());
+
+            ApexScaling::KeepApexChase(me);
+            ApexScaling::TuneHitbox(me);
+
             if (!UpdateVictim())
                 return;
 
             uint32 const now = getMSTime();
             NytharosState& state = g_nytharosStates[me->GetGUID().GetCounter()];
+
+            if (state.secondSpoutSoundAt && now >= state.secondSpoutSoundAt)
+            {
+                state.secondSpoutSoundAt = 0;
+                me->PlayRadiusSound(NY_SOUND_TORNADO, 100.0f);
+            }
 
             UpdatePhase(state);
             UpdateProbe(state, now);
@@ -445,6 +491,20 @@ namespace
             state.spoutsUntil = now + NY_SPOUT_LIFE_MS;
 
             me->HandleEmoteCommand(NY_EMOTE_CAST_OMNI);
+            me->PlayRadiusSound(NY_SOUND_TORNADO, 100.0f);
+            state.secondSpoutSoundAt = now + 7500;
+
+            std::vector<Player*> targets;
+            Map::PlayerList const& players = me->GetMap()->GetPlayers();
+            for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
+            {
+                Player* player = itr->GetSource();
+                if (!player || !player->IsAlive() || !player->InSamePhase(me))
+                    continue;
+                targets.push_back(player);
+            }
+
+            uint32 const offset = targets.empty() ? 0 : urand(0, uint32(targets.size()) - 1);
 
             for (uint32 i = 0; i < count; ++i)
             {
@@ -455,14 +515,32 @@ namespace
                 float const y = me->GetPositionY() + std::sin(angle) * dist;
                 float const z = me->GetPositionZ();
 
-                me->SummonCreature(NY_TORNADO_ENTRY, x, y, z, me->GetOrientation(),
+                Creature* spout = me->SummonCreature(NY_TORNADO_ENTRY, x, y, z, me->GetOrientation(),
                     TEMPSUMMON_TIMED_DESPAWN, NY_SPOUT_LIFE_MS);
+                if (spout)
+                {
+                    g_spoutSummons.push_back(spout->GetGUID());
+                    if (!targets.empty())
+                        g_spoutInitialTargets[spout->GetGUID()] = targets[(offset + i) % targets.size()]->GetGUID();
+                }
             }
 
             LOG_INFO("coa", "NYTHAROS: waterspouts x{}", count);
         }
 
     private:
+        void DespawnSpouts()
+        {
+            for (ObjectGuid const& guid : g_spoutSummons)
+                if (Creature* spout = ObjectAccessor::GetCreature(*me, guid))
+                {
+                    spout->PlayDirectSound(0);
+                    spout->PlayDistanceSound(0);
+                    spout->DespawnOrUnsummon();
+                }
+            g_spoutSummons.clear();
+        }
+
         void DoKnockPulse()
         {
             me->PlayDirectSound(NY_SOUND_KNOCK);
@@ -555,12 +633,18 @@ namespace
 
             _expireAt = getMSTime() + NY_SPOUT_LIFE_MS;
             _nextMove = 0;
-            _nextSound = getMSTime() + 500;
-            _soundsLeft = 2;
+            _nextSound = getMSTime() + 300;
             _nextContact = 0;
 
             _originX = me->GetPositionX();
             _originY = me->GetPositionY();
+
+            auto const initial = g_spoutInitialTargets.find(me->GetGUID());
+            if (initial != g_spoutInitialTargets.end())
+            {
+                _chaseTarget = initial->second;
+                g_spoutInitialTargets.erase(initial);
+            }
 
             CreatureAI::InitializeAI();
         }
@@ -571,6 +655,10 @@ namespace
 
             if (now >= _expireAt)
             {
+                g_spoutSummons.erase(std::remove(g_spoutSummons.begin(), g_spoutSummons.end(), me->GetGUID()),
+                    g_spoutSummons.end());
+                me->PlayDirectSound(0);
+                me->PlayDistanceSound(0);
                 me->DespawnOrUnsummon();
                 return;
             }
@@ -578,19 +666,6 @@ namespace
             // Contact is checked every tick so the slow lands the instant a
             // player touches the spout, not on a one second beat.
             DoContact(now);
-
-            // TornadoLoop is a 5.9 s file. Two plays (spawn + 6 s) cover the
-            // fifteen second life and the last one ends before the spout
-            // despawns, so nothing is left playing afterwards. It is fired a
-            // beat after spawn because at InitializeAI time the summoned spout
-            // is not visible to the client yet and the object sound reaches
-            // nobody.
-            if (_soundsLeft && now >= _nextSound)
-            {
-                --_soundsLeft;
-                _nextSound = now + 6000;
-                me->PlayDistanceSound(NY_SOUND_TORNADO);
-            }
 
             if (now >= _nextMove)
             {
@@ -603,7 +678,6 @@ namespace
         uint32 _expireAt = 0;
         uint32 _nextMove = 0;
         uint32 _nextSound = 0;
-        int _soundsLeft = 0;
         uint32 _nextContact = 0;
         ObjectGuid _chaseTarget;
         float _originX = 0.0f;

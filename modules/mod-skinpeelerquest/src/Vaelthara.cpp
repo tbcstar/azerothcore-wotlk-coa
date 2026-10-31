@@ -18,6 +18,7 @@
 
 #include <algorithm>
 #include <array>
+#include <mutex>
 #include <unordered_map>
 
 namespace
@@ -221,6 +222,7 @@ namespace
         ObjectGuid stalkTarget;
         uint32 stalkEnds = 0;
         bool stalkThreatPushed = false;
+        float stalkThreatBefore = 0.0f;
 
         // whirl
         uint32 nextWhirl = 0;
@@ -236,7 +238,10 @@ namespace
     };
 
     // Shared between the creature script (state machine) and the unit script
-    // (melee damage hook), so a landed hit can feed the meter.
+    // (melee damage hook), so a landed hit can feed the meter. Both run on the map
+    // thread of the instance she is in; the lock keeps a second instance's thread
+    // (or a hook running elsewhere) from rehashing the map under a reader.
+    std::recursive_mutex g_vaeltharaStateMutex;
     std::unordered_map<uint32, VaeltharaState> g_vaeltharaStates;
 
     // "Is this player fighting her?" She can hold a victim without a threat
@@ -268,18 +273,22 @@ namespace
             if (!attacker || !attacker->IsAlive() || !me->IsAlive())
                 return;
 
+            std::lock_guard<std::recursive_mutex> lock(g_vaeltharaStateMutex);
+
             auto itr = g_vaeltharaStates.find(me->GetGUID().GetCounter());
             if (itr != g_vaeltharaStates.end())
                 ApexScaling::ObserveProbe(itr->second.probe, damage);
 
             if (!me->IsInCombat() || !me->GetVictim())
-                AttackStart(attacker);
+                ApexScaling::StartApexPull(me, attacker);
 
             me->AddThreat(attacker, 1.0f);
         }
 
         void UpdateAI(uint32 /*diff*/) override
         {
+            std::lock_guard<std::recursive_mutex> lock(g_vaeltharaStateMutex);
+
             if (me->IsInCombat())
             {
                 // Damage normally extends the leash for ~15 s, after which
@@ -366,6 +375,9 @@ namespace
             if (!creature || creature->GetEntry() != VAELTHARA_ENTRY)
                 return;
 
+            std::lock_guard<std::recursive_mutex> lock(g_vaeltharaStateMutex);
+
+            ApexScaling::TuneHitbox(creature);
             creature->SetReactState(REACT_DEFENSIVE);
 
             VaeltharaState& state = g_vaeltharaStates[creature->GetGUID().GetCounter()];
@@ -381,13 +393,24 @@ namespace
         void OnCreatureRemoveWorld(Creature* creature) override
         {
             if (creature && creature->GetEntry() == VAELTHARA_ENTRY)
+            {
+                std::lock_guard<std::recursive_mutex> lock(g_vaeltharaStateMutex);
                 g_vaeltharaStates.erase(creature->GetGUID().GetCounter());
+            }
         }
 
         void OnAllCreatureUpdate(Creature* creature, uint32) override
         {
             if (!creature || creature->GetEntry() != VAELTHARA_ENTRY)
                 return;
+
+            std::lock_guard<std::recursive_mutex> lock(g_vaeltharaStateMutex);
+
+            // Her patrol spans far more than the 30-yard home leash, so keep home
+            // on the current patrol point until she is engaged.
+            if (!creature->IsInCombat())
+                creature->SetHomePosition(creature->GetPositionX(), creature->GetPositionY(),
+                    creature->GetPositionZ(), creature->GetOrientation());
 
             VaeltharaState& state = g_vaeltharaStates[creature->GetGUID().GetCounter()];
             uint32 const now = getMSTime();
@@ -412,6 +435,11 @@ namespace
                 state.inCombat = false;
                 return;
             }
+
+            // A lost chase generator leaves the patrol on top and she keeps walking
+            // her route while in combat.
+            ApexScaling::KeepApexChase(creature);
+            ApexScaling::TuneHitbox(creature);
 
             UpdateHunger(creature, state, now);
             UpdateVoice(creature, state, now);
@@ -749,6 +777,8 @@ namespace
                 if (!creature || !creature->IsAlive())
                     return;
 
+                std::lock_guard<std::recursive_mutex> lock(g_vaeltharaStateMutex);
+
                 auto const found = g_vaeltharaStates.find(creature->GetGUID().GetCounter());
                 if (found == g_vaeltharaStates.end() || !found->second.bloodrushInAir)
                     return; // interrupted mid-leap; Winded replaced the landing
@@ -778,6 +808,11 @@ namespace
                 ApexScaling::ApplyAoe(creature, caught,
                     {ApexScaling::HEAVY_PCT, 1, 0}, ApexScaling::ABILITY_BUDGET,
                     ApexScaling::ABILITY_CAP_PCT, ApexScaling::CARRIER_PHYSICAL);
+
+                // The jump generator owned the active slot while she was airborne;
+                // give the chase back as soon as she lands.
+                if (Unit* victim = creature->GetVictim())
+                    creature->GetMotionMaster()->MoveChase(victim);
             }, Milliseconds(travel));
         }
 
@@ -787,7 +822,8 @@ namespace
             text += victim->GetName();
             text += ".";
 
-            // Only the people actually fighting her see this.
+            // Boss emote so the client draws it centered, but only for the players
+            // actually fighting her (threat list / current victim), not bystanders.
             Map::PlayerList const& players = creature->GetMap()->GetPlayers();
             for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
             {
@@ -810,7 +846,12 @@ namespace
                 if (Player* target = ObjectAccessor::GetPlayer(*creature, state.stalkTarget))
                 {
                     if (state.stalkThreatPushed)
-                        creature->GetThreatMgr().AddThreat(target, -VAELTHARA_STALK_THREAT);
+                    {
+                        // Restore exactly what he had before the fixate: take the current
+                        // value and subtract the difference, so no residue is left behind.
+                        float const current = creature->GetThreatMgr().GetThreat(target, true);
+                        creature->GetThreatMgr().AddThreat(target, state.stalkThreatBefore - current);
+                    }
                     target->RemoveAurasDueToSpell(VAELTHARA_STALKED);
                 }
 
@@ -851,6 +892,26 @@ namespace
                 state.nextStalk = now + 5000;
                 return;
             }
+
+            // She must not fixate the player she is already fighting: with the
+            // current victim in the pool every pick looks like "the tank again"
+            // the moment the fixate expires and threat pulls her back.
+            if (candidates.size() > 1)
+            {
+                Player* current = creature->GetVictim() && creature->GetVictim()->IsPlayer()
+                    ? creature->GetVictim()->ToPlayer() : nullptr;
+                if (current)
+                {
+                    for (auto itr = candidates.begin(); itr != candidates.end(); ++itr)
+                    {
+                        if (*itr == current)
+                        {
+                            candidates.erase(itr);
+                            break;
+                        }
+                    }
+                }
+            }
             // Random on purpose: never the lowest health, never the tank by rule.
             Player* target = candidates[urand(0, uint32(candidates.size()) - 1)];
 
@@ -859,7 +920,9 @@ namespace
             state.nextStalk = now + StalkInterval(state.phase);
             state.stalkThreatPushed = true;
 
-            // Grilek's fixation: out-weigh the whole threat list for the window.
+            // Grilek's fixation: out-weigh the whole threat list for the window. The value he
+            // had before is kept so it can be restored exactly when the window closes.
+            state.stalkThreatBefore = creature->GetThreatMgr().GetThreat(target, true);
             creature->GetThreatMgr().AddThreat(target, VAELTHARA_STALK_THREAT);
             creature->CastSpell(target, VAELTHARA_STALKED, true);
             SendStalkMessage(creature, target);
@@ -969,7 +1032,6 @@ namespace
             if (state.bloodrushInAir)
             {
                 state.bloodrushInAir = false;
-                creature->GetMotionMaster()->Clear();
                 creature->StopMoving();
 
                 float x = creature->GetPositionX();
@@ -977,6 +1039,11 @@ namespace
                 float z = creature->GetPositionZ();
                 creature->UpdateGroundPositionZ(x, y, z);
                 creature->NearTeleportTo(x, y, z, creature->GetOrientation());
+
+                // MoveChase mutates the active slot, which drops the interrupted jump.
+                // Clear() would also drop the chase and leave the patrol on top.
+                if (Unit* victim = creature->GetVictim())
+                    creature->GetMotionMaster()->MoveChase(victim);
             }
 
             // 2880 is a stock Stun the client already owns, so it draws the
@@ -1180,6 +1247,8 @@ namespace
 
             if (!attacker->IsCreature() || attacker->GetEntry() != VAELTHARA_ENTRY)
                 return;
+
+            std::lock_guard<std::recursive_mutex> lock(g_vaeltharaStateMutex);
 
             auto itr = g_vaeltharaStates.find(attacker->GetGUID().GetCounter());
             if (itr == g_vaeltharaStates.end())

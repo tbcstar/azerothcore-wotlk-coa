@@ -399,7 +399,8 @@ Arm of Thorim rolls 133–144 base damage at the fixture level, so two independe
 of 1.10–1.31 with its 20% bonus and 0.91–1.09 without it (including integer rounding). Charged Conduit
 preserves Static and must leave the talent without a depletion bonus.
 
-Players require `id`, numeric `race` and `class`; `level` defaults to 80. Optional `bot` logs the actor in on a
+Players require `id`, numeric `race` and `class`; `level` defaults to 80. Optional `gender` (0 male, 1 female,
+default 0) is sent in the character creation packet. Optional `bot` logs the actor in on a
 session flagged as a bot, the way playerbots flags the sessions it creates, so a scenario can check what the
 server does differently for them. Optional `security` (0..3, default 0/`SEC_PLAYER`) raises that one fixture
 session's account security, so a `command` step can reach a GM-gated chat command (for example an authoring
@@ -410,6 +411,8 @@ only when the scenario specifically exercises GM/admin-gated behavior through th
 `spell_crit_rating`, `melee_crit_rating`, `ranged_crit_rating`, `ranged_hit_rating`, `melee_hit_rating` and
 `expertise_rating` add fixture ratings through normal calculations, useful for preventing misses, dodges and
 parries, or forcing critical hits, in deterministic tests.
+Optional `attack_power`, `ranged_attack_power` and `spell_power` add flat fixture bonuses through the native stat
+modifiers, so a test character can carry raid-level stats without gear.
 Optional `allow_regeneration: false` suppresses only that fixture player's ordinary health/power regeneration
 through the native regeneration hook. Spell costs, healing, energize effects and combat remain enabled.
 It defaults to true and has no effect on other players or on a disabled harness.
@@ -486,7 +489,8 @@ assert stable maximums and final levels when testing damage coefficients.
 | `attack` | `actor`, `target`: native melee attack request; optional `pet: true` sends the pet's attack command. Verify combat or damage with assertions. |
 | `stop_attack` | Player `actor`: native melee stop request. |
 | `pvp` | Player `actor`, boolean `enabled`: native PvP toggle request. Disabling retains the ordinary flag-removal timer. |
-| `set_moving` | Player `actor`, boolean `enabled`: fixture the native forward movement flag for cast restriction tests. |
+| `set_moving` | Player `actor`, boolean `enabled`: fixture the native forward movement flag for cast restriction tests. Optional `flag`: `forward` (default), `backward`, `strafe_left`, `strafe_right` or `falling` (airborne, as during a jump). |
+| `relocate` | Player `actor`, optional `dx`, `dy`, `dz` (yards, -20 to 20): move the actor through the native position update a client movement packet applies, so movement and turning interrupts run; no packet is sent. |
 | `group` | `actor`, `target`, optional `loot_method` (0-4) and `master_looter` (a player id, read with `loot_method`): fixture party; creates the actor's group if needed, adds an ungrouped player and sets the loot method and master looter. |
 | `loot_roll` | Player `actor`, `item`, `vote` (0 pass, 1 need, 2 greed, 3 disenchant): native `CMSG_LOOT_ROLL` on the group's pending roll for that item (or a level-scaled copy) in which the actor takes part. |
 | `master_loot_give` | Player `actor` as master looter, `item`, `target` (a player id): native `CMSG_LOOT_MASTER_GIVE` of that item from the actor's open loot to the target. |
@@ -575,6 +579,8 @@ effect that picks one of several auras at random),
 `bank_shows`, `system_messages`, `cast_failure`, `pet_is_banker`, `pet_display`, `pet_scale`,
 `pet_knows_spell`, `pet_distance`. `pet_health` and `pet_max_health` read native health and maximum health.
 `equipped_item` takes `slot` (0..18) and reads that equipment slot's item entry, or zero when empty.
+`visible_item` takes the same `slot` and reads the item entry other clients are told to draw there
+(`PLAYER_VISIBLE_ITEM`), which differs from `equipped_item` when a transmog or form hides or replaces it.
 `free_inventory_slots` is how many bag slots the player could still fill, so `fill_bags` plus
 `free_inventory_slots` `equals: 0` is how a scenario states "the bags are full". `mail_count` is the
 number of mails the player holds and `mail_item_count` the items inside them, which is how a reward
@@ -755,8 +761,12 @@ including target health and school conditions. It requires the same `spell` and 
 `aura_crit_chance` reads a
 periodic aura effect's snapshotted crit chance; `aura_script_value` requires `key`. `script_melee_damage_taken`,
 `script_spell_damage_taken` and `script_periodic_damage_taken` require `target` as the attacker (and `spell` for
-the latter two) and return 1000 after the registered module damage-taken hooks. `script_heal_received` requires
+the latter two) and return 1000 after the registered module damage-taken hooks. With `entry` they take the actor's
+owned creature of that entry as the victim instead of the actor. `script_heal_received` requires
 `spell` and `target` as the healer and returns 1000 after the registered heal-received hooks, with the actor as recipient.
+`script_melee_hit_taken` requires `target` as the attacker and returns the mean of 2000 of its main-hand blows
+on the actor before armor: the weapon roll with the melee range hooks, the done and taken bonuses and the melee
+damage hooks, as `Unit::CalculateMeleeDamage` applies them.
 `script_melee_damage_dealt` requires `target` as the victim and returns 1000 after the registered melee damage hooks
 with the actor as the attacker.
 `set_health` also accepts a creature actor, or `pet: true` with a player actor to set its current pet's health.
@@ -855,6 +865,8 @@ spec: 0 for the primary, 1 for the secondary.
 `pet_entry` measures the player's current guardian pet entry, or the entry of the companion it summoned
 (a minipet, which never occupies the guardian slot), or zero if absent; `pet_display`, `pet_scale`
 and `pet_is_banker` read the same unit, and `pet_distance` is its 2D distance from the player in yards.
+`pet_bearing` is that unit's direction from the player in degrees, counter-clockwise from the player's facing
+(0 ahead, 90 left, 180 behind, 270 right).
 `pet_knows_spell` requires `spell` and is 1 when that unit is a pet whose spellbook holds it.
 `pet_spell_bar_count` counts nonempty spell entries in the current controllable pet's native action bar;
 commands and reactions are excluded. It requires a pet with charm information and does not read rendered UI.
@@ -890,6 +902,7 @@ This observes creator metadata; it does not establish a rendered owner title.
 An optional `spell` restricts the count to creatures with that aura; `caster` can select its aura owner. `min_distance` keeps creatures at least that many yards from the player (2D), and `owner_display: true` those wearing the player's display.
 `ranged_weapon_subclass` (0..20) restricts the count to creatures carrying a weapon of that item subclass
 in their ranged virtual equipment slot; subclass 2 means bows. This observes server equipment, not client rendering.
+`sheath_state` (0..2) restricts it to creatures whose server sheath state is unarmed, melee or ranged (2).
 `owned_creature_spacing` requires a player and `entry`. It reads the smallest 2D distance between two of those
 living creatures, selected as `owned_creature_count` does, or zero when fewer than two are present.
 `owned_creature_visible` requires a player and `entry` and reads one matching summon's server visibility,
@@ -908,7 +921,8 @@ aura expiry is a separate event.
 `owned_creature_weapon_damage_min` requires a player and `entry`. It returns the lowest minimum weapon damage (`UNIT_FIELD_MINDAMAGE`) across their living
 owned creatures of that entry in the same phase and within 100 yards, so every copy of a guardian must meet an asserted `min`; zero when there are none.
 `owned_creature_armor` requires a player and a present owned creature selected by `entry`. It reads that creature's
-native `GetArmor()`, zero when absent.
+native `GetArmor()`, zero when absent. `owned_creature_max_health` reads the same creature's `GetMaxHealth()` and
+requires it to be present.
 `owned_gameobject_count` requires a player and `entry`. It counts their summoned gameobjects of that entry
 in the same phase and within 100 yards. `gameobject_display` and `gameobject_scale` read the single owned
 object's native display id and scale, returning zero when absent. They do not verify client rendering.
@@ -963,6 +977,9 @@ server lists for that dungeon in the player's Dungeon Finder info (0 when it is 
 `LfgLockStatusType`, such as 2 too low level or 4 too low gear score).
 `lfg_state` takes a player `actor` and returns its native Dungeon Finder state (0 none, 1 role check, 2 queued,
 3 proposal, 4 vote kick, 5 in dungeon, 6 finished dungeon, 7 raid browser).
+`lfg_selected_dungeon_count` takes a player `actor` and returns how many dungeons the server keeps as that player's
+Dungeon Finder selection; `lfg_selected_dungeon` also takes an LFGDungeons.dbc `dungeon` id and returns 1 when the
+selection holds it, otherwise 0.
 `lfg_need_allowed` takes a player `actor` and an `item` entry and returns 1 when the native Dungeon Finder
 loot rule lets the actor roll Need on that item at the actor's position, otherwise 0. Outside a Dungeon Finder
 group or its dungeon every item returns 1.
@@ -1009,8 +1026,12 @@ all 19 map/mode pairs per tier and a real VanCleef killing blow, without a GM ac
 60 yards. Optional `min_level` and `max_level` filter their native levels; `min_home_distance` keeps creatures
 at least that many yards from their own home positions (2D), and `spell` those carrying that aura. This can
 observe movement and auras of native summons without creating or controlling them.
-`map_creature_count` requires a player and `entry`, and counts living spawned creatures of that entry loaded
-anywhere on the player's map, in any phase; a spawn whose grid is not loaded is not counted.
+`map_creature_count` requires a player and counts living spawned creatures loaded anywhere on the player's map,
+in any phase, of `entry` when given and of every entry otherwise; a spawn whose grid is not loaded is not counted.
+`map_creatures_below_floor` requires a player and counts those loaded living spawns that stand more than 3 yards
+below the floor under them, or over no floor at all. The floor is searched downward from the higher of the
+creature's current Z and its spawn Z, so a creature that sank through the ground counts while one that walked
+down a ramp does not. Each one counted is logged with its spawn id, position and floor.
 `nearby_gameobject_state` takes `entry` and returns the state of the nearest such gameobject within 20 yards
 (0 open, 1 closed, 99 none).
 `nearby_gameobject_scale` takes `entry` and returns the object scale of the nearest such gameobject within

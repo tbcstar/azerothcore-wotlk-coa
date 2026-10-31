@@ -38,10 +38,16 @@ CoA.ProbeRelay.AccountPrefix = "COALAB"
 # 在协议发现期间记录每个被消费的扩展数据包。
 CoA.LogConsumedPackets = 1
 
-# Ascension 角色屏幕：启用/禁用（激活/停用）以及
-# 每个账户的角色列表排序顺序。
-# 请求：CMSG 0x072E / 0x072F / 0x0772。
-# 响应：SMSG 0x075E / 0x075F / 0x0760 / 0x076F / 0x0770 / 0x0771。
+# 来自精英战争宝箱（2977351）的服务器绑定集市代币。
+# 其中持有的 1500 个集市代币（975001）被视为每账号储备：
+# 购买时优先使用该储备，且仅当账号至少保留该储备时，代币才能被交易、邮寄给另一个账号、拍卖或存入公会银行。
+# 账号自身角色之间的邮件免费。超过储备的刷取代币仍可交易。
+CoA.BazaarTokens.WarchestRealmBound = 1
+
+# Ascension 角色选择界面：启用/禁用（激活/停用）以及
+# 按账号的角色列表排序顺序。
+# Requests: CMSG 0x072E / 0x072F / 0x0772.
+# Responses: SMSG 0x075E / 0x075F / 0x0760 / 0x076F / 0x0770 / 0x0771.
 CoA.CharacterSelectionEnable = 1
 
 # 每个账号同时激活的最大角色数量（1-128）。
@@ -169,10 +175,19 @@ CoA.LegacyMountFlight = 0
 # 设为 0 可将此类角色保留在 Ruleset.None 上。
 CoA.RulesetLoginDefault = 1
 
-# 战争模式（1004119，不带PvE模式）和高风险（1004019）会在开放世界中关闭生物、宝箱和任务等级缩放，
-# 正如其工具提示所述：“战争模式/高风险下等级缩放已禁用”。副本保留角色自己的选择。
-# 设为0以让规则集进行缩放。
-CoA.Ruleset.DisableLevelScaling = 1
+# 战争模式（1004119，不含 PvE 模式）和高风险（1004019）在开放世界中保留生物、宝箱和任务等级
+# 缩放，与 Ascension 上一致。设为 1 可在开放世界中为这两套规则关闭等级缩放。
+# 副本则保留角色自身的选择。
+CoA.Ruleset.DisableLevelScaling = 0
+
+# GatherMate 采集区域（池 20000000-20099999）会保持其一部分刷新点处于激活状态，比例随
+# 该区域内的玩家数量变化：无人时为 MinFraction，加上每名玩家的 PerPlayerFraction，最高不超过
+# MaxFraction。每当节点重生时都会读取该限制，因此随着节点被采集，区域会逐渐填满或变少；
+# 不会删除任何内容。将 ScaleWithZonePlayers 设为 0 可使用 pool_template 的 max_limit 代替。
+CoA.GatherNodes.ScaleWithZonePlayers = 1
+CoA.GatherNodes.MinFraction = 0.10
+CoA.GatherNodes.PerPlayerFraction = 0.015
+CoA.GatherNodes.MaxFraction = 0.35
 
 # 在客户端 QuestTemplateScaling.dbc 中拥有对应行的任务会跟随角色：
 # 该行中等于或低于角色等级的最高点将任务设为该等级加上其偏移量（内置行跟随 4 到 1 级），
@@ -193,12 +208,11 @@ CoA.QuestLevelScaling.ClientFlag = 0
 # (CoA.ItemScaling.Native) 处于激活状态时，也不会制作新的副本。
 CoA.ItemScaling = 1
 
-# 客户端 ItemStat.dbc 中带有等级阶梯的武器和护甲保留它们自己的条目，并且
-# 获得一个缩放等级，而不是一个副本：拾取者的等级加上 LootLevelOffset，从 1 到 65，在
+# 客户端 ItemStat.dbc 中带有等级阶梯的武器和护甲保留自己的条目，并
+# 获得一个缩放等级而不是副本：拾取者等级加上 LootLevelOffset，范围 1 到 65，在
 # 物品被拾取、掷骰赢得，或在启用 QuestRewards 时由任务给予时设置一次。在
-# DestinyWeaver.Scaling.DungeonIds 中列出的地下城内，战利品对所有人缩放且只会向下缩放：自身
-# 物品等级等于或低于该等级的物品保留其原始属性。它们的属性来自
-# 该等级对应的阶梯行，客户端使用操作码 0x6FF 请求同一行。
+# DestinyWeaver.Scaling.DungeonIds 列出的地下城内，战利品会对所有人缩放，可升可降，调整到
+# 拾取者的等级。它们的属性来自该等级对应的阶梯行，客户端使用操作码 0x6FF 请求同一行。
 # 世界锻造物品以及复制路径从未提升的物品保持原样。当其激活时，复制
 # 路径（CoA.ItemScaling）完全不会创建新副本；已经发放的副本继续有效。
 # 仅在启动时读取。设为 0 时，物品保留其原始属性，复制路径再次处理它们。
@@ -263,6 +277,12 @@ CoA.RealmType = "live"
 #
 
 CoA.ClassModel = "coa"
+
+# 在本服务器启用法术 86000 的被动 15% 未骑乘奔跑速度光环。
+# 更强的普通奔跑速度光环会替换其加成；它们不会与之叠加。
+# 骑乘、游泳和飞行速度不变。需要重启 worldserver。
+# 在 52 区选择启用；在其他服务器保持禁用以保留其原有行为。
+Ascension.RunSpeedAura.Enable = 0
 
 #
 #    CoA.GameModeMask

@@ -3,4 +3,4 @@
 -- Solar Flare's own damage formula (807175) instead of Dawnfall's empty effect 2 amount.
 DELETE FROM `coa_client_spell_description` WHERE `ID` = 806118;
 INSERT INTO `coa_client_spell_description` (`ID`, `Description`, `ToolTip`) VALUES
-(806118, 'Bring down the light of An\'she down at the target location for $d.\r\n\r\nWhile inside, allies receive $s3% increased healing from all sources and enemies take $s1% increased damage from you and are struck by a |cffffffffSolar Flare|R every $t2 sec.@s:807175:0@', 'Enemies inside take $s1% increased damage from the Sun Cleric and are struck by a Solar Flare, dealing ${$807175m2+$807175ppl2+$SP*0.26} Holyfire Damage every $t2 sec.\r\n\r\nAllies inside take $s3% increased healing from all sources.');
+(806118, '在目标位置降下安瑟之光，持续 $d。\r\n\r\n身处其中的友方受到的所有来源治疗提高 $s3%，敌人受到你造成的伤害提高 $s1%，并且每 $t2 秒被 |cffffffff太阳耀斑|R 击中一次。@s:807175:0@', '身处其中的敌人受到太阳祭司造成的伤害提高 $s1%，并被太阳耀斑击中，每 $t2 秒造成 ${$807175m2+$807175ppl2+$SP*0.26} 点神圣火焰伤害。\r\n\r\n身处其中的友方受到的所有来源治疗提高 $s3%。');

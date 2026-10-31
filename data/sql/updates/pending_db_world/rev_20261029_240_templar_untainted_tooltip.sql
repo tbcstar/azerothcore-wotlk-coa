@@ -4,5 +4,5 @@
 -- "reduced by -0" at about 100 Stamina (#9895).
 DELETE FROM `coa_client_spell_description` WHERE `ID` IN (705298, 705299);
 INSERT INTO `coa_client_spell_description` (`ID`, `Description`, `ToolTip`) VALUES
-(705298, 'Effectively healing yourself now reduces your Physical damage taken by ${-$705299m1+$STA*0.1} for $705299d.\r\n\r\nCan only occur every 15 sec.', ''),
-(705299, '', 'Physical damage taken reduced by ${-$m1+$STA*0.1}.');
+(705298, '有效地治疗自己现在会使你受到的物理伤害降低 ${-$705299m1+$STA*0.1}，持续 $705299d。\r\n\r\n每 15 秒只能触发一次。', ''),
+(705299, '', '受到的物理伤害降低 ${-$m1+$STA*0.1}。');

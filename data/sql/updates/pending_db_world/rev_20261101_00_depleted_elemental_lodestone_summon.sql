@@ -11,7 +11,7 @@
 -- faction and follows and fights for the caster.
 INSERT INTO `creature_template`
 (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`, `BaseAttackTime`, `RangeAttackTime`)
-VALUES (304100, 'Lesser Water Elemental', 36, 37, 91, 2, 1, 2000, 2000)
+VALUES (304100, '次级水元素', 36, 37, 91, 2, 1, 2000, 2000)
 ON DUPLICATE KEY UPDATE `entry` = `entry`;
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 304100;
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`)

@@ -14,4 +14,4 @@ CREATE TABLE IF NOT EXISTS `coa_client_spell_description` (
 
 DELETE FROM `coa_client_spell_description` WHERE `ID` = 802738;
 INSERT INTO `coa_client_spell_description` (`ID`, `Description`) VALUES
-(802738, 'Stab an enemy, dealing $s3% Weapon Damage plus an additional effect based on your weapon.\r\n\r\n|cFFFFFFFFSword:|r Triggers $807967s1 additional auto attacks.\r\n\r\n|cFFFFFFFFAxe:|r Guaranteed to critically strike for $542238s2% increased damage.\r\n\r\n|cFFFFFFFFMace:|r Ignores $542265s1% of your target\'s Armor.\r\n\r\n|cFFFFFFFFPolearm:|r Swipe the target and enemies behind them an additional time.');
+(802738, '刺击一名敌人，造成 $s3% 武器伤害，并根据你的武器附加额外效果。\r\n\r\n|cFFFFFFFF剑：|r 触发 $807967s1 次额外自动攻击。\r\n\r\n|cFFFFFFFF斧：|r 必定暴击，伤害提高 $542238s2%。\r\n\r\n|cFFFFFFFF锤：|r 无视目标 $542265s1% 的护甲。\r\n\r\n|cFFFFFFFF长柄武器：|r 再次横扫目标及其身后的敌人。');

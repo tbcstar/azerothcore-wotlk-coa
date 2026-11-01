@@ -447,7 +447,7 @@ VALUES
     (0, 32, 6948, 1, '飞升符文大师起始套装');
 
 DELETE FROM `playercreateinfo_spell_custom` WHERE `Note` LIKE 'Ascension class %';
-INSERT INTO `playercreateinfo_spell_custom` (`racemask`, `classmask`, `Spell`, `Note`)
+REPLACE INTO `playercreateinfo_spell_custom` (`racemask`, `classmask`, `Spell`, `Note`)
 VALUES
     (0, 2048, 197, '飞升职业 12：起始熟练度'),
     (0, 2048, 200, '飞升职业 12：起始熟练度'),

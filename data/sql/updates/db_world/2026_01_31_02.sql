@@ -1,6 +1,6 @@
 -- DB update 2026_01_31_01 -> 2026_01_31_02
 -- update game event
-UPDATE `game_event` SET `description` = "Brewfest Building (Ironforge)" WHERE `eventEntry` = 70;
+UPDATE `game_event` SET `description` = "美酒节建筑（铁炉堡）" WHERE `eventEntry` = 70;
 
 -- Update gameobject 'Brewfest Building (Ironforge)' with sniffed values
 -- updated spawns
@@ -173,8 +173,8 @@ INSERT INTO `game_event_gameobject` (`eventEntry`,`guid`) VALUES
 
 -- Update creature 'Brewfest Building (Ironforge)' with sniffed values
 -- new spawns
-DELETE FROM `creature` WHERE (`id1` IN (23504)) AND (`guid` IN (12820, 12821, 12822, 12823, 12824, 12825, 12826, 12827, 12828));
-INSERT INTO `creature` (`guid`, `id1`, `map`, `spawnMask`, `phaseMask`, `equipment_id`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`, `wander_distance`, `MovementType`, `npcflag`, `unit_flags`, `dynamicflags`, `ScriptName`, `VerifiedBuild`, `CreateObject`, `Comment`) VALUES
+DELETE FROM `creature` WHERE (`id` IN (23504)) AND (`guid` IN (12820, 12821, 12822, 12823, 12824, 12825, 12826, 12827, 12828));
+INSERT INTO `creature` (`guid`, `id`, `map`, `spawnMask`, `phaseMask`, `equipment_id`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`, `wander_distance`, `MovementType`, `npcflag`, `unit_flags`, `dynamicflags`, `ScriptName`, `VerifiedBuild`, `CreateObject`, `Comment`) VALUES
 (12820, 23504, 0, 1, 1, 1, -5130.50634765625, -619.58343505859375, 397.336334228515625, 1.448623299598693847, 120, 0, 0, 0, 0, 0, "", 50664, 1, NULL),
 (12821, 23504, 0, 1, 1, 0, -5169.5498046875, -561.426513671875, 397.289520263671875, 2.513752937316894531, 120, 0, 0, 0, 0, 0, "", 50664, 1, "GUID SAI"),
 (12822, 23504, 0, 1, 1, 0, -5172.8818359375, -622.4075927734375, 397.301177978515625, 3.694555997848510742, 120, 0, 0, 0, 0, 0, "", 50664, 1, "GUID SAI"),

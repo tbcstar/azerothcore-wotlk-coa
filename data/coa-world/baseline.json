@@ -97,7 +97,7 @@
     "version"
   ],
   "repackRelease": "client-compat-20260911",
-  "sha256": "6cf90ef8cbdb4d8d434fbec7967da29de80f2d92b757d29bc8be551810abfed1",
+  "sha256": "f5d503ffe0b67dd41e19d2207e7f70303266d58e48151f22b7f53294e98d6335",
   "sourceRevision": "8fefb6f0ae253c25014da13eab04ba2e3d0685c0",
   "sourceSnapshotSha256": "c1ec932ebf64a3e37797e8887ee7573712ac25157ef16984a9c37b34f9d23ca4",
   "tables": {
@@ -16067,7 +16067,7 @@
           ""
         ]
       ],
-      "sqlSha256": "9c416da6a0f02b0d82251b1c1dd8c2c310b52cb278477a3cd7b6f138a8171351"
+      "sqlSha256": "85759c91a78d87635ec32bad24c4f370d0482057f94f2e9bf1cd0d6874495a58"
     },
     "gossip_menu_option_locale": {
       "columns": [
@@ -16128,7 +16128,7 @@
           ""
         ]
       ],
-      "sqlSha256": "b399947d2c3e879fb2d3ea75cc7949259d7f429fc77698fd4abd9ce40b59a009"
+      "sqlSha256": "9c416da6a0f02b0d82251b1c1dd8c2c310b52cb278477a3cd7b6f138a8171351"
     },
     "graveyard_zone": {
       "columns": [
@@ -18790,7 +18790,7 @@
           ""
         ]
       ],
-      "sqlSha256": "c7cd8c7effcc182c3b5d89a376efccb4eb1a5e7b093fccdb0dea66fbfdd7c43a"
+      "sqlSha256": "79b9846092d9e3f1959a5fe6d65e5147811b82605585097bc0c287d5147782c4"
     },
     "item_template_ascension_compat": {
       "columns": [
@@ -26890,7 +26890,7 @@
           ""
         ]
       ],
-      "sqlSha256": "8d4830783e6cff20a2aa657cb72760d2d0a58f513dd0be5c2410a6fc30673019"
+      "sqlSha256": "973412a041afa2b0c6cc9919ce077832183b00704fc6235210824c623881ccd7"
     },
     "points_of_interest_locale": {
       "columns": [
@@ -26941,7 +26941,7 @@
           ""
         ]
       ],
-      "sqlSha256": "bd855affdc0c0b06257a663377d38098f7260c51f6f2370bafb10be88f745e94"
+      "sqlSha256": "8d4830783e6cff20a2aa657cb72760d2d0a58f513dd0be5c2410a6fc30673019"
     },
     "pool_creature": {
       "columns": [
@@ -27587,7 +27587,7 @@
           ""
         ]
       ],
-      "sqlSha256": "de79dd1c9b069d77f5019712a007400ed660d386fa36179443062e2889717f89"
+      "sqlSha256": "f4fcfdd061253515110e8b61776fcb8d34a785501f3c176a23237c5629b002fb"
     },
     "quest_greeting_locale": {
       "columns": [
@@ -27648,7 +27648,7 @@
           ""
         ]
       ],
-      "sqlSha256": "c15255cd1427168c84d8f73f0fd8e0baf331f4069724074928ad366b50599394"
+      "sqlSha256": "de79dd1c9b069d77f5019712a007400ed660d386fa36179443062e2889717f89"
     },
     "quest_mail_sender": {
       "columns": [
@@ -39784,7 +39784,7 @@
           ""
         ]
       ],
-      "sqlSha256": "7143debe8224e0bc19c50679e7841ede74ea7860f2300c3a044424d6a99a2e4e"
+      "sqlSha256": "e094c4c0d45dd36c155961789fc0f9f8c6cb761385cef2a684f3a21a49599684"
     },
     "trainer_locale": {
       "columns": [
@@ -39835,7 +39835,7 @@
           ""
         ]
       ],
-      "sqlSha256": "b0c7f614810ccc67c0de2fa02f499b53fbbecccb31805aeaffebc9652a2d0c0a"
+      "sqlSha256": "7143debe8224e0bc19c50679e7841ede74ea7860f2300c3a044424d6a99a2e4e"
     },
     "trainer_spell": {
       "columns": [

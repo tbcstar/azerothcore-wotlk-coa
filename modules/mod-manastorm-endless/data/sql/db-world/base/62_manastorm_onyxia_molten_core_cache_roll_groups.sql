@@ -1224,7 +1224,7 @@ BEGIN
             OR `i`.`class` <> `e`.`Class` OR `i`.`subclass` <> `e`.`Subclass`
             OR `i`.`InventoryType` <> `e`.`InventoryType` OR `i`.`Quality` <> `e`.`Quality`
             OR `i`.`RequiredLevel` <> `e`.`RequiredLevel` OR `i`.`displayid` <> `e`.`DisplayId`
-            OR `i`.`ItemLevel` <> `e`.`ItemLevel` OR BINARY `i`.`description` <> BINARY `e`.`Description`
+            OR `i`.`ItemLevel` <> `e`.`ItemLevel` OR (`e`.`Description` LIKE '@%' AND BINARY `i`.`description` <> BINARY `e`.`Description`)
             OR `i`.`class` NOT IN (2, 4) OR `i`.`InventoryType` = 0 OR `i`.`Quality` <> 4
             OR `i`.`RequiredLevel` > 60
             OR `r`.`Reference` <> 0 OR `r`.`Chance` <> 0 OR `r`.`QuestRequired` <> 0

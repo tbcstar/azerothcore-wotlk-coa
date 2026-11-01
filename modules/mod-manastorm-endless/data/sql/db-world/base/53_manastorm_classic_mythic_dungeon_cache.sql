@@ -3727,7 +3727,7 @@ BEGIN
             OR `i`.`InventoryType` <> `c`.`InventoryType` OR `i`.`Quality` <> `c`.`Quality`
             OR `i`.`RequiredLevel` <> `c`.`RequiredLevel` OR `i`.`displayid` <> `c`.`DisplayId`
             OR `i`.`ItemLevel` <> `c`.`ItemLevel`
-            OR BINARY `i`.`description` <> BINARY `c`.`Description`
+            OR (`c`.`Description` LIKE '@%' AND BINARY `i`.`description` <> BINARY `c`.`Description`)
             OR `i`.`RequiredLevel` > 60
             OR `i`.`class` NOT IN (2, 4) OR `i`.`InventoryType` = 0
     ) THEN

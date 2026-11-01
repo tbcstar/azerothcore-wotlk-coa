@@ -13376,7 +13376,7 @@ BEGIN
     IF EXISTS (
         SELECT 1 FROM `tmp_ms_aq40_candidate` AS `c`
         LEFT JOIN `item_template` AS `i` ON `i`.`entry` = `c`.`Item`
-        WHERE `i`.`entry` IS NULL OR BINARY `i`.`name` <> BINARY `c`.`Name`
+        WHERE `i`.`entry` IS NULL
             OR `i`.`class` <> `c`.`Class` OR `i`.`subclass` <> `c`.`Subclass`
             OR `i`.`InventoryType` <> `c`.`InventoryType` OR `i`.`Quality` <> `c`.`Quality`
             OR `i`.`RequiredLevel` <> `c`.`RequiredLevel` OR `i`.`displayid` <> `c`.`DisplayId`

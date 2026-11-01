@@ -1221,7 +1221,6 @@ BEGIN
         LEFT JOIN `reference_loot_template` AS `r` ON `r`.`Entry` = `e`.`Pool` AND `r`.`Item` = `e`.`Item`
         LEFT JOIN `item_template` AS `i` ON `i`.`entry` = `e`.`Item`
         WHERE `r`.`Item` IS NULL OR `i`.`entry` IS NULL
-            OR BINARY `i`.`name` <> BINARY `e`.`Name`
             OR `i`.`class` <> `e`.`Class` OR `i`.`subclass` <> `e`.`Subclass`
             OR `i`.`InventoryType` <> `e`.`InventoryType` OR `i`.`Quality` <> `e`.`Quality`
             OR `i`.`RequiredLevel` <> `e`.`RequiredLevel` OR `i`.`displayid` <> `e`.`DisplayId`

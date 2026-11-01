@@ -1,6 +1,6 @@
 -- DB update 2026_05_15_00 -> 2026_05_16_00
 -- Remove Trok Creature Addon & set movement type to 0
-UPDATE `creature` SET `MovementType` = 0 WHERE (`id1` = 14872) AND (`guid` = 13178);
+UPDATE `creature` SET `MovementType` = 0 WHERE (`id` = 14872) AND (`guid` = 13178);
 DELETE FROM `creature_addon` WHERE (`guid` IN (13178));
 
 -- Update Trok Creature Text
@@ -89,7 +89,7 @@ INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_
 (1487201, 9, 0, 0, 0, 0, 100, 0, 1000, 1000, 0, 0, 0, 0, 1, 2, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Trok - Actionlist - Say Line 2');
 
 -- Set Movement Type 0 to all Swarm of bees & remove waypoints
-UPDATE `creature` SET `MovementType` = 0 WHERE (`id1` = 14894) AND (`guid` IN (13586, 13587, 13588, 13589));
+UPDATE `creature` SET `MovementType` = 0 WHERE (`id` = 14894) AND (`guid` IN (13586, 13587, 13588, 13589));
 DELETE FROM `creature_addon` WHERE (`guid` IN (13586, 13587, 13588, 13589));
 
 -- Set Creature Formation (Trok & Swarm of bees)
@@ -189,8 +189,8 @@ INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry
 (22, 7, 14874, 0, 0, 29, 1, 10685, 100, 0, 1, 0, 0, '', 'Karu will start this event only if Swine are not present.');
 
 -- Edit two Swine spawn points & add 3 new ones
-DELETE FROM `creature` WHERE (`id1` = 10685) AND (`guid` IN (20181, 20186, 24323, 25789, 25790));
-INSERT INTO `creature` (`guid`, `id1`, `id2`, `id3`, `map`, `zoneId`, `areaId`, `spawnMask`, `phaseMask`, `equipment_id`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`, `wander_distance`, `currentwaypoint`, `curhealth`, `curmana`, `MovementType`, `npcflag`, `unit_flags`, `dynamicflags`, `ScriptName`, `VerifiedBuild`, `CreateObject`, `Comment`) VALUES
+DELETE FROM `creature` WHERE (`id` = 10685) AND (`guid` IN (20181, 20186, 24323, 25789, 25790));
+INSERT INTO `creature` (`guid`, `id`, `id2`, `id3`, `map`, `zoneId`, `areaId`, `spawnMask`, `phaseMask`, `equipment_id`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`, `wander_distance`, `currentwaypoint`, `curhealth`, `curmana`, `MovementType`, `npcflag`, `unit_flags`, `dynamicflags`, `ScriptName`, `VerifiedBuild`, `CreateObject`, `Comment`) VALUES
 (20181, 10685, 0, 0, 1, 0, 0, 1, 1, 0, 207.93942, -2842.1497, 91.52266, 5.53006, 200, 5, 0, 14, 0, 1, 0, 0, 0, '', 0, 0, NULL),
 (20186, 10685, 0, 0, 1, 0, 0, 1, 1, 0, 221.12567, -2841.0894, 91.34413, 2.15169, 200, 5, 0, 14, 0, 1, 0, 0, 0, '', 0, 0, NULL),
 (24323, 10685, 0, 0, 1, 0, 0, 1, 1, 0, 225.25417, -2858.4543, 91.61024, 5.24779, 200, 5, 0, 14, 0, 1, 0, 0, 0, '', 0, 0, NULL),

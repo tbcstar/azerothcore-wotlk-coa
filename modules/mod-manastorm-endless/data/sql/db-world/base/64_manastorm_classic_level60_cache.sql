@@ -1278,7 +1278,7 @@ BEGIN
             OR `i`.`class` <> `c`.`Class` OR `i`.`subclass` <> `c`.`Subclass`
             OR `i`.`InventoryType` <> `c`.`InventoryType` OR `i`.`Quality` <> `c`.`Quality`
             OR `i`.`RequiredLevel` <> `c`.`RequiredLevel` OR `i`.`displayid` <> `c`.`DisplayId`
-            OR `i`.`ItemLevel` <> `c`.`ItemLevel` OR BINARY `i`.`description` <> BINARY `c`.`Description`
+            OR `i`.`ItemLevel` <> `c`.`ItemLevel` OR (`c`.`Description` LIKE '@%' AND BINARY SUBSTRING_INDEX(`c`.`Description`, '@', 2) <> BINARY SUBSTRING_INDEX(`i`.`description`, '@', 2))
             OR `i`.`class` NOT IN (2, 4) OR `i`.`InventoryType` = 0 OR `i`.`Quality` NOT IN (2, 3)
             OR `i`.`RequiredLevel` < 55 OR `i`.`RequiredLevel` > 60
     ) THEN

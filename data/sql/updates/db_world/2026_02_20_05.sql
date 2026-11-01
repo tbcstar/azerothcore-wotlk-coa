@@ -121,9 +121,9 @@ INSERT INTO `waypoint_data` (`id`, `point`, `position_x`, `position_y`, `positio
 
 SET @GUID := 52854;
 
-DELETE FROM `creature` WHERE `id1` = 24440 AND `guid` IN (107082,107083,107084,107085,107086,107087,107088,107089,107090,107092,107093,107094,107095,107096,107097,107098,107099,107100,107101,107102,107111);
-DELETE FROM `creature` WHERE `id1` = 24440 AND `guid` BETWEEN @GUID+0 AND @GUID+19;
-INSERT INTO `creature` (`guid`, `id1`, `map`, `zoneId`, `areaId`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`, `VerifiedBuild`, `CreateObject`, `Comment`) VALUES
+DELETE FROM `creature` WHERE `id` = 24440 AND `guid` IN (107082,107083,107084,107085,107086,107087,107088,107089,107090,107092,107093,107094,107095,107096,107097,107098,107099,107100,107101,107102,107111);
+DELETE FROM `creature` WHERE `id` = 24440 AND `guid` BETWEEN @GUID+0 AND @GUID+19;
+INSERT INTO `creature` (`guid`, `id`, `map`, `zoneId`, `areaId`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`, `VerifiedBuild`, `CreateObject`, `Comment`) VALUES
 (@GUID+0 , 24440, 571, 495, 3999, 2159.51, -3194.06, 143.911, 0.645772, 30, 65512, 1, NULL),
 (@GUID+1 , 24440, 571, 495, 3999, 2165.4, -3172.17, 192.231, 0.767945, 30, 65512, 1, NULL),
 (@GUID+2 , 24440, 571, 495, 3999, 2173.41, -3246.4, 179.519, 1.81514, 30, 65512, 1, NULL),

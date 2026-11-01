@@ -31,7 +31,7 @@ DELETE FROM `creature_text` WHERE (`CreatureID` = 26170) AND (`GroupID` IN (2));
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
 (26170, 2, 0, '我宁可割开自己的喉咙。你要为对你部下所做的一切付出代价，阿尔萨斯……为你对我做的事付出代价！我发誓。', 12, 0, 100, 53, 0, 14666, 25366, 0, 'thassarian SAY_THASSARIAN_3');
 
-UPDATE `creature` SET `ScriptName` = '' WHERE `guid` IN (101136, 101303) AND `id1` = 26170;
+UPDATE `creature` SET `ScriptName` = '' WHERE `guid` IN (101136, 101303) AND `id` = 26170;
 
 UPDATE `creature_template` SET `AIName` = 'SmartAI' WHERE `entry` = 26170;
 DELETE FROM `smart_scripts` WHERE (`source_type` = 0 AND `entryorguid` = 26170);

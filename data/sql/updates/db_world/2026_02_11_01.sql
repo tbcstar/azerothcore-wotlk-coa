@@ -71,7 +71,7 @@ INSERT INTO `creature_formations` (`leaderGUID`, `memberGUID`, `dist`, `angle`, 
 (@GUID+3, @GUID+6, 0, 0, 3, 0, 0),
 (@GUID+3, @GUID+7, 0, 0, 3, 0, 0);
 
-UPDATE `creature` SET `position_x` = -8799.5703125, `position_y` = 828.39599609375, `position_z` = 97.753997802734375, `orientation` = 0.9686967134475708, `CreateObject` = 1, `VerifiedBuild` = 45327 WHERE `guid` = 89325 AND `id1` = 1719;
+UPDATE `creature` SET `position_x` = -8799.5703125, `position_y` = 828.39599609375, `position_z` = 97.753997802734375, `orientation` = 0.9686967134475708, `CreateObject` = 1, `VerifiedBuild` = 45327 WHERE `guid` = 89325 AND `id` = 1719;
 
 DELETE FROM `creature_addon` WHERE (`guid` IN (79522, 79550, 79558, 79580, 90457));
 DELETE FROM `creature_addon` WHERE (`guid` BETWEEN @GUID AND @GUID+13);

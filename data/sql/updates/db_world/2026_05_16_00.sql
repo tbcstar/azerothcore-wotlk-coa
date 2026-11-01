@@ -190,12 +190,12 @@ INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry
 
 -- Edit two Swine spawn points & add 3 new ones
 DELETE FROM `creature` WHERE (`id` = 10685) AND (`guid` IN (20181, 20186, 24323, 25789, 25790));
-INSERT INTO `creature` (`guid`, `id`, `id2`, `id3`, `map`, `zoneId`, `areaId`, `spawnMask`, `phaseMask`, `equipment_id`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`, `wander_distance`, `currentwaypoint`, `curhealth`, `curmana`, `MovementType`, `npcflag`, `unit_flags`, `dynamicflags`, `ScriptName`, `VerifiedBuild`, `CreateObject`, `Comment`) VALUES
-(20181, 10685, 0, 0, 1, 0, 0, 1, 1, 0, 207.93942, -2842.1497, 91.52266, 5.53006, 200, 5, 0, 14, 0, 1, 0, 0, 0, '', 0, 0, NULL),
-(20186, 10685, 0, 0, 1, 0, 0, 1, 1, 0, 221.12567, -2841.0894, 91.34413, 2.15169, 200, 5, 0, 14, 0, 1, 0, 0, 0, '', 0, 0, NULL),
-(24323, 10685, 0, 0, 1, 0, 0, 1, 1, 0, 225.25417, -2858.4543, 91.61024, 5.24779, 200, 5, 0, 14, 0, 1, 0, 0, 0, '', 0, 0, NULL),
-(25789, 10685, 0, 0, 1, 0, 0, 1, 1, 0, 208.33398, -2863.0215, 91.66205, 2.89705, 200, 5, 0, 14, 0, 1, 0, 0, 0, '', 0, 0, NULL),
-(25790, 10685, 0, 0, 1, 0, 0, 1, 1, 0, 208.70555, -2847.2627, 91.358574, 6.05528, 200, 5, 0, 14, 0, 1, 0, 0, 0, '', 0, 0, NULL);
+INSERT INTO `creature` (`guid`, `id`, `map`, `zoneId`, `areaId`, `spawnMask`, `phaseMask`, `equipment_id`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`, `wander_distance`, `currentwaypoint`, `curhealth`, `curmana`, `MovementType`, `npcflag`, `unit_flags`, `dynamicflags`, `ScriptName`, `VerifiedBuild`, `CreateObject`, `Comment`) VALUES
+(20181, 10685, 1, 0, 0, 1, 1, 0, 207.93942, -2842.1497, 91.52266, 5.53006, 200, 5, 0, 14, 0, 1, 0, 0, 0, '', 0, 0, NULL),
+(20186, 10685, 1, 0, 0, 1, 1, 0, 221.12567, -2841.0894, 91.34413, 2.15169, 200, 5, 0, 14, 0, 1, 0, 0, 0, '', 0, 0, NULL),
+(24323, 10685, 1, 0, 0, 1, 1, 0, 225.25417, -2858.4543, 91.61024, 5.24779, 200, 5, 0, 14, 0, 1, 0, 0, 0, '', 0, 0, NULL),
+(25789, 10685, 1, 0, 0, 1, 1, 0, 208.33398, -2863.0215, 91.66205, 2.89705, 200, 5, 0, 14, 0, 1, 0, 0, 0, '', 0, 0, NULL),
+(25790, 10685, 1, 0, 0, 1, 1, 0, 208.70555, -2847.2627, 91.358574, 6.05528, 200, 5, 0, 14, 0, 1, 0, 0, 0, '', 0, 0, NULL);
 
 -- Set Swines Personal SAIs
 UPDATE `creature_template` SET `AIName` = 'SmartAI' WHERE (`entry` = 10685);

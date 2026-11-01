@@ -1,11 +1,11 @@
 -- DB update 2026_05_18_00 -> 2026_05_18_01
 
 -- Update 15066 spawntime (it must be instant), add two new spawn points and set random in radius.
-DELETE FROM `creature` WHERE (`id1` = 3467);
-INSERT INTO `creature` (`guid`, `id1`, `id2`, `id3`, `map`, `zoneId`, `areaId`, `spawnMask`, `phaseMask`, `equipment_id`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`, `wander_distance`, `currentwaypoint`, `curhealth`, `curmana`, `MovementType`, `npcflag`, `unit_flags`, `dynamicflags`, `ScriptName`, `VerifiedBuild`, `CreateObject`, `Comment`) VALUES
-(15066, 3467, 0, 0, 1, 0, 0, 1, 1, 1, -1571.79, -3884.28, 16.2173, 3.83286, 1, 5, 0, 356, 0, 1, 0, 0, 0, '67511', 0, 0, NULL),
-(15215, 3467, 0, 0, 1, 0, 0, 1, 1, 1, -1748.25, -3721.78, 16.2173, 14.1181, 1, 5, 0, 356, 0, 1, 0, 0, 0, '67511', 0, 0, NULL),
-(15217, 3467, 0, 0, 1, 0, 0, 1, 1, 1, -1706.97, -3818.9, 13.1778, 4.88414, 1, 5, 0, 356, 0, 1, 0, 0, 0, '67511', 0, 0, NULL);
+DELETE FROM `creature` WHERE (`id` = 3467);
+INSERT INTO `creature` (`guid`, `id`, `map`, `zoneId`, `areaId`, `spawnMask`, `phaseMask`, `equipment_id`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`, `wander_distance`, `currentwaypoint`, `curhealth`, `curmana`, `MovementType`, `npcflag`, `unit_flags`, `dynamicflags`, `ScriptName`, `VerifiedBuild`, `CreateObject`, `Comment`) VALUES
+(15066, 3467, 1, 0, 0, 1, 1, 1, -1571.79, -3884.28, 16.2173, 3.83286, 1, 5, 0, 356, 0, 1, 0, 0, 0, '67511', 0, 0, NULL),
+(15215, 3467, 1, 0, 0, 1, 1, 1, -1748.25, -3721.78, 16.2173, 14.1181, 1, 5, 0, 356, 0, 1, 0, 0, 0, '67511', 0, 0, NULL),
+(15217, 3467, 1, 0, 0, 1, 1, 1, -1706.97, -3818.9, 13.1778, 4.88414, 1, 5, 0, 356, 0, 1, 0, 0, 0, '67511', 0, 0, NULL);
 
 -- Delete Baron Longshore Creature Addon
 DELETE FROM `creature_addon` WHERE (`guid` IN (15066));

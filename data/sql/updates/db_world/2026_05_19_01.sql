@@ -1,8 +1,8 @@
 -- DB update 2026_05_19_00 -> 2026_05_19_01
 
 -- Remove Wrong Spawn Points and Old Waypoints.
-DELETE FROM `creature` WHERE (`id1` = 2974) AND (`guid` IN (26214, 26231, 26232, 26233));
-DELETE FROM `creature` WHERE (`id1` = 2972) AND (`guid` IN (26192, 26193, 26194, 26195));
+DELETE FROM `creature` WHERE (`id` = 2974) AND (`guid` IN (26214, 26231, 26232, 26233));
+DELETE FROM `creature` WHERE (`id` = 2972) AND (`guid` IN (26192, 26193, 26194, 26195));
 DELETE FROM `waypoint_data` WHERE (`id` IN (262130, 262330));
 DELETE FROM `creature_addon` WHERE (`guid` IN (262130, 262330, 26233));
 DELETE FROM `creature_formations` WHERE (`leaderGUID` IN (26213, 26233));
@@ -647,31 +647,31 @@ INSERT INTO `waypoint_data` (`id`,  `point`, `position_x`, `position_y`, `positi
 (2657800, 175, -1139, -1120.123, 28.01516, NULL, 0, 0, 0, 100, 0);
 
 -- Set Idle to followers.
-UPDATE `creature` SET `wander_distance` = 0, `MovementType` = 0 WHERE (`id1` IN (2972, 2974));
+UPDATE `creature` SET `wander_distance` = 0, `MovementType` = 0 WHERE (`id` IN (2972, 2974));
 
 -- Update Kodo Bull spawn points & add a new one.
-UPDATE `creature` SET  `position_x` = -974.2193, `position_y` = 417.11154, `position_z` = 15.5879545, `orientation` = 3.073724, `wander_distance` = 0, `MovementType` = 2 WHERE (`id1` = 2973) AND (`guid` = 26196);
-UPDATE `creature` SET  `position_x` = -2729.8914, `position_y` = 197.9978, `position_z` = 76.868744, `orientation` = 5.064711, `wander_distance` = 0, `MovementType` = 2 WHERE (`id1` = 2973) AND (`guid` = 26207);
-UPDATE `creature` SET  `position_x` = -990.1825, `position_y` = -1000.7083, `position_z` = 11.565266, `orientation` = 2.755629, `wander_distance` = 0, `MovementType` = 2 WHERE (`id1` = 2973) AND (`guid` = 26209);
-DELETE FROM `creature` WHERE (`id1` = 2973) AND (`guid` IN (26578));
-INSERT INTO `creature` (`guid`, `id1`, `id2`, `id3`, `map`, `zoneId`, `areaId`, `spawnMask`, `phaseMask`, `equipment_id`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`, `wander_distance`, `currentwaypoint`, `curhealth`, `curmana`, `MovementType`, `npcflag`, `unit_flags`, `dynamicflags`, `ScriptName`, `Comment`, `VerifiedBuild`) VALUES
-(26578, 2973, 0, 0, 1, 0, 0, 1, 1, 0, -1139, -1120.123, 28.01516, 3.02302, 250, 0, 0, 222, 0, 2, 0, 0, 0, '', NULL, 0);
+UPDATE `creature` SET  `position_x` = -974.2193, `position_y` = 417.11154, `position_z` = 15.5879545, `orientation` = 3.073724, `wander_distance` = 0, `MovementType` = 2 WHERE (`id` = 2973) AND (`guid` = 26196);
+UPDATE `creature` SET  `position_x` = -2729.8914, `position_y` = 197.9978, `position_z` = 76.868744, `orientation` = 5.064711, `wander_distance` = 0, `MovementType` = 2 WHERE (`id` = 2973) AND (`guid` = 26207);
+UPDATE `creature` SET  `position_x` = -990.1825, `position_y` = -1000.7083, `position_z` = 11.565266, `orientation` = 2.755629, `wander_distance` = 0, `MovementType` = 2 WHERE (`id` = 2973) AND (`guid` = 26209);
+DELETE FROM `creature` WHERE (`id` = 2973) AND (`guid` IN (26578));
+INSERT INTO `creature` (`guid`, `id`, `map`, `zoneId`, `areaId`, `spawnMask`, `phaseMask`, `equipment_id`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`, `wander_distance`, `currentwaypoint`, `curhealth`, `curmana`, `MovementType`, `npcflag`, `unit_flags`, `dynamicflags`, `ScriptName`, `Comment`, `VerifiedBuild`) VALUES
+(26578, 2973, 1, 0, 0, 1, 1, 0, -1139, -1120.123, 28.01516, 3.02302, 250, 0, 0, 222, 0, 2, 0, 0, 0, '', NULL, 0);
 
 -- Update Kodo Matriarch spawn points.
-UPDATE `creature` SET  `position_x` = -957.4887, `position_y` = 405.5724, `position_z` = 14.7732, `orientation` = 2.6232 WHERE (`id1` = 2974) AND (`guid` = 26210);
-UPDATE `creature` SET  `position_x` = -2737.903, `position_y` = 214.0841, `position_z` = 78.0185, `orientation` = 4.9165 WHERE (`id1` = 2974) AND (`guid` = 26211);
-UPDATE `creature` SET  `position_x` = -969.828, `position_y` = -1009.202, `position_z` = 13.8013, `orientation` = 2.7488 WHERE (`id1` = 2974) AND (`guid` = 26212);
-UPDATE `creature` SET  `position_x` = -1115.81, `position_y` = -1128.848, `position_z` = 37.0506, `orientation` = 2.8038 WHERE (`id1` = 2974) AND (`guid` = 26213);
+UPDATE `creature` SET  `position_x` = -957.4887, `position_y` = 405.5724, `position_z` = 14.7732, `orientation` = 2.6232 WHERE (`id` = 2974) AND (`guid` = 26210);
+UPDATE `creature` SET  `position_x` = -2737.903, `position_y` = 214.0841, `position_z` = 78.0185, `orientation` = 4.9165 WHERE (`id` = 2974) AND (`guid` = 26211);
+UPDATE `creature` SET  `position_x` = -969.828, `position_y` = -1009.202, `position_z` = 13.8013, `orientation` = 2.7488 WHERE (`id` = 2974) AND (`guid` = 26212);
+UPDATE `creature` SET  `position_x` = -1115.81, `position_y` = -1128.848, `position_z` = 37.0506, `orientation` = 2.8038 WHERE (`id` = 2974) AND (`guid` = 26213);
 
 -- Update Kodo Calf spawn points.
-UPDATE `creature` SET  `position_x` = -962.6667, `position_y` = 419.3729, `position_z` = 15.43035, `orientation` = 2.8149 WHERE (`id1` = 2972) AND (`guid` = 26184);
-UPDATE `creature` SET  `position_x` = -968.2633, `position_y` = 406.777, `position_z` = 15.4245, `orientation` = 2.6224 WHERE (`id1` = 2972) AND (`guid` = 26185);
-UPDATE `creature` SET  `position_x` = -2741.7703, `position_y` = 203.1685, `position_z` = 76.2887, `orientation` = 5.14828 WHERE (`id1` = 2972) AND (`guid` = 26186);
-UPDATE `creature` SET  `position_x` = -2727.2537, `position_y` = 209.523, `position_z` = 78.6638, `orientation` = 5.00692 WHERE (`id1` = 2972) AND (`guid` = 26187);
-UPDATE `creature` SET  `position_x` = -981.24414, `position_y` = -996.193, `position_z` = 10.4870, `orientation` = 2.6978 WHERE (`id1` = 2972) AND (`guid` = 26188);
-UPDATE `creature` SET  `position_x` = -986.4947, `position_y` = -1008.282, `position_z` = 13.3611, `orientation` = 2.7253 WHERE (`id1` = 2972) AND (`guid` = 26189);
-UPDATE `creature` SET  `position_x` = -1127.913, `position_y` = -1115.951, `position_z` = 29.7654, `orientation` = 2.8745 WHERE (`id1` = 2972) AND (`guid` = 26190);
-UPDATE `creature` SET  `position_x` = -1132.868, `position_y` = -1129.695, `position_z` = 32.5567, `orientation` = 2.7331 WHERE (`id1` = 2972) AND (`guid` = 26191);
+UPDATE `creature` SET  `position_x` = -962.6667, `position_y` = 419.3729, `position_z` = 15.43035, `orientation` = 2.8149 WHERE (`id` = 2972) AND (`guid` = 26184);
+UPDATE `creature` SET  `position_x` = -968.2633, `position_y` = 406.777, `position_z` = 15.4245, `orientation` = 2.6224 WHERE (`id` = 2972) AND (`guid` = 26185);
+UPDATE `creature` SET  `position_x` = -2741.7703, `position_y` = 203.1685, `position_z` = 76.2887, `orientation` = 5.14828 WHERE (`id` = 2972) AND (`guid` = 26186);
+UPDATE `creature` SET  `position_x` = -2727.2537, `position_y` = 209.523, `position_z` = 78.6638, `orientation` = 5.00692 WHERE (`id` = 2972) AND (`guid` = 26187);
+UPDATE `creature` SET  `position_x` = -981.24414, `position_y` = -996.193, `position_z` = 10.4870, `orientation` = 2.6978 WHERE (`id` = 2972) AND (`guid` = 26188);
+UPDATE `creature` SET  `position_x` = -986.4947, `position_y` = -1008.282, `position_z` = 13.3611, `orientation` = 2.7253 WHERE (`id` = 2972) AND (`guid` = 26189);
+UPDATE `creature` SET  `position_x` = -1127.913, `position_y` = -1115.951, `position_z` = 29.7654, `orientation` = 2.8745 WHERE (`id` = 2972) AND (`guid` = 26190);
+UPDATE `creature` SET  `position_x` = -1132.868, `position_y` = -1129.695, `position_z` = 32.5567, `orientation` = 2.7331 WHERE (`id` = 2972) AND (`guid` = 26191);
 
 -- Set Kodo Bull creature addons.
 DELETE FROM `creature_addon` WHERE (`guid` IN (26196, 26207, 26209, 26578));

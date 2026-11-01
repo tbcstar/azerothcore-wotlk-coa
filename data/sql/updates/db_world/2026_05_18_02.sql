@@ -61,16 +61,16 @@ INSERT INTO `waypoint_data` (`id`,  `point`, `position_x`, `position_y`, `positi
 (4507602, 2, 2817.4443, 843.9208, 111.845505, NULL, 0, 0, 0, 100, 0);
 
 -- Set Move Type Random in Radius e Wander Distance to 25 for the two old Last Souls.
-UPDATE `creature` SET `wander_distance` = 25, `MovementType` = 1 WHERE (`id1` = 1531) AND (`guid` IN (44863, 44864));
+UPDATE `creature` SET `wander_distance` = 25, `MovementType` = 1 WHERE (`id` = 1531) AND (`guid` IN (44863, 44864));
 
 -- Set Extra Flag Don't Override SAI Entry.
 UPDATE `creature_template` SET `flags_extra` = `flags_extra` |134217728 WHERE (`entry` = 1531);
 
 -- Add two new Spawn Points.
-DELETE FROM `creature` WHERE (`id1` = 1531) AND (`guid` IN (45074, 45076));
-INSERT INTO `creature` (`guid`, `id1`, `id2`, `id3`, `map`, `zoneId`, `areaId`, `spawnMask`, `phaseMask`, `equipment_id`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`, `wander_distance`, `currentwaypoint`, `curhealth`, `curmana`, `MovementType`, `npcflag`, `unit_flags`, `dynamicflags`, `ScriptName`, `Comment`, `VerifiedBuild`) VALUES
-(45074, 1531, 0, 0, 0, 0, 0, 1, 1, 0, 2631.46, 916.361, 109.183, 4.7822, 300, 0, 0, 120, 0, 0, 0, 0, 0, '', 'Has Personal Guid Sai', 0),
-(45076, 1531, 0, 0, 0, 0, 0, 1, 1, 0, 2817.44, 843.921, 111.846, 5.7721, 300, 0, 0, 120, 0, 0, 0, 0, 0, '', 'Has Personal Guid Sai', 0);
+DELETE FROM `creature` WHERE (`id` = 1531) AND (`guid` IN (45074, 45076));
+INSERT INTO `creature` (`guid`, `id`, `map`, `zoneId`, `areaId`, `spawnMask`, `phaseMask`, `equipment_id`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`, `wander_distance`, `currentwaypoint`, `curhealth`, `curmana`, `MovementType`, `npcflag`, `unit_flags`, `dynamicflags`, `ScriptName`, `Comment`, `VerifiedBuild`) VALUES
+(45074, 1531, 0, 0, 0, 1, 1, 0, 2631.46, 916.361, 109.183, 4.7822, 300, 0, 0, 120, 0, 0, 0, 0, 0, '', 'Has Personal Guid Sai', 0),
+(45076, 1531, 0, 0, 0, 1, 1, 0, 2817.44, 843.921, 111.846, 5.7721, 300, 0, 0, 120, 0, 0, 0, 0, 0, '', 'Has Personal Guid Sai', 0);
 
 -- Set Guid for the two new Lost Souls.
 DELETE FROM `smart_scripts` WHERE (`source_type` = 0) AND (`entryorguid` IN (-45074, -45076));

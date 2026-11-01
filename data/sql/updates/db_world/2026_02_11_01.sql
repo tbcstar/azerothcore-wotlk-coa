@@ -42,9 +42,9 @@ INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Lan
 
 SET @GUID := 12837;
 
-DELETE FROM `creature` WHERE `guid` BETWEEN @GUID AND @GUID+13 AND `id1` IN (5043, 4996, 6237, 4995);
+DELETE FROM `creature` WHERE `guid` BETWEEN @GUID AND @GUID+13 AND `id` IN (5043, 4996, 6237, 4995);
 DELETE FROM `creature` WHERE `guid` IN (79522,79550,79558,79580,90453,90454,90455,90456,90457,90472,90473,90474,90475,120726,120727,120728,120756,120757,120758,120759,120762) AND `id1` IN (5043, 4996, 6237, 4995);
-INSERT INTO `creature` (`guid`, `id1`, `map`, `equipment_id`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`, `VerifiedBuild`, `CreateObject`, `Comment`) VALUES
+INSERT INTO `creature` (`guid`, `id`, `map`, `equipment_id`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`, `VerifiedBuild`, `CreateObject`, `Comment`) VALUES
 (@GUID+0 , 4996, 0, 0, -8757.4443359375, 812.39703369140625, 97.71795654296875, 2.286381244659423828, 120, 45327, 1, ''),
 (@GUID+1 , 4996, 0, 0, -8762.8095703125, 812.35577392578125, 97.71795654296875, 0.715584993362426757, 120, 45327, 1, ''),
 (@GUID+2 , 4996, 0, 0, -8756.3095703125, 813.4608154296875, 97.71795654296875, 2.443460941314697265, 120, 45327, 1, ''),

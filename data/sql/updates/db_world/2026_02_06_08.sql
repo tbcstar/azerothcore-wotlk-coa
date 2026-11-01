@@ -98,8 +98,8 @@ INSERT INTO `waypoint_data` (`id`,`point`,`position_x`,`position_y`,`position_z`
 (124783, 3, -3632.0579, 3477.3137, 339.87555, NULL, 2),
 (124783, 4, -3586.6597, 3462.7095, 351.9589 , NULL, 2);
 
-DELETE FROM `creature` WHERE `guid` IN (12478, 12479, 12480) AND `id1` = 23377;
-INSERT INTO `creature` (`guid`, `id1`, `map`, `equipment_id`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`, `VerifiedBuild`, `CreateObject`, `Comment`) VALUES
+DELETE FROM `creature` WHERE `guid` IN (12478, 12479, 12480) AND `id` = 23377;
+INSERT INTO `creature` (`guid`, `id`, `map`, `equipment_id`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`, `VerifiedBuild`, `CreateObject`, `Comment`) VALUES
 (12478, 23377, 530, 1, -3335.223, 3431.9473, 426.38644, 0, 300, 52237, 1, 'Skyguard Ace from Terokk Boss Event'),
 (12479, 23377, 530, 1, -3335.223, 3431.9473, 426.38644, 0, 300, 52237, 1, 'Skyguard Ace from Terokk Boss Event'),
 (12480, 23377, 530, 1, -3335.223, 3431.9473, 426.38644, 0, 300, 52237, 1, 'Skyguard Ace from Terokk Boss Event');

@@ -838,12 +838,14 @@ namespace CoAChallenges
     }
 
     // Called each tick while the rule is active: losing the High Risk aura
-    // ("must remain in High Risk at all times") fails the challenge.
+    // ("must remain in High Risk at all times") fails the challenge. High Risk
+    // suspended for a battleground, arena or Wintergrasp battle still counts;
+    // it returns on leaving.
     void EnforceHighRisk(Player* player)
     {
         if (!player || !HighRiskTracked(player->GetGUID().GetCounter()))
             return;
-        if (player->HasAura(HighRiskAura()))
+        if (player->HasAura(HighRiskAura()) || AscensionRulesets::HighRiskSuspended(player))
             return;
         uint32 level = 0;
         uint32 cid = ActiveChallengeWithRule(player, "CHALLENGE_RULES_TYPE_HIGH_RISK_ONLY", level);
@@ -1037,10 +1039,24 @@ namespace CoAChallenges
     // character so a non-prestige trial cannot be started (facet of
     // OUTSIDE_INTERACTION). During the trial: the NO_MAIL rule forbids both
     // sending and receiving mail. Store items / reward caches are exempt.
+    constexpr uint32 BazaarTokenItem = 975001;
+    std::unordered_set<uint32> StoreItems;
+
+    void LoadStoreItems()
+    {
+        StoreItems = { BazaarTokenItem };
+        if (QueryResult r = WorldDatabase.Query("SELECT `ItemID` FROM `coa_client_vanity_collection`"))
+            do
+                StoreItems.insert(r->Fetch()[0].Get<uint32>());
+            while (r->NextRow());
+    }
+
     bool IsMailExemptItem(uint32 entry)
     {
         if (!entry)
             return false;
+        if (StoreItems.contains(entry))
+            return true;
         return CoAParse::ListContains(
             sConfigMgr->GetOption<std::string>("CoAChallenges.MailExemptItems", "1397884;1397885;1397886"),
             std::to_string(entry));
@@ -2472,6 +2488,7 @@ namespace CoAChallenges
             {
                 EnsureTables();
                 LoadChallengeDefinitions();
+                LoadStoreItems();
             }
 
         void OnUpdate(uint32 diff) override
@@ -3856,11 +3873,23 @@ namespace CoAChallenges
         CoAChallengesUnit() : UnitScript("CoAChallengesUnit", true,
             { UNITHOOK_ON_DAMAGE, UNITHOOK_ON_HEAL, UNITHOOK_MODIFY_HEAL_RECEIVED, UNITHOOK_ON_BEFORE_ROLL_MELEE_OUTCOME_AGAINST, UNITHOOK_CAN_UNIT_ATTACK,
               UNITHOOK_ON_UNIT_EXIT_COMBAT, UNITHOOK_SHOULD_TRACK_VALUES_UPDATE_POS_BY_INDEX,
-              UNITHOOK_ON_PATCH_VALUES_UPDATE }) { }
+              UNITHOOK_ON_PATCH_VALUES_UPDATE, UNITHOOK_ON_UNIT_DEATH }) { }
 
         void OnUnitExitCombat(Unit* unit) override
         {
             RestoreAdventureHealth(unit);
+        }
+
+        void OnUnitDeath(Unit* unit, Unit* killer) override
+        {
+            Creature* killed = unit ? unit->ToCreature() : nullptr;
+            if (!killed || !killer || killer->IsPlayer() || killer->IsPet() || killer->IsTotem())
+                return;
+            if (Player* guardianOwner = killer->GetCharmerOrOwnerPlayerOrPlayerItself())
+            {
+                CoAChallengesPlayer::CreditKill(guardianOwner, killed);
+                CoAChallengesPlayer::FailForbiddenKill(guardianOwner, killed);
+            }
         }
 
         bool ShouldTrackValuesUpdatePosByIndex(Unit const* unit, uint8 /*updateType*/, uint16 index) override

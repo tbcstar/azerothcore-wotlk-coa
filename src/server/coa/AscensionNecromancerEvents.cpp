@@ -173,6 +173,8 @@ class aura_ascension_necromancer_event : public AuraScript
                 Cast(actor, target, 805024);
             if (melee && actor->GetEntry() == 503200 && actor->HasAura(531133))
                 Cast(actor, target, 531132);
+            if (critical && info && (info->SchoolMask & SPELL_SCHOOL_MASK_FROST) && player->HasAura(707562))
+                Cast(player, player, 712434);
             if (critical && Chance(player, 537208, 1, 1000))
                 Reduce(player, 805029, std::abs(Amount(680553)));
             if (critical && melee && Chance(player, 638403))
@@ -246,6 +248,32 @@ class aura_ascension_necromancer_ghoul_mastery : public AuraScript
     }
 };
 
+class aura_ascension_necromancer_overwhelming_force : public AuraScript
+{
+    PrepareAuraScript(aura_ascension_necromancer_overwhelming_force);
+
+    bool Validate(SpellInfo const*) override
+    {
+        return ValidateSpellInfo({531131});
+    }
+
+    bool Check(ProcEventInfo& event)
+    {
+        Unit* minion = GetTarget();
+        Player* player = Owner(minion);
+        Unit* target = event.GetActionTarget();
+        DamageInfo const* damage = event.GetDamageInfo();
+        return player && GetCaster() == player && minion->IsCreature() && IsMinion(player, minion) &&
+            event.GetActor() == minion && target && player->IsValidAttackTarget(target) && damage &&
+            damage->GetDamage();
+    }
+
+    void Register() override
+    {
+        DoCheckProc += AuraCheckProcFn(aura_ascension_necromancer_overwhelming_force::Check);
+    }
+};
+
 constexpr float MinionShareOfCreatureDamage = 0.45f;
 bool CreatureHitsMinion(Unit const* attacker, Unit const* victim)
 {
@@ -316,5 +344,6 @@ void AddAscensionNecromancerEventScripts()
 {
     RegisterSpellScript(aura_ascension_necromancer_event);
     RegisterSpellScript(aura_ascension_necromancer_ghoul_mastery);
+    RegisterSpellScript(aura_ascension_necromancer_overwhelming_force);
     new necromancer_defense();
 }

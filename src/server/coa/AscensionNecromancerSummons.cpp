@@ -820,7 +820,9 @@ class npc_ascension_necromancer : public ScriptedAI
             }
             if (event == 9)
                 if (Unit* enemy = ObjectAccessor::GetUnit(*me, _breathTarget))
-                    Cast(me, enemy, 807339);
+                    for (Unit* blasted : Nearby(enemy, 10.0f))
+                        if (player->IsValidAttackTarget(blasted))
+                            Cast(me, blasted, 807339);
         }
         if (me->GetEntry() == 523032 && !_exploded)
             for (Unit* nearby : Nearby(me, 2.5f))
@@ -853,6 +855,11 @@ class spell_ascension_necromancer_summon : public SpellScript
             return;
         _summoned = true;
         Position position = GetExplTargetDest() ? GetExplTargetDest()->GetPosition() : player->GetPosition();
+        if (GetSpellInfo()->Id == 804681)
+        {
+            float const heading = player->GetAbsoluteAngle(position.GetPositionX(), position.GetPositionY());
+            position = player->GetNearPosition(3.0f, heading - player->GetOrientation());
+        }
         Summon(player, GetSpellInfo()->Id, GetExplTargetUnit(), position);
     }
     void Register() override

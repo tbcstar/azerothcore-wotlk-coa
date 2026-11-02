@@ -7,7 +7,7 @@ UPDATE `zg_heart` SET `entry` = 92005;
 INSERT INTO `creature_template` SELECT * FROM `zg_heart`
 ON DUPLICATE KEY UPDATE `entry` = `creature_template`.`entry`;
 DROP TEMPORARY TABLE `zg_heart`;
-UPDATE `creature_template` SET `name` = 'Heart of Hakkar', `difficulty_entry_1` = 0, `difficulty_entry_2` = 0,
+UPDATE `creature_template` SET `name` = '哈卡之心', `difficulty_entry_1` = 0, `difficulty_entry_2` = 0,
     `difficulty_entry_3` = 0, `minlevel` = 63, `maxlevel` = 63, `faction` = 28, `rank` = 3, `unit_flags` = 0,
     `AIName` = '', `HealthModifier` = 17.55, `ManaModifier` = 1.755, `lootid` = 0, `pickpocketloot` = 0,
     `skinloot` = 0, `ScriptName` = 'npc_heart_of_hakkar_coa', `VerifiedBuild` = 0

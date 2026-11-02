@@ -2,10 +2,10 @@
 -- Cage Prop (95982, display 1017068); both are recorded 0.7 yd apart at the Spirit Den mouth and match
 -- footage of the pickup. Positions set in game against that footage.
 
-UPDATE `gameobject_template` SET `displayId` = 980926, `castBarCaption` = 'Looting' WHERE `entry` = 95715;
+UPDATE `gameobject_template` SET `displayId` = 980926, `castBarCaption` = '拾取' WHERE `entry` = 95715;
 
 REPLACE INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `IconName`, `castBarCaption`, `unk1`, `size`, `Data0`, `Data1`, `Data2`, `Data3`, `Data4`, `Data5`, `Data6`, `Data7`, `Data8`, `Data9`, `Data10`, `Data11`, `Data12`, `Data13`, `Data14`, `Data15`, `Data16`, `Data17`, `Data18`, `Data19`, `Data20`, `Data21`, `Data22`, `Data23`, `ScriptName`) VALUES
-(95982, 5, 1017068, 'Cage Prop', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '');
+(95982, 5, 1017068, '笼子道具', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '');
 
 UPDATE `gameobject`
 SET `position_x` = -13758.899, `position_y` = -11.389, `position_z` = 45.888, `orientation` = 1.0484,

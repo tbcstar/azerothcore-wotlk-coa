@@ -13,32 +13,32 @@
 
 DELETE FROM `quest_request_items` WHERE `ID` IN (255028, 255029, 255036, 255037, 255041, 255048, 255055, 255056, 909041, 909042, 982258);
 INSERT INTO `quest_request_items` (`ID`, `EmoteOnComplete`, `EmoteOnIncomplete`, `CompletionText`, `VerifiedBuild`) VALUES
-(255028, 0, 0, 'Well? Is that naga still slitherin'' around behind the ridge, $r?', 0),
-(255029, 0, 0, 'Do you bring the ssssands, $r? Time ssslips away from usss with every moment you delay.', 0),
-(255036, 0, 0, 'Of course it''ll still work if it got dragged ta hell. Don''t ya know goblin tech''s nothin'' if not reliable?!', 0),
-(255037, 0, 0, 'You''re standin'' in my port, so I hope you''re here with good news. Did Snazzy''s goods reach the right hands?', 0),
-(255041, 0, 0, 'You have news about that tannery, $N? Out with it.', 0),
-(255048, 0, 0, 'You got my cigar shipment yet?', 0),
-(255055, 0, 0, '<You''ll need to destroy that cloud serpent before you can get a good look at this battery.>', 0),
-(255056, 0, 0, 'Found anything yet?', 0),
-(909041, 0, 0, 'Did you find one? A real diary? Not a forgery. I will know, $N.', 0),
-(909042, 0, 0, 'The ground still trembles beneath the dunes. They still feed.', 0),
-(982258, 0, 0, 'The sand still calls. Have you faced the vortex?', 0);
+(255028, 0, 0, '怎么样？那条纳迦还在山脊后面游来游去吗，$r？', 0),
+(255029, 0, 0, '你把沙带来了吗，$r？你每耽搁一刻，时间就从我们手中溜走。', 0),
+(255036, 0, 0, '就算被拖到地狱里去它当然还能用。你难道不知道地精科技除了可靠就没别的了吗？！', 0),
+(255037, 0, 0, '你正站在我的港口里，所以我希望你是带着好消息来的。斯纳兹的货送到对的人手里了吗？', 0),
+(255041, 0, 0, '你有那家制革厂的消息吗，$N？说吧。', 0),
+(255048, 0, 0, '你拿到我的雪茄货了吗？', 0),
+(255055, 0, 0, '<你得先消灭那条云端翔龙，才能好好看看这块电池。>', 0),
+(255056, 0, 0, '找到什么了吗？', 0),
+(909041, 0, 0, '你找到了吗？一本真正的日记？不是伪造的。我会知道的，$N。', 0),
+(909042, 0, 0, '沙丘下的地面仍在颤抖。它们仍在进食。', 0),
+(982258, 0, 0, '沙子仍在呼唤。你面对过那个漩涡了吗？', 0);
 
 DELETE FROM `quest_offer_reward` WHERE `ID` IN (255028, 255029, 255036, 255037, 255040, 255041, 255042, 255048, 255055, 255056, 909040, 909041, 909042, 982257, 982258);
 INSERT INTO `quest_offer_reward` (`ID`, `Emote1`, `Emote2`, `Emote3`, `Emote4`, `EmoteDelay1`, `EmoteDelay2`, `EmoteDelay3`, `EmoteDelay4`, `RewardText`, `VerifiedBuild`) VALUES
-(255028, 0, 0, 0, 0, 0, 0, 0, 0, 'A talkin'' naga that just wants to be left alone? Long as it stays out of my water and away from my alchemists, it can sing sea shanties for all I care.$B$BGood work, $r. Here, ya earned this.', 0),
-(255029, 0, 0, 0, 0, 0, 0, 0, 0, 'Yesss... I can feel the flow of time within it. Thisss is only the beginning, but it is more hope than my people have had in an age.$B$BAccept my gratitude, $r, and this token of it.', 0),
-(255036, 0, 0, 0, 0, 0, 0, 0, 0, 'Right. It was a pleasure doing business with ya!$B$BGlad yer one of the understandin'' types, and with our stories straight I think we''ll be just fine.', 0),
-(255037, 0, 0, 0, 0, 0, 0, 0, 0, 'Snazzy already filled me in. Who knew he was so good at slaying sea giants? Good thing he was there to save your hide huh?$B$BAnyways, great work. Maybe one day you''ll make a fine sailor. Or dock worker, not sure, just follow your dreams kid.', 0),
-(255040, 0, 0, 0, 0, 0, 0, 0, 0, '<Arvon glances at the logbook in your hand and the color drains from his face.>$B$BWhere did you get that? Keep your voice down. Let''s talk about this like reasonable people.', 0),
-(255041, 0, 0, 0, 0, 0, 0, 0, 0, 'A Bloodsail spy in my own port, running a tannery right under my nose! You have done Booty Bay a great service, $N. The Steamwheedle Cartel will not forget it.', 0),
-(255042, 0, 0, 0, 0, 0, 0, 0, 0, 'Smart choice. Here''s your gold, as promised. You never saw that logbook, and I never saw you.', 0),
-(255048, 0, 0, 0, 0, 0, 0, 0, 0, 'Now that''s what I''m talkin'' about! Dry, fresh, and not a single one missin''. You''re makin'' a habit of bein'' useful, kid. Here, for your trouble.', 0),
-(255055, 0, 0, 0, 0, 0, 0, 0, 0, '<Upon closer inspection, the energy crackling from the battery seems to be close to fizzling out. Most likely its charge was absorbed by the creature you just fought. Renthar isn''t going to find much use in this in its current state.>', 0),
-(255056, 0, 0, 0, 0, 0, 0, 0, 0, 'This was in the Zeppelin?! I don''t know what this thing was charged with, but I''ve never seen a battery like this before. It''s plenty powerful, a bit unstable actually, but I can keep it in check.$B$BHere''s your pay, I need to get this to my engineers.', 0),
-(909040, 0, 0, 0, 0, 0, 0, 0, 0, 'An order from Bilgewhizzle, huh? Water for Gadgetzan, on the double. Fine, fine, I''ll get the barrels movin''. Thanks for haulin'' this all the way out here.', 0),
-(909041, 0, 0, 0, 0, 0, 0, 0, 0, 'It''s real! Look at the handwriting, the salt stains, the little doodles of... oh my.$B$BThis is wonderful, $N. Truly. For research, of course. Take this, you have more than earned it.', 0),
-(909042, 0, 0, 0, 0, 0, 0, 0, 0, 'The hollows grow quiet. The dunes breathe easier now.$B$BYou did what was needed. Take this, and remember that the desert remembers those who protect it.', 0),
-(982257, 0, 0, 0, 0, 0, 0, 0, 0, 'Oh man, you was lookin'' for me? And Zebel sent ya, that''s not good, no no no, that''s really bad.$B$BI swear I wasn''t slackin''. It''s those damn sea giants, they turned aggressive and stole my damn radio! Please, you gotta understand!', 0),
-(982258, 0, 0, 0, 0, 0, 0, 0, 0, 'It is still warm, as I said it would be. Hold it a moment longer... feel it shift. The desert speaks through it.$B$BThank you, $N.', 0);
+(255028, 0, 0, 0, 0, 0, 0, 0, 0, '一条会说话、只想不被打扰的纳迦？只要它别进我的水域、别靠近我的炼金师，它想唱水手小调就随它去。$B$B干得好，$r。来，这是你应得的。', 0),
+(255029, 0, 0, 0, 0, 0, 0, 0, 0, '是的……我能感觉到其中流动的时间。这仅仅是个开始，但这是我的人民长久以来从未有过的希望。$B$B接受我的感激吧，$r，还有这份谢礼。', 0),
+(255036, 0, 0, 0, 0, 0, 0, 0, 0, '好。和你做生意很愉快！$B$B很高兴你是那种懂事的人，既然我们的说法一致，我想我们就没问题了。', 0),
+(255037, 0, 0, 0, 0, 0, 0, 0, 0, '斯纳兹已经跟我说了。谁知道他这么擅长杀海巨人？幸好他在那儿救了你的小命，是吧？$B$B总之，干得好。也许有一天你会成为优秀的水手。或者是码头工人，不确定，追随你的梦想吧，孩子。', 0),
+(255040, 0, 0, 0, 0, 0, 0, 0, 0, '<阿尔文瞥了一眼你手中的日志，脸色顿时煞白。>$B$B你从哪儿弄来的？小声点。我们像讲道理的人一样谈谈。', 0),
+(255041, 0, 0, 0, 0, 0, 0, 0, 0, '一个血帆间谍就在我的港口里，在我眼皮底下经营制革厂！你为藏宝海湾立了大功，$N。热砂港财团不会忘记。', 0),
+(255042, 0, 0, 0, 0, 0, 0, 0, 0, '聪明的选择。这是答应你的金币。你从没见过那本日志，我也从没见过你。', 0),
+(255048, 0, 0, 0, 0, 0, 0, 0, 0, '这才像话！干燥、新鲜，一根都不少。你都快习惯有用了，孩子。来，这是你的辛苦费。', 0),
+(255055, 0, 0, 0, 0, 0, 0, 0, 0, '<仔细检查后，电池噼啪作响的能量似乎快要耗尽了。很可能它的电荷被你刚击败的生物吸收了。以这种状态，伦塔尔恐怕用它做不了什么。>', 0),
+(255056, 0, 0, 0, 0, 0, 0, 0, 0, '这东西在飞艇里？！我不知道它充的是什么，但我从没见过这样的电池。它非常强大，其实还有点不稳定，但我能控制住它。$B$B这是你的报酬，我得把它拿给我的工程师们。', 0),
+(909040, 0, 0, 0, 0, 0, 0, 0, 0, '比尔吉兹尔的订单，是吧？给加基森送水，马上办。行行行，我这就把木桶运起来。谢谢你一路把它拖到这儿来。', 0),
+(909041, 0, 0, 0, 0, 0, 0, 0, 0, '是真的！看看这字迹、盐渍，还有那些小涂鸦……天哪。$B$B这太棒了，$N。真的。当然是为了研究。拿着这个，你完全配得上。', 0),
+(909042, 0, 0, 0, 0, 0, 0, 0, 0, '空洞渐渐安静下来。沙丘现在呼吸得更轻松了。$B$B你做了该做的事。拿着这个，记住沙漠会记得那些保护它的人。', 0),
+(982257, 0, 0, 0, 0, 0, 0, 0, 0, '哦天哪，你在找我？还是泽贝尔派你来的，这可不好，不不不，这真是太糟了。$B$B我发誓我没有偷懒。是那些该死的海巨人，它们变得凶暴还偷走了我该死的无线电！拜托，你得理解！', 0),
+(982258, 0, 0, 0, 0, 0, 0, 0, 0, '它还是温的，正如我说的那样。再拿一会儿……感受它在流动。沙漠通过它在说话。$B$B谢谢你，$N。', 0);

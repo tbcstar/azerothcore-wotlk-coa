@@ -24,5 +24,5 @@ INSERT IGNORE INTO `item_template` (`entry`, `class`, `subclass`, `SoundOverride
     `Quality`, `Flags`, `FlagsExtra`, `BuyPrice`, `SellPrice`, `InventoryType`, `AllowableClass`, `AllowableRace`,
     `ItemLevel`, `RequiredLevel`, `maxcount`, `stackable`, `ContainerSlots`, `bonding`, `Material`, `description`)
 VALUES
-(450510, 1, 0, -1, 'Travel Sack', 15320, 1, 0, 0, 10000, 2500, 18, -1, -1, 25, 0, 0, 1, 10, 0, 8, ''),
-(451107, 1, 0, -1, 'Forgotten Sack', 138737, 1, 0, 0, 10000, 2500, 18, -1, -1, 25, 0, 0, 1, 10, 0, 8, '');
+(450510, 1, 0, -1, '旅行袋', 15320, 1, 0, 0, 10000, 2500, 18, -1, -1, 25, 0, 0, 1, 10, 0, 8, ''),
+(451107, 1, 0, -1, '被遗忘的袋子', 138737, 1, 0, 0, 10000, 2500, 18, -1, -1, 25, 0, 0, 1, 10, 0, 8, '');

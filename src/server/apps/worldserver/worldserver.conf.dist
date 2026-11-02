@@ -4705,7 +4705,7 @@ AllowTwoSide.Interaction.Auction = 1
 
 #
 #    AllowTwoSide.Interaction.Mail
-#        Description: Allow sending mails between factions.
+#        Description: 允许不同阵营之间发送邮件。
 #        Default:     1 - (Enabled)
 #                     0 - (Disabled)
 
@@ -4713,10 +4713,10 @@ AllowTwoSide.Interaction.Mail = 1
 
 #
 #    SoloKill.RequirePlayerHit
-#        Description: A player who is not in a group gets loot and experience from a creature only
-#                     if they hit it themselves, with an attack or a harmful spell. Kills made only
-#                     by their pets, guardians, totems or other summons give no loot or experience.
-#                     Quest kill credit and reputation are not affected.
+#        Description: 不在队伍中的玩家只有亲自命中生物（通过攻击或有害法术）
+#                     才能获得该生物的战利品和经验。仅由他们的宠物、守护者、图腾
+#                     或其他召唤物完成的击杀不会给予战利品或经验。
+#                     任务击杀计数和声望不受影响。
 #        Default:     1 - (Enabled)
 #                     0 - (Disabled)
 
@@ -4724,7 +4724,7 @@ SoloKill.RequirePlayerHit = 1
 
 #
 #    AllowTwoSide.Trade
-#        Description: Allow trading between factions.
+#        Description: 允许不同阵营之间进行交易。
 #        Default:     1 - (Enabled)
 #                     0 - (Disabled)
 

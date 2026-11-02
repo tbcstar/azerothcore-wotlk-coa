@@ -9,7 +9,7 @@
 -- description. Ids without a row keep their client text.
 DELETE FROM `coa_client_spell_description` WHERE `ID` IN (303051, 312850, 316850, 320850);
 INSERT INTO `coa_client_spell_description` (`ID`, `Description`, `ToolTip`) VALUES
-(303051, 'Reduces a creatures movement speed by $s1% for $d.', 'Movement speed slowed by $s1%.'),
-(312850, 'Reduces a creatures movement speed by $s1% for $d.', 'Movement speed slowed by $s1%.'),
-(316850, 'Reduces a creatures movement speed by $s1% for $d.', 'Movement speed slowed by $s1%.'),
-(320850, 'Reduces a creatures movement speed by $s1% for $d.', 'Movement speed slowed by $s1%.');
+(303051, '使一个生物的移动速度降低$s1%，持续$d。', '移动速度降低$s1%。'),
+(312850, '使一个生物的移动速度降低$s1%，持续$d。', '移动速度降低$s1%。'),
+(316850, '使一个生物的移动速度降低$s1%，持续$d。', '移动速度降低$s1%。'),
+(320850, '使一个生物的移动速度降低$s1%，持续$d。', '移动速度降低$s1%。');

@@ -5,11 +5,11 @@
 INSERT INTO `creature_template` (`entry`, `name`, `subname`, `minlevel`, `maxlevel`, `faction`, `rank`,
     `BaseAttackTime`, `RangeAttackTime`, `unit_class`, `type`, `type_flags`, `HealthModifier`, `movementId`,
     `VerifiedBuild`) VALUES
-(666988, 'Avatar of Bethekk', 'Panther Loa', 63, 63, 35, 1, 2000, 2000, 1, 1, 72, 10000, 999, 0),
-(666989, 'Avatar of Shirvallah', 'Tiger Loa', 63, 63, 35, 1, 2000, 2000, 1, 1, 72, 10000, 999, 0),
-(666990, 'Avatar of Shadra', 'Spider Loa', 63, 63, 35, 1, 2000, 2000, 1, 1, 72, 10000, 999, 0),
-(666991, 'Avatar of Hethiss', 'Cobra Loa', 63, 63, 35, 1, 2000, 2000, 1, 1, 72, 10000, 999, 0),
-(666992, 'Avatar of Hir\'eek', 'Bat Loa', 63, 63, 35, 1, 2000, 2000, 1, 1, 72, 10000, 999, 0)
+(666988, '贝瑟克化身', '黑豹洛阿', 63, 63, 35, 1, 2000, 2000, 1, 1, 72, 10000, 999, 0),
+(666989, '希尔瓦拉化身', '猛虎洛阿', 63, 63, 35, 1, 2000, 2000, 1, 1, 72, 10000, 999, 0),
+(666990, '沙德拉化身', '蜘蛛洛阿', 63, 63, 35, 1, 2000, 2000, 1, 1, 72, 10000, 999, 0),
+(666991, '赫希斯化身', '眼镜蛇洛阿', 63, 63, 35, 1, 2000, 2000, 1, 1, 72, 10000, 999, 0),
+(666992, '希尔雷克化身', '蝙蝠洛阿', 63, 63, 35, 1, 2000, 2000, 1, 1, 72, 10000, 999, 0)
 ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `subname` = VALUES(`subname`), `minlevel` = VALUES(`minlevel`),
     `maxlevel` = VALUES(`maxlevel`), `faction` = VALUES(`faction`), `rank` = VALUES(`rank`),
     `BaseAttackTime` = VALUES(`BaseAttackTime`), `RangeAttackTime` = VALUES(`RangeAttackTime`),

@@ -9,8 +9,8 @@ DELETE FROM `npc_vendor` WHERE `item` = 101169;
 DELETE FROM `ethereal_bazaar_cache_pool` WHERE `reward_item` = 101169;
 
 UPDATE `item_template`
-SET `description` = REGEXP_REPLACE(`description`, 'One of [0-9]+ possible items',
-    CONCAT('One of ', (SELECT COUNT(*) FROM `ethereal_bazaar_cache_pool` WHERE `cache_item` = 8950007), ' possible items'))
+SET `description` = REGEXP_REPLACE(`description`, '可能的物品之一 [0-9]+ 件',
+    CONCAT('可能的物品之一 ', (SELECT COUNT(*) FROM `ethereal_bazaar_cache_pool` WHERE `cache_item` = 8950007), ' 件'))
 WHERE `entry` = 8950007;
 
 INSERT INTO `coa_client_vanity_collection` (`ItemID`, `DonationPointCost`, `SeasonalPointCost`, `BazaarTokenCost`)

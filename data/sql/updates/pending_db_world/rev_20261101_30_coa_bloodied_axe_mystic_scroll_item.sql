@@ -12,4 +12,4 @@
 -- values. The harvested flavor-text reference id that file's other rows carry is not derivable
 -- without the live realm's own item dump, so description is left empty instead of guessing one.
 INSERT IGNORE INTO `item_template` (`entry`, `class`, `subclass`, `SoundOverrideSubclass`, `name`, `displayid`, `Quality`, `Flags`, `FlagsExtra`, `BuyPrice`, `SellPrice`, `InventoryType`, `AllowableClass`, `AllowableRace`, `ItemLevel`, `RequiredLevel`, `maxcount`, `stackable`, `bonding`, `Material`, `description`) VALUES
-(201579, 0, 6, -1, 'Mystic Scroll: Brutal Execution', 138380, 4, 134217792, 0, 300000, 1, 0, 512, -1, 60, 0, 0, 1, 0, 8, '');
+(201579, 0, 6, -1, '神秘卷轴：残暴处决', 138380, 4, 134217792, 0, 300000, 1, 0, 512, -1, 60, 0, 0, 1, 0, 8, '');

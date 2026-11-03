@@ -4,7 +4,7 @@
  * Kit: Ascension's block 2118400-2118428. Timings: a Bronzebeard kill on video,
  * see raid-difficulty-werkzeug/zg-video-zeitplan.json. The Berserker Charge is
  * the cleanest timer in the whole video: 25.1s, 22 times in a row. Mortal
- * Strike's repeat and Fierce Blow follow the CoA combat log of 2026-08-02.
+ * Strike's repeat, Whirlwind and Fierce Blow follow the CoA combat log of 2026-08-02.
  *
  * From stock: the start when the Vilebranch Speaker dies, the ride down, Ohgan
  * at his side, the chained spirits that revive the dead, and the gaze. Ohgan,
@@ -12,10 +12,13 @@
  * log.
  *
  *   Berserker Charge  first 10s, every 25s   the nearest player he can see,
- *                                            knocked down; the tank loses his
- *                                            threat, as in stock
- *   Whirlwind         1.5s and 8s after each charge, 6 yards around him
- *   Mortal Strike     first 8s,  every 12s   the tank, -25% healing, stacks 3
+ *                                            knocked down; the tank keeps his
+ *                                            threat (the live log)
+ *   Whirlwind         first 12s, every 25s   2s after the charge, also when
+ *                                            he does not charge; 5 yards
+ *                                            around him
+ *   Mortal Strike     first 8s,  every 12s   the tank in melee range, -25%
+ *                                            healing, stacks 3
  *   Threatening Gaze  first 15s, every 20s   he stares at a player for 4s,
  *                                            then Menacing Gaze for 4s: an
  *                                            active hostile action (a spell
@@ -32,8 +35,6 @@
  *                     durability loss; taken off when the fight ends
  *
  * Decided here, not in the data:
- *   - Whirlwind tied to the charge: the video shows two per 25s cycle, 6-8s
- *     apart, the first right after the charge;
  *   - the gaze timer, and the order Threatening Gaze -> Menacing Gaze ->
  *     Sentenced to Die -> Decapitate; the rule itself is Menacing Gaze's
  *     tooltip. These auras and Bloodlord's Presence are never logged (their
@@ -126,6 +127,8 @@ namespace
     };
 
     constexpr uint8 MORTAL_WOUND_STACKS = 3;
+    constexpr Milliseconds MANDOKIR_WHIRLWIND_FIRST = 12s;
+    constexpr Milliseconds MANDOKIR_WHIRLWIND_INTERVAL = 25s;
     constexpr Milliseconds MANDOKIR_FIERCE_BLOW_FIRST_MIN = 30700ms;
     constexpr Milliseconds MANDOKIR_FIERCE_BLOW_FIRST_MAX = 31600ms;
     constexpr Milliseconds MANDOKIR_FIERCE_BLOW_MIN = 22500ms;
@@ -245,6 +248,7 @@ namespace
             _JustEngagedWith();
             events.ScheduleEvent(EVENT_MORTAL_STRIKE, 8s);
             events.ScheduleEvent(EVENT_CHARGE, 10s);
+            events.ScheduleEvent(EVENT_WHIRLWIND, MANDOKIR_WHIRLWIND_FIRST);
             events.ScheduleEvent(EVENT_GAZE, 15s);
             events.ScheduleEvent(EVENT_CHECK_OHGAN, 1s);
             events.ScheduleEvent(EVENT_FIERCE_BLOW, MANDOKIR_FIERCE_BLOW_FIRST_MIN, MANDOKIR_FIERCE_BLOW_FIRST_MAX);
@@ -347,6 +351,8 @@ namespace
                 return;
             if (spell->Id == SPELL_MORTAL_STRIKE)
             {
+                if (!me->IsWithinMeleeRange(tank))
+                    return;
                 me->CastSpell(tank, SPELL_MORTAL_STRIKE_HIT, true);
                 AddStack(me, tank, SPELL_MORTAL_WOUND, MORTAL_WOUND_STACKS);
             }
@@ -397,21 +403,21 @@ namespace
                             {
                                 return u->IsPlayer() && !me->IsWithinMeleeRange(u) && me->IsWithinLOSInMap(u);
                             }))
-                        {
                             DoCast(target, SPELL_BERSERKER_CHARGE);
-                            if (Unit* mainTarget = SelectTarget(SelectTargetMethod::MaxThreat, 0, 100.0f))
-                                me->GetThreatMgr().ModifyThreatByPercent(mainTarget, -100);
-                        }
-                        events.ScheduleEvent(EVENT_WHIRLWIND, 1500ms);
-                        events.ScheduleEvent(EVENT_WHIRLWIND, 8s);
                         events.ScheduleEvent(EVENT_CHARGE, 25s);
                         break;
                     case EVENT_WHIRLWIND:
                         DoCastSelf(SPELL_WHIRLWIND);
+                        events.ScheduleEvent(EVENT_WHIRLWIND, MANDOKIR_WHIRLWIND_INTERVAL);
                         break;
                     case EVENT_MORTAL_STRIKE:
-                        DoCastVictim(SPELL_MORTAL_STRIKE);
-                        events.ScheduleEvent(EVENT_MORTAL_STRIKE, 12s);
+                        if (me->GetVictim() && me->IsWithinMeleeRange(me->GetVictim()))
+                        {
+                            DoCastVictim(SPELL_MORTAL_STRIKE);
+                            events.ScheduleEvent(EVENT_MORTAL_STRIKE, 12s);
+                        }
+                        else
+                            events.ScheduleEvent(EVENT_MORTAL_STRIKE, 1s);
                         break;
                     case EVENT_GAZE:
                         if (Unit* player = SelectTarget(SelectTargetMethod::Random, 0, 100.0f, true))

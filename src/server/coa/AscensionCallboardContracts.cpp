@@ -477,14 +477,14 @@ uint32 Activate(Player* player, Catalogue const& contracts, Settings const& curr
     Quest const* quest = ChooseQuest(player, *contract);
     if (!quest)
     {
-        chat.PSendSysMessage("You cannot complete {} contracts yet.", name);
+        chat.PSendSysMessage("你目前还不能完成{}契约。", name);
         return 0;
     }
 
     uint32 const spare = SpareFor(player, contracts, *contract, current);
     if (!spare)
     {
-        chat.PSendSysMessage("No {} completions remain. Finish or abandon the quest in your log first.", name);
+        chat.PSendSysMessage("{}已无剩余完成次数。请先完成或放弃任务日志中的该任务。", name);
         return 0;
     }
 
@@ -496,8 +496,8 @@ uint32 Activate(Player* player, Catalogue const& contracts, Settings const& curr
         uint32 const price = PriceFor(player, contracts, quest, current, request.payWithGold);
         if (!Charge(player, price, request.payWithGold))
         {
-            chat.PSendSysMessage(request.payWithGold ? "You do not have enough gold to complete {}."
-                : "You do not have enough Bazaar Tokens to complete {}.", name);
+            chat.PSendSysMessage(request.payWithGold ? "你的金币不足以完成{}。"
+                : "你的市集代币不足以完成{}。", name);
             break;
         }
         GrantRewards(player, quest);
@@ -505,7 +505,7 @@ uint32 Activate(Player* player, Catalogue const& contracts, Settings const& curr
     activating = false;
 
     if (completed)
-        chat.PSendSysMessage("Temporal Contract complete: {} x{}.", name, completed);
+        chat.PSendSysMessage("时光契约完成：{} x{}。", name, completed);
     return completed;
 }
 
@@ -624,7 +624,7 @@ public:
         if (!exhausted)
             return false;
 
-        ChatHandler(player->GetSession()).PSendSysMessage("No {} completions remain this week.", *exhausted);
+        ChatHandler(player->GetSession()).PSendSysMessage("本周{}已无剩余完成次数。", *exhausted);
         return true;
     }
 

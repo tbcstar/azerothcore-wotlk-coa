@@ -234,7 +234,7 @@
       "label": "The window lists its objective",
       "actor": "hero",
       "metric": "whisper_contains",
-      "text": "COAQLOG\tO Kobold Vermin slain: 0/8",
+      "text": "COAQLOG\tO Kobold Vermin 已被击杀: 0/8",
       "equals": 1
     },
     {

@@ -51,12 +51,12 @@ std::string ObjectiveTarget(Quest const* quest, uint8 index)
     if (target > 0)
     {
         if (CreatureTemplate const* creature = sObjectMgr->GetCreatureTemplate(uint32(target)))
-            return creature->Name + " slain";
+            return creature->Name + " 已被击杀";
     }
     else if (GameObjectTemplate const* object = sObjectMgr->GetGameObjectTemplate(uint32(-target)))
         return object->name;
 
-    return "Objective";
+    return "目标";
 }
 
 std::string Progress(std::string const& text, uint32 current, uint32 required)
@@ -81,13 +81,13 @@ void AppendObjectives(Player* player, Quest const* quest, uint16 slot, std::vect
 
         ItemTemplate const* item = sObjectMgr->GetItemTemplate(itemId);
         uint32 const owned = status != statuses.end() ? status->second.ItemCount[index] : 0;
-        messages.push_back(Progress(item ? item->Name1 : "Item", owned, quest->RequiredItemCount[index]));
+        messages.push_back(Progress(item ? item->Name1 : "物品", owned, quest->RequiredItemCount[index]));
     }
 
     if (uint32 const players = quest->GetPlayersSlain())
     {
         uint32 const slain = status != statuses.end() ? status->second.PlayerCount : 0;
-        messages.push_back(Progress("Players slain", slain, players));
+        messages.push_back(Progress("击杀玩家", slain, players));
     }
 }
 
@@ -186,7 +186,7 @@ if not f then
   f.Opener:Hide()
 
   StaticPopupDialogs["COA_QUEST_LOG_OVERFLOW_ABANDON"] = {
-    text = "Abandon \"%s\"?",
+    text = "放弃“%s”？",
     button1 = YES,
     button2 = NO,
     OnAccept = function(self, questId) send("ABANDON " .. questId) end,
@@ -214,11 +214,11 @@ local function row(index)
   r.Objectives:SetJustifyH("LEFT")
   r.Move = CreateFrame("Button", nil, r, "UIPanelButtonTemplate")
   r.Move:SetSize(120, 20)
-  r.Move:SetText("Move to Quest Log")
+  r.Move:SetText("移至任务日志")
   r.Move:SetScript("OnClick", function(self) send("PROMOTE " .. self:GetParent().QuestId) end)
   r.Abandon = CreateFrame("Button", nil, r, "UIPanelButtonTemplate")
   r.Abandon:SetSize(80, 20)
-  r.Abandon:SetText("Abandon")
+  r.Abandon:SetText("放弃")
   r.Abandon:SetPoint("LEFT", r.Move, "RIGHT", 6, 0)
   r.Abandon:SetScript("OnClick", function(self)
     local parent = self:GetParent()
@@ -237,7 +237,7 @@ local function render()
     r.QuestId = quest.id
     r.QuestTitle = quest.title
     local color = GetQuestDifficultyColor(quest.level)
-    local suffix = quest.status == "c" and " (Complete)" or (quest.status == "f" and " (Failed)" or "")
+    local suffix = quest.status == "c" and "（完成）" or (quest.status == "f" and "（失败）" or "")
     r.Name:SetText("[" .. quest.level .. "] " .. quest.title .. suffix)
     r.Name:SetTextColor(color.r, color.g, color.b)
     r.Objectives:SetText(table.concat(quest.objectives, "\n"))
@@ -253,10 +253,9 @@ local function render()
   end
   for index = #quests + 1, #f.Rows do f.Rows[index]:Hide() end
   f.Content:SetHeight(math.max(offset, 10))
-  f.Title:SetText("Extra Quests")
-  local noun = #quests == 1 and " quest" or " quests"
-  f.Summary:SetText(#quests .. noun .. " beyond the 25-slot log (" .. (f.Capacity or 25) .. " in total)")
-  f.Opener:SetText("Extra Quests (" .. #quests .. ")")
+  f.Title:SetText("额外任务")
+  f.Summary:SetText(#quests .. " 个任务超出 25 格任务日志（共 " .. (f.Capacity or 25) .. " 格）")
+  f.Opener:SetText("额外任务（" .. #quests .. "）")
   if #quests > 0 then f.Opener:Show() else f.Opener:Hide(); f:Hide() end
 end
 
@@ -273,8 +272,8 @@ local function announce(previous)
   for _, quest in ipairs(f.Quests) do
     local before = known[quest.id]
     if not before then
-      DEFAULT_CHAT_FRAME:AddMessage("|cffffd200Your quest log is full: " .. quest.title ..
-        " was placed in Extra Quests (/extraquests).|r")
+      DEFAULT_CHAT_FRAME:AddMessage("|cffffd200你的任务日志已满：" .. quest.title ..
+        " 已放入额外任务（/extraquests）。|r")
     else
       for index, objective in ipairs(quest.objectives) do
         if objective ~= before.objectives[index] then notify(objective) end
@@ -396,7 +395,7 @@ private:
         bool const overflow = slot >= NATIVE_QUEST_LOG_SIZE && slot < MAX_QUEST_LOG_SIZE;
 
         if (action == "PROMOTE" && overflow && !player->PromoteQuestToNativeLog(questId))
-            SendAddon(player, "ERROR Your quest log has no quest that can make room.");
+            SendAddon(player, "ERROR 你的任务日志中没有能腾出空位的任务。");
         else if (action == "ABANDON" && overflow)
             player->GetSession()->AbandonQuestLogSlot(slot);
 

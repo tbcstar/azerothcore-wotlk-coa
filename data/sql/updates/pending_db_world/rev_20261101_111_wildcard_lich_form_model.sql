@@ -3,7 +3,7 @@
 -- (SpellShapeshiftForm.dbc modelID_A 223570); the Wildcard copy now shows the same Lich display.
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `unit_class`, `type`,
 `BaseAttackTime`, `RangeAttackTime`) VALUES
-(735821, 'Lich Form', 1, 1, 35, 1, 6, 2000, 2000)
+(735821, '巫妖形态', 1, 1, 35, 1, 6, 2000, 2000)
 ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `minlevel` = VALUES(`minlevel`), `maxlevel` = VALUES(`maxlevel`),
 `faction` = VALUES(`faction`), `unit_class` = VALUES(`unit_class`), `type` = VALUES(`type`),
 `BaseAttackTime` = VALUES(`BaseAttackTime`), `RangeAttackTime` = VALUES(`RangeAttackTime`);

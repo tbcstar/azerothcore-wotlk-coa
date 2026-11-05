@@ -155,7 +155,7 @@ JOIN (
     UNION ALL SELECT 'Increases your pet\'s armor by .' AS `src`, '使你的宠物的护甲提高  。' AS `dst`
     UNION ALL SELECT 'Reduces the duration of all Stun and Fear effects used against your pet by .' AS `src`, '使你宠物受到的昏迷和恐惧效果持续时间缩短  。' AS `dst`
     UNION ALL SELECT 'Increases the contribution your pet gets from your Stamina by  and attack power by .' AS `src`, '使你的宠物从你的耐力中获得的加成提高  ，攻击强度提高  。' AS `dst`
-    UNION ALL SELECT 'IAM A BLOODFORGED ITEM BUT I HAVE NO CLUE WHAT MY UPSCALING HAS TO BE' AS `src`, '我是一件血锻物品，但我不知道自己该被提升到什么程度' AS `dst`
+    UNION ALL SELECT 'IAM A BLOODFORGED ITEM BUT I HAVE NO CLUE WHAT MY UPSCALING HAS TO BE' AS `src`, '我是一件血铸物品，但我不知道自己该被提升到什么程度' AS `dst`
     UNION ALL SELECT 'Can be refined at a Sawmill.' AS `src`, '可在锯木厂精炼。' AS `dst`
     UNION ALL SELECT 'Tier 1 CoA' AS `src`, '1 级 CoA' AS `dst`
     UNION ALL SELECT 'Can be used for transmutations in place of a Philosopher\'s Stone.' AS `src`, '可代替哲人石用于转化。' AS `dst`
@@ -209,8 +209,8 @@ JOIN (
     UNION ALL SELECT 'Shadow energy slowly destroys the target, causing  damage over   In addition, if the Unstable Affliction is dispelled it will cause' AS `src`, '暗影能量缓慢地摧毁目标，在  内造成  点伤害。  此外，若痛苦无常被驱散，将造成' AS `dst`
     UNION ALL SELECT 'Protects the target with an earthen shield, reducing casting or channeling time lost when damaged by   and causing attacks to heal the shielded target for   This effect can only occur once every few seconds.   charges.  Lasts   Earth Shield can only be placed on one target at a time and only one Elemental Shield can be active on a target at a time.' AS `src`, '以大地之盾保护目标，使其受伤害时损失的施法与引导时间减少  ，并使攻击者为被护盾者恢复  点生命值。  该效果每几秒只能触发一次。  共  层充能。  持续  。  大地之盾同时只能施加在一个目标上，且一个目标同时只能有一种元素护盾。' AS `dst`
     UNION ALL SELECT 'Can be used to transform your Shadow Form ability at a Transmogrifier.' AS `src`, '可在幻化师处用于改变你的暗影形态能力的外观。' AS `dst`
-    UNION ALL SELECT 'Obtained from Disenchanting Epic Bloodforged Gear' AS `src`, '由分解史诗血锻装备获得' AS `dst`
-    UNION ALL SELECT 'Obtained from Disenchanting Bloodforged Gear.' AS `src`, '由分解血锻装备获得。' AS `dst`
+    UNION ALL SELECT 'Obtained from Disenchanting Epic Bloodforged Gear' AS `src`, '由分解史诗血铸装备获得' AS `dst`
+    UNION ALL SELECT 'Obtained from Disenchanting Bloodforged Gear.' AS `src`, '由分解血铸装备获得。' AS `dst`
     UNION ALL SELECT 'Heals a friendly target for  and another  over   Your next Chain Heal cast on that primary target within  will consume the healing over time effect and increase the amount of the Chain Heal by .' AS `src`, '为友方目标治疗  点生命值，并在  内再治疗  点。  你在  内对该主目标施放的下一次治疗链将消耗该持续治疗效果，并使治疗链的治疗量提高  。' AS `dst`
     UNION ALL SELECT 'The enemy target is swarmed by insects, decreasing their chance to hit with melee and ranged attacks by  and causing  Nature damage over' AS `src`, '敌方目标被虫群包围，其近战和远程攻击命中几率降低  ，并在  内造成  点自然伤害' AS `dst`
     UNION ALL SELECT 'Uncommon High-Risk Materials are not lost on death!\n\nCan be exchanged at the War Herald for Twisted or Void materials.' AS `src`, '罕见的高危材料不会在死亡时丢失！\n\n可在战争使者处兑换扭曲或虚空材料。' AS `dst`

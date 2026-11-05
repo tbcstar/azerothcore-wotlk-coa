@@ -4802,7 +4802,7 @@ INSERT INTO `zz_coa_zhcn_item_desc_map` (`src`, `dst`) VALUES
     ('Thick, heavy scales cover the fish.', '厚厚的鳞片覆盖着这条鱼。'),
     ('Thick, sun-baked, and durable.', '厚实、经日晒、耐用。'),
     ('Thick, waxy and viscous.', '浓稠、蜡质、黏滑。'),
-    ('This Cache contains Lesser Profane Essence and will award bloodforged relevant rewards based on your item level when the first raid is released.', '此宝箱内含有次级亵渎精华；在首个团队副本开放时，将根据你的物品等级给予血锻相关的奖励。'),
+    ('This Cache contains Lesser Profane Essence and will award bloodforged relevant rewards based on your item level when the first raid is released.', '此宝箱内含有次级亵渎精华；在首个团队副本开放时，将根据你的物品等级给予血铸相关的奖励。'),
     ('This Cache gives you rewards based on your item level.', '这个宝箱会根据你的物品等级给出奖励。'),
     ('This Callboard Cache gives you rewards from Heroic Dungeons based on your item level.', '这个委托板宝箱会根据你的装备等级，给予英雄地下城的奖励。'),
     ('This Callboard Cache gives you rewards from Mythic Dungeons based on your item level.', '这个委托板宝箱会根据你的装备等级，给予神话地下城的奖励。'),

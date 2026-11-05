@@ -38,7 +38,7 @@ SET @MS_ORG_MILLHOUSE_GUID := 5300688;
 SET @MS_SW_COGSWORTH_GUID  := 5300685;
 SET @MS_SW_MILLHOUSE_GUID  := 5300684;
 
-SET @MS_ORG_PORTAL_GUID := 6901536;
+SET @MS_ORG_PORTAL_GUID := 6901539;
 SET @MS_SW_PORTAL_GUID  := 6901535;
 
 -- ---------------------------------------------------------------------------

@@ -708,23 +708,23 @@ INSERT INTO `manastorm_cache_bracket` VALUES (7, 1, 1, 60, 60, 97883, 1, 'LEVEL_
 INSERT INTO `manastorm_cache_bracket` VALUES (100, 2, 2, 1, 50, 1288050, 0, 'TBC_BRACKET: Normal Dungeons');
 INSERT INTO `manastorm_cache_bracket` VALUES (101, 2, 2, 51, 105, 1288051, 0, 'TBC_BRACKET: Heroic Dungeons');
 INSERT INTO `manastorm_cache_bracket` VALUES (102, 2, 2, 106, 135, 1288052, 0, 'TBC_BRACKET: Karazhan');
-INSERT INTO `manastorm_cache_bracket` VALUES (103, 2, 2, 136, 165, 1288054, 0, 'TBC_BRACKET: Gruul\'s Lair');
-INSERT INTO `manastorm_cache_bracket` VALUES (104, 2, 2, 166, 195, 1288055, 0, 'TBC_BRACKET: Magtheridon\'s Lair');
+INSERT INTO `manastorm_cache_bracket` VALUES (103, 2, 2, 136, 165, 1288054, 0, 'TBC_BRACKET: Gruul''s Lair');
+INSERT INTO `manastorm_cache_bracket` VALUES (104, 2, 2, 166, 195, 1288055, 0, 'TBC_BRACKET: Magtheridon''s Lair');
 INSERT INTO `manastorm_cache_bracket` VALUES (105, 2, 2, 196, 225, 1288056, 0, 'TBC_BRACKET: Heroic Karazhan');
-INSERT INTO `manastorm_cache_bracket` VALUES (106, 2, 2, 226, 255, 1288058, 0, 'TBC_BRACKET: Heroic Gruul\'s Lair');
-INSERT INTO `manastorm_cache_bracket` VALUES (107, 2, 2, 256, 285, 1288059, 0, 'TBC_BRACKET: Heroic Magtheridon\'s Lair');
+INSERT INTO `manastorm_cache_bracket` VALUES (106, 2, 2, 226, 255, 1288058, 0, 'TBC_BRACKET: Heroic Gruul''s Lair');
+INSERT INTO `manastorm_cache_bracket` VALUES (107, 2, 2, 256, 285, 1288059, 0, 'TBC_BRACKET: Heroic Magtheridon''s Lair');
 INSERT INTO `manastorm_cache_bracket` VALUES (108, 2, 2, 286, 315, 1289056, 0, 'TBC_BRACKET: Mythic Karazhan');
-INSERT INTO `manastorm_cache_bracket` VALUES (109, 2, 2, 316, 345, 1289058, 0, 'TBC_BRACKET: Mythic Gruul\'s Lair');
-INSERT INTO `manastorm_cache_bracket` VALUES (110, 2, 2, 346, 375, 1289059, 0, 'TBC_BRACKET: Mythic Magtheridon\'s Lair');
+INSERT INTO `manastorm_cache_bracket` VALUES (109, 2, 2, 316, 345, 1289058, 0, 'TBC_BRACKET: Mythic Gruul''s Lair');
+INSERT INTO `manastorm_cache_bracket` VALUES (110, 2, 2, 346, 375, 1289059, 0, 'TBC_BRACKET: Mythic Magtheridon''s Lair');
 INSERT INTO `manastorm_cache_bracket` VALUES (111, 2, 2, 376, 405, 1288060, 0, 'TBC_BRACKET: Serpentshrine Cavern');
 INSERT INTO `manastorm_cache_bracket` VALUES (112, 2, 2, 406, 435, 1288061, 0, 'TBC_BRACKET: Tempest Keep');
 INSERT INTO `manastorm_cache_bracket` VALUES (113, 2, 2, 436, 465, 1288063, 0, 'TBC_BRACKET: Heroic Serpentshrine Cavern');
 INSERT INTO `manastorm_cache_bracket` VALUES (114, 2, 2, 466, 495, 1288064, 0, 'TBC_BRACKET: Heroic Tempest Keep');
 INSERT INTO `manastorm_cache_bracket` VALUES (115, 2, 2, 496, 525, 1289063, 0, 'TBC_BRACKET: Mythic Serpentshrine Cavern');
 INSERT INTO `manastorm_cache_bracket` VALUES (116, 2, 2, 526, 555, 1289064, 0, 'TBC_BRACKET: Mythic Tempest Keep');
-INSERT INTO `manastorm_cache_bracket` VALUES (117, 2, 2, 556, 585, 1288065, 0, 'TBC_BRACKET: Zul\'Aman');
-INSERT INTO `manastorm_cache_bracket` VALUES (118, 2, 2, 586, 615, 1288066, 0, 'TBC_BRACKET: Heroic Zul\'Aman');
-INSERT INTO `manastorm_cache_bracket` VALUES (119, 2, 2, 616, 645, 1289066, 0, 'TBC_BRACKET: Mythic Zul\'Aman');
+INSERT INTO `manastorm_cache_bracket` VALUES (117, 2, 2, 556, 585, 1288065, 0, 'TBC_BRACKET: Zul''Aman');
+INSERT INTO `manastorm_cache_bracket` VALUES (118, 2, 2, 586, 615, 1288066, 0, 'TBC_BRACKET: Heroic Zul''Aman');
+INSERT INTO `manastorm_cache_bracket` VALUES (119, 2, 2, 616, 645, 1289066, 0, 'TBC_BRACKET: Mythic Zul''Aman');
 INSERT INTO `manastorm_cache_bracket` VALUES (120, 2, 2, 646, 675, 1288067, 0, 'TBC_BRACKET: Hyjal Summit');
 INSERT INTO `manastorm_cache_bracket` VALUES (121, 2, 2, 676, 705, 1288068, 0, 'TBC_BRACKET: Black Temple');
 INSERT INTO `manastorm_cache_bracket` VALUES (122, 2, 2, 706, 735, 1288070, 0, 'TBC_BRACKET: Heroic Hyjal Summit');
@@ -732,26 +732,34 @@ INSERT INTO `manastorm_cache_bracket` VALUES (123, 2, 2, 736, 765, 1288071, 0, '
 INSERT INTO `manastorm_cache_bracket` VALUES (124, 2, 2, 766, 795, 1288072, 0, 'TBC_BRACKET: Sunwell Plateau');
 INSERT INTO `manastorm_cache_bracket` VALUES (125, 2, 2, 796, 825, 1288074, 0, 'TBC_BRACKET: Heroic Sunwell Plateau');
 INSERT INTO `manastorm_cache_bracket` VALUES (126, 2, 2, 826, 875, 1289070, 0, 'TBC_BRACKET: Mythic Hyjal Summit');
-INSERT INTO `manastorm_cache_bracket` VALUES (1000, 2, 2, 1, 24, 1278050, 1, 'Manastorm Cache: Normal Dungeons');
-INSERT INTO `manastorm_cache_bracket` VALUES (1001, 2, 2, 25, 105, 1278051, 1, 'Manastorm Cache: Heroic Dungeons');
-INSERT INTO `manastorm_cache_bracket` VALUES (1002, 2, 2, 106, 145, 1278052, 1, 'Manastorm Cache: Zul\'Gurub');
-INSERT INTO `manastorm_cache_bracket` VALUES (1003, 2, 2, 146, 185, 1278053, 1, 'Manastorm Cache: Heroic Zul\'Gurub');
-INSERT INTO `manastorm_cache_bracket` VALUES (1004, 2, 2, 186, 220, 1278055, 1, 'Manastorm Cache: Mythic Zul\'Gurub');
-INSERT INTO `manastorm_cache_bracket` VALUES (1005, 2, 2, 221, 280, 1278056, 1, 'Manastorm Cache: Molten Core');
-INSERT INTO `manastorm_cache_bracket` VALUES (1006, 2, 2, 281, 340, 1278058, 1, 'Manastorm Cache: Heroic Molten Core');
-INSERT INTO `manastorm_cache_bracket` VALUES (1007, 2, 2, 341, 425, 1278060, 1, 'Manastorm Cache: Mythic Molten Core');
-INSERT INTO `manastorm_cache_bracket` VALUES (1008, 2, 2, 426, 450, 1278066, 1, 'Manastorm Cache: Blackwing Lair');
-INSERT INTO `manastorm_cache_bracket` VALUES (1009, 2, 2, 451, 475, 1278068, 1, 'Manastorm Cache: Heroic Blackwing Lair');
-INSERT INTO `manastorm_cache_bracket` VALUES (1010, 2, 2, 476, 510, 1278069, 1, 'Manastorm Cache: Mythic Blackwing Lair');
-INSERT INTO `manastorm_cache_bracket` VALUES (1011, 2, 2, 511, 535, 1278070, 1, 'Manastorm Cache: Ruins of Ahn\'Qiraj');
-INSERT INTO `manastorm_cache_bracket` VALUES (1012, 2, 2, 536, 560, 1278072, 1, 'Manastorm Cache: Heroic Ruins of Ahn\'Qiraj');
-INSERT INTO `manastorm_cache_bracket` VALUES (1013, 2, 2, 561, 610, 1278074, 1, 'Manastorm Cache: Mythic Ruins of Ahn\'Qiraj');
-INSERT INTO `manastorm_cache_bracket` VALUES (1014, 2, 2, 611, 655, 1278075, 1, 'Manastorm Cache: Temple of Ahn\'Qiraj');
-INSERT INTO `manastorm_cache_bracket` VALUES (1015, 2, 2, 656, 700, 1278077, 1, 'Manastorm Cache: Heroic Temple of Ahn\'Qiraj');
-INSERT INTO `manastorm_cache_bracket` VALUES (1016, 2, 2, 701, 740, 1278078, 1, 'Manastorm Cache: Mythic Temple of Ahn\'Qiraj');
-INSERT INTO `manastorm_cache_bracket` VALUES (1017, 2, 2, 741, 840, 1278079, 1, 'Manastorm Cache: Naxxramas');
-INSERT INTO `manastorm_cache_bracket` VALUES (1018, 2, 2, 841, 945, 1278081, 1, 'Manastorm Cache: Heroic Naxxramas');
-INSERT INTO `manastorm_cache_bracket` VALUES (1019, 2, 2, 946, 4294967295, 1278083, 1, 'Manastorm Cache: Mythic Naxxramas');
+INSERT INTO `manastorm_cache_bracket` VALUES (1000, 2, 2, 1, 50, 1278050, 1, 'S9-based S10: Normal Dungeons');
+INSERT INTO `manastorm_cache_bracket` VALUES (1001, 2, 2, 51, 100, 1278051, 1, 'S9-based S10: Heroic Dungeons');
+INSERT INTO `manastorm_cache_bracket` VALUES (1002, 2, 2, 101, 150, 1278052, 1, 'S9-based S10: Zul''Gurub');
+INSERT INTO `manastorm_cache_bracket` VALUES (1003, 2, 2, 151, 200, 1278053, 1, 'S9-based S10: Heroic Zul''Gurub');
+INSERT INTO `manastorm_cache_bracket` VALUES (1004, 2, 2, 201, 300, 1278054, 1, 'S9-based S10: Mythic Dungeons');
+INSERT INTO `manastorm_cache_bracket` VALUES (1005, 2, 2, 301, 350, 1278055, 1, 'S9-based S10: Mythic Zul''Gurub');
+INSERT INTO `manastorm_cache_bracket` VALUES (1006, 2, 2, 351, 450, 1278056, 1, 'S9-based S10: Molten Core');
+INSERT INTO `manastorm_cache_bracket` VALUES (1007, 2, 2, 451, 500, 1278058, 1, 'S9-based S10: Heroic Molten Core');
+INSERT INTO `manastorm_cache_bracket` VALUES (1008, 2, 2, 501, 550, 1278059, 1, 'S9-based S10: Mythic+ 1–10');
+INSERT INTO `manastorm_cache_bracket` VALUES (1009, 2, 2, 551, 600, 1278060, 1, 'S9-based S10: Mythic Molten Core');
+INSERT INTO `manastorm_cache_bracket` VALUES (1010, 2, 2, 601, 700, 1278061, 1, 'S9-based S10: Onyxia & Molten Core');
+INSERT INTO `manastorm_cache_bracket` VALUES (1011, 2, 2, 701, 750, 1278063, 1, 'S9-based S10: Heroic Onyxia & Molten Core');
+INSERT INTO `manastorm_cache_bracket` VALUES (1012, 2, 2, 751, 800, 1278064, 1, 'S9-based S10: Mythic+ 11–20');
+INSERT INTO `manastorm_cache_bracket` VALUES (1013, 2, 2, 801, 900, 1278065, 1, 'S9-based S10: Mythic Onyxia & Molten Core');
+INSERT INTO `manastorm_cache_bracket` VALUES (1014, 2, 2, 901, 1000, 1278066, 1, 'S9-based S10: Blackwing Lair');
+INSERT INTO `manastorm_cache_bracket` VALUES (1015, 2, 2, 1001, 1050, 1278068, 1, 'S9-based S10: Heroic Blackwing Lair');
+INSERT INTO `manastorm_cache_bracket` VALUES (1016, 2, 2, 1051, 1150, 1278069, 1, 'S9-based S10: Mythic Blackwing Lair');
+INSERT INTO `manastorm_cache_bracket` VALUES (1017, 2, 2, 1151, 1250, 1278070, 1, 'S9-based S10: Ruins of Ahn''Qiraj (AQ20)');
+INSERT INTO `manastorm_cache_bracket` VALUES (1018, 2, 2, 1251, 1300, 1278072, 1, 'S9-based S10: Heroic Ruins of Ahn''Qiraj');
+INSERT INTO `manastorm_cache_bracket` VALUES (1019, 2, 2, 1301, 1350, 1278073, 1, 'S9-based S10: Mythic+ 21–30');
+INSERT INTO `manastorm_cache_bracket` VALUES (1020, 2, 2, 1351, 1450, 1278074, 1, 'S9-based S10: Mythic Ruins of Ahn''Qiraj');
+INSERT INTO `manastorm_cache_bracket` VALUES (1021, 2, 2, 1451, 1550, 1278075, 1, 'S9-based S10: Temple of Ahn''Qiraj (AQ40)');
+INSERT INTO `manastorm_cache_bracket` VALUES (1022, 2, 2, 1551, 1600, 1278077, 1, 'S9-based S10: Heroic Temple of Ahn''Qiraj');
+INSERT INTO `manastorm_cache_bracket` VALUES (1023, 2, 2, 1601, 1700, 1278078, 1, 'S9-based S10: Mythic Temple of Ahn''Qiraj');
+INSERT INTO `manastorm_cache_bracket` VALUES (1024, 2, 2, 1701, 1800, 1278079, 1, 'S9-based S10: Naxxramas');
+INSERT INTO `manastorm_cache_bracket` VALUES (1025, 2, 2, 1801, 1850, 1278081, 1, 'S9-based S10: Heroic Naxxramas');
+INSERT INTO `manastorm_cache_bracket` VALUES (1026, 2, 2, 1851, 1900, 1278082, 1, 'S9-based S10: Mythic+ 31–40');
+INSERT INTO `manastorm_cache_bracket` VALUES (1027, 2, 2, 1901, 4294967295, 1278083, 1, 'S9-based S10: Mythic Naxxramas');
 
 -- ----------------------------
 -- Table structure for manastorm_cache_unlock_requirement
@@ -769,25 +777,33 @@ CREATE TABLE `manastorm_cache_unlock_requirement`  (
 -- Records of manastorm_cache_unlock_requirement
 -- ----------------------------
 INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278050, 2, 0, 1);
-INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278051, 2, 24, 1);
-INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278052, 2, 105, 1);
-INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278053, 2, 145, 1);
-INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278055, 2, 185, 1);
-INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278056, 2, 220, 1);
-INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278058, 2, 280, 1);
-INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278060, 2, 340, 1);
-INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278066, 2, 425, 1);
-INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278068, 2, 450, 1);
-INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278069, 2, 475, 1);
-INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278070, 2, 510, 1);
-INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278072, 2, 535, 1);
-INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278074, 2, 560, 1);
-INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278075, 2, 610, 1);
-INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278077, 2, 655, 1);
-INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278078, 2, 700, 1);
-INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278079, 2, 740, 1);
-INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278081, 2, 840, 1);
-INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278083, 2, 945, 1);
+INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278051, 2, 50, 1);
+INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278052, 2, 100, 1);
+INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278053, 2, 150, 1);
+INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278054, 2, 200, 1);
+INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278055, 2, 300, 1);
+INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278056, 2, 350, 1);
+INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278058, 2, 450, 1);
+INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278059, 2, 500, 1);
+INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278060, 2, 550, 1);
+INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278061, 2, 600, 1);
+INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278063, 2, 700, 1);
+INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278064, 2, 750, 1);
+INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278065, 2, 800, 1);
+INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278066, 2, 900, 1);
+INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278068, 2, 1000, 1);
+INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278069, 2, 1050, 1);
+INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278070, 2, 1150, 1);
+INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278072, 2, 1250, 1);
+INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278073, 2, 1300, 1);
+INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278074, 2, 1350, 1);
+INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278075, 2, 1450, 1);
+INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278077, 2, 1550, 1);
+INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278078, 2, 1600, 1);
+INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278079, 2, 1700, 1);
+INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278081, 2, 1800, 1);
+INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278082, 2, 1850, 1);
+INSERT INTO `manastorm_cache_unlock_requirement` VALUES (1278083, 2, 1900, 1);
 
 -- ----------------------------
 -- Table structure for manastorm_chaotic_link_spawn
@@ -127278,7 +127294,7 @@ CREATE TABLE `manastorm_hub_return`  (
 -- Records of manastorm_hub_return
 -- ----------------------------
 INSERT INTO `manastorm_hub_return` VALUES (0, 6901535, 1);
-INSERT INTO `manastorm_hub_return` VALUES (1, 6901536, 1);
+INSERT INTO `manastorm_hub_return` VALUES (1, 6901539, 1);
 
 -- ----------------------------
 -- Table structure for manastorm_material_cache_pool

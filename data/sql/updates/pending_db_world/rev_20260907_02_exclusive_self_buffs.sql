@@ -37,7 +37,7 @@ INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
 (1131, 807749);
 DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1131;
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
-(1131, 2, '本地太阳牧师：每个施法者只能激活一个誓言');
+(1131, 2, '本地太阳祭司：每个施法者只能激活一个誓言');
 DELETE FROM `spell_group` WHERE `id` = 1132;
 INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
 (1132, 500935),

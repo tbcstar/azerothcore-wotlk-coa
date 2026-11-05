@@ -94,13 +94,13 @@ INSERT IGNORE INTO `playercreateinfo_item` (`race`, `class`, `itemid`, `amount`,
 (0, 23, 2000053, 1, '飞升死灵法师起始套装'),
 (0, 23, 629950, 1, '飞升死灵法师起始套装'),
 (0, 23, 6948, 1, '飞升死灵法师起始套装');
-DELETE FROM `playercreateinfo_item` WHERE `race` = 0 AND `class` = 24 AND `Note` = '飞升火焰法师起始套装';
+DELETE FROM `playercreateinfo_item` WHERE `race` = 0 AND `class` = 24 AND `Note` = '飞升炎术师起始套装';
 INSERT IGNORE INTO `playercreateinfo_item` (`race`, `class`, `itemid`, `amount`, `Note`) VALUES
-(0, 24, 2000054, 1, '飞升火焰法师起始套装'),
-(0, 24, 2000055, 1, '飞升火焰法师起始套装'),
-(0, 24, 2000056, 1, '飞升火焰法师起始套装'),
-(0, 24, 484327, 1, '飞升火焰法师起始套装'),
-(0, 24, 6948, 1, '飞升火焰法师起始套装');
+(0, 24, 2000054, 1, '飞升炎术师起始套装'),
+(0, 24, 2000055, 1, '飞升炎术师起始套装'),
+(0, 24, 2000056, 1, '飞升炎术师起始套装'),
+(0, 24, 484327, 1, '飞升炎术师起始套装'),
+(0, 24, 6948, 1, '飞升炎术师起始套装');
 DELETE FROM `playercreateinfo_item` WHERE `race` = 0 AND `class` = 25 AND `Note` = '飞升邪教徒起始套装';
 INSERT IGNORE INTO `playercreateinfo_item` (`race`, `class`, `itemid`, `amount`, `Note`) VALUES
 (0, 25, 2000057, 1, '飞升邪教徒起始套装'),
@@ -115,13 +115,13 @@ INSERT IGNORE INTO `playercreateinfo_item` (`race`, `class`, `itemid`, `amount`,
 (0, 26, 2000062, 1, '飞升唤星者起始套装'),
 (0, 26, 2000004, 1, '飞升唤星者起始套装'),
 (0, 26, 6948, 1, '飞升唤星者起始套装');
-DELETE FROM `playercreateinfo_item` WHERE `race` = 0 AND `class` = 27 AND `Note` = '飞升太阳牧师起始套装';
+DELETE FROM `playercreateinfo_item` WHERE `race` = 0 AND `class` = 27 AND `Note` = '飞升太阳祭司起始套装';
 INSERT IGNORE INTO `playercreateinfo_item` (`race`, `class`, `itemid`, `amount`, `Note`) VALUES
-(0, 27, 2000063, 1, '飞升太阳牧师起始套装'),
-(0, 27, 2000064, 1, '飞升太阳牧师起始套装'),
-(0, 27, 2000065, 1, '飞升太阳牧师起始套装'),
-(0, 27, 629944, 1, '飞升太阳牧师起始套装'),
-(0, 27, 6948, 1, '飞升太阳牧师起始套装');
+(0, 27, 2000063, 1, '飞升太阳祭司起始套装'),
+(0, 27, 2000064, 1, '飞升太阳祭司起始套装'),
+(0, 27, 2000065, 1, '飞升太阳祭司起始套装'),
+(0, 27, 629944, 1, '飞升太阳祭司起始套装'),
+(0, 27, 6948, 1, '飞升太阳祭司起始套装');
 DELETE FROM `playercreateinfo_item` WHERE `race` = 0 AND `class` = 28 AND `Note` = '飞升修补匠起始套装';
 INSERT IGNORE INTO `playercreateinfo_item` (`race`, `class`, `itemid`, `amount`, `Note`) VALUES
 (0, 28, 2000041, 1, '飞升修补匠起始套装'),

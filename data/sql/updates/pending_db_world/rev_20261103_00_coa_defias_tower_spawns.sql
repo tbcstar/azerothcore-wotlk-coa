@@ -251,15 +251,15 @@ DELETE FROM `creature_text` WHERE `CreatureID` = 590 AND `GroupID` = 1;
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`,
   `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
 (590, 1, 0,
-  'Ugh. I swear, Lenore counts every copper in this blasted tower. We risk our necks nicking this loot, and what do '
-  'we get? A handful of silver and a scrap of leather every week.', 12, 7, 100, 0, 0, 0, 0, 0,
+  '哼。我发誓，莱诺尔把这破塔里的每一枚铜币都数得清清楚楚。我们冒着掉脑袋的风险偷这些战利品，结果……'
+  '每周就分到一把银币和一块破皮革。', 12, 7, 100, 0, 0, 0, 0, 0,
   'Defias Looter - Defias Tower - Aggro'),
 (590, 1, 1,
-  'Aye, and the way she hoards those weapons like they''re priceless relics. ''For the Brotherhood''s protection,'' '
-  'she says. Protection for her, I reckon.', 12, 7, 100, 0, 0, 0, 0, 0, 'Defias Looter - Defias Tower - Aggro'),
+  '是啊，还有她囤那些武器的样子，活像它们都是无价之宝。“为了兄弟会的保护，”'
+  '她是这么说的。我看是为了保护她自己吧。', 12, 7, 100, 0, 0, 0, 0, 0, 'Defias Looter - Defias Tower - Aggro'),
 (590, 1, 2,
-  '''No touching the Sentinel Hill gear! No admiring the Stormwind steel!'' Blast it, I''d trade my left boot for a '
-  'proper sharpening stone...', 12, 7, 100, 0, 0, 0, 0, 0, 'Defias Looter - Defias Tower - Aggro');
+  '“不许碰哨兵岭的装备！不许眼馋暴风城的钢材！”见鬼，我宁愿拿左靴去换'
+  '一块像样的磨刀石……', 12, 7, 100, 0, 0, 0, 0, 0, 'Defias Looter - Defias Tower - Aggro');
 
 -- Per-spawn SmartAI replaces the template script, so each copies its template's events (ids 0-3) and adds its own.
 DELETE FROM `smart_scripts` WHERE `entryorguid` = -9950702 AND `source_type` = 0;

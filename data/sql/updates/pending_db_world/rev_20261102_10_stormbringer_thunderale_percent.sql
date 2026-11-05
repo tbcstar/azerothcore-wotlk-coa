@@ -7,4 +7,4 @@
 UPDATE `item_template` SET `name` = 'Thunderale' WHERE `entry` = 2000150;
 DELETE FROM `coa_client_spell_description` WHERE `ID` = 804762;
 INSERT INTO `coa_client_spell_description` (`ID`, `Description`, `ToolTip`) VALUES
-(804762, 'Restores 6% of your health and mana per second for 25 sec. Must remain seated while drinking.', 'Restoring 6% of your health and mana per second.');
+(804762, '每秒恢复 6% 的生命值和法力值，持续 25 秒。饮用时必须保持坐姿。', '每秒恢复 6% 的生命值和法力值。');

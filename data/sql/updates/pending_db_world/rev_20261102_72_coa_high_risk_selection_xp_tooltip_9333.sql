@@ -3,4 +3,4 @@
 -- Stream the unchanged DBC text with the number read from the aura's first effect (#9333).
 DELETE FROM `coa_client_spell_description` WHERE `ID` = 84421;
 INSERT INTO `coa_client_spell_description` (`ID`, `Description`, `ToolTip`) VALUES
-(84421, 'Any death while in the open world with High-Risk Mode active will cause you to drop equipped gear, or Fel Com gold if your gear is insured, and items from your bag.\r\n\r\nEnables High-Risk Open World PvP and grants $1004019s1% increased experience for killing Creatures or Players in the Open World. You cannot use flying mounts in High-Risk.\r\n\nAllows you to loot new crafting materials, Bloodforged PvP gear, and Marks of War from the open world, and allows you to interact with Hidden Caches and Beast Nests.\r\n\r\nCan only be cast while in a rested area!', NULL);
+(84421, '高风险模式激活期间，在开放世界中死亡会使你失去已装备的装备（若装备已投保则改为失去邪能金币）以及背包中的物品。\r\n\r\n开启高风险开放世界 PvP，并使你在开放世界中击杀生物或玩家所获得的经验值提高 $1004019s1%。在高风险模式下无法使用飞行坐骑。\r\n\n使你可以从开放世界中采集新的制造材料、血铸 PvP 装备和战争印记，并与隐藏宝箱和野兽巢穴互动。\r\n\r\n只能在休息区域中施放！', NULL);

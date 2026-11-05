@@ -62,7 +62,7 @@ namespace GrootCoin::TiraxisMenu
 
         std::string Coins(uint32 coins)
         {
-            return Acore::StringFormat("{} 枚格鲁特币", coins, coins == 1 ? "" : "s");
+            return Acore::StringFormat("{} 枚格鲁特币", coins);
         }
 
         // One option per amount. The client's own pop-up is the only confirmation;

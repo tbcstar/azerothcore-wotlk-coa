@@ -228,9 +228,9 @@ public:
 
     static bool HandleReloadBattlegroundTemplate(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Battleground Templates...");
+        LOG_INFO("server.loading", "正在重新加载战场模板…");
         sBattlegroundMgr->LoadBattlegroundTemplates();
-        handler->SendGlobalGMSysMessage("DB table `battleground_template` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `battleground_template` 已重新加载。");
         return true;
     }
 
@@ -252,9 +252,9 @@ public:
 
     static bool HandleReloadAllLootCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Loot Tables...");
+        LOG_INFO("server.loading", "正在重新加载掉落表…");
         LoadLootTables();
-        handler->SendGlobalGMSysMessage("DB tables `*_loot_template` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `*_loot_template` 已重新加载。");
         sConditionMgr->LoadConditions(true);
         return true;
     }
@@ -275,10 +275,10 @@ public:
         HandleReloadQuestPOICommand(handler);
         HandleReloadQuestTemplateCommand(handler);
 
-        LOG_INFO("server.loading", "Reloading Quests Relations...");
+        LOG_INFO("server.loading", "正在重新加载任务关联…");
         sObjectMgr->LoadQuestStartersAndEnders();
         sPoolMgr->ReSpawnPoolQuests();
-        handler->SendGlobalGMSysMessage("DB tables `*_queststarter` and `*_questender` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `*_queststarter` 与 `*_questender` 已重新加载。");
         return true;
     }
 
@@ -286,14 +286,14 @@ public:
     {
         if (sScriptMgr->IsScriptScheduled())
         {
-            handler->SendErrorMessage("DB scripts used currently, please attempt reload later.");
+            handler->SendErrorMessage("当前有数据库脚本正在使用，请稍后再尝试重新加载。");
             return false;
         }
 
-        LOG_INFO("server.loading", "Reloading Scripts...");
+        LOG_INFO("server.loading", "正在重新加载脚本…");
         HandleReloadEventScriptsCommand(handler);
         HandleReloadSpellScriptsCommand(handler);
-        handler->SendGlobalGMSysMessage("DB tables `*_scripts` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `*_scripts` 已重新加载。");
         HandleReloadWpScriptsCommand(handler);
         HandleReloadWpCommand(handler);
         return true;
@@ -350,74 +350,74 @@ public:
 
     static bool HandleReloadConfigCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading config settings...");
+        LOG_INFO("server.loading", "正在重新加载配置设置…");
         sWorld->LoadConfigSettings(true);
         sMapMgr->InitializeVisibilityDistanceInfo();
-        handler->SendGlobalGMSysMessage("World config settings reloaded.");
+        handler->SendGlobalGMSysMessage("世界配置设置已重新加载。");
         return true;
     }
 
     static bool HandleReloadDungeonAccessCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Dungeon Access Requirement definitions...");
+        LOG_INFO("server.loading", "正在重新加载副本准入需求定义…");
         sObjectMgr->LoadAccessRequirements();
-        handler->SendGlobalGMSysMessage("DB tables `dungeon_access_template` AND `dungeon_access_requirements` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `dungeon_access_template` 与 `dungeon_access_requirements` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadAchievementCriteriaDataCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Additional Achievement Criteria Data...");
+        LOG_INFO("server.loading", "正在重新加载额外成就条件数据…");
         sAchievementMgr->LoadAchievementCriteriaData();
-        handler->SendGlobalGMSysMessage("DB table `achievement_criteria_data` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `achievement_criteria_data` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadAchievementRewardCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Achievement Reward Data...");
+        LOG_INFO("server.loading", "正在重新加载成就奖励数据…");
         sAchievementMgr->LoadRewards();
-        handler->SendGlobalGMSysMessage("DB table `achievement_reward` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `achievement_reward` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadAreaTriggerTavernCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Tavern Area Triggers...");
+        LOG_INFO("server.loading", "正在重新加载旅店区域触发器…");
         sObjectMgr->LoadTavernAreaTriggers();
-        handler->SendGlobalGMSysMessage("DB table `areatrigger_tavern` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `areatrigger_tavern` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadAreaTriggerCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Area Trigger definitions...");
+        LOG_INFO("server.loading", "正在重新加载区域触发器定义…");
         sObjectMgr->LoadAreaTriggers();
-        handler->SendGlobalGMSysMessage("DB table `areatrigger` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `areatrigger` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadAreaTriggerTeleportCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Area Trigger teleport definitions...");
+        LOG_INFO("server.loading", "正在重新加载区域触发器传送定义…");
         sObjectMgr->LoadAreaTriggerTeleports();
-        handler->SendGlobalGMSysMessage("DB table `areatrigger_teleport` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `areatrigger_teleport` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadAutobroadcastCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Autobroadcasts...");
+        LOG_INFO("server.loading", "正在重新加载自动广播…");
         sAutobroadcastMgr->LoadAutobroadcasts();
-        handler->SendGlobalGMSysMessage("DB table `autobroadcast` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `autobroadcast` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadMotdCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Motd...");
+        LOG_INFO("server.loading", "正在重新加载每日消息…");
         sMotdMgr->LoadMotd();
-        handler->SendGlobalGMSysMessage("DB table `motd` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `motd` 已重新加载。");
         LocaleConstant locale = DEFAULT_LOCALE;
 
         if (Player* player = handler->GetPlayer())
@@ -429,18 +429,18 @@ public:
 
     static bool HandleReloadBroadcastTextCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Broadcast texts...");
+        LOG_INFO("server.loading", "正在重新加载广播文本…");
         sObjectMgr->LoadBroadcastTexts();
         sObjectMgr->LoadBroadcastTextLocales();
-        handler->SendGlobalGMSysMessage("DB table `broadcast_text` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `broadcast_text` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadCommandCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading .command information...");
+        LOG_INFO("server.loading", "正在重新加载.command 信息…");
         Acore::ChatCommands::LoadCommandMap();
-        handler->SendGlobalGMSysMessage("DB table `command` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `command` 已重新加载。");
 
         // do not log this invocation, otherwise we might crash (the command table we used to get here is no longer valid!)
         handler->SetSentErrorMessage(true);
@@ -449,9 +449,9 @@ public:
 
     static bool HandleReloadOnKillReputationCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading creature award reputation definitions...");
+        LOG_INFO("server.loading", "正在重新加载生物击杀声望奖励定义…");
         sObjectMgr->LoadReputationOnKill();
-        handler->SendGlobalGMSysMessage("DB table `creature_onkill_reputation` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `creature_onkill_reputation` 已重新加载。");
         return true;
     }
 
@@ -481,7 +481,7 @@ public:
                 continue;
             }
 
-            LOG_INFO("server.loading", "Reloading creature template entry {}", entry);
+            LOG_INFO("server.loading", "正在重新加载生物模板条目 {}", entry);
 
             Field* fields = result->Fetch();
 
@@ -489,264 +489,264 @@ public:
             sObjectMgr->CheckCreatureTemplate(cInfo);
         }
 
-        handler->SendGlobalGMSysMessage("Creature template reloaded.");
+        handler->SendGlobalGMSysMessage("Creature template 已重新加载。");
         return true;
     }
 
     static bool HandleReloadCreatureQuestStarterCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Loading Quests Relations... (`creature_queststarter`)");
+        LOG_INFO("server.loading", "正在加载任务关联（`creature_queststarter`）…");
         sObjectMgr->LoadCreatureQuestStarters();
         sPoolMgr->ReSpawnPoolQuests();
-        handler->SendGlobalGMSysMessage("DB table `creature_queststarter` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `creature_queststarter` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadLinkedRespawnCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Loading Linked Respawns... (`creature_linked_respawn`)");
+        LOG_INFO("server.loading", "正在加载关联重生（`creature_linked_respawn`）…");
         sObjectMgr->LoadLinkedRespawn();
-        handler->SendGlobalGMSysMessage("DB table `creature_linked_respawn` (creature linked respawns) reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `creature_linked_respawn` （生物关联重生） 已重新加载。");
         return true;
     }
 
     static bool HandleReloadCreatureQuestEnderCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Loading Quests Relations... (`creature_questender`)");
+        LOG_INFO("server.loading", "正在加载任务关联（`creature_questender`）…");
         sObjectMgr->LoadCreatureQuestEnders();
-        handler->SendGlobalGMSysMessage("DB table `creature_questender` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `creature_questender` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadGossipMenuCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading `gossip_menu` Table!");
+        LOG_INFO("server.loading", "正在重新加载`gossip_menu` 表…");
         sObjectMgr->LoadGossipMenu();
-        handler->SendGlobalGMSysMessage("DB table `gossip_menu` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `gossip_menu` 已重新加载。");
         sConditionMgr->LoadConditions(true);
         return true;
     }
 
     static bool HandleReloadGossipMenuOptionCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading `gossip_menu_option` Table!");
+        LOG_INFO("server.loading", "正在重新加载`gossip_menu_option` 表…");
         sObjectMgr->LoadGossipMenuItems();
-        handler->SendGlobalGMSysMessage("DB table `gossip_menu_option` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `gossip_menu_option` 已重新加载。");
         sConditionMgr->LoadConditions(true);
         return true;
     }
 
     static bool HandleReloadGOQuestStarterCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Loading Quests Relations... (`gameobject_queststarter`)");
+        LOG_INFO("server.loading", "正在加载任务关联（`gameobject_queststarter`）…");
         sObjectMgr->LoadGameobjectQuestStarters();
         sPoolMgr->ReSpawnPoolQuests();
-        handler->SendGlobalGMSysMessage("DB table `gameobject_queststarter` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `gameobject_queststarter` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadGOQuestEnderCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Loading Quests Relations... (`gameobject_questender`)");
+        LOG_INFO("server.loading", "正在加载任务关联（`gameobject_questender`）…");
         sObjectMgr->LoadGameobjectQuestEnders();
-        handler->SendGlobalGMSysMessage("DB table `gameobject_questender` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `gameobject_questender` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadQuestAreaTriggersCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Quest Area Triggers...");
+        LOG_INFO("server.loading", "正在重新加载任务区域触发器…");
         sObjectMgr->LoadQuestAreaTriggers();
-        handler->SendGlobalGMSysMessage("DB table `areatrigger_involvedrelation` (quest area triggers) reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `areatrigger_involvedrelation` （任务区域触发器） 已重新加载。");
         return true;
     }
 
     static bool HandleReloadQuestGreetingCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Quest Greeting ...");
+        LOG_INFO("server.loading", "正在重新加载任务问候语…");
         sObjectMgr->LoadQuestGreetings();
-        handler->SendGlobalGMSysMessage("DB table `quest_greeting` reloaded.");
-        LOG_INFO("server.loading", "Reloading Quest Greeting locales...");
+        handler->SendGlobalGMSysMessage("数据库表 `quest_greeting` 已重新加载。");
+        LOG_INFO("server.loading", "正在重新加载任务问候语本地化…");
         sObjectMgr->LoadQuestGreetingsLocales(); // Must be after LoadQuestGreetings()
-        handler->SendGlobalGMSysMessage("DB table `quest_greeting_locale` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `quest_greeting_locale` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadQuestTemplateCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Quest Templates...");
+        LOG_INFO("server.loading", "正在重新加载任务模板…");
         sObjectMgr->LoadQuests();
-        handler->SendGlobalGMSysMessage("DB table `quest_template` (quest definitions) reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `quest_template` （任务定义） 已重新加载。");
 
         /// dependent also from `gameobject` but this table not reloaded anyway
-        LOG_INFO("server.loading", "Reloading GameObjects for quests...");
+        LOG_INFO("server.loading", "正在重新加载任务游戏对象…");
         sObjectMgr->LoadGameObjectForQuests();
-        handler->SendGlobalGMSysMessage("Data GameObjects for quests reloaded.");
+        handler->SendGlobalGMSysMessage("任务相关的游戏对象数据已重新加载。");
         return true;
     }
 
     static bool HandleReloadRBACCommand(ChatHandler* handler)
     {
-        LOG_INFO("rbac", "Reloading RBAC tables...");
+        LOG_INFO("rbac", "正在重新加载RBAC 表…");
         sAccountMgr->LoadRBAC();
         sWorld->ReloadRBAC();
-        handler->SendGlobalGMSysMessage("RBAC data reloaded.");
+        handler->SendGlobalGMSysMessage("RBAC 数据已重新加载。");
         return true;
     }
 
     static bool HandleReloadLootTemplatesCreatureCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Loot Tables... (`creature_loot_template`)");
+        LOG_INFO("server.loading", "正在重新加载掉落表（`creature_loot_template`）…");
         LoadLootTemplates_Creature();
         LootTemplates_Creature.CheckLootRefs();
-        handler->SendGlobalGMSysMessage("DB table `creature_loot_template` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `creature_loot_template` 已重新加载。");
         sConditionMgr->LoadConditions(true);
         return true;
     }
 
     static bool HandleReloadCreatureMovementOverrideCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Creature movement overrides...");
+        LOG_INFO("server.loading", "正在重新加载生物移动覆盖…");
         sObjectMgr->LoadCreatureMovementOverrides();
-        handler->SendGlobalGMSysMessage("DB table `creature_movement_override` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `creature_movement_override` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadLootTemplatesDisenchantCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Loot Tables... (`disenchant_loot_template`)");
+        LOG_INFO("server.loading", "正在重新加载掉落表（`disenchant_loot_template`）…");
         LoadLootTemplates_Disenchant();
         LootTemplates_Disenchant.CheckLootRefs();
-        handler->SendGlobalGMSysMessage("DB table `disenchant_loot_template` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `disenchant_loot_template` 已重新加载。");
         sConditionMgr->LoadConditions(true);
         return true;
     }
 
     static bool HandleReloadLootTemplatesFishingCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Loot Tables... (`fishing_loot_template`)");
+        LOG_INFO("server.loading", "正在重新加载掉落表（`fishing_loot_template`）…");
         LoadLootTemplates_Fishing();
         LootTemplates_Fishing.CheckLootRefs();
-        handler->SendGlobalGMSysMessage("DB table `fishing_loot_template` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `fishing_loot_template` 已重新加载。");
         sConditionMgr->LoadConditions(true);
         return true;
     }
 
     static bool HandleReloadLootTemplatesGameobjectCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Loot Tables... (`gameobject_loot_template`)");
+        LOG_INFO("server.loading", "正在重新加载掉落表（`gameobject_loot_template`）…");
         LoadLootTemplates_Gameobject();
         LootTemplates_Gameobject.CheckLootRefs();
-        handler->SendGlobalGMSysMessage("DB table `gameobject_loot_template` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `gameobject_loot_template` 已重新加载。");
         sConditionMgr->LoadConditions(true);
         return true;
     }
 
     static bool HandleReloadLootTemplatesItemCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Loot Tables... (`item_loot_template`)");
+        LOG_INFO("server.loading", "正在重新加载掉落表（`item_loot_template`）…");
         LoadLootTemplates_Item();
         LootTemplates_Item.CheckLootRefs();
-        handler->SendGlobalGMSysMessage("DB table `item_loot_template` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `item_loot_template` 已重新加载。");
         sConditionMgr->LoadConditions(true);
         return true;
     }
 
     static bool HandleReloadLootTemplatesMillingCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Loot Tables... (`milling_loot_template`)");
+        LOG_INFO("server.loading", "正在重新加载掉落表（`milling_loot_template`）…");
         LoadLootTemplates_Milling();
         LootTemplates_Milling.CheckLootRefs();
-        handler->SendGlobalGMSysMessage("DB table `milling_loot_template` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `milling_loot_template` 已重新加载。");
         sConditionMgr->LoadConditions(true);
         return true;
     }
 
     static bool HandleReloadLootTemplatesPickpocketingCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Loot Tables... (`pickpocketing_loot_template`)");
+        LOG_INFO("server.loading", "正在重新加载掉落表（`pickpocketing_loot_template`）…");
         LoadLootTemplates_Pickpocketing();
         LootTemplates_Pickpocketing.CheckLootRefs();
-        handler->SendGlobalGMSysMessage("DB table `pickpocketing_loot_template` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `pickpocketing_loot_template` 已重新加载。");
         sConditionMgr->LoadConditions(true);
         return true;
     }
 
     static bool HandleReloadLootTemplatesProspectingCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Loot Tables... (`prospecting_loot_template`)");
+        LOG_INFO("server.loading", "正在重新加载掉落表（`prospecting_loot_template`）…");
         LoadLootTemplates_Prospecting();
         LootTemplates_Prospecting.CheckLootRefs();
-        handler->SendGlobalGMSysMessage("DB table `prospecting_loot_template` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `prospecting_loot_template` 已重新加载。");
         sConditionMgr->LoadConditions(true);
         return true;
     }
 
     static bool HandleReloadLootTemplatesMailCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Loot Tables... (`mail_loot_template`)");
+        LOG_INFO("server.loading", "正在重新加载掉落表（`mail_loot_template`）…");
         LoadLootTemplates_Mail();
         LootTemplates_Mail.CheckLootRefs();
-        handler->SendGlobalGMSysMessage("DB table `mail_loot_template` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `mail_loot_template` 已重新加载。");
         sConditionMgr->LoadConditions(true);
         return true;
     }
 
     static bool HandleReloadLootTemplatesReferenceCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Loot Tables... (`reference_loot_template`)");
+        LOG_INFO("server.loading", "正在重新加载掉落表（`reference_loot_template`）…");
         LoadLootTemplates_Reference();
-        handler->SendGlobalGMSysMessage("DB table `reference_loot_template` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `reference_loot_template` 已重新加载。");
         sConditionMgr->LoadConditions(true);
         return true;
     }
 
     static bool HandleReloadLootTemplatesSkinningCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Loot Tables... (`skinning_loot_template`)");
+        LOG_INFO("server.loading", "正在重新加载掉落表（`skinning_loot_template`）…");
         LoadLootTemplates_Skinning();
         LootTemplates_Skinning.CheckLootRefs();
-        handler->SendGlobalGMSysMessage("DB table `skinning_loot_template` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `skinning_loot_template` 已重新加载。");
         sConditionMgr->LoadConditions(true);
         return true;
     }
 
     static bool HandleReloadLootTemplatesSpellCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Loot Tables... (`spell_loot_template`)");
+        LOG_INFO("server.loading", "正在重新加载掉落表（`spell_loot_template`）…");
         LoadLootTemplates_Spell();
         LootTemplates_Spell.CheckLootRefs();
-        handler->SendGlobalGMSysMessage("DB table `spell_loot_template` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `spell_loot_template` 已重新加载。");
         sConditionMgr->LoadConditions(true);
         return true;
     }
 
     static bool HandleReloadLootTemplatesPlayerCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Loot Tables... (`player_loot_template`)");
+        LOG_INFO("server.loading", "正在重新加载掉落表（`player_loot_template`）…");
         LoadLootTemplates_Player();
         LootTemplates_Player.CheckLootRefs();
-        handler->SendGlobalGMSysMessage("DB table `player_loot_template` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `player_loot_template` 已重新加载。");
         sConditionMgr->LoadConditions(true);
         return true;
     }
 
     static bool HandleReloadModuleStringCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading module_string Table!");
+        LOG_INFO("server.loading", "正在重新加载module_string 表…");
         sObjectMgr->LoadModuleStrings();
-        handler->SendGlobalGMSysMessage("DB table `module_string` reloaded.");
-        LOG_INFO("server.loading", "Reloading module_string_locale Table!");
+        handler->SendGlobalGMSysMessage("数据库表 `module_string` 已重新加载。");
+        LOG_INFO("server.loading", "正在重新加载module_string_locale 表…");
         sObjectMgr->LoadModuleStringsLocale();
-        handler->SendGlobalGMSysMessage("DB table `module_string_locale` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `module_string_locale` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadAcoreStringCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading acore_string Table!");
+        LOG_INFO("server.loading", "正在重新加载acore_string 表…");
         sObjectMgr->LoadAcoreStrings();
-        handler->SendGlobalGMSysMessage("DB table `acore_string` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `acore_string` 已重新加载。");
         return true;
     }
 
@@ -754,254 +754,254 @@ public:
     {
         if (!sWorld->getBoolConfig(CONFIG_WARDEN_ENABLED))
         {
-            handler->SendErrorMessage("Warden system disabled by config - reloading warden_action skipped.");
+            handler->SendErrorMessage("守卫者系统已在配置中禁用，已跳过 warden_action 的重新加载。");
             return false;
         }
 
-        LOG_INFO("server.loading", "Reloading warden_action Table!");
+        LOG_INFO("server.loading", "正在重新加载warden_action 表…");
         sWardenCheckMgr->LoadWardenOverrides();
-        handler->SendGlobalGMSysMessage("DB table `warden_action` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `warden_action` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadTrainerCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading `trainer` Tables!");
+        LOG_INFO("server.loading", "正在重新加载`trainer` 表…");
         sObjectMgr->LoadTrainers();
         sObjectMgr->LoadCreatureDefaultTrainers();
-        handler->SendGlobalGMSysMessage("DB table `trainer` reloaded.");
-        handler->SendGlobalGMSysMessage("DB table `trainer_locale` reloaded.");
-        handler->SendGlobalGMSysMessage("DB table `trainer_spell` reloaded.");
-        handler->SendGlobalGMSysMessage("DB table `creature_default_trainer` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `trainer` 已重新加载。");
+        handler->SendGlobalGMSysMessage("数据库表 `trainer_locale` 已重新加载。");
+        handler->SendGlobalGMSysMessage("数据库表 `trainer_spell` 已重新加载。");
+        handler->SendGlobalGMSysMessage("数据库表 `creature_default_trainer` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadNpcVendorCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading `npc_vendor` Table!");
+        LOG_INFO("server.loading", "正在重新加载`npc_vendor` 表…");
         sObjectMgr->LoadVendors();
-        handler->SendGlobalGMSysMessage("DB table `npc_vendor` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `npc_vendor` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadGameEventNPCVendorCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading `game_event_npc_vendor` Table!");
+        LOG_INFO("server.loading", "正在重新加载`game_event_npc_vendor` 表…");
         sGameEventMgr->LoadEventVendors();
-        handler->SendGlobalGMSysMessage("DB table `game_event_npc_vendor` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `game_event_npc_vendor` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadPointsOfInterestCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading `points_of_interest` Table!");
+        LOG_INFO("server.loading", "正在重新加载`points_of_interest` 表…");
         sObjectMgr->LoadPointsOfInterest();
-        handler->SendGlobalGMSysMessage("DB table `points_of_interest` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `points_of_interest` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadQuestPOICommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Quest POI ..." );
+        LOG_INFO("server.loading", "正在重新加载任务兴趣点…" );
         sObjectMgr->LoadQuestPOI();
-        handler->SendGlobalGMSysMessage("DB Table `quest_poi` and `quest_poi_points` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `quest_poi` 与 `quest_poi_points` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadSpellClickSpellsCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading `npc_spellclick_spells` Table!");
+        LOG_INFO("server.loading", "正在重新加载`npc_spellclick_spells` 表…");
         sObjectMgr->LoadNPCSpellClickSpells();
-        handler->SendGlobalGMSysMessage("DB table `npc_spellclick_spells` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `npc_spellclick_spells` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadReservedNameCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Reserved Names!");
+        LOG_INFO("server.loading", "正在重新加载保留名称…");
         sObjectMgr->LoadReservedPlayerNamesDB();
         sObjectMgr->LoadReservedPlayerNamesDBC(); // Needed because we clear the store in LoadReservedPlayerNamesDB()
-        handler->SendGlobalGMSysMessage("Reserved Names reloaded.");
+        handler->SendGlobalGMSysMessage("保留名称已重新加载。");
         return true;
     }
 
     static bool HandleReloadProfanityNameCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Profanity Names!");
+        LOG_INFO("server.loading", "正在重新加载违禁名称…");
         sObjectMgr->LoadProfanityNamesFromDB();
         sObjectMgr->LoadProfanityNamesFromDBC(); // Needed because we clear the store in LoadProfanityNamesFromDB()
         sObjectMgr->LoadCoANameFilter();
-        handler->SendGlobalGMSysMessage("Profanity Names reloaded.");
+        handler->SendGlobalGMSysMessage("违禁名称已重新加载。");
         return true;
     }
 
     static bool HandleReloadChatFilterCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Chat Filter!");
+        LOG_INFO("server.loading", "正在重新加载聊天过滤器…");
         sObjectMgr->LoadChatFilter();
-        handler->SendGlobalGMSysMessage("Chat Filter reloaded.");
+        handler->SendGlobalGMSysMessage("聊天过滤器已重新加载。");
         return true;
     }
 
     static bool HandleReloadReputationRewardRateCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading `reputation_reward_rate` Table!" );
+        LOG_INFO("server.loading", "正在重新加载`reputation_reward_rate` 表…" );
         sObjectMgr->LoadReputationRewardRate();
-        handler->SendGlobalGMSysMessage("DB table `reputation_reward_rate` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `reputation_reward_rate` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadReputationSpilloverTemplateCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading `reputation_spillover_template` Table!" );
+        LOG_INFO("server.loading", "正在重新加载`reputation_spillover_template` 表…" );
         sObjectMgr->LoadReputationSpilloverTemplate();
-        handler->SendGlobalGMSysMessage("DB table `reputation_spillover_template` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `reputation_spillover_template` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadSkillDiscoveryTemplateCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Skill Discovery Table...");
+        LOG_INFO("server.loading", "正在重新加载技能探索表…");
         LoadSkillDiscoveryTable();
-        handler->SendGlobalGMSysMessage("DB table `skill_discovery_template` (recipes discovered at crafting) reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `skill_discovery_template` （合成时发现的配方） 已重新加载。");
         return true;
     }
 
     static bool HandleReloadSkillPerfectItemTemplateCommand(ChatHandler* handler)
     {
         // latched onto HandleReloadSkillExtraItemTemplateCommand as it's part of that table group (and i don't want to chance all the command IDs)
-        LOG_INFO("server.loading", "Reloading Skill Perfection Data Table...");
+        LOG_INFO("server.loading", "正在重新加载技能完美数据表…");
         LoadSkillPerfectItemTable();
-        handler->SendGlobalGMSysMessage("DB table `skill_perfect_item_template` (perfect item procs when crafting) reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `skill_perfect_item_template` （合成时的完美物品触发） 已重新加载。");
         return true;
     }
 
     static bool HandleReloadSkillExtraItemTemplateCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Skill Extra Item Table...");
+        LOG_INFO("server.loading", "正在重新加载技能额外物品表…");
         LoadSkillExtraItemTable();
-        handler->SendGlobalGMSysMessage("DB table `skill_extra_item_template` (extra item creation when crafting) reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `skill_extra_item_template` （合成时的额外物品产出） 已重新加载。");
         return HandleReloadSkillPerfectItemTemplateCommand(handler);
     }
 
     static bool HandleReloadSkillFishingBaseLevelCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Skill Fishing base level requirements...");
+        LOG_INFO("server.loading", "正在重新加载钓鱼等级基础需求…");
         sObjectMgr->LoadFishingBaseSkillLevel();
-        handler->SendGlobalGMSysMessage("DB table `skill_fishing_base_level` (fishing base level for zone/subzone) reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `skill_fishing_base_level` （区域/子区域的钓鱼基础等级） 已重新加载。");
         return true;
     }
 
     static bool HandleReloadSpellAreaCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading SpellArea Data...");
+        LOG_INFO("server.loading", "正在重新加载技能区域数据…");
         sSpellMgr->LoadSpellAreas();
-        handler->SendGlobalGMSysMessage("DB table `spell_area` (spell dependences from area/quest/auras state) reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `spell_area` （依赖区域/任务/光环状态的技能） 已重新加载。");
         return true;
     }
 
     static bool HandleReloadSpellRequiredCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Spell Required Data... ");
+        LOG_INFO("server.loading", "正在重新加载Spell Required Data...…");
         sSpellMgr->LoadSpellRequired();
-        handler->SendGlobalGMSysMessage("DB table `spell_required` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `spell_required` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadSpellGroupsCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Spell Groups...");
+        LOG_INFO("server.loading", "正在重新加载技能组…");
         sSpellMgr->LoadSpellGroups();
-        handler->SendGlobalGMSysMessage("DB table `spell_group` (spell groups) reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `spell_group` （技能组） 已重新加载。");
         return true;
     }
 
     static bool HandleReloadSpellLinkedSpellCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Spell Linked Spells...");
+        LOG_INFO("server.loading", "正在重新加载技能关联技能…");
         sSpellMgr->LoadSpellLinked();
-        handler->SendGlobalGMSysMessage("DB table `spell_linked_spell` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `spell_linked_spell` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadSpellProcsCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Spell Proc conditions and data...");
+        LOG_INFO("server.loading", "正在重新加载技能触发条件与数据…");
         sSpellMgr->LoadSpellProcs();
-        handler->SendGlobalGMSysMessage("DB table `spell_proc` (spell proc conditions and data) reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `spell_proc` （技能触发条件与数据） 已重新加载。");
         return true;
     }
 
     static bool HandleReloadSpellBonusesCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Spell Bonus Data...");
+        LOG_INFO("server.loading", "正在重新加载技能加成数据…");
         sSpellMgr->LoadSpellBonuses();
-        handler->SendGlobalGMSysMessage("DB table `spell_bonus_data` (spell damage/healing coefficients) reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `spell_bonus_data` （技能伤害/治疗系数） 已重新加载。");
         return true;
     }
 
     static bool HandleReloadSpellTargetPositionCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Spell target coordinates...");
+        LOG_INFO("server.loading", "正在重新加载技能目标坐标…");
         sSpellMgr->LoadSpellTargetPositions();
-        handler->SendGlobalGMSysMessage("DB table `spell_target_position` (destination coordinates for spell targets) reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `spell_target_position` （技能目标的终点坐标） 已重新加载。");
         return true;
     }
 
     static bool HandleReloadSpellConeCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Spell cone definitions...");
+        LOG_INFO("server.loading", "正在重新加载技能锥形定义…");
         sSpellMgr->LoadSpellCones();
-        handler->SendGlobalGMSysMessage("DB table `spell_cone` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `spell_cone` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadSpellThreatsCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Aggro Spells Definitions...");
+        LOG_INFO("server.loading", "正在重新加载仇恨技能定义…");
         sSpellMgr->LoadSpellThreats();
-        handler->SendGlobalGMSysMessage("DB table `spell_threat` (spell aggro definitions) reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `spell_threat` （技能仇恨定义） 已重新加载。");
         return true;
     }
 
     static bool HandleReloadSpellGroupStackRulesCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Spell Group Stack Rules...");
+        LOG_INFO("server.loading", "正在重新加载技能组叠加规则…");
         sSpellMgr->LoadSpellGroupStackRules();
-        handler->SendGlobalGMSysMessage("DB table `spell_group_stack_rules` (spell stacking definitions) reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `spell_group_stack_rules` （技能叠加定义） 已重新加载。");
         return true;
     }
 
     static bool HandleReloadSpellPetAurasCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Spell pet auras...");
+        LOG_INFO("server.loading", "正在重新加载技能宠物光环…");
         sSpellMgr->LoadSpellPetAuras();
-        handler->SendGlobalGMSysMessage("DB table `spell_pet_auras` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `spell_pet_auras` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadPageTextsCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Page Texts...");
+        LOG_INFO("server.loading", "正在重新加载页面文本…");
         sObjectMgr->LoadPageTexts();
-        handler->SendGlobalGMSysMessage("DB table `page_texts` reloaded.");
-        handler->SendGlobalGMSysMessage("You need to delete your client cache or change the cache number in config in order for your players see the changes.");
+        handler->SendGlobalGMSysMessage("数据库表 `page_texts` 已重新加载。");
+        handler->SendGlobalGMSysMessage("你需要删除客户端缓存，或在配置中修改缓存编号，玩家才能看到这些改动。");
         return true;
     }
 
     static bool HandleReloadItemEnchantementsCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Item Random Enchantments Table...");
+        LOG_INFO("server.loading", "正在重新加载物品随机附魔表…");
         LoadRandomEnchantmentsTable();
-        handler->SendGlobalGMSysMessage("DB table `item_enchantment_template` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `item_enchantment_template` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadItemSetNamesCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Item set names...");
+        LOG_INFO("server.loading", "正在重新加载物品套装名称…");
         sObjectMgr->LoadItemSetNames();
-        handler->SendGlobalGMSysMessage("DB table `item_set_names` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `item_set_names` 已重新加载。");
         return true;
     }
 
@@ -1009,15 +1009,15 @@ public:
     {
         if (sScriptMgr->IsScriptScheduled())
         {
-            handler->SendErrorMessage("DB scripts used currently, please attempt reload later.");
+            handler->SendErrorMessage("当前有数据库脚本正在使用，请稍后再尝试重新加载。");
             return false;
         }
 
-        LOG_INFO("server.loading", "Reloading Scripts from `event_scripts`...");
+        LOG_INFO("server.loading", "正在重新加载Scripts from `event_scripts`…");
 
         sObjectMgr->LoadEventScripts();
 
-        handler->SendGlobalGMSysMessage("DB table `event_scripts` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `event_scripts` 已重新加载。");
 
         return true;
     }
@@ -1026,24 +1026,24 @@ public:
     {
         if (sScriptMgr->IsScriptScheduled())
         {
-            handler->SendErrorMessage("DB scripts used currently, please attempt reload later.");
+            handler->SendErrorMessage("当前有数据库脚本正在使用，请稍后再尝试重新加载。");
             return false;
         }
 
-        LOG_INFO("server.loading", "Reloading Scripts from `waypoint_scripts`...");
+        LOG_INFO("server.loading", "正在重新加载Scripts from `waypoint_scripts`…");
 
         sObjectMgr->LoadWaypointScripts();
 
-        handler->SendGlobalGMSysMessage("DB table `waypoint_scripts` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `waypoint_scripts` 已重新加载。");
 
         return true;
     }
 
     static bool HandleReloadWpCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Waypoints data from 'waypoints_data'");
+        LOG_INFO("server.loading", "正在重新加载来自 'waypoints_data' 的路径点数据…");
         sWaypointMgr->Load();
-        handler->SendGlobalGMSysMessage("DB Table 'waypoint_data' reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 'waypoint_data' 已重新加载。");
 
         return true;
     }
@@ -1052,252 +1052,252 @@ public:
     {
         if (sScriptMgr->IsScriptScheduled())
         {
-            handler->SendErrorMessage("DB scripts used currently, please attempt reload later.");
+            handler->SendErrorMessage("当前有数据库脚本正在使用，请稍后再尝试重新加载。");
             return false;
         }
 
-        LOG_INFO("server.loading", "Reloading Scripts from `spell_scripts`...");
+        LOG_INFO("server.loading", "正在重新加载Scripts from `spell_scripts`…");
 
         sObjectMgr->LoadSpellScripts();
 
-        handler->SendGlobalGMSysMessage("DB table `spell_scripts` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `spell_scripts` 已重新加载。");
 
         return true;
     }
 
     static bool HandleReloadGameGraveyardZoneCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Graveyard-zone links...");
+        LOG_INFO("server.loading", "正在重新加载墓地-区域关联…");
 
         sGraveyard->LoadGraveyardZones();
 
-        handler->SendGlobalGMSysMessage("DB table `graveyard_zone` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `graveyard_zone` 已重新加载。");
 
         return true;
     }
 
     static bool HandleReloadGameTeleCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Game Tele coordinates...");
+        LOG_INFO("server.loading", "正在重新加载游戏传送坐标…");
 
         sObjectMgr->LoadGameTele();
 
-        handler->SendGlobalGMSysMessage("DB table `game_tele` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `game_tele` 已重新加载。");
 
         return true;
     }
 
     static bool HandleReloadDisablesCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading disables table...");
+        LOG_INFO("server.loading", "正在重新加载禁用表…");
         sDisableMgr->LoadDisables();
-        LOG_INFO("server.loading", "Checking quest disables...");
+        LOG_INFO("server.loading", "正在检查任务禁用…");
         sDisableMgr->CheckQuestDisables();
-        handler->SendGlobalGMSysMessage("DB table `disables` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `disables` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadLocalesAchievementRewardCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Achievement Reward Data Locale...");
+        LOG_INFO("server.loading", "正在重新加载成就奖励数据本地化…");
         sAchievementMgr->LoadRewardLocales();
-        handler->SendGlobalGMSysMessage("DB table `achievement_reward_locale` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `achievement_reward_locale` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadLfgRewardsCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading lfg dungeon rewards...");
+        LOG_INFO("server.loading", "正在重新加载随机副本奖励…");
         sLFGMgr->LoadRewards();
-        handler->SendGlobalGMSysMessage("DB table `lfg_dungeon_rewards` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `lfg_dungeon_rewards` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadLocalesCreatureCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Creature Template Locale...");
+        LOG_INFO("server.loading", "正在重新加载生物模板本地化…");
         sObjectMgr->LoadCreatureLocales();
-        handler->SendGlobalGMSysMessage("DB table `creature_template_locale` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `creature_template_locale` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadLocalesCreatureTextCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Creature Texts Locale...");
+        LOG_INFO("server.loading", "正在重新加载生物文本本地化…");
         sCreatureTextMgr->LoadCreatureTextLocales();
-        handler->SendGlobalGMSysMessage("DB table `creature_text_locale` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `creature_text_locale` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadLocalesGameobjectCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Gameobject Template Locale ... ");
+        LOG_INFO("server.loading", "正在重新加载Gameobject Template Locale ...…");
         sObjectMgr->LoadGameObjectLocales();
-        handler->SendGlobalGMSysMessage("DB table `gameobject_template_locale` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `gameobject_template_locale` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadLocalesGossipMenuOptionCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Gossip Menu Option Locale ... ");
+        LOG_INFO("server.loading", "正在重新加载Gossip Menu Option Locale ...…");
         sObjectMgr->LoadGossipMenuItemsLocales();
-        handler->SendGlobalGMSysMessage("DB table `gossip_menu_option_locale` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `gossip_menu_option_locale` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadLocalesItemCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Item Template Locale ... ");
+        LOG_INFO("server.loading", "正在重新加载Item Template Locale ...…");
         sObjectMgr->LoadItemLocales();
-        handler->SendGlobalGMSysMessage("DB table `item_template_locale` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `item_template_locale` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadLocalesItemSetNameCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Item set name Locale... ");
+        LOG_INFO("server.loading", "正在重新加载Item set name Locale...…");
         sObjectMgr->LoadItemSetNameLocales();
-        handler->SendGlobalGMSysMessage("DB table `item_set_name_locale` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `item_set_name_locale` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadLocalesNpcTextCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading NPC Text Locale ... ");
+        LOG_INFO("server.loading", "正在重新加载NPC Text Locale ...…");
         sObjectMgr->LoadNpcTextLocales();
-        handler->SendGlobalGMSysMessage("DB table `npc_text_locale` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `npc_text_locale` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadLocalesPageTextCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Page Text Locale ... ");
+        LOG_INFO("server.loading", "正在重新加载Page Text Locale ...…");
         sObjectMgr->LoadPageTextLocales();
-        handler->SendGlobalGMSysMessage("DB table `page_text_locale` reloaded.");
-        handler->SendGlobalGMSysMessage("You need to delete your client cache or change the cache number in config in order for your players see the changes.");
+        handler->SendGlobalGMSysMessage("数据库表 `page_text_locale` 已重新加载。");
+        handler->SendGlobalGMSysMessage("你需要删除客户端缓存，或在配置中修改缓存编号，玩家才能看到这些改动。");
         return true;
     }
 
     static bool HandleReloadLocalesPointsOfInterestCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Points Of Interest Locale ... ");
+        LOG_INFO("server.loading", "正在重新加载Points Of Interest Locale ...…");
         sObjectMgr->LoadPointOfInterestLocales();
-        handler->SendGlobalGMSysMessage("DB table `points_of_interest_locale` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `points_of_interest_locale` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadLocalesQuestCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Locales Quest ... ");
+        LOG_INFO("server.loading", "正在重新加载Locales Quest ...…");
         sObjectMgr->LoadQuestLocales();
-        handler->SendGlobalGMSysMessage("DB table `quest_template_locale` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `quest_template_locale` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadLocalesQuestOfferRewardCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Quest Offer Reward Locale... ");
+        LOG_INFO("server.loading", "正在重新加载Quest Offer Reward Locale...…");
         sObjectMgr->LoadQuestOfferRewardLocale();
-        handler->SendGlobalGMSysMessage("DB table `quest_offer_reward_locale` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `quest_offer_reward_locale` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadLocalesQuestRequestItemsCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Quest Request Item Locale... ");
+        LOG_INFO("server.loading", "正在重新加载Quest Request Item Locale...…");
         sObjectMgr->LoadQuestRequestItemsLocale();
-        handler->SendGlobalGMSysMessage("DB table `quest_request_item_locale` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `quest_request_item_locale` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadMailLevelRewardCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Player level dependent mail rewards...");
+        LOG_INFO("server.loading", "正在重新加载玩家等级相关邮件奖励…");
         sObjectMgr->LoadMailLevelRewards();
-        handler->SendGlobalGMSysMessage("DB table `mail_level_reward` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `mail_level_reward` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadMailServerTemplateCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading `server_mail_template` table");
+        LOG_INFO("server.loading", "正在重新加载`server_mail_template` 表…");
         sServerMailMgr->LoadMailServerTemplates();
-        handler->SendGlobalGMSysMessage("DB table `server_mail_template` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `server_mail_template` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadAntiDosOpcodePoliciesCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading AntiDos opcode policies...");
+        LOG_INFO("server.loading", "正在重新加载防洪水操作码策略…");
         sWorldGlobals->LoadAntiDosOpcodePolicies();
-        handler->SendGlobalGMSysMessage("AntiDos opcode policies reloaded.");
+        handler->SendGlobalGMSysMessage("防洪水操作码策略已重新加载。");
         return true;
     }
 
     static bool HandleReloadAuctionsCommand(ChatHandler* handler)
     {
         ///- Reload dynamic data tables from the database
-        LOG_INFO("server.loading", "Reloading Auctions...");
+        LOG_INFO("server.loading", "正在重新加载拍卖…");
         sAuctionMgr->LoadAuctionItems();
         sAuctionMgr->LoadAuctions();
-        handler->SendGlobalGMSysMessage("Auctions reloaded.");
+        handler->SendGlobalGMSysMessage("拍卖已重新加载。");
         return true;
     }
 
     static bool HandleReloadConditions(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Conditions...");
+        LOG_INFO("server.loading", "正在重新加载条件…");
         sConditionMgr->LoadConditions(true);
-        handler->SendGlobalGMSysMessage("Conditions reloaded.");
+        handler->SendGlobalGMSysMessage("条件已重新加载。");
         return true;
     }
 
     static bool HandleReloadCreatureText(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Creature Texts...");
+        LOG_INFO("server.loading", "正在重新加载生物文本…");
         sCreatureTextMgr->LoadCreatureTexts();
-        handler->SendGlobalGMSysMessage("Creature Texts reloaded.");
+        handler->SendGlobalGMSysMessage("生物文本已重新加载。");
         return true;
     }
 
     static bool HandleReloadSmartScripts(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading Smart Scripts...");
+        LOG_INFO("server.loading", "正在重新加载智能脚本…");
         sSmartScriptMgr->LoadSmartAIFromDB();
-        handler->SendGlobalGMSysMessage("Smart Scripts reloaded.");
+        handler->SendGlobalGMSysMessage("智能脚本已重新加载。");
         return true;
     }
 
     static bool HandleReloadVehicleAccessoryCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading vehicle_accessory table...");
+        LOG_INFO("server.loading", "正在重新加载载具附属表…");
         sObjectMgr->LoadVehicleAccessories();
-        handler->SendGlobalGMSysMessage("Vehicle accessories reloaded.");
+        handler->SendGlobalGMSysMessage("载具附属已重新加载。");
         return true;
     }
 
     static bool HandleReloadVehicleTemplateAccessoryCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading vehicle_template_accessory table...");
+        LOG_INFO("server.loading", "正在重新加载载具模板附属表…");
         sObjectMgr->LoadVehicleTemplateAccessories();
-        handler->SendGlobalGMSysMessage("Vehicle template accessories reloaded.");
+        handler->SendGlobalGMSysMessage("载具模板附属已重新加载。");
         return true;
     }
 
     static bool HandleReloadGameGraveyardCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading game_graveyard table...");
+        LOG_INFO("server.loading", "正在重新加载game_graveyard 表…");
         sGraveyard->LoadGraveyardFromDB();
-        handler->SendGlobalGMSysMessage("DB table `game_graveyard` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `game_graveyard` 已重新加载。");
         return true;
     }
 
     static bool HandleReloadSpawnGroupCommand(ChatHandler* handler)
     {
-        LOG_INFO("server.loading", "Reloading spawn_group_template and spawn_group tables...");
+        LOG_INFO("server.loading", "正在重新加载spawn_group_template 与 spawn_group 表…");
         sObjectMgr->LoadSpawnGroupTemplates();
         sObjectMgr->LoadSpawnGroups();
-        handler->SendGlobalGMSysMessage("DB tables `spawn_group_template` and `spawn_group` reloaded.");
+        handler->SendGlobalGMSysMessage("数据库表 `spawn_group_template` 与 `spawn_group` 已重新加载。");
         return true;
     }
 };

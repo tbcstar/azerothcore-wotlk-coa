@@ -185,24 +185,24 @@ namespace GrootCoin
 
     void ShowStatus(ChatHandler* handler)
     {
-        handler->PSendSysMessage("Groot Coin: awards {}, exchange {}.",
-            AwardsAvailable() ? "enabled" : "disabled", ExchangeAvailable() ? "enabled" : "disabled");
-        handler->PSendSysMessage("Config: GrootCoin.Enable={} GrootCoin.ExchangeEnable={} TokensPerCoin={} MaxAward={}.",
+        handler->PSendSysMessage("格鲁特币：奖励 {}，兑换 {}。",
+            AwardsAvailable() ? "启用" : "停用", ExchangeAvailable() ? "启用" : "停用");
+        handler->PSendSysMessage("配置：GrootCoin.Enable={} GrootCoin.ExchangeEnable={} TokensPerCoin={} MaxAward={}。",
             settings.enable ? 1 : 0, settings.exchangeEnable ? 1 : 0, settings.tokensPerCoin, settings.maxAward);
-        handler->PSendSysMessage("Items: coin {} (display {}), Bazaar Token {}. Client item patch registered: {}.",
+        handler->PSendSysMessage("物品：硬币 {}（显示 {}），集市代币 {}。客户端物品补丁已注册：{}。",
             COIN_ITEM, COIN_DISPLAY, BAZAAR_TOKEN_ITEM,
-            Ascension::ClientItemPatches::Instance().Contains(COIN_ITEM) ? "yes" : "no");
-        handler->PSendSysMessage("External awards (groot_coin_award_queue): {}, polled every {} s.",
-            ShouldPollQueue(AwardsAvailable(), settings.externalAwardsEnable) ? "on" : "off", settings.queuePollSeconds);
-        handler->PSendSysMessage("Pending: {} award(s) ({} from the queue).", Internal::PendingAwards(),
+            Ascension::ClientItemPatches::Instance().Contains(COIN_ITEM) ? "是" : "否");
+        handler->PSendSysMessage("外部奖励（groot_coin_award_queue）：{}，每 {} 秒轮询一次。",
+            ShouldPollQueue(AwardsAvailable(), settings.externalAwardsEnable) ? "开" : "关", settings.queuePollSeconds);
+        handler->PSendSysMessage("待处理：{} 条奖励（队列中 {} 条）。", Internal::PendingAwards(),
             Internal::QueuedInFlight());
         if (!exchangeBlocked.empty())
-            handler->PSendSysMessage("Exchange blocked: {}", exchangeBlocked);
+            handler->PSendSysMessage("兑换被阻止：{}", exchangeBlocked);
 
         for (std::string const& failure : failures)
-            handler->PSendSysMessage("Startup check failed: {}", failure);
+            handler->PSendSysMessage("启动检查失败：{}", failure);
         for (std::string const& line : reconciliations)
-            handler->PSendSysMessage("Needs reconciliation: {}", line);
+            handler->PSendSysMessage("需要对账：{}", line);
     }
 
     void ShowHistory(ChatHandler* handler, ObjectGuid character, std::string const& name, uint32 count)
@@ -213,18 +213,18 @@ namespace GrootCoin
         PreparedQueryResult result = CharacterDatabase.Query(stmt);
         if (!result)
         {
-            handler->PSendSysMessage("No Groot Coin awards for {}.", name);
+            handler->PSendSysMessage("{} 没有格鲁特币奖励记录。", name);
             return;
         }
 
-        handler->PSendSysMessage("Groot Coin awards for {} (newest first):", name);
+        handler->PSendSysMessage("{} 的格鲁特币奖励（最新在前）：", name);
         do
         {
             Field const* fields = result->Fetch();
             std::string const subject = fields[1].IsNull()
                 ? Acore::StringFormat("{} {}", fields[5].Get<std::string>(), fields[6].Get<std::string>())
-                : Acore::StringFormat("issue #{}", fields[1].Get<uint32>());
-            handler->PSendSysMessage("{} | {} | {} coin(s) | {} | by account {}", fields[0].Get<std::string>(), subject,
+                : Acore::StringFormat("议题 #{}", fields[1].Get<uint32>());
+            handler->PSendSysMessage("{} | {} | {} 枚 | {} | 账户 {}", fields[0].Get<std::string>(), subject,
                 fields[2].Get<uint32>(), fields[3].Get<std::string>(), fields[4].Get<uint32>());
         } while (result->NextRow());
     }
@@ -238,18 +238,18 @@ namespace GrootCoin
             Field const* f = award->Fetch();
             std::string const subject = f[1].IsNull()
                 ? Acore::StringFormat("{} {}", f[13].Get<std::string>(), f[14].Get<std::string>())
-                : Acore::StringFormat("issue #{}", f[1].Get<uint32>());
-            handler->PSendSysMessage("Award {}: {}, {} coin(s), created {}.", f[0].Get<std::string>(), subject,
+                : Acore::StringFormat("议题 #{}", f[1].Get<uint32>());
+            handler->PSendSysMessage("奖励 {}：{}，{} 枚，创建于 {}。", f[0].Get<std::string>(), subject,
                 f[6].Get<uint32>(), f[9].Get<std::string>());
-            handler->PSendSysMessage("Recipient account {} character {}; issued by account {} character {}.",
+            handler->PSendSysMessage("接收账户 {} 角色 {}；发放账户 {} 角色 {}。",
                 f[2].Get<uint32>(), f[3].Get<uint32>(), f[4].Get<uint32>(), f[5].Get<uint32>());
-            handler->PSendSysMessage("Reason: {}", f[7].Get<std::string>());
-            handler->PSendSysMessage("Attribution: {}", f[8].Get<std::string>());
+            handler->PSendSysMessage("原因：{}", f[7].Get<std::string>());
+            handler->PSendSysMessage("归属：{}", f[8].Get<std::string>());
             if (f[10].IsNull())
-                handler->PSendSysMessage("No delivery row.");
+                handler->PSendSysMessage("没有投递记录。");
             else
-                handler->PSendSysMessage("Mail {} carrying coin stack {}: {}.", f[10].Get<uint32>(), f[11].Get<uint32>(),
-                    f[12].Get<uint64>() ? "still in the mailbox" : "claimed, returned, deleted or expired");
+                handler->PSendSysMessage("邮件 {} 携带硬币堆叠 {}：{}。", f[10].Get<uint32>(), f[11].Get<uint32>(),
+                    f[12].Get<uint64>() ? "仍在邮箱中" : "已领取、已退回、已删除或已过期");
             return;
         }
 
@@ -258,13 +258,13 @@ namespace GrootCoin
         if (PreparedQueryResult exchange = CharacterDatabase.Query(stmt))
         {
             Field const* f = exchange->Fetch();
-            handler->PSendSysMessage("Exchange {}: account {} character {} at {}, {} coin(s) -> {} token(s) at {} per coin, {}.",
+            handler->PSendSysMessage("兑换 {}：账户 {} 角色 {} 于 {}，{} 枚 -> {} 枚代币（每枚 {} 换 1 代币），{}。",
                 f[0].Get<std::string>(), f[1].Get<uint32>(), f[2].Get<uint32>(), f[6].Get<std::string>(),
                 f[3].Get<uint32>(), f[4].Get<uint32>(), f[5].Get<uint32>(), f[7].Get<std::string>());
             return;
         }
 
-        handler->PSendSysMessage("No Groot Coin award or exchange {}.", id);
+        handler->PSendSysMessage("没有格鲁特币奖励或兑换 {}。", id);
     }
 
     namespace Internal

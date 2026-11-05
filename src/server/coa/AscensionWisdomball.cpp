@@ -404,7 +404,7 @@ void SendPage(Player* player, Creature* ball, uint32 page)
             entries[i].kind == MenuKind::Available ? QuestIconAvailable : QuestIconActive);
 
     if (last < entries.size())
-        AddGossipItemFor(player, GOSSIP_ICON_CHAT, "More quests...", SenderMore, page + 1);
+        AddGossipItemFor(player, GOSSIP_ICON_CHAT, "更多任务……", SenderMore, page + 1);
 
     SendGossipMenuFor(player, GreetingTextId, ball->GetGUID());
 }

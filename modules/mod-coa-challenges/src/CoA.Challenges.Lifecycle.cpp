@@ -418,13 +418,13 @@ namespace CoAChallenges
 
         if (!ChallengeExists(challengeID))                       // 1 NOT_FOUND
         {
-            ChatHandler(player->GetSession()).PSendSysMessage("Challenge {} was not found.", challengeID);
+            ChatHandler(player->GetSession()).PSendSysMessage("未找到挑战 {}。", challengeID);
             return 1;
         }
         if (sConfigMgr->GetOption<bool>("CoAChallenges.EnforceNoRewards", false)
             && NoRewards(challengeID))                           // 2 NO_REWARDS
         {
-            ChatHandler(player->GetSession()).PSendSysMessage("{} has no rewards.", ChallengeName(challengeID));
+            ChatHandler(player->GetSession()).PSendSysMessage("{} 没有奖励。", ChallengeName(challengeID));
             return 2;
         }
         // 3 WRONG_GAME_MODE is intentionally not enforced here: game modes are
@@ -433,7 +433,7 @@ namespace CoAChallenges
         // active), so requiring it beforehand would block its own activation.
         if (ActiveChallenges(guid).count(challengeID))           // 4 ALREADY_ACTIVE
         {
-            ChatHandler(player->GetSession()).PSendSysMessage("{} is already active.", ChallengeName(challengeID));
+            ChatHandler(player->GetSession()).PSendSysMessage("{} 已处于激活状态。", ChallengeName(challengeID));
             return 4;
         }
         {
@@ -487,7 +487,7 @@ namespace CoAChallenges
         // per completed (challenge, level) row, so entering high only buys a harder fight.
         if (IsPrestigeChallenge(challengeID) && !IsPrestiged(player))  // 11 NOT_PRESTIGE
         {
-            ChatHandler(player->GetSession()).PSendSysMessage("{} requires prestige.", ChallengeName(challengeID));
+            ChatHandler(player->GetSession()).PSendSysMessage("{} 需要转生。", ChallengeName(challengeID));
             return 11;
         }
         if (sConfigMgr->GetOption<bool>("CoAChallenges.BlockAllAfterFailure", true)
@@ -607,7 +607,7 @@ namespace CoAChallenges
         if ((challengeID != 211 && challengeID != 425) || !ActiveChallenges(guid).contains(challengeID)
             || !level || level >= current || level > ChallengeLevelCount(challengeID))
         {
-            ChatHandler(player->GetSession()).SendSysMessage("Choose a lower Adventure Mode level, at least 1.");
+            ChatHandler(player->GetSession()).SendSysMessage("请选择更低的冒险模式等级，最低为 1。");
             return 4;
         }
         if (AdventureModeChangeBlocked(player))

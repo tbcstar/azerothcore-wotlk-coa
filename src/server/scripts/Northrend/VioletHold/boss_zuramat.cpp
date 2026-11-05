@@ -82,7 +82,7 @@ struct boss_zuramat : public BossAI
                 if (Unit* target = SelectTarget(SelectTargetMethod::Random, 0, 60.0f, true))
                 {
                     DoCast(target, SPELL_VOID_SHIFT);
-                    me->Whisper("Gaze... into the void.", LANG_UNIVERSAL, target->ToPlayer());
+                    me->Whisper("凝视……虚空。", LANG_UNIVERSAL, target->ToPlayer());
                 }
                 events.Repeat(18s, 22s);
                 break;

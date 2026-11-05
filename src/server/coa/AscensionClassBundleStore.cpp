@@ -127,7 +127,7 @@ bool HandlePurchase(WorldSession* session, WorldPacket const& packet)
         currency = CURRENCY_CLASS_BUNDLE_1;
     else
     {
-        SendPurchaseResult(session, "You do not have a Conquest of Azeroth Class Bundle.");
+        SendPurchaseResult(session, "你没有《艾泽拉斯的征服》职业礼包。");
         return true;
     }
 
@@ -137,7 +137,7 @@ bool HandlePurchase(WorldSession* session, WorldPacket const& packet)
     if (fits != EQUIP_ERR_OK)
     {
         player->SendEquipError(fits, nullptr, nullptr, key);
-        SendPurchaseResult(session, "You have no room for the class bundle.");
+        SendPurchaseResult(session, "你没有足够的空间容纳职业礼包。");
         return true;
     }
 

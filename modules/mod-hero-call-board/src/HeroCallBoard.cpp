@@ -227,11 +227,11 @@ namespace
         player->GetSession()->HandleItemQuerySingleOpcode(tokenQuery);
 
         // CallBoardUI binds its category buttons to these exact option labels.
-        AddGossipItemFor(player, GOSSIP_ICON_CHAT, "PvE Quests", GOSSIP_SENDER_MAIN, CategoryPvE);
-        AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Profession Quests", GOSSIP_SENDER_MAIN, CategoryProfessions);
-        AddGossipItemFor(player, GOSSIP_ICON_CHAT, "PvP Quests", GOSSIP_SENDER_MAIN, CategoryPvP);
+        AddGossipItemFor(player, GOSSIP_ICON_CHAT, "PvE 任务", GOSSIP_SENDER_MAIN, CategoryPvE);
+        AddGossipItemFor(player, GOSSIP_ICON_CHAT, "专业任务", GOSSIP_SENDER_MAIN, CategoryProfessions);
+        AddGossipItemFor(player, GOSSIP_ICON_CHAT, "PvP 任务", GOSSIP_SENDER_MAIN, CategoryPvP);
         if (player->HasAura(HighRiskRulesetAura))
-            AddGossipItemFor(player, GOSSIP_ICON_CHAT, "High-Risk Quests", GOSSIP_SENDER_MAIN, CategoryHighRisk);
+            AddGossipItemFor(player, GOSSIP_ICON_CHAT, "高风险任务", GOSSIP_SENDER_MAIN, CategoryHighRisk);
         SendBoardMenu(player, board);
     }
 
@@ -276,7 +276,7 @@ namespace
             if (Quest const* quest = sObjectMgr->GetQuestTemplate(menu.GetItem(index).QuestId))
                 player->PlayerTalkClass->SendQuestQueryResponse(quest);
 
-        AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Return", GOSSIP_SENDER_MAIN, CategoryReturn);
+        AddGossipItemFor(player, GOSSIP_ICON_CHAT, "返回", GOSSIP_SENDER_MAIN, CategoryReturn);
         SendBoardMenu(player, board);
     }
 

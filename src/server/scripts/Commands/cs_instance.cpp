@@ -70,13 +70,13 @@ public:
                 uint32 resetTime = bind.extended ? save->GetExtendedResetTime() : save->GetResetTime();
                 uint32 ttr = (resetTime >= GameTime::GetGameTime().count() ? resetTime - GameTime::GetGameTime().count() : 0);
                 std::string timeleft = secsToTimeString(ttr);
-                handler->PSendSysMessage("map: {}, inst: {}, perm: {}, diff: {}, canReset: {}, TTR: {}{}",
+                handler->PSendSysMessage("地图：{}，实例：{}，永久：{}，难度：{}，可重置：{}，剩余时间：{}{}",
                     mapId, save->GetInstanceId(), bind.perm ? "yes" : "no", save->GetDifficulty(), save->CanReset() ? "yes" : "no", timeleft, (bind.extended ? " (extended)" : ""));
                 counter++;
             }
         }
 
-        handler->PSendSysMessage("player binds: {}", counter);
+        handler->PSendSysMessage("玩家绑定：{}", counter);
 
         return true;
     }
@@ -108,7 +108,7 @@ public:
                     uint32 resetTime = itr->second.extended ? save->GetExtendedResetTime() : save->GetResetTime();
                     uint32 ttr = (resetTime >= GameTime::GetGameTime().count() ? resetTime - GameTime::GetGameTime().count() : 0);
                     std::string timeleft = secsToTimeString(ttr);
-                    handler->PSendSysMessage("unbinding map: {}, inst: {}, perm: {}, diff: {}, canReset: {}, TTR: {}{}", itr->first, save->GetInstanceId(), itr->second.perm ? "yes" : "no", save->GetDifficulty(), save->CanReset() ? "yes" : "no", timeleft, (itr->second.extended ? " (extended)" : ""));
+                    handler->PSendSysMessage("正在解除绑定 地图：{}，实例：{}，永久：{}，难度：{}，可重置：{}，剩余时间：{}{}", itr->first, save->GetInstanceId(), itr->second.perm ? "yes" : "no", save->GetDifficulty(), save->CanReset() ? "yes" : "no", timeleft, (itr->second.extended ? " (extended)" : ""));
                     sInstanceSaveMgr->PlayerUnbindInstance(player->GetGUID(), itr->first, Difficulty(i), true, player);
                     itr = m_boundInstances.begin();
                     counter++;
@@ -118,7 +118,7 @@ public:
             }
         }
 
-        handler->PSendSysMessage("instances unbound: {}", counter);
+        handler->PSendSysMessage("已解除绑定的实例：{}", counter);
 
         return true;
     }
@@ -127,13 +127,13 @@ public:
     {
         uint32 dungeon = 0, battleground = 0, arena = 0, spectators = 0;
         sMapMgr->GetNumInstances(dungeon, battleground, arena);
-        handler->PSendSysMessage("instances loaded: dungeons ({}), battlegrounds ({}), arenas ({})", dungeon, battleground, arena);
+        handler->PSendSysMessage("已加载实例：地下城（{}），战场（{}），竞技场（{}）", dungeon, battleground, arena);
         dungeon = 0;
         battleground = 0;
         arena = 0;
         spectators = 0;
         sMapMgr->GetNumPlayersInInstances(dungeon, battleground, arena, spectators);
-        handler->SendErrorMessage("players in instances: dungeons ({}), battlegrounds ({}), arenas ({} + {} spect)", dungeon, battleground, arena, spectators);
+        handler->SendErrorMessage("副本内玩家：地下城（{}），战场（{}），竞技场（{} + {} 名观战者）", dungeon, battleground, arena, spectators);
         return false;
     }
 
@@ -143,13 +143,13 @@ public:
         Map* map = player->GetMap();
         if (!map->IsDungeon())
         {
-            handler->SendErrorMessage("Map is not a dungeon.");
+            handler->SendErrorMessage("该地图不是地下城。");
             return false;
         }
 
         if (!map->ToInstanceMap()->GetInstanceScript())
         {
-            handler->SendErrorMessage("Map has no instance data.");
+            handler->SendErrorMessage("该地图没有实例数据。");
             return false;
         }
 

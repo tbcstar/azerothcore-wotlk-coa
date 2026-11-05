@@ -793,7 +793,7 @@ namespace
             if (OpenTrainer(player, book))
                 return true;
 
-            AddGossipItemFor(player, GOSSIP_ICON_TRAINER, "Learn everything I am eligible for.",
+            AddGossipItemFor(player, GOSSIP_ICON_TRAINER, "学习我所有能学的技能。",
                              GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF);
             SendGossipMenuFor(player, BookGossipText(book), book->GetGUID());
             return true;
@@ -811,13 +811,13 @@ namespace
             if (learned)
             {
                 ChatHandler(player->GetSession())
-                    .PSendSysMessage("The book taught you {} ability or rank(s).", learned);
+                    .PSendSysMessage("这本书教会了你 {} 项技能或等级。", learned);
                 LOG_INFO("module.spellbook", "{} learned {} ability or rank(s) from book {}",
                          player->GetName(), learned, book->GetEntry());
             }
             else
                 ChatHandler(player->GetSession())
-                    .SendSysMessage("You already know everything this book can teach you.");
+                    .SendSysMessage("这本书能教你的内容你已全部掌握。");
 
             return true;
         }

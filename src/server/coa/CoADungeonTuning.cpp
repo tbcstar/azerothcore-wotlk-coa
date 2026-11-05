@@ -201,7 +201,7 @@ public:
             magic = type->starts_with("ma") || type->starts_with("s");
             if (!physical && !magic)
             {
-                handler->SendErrorMessage("Type: physical or magic.");
+                handler->SendErrorMessage("类型：physical 或 magic。");
                 return false;
             }
         }
@@ -243,14 +243,14 @@ private:
     {
         if (!Enabled)
         {
-            handler->SendErrorMessage("Dungeon test tuning is switched off (CoA.DungeonTuning.Enable).");
+            handler->SendErrorMessage("副本测试调优已关闭（CoA.DungeonTuning.Enable）。");
             return nullptr;
         }
         Player* player = handler->GetPlayer();
         Map* map = player ? player->GetMap() : nullptr;
         if (!map || !map->IsNonRaidDungeon())
         {
-            handler->SendErrorMessage("Only inside a 5-man dungeon.");
+            handler->SendErrorMessage("只能在 5 人副本内使用。");
             return nullptr;
         }
         return map;
@@ -261,7 +261,7 @@ private:
         Tuning tuning;
         Tuned(map, tuning);
         std::string const text = Acore::StringFormat(
-            "Test tuning {} ({}): physical {:+}% ({}%), magic {:+}% ({}%), health {:+}% ({}%)", DungeonName(map),
+            "测试调优 {}（{}）：物理 {:+}%（{}%），法术 {:+}%（{}%），生命 {:+}%（{}%）", DungeonName(map),
             DifficultyName(map), tuning.physical, 100 + tuning.physical, tuning.magic, 100 + tuning.magic,
             tuning.health, 100 + tuning.health);
         if (!changed)

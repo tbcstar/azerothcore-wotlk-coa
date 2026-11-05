@@ -80,7 +80,7 @@ public:
                     itemCount = *Acore::StringTo<uint32>(itemTokens.at(1));
                     break;
                 default:
-                    handler->SendSysMessage(Acore::StringFormat("> Incorrect item list format for '{}'", itemString));
+                    handler->SendSysMessage(Acore::StringFormat("> 物品列表格式不正确：'{}'", itemString));
                     continue;
             }
 
@@ -181,7 +181,7 @@ public:
         /// - Send the message
         // Use SendAreaTriggerMessage for fastest delivery.
         player->GetSession()->SendAreaTriggerMessage("{}", msg);
-        player->GetSession()->SendAreaTriggerMessage("|cffff0000[Message from administrator]:|r");
+        player->GetSession()->SendAreaTriggerMessage("|cffff0000[管理员消息]:|r");
 
         // Confirmation message
         handler->PSendSysMessage(LANG_SENDMESSAGE, handler->playerLink(target->GetName()), msg);

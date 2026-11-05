@@ -37,13 +37,13 @@ namespace CoABugReport
         std::string Error;
     };
 
-    constexpr std::string_view Disabled = "Bug reports are not enabled on this realm.";
+    constexpr std::string_view Disabled = "本服务器未开启问题反馈功能。";
     constexpr std::string_view Private =
-        "Reports on this realm become public GitHub issues. Tick Public to send this report.";
-    constexpr std::string_view Cooldown = "Please wait a little before sending another report.";
+        "本服务器的问题报告会公开为 GitHub 议题。勾选“公开”即可发送本报告。";
+    constexpr std::string_view Cooldown = "请稍等片刻再发送下一份报告。";
     constexpr std::string_view Invalid =
-        "The report needs a title of 3 to 128 characters and a description, without control characters.";
-    constexpr std::string_view Storage = "The report could not be saved. Please try again later.";
+        "报告需要 3 到 128 个字符的标题和一段描述，且不能包含控制字符。";
+    constexpr std::string_view Storage = "报告保存失败，请稍后再试。";
 
     class Service
     {

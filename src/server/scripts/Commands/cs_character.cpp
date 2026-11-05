@@ -190,12 +190,12 @@ public:
             if (!handler->GetSession())
                 handler->PSendSysMessage(LANG_CHARACTER_DELETED_LIST_LINE_CONSOLE,
                                          itr->lowGuid, itr->name, uint32(itr->level),
-                                         itr->accountName.empty() ? "<Not existing>" : itr->accountName,
+                                         itr->accountName.empty() ? "<不存在>" : itr->accountName,
                                          itr->accountId, dateStr);
             else
                 handler->PSendSysMessage(LANG_CHARACTER_DELETED_LIST_LINE_CHAT,
                                          itr->lowGuid, itr->name, uint32(itr->level),
-                                         itr->accountName.empty() ? "<Not existing>" : itr->accountName,
+                                         itr->accountName.empty() ? "<不存在>" : itr->accountName,
                                          itr->accountId, dateStr);
         }
 
@@ -392,7 +392,7 @@ public:
                 ObjectAccessor::UpdatePlayerNameMapReference(player->GetName(), target);
 
                 if (WorldSession* session = target->GetSession())
-                    session->KickPlayer("HandleCharacterRenameCommand GM Command renaming character");
+                    session->KickPlayer("GM 命令：重命名角色");
             }
             else
             {
@@ -551,7 +551,7 @@ public:
         {
             FactionState const& faction = itr->second;
             FactionEntry const* factionEntry = sFactionStore.LookupEntry(faction.ID);
-            char const* factionName = factionEntry ? factionEntry->name[loc] : "#Not found#";
+            char const* factionName = factionEntry ? factionEntry->name[loc] : "#未找到#";
             ReputationRank rank = target->GetReputationMgr().GetRank(factionEntry);
             std::string rankName = handler->GetAcoreString(ReputationRankStrIndex[rank]);
             std::ostringstream ss;
@@ -747,7 +747,7 @@ public:
         if (Player* target = player.GetConnectedPlayer())
         {
             accountId = target->GetSession()->GetAccountId();
-            target->GetSession()->KickPlayer("HandleCharacterEraseCommand GM Command deleting character");
+            target->GetSession()->KickPlayer("GM 命令：删除角色");
         }
         else
         {
@@ -1010,43 +1010,43 @@ public:
                 switch (SkillID)
                 {
                     case SKILL_ALCHEMY:
-                        handler->PSendSysMessage("{} - Alchemy - {}", Counter, player->GetSkillValue(SkillID));
+                        handler->PSendSysMessage("{} - 炼金 - {}", Counter, player->GetSkillValue(SkillID));
                         break;
                     case SKILL_BLACKSMITHING:
-                        handler->PSendSysMessage("{} - Blacksmithing - {}", Counter, player->GetSkillValue(SkillID));
+                        handler->PSendSysMessage("{} - 锻造 - {}", Counter, player->GetSkillValue(SkillID));
                         break;
                     case SKILL_ENCHANTING:
-                        handler->PSendSysMessage("{} - Enchanting - {}", Counter, player->GetSkillValue(SkillID));
+                        handler->PSendSysMessage("{} - 附魔 - {}", Counter, player->GetSkillValue(SkillID));
                         break;
                     case SKILL_ENGINEERING:
-                        handler->PSendSysMessage("{} - Engineering - {}", Counter, player->GetSkillValue(SkillID));
+                        handler->PSendSysMessage("{} - 工程学 - {}", Counter, player->GetSkillValue(SkillID));
                         break;
                     case SKILL_INSCRIPTION:
-                        handler->PSendSysMessage("{} - Inscription - {}", Counter, player->GetSkillValue(SkillID));
+                        handler->PSendSysMessage("{} - 铭文 - {}", Counter, player->GetSkillValue(SkillID));
                         break;
                     case SKILL_JEWELCRAFTING:
-                        handler->PSendSysMessage("{} - Jewelcrafting - {}", Counter, player->GetSkillValue(SkillID));
+                        handler->PSendSysMessage("{} - 珠宝加工 - {}", Counter, player->GetSkillValue(SkillID));
                         break;
                     case SKILL_LEATHERWORKING:
-                        handler->PSendSysMessage("{} - Leatherworking - {}", Counter, player->GetSkillValue(SkillID));
+                        handler->PSendSysMessage("{} - 制皮 - {}", Counter, player->GetSkillValue(SkillID));
                         break;
                     case SKILL_TAILORING:
-                        handler->PSendSysMessage("{} - Tailoring - {}", Counter, player->GetSkillValue(SkillID));
+                        handler->PSendSysMessage("{} - 裁缝 - {}", Counter, player->GetSkillValue(SkillID));
                         break;
                     case SKILL_SKINNING:
-                        handler->PSendSysMessage("{} - Skinning - {}", Counter, player->GetSkillValue(SkillID));
+                        handler->PSendSysMessage("{} - 剥皮 - {}", Counter, player->GetSkillValue(SkillID));
                         break;
                     case SKILL_HERBALISM:
-                        handler->PSendSysMessage("{} - Herbalism - {}", Counter, player->GetSkillValue(SkillID));
+                        handler->PSendSysMessage("{} - 草药学 - {}", Counter, player->GetSkillValue(SkillID));
                         break;
                     case SKILL_MINING:
-                        handler->PSendSysMessage("{} - Mining - {}", Counter, player->GetSkillValue(SkillID));
+                        handler->PSendSysMessage("{} - 采矿 - {}", Counter, player->GetSkillValue(SkillID));
                         break;
                     case SKILL_COOKING:
-                        handler->PSendSysMessage("{} - Cooking - {}", Counter, player->GetSkillValue(SkillID));
+                        handler->PSendSysMessage("{} - 烹饪 - {}", Counter, player->GetSkillValue(SkillID));
                         break;
                     case SKILL_FIRST_AID:
-                        handler->PSendSysMessage("{} - First Aid - {}", Counter, player->GetSkillValue(SkillID));
+                        handler->PSendSysMessage("{} - 急救 - {}", Counter, player->GetSkillValue(SkillID));
                         break;
                     default:
                         break;

@@ -793,7 +793,7 @@ void WorldSession::HandleBattlemasterJoinArena(WorldPacket& recvData)
 
     if (ratedFiveVersusFiveUnavailable)
     {
-        ChatHandler(this).SendSysMessage("This arena bracket is not available yet.");
+        ChatHandler(this).SendSysMessage("该竞技场分组尚未开放。");
         return;
     }
 

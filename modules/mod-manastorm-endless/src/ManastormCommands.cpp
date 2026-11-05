@@ -93,8 +93,7 @@ namespace
             return true;
 
         handler->SendErrorMessage(
-            "Manastorm: database change succeeded, "
-            "but datastore reload failed. Check worldserver logs.");
+            "法力风暴：数据库修改已成功，但数据存储重载失败。请查看 worldserver 日志。");
 
         return false;
     }
@@ -113,7 +112,7 @@ namespace
             segment))
         {
             handler->PSendSysMessage(
-                "Manastorm: segment {} does not exist.",
+                "法力风暴：分段 {} 不存在。",
                 segmentId);
 
             return true;
@@ -125,7 +124,7 @@ namespace
         if (!creature)
         {
             handler->SendErrorMessage(
-                "Manastorm: select a creature first.");
+                "法力风暴：请先选择一个生物。");
 
             return false;
         }
@@ -136,9 +135,7 @@ namespace
         if (!spawnId)
         {
             handler->SendErrorMessage(
-                "Manastorm: selected creature has no stable DB spawn ID. "
-                "Temporary/summoned creatures cannot receive authored "
-                "segment-spawn roles.");
+                "法力风暴：所选生物没有稳定的数据库刷新 ID。临时或召唤出来的生物无法获得作者定义的分段刷新角色。");
 
             return false;
         }
@@ -147,7 +144,7 @@ namespace
             segment.MapId)
         {
             handler->PSendSysMessage(
-                "Manastorm: spawn {} is on map {}, but segment {} uses map {}.",
+                "法力风暴：刷新 {} 位于地图 {}，但分段 {} 使用的是地图 {}。",
                 spawnId,
                 creature->GetMapId(),
                 segmentId,
@@ -160,9 +157,7 @@ namespace
             segment.ObjectiveCreatureEntry)
         {
             handler->PSendSysMessage(
-                "Manastorm: creature entry {} is the fixed objective for "
-                "segment {} and cannot be a trash randomization/pool-source "
-                "spawn.",
+                "法力风暴：生物 entry {} 是分段 {} 的固定目标，不能同时作为小怪随机化或来源池刷新点。",
                 creature->GetEntry(),
                 segmentId);
 
@@ -202,9 +197,9 @@ namespace
             return false;
 
         handler->PSendSysMessage(
-            "Manastorm: {} {} for segment={} spawn={} entry={} name='{}'.",
+            "法力风暴：{} {} | 分段={} 刷新={} entry={} 名称='{}'。",
             roleName,
-            enable ? "enabled" : "disabled",
+            enable ? "启用": "停用",
             segmentId,
             spawnId,
             creature->GetEntry(),
@@ -219,8 +214,7 @@ namespace
         ManastormScalingPoint const& scaling = run.GetScaling();
 
         handler->PSendSysMessage(
-            "Manastorm run {} | state={} | mode={} | members={} | "
-            "depth={} | creatureLevel={} | seed={}",
+            "法力风暴进程 {} | 状态={} | 模式={} | 成员={} | 深度={} | 生物等级={} | 种子={}",
             run.GetRunId(),
             ManastormRunStateName(run.GetState()),
             ManastormModeName(run.GetMode()),
@@ -230,8 +224,7 @@ namespace
             run.GetSeed());
 
         handler->PSendSysMessage(
-            "Stage: segment={} map={} instance={} difficulty={} encounter={} objective={} tele={} "
-            "weight={} reward={:.3f}x",
+            "阶段：分段={} 地图={} 实例={} 难度={} 遭遇={} 目标={} 传送={} 权重={} 奖励={:.3f}倍",
             segment.SegmentId,
             segment.MapId,
             run.GetInstanceId(),
@@ -243,8 +236,7 @@ namespace
             segment.RewardMultiplier);
 
         handler->PSendSysMessage(
-            "Effective scaling (depth x {} members): "
-            "HP={:.3f}x GlobalDamage={:.3f}x Melee={:.3f}x Spell={:.3f}x",
+            "实际缩放（深度 × {} 名成员）：生命={:.3f}倍 全局伤害={:.3f}倍 近战={:.3f}倍 法术={:.3f}倍",
             run.GetMembers().size(),
             scaling.HealthMultiplier,
             scaling.GlobalDamageMultiplier,
@@ -254,9 +246,7 @@ namespace
         ObjectGuid const objectiveGuid = run.GetObjectiveCreatureGuid();
 
         handler->PSendSysMessage(
-            "Runtime: stageCreatures={} objectiveGuid={} counter={} "
-            "chaoticLinks={} unusedLinkSpawns={} "
-            "resurrections={}/{} complete={}", run.GetStageCreatureCount(),
+            "运行时：阶段生物={} 目标GUID={} 计数={} 混沌链接={} 未使用的链接刷新点={} 复活={}/{} 已完成={}", run.GetStageCreatureCount(),
             objectiveGuid.GetRawValue(),
             objectiveGuid.GetCounter(),
             uint32(run.GetChaoticLinkStacks()),
@@ -264,8 +254,7 @@ namespace
             uint32(run.GetResurrectionCharges()),
             uint32(ManastormResurrection::MaxCharges),
             run.GetState() == ManastormRunState::StageComplete
-            ? "yes"
-            : "no");
+            ? "是": "no");
     }
 }
 
@@ -360,7 +349,7 @@ public:
         if (!player)
         {
             handler->SendErrorMessage(
-                "Manastorm: this command requires an in-game player.");
+                "法力风暴：此命令需要在游戏内由玩家执行。");
 
             return false;
         }
@@ -379,7 +368,7 @@ public:
 
         if (!player)
         {
-            handler->SendErrorMessage("Manastorm: this command requires an in-game player.");
+            handler->SendErrorMessage("法力风暴：此命令需要在游戏内由玩家执行。");
             return false;
         }
 
@@ -389,12 +378,12 @@ public:
 
         if (!run)
         {
-            handler->PSendSysMessage("Manastorm: {}", error);
+            handler->PSendSysMessage("法力风暴：{}", error);
             return true;
         }
 
         handler->PSendSysMessage(
-            "Manastorm: Phase-2A run prepared. Teleporting to segment {} in instance {}.",
+            "法力风暴：已准备第二阶段 A 的进程，正在将你传送到实例 {} 中的分段 {}。",
             run->GetSegment().SegmentId,
             run->GetInstanceId());
 
@@ -414,8 +403,7 @@ public:
         if (!player)
         {
             handler->SendErrorMessage(
-                "Manastorm: this command requires "
-                "an in-game player.");
+                "法力风暴：此命令需要在游戏内由玩家执行。");
 
             return false;
         }
@@ -432,15 +420,14 @@ public:
         if (!run)
         {
             handler->PSendSysMessage(
-                "Manastorm: {}",
+                "法力风暴：{}",
                 error);
 
             return true;
         }
 
         handler->PSendSysMessage(
-            "Manastorm: FORCE-started depth {} "
-            "for authoring/debug. Segment={} instance={}.",
+            "法力风暴：为制作/调试强制启动深度 {}。分段={} 实例={}。",
             depth,
             run->GetSegment().SegmentId,
             run->GetInstanceId());
@@ -463,8 +450,7 @@ public:
         if (!player)
         {
             handler->SendErrorMessage(
-                "Manastorm: this command requires "
-                "an in-game player.");
+                "法力风暴：此命令需要在游戏内由玩家执行。");
 
             return false;
         }
@@ -505,7 +491,7 @@ public:
             error))
         {
             handler->PSendSysMessage(
-                "Manastorm: {}",
+                "法力风暴：{}",
                 error);
 
             return true;
@@ -518,9 +504,7 @@ public:
             depths);
 
         handler->PSendSysMessage(
-            "Manastorm checkpoints | mode={} | "
-            "bestCompleted={} | pendingUnlock={} | "
-            "pendingIntroDepth={} | pendingSegment={}",
+            "法力风暴检查点 | 模式={} | 最高已完成={} | 待解锁={} | 待进入深度={} | 待进入分段={}",
             ManastormModeName(mode),
             snapshot.BestCompletedDepth,
             snapshot.PendingUnlockId,
@@ -530,7 +514,7 @@ public:
         if (depths.empty())
         {
             handler->SendSysMessage(
-                "Enterable depths: none.");
+                "可进入的深度：无。");
 
             return true;
         }
@@ -550,7 +534,7 @@ public:
         }
 
         handler->PSendSysMessage(
-            "Enterable depths (highest first): {}",
+            "可进入的深度（由高到低）：{}",
             list);
 
         return true;
@@ -564,7 +548,7 @@ public:
 
         if (!player)
         {
-            handler->SendErrorMessage("Manastorm: this command requires an in-game player.");
+            handler->SendErrorMessage("法力风暴：此命令需要在游戏内由玩家执行。");
             return false;
         }
 
@@ -574,7 +558,7 @@ public:
         if (!run)
         {
             handler->SendSysMessage(
-                "Manastorm: you are not part of an active run.");
+                "法力风暴：你不在任何进行中的进程内。");
             return true;
         }
 
@@ -590,18 +574,18 @@ public:
 
         if (!player)
         {
-            handler->SendErrorMessage("Manastorm: this command requires an in-game player.");
+            handler->SendErrorMessage("法力风暴：此命令需要在游戏内由玩家执行。");
             return false;
         }
 
         std::string error;
         if (!ManastormMgr::Instance().StopRun(player, error))
         {
-            handler->PSendSysMessage("Manastorm: {}", error);
+            handler->PSendSysMessage("法力风暴：{}", error);
             return true;
         }
 
-        handler->SendSysMessage("Manastorm: run stopped.");
+        handler->SendSysMessage("法力风暴：进程已停止。");
         return true;
     }
 
@@ -613,7 +597,7 @@ public:
         if (enabled > 1)
         {
             handler->SendErrorMessage(
-                "Manastorm: randomslot value must be 0 or 1.");
+                "法力风暴：randomslot 的取值必须是 0 或 1。");
 
             return false;
         }
@@ -634,7 +618,7 @@ public:
         if (enabled > 1)
         {
             handler->SendErrorMessage(
-                "Manastorm: poolsource value must be 0 or 1.");
+                "法力风暴：poolsource 的取值必须是 0 或 1。");
 
             return false;
         }
@@ -655,7 +639,7 @@ public:
         if (enabled > 1)
         {
             handler->SendErrorMessage(
-                "Manastorm: affix value must be 0 or 1.");
+                "法力风暴：affix 的取值必须是 0 或 1。");
 
             return false;
         }
@@ -678,7 +662,7 @@ public:
         if (!creature)
         {
             handler->SendErrorMessage(
-                "Manastorm: select a creature first.");
+                "法力风暴：请先选择一个生物。");
 
             return false;
         }
@@ -689,7 +673,7 @@ public:
         if (!spawnId)
         {
             handler->SendErrorMessage(
-                "Manastorm: selected creature has no stable DB spawn ID.");
+                "法力风暴：所选生物没有稳定的数据库刷新 ID。");
 
             return false;
         }
@@ -706,7 +690,7 @@ public:
         if (!result)
         {
             handler->PSendSysMessage(
-                "Manastorm: spawn {} has no authored roles for segment {}.",
+                "法力风暴：刷新 {} 在分段 {} 中没有任何作者定义的角色。",
                 spawnId,
                 segmentId);
 
@@ -723,18 +707,17 @@ public:
             fields[1].Get<uint8>() != 0;
 
         handler->PSendSysMessage(
-            "Manastorm spawn roles | segment={} spawn={} entry={} "
-            "flags=0x{:X} enabled={} route={} link={} randomslot={} poolsource={} affix={}",
+            "法力风暴刷新角色 | 分段={} 刷新={} entry={} 标志=0x{:X} 已启用={} 路线={} 链接={} 随机槽位={} 来源池={} 词缀={}",
             segmentId,
             spawnId,
             creature->GetEntry(),
             flags,
-            enabled ? "yes" : "no",
-            (flags & ManastormSegmentSpawnFlags::RouteCreature) ? "yes" : "no",
-            (flags & ManastormSegmentSpawnFlags::ChaoticLinkEligible) ? "yes" : "no",
-            (flags & ManastormSegmentSpawnFlags::RandomizationSlot) ? "yes" : "no",
-            (flags & ManastormSegmentSpawnFlags::CreaturePoolSource) ? "yes" : "no",
-            (flags & ManastormSegmentSpawnFlags::AffixEligible) ? "yes" : "no");
+            enabled ? "是": "no",
+            (flags & ManastormSegmentSpawnFlags::RouteCreature) ? "是": "no",
+            (flags & ManastormSegmentSpawnFlags::ChaoticLinkEligible) ? "是": "no",
+            (flags & ManastormSegmentSpawnFlags::RandomizationSlot) ? "是": "no",
+            (flags & ManastormSegmentSpawnFlags::CreaturePoolSource) ? "是": "no",
+            (flags & ManastormSegmentSpawnFlags::AffixEligible) ? "是": "no");
 
         return true;
     }
@@ -759,14 +742,14 @@ public:
         if (!result)
         {
             handler->PSendSysMessage(
-                "Manastorm: segment {} has no authored spawn roles.",
+                "法力风暴：分段 {} 没有任何作者定义的刷新角色。",
                 segmentId);
 
             return true;
         }
 
         handler->PSendSysMessage(
-            "Manastorm authored spawns for segment {}:",
+            "分段 {} 的作者定义刷新点：",
             segmentId);
 
         do
@@ -775,11 +758,11 @@ public:
                 result->Fetch();
 
             handler->PSendSysMessage(
-                "  spawn={} entry={} flags=0x{:X} enabled={}",
+                "  刷新={} entry={} 标志=0x{:X} 已启用={}",
                 fields[0].Get<uint32>(),
                 fields[1].Get<uint32>(),
                 fields[2].Get<uint32>(),
-                fields[3].Get<uint8>() ? "yes" : "no");
+                fields[3].Get<uint8>() ? "是": "no");
         } while (result->NextRow());
 
         return true;
@@ -796,15 +779,14 @@ public:
         if (!pool)
         {
             handler->PSendSysMessage(
-                "Manastorm: creature pool {} is not loaded/enabled.",
+                "法力风暴：生物池 {} 未加载或未启用。",
                 poolId);
 
             return true;
         }
 
         handler->PSendSysMessage(
-            "Manastorm creature pool {} '{}' | sourceSegments={} "
-            "derivedCreatureEntries={} | replacementRuntime=disabled",
+            "法力风暴生物池 {} '{}' | 来源分段={} 派生生物 entry={} | 运行时替换=未启用",
             pool->PoolId,
             pool->Name,
             pool->SourceSegmentIds.size(),
@@ -814,7 +796,7 @@ public:
             pool->SourceSegmentIds)
         {
             handler->PSendSysMessage(
-                "  sourceSegment={}",
+                "  来源分段={}",
                 segmentId);
         }
 
@@ -826,11 +808,11 @@ public:
                     creatureEntry);
 
             handler->PSendSysMessage(
-                "  creatureEntry={} name='{}'",
+                "  生物 entry={} 名称='{}'",
                 creatureEntry,
                 creatureTemplate
                     ? creatureTemplate->Name
-                    : "<missing template>");
+                    : "<缺少模板>");
         }
 
         return true;
@@ -843,7 +825,7 @@ public:
         if (!segmentId)
         {
             handler->SendErrorMessage(
-                "Manastorm: segment ID must be greater than 0.");
+                "法力风暴：分段 ID 必须大于 0。");
 
             return false;
         }
@@ -855,7 +837,7 @@ public:
             segment))
         {
             handler->PSendSysMessage(
-                "Manastorm: segment {} does not exist.",
+                "法力风暴：分段 {} 不存在。",
                 segmentId);
 
             return true;
@@ -867,7 +849,7 @@ public:
         if (!creature)
         {
             handler->SendErrorMessage(
-                "Manastorm: select a creature first.");
+                "法力风暴：请先选择一个生物。");
 
             return false;
         }
@@ -878,9 +860,7 @@ public:
         if (!spawnId)
         {
             handler->SendErrorMessage(
-                "Manastorm: selected creature has no stable DB spawn ID. "
-                "Temporary, summoned, or dynamically-created creatures "
-                "cannot be Chaotic Links.");
+                "法力风暴：所选生物没有稳定的数据库刷新 ID。临时、召唤或动态创建的生物不能作为混沌链接。");
 
             return false;
         }
@@ -889,8 +869,7 @@ public:
             segment.MapId)
         {
             handler->PSendSysMessage(
-                "Manastorm: spawn {} is on map {}, "
-                "but segment {} uses map {}.",
+                "法力风暴：刷新 {} 位于地图 {}，但分段 {} 使用的是地图 {}。",
                 spawnId,
                 creature->GetMapId(),
                 segmentId,
@@ -903,9 +882,7 @@ public:
             segment.ObjectiveCreatureEntry)
         {
             handler->PSendSysMessage(
-                "Manastorm: creature entry {} is the "
-                "objective boss for segment {} and cannot "
-                "also be a Chaotic Link route spawn.",
+                "法力风暴：生物 entry {} 是分段 {} 的目标首领，不能同时作为混沌链接路线的刷新点。",
                 creature->GetEntry(),
                 segmentId);
 
@@ -940,8 +917,7 @@ public:
             if (enabled && (flags & requiredFlags) == requiredFlags)
             {
                 handler->PSendSysMessage(
-                    "Manastorm: spawn {} is already a Chaotic Link "
-                    "for segment {}.",
+                    "法力风暴：刷新 {} 已经是分段 {} 的混沌链接。",
                     spawnId,
                     segmentId);
 
@@ -972,9 +948,7 @@ public:
             GetChaoticLinkCount(segmentId);
 
         handler->PSendSysMessage(
-            "Manastorm: added Chaotic Link candidate | "
-            "segment={} spawn={} entry={} name='{}' | "
-            "candidates={} requiredBossLinks={}.",
+            "法力风暴：已添加混沌链接候选 | 分段={} 刷新={} entry={} 名称='{}' | 候选数={} 所需首领链接数={}。",
             segmentId,
             spawnId,
             creature->GetEntry(),
@@ -992,7 +966,7 @@ public:
         if (!segmentId)
         {
             handler->SendErrorMessage(
-                "Manastorm: segment ID must be greater than 0.");
+                "法力风暴：分段 ID 必须大于 0。");
 
             return false;
         }
@@ -1004,7 +978,7 @@ public:
             segment))
         {
             handler->PSendSysMessage(
-                "Manastorm: segment {} does not exist.",
+                "法力风暴：分段 {} 不存在。",
                 segmentId);
 
             return true;
@@ -1016,7 +990,7 @@ public:
         if (!creature)
         {
             handler->SendErrorMessage(
-                "Manastorm: select a creature first.");
+                "法力风暴：请先选择一个生物。");
 
             return false;
         }
@@ -1027,7 +1001,7 @@ public:
         if (!spawnId)
         {
             handler->SendErrorMessage(
-                "Manastorm: selected creature has no stable DB spawn ID.");
+                "法力风暴：所选生物没有稳定的数据库刷新 ID。");
 
             return false;
         }
@@ -1044,8 +1018,7 @@ public:
         if (!existing)
         {
             handler->PSendSysMessage(
-                "Manastorm: spawn {} is not registered "
-                "to segment {}.",
+                "法力风暴：刷新 {} 未注册到分段 {}。",
                 spawnId,
                 segmentId);
 
@@ -1066,8 +1039,7 @@ public:
                 ManastormSegmentSpawnFlags::ChaoticLinkEligible))
         {
             handler->PSendSysMessage(
-                "Manastorm: spawn {} is not an enabled Chaotic Link "
-                "candidate for segment {}.",
+                "法力风暴：刷新 {} 不是分段 {} 的已启用混沌链接候选。",
                 spawnId,
                 segmentId);
 
@@ -1086,11 +1058,7 @@ public:
             uint32(segment.ChaoticLinkStacks))
         {
             handler->PSendSysMessage(
-                "Manastorm: cannot remove this candidate. "
-                "Segment {} requires {} boss Link break(s), "
-                "but removal would leave only {} candidate(s). "
-                "Lower the required Link count first with "
-                "`.manastorm link stacks {} <count>`.",
+                "法力风暴：无法移除此候选。分段 {} 需要打破 {} 个首领链接，但移除后只会剩下 {} 个候选。请先用 `.manastorm link stacks {} <数量>` 降低所需的链接数。",
                 segmentId,
                 uint32(segment.ChaoticLinkStacks),
                 remainingCandidateCount,
@@ -1134,9 +1102,7 @@ public:
             return false;
 
         handler->PSendSysMessage(
-            "Manastorm: removed Chaotic Link candidate | "
-            "segment={} spawn={} entry={} | "
-            "candidates={} requiredBossLinks={}.",
+            "法力风暴：已移除混沌链接候选 | 分段={} 刷新={} entry={} | 候选数={} 所需首领链接数={}。",
             segmentId,
             spawnId,
             creature->GetEntry(),
@@ -1157,7 +1123,7 @@ public:
             segment))
         {
             handler->PSendSysMessage(
-                "Manastorm: segment {} does not exist.",
+                "法力风暴：分段 {} 不存在。",
                 segmentId);
 
             return true;
@@ -1179,8 +1145,7 @@ public:
             ManastormSegmentSpawnFlags::ChaoticLinkEligible);
 
         handler->PSendSysMessage(
-            "Manastorm: Chaotic Link route for segment {} "
-            "(map={}, candidates={}, requiredBossLinks={}):",
+            "分段 {} 的混沌链接路线（地图={}，候选数={}，所需首领链接数={}）：",
             segmentId,
             segment.MapId,
             GetChaoticLinkCount(segmentId),
@@ -1189,7 +1154,7 @@ public:
         if (!result)
         {
             handler->SendSysMessage(
-                "  No Chaotic Link spawns configured.");
+                "  尚未配置任何混沌链接刷新点。");
 
             return true;
         }
@@ -1212,11 +1177,11 @@ public:
                 fields[3].Get<uint8>() != 0;
 
             handler->PSendSysMessage(
-                "  spawn={} entry={} flags=0x{:X} enabled={}",
+                "  刷新={} entry={} 标志=0x{:X} 已启用={}",
                 spawnId,
                 entry,
                 flags,
-                enabled ? "yes" : "no");
+                enabled ? "是": "no");
         } while (result->NextRow());
 
         return true;
@@ -1233,7 +1198,7 @@ public:
             segment))
         {
             handler->PSendSysMessage(
-                "Manastorm: segment {} does not exist.",
+                "法力风暴：分段 {} 不存在。",
                 segmentId);
 
             return true;
@@ -1242,10 +1207,7 @@ public:
         if (segment.ChaoticLinkStacks)
         {
             handler->PSendSysMessage(
-                "Manastorm: segment {} still requires {} boss "
-                "Link break(s). Set its Link stacks to 0 first with "
-                "`.manastorm link stacks {} 0` before clearing "
-                "all route candidates.",
+                "法力风暴：分段 {} 仍需要打破 {} 个首领链接。请先用 `.manastorm link stacks {} 0` 将其链接层数设为 0，然后再清除所有路线候选。",
                 segmentId,
                 uint32(segment.ChaoticLinkStacks),
                 segmentId);
@@ -1282,8 +1244,7 @@ public:
             return false;
 
         handler->PSendSysMessage(
-            "Manastorm: cleared {} Chaotic Link candidate spawn(s) "
-            "from segment {}. requiredBossLinks=0.",
+            "法力风暴：已从分段 {} 清除 {} 个混沌链接候选刷新点。所需首领链接数=0。",
             oldCount,
             segmentId);
 
@@ -1298,7 +1259,7 @@ public:
         if (!segmentId)
         {
             handler->SendErrorMessage(
-                "Manastorm: segment ID must be greater than 0.");
+                "法力风暴：分段 ID 必须大于 0。");
 
             return false;
         }
@@ -1310,7 +1271,7 @@ public:
             segment))
         {
             handler->PSendSysMessage(
-                "Manastorm: segment {} does not exist.",
+                "法力风暴：分段 {} 不存在。",
                 segmentId);
 
             return true;
@@ -1319,7 +1280,7 @@ public:
         if (stacks > 254)
         {
             handler->SendErrorMessage(
-                "Manastorm: Chaotic Link stacks cannot exceed 254.");
+                "法力风暴：混沌链接层数不能超过 254。");
 
             return false;
         }
@@ -1330,9 +1291,7 @@ public:
         if (stacks > candidateCount)
         {
             handler->PSendSysMessage(
-                "Manastorm: segment {} has only {} configured "
-                "Chaotic Link candidate(s), so required boss Links "
-                "cannot be set to {}.",
+                "法力风暴：分段 {} 只配置了 {} 个混沌链接候选，因此所需首领链接数不能设为 {}。",
                 segmentId,
                 candidateCount,
                 stacks);
@@ -1351,9 +1310,7 @@ public:
             return false;
 
         handler->PSendSysMessage(
-            "Manastorm: segment {} now has {} configured "
-            "candidate(s) and requires {} candidate death(s) "
-            "to remove all boss Chaotic Links.",
+            "法力风暴：分段 {} 现在配置了 {} 个候选，需要杀死 {} 个候选才能移除所有首领身上的混沌链接。",
             segmentId,
             candidateCount,
             stacks);
@@ -1369,7 +1326,7 @@ public:
         if (!segmentId || enabled > 1)
         {
             handler->SendErrorMessage(
-                "Usage: .manastorm segment enable <segmentId> <0|1>");
+                "用法：.manastorm segment enable <分段ID> <0|1>");
             return false;
         }
 
@@ -1384,7 +1341,7 @@ public:
         if (!result)
         {
             handler->PSendSysMessage(
-                "Manastorm: segment {} does not exist.",
+                "法力风暴：分段 {} 不存在。",
                 segmentId);
             return true;
         }
@@ -1401,8 +1358,7 @@ public:
             if (!ReloadAfterAuthoring(handler))
             {
                 handler->PSendSysMessage(
-                    "Manastorm: segment {} was enabled in SQL, "
-                    "but datastore validation rejected it. Check worldserver logs.",
+                    "法力风暴：分段 {} 已在 SQL 中启用，但数据存储校验拒绝了它。请查看 worldserver 日志。",
                     segmentId);
                 return true;
             }
@@ -1415,9 +1371,9 @@ public:
         }
 
         handler->PSendSysMessage(
-            "Manastorm: segment {} {}.",
+            "法力风暴：分段 {} {}。",
             segmentId,
-            enabled ? "enabled" : "disabled");
+            enabled ? "启用": "停用");
 
         return true;
     }
@@ -1434,7 +1390,7 @@ public:
         if (!player)
         {
             handler->SendErrorMessage(
-                "Manastorm: this command requires an in-game player.");
+                "法力风暴：此命令需要在游戏内由玩家执行。");
             return false;
         }
 
@@ -1445,9 +1401,7 @@ public:
         if (!segment)
         {
             handler->PSendSysMessage(
-                "Manastorm: segment {} is not enabled/valid. "
-                "Use `.manastorm segment enable {} 1` and inspect the "
-                "worldserver log if validation rejects it.",
+                "法力风暴：分段 {} 未启用或无效。请使用 `.manastorm segment enable {} 1`，若校验仍拒绝，请查看 worldserver 日志。",
                 segmentId,
                 segmentId);
             return true;
@@ -1471,14 +1425,13 @@ public:
         if (!run)
         {
             handler->PSendSysMessage(
-                "Manastorm: exact-segment test failed: {}",
+                "法力风暴：精确分段测试失败：{}",
                 error);
             return true;
         }
 
         handler->PSendSysMessage(
-            "Manastorm: TEST launched exact segment {} "
-            "at depth {} | nativeMap={} runtimeMap={} instance={}.",
+            "法力风暴：测试已启动精确分段 {}，深度 {} | 原生地图={} 运行时地图={} 实例={}。",
             segmentId,
             depth,
             run->GetSegment().NativeMapId,
@@ -1508,7 +1461,7 @@ public:
         if (!segmentResult)
         {
             handler->PSendSysMessage(
-                "Manastorm: segment {} does not exist.",
+                "法力风暴：分段 {} 不存在。",
                 segmentId);
             return true;
         }
@@ -1524,7 +1477,7 @@ public:
             if (!mapEntry)
             {
                 handler->PSendSysMessage(
-                    "Manastorm: runtime map {} does not exist.",
+                    "法力风暴：运行时地图 {} 不存在。",
                     mapId);
                 return true;
             }
@@ -1532,8 +1485,7 @@ public:
             if (mapEntry->IsBattlegroundOrArena())
             {
                 handler->PSendSysMessage(
-                    "Manastorm: battleground/arena map {} cannot be used "
-                    "as a runtime stage map.",
+                    "法力风暴：战场/竞技场地图 {} 不能用作运行时阶段地图。",
                     mapId);
                 return true;
             }
@@ -1550,11 +1502,11 @@ public:
             return false;
 
         handler->PSendSysMessage(
-            "Manastorm: segment {} nativeMap={} runtimeMap={}{}.",
+            "法力风暴：分段 {} 原生地图={} 运行时地图={}{}。",
             segmentId,
             nativeMapId,
             mapId ? mapId : nativeMapId,
-            mapId ? " (override)" : " (native)");
+            mapId ? "（覆盖）": "（原生）");
 
         return true;
     }
@@ -1575,7 +1527,7 @@ public:
         if (!segmentResult)
         {
             handler->PSendSysMessage(
-                "Manastorm: segment {} does not exist.",
+                "法力风暴：分段 {} 不存在。",
                 segmentId);
             return true;
         }
@@ -1587,8 +1539,7 @@ public:
             !sObjectMgr->GetCreatureTemplate(creatureEntry))
         {
             handler->PSendSysMessage(
-                "Manastorm: runtime objective creature entry {} "
-                "does not exist in creature_template.",
+                "法力风暴：运行时目标生物 entry {} 在 creature_template 中不存在。",
                 creatureEntry);
             return true;
         }
@@ -1604,15 +1555,14 @@ public:
             return false;
 
         handler->PSendSysMessage(
-            "Manastorm: segment {} nativeObjective={} runtimeObjective={}{}.",
+            "法力风暴：分段 {} 原生目标={} 运行时目标={}{}。",
             segmentId,
             nativeObjectiveEntry,
             creatureEntry
                 ? creatureEntry
                 : nativeObjectiveEntry,
             creatureEntry
-                ? " (override)"
-                : " (native)");
+                ? "（覆盖）": "（原生）");
 
         return true;
     }
@@ -1644,7 +1594,7 @@ public:
         if (!result)
         {
             handler->PSendSysMessage(
-                "Manastorm: segment {} does not exist.",
+                "法力风暴：分段 {} 不存在。",
                 segmentId);
 
             return true;
@@ -1706,36 +1656,36 @@ public:
             GetChaoticLinkCount(segmentId);
 
         handler->PSendSysMessage(
-            "Manastorm segment {}:",
+            "法力风暴分段 {}：",
             segmentId);
 
         handler->PSendSysMessage(
-            "  nativeMap={} runtimeMap={}{} difficulty={} encounter={}",
+            "  原生地图={} 运行时地图={}{} 难度={} 遭遇={}",
             nativeMapId,
             runtimeMapId,
-            runtimeMapOverride ? " (override)" : "",
+            runtimeMapOverride ? "（覆盖）": "",
             uint32(difficulty),
             encounterId);
 
         handler->PSendSysMessage(
-            "  objectiveNative={} objectiveRuntime={}{} startTele={}",
+            "  目标原生={} 目标运行时={}{} 起始传送={}",
             nativeObjectiveEntry,
             runtimeObjectiveEntry,
-            runtimeObjectiveOverride ? " (override)" : "",
+            runtimeObjectiveOverride ? "（覆盖）": "",
             teleId);
 
         handler->PSendSysMessage(
-            "  depth={}..{} weight={} reward={:.3f}x",
+            "  深度={}..{} 权重={} 奖励={:.3f}倍",
             minDepth,
             maxDepth,
             weight,
             rewardMultiplier);
 
         handler->PSendSysMessage(
-            "  chaoticLinks={} routeSpawns={} enabled={}",
+            "  混沌链接={} 路线刷新点={} 已启用={}",
             uint32(configuredStacks),
             routeSpawnCount,
-            enabled ? "yes" : "no");
+            enabled ? "是": "no");
 
         return true;
     }
@@ -1749,13 +1699,12 @@ public:
         if (!ok)
         {
             handler->SendErrorMessage(
-                "Manastorm: datastore reload failed. Check worldserver logs.");
+                "法力风暴：数据存储重载失败。请查看 worldserver 日志。");
             return false;
         }
 
         handler->PSendSysMessage(
-            "Manastorm: datastore reloaded. segments={} scalingPoints={} activeRuns={}. "
-            "Existing runs keep their stage/scaling snapshots.",
+            "法力风暴：数据存储已重载。分段={} 缩放点={} 活动进程={}。已有的进程会保留其阶段与缩放快照。",
             store.GetSegmentCount(),
             store.GetScalingPointCount(),
             ManastormMgr::Instance().GetActiveRunCount());
@@ -1774,8 +1723,7 @@ public:
         if (!player)
         {
             handler->SendErrorMessage(
-                "Manastorm: this command requires "
-                "an in-game player.");
+                "法力风暴：此命令需要在游戏内由玩家执行。");
 
             return false;
         }
@@ -1788,14 +1736,14 @@ public:
                 error))
         {
             handler->PSendSysMessage(
-                "Manastorm: {}",
+                "法力风暴：{}",
                 error);
 
             return true;
         }
 
         handler->SendSysMessage(
-            "Manastorm: forced Greedy Demon encounter.");
+            "法力风暴：已强制触发贪婪恶魔遭遇。");
 
         return true;
     }
@@ -1812,8 +1760,7 @@ public:
         if (!player)
         {
             handler->SendErrorMessage(
-                "Manastorm: this command requires "
-                "an in-game player.");
+                "法力风暴：此命令需要在游戏内由玩家执行。");
 
             return false;
         }
@@ -1827,15 +1774,14 @@ public:
                 error))
         {
             handler->PSendSysMessage(
-                "Manastorm: {}",
+                "法力风暴：{}",
                 error);
 
             return true;
         }
 
         handler->PSendSysMessage(
-            "Manastorm: forced affix {} onto "
-            "the current stage.",
+            "法力风暴：已为当前阶段强制附加词缀 {}。",
             affixId);
 
         ManastormRun const* run =

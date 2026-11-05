@@ -44,8 +44,8 @@ public:
             { "ingame",    HandleGMListIngameCommand, rbac::RBAC_PERM_COMMAND_GM_INGAME,  Console::Yes },
             { "list",      HandleGMListFullCommand,   rbac::RBAC_PERM_COMMAND_GM_LIST,    Console::Yes },
             { "visible",   HandleGMVisibleCommand,    rbac::RBAC_PERM_COMMAND_GM_VISIBLE, Console::No  },
-            { "on",        HandleGMOnCommand,         rbac::RBAC_PERM_COMMAND_GM,         Console::No  },
-            { "off",       HandleGMOffCommand,        rbac::RBAC_PERM_COMMAND_GM,         Console::No  },
+            { "开启",        HandleGMOnCommand,         rbac::RBAC_PERM_COMMAND_GM,         Console::No  },
+            { "关闭",       HandleGMOffCommand,        rbac::RBAC_PERM_COMMAND_GM,         Console::No  },
             { "spectator", HandleGMSpectatorCommand,  rbac::RBAC_PERM_COMMAND_GM,         Console::No  },
         };
         static ChatCommandTable commandTable =
@@ -105,7 +105,7 @@ public:
             target->SetCanFly(canFly);
         }
 
-        handler->PSendSysMessage(LANG_COMMAND_FLYMODE_STATUS, handler->GetNameLink(target), canFly ? "on" : "off");
+        handler->PSendSysMessage(LANG_COMMAND_FLYMODE_STATUS, handler->GetNameLink(target), canFly ? "开启" : "关闭");
         return true;
     }
 
@@ -137,7 +137,7 @@ public:
                 if ((max + max2 + size) == 16)
                     max2 = max - 1;
                 if (handler->GetSession())
-                    handler->PSendSysMessage("|    {} GMLevel {}", name, security);
+                    handler->PSendSysMessage("|    {} GM 等级 {}", name, security);
                 else
                     handler->PSendSysMessage("|{}{}{}|   {}  |", max, " ", name, max2, " ", security);
             }
@@ -173,7 +173,7 @@ public:
                 if ((max + max2 + name.length()) == 16)
                     max2 = max - 1;
                 if (handler->GetSession())
-                    handler->PSendSysMessage("|    {} GMLevel {}", name, security);
+                    handler->PSendSysMessage("|    {} GM 等级 {}", name, security);
                 else
                     handler->PSendSysMessage("|{}{}{}|   {}  |", max, " ", name, max2, " ", security);
             } while (result->NextRow());

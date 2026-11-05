@@ -154,7 +154,7 @@ private:
         // Show parent pool if nested
         uint32 parentPool = sPoolMgr->IsPartOfAPool<Pool>(poolId);
         if (parentPool)
-            handler->PSendSysMessage("  Parent pool: {}", parentPool);
+            handler->PSendSysMessage("  父水池：{}", parentPool);
 
         // Creature members
         if (PoolGroup<Creature> const* creGroup = sPoolMgr->GetPoolCreatureGroup(poolId))

@@ -79,7 +79,7 @@ std::string const GetLocalizeCreatureName(Creature* creature, LocaleConstant loc
 
     if (name.empty())
     {
-        name = "Unknown creature";
+        name = "未知生物";
     }
 
     return name;
@@ -187,7 +187,7 @@ public:
             {
                 if (arenaTokens.size() > 1)
                 {
-                    handler->SendErrorMessage("Invalid [arena] specified.");
+                    handler->SendErrorMessage("指定的竞技场无效。");
                     return false;
                 }
 
@@ -219,7 +219,7 @@ public:
             }
             else
             {
-                handler->SendErrorMessage("Invalid [arena] specified.");
+                handler->SendErrorMessage("指定的竞技场无效。");
                 return false;
             }
         }
@@ -252,13 +252,13 @@ public:
 
         if (!count)
         {
-            handler->SendErrorMessage("Invalid bracket. Can be 1v1, 2v2, 3v3, 5v5");
+            handler->SendErrorMessage("分组无效。可以是 1v1、2v2、3v3、5v5");
             return false;
         }
 
         if (tokens.size() != uint16(count + 2))
         {
-            handler->SendErrorMessage("Invalid number of nicknames for this bracket.");
+            handler->SendErrorMessage("该分组的昵称数量无效。");
             return false;
         }
 
@@ -374,43 +374,43 @@ public:
         switch (error)
         {
             case 1:
-                handler->PSendSysMessage("Player {} not found.", last_name);
+                handler->PSendSysMessage("未找到玩家 {}。", last_name);
                 break;
             case 2:
-                handler->PSendSysMessage("Player {} is being teleported.", last_name);
+                handler->PSendSysMessage("玩家 {} 正在传送中。", last_name);
                 break;
             case 3:
-                handler->PSendSysMessage("Player {} is in instance/battleground/arena.", last_name);
+                handler->PSendSysMessage("玩家 {} 位于副本/战场/竞技场中。", last_name);
                 break;
             case 4:
-                handler->PSendSysMessage("Player {} is in LFG system.", last_name);
+                handler->PSendSysMessage("玩家 {} 处于 LFG 队列中。", last_name);
                 break;
             case 5:
-                handler->PSendSysMessage("Player {} is queued for battleground/arena.", last_name);
+                handler->PSendSysMessage("玩家 {} 已加入战场/竞技场队列。", last_name);
                 break;
             case 6:
-                handler->PSendSysMessage("Player {} is not in group.", last_name);
+                handler->PSendSysMessage("玩家 {} 不在队伍中。", last_name);
                 break;
             case 7:
-                handler->PSendSysMessage("Player {} is not in normal group.", last_name);
+                handler->PSendSysMessage("玩家 {} 不在普通队伍中。", last_name);
                 break;
             case 8:
-                handler->PSendSysMessage("Group of player {} has invalid member count.", last_name);
+                handler->PSendSysMessage("玩家 {} 的队伍成员数量无效。", last_name);
                 break;
             case 9:
-                handler->PSendSysMessage("Players {} are not in the same group.", last_name);
+                handler->PSendSysMessage("玩家 {} 不在同一队伍中。", last_name);
                 break;
             case 10:
-                handler->PSendSysMessage("Player {} is in flight.", last_name);
+                handler->PSendSysMessage("玩家 {} 正在飞行中。", last_name);
                 break;
             case 11:
-                handler->PSendSysMessage("Player {} is dead.", last_name);
+                handler->PSendSysMessage("玩家 {} 已死亡。", last_name);
                 break;
             case 12:
-                handler->PSendSysMessage("Player {} is in a group.", last_name);
+                handler->PSendSysMessage("玩家 {} 已在队伍中。", last_name);
                 break;
             case 13:
-                handler->PSendSysMessage("Player {} occurs more than once.", last_name);
+                handler->PSendSysMessage("玩家 {} 出现了多次。", last_name);
                 break;
         }
 
@@ -423,14 +423,14 @@ public:
         Battleground* bgt = sBattlegroundMgr->GetBattlegroundTemplate(BATTLEGROUND_AA);
         if (!bgt)
         {
-            handler->SendErrorMessage("Couldn't create arena map!");
+            handler->SendErrorMessage("无法创建竞技场地图！");
             return false;
         }
 
         Battleground* bg = sBattlegroundMgr->CreateNewBattleground(randomizedArenaBgTypeId, GetBattlegroundBracketById(bgt->GetMapId(), bgt->GetBracketId()), ArenaType(hcnt >= 2 ? hcnt : 2), false);
         if (!bg)
         {
-            handler->SendErrorMessage("Couldn't create arena map!");
+            handler->SendErrorMessage("无法创建竞技场地图！");
             return false;
         }
 
@@ -473,7 +473,7 @@ public:
             }
         }
 
-        handler->PSendSysMessage("Success! Players are now being teleported to the arena.");
+        handler->PSendSysMessage("成功！玩家正在被传送到竞技场。");
         return true;
     }
 
@@ -489,7 +489,7 @@ public:
 
         auto SetCommentatorMod = [&](bool enable)
         {
-            handler->SendNotification(enable ? "Commentator mode on" : "Commentator mode off");
+            handler->SendNotification(enable ? "解说员模式已开启" : "解说员模式已关闭");
             session->GetPlayer()->SetCommentator(enable);
         };
 
@@ -612,16 +612,16 @@ public:
         {
             if (object->IsOutdoors())
             {
-                handler->PSendSysMessage("You are outdoors");
+                handler->PSendSysMessage("你在室外");
             }
             else
             {
-                handler->PSendSysMessage("You are indoors");
+                handler->PSendSysMessage("你在室内");
             }
         }
         else
         {
-            handler->PSendSysMessage("no VMAP available for area info");
+            handler->PSendSysMessage("没有可用于区域信息的 VMAP");
         }
 
         handler->PSendSysMessage(LANG_MAP_POSITION,
@@ -642,7 +642,7 @@ public:
 
         if (object->GetTransport())
         {
-            handler->PSendSysMessage("Transport offset: {:0.2f}, {:0.2f}, {:0.2f}, {:0.2f}", object->m_movementInfo.transport.pos.GetPositionX(), object->m_movementInfo.transport.pos.GetPositionY(), object->m_movementInfo.transport.pos.GetPositionZ(), object->m_movementInfo.transport.pos.GetOrientation());
+            handler->PSendSysMessage("载具偏移：{:0.2f}，{:0.2f}，{:0.2f}，{:0.2f}", object->m_movementInfo.transport.pos.GetPositionX(), object->m_movementInfo.transport.pos.GetPositionY(), object->m_movementInfo.transport.pos.GetPositionZ(), object->m_movementInfo.transport.pos.GetOrientation());
         }
 
         return true;
@@ -969,7 +969,7 @@ public:
 
             if (map->IsBattlegroundOrArena())
             {
-                handler->SendErrorMessage("Can't summon to a battleground!");
+                handler->SendErrorMessage("无法在战场中召唤！");
                 return false;
             }
             else if (map->IsDungeon())
@@ -980,7 +980,7 @@ public:
                     // pussywizard: prevent unbinding normal player's perm bind by just summoning him >_>
                     if (!targetPlayer->GetSession()->GetSecurity())
                     {
-                        handler->SendErrorMessage("Only GMs can be summoned to an instance!");
+                        handler->SendErrorMessage("只有 GM 才能被召唤进副本！");
                         return false;
                     }
                 }
@@ -2356,68 +2356,68 @@ public:
         switch (raceid)
         {
             case RACE_HUMAN:
-                raceStr = "Human";
+                raceStr = "人类";
                 break;
             case RACE_ORC:
-                raceStr = "Orc";
+                raceStr = "兽人";
                 break;
             case RACE_DWARF:
-                raceStr = "Dwarf";
+                raceStr = "矮人";
                 break;
             case RACE_NIGHTELF:
-                raceStr = "Night Elf";
+                raceStr = "暗夜精灵";
                 break;
             case RACE_UNDEAD_PLAYER:
-                raceStr = "Undead";
+                raceStr = "亡灵";
                 break;
             case RACE_TAUREN:
-                raceStr = "Tauren";
+                raceStr = "牛头人";
                 break;
             case RACE_GNOME:
-                raceStr = "Gnome";
+                raceStr = "侏儒";
                 break;
             case RACE_TROLL:
-                raceStr = "Troll";
+                raceStr = "巨魔";
                 break;
             case RACE_BLOODELF:
-                raceStr = "Blood Elf";
+                raceStr = "血精灵";
                 break;
             case RACE_DRAENEI:
-                raceStr = "Draenei";
+                raceStr = "德莱尼";
                 break;
         }
 
         switch (classid)
         {
             case CLASS_WARRIOR:
-                classStr = "Warrior";
+                classStr = "战士";
                 break;
             case CLASS_PALADIN:
-                classStr = "Paladin";
+                classStr = "圣骑士";
                 break;
             case CLASS_HUNTER:
-                classStr = "Hunter";
+                classStr = "猎人";
                 break;
             case CLASS_ROGUE:
-                classStr = "Rogue";
+                classStr = "盗贼";
                 break;
             case CLASS_PRIEST:
-                classStr = "Priest";
+                classStr = "牧师";
                 break;
             case CLASS_DEATH_KNIGHT:
-                classStr = "Death Knight";
+                classStr = "死亡骑士";
                 break;
             case CLASS_SHAMAN:
-                classStr = "Shaman";
+                classStr = "萨满祭司";
                 break;
             case CLASS_MAGE:
-                classStr = "Mage";
+                classStr = "法师";
                 break;
             case CLASS_WARLOCK:
-                classStr = "Warlock";
+                classStr = "术士";
                 break;
             case CLASS_DRUID:
-                classStr = "Druid";
+                classStr = "德鲁伊";
                 break;
         }
 
@@ -3531,13 +3531,13 @@ public:
             if (*enableArg)
             {
                 session->SetPacketLogging(true);
-                handler->PSendSysMessage("Packet logging enabled for {}.", playerTarget->GetName());
+                handler->PSendSysMessage("已为 {} 开启数据包日志。", playerTarget->GetName());
                 return true;
             }
             else
             {
                 session->SetPacketLogging(false);
-                handler->PSendSysMessage("Packet logging disabled for {}.", playerTarget->GetName());
+                handler->PSendSysMessage("已为 {} 关闭数据包日志。", playerTarget->GetName());
                 return true;
             }
         }

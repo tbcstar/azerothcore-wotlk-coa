@@ -279,34 +279,34 @@ public:
 
         if (sObjectMgr->GetCreatureData(spawnId))
         {
-            handler->SendErrorMessage("Creature spawn {} is already loaded.", uint32(spawnId));
+            handler->SendErrorMessage("生物刷新 {} 已加载。", uint32(spawnId));
             return false;
         }
 
         CreatureData const* data = sObjectMgr->LoadCreatureDataFromDB(spawnId);
         if (!data)
         {
-            handler->SendErrorMessage("Creature spawn {} not found in the database.", uint32(spawnId));
+            handler->SendErrorMessage("数据库中未找到生物刷新 {}。", uint32(spawnId));
             return false;
         }
 
         if (sPoolMgr->IsPartOfAPool<Creature>(spawnId))
         {
-            handler->SendErrorMessage("Creature spawn {} is part of a pool and cannot be manually loaded.", uint32(spawnId));
+            handler->SendErrorMessage("生物刷新 {} 属于水池，无法手动加载。", uint32(spawnId));
             return false;
         }
 
         QueryResult eventResult = WorldDatabase.Query("SELECT guid FROM game_event_creature WHERE guid = {}", uint32(spawnId));
         if (eventResult)
         {
-            handler->SendErrorMessage("Creature spawn {} is managed by the game event system and cannot be manually loaded.", uint32(spawnId));
+            handler->SendErrorMessage("生物刷新 {} 由游戏事件系统管理，无法手动加载。", uint32(spawnId));
             return false;
         }
 
         Map* map = sMapMgr->FindBaseNonInstanceMap(data->mapid);
         if (!map)
         {
-            handler->SendErrorMessage("Creature spawn {} is on a non-continent map (ID: {}). Only continent maps are supported.", uint32(spawnId), data->mapid);
+            handler->SendErrorMessage("生物刷新 {} 位于非大陆地图（ID：{}）。仅支持大陆地图。", uint32(spawnId), data->mapid);
             return false;
         }
 
@@ -314,12 +314,12 @@ public:
         if (!creature->LoadCreatureFromDB(spawnId, map, true, true))
         {
             delete creature;
-            handler->SendErrorMessage("Failed to load creature spawn {}.", uint32(spawnId));
+            handler->SendErrorMessage("加载生物刷新 {} 失败。", uint32(spawnId));
             return false;
         }
 
         sObjectMgr->AddCreatureToGrid(spawnId, data);
-        handler->PSendSysMessage("Creature spawn {} loaded successfully.", uint32(spawnId));
+        handler->PSendSysMessage("生物刷新 {} 加载成功。", uint32(spawnId));
         return true;
     }
 
@@ -601,7 +601,7 @@ public:
         }
 
         creature->AI()->SetData(data_1, data_2);
-        std::string AIorScript = !creature->GetAIName().empty() ? "AI type: " + creature->GetAIName() : (!creature->GetScriptName().empty() ? "Script Name: " + creature->GetScriptName() : "No AI or Script Name Set");
+        std::string AIorScript = !creature->GetAIName().empty() ? "AI 类型：" + creature->GetAIName() : (!creature->GetScriptName().empty() ? "脚本名称：" + creature->GetScriptName() : "未设置 AI 或脚本名称");
         handler->PSendSysMessage(LANG_NPC_SETDATA, creature->GetGUID().ToString(), creature->GetEntry(), creature->GetName(), data_1, data_2, AIorScript);
         return true;
     }
@@ -730,14 +730,14 @@ public:
             return false;
         }
 
-        handler->PSendSysMessage("(Not in world - showing DB data)");
+        handler->PSendSysMessage("（不在世界中 - 显示数据库数据）");
         uint32 scriptId = cData->ScriptId ? cData->ScriptId : cInfo->ScriptID;
         handler->PSendSysMessage(LANG_NPCINFO_CHAR, lowGuid, ObjectGuid::Create<HighGuid::Unit>(cData->id, lowGuid).ToString(), cData->id,
             cData->id, cData->id2, cData->id3, cData->displayid, cData->displayid, cInfo->faction,
             cData->npcflag);
         handler->PSendSysMessage(LANG_NPCINFO_PHASEMASK, cData->phaseMask);
         handler->PSendSysMessage(LANG_NPCINFO_POSITION, cData->posX, cData->posY, cData->posZ);
-        handler->PSendSysMessage("Map: {} Spawn time: {}s", cData->mapid,
+        handler->PSendSysMessage("地图：{} 刷新时间：{}s", cData->mapid,
             cData->spawntimesecs);
         handler->PSendSysMessage(LANG_NPCINFO_EQUIPMENT, cData->equipmentId, cData->equipmentId);
         handler->PSendSysMessage(LANG_NPCINFO_AIINFO, cInfo->AIName,
@@ -1382,7 +1382,7 @@ public:
         ObjectGuid::LowType lowguid = creature->GetSpawnId();
         if (creature->GetFormation())
         {
-            handler->PSendSysMessage("Selected creature is already member of group {}", creature->GetFormation()->GetId());
+            handler->PSendSysMessage("所选生物已是分组 {} 的成员", creature->GetFormation()->GetId());
             return false;
         }
 
@@ -1408,7 +1408,7 @@ public:
 
         WorldDatabase.Execute(stmt);
 
-        handler->PSendSysMessage("Creature {} added to formation with leader {}", lowguid, leaderGUID);
+        handler->PSendSysMessage("已将生物 {} 加入编队，队长为 {}", lowguid, leaderGUID);
 
         return true;
     }
@@ -1425,17 +1425,17 @@ public:
 
         if (!creature->GetSpawnId())
         {
-            handler->SendErrorMessage("Selected creature {} isn't in creature table", creature->GetGUID().ToString());
+            handler->SendErrorMessage("所选生物 {} 不在 creature 表中", creature->GetGUID().ToString());
             return false;
         }
 
         if (!sObjectMgr->SetCreatureLinkedRespawn(creature->GetSpawnId(), linkguid))
         {
-            handler->SendErrorMessage("Selected creature can't link with guid '{}'", linkguid);
+            handler->SendErrorMessage("所选生物无法与 GUID {} 链接", linkguid);
             return false;
         }
 
-        handler->PSendSysMessage("LinkGUID '{}' added to creature with DBTableGUID: '{}'", linkguid, creature->GetSpawnId());
+        handler->PSendSysMessage("已将 GUID {} 链接到数据库 GUID 为 {} 的生物", linkguid, creature->GetSpawnId());
         return true;
     }
 
@@ -1496,7 +1496,7 @@ public:
     static void ShowLootEntry(ChatHandler* handler, LootItem const& item)
     {
         ItemTemplate const* itemTemplate = sObjectMgr->GetItemTemplate(item.itemid);
-        std::string name = itemTemplate ? itemTemplate->Name1 : "Unknown item";
+        std::string name = itemTemplate ? itemTemplate->Name1 : "未知物品";
         if (itemTemplate)
             if (ItemLocale const* il = sObjectMgr->GetItemLocale(item.itemid))
                 ObjectMgr::GetLocaleString(il->Name, handler->GetSessionDbLocaleIndex(), name);

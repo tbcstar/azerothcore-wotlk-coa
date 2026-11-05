@@ -56,17 +56,17 @@ public:
         Guild* guild = player->GetGuild();
         if (!guild || guild->GetLeaderGUID() != player->GetGUID())
         {
-            handler.SendSysMessage("Only a guild master can unlock a guild vault tab.");
+            handler.SendSysMessage("只有公会会长才能解锁公会仓库分页。");
             return true;
         }
 
         if (!guild->HandleUnlockBankTab(player->GetSession()))
         {
-            handler.SendSysMessage("Your guild vault already owns every tab.");
+            handler.SendSysMessage("你的公会仓库已经拥有所有分页。");
             return true;
         }
 
-        handler.SendSysMessage("A new tab has been unlocked in your guild vault.");
+        handler.SendSysMessage("你的公会仓库已解锁一个新的分页。");
         uint32 count = 1;
         player->DestroyItemCount(item, count, true);
         return true;

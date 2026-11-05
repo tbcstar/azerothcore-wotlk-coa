@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "Potion of Experience needs a level 60 on the realm and is only for alts below the account's highest level",
-  "contract": "Potion of Experience (818046) follows Aura of Experience (818059): it is refused, and kept, while no character on the account has reached level 60. For a CoA class character (Resilient Constitution 552011) its tooltip also states: This item can only be used on alt characters who are not the highest level on your account. A level 20 character whose other character is level 30 is refused because nobody on the account is level 60. Once the other character is saved at level 60, the level 20 alt drinks one potion and receives aura 818046. Raised to level 60 itself, the alt is no longer below the account's highest level and is refused again.",
+  "contract": "Potion of Experience (818046) follows Aura of Experience (818059): it is refused, and kept, while no character on the account has reached level 60. For a CoA class character (Resilient Constitution 552011) its tooltip also states: 此物品只能用于你账号中等级并非最高的其他角色。 A level 20 character whose other character is level 30 is refused because nobody on the account is level 60. Once the other character is saved at level 60, the level 20 alt drinks one potion and receives aura 818046. Raised to level 60 itself, the alt is no longer below the account's highest level and is refused again.",
   "players": [
     { "id": "alt", "race": 1, "class": 12, "level": 20 },
     { "id": "main", "race": 1, "class": 1, "level": 30, "account_of": "alt" }

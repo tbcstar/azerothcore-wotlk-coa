@@ -33,7 +33,7 @@ namespace
 constexpr uint32 RUNE_OF_DESCENSION = 375250;
 constexpr uint32 DEFAULT_PERCENT = 200;
 constexpr uint32 EXPIRY_CHECK_MS = IN_MILLISECONDS;
-constexpr char ANNOUNCE_PREFIX[] = "|cffff8000[Test Zones]|r |cffffff00";
+constexpr char ANNOUNCE_PREFIX[] = "|cffff8000[测试区域]|r |cffffff00";
 constexpr char ANNOUNCE_TEXT_COLOR[] = "|cffffff00";
 constexpr char ANNOUNCE_VALUE_COLOR[] = "|cff00ccff";
 
@@ -125,7 +125,7 @@ void GrantExtraRunes(Player* player, Item const* item, uint32 count)
 std::string ZoneName(uint32 zoneId)
 {
     AreaTableEntry const* area = sAreaTableStore.LookupEntry(zoneId);
-    return area ? area->area_name[LOCALE_enUS] : "unknown zone";
+    return area ? area->area_name[LOCALE_enUS] : "未知区域";
 }
 
 std::string AnnouncedValue(std::string_view value)
@@ -140,7 +140,7 @@ std::string AnnouncedPercent(uint32 percent)
 
 std::string DescribeRates(Bonus const& bonus)
 {
-    return Acore::StringFormat("{} experience, {} Runes of Descension and {} Bazaar Tokens",
+    return Acore::StringFormat("{} 经验、{} 降临符文与 {} 集市代币",
         AnnouncedPercent(bonus.experience), AnnouncedPercent(bonus.runes), AnnouncedPercent(bonus.bazaarTokens));
 }
 
@@ -153,14 +153,14 @@ std::string TimeLeft(uint32 expiresAt)
 
 std::string DescribeEnd(Bonus const& bonus)
 {
-    return bonus.expiresAt ? Acore::StringFormat("ends in {}", TimeLeft(bonus.expiresAt)) : "no end";
+    return bonus.expiresAt ? Acore::StringFormat("{} 后结束", TimeLeft(bonus.expiresAt)) : "无期限";
 }
 
 std::string AnnouncedZone(uint32 zoneId, Bonus const& bonus)
 {
     if (!bonus.expiresAt)
         return ZoneName(zoneId);
-    return Acore::StringFormat("{} (ends in {})", ZoneName(zoneId), AnnouncedValue(TimeLeft(bonus.expiresAt)));
+    return Acore::StringFormat("{}（{} 后结束）", ZoneName(zoneId), AnnouncedValue(TimeLeft(bonus.expiresAt)));
 }
 
 std::string JoinZoneNames(std::vector<std::string>& names)
@@ -179,8 +179,8 @@ std::string JoinZoneNames(std::vector<std::string>& names)
 void AnnounceActivated(uint32 zoneId, Bonus const& bonus)
 {
     std::string const ending = bonus.expiresAt
-        ? Acore::StringFormat(" Ends in {}.", AnnouncedValue(TimeLeft(bonus.expiresAt))) : std::string();
-    ChatHandler(nullptr).SendWorldText("{}{} is now a test zone: {}. Help us find bugs and report back feedback!{}",
+        ? Acore::StringFormat(" 将于 {} 后结束。", AnnouncedValue(TimeLeft(bonus.expiresAt))) : std::string();
+    ChatHandler(nullptr).SendWorldText("{}{} 现在已成为测试区域：{}。请帮助我们发现问题并反馈！{}",
         ANNOUNCE_PREFIX, ZoneName(zoneId), DescribeRates(bonus), ending);
 }
 
@@ -198,12 +198,12 @@ void AnnounceActiveZones()
     for (auto& [rates, names] : zonesByRates)
     {
         auto const [experience, runes, bazaarTokens] = rates;
-        groups.push_back(Acore::StringFormat("{} with {} XP, {} Runes and {} Bazaar Tokens", JoinZoneNames(names),
+        groups.push_back(Acore::StringFormat("{}：{} 经验、{} 符文与 {} 集市代币", JoinZoneNames(names),
             AnnouncedPercent(experience), AnnouncedPercent(runes), AnnouncedPercent(bazaarTokens)));
     }
 
-    ChatHandler(nullptr).SendWorldText("{}The official test {} {}.", ANNOUNCE_PREFIX,
-        zones->size() > 1 ? "zones are:" : "zone is:", fmt::join(groups, "; "));
+    ChatHandler(nullptr).SendWorldText("{}官方测试{}如下：{}。", ANNOUNCE_PREFIX,
+        zones->size() > 1 ? "区域" : "区域", fmt::join(groups, "；"));
 }
 
 void ExpireZones()
@@ -227,7 +227,7 @@ void ExpireZones()
     for (uint32 zoneId : expired)
     {
         WorldDatabase.Execute("DELETE FROM `coa_test_zone_bonus` WHERE `zone_id` = {}", zoneId);
-        ChatHandler(nullptr).SendWorldText("{}{} is no longer a test zone. Thank you for testing!",
+        ChatHandler(nullptr).SendWorldText("{}{} 已不再是测试区域，感谢你的测试！",
             ANNOUNCE_PREFIX, ZoneName(zoneId));
     }
 }
@@ -253,7 +253,7 @@ Optional<uint32> ResolveZone(ChatHandler* handler, Optional<uint32> zoneId)
     if (Player* player = handler->GetPlayer())
         return player->GetZoneId();
 
-    handler->SendErrorMessage("Name a zone id from the console.");
+    handler->SendErrorMessage("请在控制台指定一个区域 ID。");
     return std::nullopt;
 }
 }
@@ -370,12 +370,12 @@ public:
         std::shared_ptr<ZoneBonuses const> const zones = Active();
         if (zones->empty())
         {
-            handler->SendSysMessage("No test zones: every zone gives normal rewards.");
+            handler->SendSysMessage("没有测试区域：所有区域都提供正常奖励。");
             return true;
         }
 
         for (auto const& [zoneId, bonus] : *zones)
-            handler->PSendSysMessage("{} {}: experience {}%, runes {}%, bazaar tokens {}%, {}",
+            handler->PSendSysMessage("{} {}：经验 {}%，符文 {}%，集市代币 {}%，{}",
                 zoneId, ZoneName(zoneId), bonus.experience, bonus.runes, bonus.bazaarTokens, DescribeEnd(bonus));
         return true;
     }
@@ -411,7 +411,7 @@ public:
         Optional<uint32> const seconds = ParseDuration(duration);
         if (!seconds)
         {
-            handler->SendErrorMessage("{} is not a duration: use hours (12) or a time like 90m or 1d12h; 0 never ends.",
+            handler->SendErrorMessage("{} 不是有效的时长：请用小时数（12），或类似 90m、1d12h 的写法；0 表示永不过期。",
                 duration);
             return false;
         }
@@ -429,14 +429,14 @@ public:
         ZoneBonuses zones = *Active();
         if (!zones.erase(*zone))
         {
-            handler->SendErrorMessage("{} {} is not a test zone.", *zone, ZoneName(*zone));
+            handler->SendErrorMessage("{} {} 不是测试区域。", *zone, ZoneName(*zone));
             return false;
         }
 
         WorldDatabase.Execute("DELETE FROM `coa_test_zone_bonus` WHERE `zone_id` = {}", *zone);
         Publish(std::move(zones));
 
-        handler->PSendSysMessage("{} {} gives normal rewards again.", *zone, ZoneName(*zone));
+        handler->PSendSysMessage("{} {} 已恢复为正常奖励。", *zone, ZoneName(*zone));
         return true;
     }
 
@@ -459,7 +459,7 @@ public:
         AreaTableEntry const* area = sAreaTableStore.LookupEntry(zone);
         if (!area || area->zone)
         {
-            handler->SendErrorMessage("{} is not a zone id.", zone);
+            handler->SendErrorMessage("{} 不是有效的区域 ID。", zone);
             return false;
         }
 
@@ -472,7 +472,7 @@ public:
         Publish(std::move(zones));
         AnnounceActivated(zone, bonus);
 
-        handler->PSendSysMessage("{} {} is a test zone: experience {}%, runes {}%, bazaar tokens {}%, {}",
+        handler->PSendSysMessage("{} {} 是测试区域：经验 {}%，符文 {}%，集市代币 {}%，{}",
             zone, ZoneName(zone), bonus.experience, bonus.runes, bonus.bazaarTokens, DescribeEnd(bonus));
         return true;
     }
@@ -480,7 +480,7 @@ public:
     static bool HandleReload(ChatHandler* handler)
     {
         LoadZones();
-        handler->PSendSysMessage("Reloaded {} test zones.", Active()->size());
+        handler->PSendSysMessage("已重新加载 {} 个测试区域。", Active()->size());
         return true;
     }
 };

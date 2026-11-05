@@ -471,12 +471,12 @@ void Execute(Player* player, std::string const& command)
     }
     if (!GM(player))
     {
-        Send(player, "ERROR|Game Master permission required.");
+        Send(player, "ERROR|需要游戏管理员权限。");
         return;
     }
     if (!CanManage(player->GetSession()->GetSecurity(), action))
     {
-        Send(player, "ERROR|Level 3 GM is required to permanently delete hotspots.");
+        Send(player, "ERROR|永久删除热区需要 3 级游戏管理员权限。");
         return;
     }
     uint32 account = player->GetSession()->GetAccountId();
@@ -488,7 +488,7 @@ void Execute(Player* player, std::string const& command)
         if (!(input >> id >> revision >> parts) || !parts || parts > 126 || !Drafts.contains(owner) ||
             Drafts.at(owner).Id != id || Drafts.at(owner).Revision != revision)
         {
-            Send(player, "ERROR|Draft changed. Local painting retained; reopen the original draft before retrying.");
+            Send(player, "ERROR|草稿已变更。本地绘制已保留；请重新打开原草稿后再重试。");
             return;
         }
         LocalPaint[owner] = {Drafts.at(owner), {}, parts, 0};
@@ -503,7 +503,7 @@ void Execute(Player* player, std::string const& command)
         if (!(input >> index) || index != upload.Next || index >= upload.Parts)
         {
             LocalPaint.erase(owner);
-            Send(player, "ERROR|Incomplete drawing upload. Nothing saved; retry Save Draft.");
+            Send(player, "ERROR|绘制上传不完整。未保存任何内容；请重试“保存草稿”。");
             return;
         }
         std::string part;
@@ -512,7 +512,7 @@ void Execute(Player* player, std::string const& command)
         if (upload.Edits.size() + part.size() > 24000)
         {
             LocalPaint.erase(owner);
-            Send(player, "ERROR|Local drawing exceeds the upload limit. Undo some strokes and retry.");
+            Send(player, "ERROR|本地绘制超出上传上限。请撤销部分笔画后重试。");
             return;
         }
         upload.Edits += part;
@@ -531,14 +531,14 @@ void Execute(Player* player, std::string const& command)
         for (auto& value : settings.Values)
             if (!(input >> value))
             {
-                Send(player, "ERROR|Invalid general settings. Nothing was saved.");
+                Send(player, "ERROR|通用设置无效。未保存任何内容。");
                 return;
             }
         std::string extra;
         if (!(input >> apply) || apply > 1 || (input >> extra) || !ValidSettings(settings) ||
             settings.Values[SettingsRevision] != General.Values[SettingsRevision])
         {
-            Send(player, "ERROR|Invalid or stale general settings. Refresh and try again.");
+            Send(player, "ERROR|通用设置无效或已过期。请刷新后重试。");
             return;
         }
         ++settings.Values[SettingsRevision];
@@ -559,13 +559,13 @@ void Execute(Player* player, std::string const& command)
             }
         if (!SaveMany(changes, &settings))
         {
-            Send(player, "ERROR|Database save failed. General settings unchanged.");
+            Send(player, "ERROR|数据库保存失败。通用设置未变更。");
             return;
         }
         LOG_INFO("commands.gm", "XPHotspots account {} saved general settings revision {}, apply defaults {}",
             account, settings.Values[SettingsRevision], apply);
         SendGeneral(player);
-        Send(player, "OK|General settings saved. Rotation limits apply within one second.");
+        Send(player, "OK|通用设置已保存。轮换限制将在 1 秒内生效。");
         return;
     }
     if (action == "new" || action == "newmap")
@@ -583,7 +583,7 @@ void Execute(Player* player, std::string const& command)
         {
             if (!(input >> r.Map >> r.Zone >> r.Center.X >> r.Center.Y))
             {
-                Send(player, "ERROR|Draft creation failed: invalid map coordinates. Reopen a zone map and try again.");
+                Send(player, "ERROR|创建草稿失败：地图坐标无效。请重新打开区域地图后重试。");
                 return;
             }
             auto entry = sMapStore.LookupEntry(r.Map);
@@ -592,8 +592,8 @@ void Execute(Player* player, std::string const& command)
                 !std::isfinite(r.Center.X) || !std::isfinite(r.Center.Y) ||
                 std::abs(r.Center.X) > 20000 || std::abs(r.Center.Y) > 20000)
             {
-                Send(player, "ERROR|Draft creation rejected for map " + std::to_string(r.Map) +
-                    ", zone " + std::to_string(r.Zone) + ". Choose an outdoor zone map.");
+                Send(player, "ERROR|已拒绝为地图创建草稿：地图 " + std::to_string(r.Map) +
+                    "，区域 " + std::to_string(r.Zone) + "。请选择一张户外区域地图。");
                 return;
             }
             r.Continent = Continent(r.Map, r.Zone);
@@ -602,7 +602,7 @@ void Execute(Player* player, std::string const& command)
         r.Radius = 150;
         if (r.Kind != "circle" && r.Kind != "zone" && r.Kind != "polygon")
         {
-            Send(player, "ERROR|Choose circle, zone or polygon.");
+            Send(player, "ERROR|请选择圆形、区域或多边形。");
             return;
         }
         Drafts[owner] = r;
@@ -641,7 +641,7 @@ void Execute(Player* player, std::string const& command)
             if (part.Revision != revision || part.Retired || !Valid(part) || part.Kind == "zone" ||
                 (!sources.empty() && (part.Map != r.Map || part.Zone != r.Zone)))
             {
-                Send(player, "ERROR|Choose current non-zone areas on the same map and zone.");
+                Send(player, "ERROR|请选择同一地图与同一区域内的现有非区域型区域。");
                 return;
             }
             if (sources.empty())
@@ -660,12 +660,12 @@ void Execute(Player* player, std::string const& command)
         }
         if (sources.size() < 2 || !Valid(r))
         {
-            Send(player, "ERROR|Merge requires 2 to 8 areas, with at most 8 component boundaries.");
+            Send(player, "ERROR|合并需要 2 到 8 个区域，且最多 8 个组成部分边界。");
             return;
         }
         Drafts[owner] = r;
         MergeSources[owner] = std::move(sources);
-        Send(player, "OK|Preview the combined area. Save retires its source entries; enable the saved area separately.");
+        Send(player, "OK|请预览合并后的区域。保存会停用其来源条目；保存后需单独启用该区域。");
     }
     else if (action == "tracebegin" || action == "tracepoints" || action == "traceend")
     {
@@ -688,7 +688,7 @@ void Execute(Player* player, std::string const& command)
                     std::abs(point.X) > 20000 || std::abs(point.Y) > 20000)
                 {
                     TraceDrafts.erase(owner);
-                    Send(player, "ERROR|Invalid traced boundary. Draft unchanged.");
+                    Send(player, "ERROR|描摹边界无效。草稿未变更。");
                     return;
                 }
                 points.push_back(point);
@@ -698,7 +698,7 @@ void Execute(Player* player, std::string const& command)
         if (!ValidPolygon(points))
         {
             TraceDrafts.erase(owner);
-            Send(player, "ERROR|Traced boundary crosses itself or has too few points. Draft unchanged.");
+            Send(player, "ERROR|描摹边界自相交或点数过少。草稿未变更。");
             return;
         }
         PaintUndo[owner] = Drafts.at(owner);
@@ -730,7 +730,7 @@ void Execute(Player* player, std::string const& command)
             input >> kind;
             if (!ChangeShape(candidate, kind))
             {
-                Send(player, "ERROR|Only circle and polygon drafts can convert. Preview a smaller boundary if needed.");
+                Send(player, "ERROR|只有圆形和多边形草稿可以转换。如有需要，请预览一个更小的边界。");
                 return;
             }
             PaintUndo[owner] = Drafts.at(owner);
@@ -747,13 +747,13 @@ void Execute(Player* player, std::string const& command)
             {
                 if (!Paint(candidate, from, to, radius, kind == "square"))
                 {
-                    Send(player, "ERROR|Brush must touch a valid polygon. Boundary too complex, disconnected or contains holes; undo or use smaller strokes.");
+                    Send(player, "ERROR|画笔必须接触一个有效多边形。边界过于复杂、不连通或包含孔洞；请撤销或使用更小的笔画。");
                     return;
                 }
             }
             catch (std::exception const&)
             {
-                Send(player, "ERROR|Brush boundary could not be combined. Draft unchanged.");
+                Send(player, "ERROR|无法合并画笔边界。草稿未变更。");
                 return;
             }
         }
@@ -763,13 +763,13 @@ void Execute(Player* player, std::string const& command)
     {
         if (!Drafts.contains(owner))
         {
-            Send(player, "ERROR|Create or edit a draft first.");
+            Send(player, "ERROR|请先创建或编辑一个草稿。");
             return;
         }
         auto& r = Drafts[owner];
         if (r.Kind == "union")
         {
-            Send(player, "ERROR|Combined boundaries preserve their source shapes.");
+            Send(player, "ERROR|合并后的边界会保留其来源形状。");
             return;
         }
         uint32 vertex = 0;
@@ -845,7 +845,7 @@ void Execute(Player* player, std::string const& command)
     {
         if (!Drafts.contains(owner))
         {
-            Send(player, "ERROR|No current draft. Select and edit a hotspot first.");
+            Send(player, "ERROR|当前没有草稿。请先选择并编辑一个热区。");
             return;
         }
         auto r = Drafts.at(owner);
@@ -853,7 +853,7 @@ void Execute(Player* player, std::string const& command)
         {
             if (!LocalPaint.contains(owner))
             {
-                Send(player, "ERROR|Local drawing upload is missing. Local painting retained; retry Save Draft.");
+                Send(player, "ERROR|缺少本地绘制上传。本地绘制已保留；请重试“保存草稿”。");
                 return;
             }
             auto upload = std::move(LocalPaint.at(owner));
@@ -862,14 +862,14 @@ void Execute(Player* player, std::string const& command)
             if (upload.Next != upload.Parts ||
                 (r.Id && (!Locations.contains(r.Id) || Locations.at(r.Id).Revision != r.Revision)))
             {
-                Send(player, "ERROR|Incomplete upload or hotspot changed. Nothing saved; local drawing retained.");
+                Send(player, "ERROR|上传不完整或热区已变更。未保存任何内容；本地绘制已保留。");
                 return;
             }
             std::string paintError;
             if (!ApplyLocalPaint(r, upload.Edits, &paintError))
             {
-                Send(player, "ERROR|" + (paintError.empty() ? std::string("Drawing exceeds input limits or has an invalid trace.") : paintError) +
-                    " Nothing saved; undo or correct the red preview.");
+                Send(player, "ERROR|" + (paintError.empty() ? std::string("绘制超出输入上限或描迹无效。") : paintError) +
+                    " 未保存任何内容；请撤销或修正红色预览。");
                 return;
             }
         }
@@ -879,14 +879,14 @@ void Execute(Player* player, std::string const& command)
         {
             if (!(input >> r.Bonus >> r.Duration >> r.Weight >> r.Cooldown >> r.Icon >> r.Highlight >> r.Radius))
             {
-                Send(player, "ERROR|Invalid hotspot settings. Nothing was saved.");
+                Send(player, "ERROR|热区设置无效。未保存任何内容。");
                 return;
             }
             std::getline(input >> std::ws, r.Name);
         }
         if (!Valid(r) || (r.Id && (!Locations.contains(r.Id) || Locations.at(r.Id).Revision != r.Revision)))
         {
-            Send(player, "ERROR|Invalid boundary or stale edit. Reload the location and try again.");
+            Send(player, "ERROR|边界无效或编辑已过期。请重新加载该地点后重试。");
             return;
         }
         if (!r.Id)
@@ -910,7 +910,7 @@ void Execute(Player* player, std::string const& command)
                 auto part = Locations.at(id);
                 if (part.Revision != revision || part.Retired)
                 {
-                    Send(player, "ERROR|A merge source changed. Select the areas again.");
+                    Send(player, "ERROR|某个合并来源已变更。请重新选择区域。");
                     return;
                 }
                 part.Retired = true;
@@ -923,7 +923,7 @@ void Execute(Player* player, std::string const& command)
         changes.push_back(r);
         if (!SaveMany(changes))
         {
-            Send(player, "ERROR|Database save failed.");
+            Send(player, "ERROR|数据库保存失败。");
             return;
         }
         Drafts[owner] = r;
@@ -940,7 +940,7 @@ void Execute(Player* player, std::string const& command)
         if (!(input >> id >> revision) || !revision || !Locations.contains(id) ||
             Locations.at(id).Revision != revision)
         {
-            Send(player, "ERROR|Location changed or no longer exists. Refresh first.");
+            Send(player, "ERROR|地点已变更或已不存在。请先刷新。");
             return;
         }
         auto const r = Locations.at(id);
@@ -949,13 +949,13 @@ void Execute(Player* player, std::string const& command)
             if (!Allowed(r) || !Valid(r) || player->IsInCombat() || player->IsInFlight() ||
                 player->IsBeingTeleported() || player->GetVehicle() || !player->IsAlive())
             {
-                Send(player, "ERROR|Cannot teleport to this hotspot in the current state.");
+                Send(player, "ERROR|当前状态下无法传送到该热区。");
                 return;
             }
             auto entry = sMapStore.LookupEntry(r.Map);
             if (!entry || entry->Instanceable() || !MapMgr::IsValidMapCoord(r.Map, r.Center.X, r.Center.Y))
             {
-                Send(player, "ERROR|Hotspot center is not on a valid outdoor map.");
+                Send(player, "ERROR|热区中心不在有效的户外地图上。");
                 return;
             }
             auto map = sMapMgr->CreateBaseMap(r.Map);
@@ -963,7 +963,7 @@ void Execute(Player* player, std::string const& command)
             float z = map->GetHeight(x, y, MAX_HEIGHT);
             if (!std::isfinite(z) || z <= INVALID_HEIGHT || !MapMgr::IsValidMapCoord(r.Map, x, y, z))
             {
-                Send(player, "ERROR|Safe terrain height is unavailable at this hotspot center.");
+                Send(player, "ERROR|该热区中心无法获取安全地形高度。");
                 return;
             }
             player->SaveRecallPosition();
@@ -982,7 +982,7 @@ void Execute(Player* player, std::string const& command)
         transaction->Append(counter);
         if (!WorldDatabase.AsyncCommitTransaction(transaction).m_future.get())
         {
-            Send(player, "ERROR|Database delete failed. Location was retained.");
+            Send(player, "ERROR|数据库删除失败。地点已保留。");
             return;
         }
         LocationIdFloor = floor;
@@ -998,7 +998,7 @@ void Execute(Player* player, std::string const& command)
             if (affected)
             {
                 if (auto editor = ObjectAccessor::FindPlayer(it->first))
-                    Send(editor, "DRAFTCLEARED|A hotspot used by this draft was permanently deleted.");
+                    Send(editor, "DRAFTCLEARED|此草稿使用的某个热区已被永久删除。");
                 MergeSources.erase(it->first);
                 it = Drafts.erase(it);
             }
@@ -1008,7 +1008,7 @@ void Execute(Player* player, std::string const& command)
         ++Generation;
         LOG_INFO("commands.gm", "XPHotspots account {} permanently deleted location {}", account, id);
         Send(player, "DELETED|" + std::to_string(id));
-        Send(player, "OK|Hotspot permanently deleted.");
+        Send(player, "OK|热区已永久删除。");
         return;
     }
     else if (action == "enable" || action == "disable" || action == "next" || action == "stop")
@@ -1020,17 +1020,17 @@ void Execute(Player* player, std::string const& command)
         auto r = Locations.at(id);
         if (revision && revision != r.Revision)
         {
-            Send(player, "ERROR|Location changed. Refresh before editing.");
+            Send(player, "ERROR|地点已变更。编辑前请刷新。");
             return;
         }
         if (action == "next" && !RotationAllowed(r))
         {
-            Send(player, "ERROR|Only full-zone hotspots can activate while the global filter is enabled.");
+            Send(player, "ERROR|启用全局过滤时，只有整区域热区才能激活。");
             return;
         }
         if ((action == "enable" || action == "next") && (!Allowed(r) || !Valid(r)))
         {
-            Send(player, "ERROR|Location geometry or realm map restrictions prevent activation.");
+            Send(player, "ERROR|地点几何形状或服务器地图限制导致无法激活。");
             return;
         }
         if (action == "enable")
@@ -1041,7 +1041,7 @@ void Execute(Player* player, std::string const& command)
         {
             if (r.Ends > Now())
             {
-                Send(player, "ERROR|This location is already active.");
+                Send(player, "ERROR|该地点已处于激活状态。");
                 return;
             }
             r.Enabled = true;
@@ -1057,11 +1057,11 @@ void Execute(Player* player, std::string const& command)
         }
         ++r.Revision;
         if (!Save(r))
-            Send(player, "ERROR|Database save failed.");
+            Send(player, "ERROR|数据库保存失败。");
         else
         {
             LOG_INFO("commands.gm", "XPHotspots account {} applied {} to location {}", account, action, id);
-            Send(player, "OK|Location updated.");
+            Send(player, "OK|地点已更新。");
         }
         return;
     }
@@ -1075,12 +1075,12 @@ void Execute(Player* player, std::string const& command)
         ++settings.Values[SettingsRevision];
         if (!SaveMany({}, &settings))
         {
-            Send(player, "ERROR|Database save failed.");
+            Send(player, "ERROR|数据库保存失败。");
             return;
         }
         LOG_INFO("commands.gm", "XPHotspots account {} set announcements to {}", account, value);
         SendGeneral(player);
-        Send(player, "OK|Announcement setting saved.");
+        Send(player, "OK|公告设置已保存。");
         return;
     }
     else if (action == "cancel")
@@ -1090,13 +1090,12 @@ void Execute(Player* player, std::string const& command)
         PaintUndo.erase(owner);
         TraceDrafts.erase(owner);
         MergeSources.erase(owner);
-        Send(player, "OK|Draft discarded.");
+        Send(player, "OK|草稿已丢弃。");
         return;
     }
     else if (action != "preview" && action != "paintend")
     {
-        Send(player, "ERROR|Commands: list, new, edit, center, radius, point, undo, clear, settings, "
-            "preview, save, enable, disable, next, stop, announce, cancel.");
+        Send(player, "ERROR|命令：list、new、edit、center、radius、point、undo、clear、settings、preview、save、enable、disable、next、stop、announce、cancel。");
         return;
     }
     if (Drafts.contains(owner))
@@ -1115,7 +1114,7 @@ void Execute(Player* player, std::string const& command)
         if (action == "shape" || action == "paintend")
             Send(player, "PAINTREADY");
         else if (action != "brush")
-            Send(player, "OK|Draft updated. Save then enable to join the rotation.");
+            Send(player, "OK|草稿已更新。保存后再启用即可加入轮换。");
     }
 }
 
@@ -1270,8 +1269,8 @@ public:
             activeZones.push_back(r.Zone);
             if (General.Values[Announcements])
             {
-                auto message = "XP Hotspot: " + r.Name + " — +" + std::to_string(r.Bonus) +
-                    "% monster-kill XP for " + std::to_string(r.Duration / 60) + " minutes.";
+                auto message = "经验热区：" + r.Name + "—— +" + std::to_string(r.Bonus) +
+                    "% 击杀怪物经验，持续 " + std::to_string(r.Duration / 60) + " 分钟。";
                 std::shared_lock playersLock(*HashMapHolder<Player>::GetLock());
                 for (auto const& [guid, player] : ObjectAccessor::GetPlayers())
                     if (player->IsInWorld())
@@ -1347,7 +1346,7 @@ public:
             return false;
         if (!Requests[owner].Accept(now))
         {
-            Send(p, "ERROR|Too many hotspot requests. Wait a moment and retry the last action.");
+            Send(p, "ERROR|热区请求过多。请稍候再重试上一个操作。");
             return false;
         }
         if (!Enabled)
@@ -1361,7 +1360,7 @@ public:
         }
         catch (std::exception const&)
         {
-            Send(p, "ERROR|Invalid hotspot request.");
+            Send(p, "ERROR|无效的热区请求。");
         }
         return false;
     }
@@ -1381,7 +1380,7 @@ public:
         std::lock_guard lock(Mutex);
         if (!Enabled || !GM(handler->GetPlayer()))
         {
-            handler->SendSysMessage("XP hotspots are disabled or Game Master permission is required.");
+            handler->SendSysMessage("经验热区已禁用，或需要游戏管理员权限。");
             return true;
         }
         TextReply = true;
@@ -1391,7 +1390,7 @@ public:
         }
         catch (std::exception const&)
         {
-            handler->SendSysMessage("Invalid hotspot command.");
+            handler->SendSysMessage("无效的热区命令。");
         }
         TextReply = false;
         return true;

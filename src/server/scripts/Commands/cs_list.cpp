@@ -194,9 +194,9 @@ public:
                 if (Player::IsEquipmentPos(itemBag, itemSlot))
                     itemPos = "[equipped]";
                 else if (Player::IsInventoryPos(itemBag, itemSlot))
-                    itemPos = "[in inventory]";
+                    itemPos = "[在背包中]";
                 else if (Player::IsBankPos(itemBag, itemSlot))
-                    itemPos = "[in bank]";
+                    itemPos = "[在银行中]";
                 else
                     itemPos = "";
 
@@ -245,7 +245,7 @@ public:
                 uint32 itemReceiverAccount      = fields[5].Get<uint32>();
                 std::string itemReceiverName    = fields[6].Get<std::string>();
 
-                char const* itemPos = "[in mail]";
+                char const* itemPos = "[在邮件中]";
 
                 handler->PSendSysMessage(LANG_ITEMLIST_MAIL, itemGuid, itemSenderName, itemSender, itemSenderAccountId, itemReceiverName, itemReceiver, itemReceiverAccount, itemPos);
             }
@@ -289,7 +289,7 @@ public:
                 uint32 ownerAccountId   = fields[2].Get<uint32>();
                 std::string ownerName   = fields[3].Get<std::string>();
 
-                char const* itemPos = "[in auction]";
+                char const* itemPos = "[在拍卖行中]";
 
                 handler->PSendSysMessage(LANG_ITEMLIST_AUCTION, itemGuid, ownerName, owner, ownerAccountId, itemPos);
             }
@@ -320,7 +320,7 @@ public:
                 uint32 guildGuid = fields[1].Get<uint32>();
                 std::string guildName = fields[2].Get<std::string>();
 
-                char const* itemPos = "[in guild bank]";
+                char const* itemPos = "[在公会银行中]";
 
                 handler->PSendSysMessage(LANG_ITEMLIST_GUILD, itemGuid, guildName, guildGuid, itemPos);
             }

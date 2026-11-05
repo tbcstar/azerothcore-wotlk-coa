@@ -254,9 +254,8 @@ namespace
             mail->stationery = MAIL_STATIONERY_DEFAULT;
             mail->sender = GallywixEntry;
             mail->receiver = guid;
-            mail->subject = refund ? "Gallywix's Lottery Ticket Refund" : "Gallywix's Lottery Jackpot";
-            mail->body = refund ? "Your lottery tickets have been refunded. The full gold amount paid is enclosed."
-                : "Your golden ticket won this week's lottery. Your jackpot is enclosed!";
+            mail->subject = refund ? "加里维克斯的彩票退款": "加里维克斯的彩票头奖";
+            mail->body = refund ? "你的彩票已被退款，随信附上你支付的全部金币。": "你的黄金彩票赢得了本周彩票的头奖，随信附上奖金！";
             mail->money = pot;
             mail->deliver_time = now;
             mail->expire_time = now + 90 * DAY;
@@ -405,8 +404,8 @@ namespace
             stmt->SetData(3, uint16(0));
             stmt->SetData(4, GallywixEntry);
             stmt->SetData(5, winner);
-            stmt->SetData(6, std::string("Gallywix's Lottery Jackpot"));
-            stmt->SetData(7, std::string("Your golden ticket won this week's lottery. Your jackpot is enclosed!"));
+            stmt->SetData(6, std::string("加里维克斯的彩票头奖"));
+            stmt->SetData(7, std::string("你的黄金彩票赢得了本周彩票的头奖，随信附上奖金！"));
             stmt->SetData(8, bool(bonus));
             stmt->SetData(9, uint32(now + 90 * DAY));
             stmt->SetData(10, uint32(now));
@@ -463,9 +462,9 @@ namespace
         }
         if (settings.announceWinners)
         {
-            std::string message = Acore::StringFormat("Gallywix's Lottery: {} won the {}g{}s{}c jackpot!{}",
+            std::string message = Acore::StringFormat("加里维克斯的彩票：{} 赢得了 {}金{}银{}铜 的头奖！{}",
                 winnerName, drawRound.pot / 10000, drawRound.pot / 100 % 100, drawRound.pot % 100,
-                houseWin ? " The pot has been destroyed." : " The prize has been mailed to the winner.");
+                houseWin ? " 奖池已被销毁。": " 奖金已通过邮件寄给中奖者。");
             sWorldSessionMgr->SendServerMessage(SERVER_MSG_STRING, message);
         }
         round = std::move(next);
@@ -488,8 +487,7 @@ namespace
         uint32 tickets = entry == round.entries.end() ? 0 : entry->second;
         uint64 remaining = round.ends > Now() ? round.ends - Now() : 0;
         std::string text = Acore::StringFormat(
-            "Total jackpot: {}g{}s{}c\nBonus reward: {}\nYour gold tickets: {}\n"
-            "Gold lottery ends in: {}d{}h{}m{}s",
+            "头奖总额：{}金{}银{}铜\n奖励物品：{}\n你的黄金彩票：{}\n金币彩票结束倒计时：{}天{}时{}分{}秒",
             round.pot / 10000, round.pot / 100 % 100, round.pot % 100,
             round.bonusItem ? round.bonusItem : NoBonusItem, tickets,
             remaining / DAY, remaining / HOUR % 24, remaining / MINUTE % 60, remaining % MINUTE);
@@ -619,11 +617,9 @@ namespace
             if (!creature || !creature->IsAlive())
                 return;
             std::string message = houseWin
-                ? Acore::StringFormat("A house ticket wins! Trade Prince Gallywix takes the {} gold jackpot! "
-                    "The whole pot is destroyed! Better luck next time, pal!",
+                ? Acore::StringFormat("内部票中奖了！贸易亲王加里维克斯拿走了 {} 金币的头奖！整池奖金全部销毁！下次好运，伙计！",
                     copper / 10000)
-                : Acore::StringFormat("We got a winner! {} just won the {} gold jackpot! "
-                    "Your prize is in the mail, pal! Everybody else, the next lottery is open!",
+                : Acore::StringFormat("我们有一位中奖者！{} 刚刚赢得了 {} 金币的头奖！奖品已在邮箱里，伙计！其他人，下一轮彩票已经开始了！",
                     name, copper / 10000);
             auto builder = [creature, &message](WorldPacket* packet, LocaleConstant locale)
             {
@@ -752,37 +748,25 @@ namespace
     {
         ClearGossipMenuFor(player);
         player->PlayerTalkClass->GetGossipMenu().SetMenuId(GallywixMenuId);
-        std::string text = "Time is money, pal! Ask about my lottery, then see Goldilocks if you want a ticket.";
+        std::string text = "时间就是金钱，伙计！想了解我的彩票，然后想买票就去找金发姑娘。";
         if (action == GallywixRulesAction)
         {
             uint32 duration = ready ? round.duration : settings.duration;
             uint32 contribution = ready ? round.contribution : settings.contribution;
             uint32 fakeTickets = ready ? round.fakeTickets : HouseTickets(settings.seed, settings.fakeTickets);
             text = Acore::StringFormat(
-                "Listen up, pal! Goldilocks sells golden tickets for 10 gold apiece. "
-                "Buy more tickets, get more chances! "
-                "{} percent of your ticket money goes into the jackpot. "
-                "We draw every {} days, {} hours and {} minutes. "
-                "Every ticket gets the same shot at winning, and one ticket takes the whole pot.\n\n"
-                "The house has {} tickets of its own, each adding 10 gold to the opening pot. Mine have exactly the "
-                "same chance as yours. If a house ticket wins, the winner is Trade Prince Gallywix - that's me! "
-                "The whole pot is destroyed, and nobody gets gold or a bonus prize. Hey, you asked for the rules!\n\n"
-                "If YOUR ticket wins, the whole gold jackpot is mailed to your character, along with that round's "
-                "bonus item if there's one. Keep an eye on your mailbox! Tickets belong to this round only, "
-                "and the next draw starts a fresh pot with fresh house tickets. "
-                "If there are no player or house tickets, we extend the round instead of drawing.\n\n"
-                "Want in? Talk to Goldilocks. I handle the important business.",
+                "听好了，伙计！金发姑娘以每张 10 金的价格出售黄金彩票。买得越多，机会越多！你买票的钱有 {}% 进入头奖奖池。我们每 {} 天 {} 小时 {} 分钟开一次奖。每张票的中奖机会完全相同，一张票就能拿走整池奖金。\n\n庄家自己也持有 {} 张票，每张为起始奖池增加 10 金。我的票和你的票中奖概率完全一样。如果内部票中奖，中奖者就是贸易亲王加里维克斯——也就是我！整池奖金将被销毁，没人能得到金币或奖励物品。嘿，是你自己要听规则的！\n\n如果你的票中奖，全部金币头奖会通过邮件寄给你的角色，还会附上该轮的奖励物品（如果有的话）。记得常看看邮箱！彩票只在本轮有效，下一次开奖会用新的奖池和新的内部票重新开始。如果既没有玩家的票也没有内部票，我们会延长本轮而不是开奖。\n\n想参与吗？去找金发姑娘谈。重要的事由我来办。",
                 contribution, duration / DAY, duration / HOUR % 24, duration / MINUTE % 60, fakeTickets);
             if (!settings.enabled || !ready)
-                text += "\n\nThe lottery isn't taking bets right now, pal. These are the latest terms.";
+                text += "\n\n彩票现在不接受投注，伙计。以上是最新的条款。";
         }
         else if (action == GallywixWinnersAction)
         {
-            text = "Here's the latest from my winner's ledger, pal. Read it and dream big!\n";
+            text = "这是我中奖者账本的最新记录，伙计。看看它，做个好梦吧！\n";
             auto winners = CharacterDatabase.Query(
                 CharacterDatabase.GetPreparedStatement(CHAR_SEL_LOTTERY_RECENT_WINNERS));
             if (!winners)
-                text += "\nNo recent winners are recorded in the ledger yet.";
+                text += "\n账本中还没有近期中奖记录。";
             else
                 do
                 {
@@ -794,20 +778,19 @@ namespace
                     bool houseWin = fields[3].Get<uint8>() != 0;
                     uint32 total = fields[5].Get<uint32>();
                     if (houseWin)
-                        text += Acore::StringFormat("\n{}: {}g{}s{}c jackpot, {} house tickets, {} purchased tickets. "
-                            "The pot was destroyed!\n",
+                        text += Acore::StringFormat("\n{}：头奖 {}金{}银{}铜，内部票 {}，购买票 {}。奖池已被销毁！\n",
                             name, copper / 10000, copper / 100 % 100, copper % 100, tickets,
                             total > tickets ? total - tickets : 0);
                     else if (complimentary)
-                        text += Acore::StringFormat("\n{} won {}g{}s{}c with {} tickets ({} complimentary).\n",
+                        text += Acore::StringFormat("\n{} 用 {} 张票（其中 {} 张赠送）赢得了 {}金{}银{}铜。\n",
                             name, copper / 10000, copper / 100 % 100, copper % 100, tickets, complimentary);
                     else
-                        text += Acore::StringFormat("\n{} won {}g{}s{}c with {} purchased tickets.\n",
+                        text += Acore::StringFormat("\n{} 用 {} 张购买的票赢得了 {}金{}银{}铜。\n",
                             name, copper / 10000, copper / 100 % 100, copper % 100, tickets);
                 } while (winners->NextRow());
         }
-        AddGossipItemFor(player, GOSSIP_ICON_CHAT, "What are the rules?", GOSSIP_SENDER_MAIN, GallywixRulesAction);
-        AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Who has won recently?", GOSSIP_SENDER_MAIN, GallywixWinnersAction);
+        AddGossipItemFor(player, GOSSIP_ICON_CHAT, "规则是什么？", GOSSIP_SENDER_MAIN, GallywixRulesAction);
+        AddGossipItemFor(player, GOSSIP_ICON_CHAT, "最近有谁中奖？", GOSSIP_SENDER_MAIN, GallywixWinnersAction);
         player->PlayerTalkClass->SendDynamicGossipMenu(text, creature->GetGUID());
     }
 
@@ -934,9 +917,8 @@ namespace
                 stmt->SetData(3, uint16(0));
                 stmt->SetData(4, GallywixEntry);
                 stmt->SetData(5, entry.guid);
-                stmt->SetData(6, std::string("Gallywix's Lottery Ticket Refund"));
-                stmt->SetData(7, std::string("Your lottery tickets have been refunded. "
-                    "The full gold amount paid is enclosed."));
+                stmt->SetData(6, std::string("加里维克斯的彩票退款"));
+                stmt->SetData(7, std::string("你的彩票已被退款，随信附上你支付的全部金币。"));
                 stmt->SetData(8, false);
                 stmt->SetData(9, uint32(now + 90 * DAY));
                 stmt->SetData(10, uint32(now));
@@ -981,7 +963,7 @@ namespace
         round.totalTickets = 0;
         for (auto const& [guid, tickets] : round.entries)
             round.totalTickets += tickets;
-        handler->PSendSysMessage("Refunded {}g{}s{}c by mail to {} character(s); skipped {} deleted recipient(s).",
+        handler->PSendSysMessage("已通过邮件退还 {} 金 {} 银 {} 铜给 {} 个角色；跳过 {} 个已删除的接收者。",
             copper / 10000, copper / 100 % 100, copper % 100, recipients, skipped);
     }
 
@@ -1020,20 +1002,20 @@ namespace
         {
             if (!storageReady)
                 Initialize();
-            return storageReady || Error(handler, "Lottery storage is unavailable; apply the character migrations.");
+            return storageReady || Error(handler, "彩票存储不可用；请应用角色库迁移。");
         }
 
         static uint32 Character(ChatHandler* handler, std::string name)
         {
             if (!normalizePlayerName(name))
             {
-                Error(handler, "Invalid character name.");
+                Error(handler, "角色名无效。");
                 return 0;
             }
             ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(name);
             if (guid.IsEmpty() || !sCharacterCache->GetCharacterAccountIdByGuid(guid))
             {
-                Error(handler, "Character not found or deleted.");
+                Error(handler, "找不到该角色或角色已被删除。");
                 return 0;
             }
             return guid.GetCounter();
@@ -1041,23 +1023,13 @@ namespace
 
         static bool HandleHelp(ChatHandler* handler)
         {
-            handler->SendSysMessage(".lottery advertise: make Gallywix yell a random lottery advertisement now, "
-                "even if automatic advertisements are disabled. The round must be running.");
-            handler->SendSysMessage(".lottery refund *|<name>: refund current paid tickets by mail and remove them; "
-                "house tickets remain, and the round continues.");
-            handler->SendSysMessage(".lottery info [name]: current duration/remaining time, house tickets, pot and "
-                "top 10 ticket holders; with a name, show that character's tickets.");
-            handler->SendSysMessage(".lottery enable: resume a paused round or start a configured round. "
-                ".lottery disable: pause the countdown and hide the lottery NPCs.");
-            handler->SendSysMessage(".lottery start [duration] [fakeTickets] [bonusItemId]: "
-                "start only if no round exists. "
-                "Duration is seconds or Ns/Nm/Nh/Nd/Nw (60 seconds to 365 days); "
-                "omitted values use config; item 0 = none.");
-            handler->SendSysMessage(".lottery stop: refund all current paid tickets, cancel the round and disable. "
-                ".lottery restart: refund/cancel, then start a fresh enabled round with configured terms.");
-            handler->SendSysMessage(".lottery draw [name]: draw immediately, optionally choosing the winner. "
-                "A named non-entrant gets one complimentary ticket adding 10g to the pot; "
-                "a fresh configured round starts.");
+            handler->SendSysMessage(".lottery advertise：让加里维克斯立刻喊出一段随机彩票广告，即使自动广告已关闭。必须有正在进行的轮次。");
+            handler->SendSysMessage(".lottery refund *|<角色名>：通过邮件退还当前已付费的票据并将其移除；内部票保留，轮次继续进行。");
+            handler->SendSysMessage(".lottery info [角色名]：当前时长/剩余时间、内部票、奖池与前十名持票者；指定角色名时显示该角色的票据。");
+            handler->SendSysMessage(".lottery enable：恢复已暂停的轮次或按配置开启新轮次。 .lottery disable：暂停倒计时并隐藏彩票 NPC。");
+            handler->SendSysMessage(".lottery start [时长] [内部票数] [奖励物品ID]：仅在没有轮次时启动。时长可用秒或 Ns/Nm/Nh/Nd/Nw（60 秒至 365 天）；省略则使用配置值；物品 0 = 无。");
+            handler->SendSysMessage(".lottery stop：退还当前所有已付费票据，取消轮次并停用。 .lottery restart：退款/取消后，按配置条款开始一个全新的已启用轮次。");
+            handler->SendSysMessage(".lottery draw [角色名]：立即开奖，可指定中奖者。被指定但未参与的角色会获得一张赠送票，为奖池增加 10 金；随后开始一个按配置的新轮次。");
             return true;
         }
 
@@ -1067,7 +1039,7 @@ namespace
             if (!Storage(handler))
                 return false;
             if (!ready)
-                return Error(handler, "There is no current lottery round to refund.");
+                return Error(handler, "当前没有可退款的彩票轮次。");
             uint32 guid = name == "*" ? 0 : Character(handler, name);
             if (name != "*" && !guid)
                 return false;
@@ -1075,7 +1047,7 @@ namespace
             std::vector<LotteryAdminEntry> refunds;
             uint32 pot = 0;
             if (!PrepareRefunds(transaction, guid, refunds, pot) || !Commit(transaction))
-                return Error(handler, "Refund failed; no tickets or gold were changed.");
+                return Error(handler, "退款失败；票据与金币均未被修改。");
             round.pot = pot;
             PublishRefunds(handler, refunds);
             return true;
@@ -1092,37 +1064,36 @@ namespace
             if (!ready)
             {
                 if (name)
-                    handler->PSendSysMessage("{} has 0 tickets; there is no current round.", *name);
+                    handler->PSendSysMessage("{} 没有票据；当前也没有进行中的轮次。", *name);
                 else
-                    handler->SendSysMessage("Lottery stopped; no current round.");
+                    handler->SendSysMessage("彩票已停止；当前没有进行中的轮次。");
                 return true;
             }
             std::vector<LotteryAdminEntry> entries;
             if (!LoadAdminEntries(entries))
-                return Error(handler, "Could not read lottery entries.");
+                return Error(handler, "无法读取彩票条目。");
             if (name)
             {
                 auto found = std::find_if(entries.begin(), entries.end(),
                     [guid](auto const& entry) { return entry.guid == guid; });
-                handler->PSendSysMessage("{} has {} tickets in round {}.", *name,
+                handler->PSendSysMessage("{} 在第 {} 轮有 {} 张票。", *name,
                     found == entries.end() ? 0 : found->tickets, round.id);
                 return true;
             }
             uint64 remaining = Remaining();
-            handler->PSendSysMessage("Lottery round {}: {}. Duration {}s ({}d {}h {}m); "
-                "remaining {}s ({}d {}h {}m {}s).",
+            handler->PSendSysMessage("彩票第 {} 轮：{}。时长 {} 秒（{}天 {}时 {}分）；剩余 {} 秒（{}天 {}时 {}分 {}秒）。",
                 round.id, round.paused ? "paused" : "running", round.duration,
                 round.duration / DAY, round.duration / HOUR % 24, round.duration / MINUTE % 60,
                 remaining, remaining / DAY, remaining / HOUR % 24, remaining / MINUTE % 60, remaining % MINUTE);
-            handler->PSendSysMessage("House tickets: {}. Pot: {}g{}s{}c. Bonus item: {}.", round.fakeTickets,
+            handler->PSendSysMessage("内部票：{}。奖池：{}金{}银{}铜。奖励物品：{}。", round.fakeTickets,
                 round.pot / 10000, round.pot / 100 % 100, round.pot % 100, round.bonusItem);
             uint32 rank = 0;
             for (auto const& entry : entries)
                 if (entry.recipient && rank < 10)
-                    handler->PSendSysMessage("{}. {}: {} tickets, {}g{}s{}c paid.", ++rank,
+                    handler->PSendSysMessage("{}。{}：{} 张票，已支付 {}金{}银{}铜。", ++rank,
                         entry.name, entry.tickets, entry.spent / 10000, entry.spent / 100 % 100, entry.spent % 100);
             if (!rank)
-                handler->SendSysMessage("No character tickets purchased.");
+                handler->SendSysMessage("尚无角色购买票据。");
             return true;
         }
 
@@ -1146,13 +1117,12 @@ namespace
             if (ready)
                 AppendPause(transaction, next);
             if (!Commit(transaction))
-                return Error(handler, "Lottery state update failed; the previous state remains in effect.");
+                return Error(handler, "彩票状态更新失败；原状态保持不变。");
             round = std::move(next);
             settings.enabled = enabled;
             nextDrawAttempt = 0;
             advertiser.Configure();
-            handler->SendSysMessage(enabled ? "Lottery enabled; countdown resumed."
-                : "Lottery disabled; countdown paused.");
+            handler->SendSysMessage(enabled ? "彩票已启用；倒计时继续。": "彩票已停用；倒计时已暂停。");
             return true;
         }
 
@@ -1173,15 +1143,14 @@ namespace
             if (!Storage(handler))
                 return false;
             if (ready)
-                return Error(handler, "A lottery is already underway, including paused rounds. "
-                    "Use stop or restart first.");
+                return Error(handler, "已有彩票正在进行（包括暂停中的轮次）。请先使用 stop 或 restart。");
             if (fakeTickets != HouseTickets(settings.seed, fakeTickets))
-                return Error(handler, "House tickets would exceed the maximum pot or ticket count.");
+                return Error(handler, "内部票会超出奖池或票据数量上限。");
             if (bonusItem && *bonusItem && !sObjectMgr->GetItemTemplate(*bonusItem))
-                return Error(handler, "The specified bonus item does not exist.");
+                return Error(handler, "指定的奖励物品不存在。");
             auto id = CharacterDatabase.Query(CharacterDatabase.GetPreparedStatement(CHAR_SEL_LOTTERY_NEXT_ID));
             if (!id)
-                return Error(handler, "Could not allocate the next lottery round.");
+                return Error(handler, "无法分配下一个彩票轮次。");
             auto next = NewRound(id->Fetch()[0].Get<uint64>());
             next.duration = duration;
             next.ends = Now() + duration;
@@ -1193,12 +1162,12 @@ namespace
             AppendRound(transaction, next);
             AppendControl(transaction, true, true);
             if (!Commit(transaction))
-                return Error(handler, "Could not start the lottery; no new round was committed.");
+                return Error(handler, "无法启动彩票；没有提交新轮次。");
             round = std::move(next);
             ready = settings.enabled = automaticStart = true;
             nextDrawAttempt = 0;
             advertiser.Configure();
-            handler->PSendSysMessage("Started lottery round {}: {}s, {} house tickets, bonus item {}.",
+            handler->PSendSysMessage("已启动彩票第 {} 轮：{} 秒，{} 张内部票，奖励物品 {}。",
                 round.id, round.duration, round.fakeTickets, round.bonusItem);
             return true;
         }
@@ -1209,7 +1178,7 @@ namespace
             std::lock_guard<std::mutex> guard(lotteryMutex);
             uint32 seconds = settings.duration;
             if (duration && !ParseDuration(*duration, seconds))
-                return Error(handler, "Invalid duration: use seconds or Ns/Nm/Nh/Nd/Nw, between 60s and 365d.");
+                return Error(handler, "时长无效：请使用秒或 Ns/Nm/Nh/Nd/Nw，范围 60 秒至 365 天。");
             return Start(handler, seconds,
                 fakeTickets.value_or(HouseTickets(settings.seed, settings.fakeTickets)), bonusItem);
         }
@@ -1224,7 +1193,7 @@ namespace
             if (ready)
             {
                 if (!PrepareRefunds(transaction, 0, refunds, pot))
-                    return Error(handler, "Could not prepare ticket refunds; the round is unchanged.");
+                    return Error(handler, "无法准备票据退款；轮次保持不变。");
                 auto* stmt = CharacterDatabase.GetPreparedStatement(CHAR_CANCEL_LOTTERY_ROUND);
                 stmt->SetData(0, round.id);
                 transaction->Append(stmt);
@@ -1234,20 +1203,19 @@ namespace
             {
                 auto id = CharacterDatabase.Query(CharacterDatabase.GetPreparedStatement(CHAR_SEL_LOTTERY_NEXT_ID));
                 if (!id)
-                    return Error(handler, "Could not allocate the next lottery round; nothing changed.");
+                    return Error(handler, "无法分配下一个彩票轮次；没有任何改动。");
                 next = NewRound(id->Fetch()[0].Get<uint64>());
                 AppendRound(transaction, next);
             }
             AppendControl(transaction, restart, restart);
             if (!Commit(transaction))
-                return Error(handler, "Lottery cancellation failed; no refunds or state changes were committed.");
+                return Error(handler, "彩票取消失败；没有提交退款或状态变更。");
             PublishRefunds(handler, refunds);
             round = std::move(next);
             ready = settings.enabled = automaticStart = restart;
             nextDrawAttempt = 0;
             advertiser.Configure();
-            handler->SendSysMessage(restart ? "Lottery restarted with configured terms."
-                : "Lottery stopped and disabled.");
+            handler->SendSysMessage(restart ? "彩票已按配置条款重新开始。": "彩票已停止并停用。");
             return true;
         }
 
@@ -1269,9 +1237,8 @@ namespace
             if (!Storage(handler))
                 return false;
             if (!advertiser.Advertise(true))
-                return Error(handler, "Lottery advertising is unavailable: the round must be running "
-                    "and Gallywix spawning must be enabled.");
-            handler->SendSysMessage("Gallywix advertised the lottery across the zone.");
+                return Error(handler, "彩票广告不可用：轮次必须正在进行，且加里维克斯的生成必须已启用。");
+            handler->SendSysMessage("加里维克斯已在全区域宣传彩票。");
             return true;
         }
 
@@ -1281,15 +1248,14 @@ namespace
             if (!Storage(handler))
                 return false;
             if (!ready)
-                return Error(handler, "There is no current round to draw.");
+                return Error(handler, "当前没有可开奖的轮次。");
             uint32 guid = name ? Character(handler, *name) : 0;
             if (name && !guid)
                 return false;
             if (!DrawIfDue(guid, true))
-                return Error(handler, "Draw failed: check for no entries, pot/ticket caps, "
-                    "deleted recipients or database errors.");
+                return Error(handler, "开奖失败：请检查是否没有参与者、奖池/票据上限、被删除的收件人或数据库错误。");
             advertiser.Configure();
-            handler->PSendSysMessage("Lottery drawn; configured round {} is now running.", round.id);
+            handler->PSendSysMessage("彩票已开奖；按配置的第 {} 轮正在进行。", round.id);
             return true;
         }
     };
@@ -1309,7 +1275,7 @@ namespace
             }
             if (!settings.enabled || !ready || round.paused || Now() >= round.ends)
             {
-                ChatHandler(player->GetSession()).SendSysMessage("The lottery is currently unavailable.");
+                ChatHandler(player->GetSession()).SendSysMessage("彩票当前不可用。");
                 CloseGossipMenuFor(player);
                 return true;
             }
@@ -1337,7 +1303,7 @@ namespace
                 if (Now() < round.ends)
                 {
                     ChatHandler(player->GetSession()).SendSysMessage(
-                        "The round changed. Please select your tickets again.");
+                        "本期已变更，请重新选择你的彩票。");
                     Show(player, creature);
                 }
                 else
@@ -1349,7 +1315,7 @@ namespace
                 tickets, round.contribution))
             {
                 ChatHandler(player->GetSession()).SendSysMessage(
-                    "You need more gold, or this purchase exceeds the lottery cap.");
+                    "你的金币不足，或本次购买超过了彩票上限。");
                 Show(player, creature);
                 return true;
             }
@@ -1373,7 +1339,7 @@ namespace
             if (!Commit(transaction))
             {
                 player->SetMoney(money);
-                ChatHandler(player->GetSession()).SendSysMessage("The purchase failed. Your gold has been restored.");
+                ChatHandler(player->GetSession()).SendSysMessage("购买失败，你的金币已退还。");
                 LOG_ERROR("module.coa_lottery", "Lottery purchase failed for character {}", guid);
             }
             else

@@ -312,7 +312,7 @@ namespace
             Player* player = handler->GetPlayer();
             if (!Enabled || !player)
             {
-                handler->SendErrorMessage("Rotation assistance is disabled on this realm.");
+                handler->SendErrorMessage("本服务器已关闭循环助手。");
                 return false;
             }
             if (!player->IsInWorld() || !player->FindMap() || !player->IsAlive() || player->IsInFlight() ||
@@ -325,7 +325,7 @@ namespace
             if (!target || !target->IsAlive() ||
                 (!player->IsValidAttackTarget(target) && !player->IsValidAssistTarget(target)))
             {
-                handler->SendErrorMessage("Select a living enemy to attack or a friendly target to heal.");
+                handler->SendErrorMessage("请选择一个存活的敌人作为攻击目标，或一个友方目标进行治疗。");
                 return false;
             }
 

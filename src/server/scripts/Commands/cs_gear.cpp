@@ -85,7 +85,7 @@ public:
     {
         if (mailAll > 1)
         {
-            handler->SendErrorMessage("Use 0 to move the items into the bags, or 1 to mail them.");
+            handler->SendErrorMessage("使用 0 将物品放入背包，或使用 1 通过邮件发送。");
             return false;
         }
 
@@ -131,7 +131,7 @@ public:
 
         if (items.holds_alternative<ItemTemplate const*>() && slots.empty())
         {
-            handler->SendErrorMessage("{} does not have item {} equipped.", handler->playerLink(target->GetName()),
+            handler->SendErrorMessage("{} 没有装备物品 {}。", handler->playerLink(target->GetName()),
                 items.get<ItemTemplate const*>()->ItemId);
             return false;
         }
@@ -162,7 +162,7 @@ public:
             CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
             for (std::size_t first = 0; first < mailItems.size(); first += MAX_MAIL_ITEMS)
             {
-                MailDraft draft("Unequipped items", "A Game Master removed your equipped items.");
+                MailDraft draft("已卸下装备", "一名游戏管理员卸下了你已装备的物品。");
                 std::size_t last = std::min(first + MAX_MAIL_ITEMS, mailItems.size());
                 for (std::size_t i = first; i < last; ++i)
                 {
@@ -180,13 +180,13 @@ public:
         player->UpdateTitansGrip();
 
         std::string nameLink = handler->playerLink(target->GetName());
-        handler->PSendSysMessage("Unequipped {}: {} item(s) moved to the bags, {} item(s) sent by mail.", nameLink,
+        handler->PSendSysMessage("已卸下 {}：{} 件物品放入背包，{} 件物品通过邮件发送。", nameLink,
             storedCount, mailItems.size());
 
         if (handler->needReportToTarget(player))
         {
             ChatHandler(player->GetSession()).PSendSysMessage(
-                "{} unequipped your gear: {} item(s) moved to your bags, {} item(s) sent to your mailbox.",
+                "{} 卸下了你的装备：{} 件物品已放入你的背包，{} 件物品已发送到你的邮箱。",
                 handler->GetNameLink(), storedCount, mailItems.size());
         }
 
@@ -202,8 +202,8 @@ public:
             return false;
         }
 
-        handler->PSendSysMessage("Character: {}", player->GetPlayerName());
-        handler->PSendSysMessage("Current equipment average item level: |cff00ffff{}|r", (int16)player->GetAverageItemLevel());
+        handler->PSendSysMessage("角色：{}", player->GetPlayerName());
+        handler->PSendSysMessage("当前装备平均物品等级：|cff00ffff{}|r", (int16)player->GetAverageItemLevel());
 
         if (sWorld->getIntConfig(CONFIG_MIN_LEVEL_STAT_SAVE))
         {
@@ -225,11 +225,11 @@ public:
                 uint32 SpellPower = fields[8].Get<uint32>();
                 uint32 Resilience = fields[9].Get<uint32>();
 
-                handler->PSendSysMessage("Health: |cff00ffff{}|r - Stamina: |cff00ffff{}|r", MaxHealth, Stamina);
-                handler->PSendSysMessage("Strength: |cff00ffff{}|r - Agility: |cff00ffff{}|r", Strength, Agility);
-                handler->PSendSysMessage("Intellect: |cff00ffff{}|r - Spirit: |cff00ffff{}|r", Intellect, Spirit);
-                handler->PSendSysMessage("AttackPower: |cff00ffff{}|r - SpellPower: |cff00ffff{}|r", AttackPower, SpellPower);
-                handler->PSendSysMessage("Armor: |cff00ffff{}|r - Resilience: |cff00ffff{}|r", Armor, Resilience);
+                handler->PSendSysMessage("生命值：|cff00ffff{}|r - 耐力：|cff00ffff{}|r", MaxHealth, Stamina);
+                handler->PSendSysMessage("力量：|cff00ffff{}|r - 敏捷：|cff00ffff{}|r", Strength, Agility);
+                handler->PSendSysMessage("智力：|cff00ffff{}|r - 精神：|cff00ffff{}|r", Intellect, Spirit);
+                handler->PSendSysMessage("攻击强度：|cff00ffff{}|r - 法术强度：|cff00ffff{}|r", AttackPower, SpellPower);
+                handler->PSendSysMessage("护甲：|cff00ffff{}|r - 韧性：|cff00ffff{}|r", Armor, Resilience);
             }
         }
 

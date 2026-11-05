@@ -65,18 +65,18 @@ public:
         Map* map = handler->GetSession()->GetPlayer()->GetMap();
         if (!map->GetMapCollisionData().GetMMapData().GetNavMesh())
         {
-            handler->PSendSysMessage("NavMesh not loaded for current map.");
+            handler->PSendSysMessage("当前地图未加载 NavMesh。");
             return true;
         }
 
-        handler->PSendSysMessage("mmap path:");
+        handler->PSendSysMessage("mmap 路径：");
 
         // units
         Player* player = handler->GetSession()->GetPlayer();
         Unit* target = handler->getSelectedUnit();
         if (!player || !target)
         {
-            handler->PSendSysMessage("Invalid target/source selection.");
+            handler->PSendSysMessage("目标/来源选择无效。");
             return true;
         }
 
@@ -107,20 +107,20 @@ public:
         bool result = path.CalculatePath(x, y, z, false);
 
         Movement::PointsArray const& pointPath = path.GetPath();
-        handler->PSendSysMessage("{}'s path to {}:", target->GetName(), player->GetName());
-        handler->PSendSysMessage("Building: {}", useStraightPath ? "StraightPath" : useRaycast ? "Raycast" : "SmoothPath");
-        handler->PSendSysMessage("Result: {} - Length: {} - Type: {}", (result ? "true" : "false"), pointPath.size(), path.GetPathType());
+        handler->PSendSysMessage("{} 到 {} 的路径：", target->GetName(), player->GetName());
+        handler->PSendSysMessage("正在构建：{}", useStraightPath ? "StraightPath" : useRaycast ? "Raycast" : "SmoothPath");
+        handler->PSendSysMessage("结果：{} - 长度：{} - 类型：{}", (result ? "true" : "false"), pointPath.size(), path.GetPathType());
 
         G3D::Vector3 const& start = path.GetStartPosition();
         G3D::Vector3 const& end = path.GetEndPosition();
         G3D::Vector3 const& actualEnd = path.GetActualEndPosition();
 
-        handler->PSendSysMessage("StartPosition     ({}, {}, {})", start.x, start.y, start.z);
-        handler->PSendSysMessage("EndPosition       ({}, {}, {})", end.x, end.y, end.z);
-        handler->PSendSysMessage("ActualEndPosition ({}, {}, {})", actualEnd.x, actualEnd.y, actualEnd.z);
+        handler->PSendSysMessage("起点位置     ({}, {}, {})", start.x, start.y, start.z);
+        handler->PSendSysMessage("终点位置       ({}, {}, {})", end.x, end.y, end.z);
+        handler->PSendSysMessage("实际终点位置 ({}, {}, {})", actualEnd.x, actualEnd.y, actualEnd.z);
 
         if (!player->IsGameMaster())
-            handler->PSendSysMessage("Enable GM mode to see the path points.");
+            handler->PSendSysMessage("开启 GM 模式即可看到路径点。");
 
         for (auto i : pointPath)
             player->SummonCreature(VISUAL_WAYPOINT, i.x, i.y, i.z, 0, TEMPSUMMON_TIMED_DESPAWN, 9000);
@@ -130,7 +130,7 @@ public:
 
     static bool HandleMmapLocCommand(ChatHandler* handler)
     {
-        handler->PSendSysMessage("mmap tileloc:");
+        handler->PSendSysMessage("mmap 地块：");
 
         // grid tile location
         Player* player = handler->GetSession()->GetPlayer();
@@ -156,23 +156,23 @@ public:
             return false;
         }
         fclose(file);
-        handler->PSendSysMessage("Recast config used:");
-        handler->PSendSysMessage("- walkableSlopeAngle: {}", fileHeader.recastConfig.walkableSlopeAngle);
+        handler->PSendSysMessage("使用的 Recast 配置：");
+        handler->PSendSysMessage("- 可行走坡度角：{}", fileHeader.recastConfig.walkableSlopeAngle);
 
         const float cellHeight = fileHeader.recastConfig.cellSizeVertical;
-        handler->PSendSysMessage("- walkableHeight: {} ({} units)", fileHeader.recastConfig.walkableHeight * cellHeight, fileHeader.recastConfig.walkableHeight);
-        handler->PSendSysMessage("- walkableClimb: {} ({} units)", fileHeader.recastConfig.walkableClimb * cellHeight, fileHeader.recastConfig.walkableClimb);
-        handler->PSendSysMessage("- walkableRadius: {} ({} units)", fileHeader.recastConfig.walkableRadius * cellHeight, fileHeader.recastConfig.walkableRadius);
+        handler->PSendSysMessage("- 可行走高度：{}（{} 单位）", fileHeader.recastConfig.walkableHeight * cellHeight, fileHeader.recastConfig.walkableHeight);
+        handler->PSendSysMessage("- 可行走攀爬：{}（{} 单位）", fileHeader.recastConfig.walkableClimb * cellHeight, fileHeader.recastConfig.walkableClimb);
+        handler->PSendSysMessage("- 可行走半径：{}（{} 单位）", fileHeader.recastConfig.walkableRadius * cellHeight, fileHeader.recastConfig.walkableRadius);
 
-        handler->PSendSysMessage("- maxSimplificationError: {}", fileHeader.recastConfig.maxSimplificationError);
-        handler->PSendSysMessage("- vertexPerMapEdge: {}", fileHeader.recastConfig.vertexPerMapEdge);
-        handler->PSendSysMessage("- vertexPerTileEdge: {}", fileHeader.recastConfig.vertexPerTileEdge);
-        handler->PSendSysMessage("- tilesPerMapEdge: {}", fileHeader.recastConfig.tilesPerMapEdge);
-        handler->PSendSysMessage("- baseUnitDim: {}", fileHeader.recastConfig.baseUnitDim);
-        handler->PSendSysMessage("- cellSizeHorizontal: {}", fileHeader.recastConfig.cellSizeHorizontal);
-        handler->PSendSysMessage("- cellSizeVertical: {}", fileHeader.recastConfig.cellSizeVertical);
+        handler->PSendSysMessage("- 最大简化误差：{}", fileHeader.recastConfig.maxSimplificationError);
+        handler->PSendSysMessage("- 地图每边顶点数：{}", fileHeader.recastConfig.vertexPerMapEdge);
+        handler->PSendSysMessage("- 地块每边顶点数：{}", fileHeader.recastConfig.vertexPerTileEdge);
+        handler->PSendSysMessage("- 地图每边地块数：{}", fileHeader.recastConfig.tilesPerMapEdge);
+        handler->PSendSysMessage("- 基础单位尺寸：{}", fileHeader.recastConfig.baseUnitDim);
+        handler->PSendSysMessage("- 水平单元尺寸：{}", fileHeader.recastConfig.cellSizeHorizontal);
+        handler->PSendSysMessage("- 垂直单元尺寸：{}", fileHeader.recastConfig.cellSizeVertical);
 
-        handler->PSendSysMessage("gridloc [{}, {}]", gridCoord.x_coord, gridCoord.y_coord);
+        handler->PSendSysMessage("网格坐标 [{}, {}]", gridCoord.x_coord, gridCoord.y_coord);
 
         Map* map = handler->GetSession()->GetPlayer()->GetMap();
 
@@ -181,7 +181,7 @@ public:
         dtNavMeshQuery const* navmeshquery = map->GetMapCollisionData().GetMMapData().GetNavMeshQuery();
         if (!navmesh || !navmeshquery)
         {
-            handler->PSendSysMessage("NavMesh not loaded for current map.");
+            handler->PSendSysMessage("当前地图未加载 NavMesh。");
             return true;
         }
 
@@ -194,19 +194,19 @@ public:
         int32 tilex = int32((y - min[0]) / SIZE_OF_GRIDS);
         int32 tiley = int32((x - min[2]) / SIZE_OF_GRIDS);
 
-        handler->PSendSysMessage("Calc   [{}, {}]", tilex, tiley);
+        handler->PSendSysMessage("计算   [{}, {}]", tilex, tiley);
 
         // navmesh poly -> navmesh tile location
         dtQueryFilterExt filter = dtQueryFilterExt();
         dtPolyRef polyRef = INVALID_POLYREF;
         if (dtStatusFailed(navmeshquery->findNearestPoly(location, extents, &filter, &polyRef, nullptr)))
         {
-            handler->PSendSysMessage("Dt     [??,??] (invalid poly, probably no tile loaded)");
+            handler->PSendSysMessage("Dt     [??,??]（多边形无效，可能未加载地块）");
             return true;
         }
 
         if (polyRef == INVALID_POLYREF)
-            handler->PSendSysMessage("Dt     [??, ??] (invalid poly, probably no tile loaded)");
+            handler->PSendSysMessage("Dt     [??, ??]（多边形无效，可能未加载地块）");
         else
         {
             dtMeshTile const* tile;
@@ -220,7 +220,7 @@ public:
                 }
             }
 
-            handler->PSendSysMessage("Dt     [??,??] (no tile loaded)");
+            handler->PSendSysMessage("Dt     [??,??]（未加载地块）");
         }
 
         return true;
@@ -233,11 +233,11 @@ public:
         dtNavMeshQuery const* navmeshquery = map->GetMapCollisionData().GetMMapData().GetNavMeshQuery();
         if (!navmesh || !navmeshquery)
         {
-            handler->PSendSysMessage("NavMesh not loaded for current map.");
+            handler->PSendSysMessage("当前地图未加载 NavMesh。");
             return true;
         }
 
-        handler->PSendSysMessage("mmap loadedtiles:");
+        handler->PSendSysMessage("mmap 已加载地块：");
 
         for (int32 i = 0; i < navmesh->getMaxTiles(); ++i)
         {
@@ -255,15 +255,15 @@ public:
     {
         Map* map = handler->GetSession()->GetPlayer()->GetMap();
 
-        //handler->PSendSysMessage("mmap stats:");
-        //handler->PSendSysMessage("  global mmap pathfinding is {}abled", sDisableMgr->IsPathfindingEnabled(mapId) ? "en" : "dis");
+        //handler->PSendSysMessage("mmap 统计：");
+        //handler->PSendSysMessage("  全局 mmap 寻路已{}", sDisableMgr->IsPathfindingEnabled(mapId) ? "en" : "dis");
         //MMAP::MMapMgr* manager = MMAP::MMapFactory::createOrGetMMapMgr();
-        //handler->PSendSysMessage(" {} maps loaded with {} tiles overall", manager->getLoadedMapsCount(), manager->getLoadedTilesCount());
+        //handler->PSendSysMessage(" 已加载 {} 张地图，共 {} 个地块", manager->getLoadedMapsCount(), manager->getLoadedTilesCount());
 
         dtNavMesh const* navmesh = map->GetMapCollisionData().GetMMapData().GetNavMesh();
         if (!navmesh)
         {
-            handler->PSendSysMessage("NavMesh not loaded for current map.");
+            handler->PSendSysMessage("当前地图未加载 NavMesh。");
             return true;
         }
 
@@ -289,12 +289,12 @@ public:
             dataSize += tile->dataSize;
         }
 
-        handler->PSendSysMessage("Navmesh stats:");
-        handler->PSendSysMessage(" {} tiles loaded", tileCount);
-        handler->PSendSysMessage(" {} BVTree nodes", nodeCount);
-        handler->PSendSysMessage(" {} polygons ({} vertices)", polyCount, vertCount);
-        handler->PSendSysMessage(" {} triangles ({} vertices)", triCount, triVertCount);
-        handler->PSendSysMessage(" {} MB of data (not including pointers)", ((float)dataSize / sizeof(unsigned char)) / 1048576);
+        handler->PSendSysMessage("导航网格统计：");
+        handler->PSendSysMessage(" 已加载 {} 个地块", tileCount);
+        handler->PSendSysMessage(" {} 个 BVTree 节点", nodeCount);
+        handler->PSendSysMessage(" {} 个多边形（{} 个顶点）", polyCount, vertCount);
+        handler->PSendSysMessage(" {} 个三角形（{} 个顶点）", triCount, triVertCount);
+        handler->PSendSysMessage(" {} MB 数据（不含指针）", ((float)dataSize / sizeof(unsigned char)) / 1048576);
 
         return true;
     }
@@ -312,7 +312,7 @@ public:
 
         if (!creatureList.empty())
         {
-            handler->PSendSysMessage("Found {} Creatures.", creatureList.size());
+            handler->PSendSysMessage("找到 {} 个生物。", creatureList.size());
 
             uint32 paths = 0;
             uint32 uStartTime = getMSTime();
@@ -327,10 +327,10 @@ public:
             }
 
             uint32 uPathLoadTime = getMSTimeDiff(uStartTime, getMSTime());
-            handler->PSendSysMessage("Generated {} paths in {} ms", paths, uPathLoadTime);
+            handler->PSendSysMessage("在 {} 毫秒内生成 {} 条路径", paths, uPathLoadTime);
         }
         else
-            handler->PSendSysMessage("No creatures in {} yard range.", radius);
+            handler->PSendSysMessage("{} 码范围内没有生物。", radius);
 
         return true;
     }

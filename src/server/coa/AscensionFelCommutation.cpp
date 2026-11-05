@@ -121,7 +121,7 @@ void HandleWindowMessage(Player* player, std::string const& body)
     {
         if (!player->GetItemByPos(INVENTORY_SLOT_BAG_0, uint8(key - 1)))
         {
-            SendAddon(player, "ERROR Equip an item in this slot before commuting it.");
+            SendAddon(player, "ERROR 请先在此槽位装备一件物品再进行转换。");
             return;
         }
 
@@ -130,7 +130,7 @@ void HandleWindowMessage(Player* player, std::string const& body)
             insured += SlotInsured(mask, slot) ? 1 : 0;
         if (maxSlots && !SlotInsured(mask, key) && insured >= maxSlots)
         {
-            SendAddon(player, Acore::StringFormat("ERROR You can only commute {} {}.", maxSlots.load(),
+            SendAddon(player, Acore::StringFormat("ERROR 你只能转换 {} {}。", maxSlots.load(),
                 maxSlots == 1 ? "slot" : "slots"));
             return;
         }
@@ -692,7 +692,7 @@ public:
         WorldPacket data(PatchGlobalStringsOpcode, 18 + key.size() + value.size());
         data << uint32(id) << uint32(0x1 | 0x2) << uint32(0) << uint32(0) << key << value;
         player->SendDirectMessage(&data);
-        handler->PSendSysMessage("Sent SMSG 0x0676 row {}: {} = \"{}\". Check with /run print({})", id, key, value, key);
+        handler->PSendSysMessage("已发送 SMSG 0x0676 行 {}：{} = \"{}\"。可用 /run print({}) 验证", id, key, value, key);
         return true;
     }
 
@@ -732,7 +732,7 @@ public:
         WorldPacket data(WindowOpcode, 2 * sizeof(uint8));
         data << uint8(windowId) << uint8(visible.value_or(1) != 0 ? 1 : 0);
         player->SendDirectMessage(&data);
-        handler->PSendSysMessage("Sent SMSG 0x0906 window {} visible {}.", windowId, visible.value_or(1) != 0 ? 1 : 0);
+        handler->PSendSysMessage("已发送 SMSG 0x0906 窗口 {} 可见性 {}。", windowId, visible.value_or(1) != 0 ? 1 : 0);
         return true;
     }
 };
@@ -843,14 +843,14 @@ uint32 Shield(Player* player, std::vector<Item*> const& insurable, std::vector<I
     if (fee > player->GetMoney())
     {
         chat.SendSysMessage(Acore::StringFormat(
-            "Fel Commutation could not protect your items: it needs {} and you carry {}.", FormatMoney(fee),
+            "邪能转换无法保护你的物品：需要{}，而你身上只有{}。", FormatMoney(fee),
             FormatMoney(player->GetMoney())));
         return 0;
     }
 
     for (std::size_t i = 0; i < hit.size(); ++i)
     {
-        chat.SendSysMessage(Acore::StringFormat("Item {} kept safe for {}", ItemLink(hit[i]), FormatMoney(fees[i])));
+        chat.SendSysMessage(Acore::StringFormat("物品{}已受保护，花费{}", ItemLink(hit[i]), FormatMoney(fees[i])));
         losses.erase(std::remove(losses.begin(), losses.end(), hit[i]), losses.end());
     }
     return uint32(fee);
@@ -862,10 +862,10 @@ void ReportLoss(Player* player, uint32 insuranceFee, uint32 droppedGold)
         return;
 
     std::string const detail = droppedGold
-        ? Acore::StringFormat("{} insurance and {} dropped gold", FormatMoney(insuranceFee), FormatMoney(droppedGold))
-        : Acore::StringFormat("{} insurance", FormatMoney(insuranceFee));
+        ? Acore::StringFormat("{}保险费用与{}掉落金币", FormatMoney(insuranceFee), FormatMoney(droppedGold))
+        : Acore::StringFormat("{}保险费用", FormatMoney(insuranceFee));
     ChatHandler(player->GetSession()).SendSysMessage(Acore::StringFormat(
-        "You lost {} but some of your items were kept safe by Fel Commutation: {}.",
+        "你失去了{}，但邪能转换保护了你的部分物品：{}。",
         FormatMoney(uint64(insuranceFee) + droppedGold), detail));
 }
 }

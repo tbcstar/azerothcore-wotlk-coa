@@ -108,7 +108,7 @@ public:
         Pet* pet = handler->GetSession()->GetPlayer()->GetPet();
         if (!pet)
         {
-            handler->SendErrorMessage("You have no pet");
+            handler->SendErrorMessage("你没有宠物");
             return false;
         }
 
@@ -116,19 +116,19 @@ public:
         uint32 spellDifficultyId = sSpellMgr->GetSpellDifficultyId(spell->Id);
         if (bounds.first != bounds.second || spellDifficultyId)
         {
-            handler->SendErrorMessage("Spell {} cannot be learnt using a command!", spell->Id);
+            handler->SendErrorMessage("法术 {} 无法通过命令学习！", spell->Id);
             return false;
         }
 
         // Check if pet already has it
         if (pet->HasSpell(spell->Id))
         {
-            handler->SendErrorMessage("Pet already has spell: {}", spell->Id);
+            handler->SendErrorMessage("宠物已拥有法术：{}", spell->Id);
             return false;
         }
 
         pet->learnSpell(spell->Id);
-        handler->PSendSysMessage("Pet has learned spell {}", spell->Id);
+        handler->PSendSysMessage("宠物已学会法术 {}", spell->Id);
 
         return true;
     }
@@ -320,7 +320,7 @@ public:
         Pet* pet = handler->GetSession()->GetPlayer()->GetPet();
         if (!pet)
         {
-            handler->SendErrorMessage("You have no pet");
+            handler->SendErrorMessage("你没有宠物");
             return false;
         }
 
@@ -330,7 +330,7 @@ public:
         }
         else
         {
-            handler->PSendSysMessage("Pet doesn't have that spell");
+            handler->PSendSysMessage("宠物没有该法术");
         }
 
         return true;

@@ -962,7 +962,7 @@ public:
                 ChatHandler(
                     player->GetSession())
                     .SendSysMessage(
-                        "Manastorm: invalid starting depth.");
+                        "法力风暴：起始深度无效。");
 
                 return;
             }
@@ -977,7 +977,7 @@ public:
                 ChatHandler(
                     player->GetSession())
                     .PSendSysMessage(
-                        "Manastorm: {}",
+                        "法力风暴：{}",
                         error);
             }
 
@@ -1000,7 +1000,7 @@ public:
                 ChatHandler(
                     player->GetSession())
                     .PSendSysMessage(
-                        "Manastorm: {}",
+                        "法力风暴：{}",
                         error);
             }
 
@@ -1197,7 +1197,7 @@ public:
                 ChatHandler(
                     player->GetSession())
                     .PSendSysMessage(
-                        "Manastorm: {}",
+                        "法力风暴：{}",
                         error);
             }
         }

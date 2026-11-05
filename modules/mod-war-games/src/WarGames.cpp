@@ -51,14 +51,14 @@ namespace
     // Labels and order of the original War Games destination list. BATTLEGROUND_TYPE_NONE marks a
     // destination that has not been restored; another map is never substituted for it.
     constexpr std::array<ArenaChoice, 15> ArenaChoices = {{
-        {"Random Arena", BATTLEGROUND_TYPE_NONE}, {"Nagrand Arena", BATTLEGROUND_NA},
-        {"Blades Edge Arena", BATTLEGROUND_BE}, {"Ruins of Lordaeron Arena", BATTLEGROUND_RL},
-        {"The Tiger's Peak Arena", BATTLEGROUND_TYPE_NONE}, {"Guardian's Hall", BATTLEGROUND_TYPE_NONE},
-        {"Ashamane's Fall", BATTLEGROUND_TYPE_NONE}, {"Tol'viron Arena", BATTLEGROUND_TYPE_NONE},
-        {"Coliseum of Past Echoes", BATTLEGROUND_TYPE_NONE}, {"Maldraxxus Coliseum", BATTLEGROUND_TYPE_NONE},
-        {"Nagrand Arena HD", BATTLEGROUND_TYPE_NONE}, {"Blade's Edge Arena HD", BATTLEGROUND_TYPE_NONE},
-        {"The Twisting Nether", BATTLEGROUND_TYPE_NONE}, {"Imperial Arena Of Thakraj", BATTLEGROUND_TYPE_NONE},
-        {"Blackrook Hold", BATTLEGROUND_TYPE_NONE}
+        {"随机竞技场", BATTLEGROUND_TYPE_NONE}, {"纳格兰竞技场", BATTLEGROUND_NA},
+        {"刀锋山竞技场", BATTLEGROUND_BE}, {"洛丹伦废墟竞技场", BATTLEGROUND_RL},
+        {"虎踞峰竞技场", BATTLEGROUND_TYPE_NONE}, {"守护者大厅", BATTLEGROUND_TYPE_NONE},
+        {"阿莎曼之陨", BATTLEGROUND_TYPE_NONE}, {"托尔维隆竞技场", BATTLEGROUND_TYPE_NONE},
+        {"往昔回响竞技场", BATTLEGROUND_TYPE_NONE}, {"玛卓克萨斯竞技场", BATTLEGROUND_TYPE_NONE},
+        {"纳格兰竞技场（高清）", BATTLEGROUND_TYPE_NONE}, {"刀锋山竞技场（高清）", BATTLEGROUND_TYPE_NONE},
+        {"扭曲虚空", BATTLEGROUND_TYPE_NONE}, {"萨克雷帝国竞技场", BATTLEGROUND_TYPE_NONE},
+        {"黑鸦堡垒", BATTLEGROUND_TYPE_NONE}
     }};
 
     struct PendingInvitation
@@ -214,11 +214,11 @@ namespace
         ClearGossipMenuFor(player);
         player->PlayerTalkClass->GetGossipMenu().SetMenuId(MenuInvitation);
         std::string const arena = ArenaChoices[invitation.Choice].Name;
-        std::string const prompt = invitation.ChallengerName + " challenges you and your group to a Wargame in "
-            + arena + ".\n\nReady to face them? Accept to enter the match.";
-        AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Accept the challenge: " + invitation.ChallengerName + " - " + arena,
+        std::string const prompt = invitation.ChallengerName + " 向你和你所在的小队发起战争游戏挑战，地点："
+            + arena + "。\n\n准备应战了吗？接受即可进入比赛。";
+        AddGossipItemFor(player, GOSSIP_ICON_CHAT, "接受挑战：" + invitation.ChallengerName + " - " + arena,
             SenderTeri, ActionAccept, prompt, 0, false);
-        AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Decline the challenge.", SenderTeri, ActionDecline);
+        AddGossipItemFor(player, GOSSIP_ICON_CHAT, "拒绝挑战。", SenderTeri, ActionDecline);
         SendGossipMenuFor(player, TextInvitation, player->GetGUID());
     }
 }
@@ -244,7 +244,7 @@ public:
         player->PlayerTalkClass->GetGossipMenu().SetMenuId(MenuTeri);
         for (uint32 i = 0; i < ArenaChoices.size(); ++i)
             AddGossipItemFor(player, GOSSIP_ICON_CHAT, ArenaChoices[i].Name, SenderTeri, i, "", 0, true);
-        AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Tell me about Wargames.", SenderTeri, ActionExplain);
+        AddGossipItemFor(player, GOSSIP_ICON_CHAT, "给我讲讲战争游戏。", SenderTeri, ActionExplain);
 
         bool challenging = false;
         {
@@ -253,7 +253,7 @@ public:
                 [player](auto const& entry) { return entry.second.Challenger == player->GetGUID(); });
         }
         if (challenging)
-            AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Cancel my pending challenge.", SenderTeri, ActionCancel);
+            AddGossipItemFor(player, GOSSIP_ICON_CHAT, "取消我待处理的挑战。", SenderTeri, ActionCancel);
 
         SendGossipMenuFor(player, DEFAULT_GOSSIP_MESSAGE, creature);
         return true;
@@ -268,7 +268,7 @@ public:
         {
             ClearGossipMenuFor(player);
             player->PlayerTalkClass->GetGossipMenu().SetMenuId(MenuTeri);
-            AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Choose an arena.", SenderTeri, ActionBack);
+            AddGossipItemFor(player, GOSSIP_ICON_CHAT, "选择竞技场。", SenderTeri, ActionBack);
             SendGossipMenuFor(player, TextExplanation, creature);
         }
         else if (action == ActionBack || action == ActionCancel)
@@ -289,7 +289,7 @@ public:
 
         if (ArenaChoices[action].Type == BATTLEGROUND_TYPE_NONE)
         {
-            Notice(player, "That battlefield isn't ready for a match just yet.");
+            Notice(player, "那个战场还没有准备好开打。");
             return true;
         }
 
@@ -299,8 +299,8 @@ public:
             std::chrono::steady_clock::time_point::max());
         if (!token)
         {
-            Notice(player, "I can't arrange that match right now. Make sure both leaders and their groups "
-                "are ready, then try again.");
+            Notice(player, "我现在无法安排这场比赛。请确认两位队长和他们的队伍"
+                "都已就绪，然后再试一次。");
             return true;
         }
 
@@ -311,7 +311,7 @@ public:
         }
 
         CloseGossipMenuFor(player);
-        Notice(player, "The challenge is on its way. Let's see if they're ready to face you!");
+        Notice(player, "挑战已经发出。看看他们是否敢应战！");
         return true;
     }
 };
@@ -345,7 +345,7 @@ public:
         {
             sBattlegroundMgr->CancelWargame(player, invitation.Token);
             Notice(ObjectAccessor::FindPlayer(invitation.Challenger),
-                "They've passed on this one. Find another rival and we'll try again.");
+                "对方这一次拒绝了。换个对手，我们再试一次。");
             return;
         }
 
@@ -390,7 +390,7 @@ public:
         {
             Player* opponent = ObjectAccessor::FindPlayer(invitation.Opponent);
             if (opponent && !StartAcceptedMatch(opponent, invitation.Token))
-                Notice(opponent, "That challenge is no longer available.");
+                Notice(opponent, "该挑战已失效。");
         }
     }
 };

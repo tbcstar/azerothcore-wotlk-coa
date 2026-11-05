@@ -84,7 +84,7 @@ public:
         object->SetLootState(GO_READY);
         object->UseDoorOrButton(autoCloseTime, false, handler->GetSession()->GetPlayer());
 
-        handler->PSendSysMessage("Object activated!");
+        handler->PSendSysMessage("对象已激活！");
 
         return true;
     }
@@ -105,7 +105,7 @@ public:
         if (objectInfo->displayId && !sGameObjectDisplayInfoStore.LookupEntry(objectInfo->displayId))
         {
             // report to DB errors log as in loading case
-            LOG_ERROR("sql.sql", "Gameobject (Entry {} GoType: {}) have invalid displayId ({}), not spawned.", *objectId, objectInfo->type, objectInfo->displayId);
+            LOG_ERROR("sql.sql", "游戏对象（条目 {}，GoType：{}）的 displayId（{}）无效，未生成。", *objectId, objectInfo->type, objectInfo->displayId);
             handler->SendErrorMessage(LANG_GAMEOBJECT_HAVE_INVALID_DATA, uint32(objectId));
             return false;
         }
@@ -160,41 +160,41 @@ public:
 
         if (sObjectMgr->GetGameObjectData(spawnId))
         {
-            handler->SendErrorMessage("Gameobject spawn {} is already loaded.", uint32(spawnId));
+            handler->SendErrorMessage("游戏对象刷新 {} 已加载。", uint32(spawnId));
             return false;
         }
 
         GameObjectData const* data = sObjectMgr->LoadGameObjectDataFromDB(spawnId);
         if (!data)
         {
-            handler->SendErrorMessage("Gameobject spawn {} not found in the database.", uint32(spawnId));
+            handler->SendErrorMessage("数据库中未找到游戏对象刷新 {}。", uint32(spawnId));
             return false;
         }
 
         if (sPoolMgr->IsPartOfAPool<GameObject>(spawnId))
         {
-            handler->SendErrorMessage("Gameobject spawn {} is part of a pool and cannot be manually loaded.", uint32(spawnId));
+            handler->SendErrorMessage("游戏对象刷新 {} 属于水池，无法手动加载。", uint32(spawnId));
             return false;
         }
 
         QueryResult eventResult = WorldDatabase.Query("SELECT guid FROM game_event_gameobject WHERE guid = {}", uint32(spawnId));
         if (eventResult)
         {
-            handler->SendErrorMessage("Gameobject spawn {} is managed by the game event system and cannot be manually loaded.", uint32(spawnId));
+            handler->SendErrorMessage("游戏对象刷新 {} 由游戏事件系统管理，无法手动加载。", uint32(spawnId));
             return false;
         }
 
         Map* map = sMapMgr->FindBaseNonInstanceMap(data->mapid);
         if (!map)
         {
-            handler->SendErrorMessage("Gameobject spawn {} is on a non-continent map (ID: {}). Only continent maps are supported.", uint32(spawnId), data->mapid);
+            handler->SendErrorMessage("游戏对象刷新 {} 位于非大陆地图（ID：{}）。仅支持大陆地图。", uint32(spawnId), data->mapid);
             return false;
         }
 
         GameObjectTemplate const* objectInfo = sObjectMgr->GetGameObjectTemplate(data->id);
         if (!objectInfo)
         {
-            handler->SendErrorMessage("Gameobject template not found for entry {}.", data->id);
+            handler->SendErrorMessage("未找到条目 {} 的游戏对象模板。", data->id);
             return false;
         }
 
@@ -202,12 +202,12 @@ public:
         if (!object->LoadGameObjectFromDB(spawnId, map, true))
         {
             delete object;
-            handler->SendErrorMessage("Failed to load gameobject spawn {}.", uint32(spawnId));
+            handler->SendErrorMessage("加载游戏对象刷新 {} 失败。", uint32(spawnId));
             return false;
         }
 
         sObjectMgr->AddGameobjectToGrid(spawnId, data);
-        handler->PSendSysMessage("Gameobject spawn {} loaded successfully.", uint32(spawnId));
+        handler->PSendSysMessage("游戏对象刷新 {} 加载成功。", uint32(spawnId));
         return true;
     }
 
@@ -625,18 +625,18 @@ public:
 
         handler->PSendSysMessage(LANG_GOINFO_ENTRY, entry);
         if (gameObject)
-            handler->PSendSysMessage("GUID: {}", gameObject->GetGUID().ToString());
+            handler->PSendSysMessage("GUID：{}", gameObject->GetGUID().ToString());
         handler->PSendSysMessage(LANG_GOINFO_TYPE, type);
         handler->PSendSysMessage(LANG_GOINFO_LOOTID, lootId);
         handler->PSendSysMessage(LANG_GOINFO_DISPLAYID, displayId);
         if (gameObject)
         {
-            handler->PSendSysMessage("LootMode: {}", gameObject->GetLootMode());
-            handler->PSendSysMessage("LootState: {}", gameObject->getLootState());
-            handler->PSendSysMessage("GOState: {}", gameObject->GetGoState());
-            handler->PSendSysMessage("PhaseMask: {}", gameObject->GetPhaseMask());
-            handler->PSendSysMessage("IsLootEmpty: {}", gameObject->loot.empty());
-            handler->PSendSysMessage("IsLootLooted: {}", gameObject->loot.isLooted());
+            handler->PSendSysMessage("拾取模式：{}", gameObject->GetLootMode());
+            handler->PSendSysMessage("拾取状态：{}", gameObject->getLootState());
+            handler->PSendSysMessage("GO 状态：{}", gameObject->GetGoState());
+            handler->PSendSysMessage("相位掩码：{}", gameObject->GetPhaseMask());
+            handler->PSendSysMessage("拾取为空：{}", gameObject->loot.empty());
+            handler->PSendSysMessage("已被拾取：{}", gameObject->loot.isLooted());
         }
 
         handler->PSendSysMessage(LANG_GOINFO_NAME, name);
@@ -674,7 +674,7 @@ public:
         {
             object->SendCustomAnim(*objectState);
         }
-        handler->PSendSysMessage("Set gobject type {} state {}", objectType, *objectState);
+        handler->PSendSysMessage("已将游戏对象类型 {} 的状态设为 {}", objectType, *objectState);
         return true;
     }
 

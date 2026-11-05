@@ -506,7 +506,7 @@ namespace
             {
                 if (!run.commitSucceeded)
                     ChatHandler(player->GetSession()).SendSysMessage(
-                        "Manastorm could not save this clear. No reward was issued.");
+                        "法力风暴无法保存本次通关。未发放任何奖励。");
                 run.commitReady = false;
                 ClearBubble(player);
                 player->ClearScriptedPrivateInstance();
@@ -573,7 +573,7 @@ namespace
             auto itr = runs.find(player->GetGUID());
             if (itr == runs.end() || !enabled.load())
             {
-                ChatHandler(player->GetSession()).SendSysMessage("Manastorm is not available on this server.");
+                ChatHandler(player->GetSession()).SendSysMessage("本服务器未开放法力风暴。");
                 return true;
             }
             Run& run = itr->second;
@@ -588,7 +588,7 @@ namespace
                 SendProgress(player, run, true);
                 SendActive(player, run);
                 ChatHandler(player->GetSession()).PSendSysMessage(
-                    "Manastorm: depth {}, completed {}, resurrection charges {}.",
+                    "法力风暴：深度 {}，已完成 {}，复活次数 {}。",
                     run.encounter->depth, run.MaxCompleted(), run.encounter->resurrectionCharges);
             }
             return true;
@@ -632,7 +632,7 @@ namespace
                 player->CastSpell(entry.x, entry.y, entry.z, SafetyBubble, true);
                 SpawnGuide(player, run, entry);
                 ChatHandler(player->GetSession()).SendSysMessage(
-                    "Manastorm: leave the safety bubble to begin. Defeat the boss; nearby guards empower Chaotic Link.");
+                    "法力风暴：离开安全气泡即可开始。击败首领；附近的守卫会强化混沌链接。");
             }
             SendActive(player, run);
             if (run.encounter->phase == Phase::Completed)
@@ -674,8 +674,8 @@ namespace
                 if (failed)
                 {
                     run.encounter->phase = Phase::Failed;
-                    ChatHandler(player->GetSession()).SendSysMessage("Manastorm could not save every party reward. "
-                        "Successfully saved rewards remain in the mail; return from your saved checkpoint.");
+                    ChatHandler(player->GetSession()).SendSysMessage("法力风暴无法保存全部队伍奖励。"
+                        "已成功保存的奖励仍在邮件中；请从已保存的检查点返回。");
                     FailRun(player, run);
                     return;
                 }
@@ -798,7 +798,7 @@ namespace
             {
                 run.encounter->treasure.Clear();
                 run.encounter->bonusCaches += 2;
-                ChatHandler(player->GetSession()).SendSysMessage("Treasure Keeper defeated: two additional caches secured.");
+                ChatHandler(player->GetSession()).SendSysMessage("宝藏守护者已被击败：额外获得两个宝箱。");
             }
             else if (run.encounter->guards.erase(unit->GetGUID()))
             {
@@ -880,22 +880,22 @@ namespace
                                 item->Name1 + " - " + std::to_string(gadget.cost) + " Bonzo Bolts", GOSSIP_SENDER_MAIN, 100 + i);
                     }
                     if (!player->HasSpell(93418) && !player->HasItemCount(98074, 1, true))
-                        AddGossipItemFor(player, GOSSIP_ICON_VENDOR, "Cogsley companion - 10 Bedlam Bullion",
+                        AddGossipItemFor(player, GOSSIP_ICON_VENDOR, "科格斯利伙伴 - 10 只疯乱金锭",
                             GOSSIP_SENDER_MAIN, 20);
-                    AddGossipItemFor(player, GOSSIP_ICON_VENDOR, "Exchange 1 Bedlam Bullion for 10 Bonzo Bolts",
+                    AddGossipItemFor(player, GOSSIP_ICON_VENDOR, "用 1 只疯乱金锭兑换 10 支邦佐弩矢",
                         GOSSIP_SENDER_MAIN, 21);
-                    AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Back", GOSSIP_SENDER_MAIN, 1);
+                    AddGossipItemFor(player, GOSSIP_ICON_CHAT, "返回", GOSSIP_SENDER_MAIN, 1);
                     SendGossipMenuFor(player, DEFAULT_GOSSIP_MESSAGE, creature->GetGUID());
                     return true;
                 }
                 if (guide && CanAdvance(itr->second.encounter->phase, itr->second.encounter->depth))
-                    AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Continue the Manastorm", GOSSIP_SENDER_MAIN, 2);
-                AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Collect rewards from the mailbox", GOSSIP_SENDER_MAIN, 4);
-                AddGossipItemFor(player, GOSSIP_ICON_VENDOR, "Manastorm potions and upgrades", GOSSIP_SENDER_MAIN, 10);
-                AddGossipItemFor(player, GOSSIP_ICON_VENDOR, "Repair equipment and sell items", GOSSIP_SENDER_MAIN, 5);
-                AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Replace missing starter potions", GOSSIP_SENDER_MAIN, 6);
+                    AddGossipItemFor(player, GOSSIP_ICON_CHAT, "继续法力风暴", GOSSIP_SENDER_MAIN, 2);
+                AddGossipItemFor(player, GOSSIP_ICON_CHAT, "从邮箱领取奖励", GOSSIP_SENDER_MAIN, 4);
+                AddGossipItemFor(player, GOSSIP_ICON_VENDOR, "法力风暴药水与升级", GOSSIP_SENDER_MAIN, 10);
+                AddGossipItemFor(player, GOSSIP_ICON_VENDOR, "修理装备并出售物品", GOSSIP_SENDER_MAIN, 5);
+                AddGossipItemFor(player, GOSSIP_ICON_CHAT, "补充缺失的初始药水", GOSSIP_SENDER_MAIN, 6);
                 if (guide)
-                    AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Leave the Manastorm", GOSSIP_SENDER_MAIN, 3);
+                    AddGossipItemFor(player, GOSSIP_ICON_CHAT, "离开法力风暴", GOSSIP_SENDER_MAIN, 3);
                 SendGossipMenuFor(player, DEFAULT_GOSSIP_MESSAGE, creature->GetGUID());
             }
             else
@@ -948,7 +948,7 @@ namespace
         {
             if (!player->HasItemCount(currency, price))
             {
-                ChatHandler(player->GetSession()).SendSysMessage("You do not have enough Manastorm currency.");
+                ChatHandler(player->GetSession()).SendSysMessage("你的法力风暴货币不足。");
                 return;
             }
             ItemPosCountVec positions;
@@ -1109,7 +1109,7 @@ namespace
                     if (!run.cacheSpaceWarning)
                     {
                         ChatHandler(player->GetSession()).SendSysMessage(
-                            "Your Manastorm cache is saved. Free bag space and it will be delivered automatically.");
+                            "你的法力风暴宝箱已保存。腾出背包空间后会自动送达。");
                         run.cacheSpaceWarning = true;
                     }
                     return;
@@ -1238,7 +1238,7 @@ namespace
                 if (!player->HasItemCount(item, 1, true))
                     if (!player->AddItem(item, 1))
                         ChatHandler(player->GetSession()).SendSysMessage(
-                            "Make room in your bags, then ask Cogsley to replace your missing starter potions.");
+                            "请在背包中腾出空间，然后找科格斯利补发缺失的初始药水。");
         }
 
         void ClearStarterItems(Player* player)
@@ -1346,7 +1346,7 @@ namespace
                         party.push_back(member);
             if (party.size() != (group ? group->GetMembersCount() : 1))
             {
-                ChatHandler(player->GetSession()).SendSysMessage("Gather your party within 100 yards before entering.");
+                ChatHandler(player->GetSession()).SendSysMessage("进入前请在 100 码内召集你的队伍。");
                 SendResult(player, EnterResult, "ENTER_MANASTORM_BAD_GROUP_SIZE");
                 return;
             }
@@ -1428,12 +1428,12 @@ namespace
             if (present != run.encounter->members.size())
             {
                 run.encounter->portalArmed.clear();
-                ChatHandler(player->GetSession()).SendSysMessage("Wait for every party member before continuing.");
+                ChatHandler(player->GetSession()).SendSysMessage("请等待所有队伍成员到齐后再继续。");
                 return;
             }
             if (run.encounter->mode < 4 && maxLevel >= std::max(60u, sWorld->getIntConfig(CONFIG_MAX_PLAYER_LEVEL)))
             {
-                ChatHandler(player->GetSession()).SendSysMessage("Maximum level reached! Your rewards are saved. Enter again to begin endgame Manastorm.");
+                ChatHandler(player->GetSession()).SendSysMessage("已达到最高等级！你的奖励已保存。再次进入可开始终局法力风暴。");
                 Exit(player, run);
                 return;
             }
@@ -1592,8 +1592,8 @@ namespace
             mail->sender = GuideEntry;
             mail->receiver = player->GetGUID().GetCounter();
             mail->subject = "Manastorm: level " + std::to_string(run.encounter->depth);
-            mail->body = first ? "A new depth conquered! Your bullion and bolts are enclosed. Caches go to your bags."
-                : "Another storm conquered! Your bolts are enclosed. Caches go to your bags. Keep pushing deeper!";
+            mail->body = first ? "新的深度已被征服！随信附上金锭与螺栓。宝箱会直接放进你的背包。"
+                : "又一场风暴被征服！随信附上螺栓。宝箱会直接放进你的背包。继续向更深处推进吧！";
             mail->money = player->GetLevel() * 20 * (1 + std::min(run.encounter->depth, 1000u) / 10);
             mail->deliver_time = GameTime::GetGameTime().count();
             mail->expire_time = mail->deliver_time + 30 * DAY;
@@ -1762,7 +1762,7 @@ namespace
             }
             SpawnGuide(player, run, pos);
             ChatHandler(player->GetSession()).SendSysMessage(
-                "Manastorm complete. Cogsley has your mail, supplies and the way forward.");
+                "法力风暴已完成。科格斯利那里有你的邮件、补给和前进的道路。");
         }
 
         void ClearBubble(Player* player)

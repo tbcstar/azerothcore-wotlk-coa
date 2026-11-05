@@ -883,7 +883,7 @@ UpdateEntriesRefusal SpecializationSwitchRefused(uint32 specializationId, std::s
     if (!reason.empty())
         return { "CA_UPDATE_ENTRIES_NOT_TRAVERSIBLE", "CA_LEARN_MODE_RESTRICTED", 0, 0, std::move(reason), true };
     return { "CA_UPDATE_ENTRIES_BAD_ENTRY", "CA_LEARN_WRONG_CLASS", 0, 0,
-             Acore::StringFormat("Specialization {} is not valid for your custom class.", specializationId) };
+             Acore::StringFormat("专精 {} 不适用于你的自定义职业。", specializationId) };
 }
 
 class AscensionClassService {
@@ -1050,7 +1050,7 @@ public:
     if (learned)
     {
       ChatHandler(player->GetSession())
-          .PSendSysMessage("Restored {} Ascension class abilities.", learned);
+          .PSendSysMessage("已恢复 {} 个 Ascension 职业技能。", learned);
       LOG_INFO("coa",
                "Restored {} progression spells for {} (class {}, level {})",
                learned, player->GetName(), uint32(player->getClass()),
@@ -1555,7 +1555,7 @@ public:
     if (restored)
     {
       ChatHandler(player->GetSession())
-          .PSendSysMessage("Restored {} custom-class starter items.",
+          .PSendSysMessage("已恢复 {} 件自定义职业初始物品。",
                            restored);
       LOG_INFO("coa",
                "Restored {} starter items for {} (class {})", restored,
@@ -1903,7 +1903,7 @@ public:
     uint32 const entryId = entry.EntryId;
     if (entry.ClassId != player->getClass())
     {
-      error = Acore::StringFormat("Talent entry {} does not belong to your custom class.", entryId);
+      error = Acore::StringFormat("天赋条目 {} 不属于你的自定义职业。", entryId);
       return false;
     }
 
@@ -1917,14 +1917,14 @@ public:
     if (rank > 0 && entry.SpecId != 0 && entry.SpecId != activeSpecialization)
     {
       error = Acore::StringFormat(
-          "Talent entry {} belongs to specialization {}, but your active specialization is {}.",
+          "天赋条目 {} 属于专精 {}，但你当前激活的专精是 {}。",
           entryId, uint32(entry.SpecId), activeSpecialization);
       return false;
     }
 
     if (rank > entry.SpellCount)
     {
-      error = Acore::StringFormat("Talent entry {} only has {} rank(s).", entryId, uint32(entry.SpellCount));
+      error = Acore::StringFormat("天赋条目 {} 只有 {} 个等级。", entryId, uint32(entry.SpellCount));
       return false;
     }
 
@@ -1932,13 +1932,13 @@ public:
     bool const automaticallyGranted = entry.AECost == 0 && entry.TECost == 0 && !freeChoiceGroup;
     if (automaticallyGranted && rank != 0 && rank != entry.SpellCount)
     {
-      error = Acore::StringFormat("Progression entry {} must use its full automatic rank.", entryId);
+      error = Acore::StringFormat("进阶条目 {} 必须使用其完整的自动等级。", entryId);
       return false;
     }
 
     if (rank > 0 && player->GetLevel() < entry.RequiredLevel)
     {
-      error = Acore::StringFormat("Talent entry {} requires level {}.", entryId, uint32(entry.RequiredLevel));
+      error = Acore::StringFormat("天赋条目 {} 需要等级 {}。", entryId, uint32(entry.RequiredLevel));
       return false;
     }
 
@@ -1948,7 +1948,7 @@ public:
       SynchronizeProgression(player);
       if (!grantable)
       {
-        error = Acore::StringFormat("Progression entry {} requires its prerequisite ability.", entryId);
+        error = Acore::StringFormat("进阶条目 {} 需要先具备其前置能力。", entryId);
         return false;
       }
       return true;
@@ -1957,7 +1957,7 @@ public:
     uint32 const selectedSpellId = rank > 0 ? entry.SpellIds[rank - 1] : 0;
     if (rank > 0 && (!selectedSpellId || !sSpellMgr->GetSpellInfo(selectedSpellId)))
     {
-      error = Acore::StringFormat("Talent entry {} rank {} references a missing server spell.", entryId, rank);
+      error = Acore::StringFormat("天赋条目 {} 的等级 {} 引用了服务器上不存在的法术。", entryId, rank);
       return false;
     }
 
@@ -1978,7 +1978,7 @@ public:
       if (used + cost > budget)
       {
         error = Acore::StringFormat(
-            "Talent entry {} rank {} needs {} {} point(s), but {} of the {} available at level {} are spent.",
+            "天赋条目 {} 的等级 {} 需要 {} 点 {}，但你在 {} 级的 {} 点中已用掉 {} 点。",
             entryId, rank, cost, classTree ? "class" : "specialization", used, budget,
             uint32(player->GetLevel()));
         return false;
@@ -1997,7 +1997,7 @@ public:
         projected.push_back({ entryId, rank });
       if (TabInvestmentShortfall(projected, entry))
       {
-        error = Acore::StringFormat("Talent entry {} needs more points invested in its tab first.", entryId);
+        error = Acore::StringFormat("天赋条目 {} 需要先在其所属分页投入更多点数。", entryId);
         return false;
       }
     }
@@ -2088,7 +2088,7 @@ public:
 
     LOG_ERROR("coa", "No CoA talent budget row for class {} at level {} ({})",
               uint32(player->getClass()), uint32(player->GetLevel()), player->GetName());
-    error = Acore::StringFormat("No talent budget is known for class {} at level {}; no rank can be raised.",
+    error = Acore::StringFormat("未知职业 {} 在 {} 级的天赋点数上限，因此无法提升等级。",
                                 uint32(player->getClass()), uint32(player->GetLevel()));
     return false;
   }
@@ -2117,7 +2117,7 @@ public:
     AscensionCoATalentState::UploadedSpecialization const uploaded = AscensionCoATalentState::SpecializationOf(upload);
     if (uploaded.Mixed)
     {
-      refusal = { "CA_UPDATE_ENTRIES_BAD_ENTRY", "", 0, 0, "The uploaded build mixes specializations." };
+      refusal = { "CA_UPDATE_ENTRIES_BAD_ENTRY", "", 0, 0, "上传的配点混用了多个专精。" };
       return false;
     }
 
@@ -2134,19 +2134,19 @@ public:
       if (!entry || entry->ClassId != player->getClass())
       {
         refusal = { "CA_UPDATE_ENTRIES_BAD_ENTRY", "CA_LEARN_WRONG_CLASS", item.EntryId, item.Rank,
-                    Acore::StringFormat("Talent entry {} does not belong to your custom class.", item.EntryId) };
+                    Acore::StringFormat("天赋条目 {} 不属于你的自定义职业。", item.EntryId) };
         return false;
       }
       if (!received.insert(item.EntryId).second)
       {
         refusal = { "CA_UPDATE_ENTRIES_BAD_ENTRY", "", item.EntryId, item.Rank,
-                    "The uploaded build repeats a talent entry." };
+                    "上传的配点重复了同一个天赋条目。" };
         return false;
       }
       if (item.Rank > entry->SpellCount)
       {
         refusal = { "CA_UPDATE_ENTRIES_BAD_ENTRY", "", entry->EntryId, item.Rank,
-                    Acore::StringFormat("Talent entry {} only has {} rank(s).", entry->EntryId,
+                    Acore::StringFormat("天赋条目 {} 只有 {} 个等级。", entry->EntryId,
                                         uint32(entry->SpellCount)) };
         return false;
       }
@@ -2155,14 +2155,14 @@ public:
         if (player->GetLevel() < entry->RequiredLevel)
         {
           refusal = { "CA_UPDATE_ENTRIES_NOT_TRAVERSIBLE", "CA_LEARN_LOW_LEVEL", entry->EntryId, item.Rank,
-                      Acore::StringFormat("Talent entry {} requires level {}.", entry->EntryId,
+                      Acore::StringFormat("天赋条目 {} 需要等级 {}。", entry->EntryId,
                                           uint32(entry->RequiredLevel)) };
           return false;
         }
         if (!sSpellMgr->GetSpellInfo(entry->SpellIds[item.Rank - 1]))
         {
           refusal = { "CA_UPDATE_ENTRIES_BAD_ENTRY", "CA_LEARN_BAD_ABILITY", entry->EntryId, item.Rank,
-                      Acore::StringFormat("Talent entry {} rank {} references a missing server spell.",
+                      Acore::StringFormat("天赋条目 {} 的等级 {} 引用了服务器上不存在的法术。",
                                           entry->EntryId, item.Rank) };
           return false;
         }
@@ -2170,14 +2170,14 @@ public:
       if (item.Rank && entry->SpecId && entry->SpecId != targetSpec)
       {
         refusal = { "CA_UPDATE_ENTRIES_BAD_ENTRY", "CA_LEARN_WRONG_CLASS", item.EntryId, item.Rank,
-                    "The uploaded build includes an entry of another specialization." };
+                    "上传的配点包含其他专精的条目。" };
         return false;
       }
       if (uint32 const group = GetSelectableFreeGroup(item.EntryId); item.Rank && group &&
           !selectedGroups.insert(group).second)
       {
         refusal = { "CA_UPDATE_ENTRIES_NOT_TRAVERSIBLE", "CA_LEARN_GROUP", item.EntryId, item.Rank,
-                    "The uploaded build selects mutually exclusive talents." };
+                    "上传的配点选择了互斥的天赋。" };
         return false;
       }
       if (entry->AECost || entry->TECost || GetSelectableFreeGroup(entry->EntryId))
@@ -2217,7 +2217,7 @@ public:
                 }))
             continue;
         refusal = { "CA_UPDATE_ENTRIES_BAD_ENTRY", "CA_LEARN_BAD_ABILITY", item.EntryId, item.Rank,
-                    Acore::StringFormat("Talent entry {} is not purchasable and cannot be granted automatically.", item.EntryId) };
+                    Acore::StringFormat("天赋条目 {} 无法购买，因此不能自动授予。", item.EntryId) };
         return false;
     }
     for (AscensionCoATalentState::KnownEntry const& item : priced)
@@ -2233,14 +2233,14 @@ public:
                 }))
             {
                 refusal = { "CA_UPDATE_ENTRIES_NOT_TRAVERSIBLE", "", item.EntryId, item.Rank,
-                    Acore::StringFormat("Talent entry {} requires entry {} in the uploaded build.",
+                    Acore::StringFormat("天赋条目 {} 在上传的配点中需要先具备条目 {}。",
                         item.EntryId, requiredId) };
                 return false;
             }
         if (char const* learnResult = TabInvestmentShortfall(priced, *entry))
         {
             refusal = { "CA_UPDATE_ENTRIES_NOT_TRAVERSIBLE", learnResult, item.EntryId, item.Rank,
-                Acore::StringFormat("Talent entry {} needs more points invested in its tab first.",
+                Acore::StringFormat("天赋条目 {} 需要先在其所属分页投入更多点数。",
                     item.EntryId) };
             return false;
         }
@@ -2259,7 +2259,7 @@ public:
       refusal = { "CA_UPDATE_ENTRIES_NOT_TRAVERSIBLE",
                   spent.AE > classBudget ? "CA_LEARN_MISSING_AE" : "CA_LEARN_MISSING_TE", 0, 0,
                   Acore::StringFormat(
-                      "That build spends {} class and {} specialization point(s); level {} has {} and {}.",
+                      "该配点消耗了 {} 点职业点与 {} 点专精点；{} 级时分别有 {} 点与 {} 点。",
                       spent.AE, spent.TE, uint32(player->GetLevel()), classBudget, specializationBudget) };
       return false;
     }
@@ -2298,7 +2298,7 @@ public:
       if (!payment.Affordable)
       {
         refusal = { "CA_UPDATE_ENTRIES_BAD_UPDATE_COSTS", "", 0, 0,
-                    "You cannot pay to unlearn the talents this build removes." };
+                    "你无力支付遗忘该配点所移除天赋的费用。" };
         return false;
       }
     }
@@ -2804,8 +2804,8 @@ public:
       player->SendInitialActionButtons();
     ChatHandler(player->GetSession())
         .PSendSysMessage(
-            "Activated specialization {}. Stored the build of specialization {}, removed {} old talent "
-            "spell(s), restored {} stored rank(s) and granted {} automatic ability/passive spell(s).",
+            "已激活专精 {}。已保存专精 {} 的配点，移除 {} 个旧天赋法术，恢复 {} 个已保存的等级，"
+            "并授予 {} 个自动技能/被动法术。",
             specializationId, previousSpecialization, removed, restored, granted);
     LOG_INFO("coa",
              "Switched {} (class {}) to local specialization {}: removed {} CoA spells, restored {} "
@@ -2893,7 +2893,7 @@ public:
             index >= AscensionWildcard::SPECIALIZATION_COUNT ||
             !player->HasSpell(AscensionWildcard::SPECIALIZATION_SWAP_SPELLS[index]))
         {
-            error = "That specialization slot is not unlocked.";
+            error = "该专精槽位尚未解锁。";
             return false;
         }
         if (index == ActiveSlot(player))
@@ -2915,7 +2915,7 @@ public:
             if (!AscensionCoATalentState::ParseSpecializationSlot(values, target) ||
                 target.ClassId != player->getClass())
             {
-                error = "The saved specialization slot is invalid for this character.";
+                error = "已保存的专精槽位对该角色无效。";
                 return false;
             }
         }
@@ -3697,12 +3697,12 @@ public:
         if (!player)
             return;
 
-        handler->PSendSysMessage("Ascension resource status for class {}:",
+        handler->PSendSysMessage("职业 {} 的 Ascension 资源状态：",
             uint32(player->getClass()));
 
         if (player->getClass() == CLASS_REAPER)
         {
-            handler->PSendSysMessage("Runic Power: {}/{}",
+            handler->PSendSysMessage("符文能量：{}/{}",
                 player->GetPower(POWER_RUNIC_POWER) / 10,
                 player->GetMaxPower(POWER_RUNIC_POWER) / 10);
         }
@@ -3744,7 +3744,7 @@ public:
 
         if (!displayed && player->getClass() != CLASS_REAPER)
             handler->SendSysMessage(
-                "This class has no separate Ascension resource widget.");
+                "该职业没有独立的 Ascension 资源界面。");
     }
 
 private:
@@ -6163,8 +6163,8 @@ public:
     if (!_clientDataLoaded)
     {
       ChatHandler(player->GetSession())
-          .SendSysMessage("Ascension collection data is unavailable; transmog "
-                          "and vanity are disabled.");
+          .SendSysMessage("Ascension 收藏数据不可用，幻化 "
+                          "与外观功能已禁用。");
       return;
     }
 
@@ -6856,14 +6856,14 @@ public:
     {
       ChatHandler(player->GetSession())
           .PSendSysMessage(
-              "Vanity item {} is not present in this client build.", itemId);
+              "该外观物品（{}）不存在于当前客户端版本中。", itemId);
       return;
     }
 
     if (IsWithheldVanityItem(itemId))
     {
       ChatHandler(player->GetSession())
-          .SendSysMessage("Mystic Enchanting altars are not available on this realm.");
+          .SendSysMessage("本服务器未开放神秘附魔祭坛。");
       return;
     }
 
@@ -6878,8 +6878,8 @@ public:
     {
       ChatHandler(player->GetSession())
           .SendSysMessage(IsBankVanityItem(itemId)
-              ? "That bank is not unlocked on this account."
-              : "That vanity item is not unlocked on this account.");
+              ? "该银行未在此账号上解锁。"
+              : "该外观物品未在此账号上解锁。");
       return;
     }
 
@@ -6887,7 +6887,7 @@ public:
         AscensionCollectibles::SigilVanityItems.end(), itemId) &&
         !state->OwnedVanityItems.contains(itemId))
     {
-        ChatHandler(player->GetSession()).SendSysMessage("That sigil companion is not unlocked on this account.");
+        ChatHandler(player->GetSession()).SendSysMessage("该印记小伙伴未在此账号上解锁。");
         return;
     }
 
@@ -6927,15 +6927,13 @@ public:
       if (player->HasSpell(learnedSpell))
         sScriptMgr->OnPlayerCoAProgress(player, CoAProgressEvent::VanityDelivered, itemId);
       ChatHandler(player->GetSession())
-          .PSendSysMessage("Learned vanity spell {} because item {} has no "
-                           "local server template.",
+          .PSendSysMessage("已学会外观法术 {}，因为物品 {} 在本服务器没有对应的模板。",
                            learnedSpell, itemId);
       return;
     }
 
     ChatHandler(player->GetSession())
-        .PSendSysMessage("Vanity item {} exists in the Ascension client but "
-                         "has no AzerothCore item template yet.",
+        .PSendSysMessage("该外观物品（{}）在 Ascension 客户端中存在，但尚无服务器的物品模板。",
                          itemId);
   }
 
@@ -6950,12 +6948,14 @@ public:
       if (IsWithheldVanityItem(itemId))
         continue;
 
-      if (IsUnsummonableCompanion(itemId)) {
+      if (IsUnsummonableCompanion(itemId))
+      {
         ++unsummonable;
         continue;
       }
 
-      if (state->OwnedVanityItems.insert(itemId).second) {
+      if (state->OwnedVanityItems.insert(itemId).second)
+      {
         CharacterDatabasePreparedStatement *stmt =
             CharacterDatabase.GetPreparedStatement(CHAR_INS_ACCOUNT_VANITY_COLLECTION);
         stmt->SetData(0, state->AccountId);
@@ -6993,9 +6993,9 @@ public:
             return false;
 
         ChatHandler(player->GetSession()).PSendSysMessage(
-            "This item requires a level {} or a previously prestiged character on your account on this realm to {}.",
+            "该物品需要你的账号在本服务器上拥有 {} 级角色或曾经转生过的角色才能{}。",
             VANITY_REALM_LEVEL,
-            proto->Class == ITEM_CLASS_CONSUMABLE ? "consume" : "use");
+            proto->Class == ITEM_CLASS_CONSUMABLE ? "消耗" : "使用");
         return true;
     }
 
@@ -7009,7 +7009,8 @@ public:
       if (!_vanityItems.contains(itemId))
         continue;
 
-      if (state->OwnedVanityItems.insert(itemId).second) {
+      if (state->OwnedVanityItems.insert(itemId).second)
+      {
         CharacterDatabasePreparedStatement *stmt =
             CharacterDatabase.GetPreparedStatement(CHAR_INS_ACCOUNT_VANITY_COLLECTION);
         stmt->SetData(0, state->AccountId);
@@ -7427,7 +7428,7 @@ private:
     state->AppearanceAddTimer = 0;
     SendOutfitCollection(player, *state);
     ChatHandler(player->GetSession())
-        .PSendSysMessage("Unlocked all {} local wardrobe appearances.", total);
+        .PSendSysMessage("已解锁全部 {} 个本地衣柜外观。", total);
 
     LOG_INFO("coa",
              "Completed full wardrobe sync for {}: {} appearances",
@@ -7922,14 +7923,14 @@ private:
         if (vanityItr == _vanityItems.end() || IsWithheldVanityItem(itemId) ||
             !IsVanityItemOffered(player, vanityItr->second))
         {
-            handler.SendSysMessage("That item is not sold on this realm.");
+            handler.SendSysMessage("本服务器不出售该物品。");
             return;
         }
 
         uint32 const cost = vanityItr->second.BazaarTokenCost;
         if (!cost)
         {
-            handler.SendSysMessage("That item cannot be bought with Bazaar Tokens.");
+            handler.SendSysMessage("该物品无法用集市代币购买。");
             return;
         }
 
@@ -7944,13 +7945,13 @@ private:
         bool const unlockAll = ascensionCompatConfig.GetConfigValue<bool>(AscensionCompatConfig::UNLOCK_ALL_VANITY);
         if (state->OwnedVanityItems.contains(itemId) || (unlockAll && !sigil && !IsBankVanityItem(itemId)))
         {
-            handler.SendSysMessage("You already own this item.");
+            handler.SendSysMessage("你已经拥有此物品。");
             return;
         }
 
         if (!player->HasItemCount(VANITY_BAZAAR_TOKEN_ITEM, cost))
         {
-            handler.SendSysMessage("You do not have enough Bazaar Tokens.");
+            handler.SendSysMessage("你的集市代币不足。");
             return;
         }
 
@@ -7969,13 +7970,13 @@ private:
         ChatHandler handler(player->GetSession());
         if (!sObjectMgr->GetItemTemplate(itemId))
         {
-            handler.PSendSysMessage("Vanity item {} has no AzerothCore item template yet.", itemId);
+            handler.PSendSysMessage("该外观物品（{}）尚无服务器的物品模板。", itemId);
             return;
         }
 
         if (!player->HasItemCount(VANITY_BAZAAR_TOKEN_ITEM, cost))
         {
-            handler.SendSysMessage("You do not have enough Bazaar Tokens.");
+            handler.SendSysMessage("你的集市代币不足。");
             return;
         }
 
@@ -8605,8 +8606,8 @@ bool HandlePersonalBankActivate(Player* player, WorldPacket const& packet)
     if (!OwnsPlacedBank(player, itr->second.Kind))
     {
         ChatHandler(player->GetSession())
-            .PSendSysMessage("You do not own a {} bank.",
-                             itr->second.Kind == PERSONAL_BANK_REALM ? "Realm" : "Personal");
+            .PSendSysMessage("你没有属于自己的{}银行。",
+                             itr->second.Kind == PERSONAL_BANK_REALM ? "服务器" : "个人");
         LOG_INFO("coa",
                  "{} touched a {} bank placed by {} (vault {}) without owning one",
                  player->GetName(),
@@ -9021,7 +9022,7 @@ public:
 
     if (!player || !player->IsConnected())
     {
-      handler->SendSysMessage("That player must be online for this command.");
+      handler->SendSysMessage("该玩家必须在线才能使用此命令。");
       return true;
     }
 
@@ -9041,8 +9042,7 @@ public:
         player->GetName());
     if (handler->GetPlayer() != target)
       ChatHandler(target->GetSession())
-          .SendSysMessage(
-              "You have been granted the full Ascension vanity collection.");
+          .SendSysMessage("你已被授予完整的 Ascension 外观收藏。");
     return true;
   }
 
@@ -9053,7 +9053,7 @@ public:
 
     if (!player || !player->IsConnected())
     {
-      handler->SendSysMessage("That player must be online for this command.");
+      handler->SendSysMessage("该玩家必须在线才能使用此命令。");
       return true;
     }
 
@@ -9073,9 +9073,7 @@ public:
         player->GetName());
     if (handler->GetPlayer() != target)
       ChatHandler(target->GetSession())
-          .SendSysMessage(
-              "You have been granted the full Ascension transmog "
-              "collection.");
+          .SendSysMessage("你已被授予完整的 Ascension 幻化收藏。");
     return true;
   }
 
@@ -9086,7 +9084,7 @@ public:
 
     if (!player || !player->IsConnected())
     {
-      handler->SendSysMessage("That player must be online for this command.");
+      handler->SendSysMessage("该玩家必须在线才能使用此命令。");
       return true;
     }
 
@@ -9107,8 +9105,7 @@ public:
         player->GetName());
     if (handler->GetPlayer() != target)
       ChatHandler(target->GetSession())
-          .SendSysMessage(
-              "You have been granted the Mystic Altar vanity items.");
+          .SendSysMessage("你已被授予神秘祭坛的外观物品。");
     return true;
   }
 
@@ -9122,10 +9119,10 @@ public:
     float const feetZ = player->GetPositionZ();
     Map *map = player->GetMap();
 
-    handler->PSendSysMessage("feet {:.2f} on map {} at {:.2f} {:.2f}", feetZ,
+    handler->PSendSysMessage("脚下地面 {:.2f}，地图 {}，坐标 {:.2f} {:.2f}", feetZ,
                              player->GetMapId(), player->GetPositionX(),
                              player->GetPositionY());
-    handler->PSendSysMessage("spot {:.2f} {:.2f} (2 yards {:.2f} rad ahead)", x,
+    handler->PSendSysMessage("位置 {:.2f} {:.2f}（前方 2 码，弧度 {:.2f}）", x,
                              y, player->GetOrientation());
     for (float start : {feetZ + 0.3f, feetZ + 2.5f, feetZ + 10.0f}) {
       handler->PSendSysMessage(
@@ -9133,7 +9130,7 @@ public:
           map->GetHeight(x, y, start, false, 3.0f),
           map->GetHeight(x, y, start, true, 3.0f));
     }
-    handler->PSendSysMessage("  summon would ground at {:.2f} (riser {:.2f})",
+    handler->PSendSysMessage("  召唤将落于 {:.2f}（台阶高度 {:.2f}）",
                              GroundHeightBeneath(map, x, y, feetZ),
                              GroundHeightBeneath(map, x, y, feetZ) - feetZ);
     LOG_INFO("coa",
@@ -9165,8 +9162,8 @@ public:
 
     if ((hour && *hour > 23) || (minute && *minute > 59))
     {
-      handler->SendSysMessage("Give an hour from 0 to 23 and an optional minute from 0 to 59, or no "
-                              "arguments to follow the server clock again.");
+      handler->SendSysMessage("请提供 0 到 23 的小时和可选的 0 到 59 的分钟，或不带 "
+                              "参数以重新跟随服务器时钟。");
       return true;
     }
 
@@ -9179,7 +9176,7 @@ public:
     player->SendDirectMessage(&data);
 
     std::tm const clock = Acore::Time::TimeBreakdown(shown);
-    handler->PSendSysMessage("Your client's clock now reads {:02}:{:02}.", clock.tm_hour, clock.tm_min);
+    handler->PSendSysMessage("你的客户端时钟现在显示 {:02}:{:02}。", clock.tm_hour, clock.tm_min);
     return true;
   }
 
@@ -9193,7 +9190,7 @@ public:
     bool repaired =
         AscensionClassService::Instance().RepairStarterKit(player, true);
     if (!repaired)
-      handler->SendSysMessage("Your custom-class starter kit is complete.");
+      handler->SendSysMessage("你的自定义职业新手礼包已发放完毕。");
     return true;
   }
 
@@ -9210,7 +9207,7 @@ public:
 
     player->RestoreAllSpellCharges();
     player->SendAllSpellChargeStates();
-    handler->SendSysMessage("All spell-charge pools reset to full.");
+    handler->SendSysMessage("所有法术充能池已重置为满。");
     return true;
   }
 
@@ -9222,13 +9219,13 @@ public:
 
     player->SendAllSpellChargeStates();
     SendAscensionRunemasterEchoesCooldown(player);
-    handler->SendSysMessage("Spell-charge state resent to the client.");
+    handler->SendSysMessage("法术充能状态已重新发送到客户端。");
     return true;
   }
 
   static bool HandleLocalReloadPresetsCommand(ChatHandler* handler) {
     sAscensionPresets->LoadFromDB();
-    handler->PSendSysMessage("Reloaded %u creature display presets into cache.", uint32(sAscensionPresets->GetPresetCount()));
+    handler->PSendSysMessage("已重新载入 %u 个生物外观预设到缓存。", uint32(sAscensionPresets->GetPresetCount()));
     return true;
   }
 
@@ -9257,7 +9254,7 @@ public:
 
     if (!preset)
     {
-      handler->PSendSysMessage("No creature display preset found for entry %u.", entry);
+      handler->PSendSysMessage("未找到 entry %u 的生物外观预设。", entry);
       return false;
     }
 
@@ -9281,7 +9278,7 @@ public:
       response << uint32(item);
 
     target->SendMessageToSet(&response, true);
-    handler->PSendSysMessage("Morphed into creature display preset for entry %u (display %u, %s).",
+    handler->PSendSysMessage("已变身为 entry %u 的生物外观预设（外观 %u，%s）。",
         entry, preset->display_id, preset->gender == 1 ? "Female" : "Male");
     return true;
   }
@@ -9324,7 +9321,7 @@ public:
       target->DeMorph();
     }
 
-    handler->PSendSysMessage("Demorphed creature display preset.");
+    handler->PSendSysMessage("已解除生物外观预设变身。");
     return true;
   }
 };
@@ -9450,7 +9447,7 @@ public:
                     [player](uint32 spell) { return player->HasSpell(spell); }))
                 return true;
             result = EQUIP_ERR_CANT_DO_RIGHT_NOW;
-            ChatHandler(player->GetSession()).SendSysMessage("That specialization slot is already unlocked.");
+            ChatHandler(player->GetSession()).SendSysMessage("该专精槽位已解锁。");
             return false;
         }
 
@@ -9461,7 +9458,7 @@ public:
         if (!player->HasSpell(learned) || std::find(spells.begin(), spells.end(), learned) == spells.end())
             return true;
         result = EQUIP_ERR_CANT_DO_RIGHT_NOW;
-        ChatHandler(player->GetSession()).SendSysMessage("That specialization slot is already unlocked.");
+        ChatHandler(player->GetSession()).SendSysMessage("该专精槽位已解锁。");
         return false;
     }
 
@@ -10430,7 +10427,7 @@ public:
         if (!player->HasSkill(prof.skillId))
         {
             ChatHandler(player->GetSession()).PSendSysMessage(
-                "You must learn {} before the scroll can raise it.", prof.name);
+                "你必须先学会 {}，卷轴才能将其提升。", prof.name);
             return;
         }
 
@@ -10444,13 +10441,13 @@ public:
         if (player->GetSkillValue(prof.skillId) >= cap)
         {
             ChatHandler(player->GetSession()).PSendSysMessage(
-                "Your {} is already at its maximum of {}.", prof.name, cap);
+                "你的 {} 已达到上限 {}。", prof.name, cap);
             return;
         }
 
         player->SetSkill(prof.skillId, player->GetSkillStep(prof.skillId), cap, cap);
         ChatHandler(player->GetSession()).PSendSysMessage(
-            "{} raised to {}.", prof.name, cap);
+            "{} 已提升至 {}。", prof.name, cap);
 
         LOG_DEBUG("coa",
                   "Tradesman's Scroll: player {} set {} to {}",
@@ -10896,7 +10893,7 @@ public:
         ClearGossipMenuFor(player);
         if (ascensionCompatConfig.GetConfigValue<bool>(AscensionCompatConfig::ENABLED) &&
             IsAscensionCustomClass(player))
-            AddGossipItemFor(player, GOSSIP_ICON_TRAINER, "Restore my available class abilities.",
+            AddGossipItemFor(player, GOSSIP_ICON_TRAINER, "恢复我可用的职业技能。",
                 GOSSIP_SENDER_MAIN, ActionRestoreAbilities);
         SendGossipMenuFor(player, TextTraining, creature->GetGUID());
         return true;
@@ -10912,7 +10909,7 @@ public:
             return true;
 
         if (!AscensionClassService::Instance().SynchronizeProgression(player, true))
-            ChatHandler(player->GetSession()).SendSysMessage("Your available class abilities are already up to date.");
+            ChatHandler(player->GetSession()).SendSysMessage("你当前可用的职业技能已是最新。");
         return true;
     }
 };
@@ -10956,7 +10953,7 @@ class spell_ascension_experience_potion : public SpellScript
             return SPELL_CAST_OK;
 
         ChatHandler(player->GetSession()).SendSysMessage(
-            "This item can only be used on alt characters who are not the highest level on your account.");
+            "此物品只能用于你账号中等级并非最高的其他角色。");
         return SPELL_FAILED_DONT_REPORT;
     }
 
@@ -11008,13 +11005,13 @@ class spell_ascension_vanity_use_restriction : public SpellScript
         {
             case SPELL_BANNER_OF_RECRUITMENT:
                 return player->GetGuildId() && player->GetRank() <= GR_OFFICER ? std::string_view{}
-                    : "Only usable as Guild Master or Officer.";
+                    : "只有公会会长或官员才能使用。";
             case SPELL_SUMMON_PORTABLE_TRANSPOLYPORTER:
             case SPELL_PORTABLE_TRANSPOLYPORTER_TELEPORT:
                 return player->HasAura(HighRisk::HighRiskAura) || AscensionRulesets::HighRiskSuspended(player)
-                    ? "Cannot be used by High-Risk players." : std::string_view{};
+                    ? "高风险模式的玩家无法使用。" : std::string_view{};
             default:
-                return player->GetMap()->IsDungeon() ? "Can only be used on continents and in battlegrounds."
+                return player->GetMap()->IsDungeon() ? "只能在大陆和战场中使用。"
                     : std::string_view{};
         }
     }

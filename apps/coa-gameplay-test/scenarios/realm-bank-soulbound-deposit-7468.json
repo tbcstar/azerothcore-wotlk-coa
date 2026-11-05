@@ -42,7 +42,7 @@
       "action": "assert",
       "label": "The player is told explicitly why, not just the generic equip-error text",
       "actor": "banker", "metric": "system_message_contains",
-      "text": "Soulbound items cannot be stored in the Realm Bank.", "equals": 1, "within_ms": 2000
+      "text": "灵魂绑定的物品无法存入服务器银行。", "equals": 1, "within_ms": 2000
     },
     {
       "action": "personal_bank_swap", "label": "Deposit the non-soulbound control item",
@@ -90,7 +90,7 @@
       "action": "assert",
       "label": "The player is told explicitly why the swap was refused too",
       "actor": "banker", "metric": "system_message_contains",
-      "text": "Soulbound items cannot be stored in the Realm Bank.", "equals": 1, "within_ms": 2000
+      "text": "灵魂绑定的物品无法存入服务器银行。", "equals": 1, "within_ms": 2000
     }
   ]
 }

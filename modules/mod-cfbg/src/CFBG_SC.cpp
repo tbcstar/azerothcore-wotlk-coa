@@ -208,9 +208,9 @@ public:
 
             if (group->isRaidGroup() || group->GetMembersCount() > sCFBG->GetMaxPlayersCountInGroup())
             {
-                // The client shows only a generic "Join as a group failed.";
+                // The client shows only a generic "以队伍方式加入失败。";
                 // name the actual limit so the leader knows what to change.
-                ChatHandler(player->GetSession()).PSendSysMessage("Battleground groups are limited to {} players.", sCFBG->GetMaxPlayersCountInGroup());
+                ChatHandler(player->GetSession()).PSendSysMessage("战场队伍最多只能有 {} 名玩家。", sCFBG->GetMaxPlayersCountInGroup());
                 err = ERR_BATTLEGROUND_JOIN_FAILED;
             }
 

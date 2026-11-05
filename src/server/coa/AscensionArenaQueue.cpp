@@ -176,14 +176,14 @@ namespace
                 return team;
 
             ChatHandler(player->GetSession()).SendSysMessage(
-                "Leave your arena team in this bracket to use the rated solo queue.");
+                "请先离开此分段的竞技场队伍，才能使用评级单人队列。");
             return nullptr;
         }
 
         std::string name = player->GetName() + " " + bracket.Suffix;
         if (sArenaTeamMgr->GetArenaTeamByName(name))
         {
-            ChatHandler(player->GetSession()).PSendSysMessage("The arena team name {} is already taken.", name);
+            ChatHandler(player->GetSession()).PSendSysMessage("竞技场队伍名称 {} 已被占用。", name);
             return nullptr;
         }
 
@@ -227,7 +227,7 @@ namespace
 
         if (sArenaSeasonMgr->GetSeasonState() == ARENA_SEASON_STATE_DISABLED)
         {
-            ChatHandler(player->GetSession()).SendSysMessage("Rated arenas are closed until the next season starts.");
+            ChatHandler(player->GetSession()).SendSysMessage("评级竞技场在下个赛季开始前保持关闭。");
             return;
         }
 
@@ -397,7 +397,7 @@ namespace
 
         if (sArenaSeasonMgr->GetSeasonState() == ARENA_SEASON_STATE_DISABLED)
         {
-            ChatHandler(leader->GetSession()).SendSysMessage("Rated arenas are closed until the next season starts.");
+            ChatHandler(leader->GetSession()).SendSysMessage("评级竞技场在下个赛季开始前保持关闭。");
             return;
         }
 
@@ -1101,7 +1101,7 @@ namespace
         player->UpdatePlayerSetting(SeasonConquestSetting, SEASON_CONQUEST_EARNED, earned);
         player->ModifyArenaPoints(int32(points));
         ChatHandler(player->GetSession()).PSendSysMessage(
-            "You've received {} Arena Points. Current Points: ({}) Cap: ({}/{})", points, player->GetArenaPoints(),
+            "你获得了 {} 点竞技场点数。当前点数：({})，上限：({}/{})", points, player->GetArenaPoints(),
             earned, cap);
     }
 

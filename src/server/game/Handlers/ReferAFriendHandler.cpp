@@ -214,7 +214,7 @@ bool WorldSession::InviteRecruitAFriend(Player* target)
     }
     if (_rafInviteCooldown > now)
     {
-        chat.PSendSysMessage("Please wait {} seconds before sending another recruitment invitation.",
+        chat.PSendSysMessage("请等待 {} 秒后再发送下一封招募邀请。",
             uint32(_rafInviteCooldown - now));
         return false;
     }
@@ -229,7 +229,7 @@ bool WorldSession::InviteRecruitAFriend(Player* target)
     target->PlayerTalkClass->SendDynamicGossipMenu(_player->GetName() +
         " invites you to Recruit-A-Friend. Accepting permanently links your account to theirs. This link does not expire.",
         target->GetGUID());
-    ChatHandler(this).SendSysMessage("Recruitment invitation sent. The other player must accept.");
+    ChatHandler(this).SendSysMessage("招募邀请已发送。对方玩家需要接受。");
     return true;
 }
 
@@ -249,7 +249,7 @@ bool WorldSession::HandleRecruitAFriendInviteResponse(uint32 menuId, uint32 acti
         return true;
     if (action == DeclineRecruitment)
     {
-        ChatHandler(inviter->GetSession()).SendSysMessage("Recruitment invitation declined.");
+        ChatHandler(inviter->GetSession()).SendSysMessage("招募邀请已被拒绝。");
         return true;
     }
     if (action != AcceptRecruitment || recruiterId ||
@@ -275,9 +275,9 @@ bool WorldSession::HandleRecruitAFriendInviteResponse(uint32 menuId, uint32 acti
     {
         if (!success)
         {
-            ChatHandler(this).SendSysMessage("Recruitment could not be saved. No link was confirmed; please try again.");
+            ChatHandler(this).SendSysMessage("招募关系无法保存。没有确认任何关联，请重试。");
             if (WorldSession* recruiter = sWorldSessionMgr->FindSession(inviterAccount))
-                ChatHandler(recruiter).SendSysMessage("Recruitment could not be saved. No link was confirmed; please try again.");
+                ChatHandler(recruiter).SendSysMessage("招募关系无法保存。没有确认任何关联，请重试。");
             return;
         }
         auto* status = LoginDatabase.GetPreparedStatement(LOGIN_SEL_RAF_STATUS);
@@ -287,20 +287,20 @@ bool WorldSession::HandleRecruitAFriendInviteResponse(uint32 menuId, uint32 acti
             {
                 if (!result || result->Fetch()[0].Get<uint32>() != inviterAccount)
                 {
-                    ChatHandler(this).SendSysMessage("Recruitment was not accepted because an account is already linked or would create a recruitment cycle.");
+                    ChatHandler(this).SendSysMessage("招募未被接受，因为账号已被关联，或会形成招募循环。");
                     if (WorldSession* recruiter = sWorldSessionMgr->FindSession(inviterAccount))
-                        ChatHandler(recruiter).SendSysMessage("Recruitment was not accepted because an account is already linked or would create a recruitment cycle.");
+                        ChatHandler(recruiter).SendSysMessage("招募未被接受，因为账号已被关联，或会形成招募循环。");
                     return;
                 }
                 recruiterId = inviterAccount;
                 UpdateRecruitAFriendRewards(true);
                 RefreshRecruitAFriendFlags();
-                ChatHandler(this).SendSysMessage("Your account is now permanently recruited. Recruit-A-Friend is active.");
+                ChatHandler(this).SendSysMessage("你的账号现已永久处于被招募状态。战友招募已生效。");
                 if (WorldSession* recruiter = sWorldSessionMgr->FindSession(inviterAccount))
                 {
                     recruiter->isRecruiter = true;
                     recruiter->RefreshRecruitAFriendFlags();
-                    ChatHandler(recruiter).SendSysMessage("Recruitment accepted and permanently saved.");
+                    ChatHandler(recruiter).SendSysMessage("招募已接受并永久保存。");
                 }
             }));
     });
@@ -583,16 +583,16 @@ bool WorldSession::HandleRecruitAFriendRewardsCommand(std::string const& command
     ChatHandler chat(this);
     if (command == "levels")
     {
-        chat.PSendSysMessage("{} has {} stored RAF level credits. Each credit grants one level to another character.",
+        chat.PSendSysMessage("{} 拥有 {} 个已存储的战友招募等级。每个等级可为另一个角色提升一级。",
             _player->GetName(), uint32(_player->GetGrantableLevels()));
-        chat.SendSysMessage("Credits belong to this character. They can be used on your recruiter or your direct recruits, never your own account or another recruit of the same recruiter.");
-        chat.PSendSysMessage("The recipient must be in your group, nearby on the same map, below your level and below the RAF level limit of {} and their own level cap.",
+        chat.SendSysMessage("这些等级属于该角色。可用于你的招募者或你直接招募的角色，绝不能用于你自己的账号或同一招募者的其他被招募者。");
+        chat.PSendSysMessage("接收者必须在你的队伍中、在同一地图附近、等级低于你，且低于战友招募等级上限 {} 及其自身等级上限。",
             sWorld->getIntConfig(CONFIG_MAX_RECRUIT_A_FRIEND_BONUS_PLAYER_LEVEL));
-        chat.SendSysMessage("Both characters must be alive, out of combat, not flying or teleporting. Active Prestige and other server progression restrictions can prevent a grant.");
+        chat.SendSysMessage("双方角色都必须存活、不在战斗中、不在飞行或传送中。进行中的转生及其他服务器进度限制可能阻止发放。");
         Player* target = _player->GetSelectedPlayer();
         if (!target || target == _player)
         {
-            chat.SendSysMessage("Select the intended recipient and use .raf levels again to check their current eligibility. Use the character portrait's Grant A Level action to make the grant.");
+            chat.SendSysMessage("选中预期接收者并再次使用 .raf levels 检查其当前资格。使用角色头像中的「授予等级」操作来发放。");
             return true;
         }
         char const* reason = nullptr;
@@ -613,9 +613,9 @@ bool WorldSession::HandleRecruitAFriendRewardsCommand(std::string const& command
         if (!reason && target->GetSession()->_rafGrantExpiry > GameTime::GetGameTime().count())
             reason = "the recipient already has a pending level-grant request";
         if (reason)
-            chat.PSendSysMessage("{} cannot receive a level right now: {}.", target->GetName(), reason);
+            chat.PSendSysMessage("{} 现在无法获得等级：{}。", target->GetName(), reason);
         else
-            chat.PSendSysMessage("{} currently meets the RAF grant requirements. The recipient must accept; eligibility is checked again on acceptance.",
+            chat.PSendSysMessage("{} 目前符合战友招募发放条件。接收者必须接受；接受时会再次检查资格。",
                 target->GetName());
         return true;
     }
@@ -635,11 +635,11 @@ bool WorldSession::HandleRecruitAFriendRewardsCommand(std::string const& command
                 ++total;
                 bool const valid = !fields[1].IsNull();
                 validated += valid;
-                chat.PSendSysMessage("Recruit {}: {} ({}/7200 seconds on their best single character).",
+                chat.PSendSysMessage("被招募者 {}：{}（其最佳角色 {}/7200 秒）。",
                     fields[0].Get<uint32>(), valid ? "validated" : "pending", fields[2].Get<uint64>());
             } while (result->NextRow());
         }
-        chat.PSendSysMessage("Direct recruits: {} total, {} validated, {} pending. Progress updates every minute.",
+        chat.PSendSysMessage("直接招募：共 {} 个，已确认 {} 个，待定 {} 个。进度每分钟更新。",
             total, validated, total - validated);
         return true;
     }
@@ -678,7 +678,7 @@ bool WorldSession::HandleRecruitAFriendRewardsCommand(std::string const& command
                     char const* state = claim != recruitClaims.end() ?
                         (claim->second ? "mailed" : "delivery pending on the original character") :
                         _player->GetLevel() >= requiredLevel ? "not delivered; retry with .raf claim" : "locked";
-                    chat.PSendSysMessage("Recruit milestone {} at level {}: {} x{} - {}. Automatic once per account on this realm.",
+                    chat.PSendSysMessage("被招募者里程碑 {}（等级 {}）：{} x{} - {}。每个账号在本服务器自动一次。",
                         id, requiredLevel, item->Name1, quantity, state);
                 }
             } while (milestones->NextRow());
@@ -689,7 +689,7 @@ bool WorldSession::HandleRecruitAFriendRewardsCommand(std::string const& command
     PreparedQueryResult countResult = LoginDatabase.Query(countQuery);
     if (!countResult)
     {
-        chat.SendSysMessage("Recruitment eligibility could not be checked. Please try again.");
+        chat.SendSysMessage("无法检查招募资格，请重试。");
         return true;
     }
     uint64 const count = countResult->Fetch()[0].Get<uint64>();
@@ -711,13 +711,13 @@ bool WorldSession::HandleRecruitAFriendRewardsCommand(std::string const& command
         auto id = command.rfind("claim ", 0) == 0 ? Acore::StringTo<uint32>(command.substr(6)) : std::nullopt;
         if (!id || !*id)
         {
-            chat.SendSysMessage("Usage: .raf claim <reward_id>");
+            chat.SendSysMessage("用法：.raf claim <奖励ID>");
             return true;
         }
         requested = *id;
         if (auto existing = claimed.find(requested); existing != claimed.end())
         {
-            chat.SendSysMessage(existing->second ? "This reward has already been mailed to your account." :
+            chat.SendSysMessage(existing->second ? "该奖励已通过邮件发送到你的账号。" :
                 "This reward is reserved for delivery to the original character and realm; recovery runs there on login.");
             return true;
         }
@@ -745,14 +745,14 @@ bool WorldSession::HandleRecruitAFriendRewardsCommand(std::string const& command
                 char const* state = existing != claimed.end() ? (existing->second ? "claimed" : "delivery pending") :
                     !valid ? "invalid configuration" : count >= needed ? "available" : "locked";
                 ItemTemplate const* item = sObjectMgr->GetItemTemplate(itemId);
-                chat.PSendSysMessage("Reward {}: {} (item {}) x{}, needs {} validated direct recruits - {}. Claim: .raf claim {}",
+                chat.PSendSysMessage("奖励 {}：{}（物品 {}）x{}，需要 {} 名已认证的直接招募对象 - {}。领取：.raf claim {}",
                     id, item ? item->Name1 : std::to_string(itemId), itemId, quantity, needed, state, id);
                 listed = true;
                 continue;
             }
             if (!valid || count < needed)
             {
-                chat.SendSysMessage("This reward is locked or its item configuration is invalid.");
+                chat.SendSysMessage("该奖励尚未解锁，或其物品配置无效。");
                 return true;
             }
             auto* reserve = LoginDatabase.GetPreparedStatement(LOGIN_INS_RAF_CLAIM);
@@ -766,12 +766,12 @@ bool WorldSession::HandleRecruitAFriendRewardsCommand(std::string const& command
             reserve->SetData(7, needed);
             LoginDatabase.DirectExecute(reserve);
             RecoverRecruitAFriendRewards();
-            chat.SendSysMessage("Claim processed. Use .raf rewards to check delivery status; delivered items are in your mailbox.");
+            chat.SendSysMessage("领取已处理。使用 .raf rewards 查看发放状态；发放的物品已发送到你的邮箱。");
             return true;
         } while (rewards->NextRow());
     }
     if (!listed)
-        chat.SendSysMessage(requested ? "No enabled reward with that ID is available on this realm." :
+        chat.SendSysMessage(requested ? "本服务器上没有该 ID 的可用奖励。" :
             "No enabled rewards are configured for this realm.");
     return true;
 }

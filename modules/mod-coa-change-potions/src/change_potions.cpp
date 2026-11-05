@@ -295,11 +295,11 @@ struct Service
     char const* Color;      // nullptr: the notice accent
 };
 
-Service const ServiceCustomize{ "Customize", nullptr };
-Service const ServiceRaceChange{ "Race Change", nullptr };
-Service const ServiceFactionChange{ "Faction Change", nullptr };
-Service const ServiceFactionChangeToHorde{ "Faction Change to Horde", HordeRed };
-Service const ServiceFactionChangeToAlliance{ "Faction Change to Alliance", nullptr };
+Service const ServiceCustomize{ "自定义外观", nullptr };
+Service const ServiceRaceChange{ "种族变更", nullptr };
+Service const ServiceFactionChange{ "阵营变更", nullptr };
+Service const ServiceFactionChangeToHorde{ "阵营变更为部落", HordeRed };
+Service const ServiceFactionChangeToAlliance{ "阵营变更为联盟", nullptr };
 
 char const* ClassName(uint8 classId)
 {
@@ -368,9 +368,9 @@ std::string ServiceSentence(std::string const& potion, Service const& service)
 
     // Yellow after the potion as well as before it: the potion may be an item link, whose own gold
     // would otherwise run on into the rest of the sentence.
-    return std::string(Yellow) + potion + Yellow + " used. You will be logged out to the character screen in " +
-           accent + "10 seconds" + Reset + Yellow + ", where the " +
-           Colored(service.Color, service.Plain) + Yellow + " button is waiting." + Reset;
+    return std::string(Yellow) + potion + Yellow + " 已使用。你将在 " +
+           accent + "10 秒" + Reset + Yellow + " 后登出到角色选择界面，在那里 " +
+           Colored(service.Color, service.Plain) + Yellow + " 按钮正在等待。" + Reset;
 }
 
 // "|cffffff00You are now a |cff45db9cNecromancer|r|cffffff00. You will be logged out to the character
@@ -379,9 +379,9 @@ std::string ServiceSentence(std::string const& potion, Service const& service)
 // the same accent as the service potions' countdown.
 std::string ClassSentence(std::string const& className, char const* classColor)
 {
-    return std::string(Yellow) + "You are now a " + classColor + className + Reset + Yellow +
-           ". You will be logged out to the character screen in " + Accent() + "10 seconds" +
-           Reset + Yellow + "." + Reset;
+    return std::string(Yellow) + "你现在是 " + classColor + className + Reset + Yellow +
+           "。你将在 " + Accent() + "10 秒" +
+           Reset + Yellow + "。" + Reset;
 }
 
 // ---------------------------------------------------------------------------------------------

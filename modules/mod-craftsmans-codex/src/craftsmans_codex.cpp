@@ -172,7 +172,7 @@ void ApplyAllowance(Player* player, uint32 unlockedSlots)
 static void AnnounceUnlock(Player* player)
 {
     ChatHandler(player->GetSession()).PSendSysMessage(
-        "|cffffd100Craftsman's Codex|r: a new |cff40ff40primary profession slot|r is unlocked.");
+        "|cffffd100工匠宝典|r：已解锁一个新的 |cff40ff40主专业技能栏位|r。");
 
     // Short on purpose: this one is drawn large, over whatever the player was doing, and it is
     // gone again in a few seconds. Same palette as the chat line rather than one flat colour, so
@@ -509,7 +509,7 @@ public:
             characterGuid = online ? online->GetGUID().GetCounter() : CharacterGuidByName(*name);
             if (!characterGuid)
             {
-                handler->SendSysMessage("No character by that name.");
+                handler->SendSysMessage("没有该名字的角色。");
                 return true;
             }
         }
@@ -518,7 +518,7 @@ public:
             online = handler->GetPlayer();
             if (!online)
             {
-                handler->SendSysMessage("Name a character: .codex status <name>");
+                handler->SendSysMessage("请指定角色名：.codex status <名字>");
                 return true;
             }
 
@@ -530,15 +530,15 @@ public:
         uint32 const known = online ? KnownPrimaryProfessions(online) : 0;
         uint32 const free = online ? online->GetFreePrimaryProfessionPoints() : (allowance > known ? allowance - known : 0);
 
-        handler->PSendSysMessage("Craftsman's Codex - {} (guid {}):", name ? *name : online->GetName(), characterGuid);
-        handler->PSendSysMessage("  codex slots unlocked: {}", unlocked);
-        handler->PSendSysMessage("  allowance: {} primary professions ({} base + {} unlocked)",
+        handler->PSendSysMessage("工匠典籍 - {}（guid {}）：", name ? *name : online->GetName(), characterGuid);
+        handler->PSendSysMessage("  已解锁典籍栏位：{}", unlocked);
+        handler->PSendSysMessage("  额度：{} 个主专业（基础 {} + 已解锁 {}）",
                                  allowance, BaseSlots(), unlocked);
-        handler->PSendSysMessage("  professions held: {}, still free: {}, ceiling: {}",
+        handler->PSendSysMessage("  已持有专业：{}，仍可用：{}，上限：{}",
                                  known, free, SlotCeiling());
 
         if (!online)
-            handler->SendSysMessage("  (offline; the held/free counts are what they will be on their next login)");
+            handler->SendSysMessage("  （离线；持有/可用数量为他们下次登录时的状态）");
 
         return true;
     }
@@ -550,7 +550,7 @@ public:
         uint32 const characterGuid = online ? online->GetGUID().GetCounter() : CharacterGuidByName(name);
         if (!characterGuid)
         {
-            handler->SendSysMessage("No character by that name.");
+            handler->SendSysMessage("没有该名字的角色。");
             return true;
         }
 
@@ -569,7 +569,7 @@ public:
             AnnounceUnlock(online);
         }
 
-        handler->PSendSysMessage("{} now has {} unlocked slot(s): {} primary professions in total.",
+        handler->PSendSysMessage("{} 现在有 {} 个已解锁栏位：共 {} 个主专业。",
                                  name, slots, BaseSlots() + slots);
         LOG_INFO("module", "mod-craftsmans-codex: .codex grant gave {} slot(s) to {} (guid {}), now {}.",
                  wanted, name, characterGuid, slots);
@@ -584,7 +584,7 @@ public:
         uint32 const characterGuid = online ? online->GetGUID().GetCounter() : CharacterGuidByName(name);
         if (!characterGuid)
         {
-            handler->SendSysMessage("No character by that name.");
+            handler->SendSysMessage("没有该名字的角色。");
             return true;
         }
 
@@ -593,7 +593,7 @@ public:
         if (online)
             ApplyAllowance(online, 0);
 
-        handler->PSendSysMessage("{} is back to {} primary profession(s).", name, BaseSlots());
+        handler->PSendSysMessage("{} 已恢复为 {} 个主专业。", name, BaseSlots());
         LOG_INFO("module", "mod-craftsmans-codex: .codex reset cleared the unlocked slots of {} (guid {}).",
                  name, characterGuid);
 

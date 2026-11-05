@@ -756,12 +756,12 @@ public:
         int locale = handler->GetSessionDbcLocale();
 
         handler->PSendSysMessage("ID: {}", spell->Id);
-        handler->PSendSysMessage("Name: {}", spell->SpellName[locale]);
+        handler->PSendSysMessage("名称：{}", spell->SpellName[locale]);
         if (spell->Rank[locale] && spell->Rank[locale][0] != '\0')
-            handler->PSendSysMessage("Rank: {}", spell->Rank[locale]);
+            handler->PSendSysMessage("等级：{}", spell->Rank[locale]);
 
-        handler->PSendSysMessage("Dispel: {} ({})", spell->Dispel, GetDispelName(spell->Dispel));
-        handler->PSendSysMessage("Mechanic: {} ({})", spell->Mechanic, EnumUtils::ToConstant(static_cast<Mechanics>(spell->Mechanic)));
+        handler->PSendSysMessage("驱散：{}（{}）", spell->Dispel, GetDispelName(spell->Dispel));
+        handler->PSendSysMessage("机制：{}（{}）", spell->Mechanic, EnumUtils::ToConstant(static_cast<Mechanics>(spell->Mechanic)));
     }
 
     static void PrintAttributes(ChatHandler* handler, SpellInfo const* spell)
@@ -775,7 +775,7 @@ public:
         PrintSpellAttrFlags<SpellAttr6>(handler, "AttributesEx6", spell->AttributesEx6);
         PrintSpellAttrFlags<SpellAttr7>(handler, "AttributesEx7", spell->AttributesEx7);
 
-        handler->PSendSysMessage("AttributesCu: 0x{:08X}", spell->AttributesCu);
+        handler->PSendSysMessage("自定义属性：0x{:08X}", spell->AttributesCu);
         if (spell->AttributesCu)
         {
             if (spell->AttributesCu & SPELL_ATTR0_CU_ENCHANT_PROC)          handler->PSendSysMessage("  - SPELL_ATTR0_CU_ENCHANT_PROC");
@@ -812,8 +812,8 @@ public:
             if (spell->AttributesCu & SPELL_ATTR0_CU_BYPASS_MECHANIC_IMMUNITY) handler->PSendSysMessage("  - SPELL_ATTR0_CU_BYPASS_MECHANIC_IMMUNITY");
         }
 
-        handler->PSendSysMessage("Stances: 0x{:08X}", spell->Stances);
-        handler->PSendSysMessage("StancesNot: 0x{:08X}", spell->StancesNot);
+        handler->PSendSysMessage("姿态：0x{:08X}", spell->Stances);
+        handler->PSendSysMessage("禁止姿态：0x{:08X}", spell->StancesNot);
     }
 
     static void PrintEffects(ChatHandler* handler, SpellInfo const* spell)
@@ -825,32 +825,32 @@ public:
             if (!eff.Effect)
                 continue;
 
-            handler->PSendSysMessage("--- Effect {} ---", i);
-            handler->PSendSysMessage("  Effect: {} ({})", eff.Effect, GetSpellEffectName(eff.Effect));
-            handler->PSendSysMessage("  Aura: {} ({})", static_cast<uint32>(eff.ApplyAuraName), GetAuraTypeName(static_cast<uint32>(eff.ApplyAuraName)));
-            handler->PSendSysMessage("  BasePoints: {}", eff.BasePoints);
-            handler->PSendSysMessage("  DieSides: {}", eff.DieSides);
-            handler->PSendSysMessage("  RealPointsPerLevel: {:.4f}", eff.RealPointsPerLevel);
-            handler->PSendSysMessage("  PointsPerComboPoint: {:.2f}", eff.PointsPerComboPoint);
-            handler->PSendSysMessage("  ValueMultiplier: {:.4f}", eff.ValueMultiplier);
-            handler->PSendSysMessage("  DamageMultiplier: {:.4f}", eff.DamageMultiplier);
-            handler->PSendSysMessage("  BonusMultiplier: {:.4f}", eff.BonusMultiplier);
-            handler->PSendSysMessage("  MiscValue: {}", eff.MiscValue);
-            handler->PSendSysMessage("  MiscValueB: {}", eff.MiscValueB);
-            handler->PSendSysMessage("  Mechanic: {} ({})", static_cast<uint32>(eff.Mechanic), EnumUtils::ToConstant(eff.Mechanic));
-            handler->PSendSysMessage("  TriggerSpell: {}", eff.TriggerSpell);
-            handler->PSendSysMessage("  Amplitude: {}", eff.Amplitude);
-            handler->PSendSysMessage("  ItemType: {}", eff.ItemType);
-            handler->PSendSysMessage("  SpellClassMask: 0x{:08X} 0x{:08X} 0x{:08X}", eff.SpellClassMask[0], eff.SpellClassMask[1], eff.SpellClassMask[2]);
+            handler->PSendSysMessage("--- 效果 {} ---", i);
+            handler->PSendSysMessage("  效果：{}（{}）", eff.Effect, GetSpellEffectName(eff.Effect));
+            handler->PSendSysMessage("  光环：{}（{}）", static_cast<uint32>(eff.ApplyAuraName), GetAuraTypeName(static_cast<uint32>(eff.ApplyAuraName)));
+            handler->PSendSysMessage("  基础值：{}", eff.BasePoints);
+            handler->PSendSysMessage("  骰面：{}", eff.DieSides);
+            handler->PSendSysMessage("  每级实际点数：{:.4f}", eff.RealPointsPerLevel);
+            handler->PSendSysMessage("  每连击点数：{:.2f}", eff.PointsPerComboPoint);
+            handler->PSendSysMessage("  数值倍率：{:.4f}", eff.ValueMultiplier);
+            handler->PSendSysMessage("  伤害倍率：{:.4f}", eff.DamageMultiplier);
+            handler->PSendSysMessage("  加成倍率：{:.4f}", eff.BonusMultiplier);
+            handler->PSendSysMessage("  杂项值：{}", eff.MiscValue);
+            handler->PSendSysMessage("  杂项值 B：{}", eff.MiscValueB);
+            handler->PSendSysMessage("  机制：{}（{}）", static_cast<uint32>(eff.Mechanic), EnumUtils::ToConstant(eff.Mechanic));
+            handler->PSendSysMessage("  触发法术：{}", eff.TriggerSpell);
+            handler->PSendSysMessage("  周期：{}", eff.Amplitude);
+            handler->PSendSysMessage("  物品类型：{}", eff.ItemType);
+            handler->PSendSysMessage("  法术分类掩码：0x{:08X} 0x{:08X} 0x{:08X}", eff.SpellClassMask[0], eff.SpellClassMask[1], eff.SpellClassMask[2]);
         }
     }
 
     static void PrintTargets(ChatHandler* handler, SpellInfo const* spell)
     {
-        handler->PSendSysMessage("Targets: 0x{:08X}", spell->Targets);
-        handler->PSendSysMessage("TargetCreatureType: 0x{:08X}", spell->TargetCreatureType);
-        handler->PSendSysMessage("MaxAffectedTargets: {}", spell->MaxAffectedTargets);
-        handler->PSendSysMessage("MaxTargetLevel: {}", spell->MaxTargetLevel);
+        handler->PSendSysMessage("目标类型：0x{:08X}", spell->Targets);
+        handler->PSendSysMessage("目标生物类型：0x{:08X}", spell->TargetCreatureType);
+        handler->PSendSysMessage("最大影响目标：{}", spell->MaxAffectedTargets);
+        handler->PSendSysMessage("最大目标等级：{}", spell->MaxTargetLevel);
 
         for (uint8 i = 0; i < MAX_SPELL_EFFECTS; ++i)
         {
@@ -862,62 +862,62 @@ public:
             Targets targetA = eff.TargetA.GetTarget();
             Targets targetB = eff.TargetB.GetTarget();
 
-            handler->PSendSysMessage("--- Effect {} ---", i);
-            handler->PSendSysMessage("  TargetA: {} ({})", static_cast<uint32>(targetA), GetTargetName(static_cast<uint32>(targetA)));
-            handler->PSendSysMessage("  TargetB: {} ({})", static_cast<uint32>(targetB), GetTargetName(static_cast<uint32>(targetB)));
+            handler->PSendSysMessage("--- 效果 {} ---", i);
+            handler->PSendSysMessage("  目标A：{}（{}）", static_cast<uint32>(targetA), GetTargetName(static_cast<uint32>(targetA)));
+            handler->PSendSysMessage("  目标B：{}（{}）", static_cast<uint32>(targetB), GetTargetName(static_cast<uint32>(targetB)));
 
             if (eff.RadiusEntry)
-                handler->PSendSysMessage("  Radius: {:.1f}", eff.RadiusEntry->RadiusMax);
-            handler->PSendSysMessage("  ChainTarget: {}", eff.ChainTarget);
+                handler->PSendSysMessage("  半径：{:.1f}", eff.RadiusEntry->RadiusMax);
+            handler->PSendSysMessage("  连锁目标：{}", eff.ChainTarget);
         }
     }
 
     static void PrintGeneralInfo(ChatHandler* handler, SpellInfo const* spell)
     {
         if (spell->CastTimeEntry)
-            handler->PSendSysMessage("CastTime: {} ms", spell->CastTimeEntry->CastTime);
+            handler->PSendSysMessage("施法时间：{} 毫秒", spell->CastTimeEntry->CastTime);
 
         if (spell->DurationEntry)
-            handler->PSendSysMessage("Duration: {} / {} / {} ms", spell->DurationEntry->Duration[0], spell->DurationEntry->Duration[1], spell->DurationEntry->Duration[2]);
+            handler->PSendSysMessage("持续时间：{} / {} / {} 毫秒", spell->DurationEntry->Duration[0], spell->DurationEntry->Duration[1], spell->DurationEntry->Duration[2]);
 
         if (spell->RangeEntry)
-            handler->PSendSysMessage("Range: {:.1f}-{:.1f} (hostile), {:.1f}-{:.1f} (friendly)",
+            handler->PSendSysMessage("距离：{:.1f}-{:.1f}（敌对），{:.1f}-{:.1f}（友好）",
                 spell->RangeEntry->RangeMin[0], spell->RangeEntry->RangeMax[0],
                 spell->RangeEntry->RangeMin[1], spell->RangeEntry->RangeMax[1]);
 
-        handler->PSendSysMessage("RecoveryTime: {} ms", spell->RecoveryTime);
-        handler->PSendSysMessage("CategoryRecoveryTime: {} ms", spell->CategoryRecoveryTime);
-        handler->PSendSysMessage("StartRecoveryTime: {} ms (Category: {})", spell->StartRecoveryTime, spell->StartRecoveryCategory);
+        handler->PSendSysMessage("冷却时间：{} 毫秒", spell->RecoveryTime);
+        handler->PSendSysMessage("分类冷却时间：{} 毫秒", spell->CategoryRecoveryTime);
+        handler->PSendSysMessage("公共冷却：{} 毫秒（分类：{}）", spell->StartRecoveryTime, spell->StartRecoveryCategory);
 
-        handler->PSendSysMessage("InterruptFlags: 0x{:08X}", spell->InterruptFlags);
-        handler->PSendSysMessage("AuraInterruptFlags: 0x{:08X}", spell->AuraInterruptFlags);
-        handler->PSendSysMessage("ChannelInterruptFlags: 0x{:08X}", spell->ChannelInterruptFlags);
+        handler->PSendSysMessage("打断标记：0x{:08X}", spell->InterruptFlags);
+        handler->PSendSysMessage("光环打断标记：0x{:08X}", spell->AuraInterruptFlags);
+        handler->PSendSysMessage("引导打断标记：0x{:08X}", spell->ChannelInterruptFlags);
 
-        handler->PSendSysMessage("ProcFlags: 0x{:08X}", spell->ProcFlags);
-        handler->PSendSysMessage("ProcChance: {}%", spell->ProcChance);
-        handler->PSendSysMessage("ProcCharges: {}", spell->ProcCharges);
+        handler->PSendSysMessage("触发标记：0x{:08X}", spell->ProcFlags);
+        handler->PSendSysMessage("触发几率：{}%", spell->ProcChance);
+        handler->PSendSysMessage("触发次数：{}", spell->ProcCharges);
 
-        handler->PSendSysMessage("SpellLevel: {}, BaseLevel: {}, MaxLevel: {}", spell->SpellLevel, spell->BaseLevel, spell->MaxLevel);
+        handler->PSendSysMessage("法术等级：{}，基础等级：{}，最高等级：{}", spell->SpellLevel, spell->BaseLevel, spell->MaxLevel);
 
-        handler->PSendSysMessage("PowerType: {} ({})", spell->PowerType, GetPowerName(spell->PowerType));
-        handler->PSendSysMessage("ManaCost: {}", spell->ManaCost);
-        handler->PSendSysMessage("ManaCostPercentage: {}", spell->ManaCostPercentage);
-        handler->PSendSysMessage("ManaPerSecond: {}", spell->ManaPerSecond);
+        handler->PSendSysMessage("能量类型：{}（{}）", spell->PowerType, GetPowerName(spell->PowerType));
+        handler->PSendSysMessage("法力消耗：{}", spell->ManaCost);
+        handler->PSendSysMessage("法力消耗百分比：{}", spell->ManaCostPercentage);
+        handler->PSendSysMessage("每秒法力：{}", spell->ManaPerSecond);
 
-        handler->PSendSysMessage("Speed: {:.2f}", spell->Speed);
+        handler->PSendSysMessage("速度：{:.2f}", spell->Speed);
 
-        handler->PSendSysMessage("StackAmount: {}", spell->StackAmount);
+        handler->PSendSysMessage("叠加层数：{}", spell->StackAmount);
 
         if (spell->EquippedItemClass >= 0)
-            handler->PSendSysMessage("EquippedItemClass: {}, SubClassMask: 0x{:08X}, InvTypeMask: 0x{:08X}",
+            handler->PSendSysMessage("装备物品类别：{}，子类掩码：0x{:08X}，物品类型掩码：0x{:08X}",
                 spell->EquippedItemClass, static_cast<uint32>(spell->EquippedItemSubClassMask), static_cast<uint32>(spell->EquippedItemInventoryTypeMask));
 
-        handler->PSendSysMessage("SpellFamilyName: {} ({})", spell->SpellFamilyName, GetSpellFamilyName(spell->SpellFamilyName));
-        handler->PSendSysMessage("SpellFamilyFlags: 0x{:08X} 0x{:08X} 0x{:08X}", spell->SpellFamilyFlags[0], spell->SpellFamilyFlags[1], spell->SpellFamilyFlags[2]);
+        handler->PSendSysMessage("法术系别：{}（{}）", spell->SpellFamilyName, GetSpellFamilyName(spell->SpellFamilyName));
+        handler->PSendSysMessage("法术系别标记：0x{:08X} 0x{:08X} 0x{:08X}", spell->SpellFamilyFlags[0], spell->SpellFamilyFlags[1], spell->SpellFamilyFlags[2]);
 
-        handler->PSendSysMessage("DmgClass: {} ({})", spell->DmgClass, GetDmgClassName(spell->DmgClass));
-        handler->PSendSysMessage("PreventionType: {} ({})", spell->PreventionType, GetPreventionTypeName(spell->PreventionType));
-        handler->PSendSysMessage("SchoolMask: 0x{:02X}", spell->SchoolMask);
+        handler->PSendSysMessage("伤害类别：{}（{}）", spell->DmgClass, GetDmgClassName(spell->DmgClass));
+        handler->PSendSysMessage("预防类型：{}（{}）", spell->PreventionType, GetPreventionTypeName(spell->PreventionType));
+        handler->PSendSysMessage("系别掩码：0x{:02X}", spell->SchoolMask);
     }
 
     static bool HandleSpellInfoAttributesCommand(ChatHandler* handler, SpellInfo const* spell)
@@ -928,7 +928,7 @@ public:
             return false;
         }
 
-        handler->PSendSysMessage("===== SPELL ATTRIBUTES =====");
+        handler->PSendSysMessage("===== 法术属性 =====");
         PrintBasicInfo(handler, spell);
         PrintAttributes(handler, spell);
         handler->PSendSysMessage("============================");
@@ -943,7 +943,7 @@ public:
             return false;
         }
 
-        handler->PSendSysMessage("====== SPELL EFFECTS ======");
+        handler->PSendSysMessage("====== 法术效果 ======");
         PrintBasicInfo(handler, spell);
         PrintEffects(handler, spell);
         handler->PSendSysMessage("===========================");
@@ -958,7 +958,7 @@ public:
             return false;
         }
 
-        handler->PSendSysMessage("====== SPELL TARGETS ======");
+        handler->PSendSysMessage("====== 法术目标 ======");
         PrintBasicInfo(handler, spell);
         PrintTargets(handler, spell);
         handler->PSendSysMessage("===========================");
@@ -973,7 +973,7 @@ public:
             return false;
         }
 
-        handler->PSendSysMessage("========== SPELL INFO ==========");
+        handler->PSendSysMessage("========== 法术信息 ==========");
         PrintBasicInfo(handler, spell);
         PrintAttributes(handler, spell);
         PrintGeneralInfo(handler, spell);

@@ -60,12 +60,12 @@ public:
         if (enable)
         {
             handler->GetSession()->GetPlayer()->SetCommandStatusOn(CHEAT_GOD);
-            handler->SendSysMessage("Godmode is ON. You won't take damage.");
+            handler->SendSysMessage("上帝模式已开启。你不会受到伤害。");
         }
         else
         {
             handler->GetSession()->GetPlayer()->SetCommandStatusOff(CHEAT_GOD);
-            handler->SendSysMessage("Godmode is OFF. You can take damage.");
+            handler->SendSysMessage("上帝模式已关闭。你会受到伤害。");
         }
 
         return true;
@@ -80,12 +80,12 @@ public:
         if (enable)
         {
             handler->GetSession()->GetPlayer()->SetCommandStatusOn(CHEAT_CASTTIME);
-            handler->SendSysMessage("CastTime Cheat is ON. Your spells won't have a casttime.");
+            handler->SendSysMessage("施法时间作弊已开启。你的法术将没有施法时间。");
         }
         else
         {
             handler->GetSession()->GetPlayer()->SetCommandStatusOff(CHEAT_CASTTIME);
-            handler->SendSysMessage("CastTime Cheat is OFF. Your spells will have a casttime.");
+            handler->SendSysMessage("施法时间作弊已关闭。你的法术将正常有施法时间。");
         }
 
         return true;
@@ -100,12 +100,12 @@ public:
         if (enable)
         {
             handler->GetSession()->GetPlayer()->SetCommandStatusOn(CHEAT_COOLDOWN);
-            handler->SendSysMessage("Cooldown Cheat is ON. You are not on the global cooldown.");
+            handler->SendSysMessage("冷却作弊已开启。你不再受公共冷却限制。");
         }
         else
         {
             handler->GetSession()->GetPlayer()->SetCommandStatusOff(CHEAT_COOLDOWN);
-            handler->SendSysMessage("Cooldown Cheat is OFF. You are on the global cooldown.");
+            handler->SendSysMessage("冷却作弊已关闭。你将正常受公共冷却限制。");
         }
 
         return true;
@@ -123,12 +123,12 @@ public:
             player->SetCommandStatusOn(CHEAT_SPELLCHARGES);
             player->RestoreAllSpellCharges();
             player->SendAllSpellChargeStates();
-            handler->SendSysMessage("Spell Charges Cheat is ON. Your spell charges won't be consumed.");
+            handler->SendSysMessage("法术次数作弊已开启。你的法术次数不会被消耗。");
         }
         else
         {
             player->SetCommandStatusOff(CHEAT_SPELLCHARGES);
-            handler->SendSysMessage("Spell Charges Cheat is OFF. Your spell charges will be consumed normally.");
+            handler->SendSysMessage("法术次数作弊已关闭。你的法术次数将正常消耗。");
         }
 
         return true;
@@ -143,12 +143,12 @@ public:
         if (enable)
         {
             handler->GetSession()->GetPlayer()->SetCommandStatusOn(CHEAT_POWER);
-            handler->SendSysMessage("Power Cheat is ON. You don't need mana/rage/energy to use spells.");
+            handler->SendSysMessage("资源作弊已开启。施放法术不再需要法力/怒气/能量。");
         }
         else
         {
             handler->GetSession()->GetPlayer()->SetCommandStatusOff(CHEAT_POWER);
-            handler->SendSysMessage("Power Cheat is OFF. You need mana/rage/energy to use spells.");
+            handler->SendSysMessage("资源作弊已关闭。施放法术需要法力/怒气/能量。");
         }
 
         return true;
@@ -183,13 +183,13 @@ public:
         {
             handler->GetSession()->GetPlayer()->SetCommandStatusOn(CHEAT_WATERWALK);
             handler->GetSession()->GetPlayer()->SetWaterWalking(true);               // ON
-            handler->SendSysMessage("Waterwalking is ON. You can walk on water.");
+            handler->SendSysMessage("水上行走已开启。你可以在水面上行走。");
         }
         else
         {
             handler->GetSession()->GetPlayer()->SetCommandStatusOff(CHEAT_WATERWALK);
             handler->GetSession()->GetPlayer()->SetWaterWalking(false);              // OFF
-            handler->SendSysMessage("Waterwalking is OFF. You can't walk on water.");
+            handler->SendSysMessage("水上行走已关闭。你无法在水面上行走。");
         }
 
         return true;

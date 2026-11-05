@@ -731,7 +731,7 @@ public:
                     break;
                 case DATA_BRANN_MEMOTESAY:
                     if (Creature* cr = GetCreature(DATA_BRANN_BASE_CAMP))
-                        cr->TextEmote("Go to your vehicles!", nullptr, true);
+                        cr->TextEmote("到你的载具上去！", nullptr, true);
                     break;
                 case DATA_BRANN_EASY_MODE:
                     ProcessEvent(nullptr, EVENT_TOWER_OF_STORM_DESTROYED);

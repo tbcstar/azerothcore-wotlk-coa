@@ -3930,7 +3930,7 @@ public:
             if (!player->GetGroup() || !player->GetGroup()->isRaidGroup() || !player->GetGroup()->IsLeader(player->GetGUID()))
             {
                 CloseGossipMenuFor(player);
-                ChatHandler(player->GetSession()).PSendSysMessage("Only the raid leader can turn off the buff.");
+                ChatHandler(player->GetSession()).PSendSysMessage("只有团队领袖可以关闭该增益。");
                 return true;
             }
             if (InstanceScript* inst = creature->GetInstanceScript())

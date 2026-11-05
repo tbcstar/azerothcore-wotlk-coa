@@ -71,7 +71,7 @@ public:
     {
         if (phase > SUNS_REACH_PHASE_4_HARBOR)
         {
-            handler->PSendSysMessage("Invalid phase, see \".worldstate sunsreach phase\" for usage");
+            handler->PSendSysMessage("阶段无效，请查看 ".worldstate sunsreach phase" 了解用法");
             return false;
         }
         sWorldState->HandleSunsReachPhaseTransition(phase);
@@ -83,7 +83,7 @@ public:
     {
         if (subphase > SUBPHASE_ALL)
         {
-            handler->PSendSysMessage("Invalid subphase, see \".worldstate sunsreach subphase\" for usage");
+            handler->PSendSysMessage("子阶段无效，请查看 ".worldstate sunsreach subphase" 了解用法");
             return false;
         }
         sWorldState->HandleSunsReachSubPhaseTransition(subphase);
@@ -95,7 +95,7 @@ public:
     {
         if (!index || !value || index.value() >= COUNTERS_MAX)
         {
-            handler->PSendSysMessage("Syntax: .worldstate sunsreach counter <index> <value>.");
+            handler->PSendSysMessage("语法：.worldstate sunsreach counter <索引> <值>。");
             handler->PSendSysMessage(sWorldState->GetSunsReachPrintout());
             return true;
         }
@@ -108,7 +108,7 @@ public:
     {
         if (newGate > SUNWELL_ARCHONISUS_GATE3_OPEN)
         {
-            handler->PSendSysMessage("Invalid phase, see \".worldstate sunsreach gate\" for usage");
+            handler->PSendSysMessage("阶段无效，请查看 ".worldstate sunsreach gate" 了解用法");
             return false;
         }
         sWorldState->HandleSunwellGateTransition(newGate);
@@ -120,7 +120,7 @@ public:
     {
         if (!index || !value || index.value() >= COUNTERS_MAX_GATES)
         {
-            handler->PSendSysMessage("Syntax: .worldstate sunsreach gatecounter <index> <value>.");
+            handler->PSendSysMessage("语法：.worldstate sunsreach gatecounter <索引> <值>。");
             handler->PSendSysMessage(sWorldState->GetSunsReachPrintout());
             return true;
         }
@@ -139,12 +139,12 @@ public:
     {
         if (value >= SI_STATE_MAX)
         {
-            handler->PSendSysMessage("Syntax: .worldstate scourgeinvasion state <value>.");
-            handler->PSendSysMessage("Valid values are: 0 (Disabled), 1 (Enabled).");
+            handler->PSendSysMessage("语法：.worldstate scourgeinvasion state <值>。");
+            handler->PSendSysMessage("可用值：0（禁用）、1（启用）。");
             return true;
         }
         sWorldState->SetScourgeInvasionState(SIState(value));
-        handler->PSendSysMessage("Scourge Invasion state set to {}.", value);
+        handler->PSendSysMessage("天灾入侵状态已设为 {}。", value);
         handler->PSendSysMessage(sWorldState->GetScourgeInvasionPrintout());
         return true;
     }
@@ -160,11 +160,11 @@ public:
 
         if (value >= SI_TIMER_MAX)
         {
-            handler->PSendSysMessage("Syntax: .worldstate scourgeinvasion startzone <value>.\nvalid values: 0-7");
+            handler->PSendSysMessage("语法：.worldstate scourgeinvasion startzone <值>。\n可用值：0-7");
             return true;
         }
         sWorldState->StartZoneEvent(SIZoneIds(value));
-        handler->PSendSysMessage("Scourge Invasion event started for zone {}.", value);
+        handler->PSendSysMessage("天灾入侵事件已在区域 {} 启动。", value);
         handler->PSendSysMessage(sWorldState->GetScourgeInvasionPrintout());
         return true;
     }

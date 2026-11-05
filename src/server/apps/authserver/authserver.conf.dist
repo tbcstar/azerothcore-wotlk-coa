@@ -310,7 +310,7 @@ RealmCards.Category = 41
 #                     11 = Conquest of Azeroth) 和背景 (Interface\Glues\RealmList\<image>).
 #        Default:     2, 11, "Default"
 
-RealmCards.Expansion = 2
+RealmCards.Expansion = 0
 RealmCards.GameMode = 11
 RealmCards.Image = "Default"
 
@@ -323,6 +323,15 @@ RealmCards.Image = "Default"
 #        Example:     RealmCards.Realm.1.Image = "Voljin"
 #                     RealmCards.Realm.1.DescriptionSpell = 13977864
 #        Default:     RealmCards.GameMode, RealmCards.Image, 0
+
+RealmCards.Realm.1.GameMode = 11
+RealmCards.Realm.1.Image = "Voljin"
+RealmCards.Realm.1.DescriptionSpell = 13977864
+RealmCards.Realm.2.GameMode = 6
+RealmCards.Realm.2.Image = "Darkmoon"
+RealmCards.Realm.2.DescriptionSpell = 0
+
+
 
 #
 ###################################################################################################

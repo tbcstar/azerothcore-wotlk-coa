@@ -112,7 +112,7 @@ namespace
         for (size_t i = 0; i < choices.size(); ++i)
         {
             if (i)
-                text += i + 1 == choices.size() ? " or " : ", ";
+                text += i + 1 == choices.size() ? " 或 " : "、";
             text += choices[i];
         }
         return text;
@@ -266,8 +266,8 @@ namespace
         if (!text.empty())
             return text;
 
-        return "|cff4CFF00XP rate|r: pick your own with " + DescribeAllowed(".xp") +
-               ", or |cff4CFF00.xp default|r to follow the realm. |cff4CFF00.xp|r shows what you are on.";
+        return "|cff4CFF00经验倍率|r：用 " + DescribeAllowed(".xp") +
+               " 自定义，或用 |cff4CFF00.xp default|r 跟随服务器。|cff4CFF00.xp|r 可查看当前设置。";
     }
 
     /// One announcement, to every player who is online and has not turned automatic
@@ -309,8 +309,8 @@ public:
             return;
 
         ChatHandler(player->GetSession()).PSendSysMessage(
-            "This server is running a |cff4CFF00{}|r XP rate. Type |cff4CFF00.xp|r to "
-            "change your own.", DescribePreset(EffectivePreset(player)));
+            "本服务器经验倍率为 |cff4CFF00{}|r。输入 |cff4CFF00.xp|r 可修改你自己的倍率。",
+            DescribePreset(EffectivePreset(player)));
     }
 
     void OnPlayerGiveXP(Player* player, uint32& amount, Unit* /*victim*/, uint8 /*xpSource*/) override
@@ -378,20 +378,19 @@ private:
 
         if (!PlayersMayChoose())
         {
-            handler->SendSysMessage(
-                "Choosing your own XP rate is turned off on this realm; ask a game master.");
+            handler->SendSysMessage("本服务器已关闭自行选择经验倍率的功能，请联系游戏管理员。");
             return true;
         }
 
         if (!IsKnownPreset(preset))
         {
-            handler->SendErrorMessage("{} is not offered on this realm. Pick {}.", DescribePreset(preset),
+            handler->SendErrorMessage("{} 在本服务器不提供。可选：{}。", DescribePreset(preset),
                                       DescribeAllowed(".xp"));
             return false;
         }
 
         StorePersonalPreset(player, preset);
-        handler->PSendSysMessage("Your XP rate is now |cff4CFF00{}|r, saved for this character.",
+        handler->PSendSysMessage("你的经验倍率现在是 |cff4CFF00{}|r，已为本角色保存。",
                                  DescribePreset(preset));
         return true;
     }
@@ -408,7 +407,7 @@ private:
             return false;
 
         ClearPersonalPreset(player);
-        handler->PSendSysMessage("Your XP rate now follows the realm: |cff4CFF00{}|r.",
+        handler->PSendSysMessage("你的经验倍率现在跟随服务器：|cff4CFF00{}|r。",
                                  DescribePreset(RealmPreset()));
         return true;
     }
@@ -422,14 +421,14 @@ private:
         uint32 personal = 0;
         bool const owns = PlayersMayChoose() && PersonalPreset(player, personal);
 
-        handler->PSendSysMessage("Your XP rate: |cff4CFF00{}|r ({}).",
+        handler->PSendSysMessage("你的经验倍率：|cff4CFF00{}|r（{}）。",
                                  DescribePreset(EffectivePreset(player)),
-                                 owns ? "your own choice" : "the realm rate");
+                                 owns ? "你自选的" : "服务器倍率");
         if (owns)
-            handler->PSendSysMessage("The realm rate is {}. |cff4CFF00.xp default|r "
-                                     "follows it again.", DescribePreset(RealmPreset()));
+            handler->PSendSysMessage("服务器倍率为 {}。|cff4CFF00.xp default|r 可再次跟随它。",
+                                     DescribePreset(RealmPreset()));
         if (PlayersMayChoose())
-            handler->PSendSysMessage("Pick yours with {}.", DescribeAllowed(".xp"));
+            handler->PSendSysMessage("用 {} 选择你自己的倍率。", DescribeAllowed(".xp"));
         return true;
     }
 
@@ -442,7 +441,7 @@ private:
 
         if (!IsKnownPreset(preset))
         {
-            handler->SendErrorMessage("{} is not offered on this realm. Pick {}.", DescribePreset(preset),
+            handler->SendErrorMessage("{} 在本服务器不提供。可选：{}。", DescribePreset(preset),
                                       DescribeAllowed(".xp realm"));
             return false;
         }
@@ -454,18 +453,16 @@ private:
         g_realmPresetCache.store(int32(preset), std::memory_order_relaxed);
 
         if (preset == 1)
-            handler->PSendSysMessage(
-                "The realm rate is back to |cff4CFF00x1|r: no bonus is applied.");
+            handler->PSendSysMessage("服务器倍率已恢复为 |cff4CFF00x1|r：不应用任何加成。");
         else
-            handler->PSendSysMessage("The realm rate is now |cff4CFF00{}|r.",
+            handler->PSendSysMessage("服务器倍率现在是 |cff4CFF00{}|r。",
                                      DescribePreset(preset));
 
         if (persisted)
-            handler->PSendSysMessage("Saved to {}. Characters with their own choice keep it.",
+            handler->PSendSysMessage("已保存到 {}。自选了倍率的角色仍保持自己的选择。",
                                      path);
         else
-            handler->PSendSysMessage("Could not write {}; the change lasts until the next "
-                                     "restart.", path);
+            handler->PSendSysMessage("无法写入 {}；本次修改只持续到下次重启。", path);
         return true;
     }
 
@@ -479,10 +476,9 @@ private:
         if (!handler)
             return false;
 
-        handler->PSendSysMessage("Realm XP rate: |cff4CFF00{}|r (the default for every "
-                                 "character without its own choice).",
+        handler->PSendSysMessage("服务器经验倍率：|cff4CFF00{}|r（未自行选择的角色默认使用）。",
                                  DescribePreset(RealmPreset()));
-        handler->PSendSysMessage("Change it with {}.", DescribeAllowed(".xp realm"));
+        handler->PSendSysMessage("用 {} 修改它。", DescribeAllowed(".xp realm"));
         return true;
     }
 };

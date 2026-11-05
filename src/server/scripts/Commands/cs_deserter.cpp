@@ -164,7 +164,7 @@ public:
             Aura* aura = target->GetAura(deserterSpell);
             if (aura && aura->GetDuration() >= duration * IN_MILLISECONDS)
             {
-                handler->PSendSysMessage("Player {} already has a longer {} Deserter active.", handler->playerLink(*playerName), isInstance ? "Instance" : "Battleground");
+                handler->PSendSysMessage("玩家 {} 已有更长的 {} 逃亡者状态。", handler->playerLink(*playerName), isInstance ? "副本" : "战场");
                 return true;
             }
 
@@ -186,7 +186,7 @@ public:
 
                 if (remainTime < 0 || remainTime >= duration * IN_MILLISECONDS)
                 {
-                    handler->PSendSysMessage("Player {} already has a longer {} Deserter active.", handler->playerLink(*playerName), isInstance ? "Instance" : "Battleground");
+                    handler->PSendSysMessage("玩家 {} 已有更长的 {} 逃亡者状态。", handler->playerLink(*playerName), isInstance ? "副本" : "战场");
                     return true;
                 }
                 CharacterDatabase.Query("DELETE FROM character_aura WHERE guid = {} AND spell = {}", guid.GetCounter(), deserterSpell);
@@ -223,7 +223,7 @@ public:
         else if (target && target->GetMap()->IsBattleground())
             target->LeaveBattleground();
 
-        handler->PSendSysMessage("{} of {} Deserter has been added to player {}.", secsToTimeString(duration), isInstance ? "Instance" : "Battleground", handler->playerLink(*playerName));
+        handler->PSendSysMessage("已将 {} 的 {} 逃亡者状态添加到玩家 {}。", secsToTimeString(duration), isInstance ? "副本" : "战场", handler->playerLink(*playerName));
         return true;
     }
 
@@ -286,17 +286,17 @@ public:
 
         if (duration == 0)
         {
-            handler->SendErrorMessage("Player {} does not have {} Deserter.", handler->playerLink(player->GetName()), isInstance ? "Instance" : "Battleground");
+            handler->SendErrorMessage("玩家 {} 没有 {} 逃亡者状态。", handler->playerLink(player->GetName()), isInstance ? "副本" : "战场");
             return true;
         }
 
         if (duration < 0)
         {
-            handler->SendErrorMessage("Permanent {} Deserter has been removed from player {} (GUID {}).", isInstance ? "Instance" : "Battleground", handler->playerLink(player->GetName()), player->GetGUID().ToString());
+            handler->SendErrorMessage("永久 {} 逃亡者状态已从玩家 {}（GUID {}）移除。", isInstance ? "副本" : "战场", handler->playerLink(player->GetName()), player->GetGUID().ToString());
             return true;
         }
 
-        handler->PSendSysMessage("{} of {} Deserter has been removed from player {} (GUID {}).", secsToTimeString(duration / IN_MILLISECONDS), isInstance ? "Instance" : "Battleground", handler->playerLink(player->GetName()), player->GetGUID().ToString());
+        handler->PSendSysMessage("{} 的 {} 逃亡者状态已从玩家 {}（GUID {}）移除。", secsToTimeString(duration / IN_MILLISECONDS), isInstance ? "副本" : "战场", handler->playerLink(player->GetName()), player->GetGUID().ToString());
         return true;
     }
 
@@ -398,11 +398,11 @@ public:
 
         if (deserterCount == 0)
         {
-            handler->PSendSysMessage("No player on this realm has {} Deserter with a duration of {} or less.", isInstance ? "Instance" : "Battleground", remainTimeStr);
+            handler->PSendSysMessage("本服务器上没有玩家拥有 {} 逃亡者状态，且时长不超过 {}。", isInstance ? "副本" : "战场", remainTimeStr);
             return true;
         }
 
-        handler->PSendSysMessage("{} Deserter has been removed from {} player(s) with a duration of {} or less.", isInstance ? "Instance" : "Battleground", deserterCount, remainTimeStr);
+        handler->PSendSysMessage("{} 逃亡者状态已从 {} 名玩家移除（时长不超过 {}）。", isInstance ? "副本" : "战场", deserterCount, remainTimeStr);
         return true;
     }
 

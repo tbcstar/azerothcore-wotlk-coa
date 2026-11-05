@@ -180,7 +180,7 @@ public:
                 handler->PSendSysMessage(LANG_MAIL_LIST_ENTRY,
                     messageID, GetMailTypeString(messageType), GetMailStationeryString(stationery),
                     mailTemplate, sender, senderName, receiver,
-                    expireStr, deliverStr, money, cod, checked, "N/A (offline)");
+                    expireStr, deliverStr, money, cod, checked, "无（离线）");
             } while (result->NextRow());
         }
 

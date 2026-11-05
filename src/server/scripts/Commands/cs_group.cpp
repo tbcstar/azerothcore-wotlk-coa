@@ -221,7 +221,7 @@ public:
             return true;
         }
 
-        handler->PSendSysMessage(LANG_GROUP_TYPE, (groupTarget->isRaidGroup() ? "Raid" : "Party"), groupTarget->GetMembersCount());
+        handler->PSendSysMessage(LANG_GROUP_TYPE, (groupTarget->isRaidGroup() ? "团队" : "队伍"), groupTarget->GetMembersCount());
 
         for (auto const& slot : groupTarget->GetMemberSlots())
         {

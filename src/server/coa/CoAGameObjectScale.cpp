@@ -163,7 +163,7 @@ public:
 
         StoreScale(spawnId, scale);
         uint32 const reloaded = ReloadLoadedSpawns(*data, spawnId);
-        handler->PSendSysMessage("Game object spawn {} now has scale {}; {} loaded copies were respawned.",
+        handler->PSendSysMessage("游戏对象刷新点 {} 的缩放现在为 {}；已重新刷新 {} 个已载入副本。",
             uint32(spawnId), scale, reloaded);
         return true;
     }

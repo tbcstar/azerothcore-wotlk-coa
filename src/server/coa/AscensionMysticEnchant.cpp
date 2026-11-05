@@ -1114,7 +1114,7 @@ class spell_ascension_unidentified_mystic_scroll : public SpellScript
             return SPELL_FAILED_DONT_REPORT;
         if (!Ready || !AscensionFreepick::RealmOffersMysticAltars() || IsConquestOfAzerothClass(player->getClass()))
         {
-            ChatHandler(player->GetSession()).SendSysMessage("Mystic Enchants are not available on this realm.");
+            ChatHandler(player->GetSession()).SendSysMessage("本服务器未开放神秘附魔。");
             return SPELL_FAILED_DONT_REPORT;
         }
         if (!player->GetFreeInventorySpace())

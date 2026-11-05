@@ -21,13 +21,13 @@ namespace AetherialReliquary
 namespace
 {
 constexpr std::string_view CapturedMessage =
-    "Your Experience boosts have been preserved in your Aetherial Boon Reliquary.";
-constexpr std::string_view EmptyMessage = "Your Aetherial Reliquary holds no stored buffs.";
-constexpr std::string_view BelowMaxLevelMessage = "Your stored experience buffs only work below max level.";
+    "你的经验加成已被保存在以太祝福圣物匣中。";
+constexpr std::string_view EmptyMessage = "你的以太圣物匣中没有存放任何增益。";
+constexpr std::string_view BelowMaxLevelMessage = "存放的经验增益只在未满级时生效。";
 constexpr std::string_view SaveFailedMessage =
-    "Your Aetherial Reliquary could not be saved. Contact a game master.";
-constexpr char MailSubject[] = "Aetherial Reliquary";
-constexpr char MailBody[] = "Your bags were full, so your Aetherial Reliquary was sent by mail.";
+    "你的以太圣物匣无法保存，请联系游戏管理员。";
+constexpr char MailSubject[] = "以太圣物匣";
+constexpr char MailBody[] = "你的背包已满，因此以太圣物匣已通过邮件寄出。";
 
 std::string const& Source()
 {

@@ -562,7 +562,7 @@ namespace
         {
             LOG_ERROR("module.coa_prestige", "No starting location for race {} class {}: {} cannot prestige.",
                 uint32(player->getRace(true)), uint32(player->getClass()), player->GetName());
-            chat.SendSysMessage("Chromie cannot find where your journey began.");
+            chat.SendSysMessage("克罗米找不到你旅程开始的地方。");
             return false;
         }
 
@@ -629,17 +629,17 @@ namespace
         {
             LOG_ERROR("module.coa_prestige", "The prestige save of {} ({}) was rolled back by the character database.",
                 player->GetName(), player->GetGUID().ToString());
-            chat.SendSysMessage("Chromie's magic faltered and your prestige could not be saved. "
-                "Contact a game master.");
+            chat.SendSysMessage("克罗米的法术失效了，你的转生无法保存。"
+                "请联系游戏管理员。");
             return false;
         }
         sScriptMgr->OnPlayerCoAPrestigeSaved(player);
 
         SendPrestigeLevels(player);
-        chat.PSendSysMessage("Chromie winds back time. Prestige {}: reach level {} again to unlock your "
-            "specialization.", state.level, requiredLevel);
+        chat.PSendSysMessage("克罗米拨回时间。转生 {}：再次达到 {} 级即可解锁你的"
+            "专精。", state.level, requiredLevel);
         if (!mailed.empty())
-            chat.SendSysMessage("Your equipped gear and any overflow Prestige rewards were sent to your mailbox.");
+            chat.SendSysMessage("你已装备的装备与溢出的转生奖励已寄往你的邮箱。");
 
         LOG_INFO("module.coa_prestige", "{} ({}) activated Prestige {} in specialization {}: {} talent spell(s), "
             "{} ability chain(s) and {} mystic enchant(s) removed.", player->GetName(), player->GetGUID().ToString(),
@@ -703,7 +703,7 @@ namespace
         SyncDailyAuras(player);
         SendPrestigeLevels(player);
         ChatHandler(player->GetSession()).PSendSysMessage(
-            "Prestige {} complete: your specialization is unlocked.", state.level);
+            "转生 {} 完成：你的专精已解锁。", state.level);
     }
 
     void RestoreSpecializationSignature(Player* player)

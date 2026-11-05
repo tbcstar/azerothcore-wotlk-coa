@@ -105,7 +105,7 @@ public:
         auto const it = g_cachePools.find(item->GetEntry());
         if (it == g_cachePools.end() || it->second.empty())
         {
-            ChatHandler(player->GetSession()).PSendSysMessage("This cache is empty. Tell an administrator.");
+            ChatHandler(player->GetSession()).PSendSysMessage("这个宝箱是空的。请告知管理员。");
             return true;   // true = handled; the item is not consumed
         }
 
@@ -150,7 +150,7 @@ public:
     {
         if (g_waresPool.empty())
         {
-            ChatHandler(player->GetSession()).PSendSysMessage("This cache is empty. Tell an administrator.");
+            ChatHandler(player->GetSession()).PSendSysMessage("这个宝箱是空的。请告知管理员。");
             return true;   // true = handled; the item is not consumed
         }
 

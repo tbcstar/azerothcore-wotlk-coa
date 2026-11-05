@@ -35,7 +35,7 @@ namespace
     // Tiraxis' own text, from the client's npccache. Kept as he said it,
     // including the missing word in the third line - that is how it shipped.
     constexpr uint32 GOSSIP_TEXT_ID = 900007;
-    // "How do I get Bazaar Tokens?": the live answer is not in any client cache, so this one names this realm's sources.
+    // "我该如何获得集市代币？": the live answer is not in any client cache, so this one names this realm's sources.
     constexpr uint32 GOSSIP_TOKENS_TEXT_ID = 900012;
 
     // The live menu shows a large icon in front of each option, as an inline texture in the option text.
@@ -47,19 +47,19 @@ namespace
     void SendMainMenu(Player* player, Creature* creature)
     {
         ClearGossipMenuFor(player);
-        AddGossipItemFor(player, GOSSIP_ICON_VENDOR, IconOption("Spell_Shadow_Teleport", "Explore the Bazaar"),
+        AddGossipItemFor(player, GOSSIP_ICON_VENDOR, IconOption("Spell_Shadow_Teleport", "探索集市"),
                          GOSSIP_SENDER, GOSSIP_BAZAAR);
-        AddGossipItemFor(player, GOSSIP_ICON_VENDOR, IconOption("inv_legion_chest_legionfall", "Lost Caches"),
+        AddGossipItemFor(player, GOSSIP_ICON_VENDOR, IconOption("inv_legion_chest_legionfall", "失落宝箱"),
                          GOSSIP_SENDER, GOSSIP_LOST_CACHES);
-        AddGossipItemFor(player, GOSSIP_ICON_VENDOR, IconOption("inv_chest_awakening", "Convenience Items"),
+        AddGossipItemFor(player, GOSSIP_ICON_VENDOR, IconOption("inv_chest_awakening", "便利物品"),
                          GOSSIP_SENDER, GOSSIP_CONVENIENCE);
-        AddGossipItemFor(player, GOSSIP_ICON_VENDOR, IconOption("inv_misc_scrollrolled02c", "Consumables"),
+        AddGossipItemFor(player, GOSSIP_ICON_VENDOR, IconOption("inv_misc_scrollrolled02c", "消耗品"),
                          GOSSIP_SENDER, GOSSIP_CONSUMABLES);
-        AddGossipItemFor(player, GOSSIP_ICON_VENDOR, IconOption("inv_sword_39", "Heirlooms"),
+        AddGossipItemFor(player, GOSSIP_ICON_VENDOR, IconOption("inv_sword_39", "传家宝"),
                          GOSSIP_SENDER, GOSSIP_HEIRLOOMS);
-        AddGossipItemFor(player, GOSSIP_ICON_VENDOR, IconOption("inv_item_stonen", "Stones of Retreat"),
+        AddGossipItemFor(player, GOSSIP_ICON_VENDOR, IconOption("inv_item_stonen", "退避之石"),
                          GOSSIP_SENDER, GOSSIP_STONES);
-        AddGossipItemFor(player, GOSSIP_ICON_CHAT, "How do I get Bazaar Tokens?", GOSSIP_SENDER, GOSSIP_TOKENS);
+        AddGossipItemFor(player, GOSSIP_ICON_CHAT, "我该如何获得集市代币？", GOSSIP_SENDER, GOSSIP_TOKENS);
         GrootCoin::TiraxisMenu::AddEntry(player);
         SendGossipMenuFor(player, GOSSIP_TEXT_ID, creature);
     }
@@ -120,7 +120,7 @@ public:
                 break;
             case GOSSIP_TOKENS:
                 ClearGossipMenuFor(player);
-                AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Back", GOSSIP_SENDER, GOSSIP_BACK);
+                AddGossipItemFor(player, GOSSIP_ICON_CHAT, "返回", GOSSIP_SENDER, GOSSIP_BACK);
                 SendGossipMenuFor(player, GOSSIP_TOKENS_TEXT_ID, creature);
                 break;
             case GOSSIP_BACK:
@@ -183,11 +183,11 @@ public:
     {
         if (!Enabled())
         {
-            handler->PSendSysMessage("Ethereal Bazaar is disabled.");
+            handler->PSendSysMessage("集市已停用。");
             return true;
         }
         sBazaarStock->Rotate();
-        handler->PSendSysMessage("Ethereal Bazaar: rotated, {} items in stock.",
+        handler->PSendSysMessage("集市：已轮换，当前上架 {} 件物品。",
                                  sBazaarStock->StockSize());
         return true;
     }
@@ -196,15 +196,15 @@ public:
     {
         uint64 const now = static_cast<uint64>(GameTime::GetGameTime().count());
         uint64 const next = sBazaarStock->NextRotation();
-        handler->PSendSysMessage("Ethereal Bazaar: {} items in stock.", sBazaarStock->StockSize());
-        handler->PSendSysMessage("Pool: {} cheap, {} mid, {} expensive.",
+        handler->PSendSysMessage("集市：当前上架 {} 件物品。", sBazaarStock->StockSize());
+        handler->PSendSysMessage("奖池：{} 件低价、{} 件中价、{} 件高价。",
                                  sBazaarStock->PoolSize(BazaarBand::Cheap),
                                  sBazaarStock->PoolSize(BazaarBand::Mid),
                                  sBazaarStock->PoolSize(BazaarBand::Expensive));
         if (next > now)
-            handler->PSendSysMessage("Next rotation in {} minutes.", (next - now) / MINUTE);
+            handler->PSendSysMessage("距离下次轮换还有 {} 分钟。", (next - now) / MINUTE);
         else
-            handler->PSendSysMessage("Next rotation is due.");
+            handler->PSendSysMessage("下次轮换已到期。");
         return true;
     }
 };

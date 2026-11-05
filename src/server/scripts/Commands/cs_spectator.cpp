@@ -49,8 +49,8 @@ public:
 
     static bool HandleSpectatorCommand(ChatHandler* handler)
     {
-        handler->PSendSysMessage("Incorrect syntax.");
-        handler->PSendSysMessage("Command has subcommands:");
+        handler->PSendSysMessage("语法不正确。");
+        handler->PSendSysMessage("该命令有以下子命令：");
         handler->PSendSysMessage("   spectate");
         handler->PSendSysMessage("   leave");
         return true;
@@ -77,7 +77,7 @@ public:
         Player* player = handler->GetSession()->GetPlayer();
         if (!player->IsSpectator() || !player->FindMap() || !player->FindMap()->IsBattleArena())
         {
-            handler->SendSysMessage("You are not a spectator.");
+            handler->SendSysMessage("你不是观战者。");
             return true;
         }
 

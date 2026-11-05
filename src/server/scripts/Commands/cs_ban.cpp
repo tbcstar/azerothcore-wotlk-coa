@@ -261,7 +261,7 @@ public:
                 }
                 return false;
             case BAN_LONGER_EXISTS:
-                handler->PSendSysMessage("Unsuccessful! A longer ban is already present on this account!");
+                handler->PSendSysMessage("操作未成功！该账号上已存在更长的封禁！");
                 break;
             default:
                 break;
@@ -499,7 +499,7 @@ public:
 
                         if (fields2[0].Get<uint32>() == fields2[1].Get<uint32>())
                         {
-                            handler->PSendSysMessage("|{:<15.15}|{:02}-{:02}-{:02} {:02}:{:02}|   permanent  |{:<15.15}|{:<15.15}|",
+                            handler->PSendSysMessage("|{:<15.15}|{:02}-{:02}-{:02} {:02}:{:02}|   永久封禁   |{:<15.15}|{:<15.15}|",
                                                      accountName, tmBan.tm_year % 100, tmBan.tm_mon + 1, tmBan.tm_mday, tmBan.tm_hour, tmBan.tm_min,
                                                      fields2[2].Get<std::string>(), fields2[3].Get<std::string>());
                         }
@@ -583,7 +583,7 @@ public:
 
                         if (banFields[0].Get<uint32>() == banFields[1].Get<uint32>())
                         {
-                            handler->PSendSysMessage("|{:<15.15}|{:02}-{:02}-{:02} {:02}:{:02}|   permanent  |{:<15.15}|{:<15.15}|",
+                            handler->PSendSysMessage("|{:<15.15}|{:02}-{:02}-{:02} {:02}:{:02}|   永久封禁   |{:<15.15}|{:<15.15}|",
                                                      char_name, tmBan.tm_year % 100, tmBan.tm_mon + 1, tmBan.tm_mday, tmBan.tm_hour, tmBan.tm_min,
                                                      banFields[2].Get<std::string>(), banFields[3].Get<std::string>());
                         }
@@ -656,7 +656,7 @@ public:
                 tm tmBan = Acore::Time::TimeBreakdown(fields[1].Get<uint32>());
                 if (fields[1].Get<uint32>() == fields[2].Get<uint32>())
                 {
-                    handler->PSendSysMessage("{:<15.15}|{:02}-{:02}-{:02} {:02}:{:02}|   permanent  |{:<15.15}|{:<15.15}|",
+                    handler->PSendSysMessage("{:<15.15}|{:02}-{:02}-{:02} {:02}:{:02}|   永久封禁   |{:<15.15}|{:<15.15}|",
                                              fields[0].Get<std::string>(), tmBan.tm_year % 100, tmBan.tm_mon + 1, tmBan.tm_mday, tmBan.tm_hour, tmBan.tm_min,
                                              fields[3].Get<std::string>(), fields[4].Get<std::string>());
                 }

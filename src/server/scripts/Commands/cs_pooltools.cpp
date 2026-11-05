@@ -85,7 +85,7 @@ public:
 
         if (PoolSessions.find(playerGuid) != PoolSessions.end())
         {
-            handler->SendErrorMessage("Session already active. Use .pooltools clear first.");
+            handler->SendErrorMessage("会话已在进行中。请先使用 .pooltools clear。");
             return false;
         }
 
@@ -94,7 +94,7 @@ public:
 
         PoolSessions[playerGuid] = session;
 
-        handler->PSendSysMessage("|cff00ff00Pool Session Started.|r Description: {}", description);
+        handler->PSendSysMessage("|cff00ff00水池会话已开始。|r 描述：{}", description);
         return true;
     }
 
@@ -103,7 +103,7 @@ public:
         ObjectGuid playerGuid = handler->GetPlayer()->GetGUID();
         if (PoolSessions.find(playerGuid) == PoolSessions.end())
         {
-            handler->SendErrorMessage("No active session.");
+            handler->SendErrorMessage("没有进行中的会话。");
             return false;
         }
 
@@ -111,7 +111,7 @@ public:
 
         if (tokens.empty() || tokens.size() % 2 != 0)
         {
-            handler->SendErrorMessage("Invalid syntax. Usage: .pooltools def [ID] [Chance] [ID] [Chance]...");
+            handler->SendErrorMessage("语法无效。用法：.pooltools def [ID] [几率] [ID] [几率]...");
             return false;
         }
 
@@ -128,7 +128,7 @@ public:
         }
 
         PoolSessions[playerGuid].CurrentTemplate = newTemplate;
-        handler->PSendSysMessage("Template Defined ({} items).", newTemplate.size());
+        handler->PSendSysMessage("模板已定义（{} 项）。", newTemplate.size());
         return true;
     }
 
@@ -141,7 +141,7 @@ public:
         PoolSession& session = PoolSessions[playerGuid];
         if (session.CurrentTemplate.empty())
         {
-            handler->SendErrorMessage("Define a template first with .pooltools def");
+            handler->SendErrorMessage("请先用 .pooltools def 定义模板");
             return false;
         }
 
@@ -236,18 +236,18 @@ public:
 
         if (addedCount == 0)
         {
-            handler->SendErrorMessage("No new matching objects found in {}y radius.", radius);
+            handler->SendErrorMessage("在 {} 码半径内未找到新的匹配对象。", radius);
             return false;
         }
 
-        handler->PSendSysMessage("|cff00ff00Scan Complete.|r Added {} objects into {} new groups.", addedCount, newGroupsCount);
+        handler->PSendSysMessage("|cff00ff00扫描完成。|r 已将 {} 个对象加入 {} 个新分组。", addedCount, newGroupsCount);
 
         if (!session.CapturedGroups.empty())
         {
             NodeGroup& lastGroup = session.CapturedGroups.back();
             for (auto& p : lastGroup.FoundObjects)
             {
-                handler->PSendSysMessage(" - Entry {} (GUID: {})", p.first, p.second);
+                handler->PSendSysMessage(" - 条目 {}（GUID：{}）", p.first, p.second);
             }
         }
         return true;
@@ -258,7 +258,7 @@ public:
         ObjectGuid const playerGuid = handler->GetPlayer()->GetGUID();
         if (PoolSessions.find(playerGuid) == PoolSessions.end())
         {
-            handler->SendErrorMessage("No active session.");
+            handler->SendErrorMessage("没有进行中的会话。");
             return false;
         }
 
@@ -266,14 +266,14 @@ public:
 
         if (session.CapturedGroups.empty())
         {
-            handler->SendErrorMessage("No groups captured.");
+            handler->SendErrorMessage("未捕获任何分组。");
             return false;
         }
 
         NodeGroup removed = session.CapturedGroups.back();
         session.CapturedGroups.pop_back();
 
-        handler->PSendSysMessage("|cffff0000Undo Successful.|r Removed last group containing {} objects.", removed.FoundObjects.size());
+        handler->PSendSysMessage("|cffff0000撤销成功。|r 已移除包含 {} 个对象的最后一个分组。", removed.FoundObjects.size());
         return true;
     }
 
@@ -400,7 +400,7 @@ public:
             LOG_DEBUG("sql.dev", "{};", fmt::join(bulkInserts, ",\n"));
         }
 
-        handler->PSendSysMessage("Dumped {} groups.", groupCounter);
+        handler->PSendSysMessage("已转储 {} 个分组。", groupCounter);
 
         // Cleanup
         PoolSessions.erase(it);
@@ -410,7 +410,7 @@ public:
     static bool HandlePoolClear(ChatHandler* handler)
     {
         PoolSessions.erase(handler->GetPlayer()->GetGUID());
-        handler->PSendSysMessage("Session cleared.");
+        handler->PSendSysMessage("会话已清除。");
         return true;
     }
 };

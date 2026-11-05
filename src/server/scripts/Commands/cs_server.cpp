@@ -122,23 +122,23 @@ public:
                 dbPort = (*res)[0].Get<uint16>();
 
             if (dbPort)
-                dbPortOutput = Acore::StringFormat("Realmlist (Realm Id: {}) configured in port {}", realm.Id.Realm, dbPort);
+                dbPortOutput = Acore::StringFormat("Realmlist（服务器 ID：{}）已配置在端口 {}", realm.Id.Realm, dbPort);
             else
-                dbPortOutput = Acore::StringFormat("Realm Id: {} not found in `realmlist` table. Please check your setup", realm.Id.Realm);
+                dbPortOutput = Acore::StringFormat("在 `realmlist` 表中未找到服务器 ID {}。请检查你的配置", realm.Id.Realm);
         }
 
         HandleServerInfoCommand(handler);
 
-        handler->PSendSysMessage("Using SSL version: {} (library: {})", OPENSSL_VERSION_TEXT, OpenSSL_version(OPENSSL_VERSION));
-        handler->PSendSysMessage("Using Boost version: {}.{}.{}", BOOST_VERSION / 100000, BOOST_VERSION / 100 % 1000, BOOST_VERSION % 100);
-        handler->PSendSysMessage("Using CMake version: {}", GitRevision::GetCMakeVersion());
+        handler->PSendSysMessage("使用 SSL 版本：{}（库：{}）", OPENSSL_VERSION_TEXT, OpenSSL_version(OPENSSL_VERSION));
+        handler->PSendSysMessage("使用 Boost 版本：{}.{}.{}", BOOST_VERSION / 100000, BOOST_VERSION / 100 % 1000, BOOST_VERSION % 100);
+        handler->PSendSysMessage("使用 CMake 版本：{}", GitRevision::GetCMakeVersion());
 
-        handler->PSendSysMessage("Using MySQL version: {}", MySQL::GetLibraryVersion());
-        handler->PSendSysMessage("Found MySQL Executable: {}", GitRevision::GetMySQLExecutable());
+        handler->PSendSysMessage("使用 MySQL 版本：{}", MySQL::GetLibraryVersion());
+        handler->PSendSysMessage("找到 MySQL 可执行文件：{}", GitRevision::GetMySQLExecutable());
 
-        handler->PSendSysMessage("Compiled on: {}", GitRevision::GetHostOSVersion());
+        handler->PSendSysMessage("编译于：{}", GitRevision::GetHostOSVersion());
 
-        handler->PSendSysMessage("Worldserver listening connections on port {}", worldPort);
+        handler->PSendSysMessage("Worldserver 监听端口 {}", worldPort);
         handler->PSendSysMessage("{}", dbPortOutput);
 
         bool vmapIndoorCheck = sWorld->getBoolConfig(CONFIG_VMAP_INDOOR_CHECK);
@@ -152,19 +152,19 @@ public:
         subDirs.emplace_back("maps");
         if (vmapIndoorCheck || vmapLOSCheck || vmapHeightCheck)
         {
-            handler->PSendSysMessage("VMAPs status: Enabled. LineOfSight: {}, getHeight: {}, indoorCheck: {}", vmapLOSCheck, vmapHeightCheck, vmapIndoorCheck);
+            handler->PSendSysMessage("VMAPs 状态：已启用。视线：{}，高度获取：{}，室内检测：{}", vmapLOSCheck, vmapHeightCheck, vmapIndoorCheck);
             subDirs.emplace_back("vmaps");
         }
         else
-            handler->SendSysMessage("VMAPs status: Disabled");
+            handler->SendSysMessage("VMAPs 状态：已禁用");
 
         if (mmapEnabled)
         {
-            handler->SendSysMessage("MMAPs status: Enabled");
+            handler->SendSysMessage("MMAPs 状态：已启用");
             subDirs.emplace_back("mmaps");
         }
         else
-            handler->SendSysMessage("MMAPs status: Disabled");
+            handler->SendSysMessage("MMAPs 状态：已禁用");
 
         for (std::string const& subDir : subDirs)
         {
@@ -173,7 +173,7 @@ public:
 
             if (!std::filesystem::exists(mapPath))
             {
-                handler->PSendSysMessage("{} directory doesn't exist!. Using path: {}", subDir, mapPath.generic_string());
+                handler->PSendSysMessage("{} 目录不存在！使用路径：{}", subDir, mapPath.generic_string());
                 continue;
             }
 
@@ -185,7 +185,7 @@ public:
                 return val;
             });
 
-            handler->PSendSysMessage("{} directory located in {}. Total size: {} bytes", subDir, mapPath.generic_string(), folderSize);
+            handler->PSendSysMessage("{} 目录位于 {}。总大小：{} 字节", subDir, mapPath.generic_string(), folderSize);
         }
 
         LocaleConstant defaultLocale = sWorld->GetDefaultDbcLocale();
@@ -212,47 +212,47 @@ public:
                 availableLocales += " ";
         }
 
-        handler->PSendSysMessage("Default DBC locale: {}.\nAll available DBC locales: {}", localeNames[defaultLocale], availableLocales);
+        handler->PSendSysMessage("默认 DBC 语言区域：{}。\n所有可用的 DBC 语言区域：{}", localeNames[defaultLocale], availableLocales);
 
-        handler->PSendSysMessage("Using World DB: {}", sWorld->GetDBVersion());
+        handler->PSendSysMessage("使用世界数据库：{}", sWorld->GetDBVersion());
 #ifdef MOD_PLAYERBOTS
-        handler->PSendSysMessage("Using Playerbots DB Revision: {}", sWorld->GetPlayerbotsDBRevision());
+        handler->PSendSysMessage("使用 Playerbots 数据库版本：{}", sWorld->GetPlayerbotsDBRevision());
 #endif
 
-        std::string lldb = "No updates found!";
+        std::string lldb = "未找到任何更新！";
         if (QueryResult resL = LoginDatabase.Query("SELECT name FROM updates ORDER BY name DESC LIMIT 1"))
         {
             Field* fields = resL->Fetch();
             lldb = fields[0].Get<std::string>();
         }
-        std::string lcdb = "No updates found!";
+        std::string lcdb = "未找到任何更新！";
         if (QueryResult resC = CharacterDatabase.Query("SELECT name FROM updates ORDER BY name DESC LIMIT 1"))
         {
             Field* fields = resC->Fetch();
             lcdb = fields[0].Get<std::string>();
         }
-        std::string lwdb = "No updates found!";
+        std::string lwdb = "未找到任何更新！";
         if (QueryResult resW = WorldDatabase.Query("SELECT name FROM updates ORDER BY name DESC LIMIT 1"))
         {
             Field* fields = resW->Fetch();
             lwdb = fields[0].Get<std::string>();
         }
 
-        handler->PSendSysMessage("Latest LoginDatabase update: {}", lldb);
-        handler->PSendSysMessage("Latest CharacterDatabase update: {}", lcdb);
-        handler->PSendSysMessage("Latest WorldDatabase update: {}", lwdb);
+        handler->PSendSysMessage("最新的登录数据库更新：{}", lldb);
+        handler->PSendSysMessage("最新的角色数据库更新：{}", lcdb);
+        handler->PSendSysMessage("最新的世界数据库更新：{}", lwdb);
 
-        handler->PSendSysMessage("LoginDatabase queue size: {}", LoginDatabase.QueueSize());
-        handler->PSendSysMessage("CharacterDatabase queue size: {}", CharacterDatabase.QueueSize());
-        handler->PSendSysMessage("WorldDatabase queue size: {}", WorldDatabase.QueueSize());
+        handler->PSendSysMessage("登录数据库队列长度：{}", LoginDatabase.QueueSize());
+        handler->PSendSysMessage("角色数据库队列长度：{}", CharacterDatabase.QueueSize());
+        handler->PSendSysMessage("世界数据库队列长度：{}", WorldDatabase.QueueSize());
 #ifdef MOD_PLAYERBOTS
-        handler->PSendSysMessage("PlayerbotsDatabase queue size: {}", PlayerbotsDatabase.QueueSize());
+        handler->PSendSysMessage("Playerbots 数据库队列长度：{}", PlayerbotsDatabase.QueueSize());
 #endif
 
         if (Acore::Module::GetEnableModulesList().empty())
-            handler->PSendSysMessage("No modules are enabled");
+            handler->PSendSysMessage("未启用任何模块");
         else
-            handler->PSendSysMessage("List of enabled modules:");
+            handler->PSendSysMessage("已启用模块清单：");
 
         for (auto const& modName : Acore::Module::GetEnableModulesList())
         {
@@ -272,17 +272,17 @@ public:
 
         handler->PSendSysMessage("{}", GitRevision::GetFullVersion());
         if (!queuedSessionCount)
-            handler->PSendSysMessage("Connected players: {}. Characters in world: {}.", activeSessionCount, playerCount);
+            handler->PSendSysMessage("在线玩家：{}。世界中角色数：{}。", activeSessionCount, playerCount);
         else
-            handler->PSendSysMessage("Connected players: {}. Characters in world: {}. Queue: {}.", activeSessionCount, playerCount, queuedSessionCount);
+            handler->PSendSysMessage("在线玩家：{}。世界中角色数：{}。队列：{}。", activeSessionCount, playerCount, queuedSessionCount);
 
-        handler->PSendSysMessage("Connection peak: {}.", connPeak);
+        handler->PSendSysMessage("连接峰值：{}。", connPeak);
         handler->PSendSysMessage(LANG_COMMAND_SERVER_INFO_SECURITY, uint32(sWorld->GetPlayerSecurityLimit()));
         handler->PSendSysMessage(LANG_UPTIME, secsToTimeString(GameTime::GetUptime().count()));
-        handler->PSendSysMessage("Update time diff: {}ms. Last {} diffs summary:", sWorldUpdateTime.GetLastUpdateTime(), sWorldUpdateTime.GetDatasetSize());
-        handler->PSendSysMessage("|- Mean: {}ms", sWorldUpdateTime.GetAverageUpdateTime());
-        handler->PSendSysMessage("|- Median: {}ms", sWorldUpdateTime.GetPercentile(50));
-        handler->PSendSysMessage("|- Percentiles (95, 99, max): {}ms, {}ms, {}ms",
+        handler->PSendSysMessage("更新耗时：{}ms。最近 {} 次耗时汇总：", sWorldUpdateTime.GetLastUpdateTime(), sWorldUpdateTime.GetDatasetSize());
+        handler->PSendSysMessage("|- 平均：{}ms", sWorldUpdateTime.GetAverageUpdateTime());
+        handler->PSendSysMessage("|- 中位数：{}ms", sWorldUpdateTime.GetPercentile(50));
+        handler->PSendSysMessage("|- 百分位（95、99、最大）：{}ms，{}ms，{}ms",
                                  sWorldUpdateTime.GetPercentile(95),
                                  sWorldUpdateTime.GetPercentile(99),
                                  sWorldUpdateTime.GetPercentile(100));
@@ -545,7 +545,7 @@ public:
             localeConstant = GetLocaleByName(locale);
         else
         {
-            handler->SendErrorMessage("locale ({}) is not valid. Valid locales: enUS, koKR, frFR, deDE, zhCN, zhWE, esES, esMX, ruRU.", locale);
+            handler->SendErrorMessage("语言区域（{}）无效。可用值：enUS、koKR、frFR、deDE、zhCN、zhWE、esES、esMX、ruRU。", locale);
             return false;
         }
 

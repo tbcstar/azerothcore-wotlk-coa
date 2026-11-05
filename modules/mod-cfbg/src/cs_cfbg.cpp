@@ -42,7 +42,7 @@ public:
 
         if (sCFBG->RandomizeRaces() || sCFBG->KeepRace())
         {
-            handler->SendSysMessage("Race selection is currently disabled.");
+            handler->SendSysMessage("当前已禁用种族选择。");
             handler->SetSentErrorMessage(true);
             return true;
         }
@@ -57,28 +57,28 @@ public:
                 }
                 else
                 {
-                    handler->SendSysMessage("Race not available to your faction.");
+                    handler->SendSysMessage("你的阵营无法使用该种族。");
                     handler->SetSentErrorMessage(true);
                     return true;
                 }
 
                 if (!IsRaceValidForClass(player, raceId))
                 {
-                    handler->SendSysMessage("Race not available to your class.");
+                    handler->SendSysMessage("你的职业无法使用该种族。");
                     handler->SetSentErrorMessage(true);
                     return true;
                 }
 
                 if (raceId == RACE_NIGHTELF)
                 {
-                    handler->SendSysMessage("Night elf models are not available as the female model is missing and the male one causes client crashes.");
+                    handler->SendSysMessage("暗夜精灵模型不可用：女性模型缺失，男性模型会导致客户端崩溃。");
                     handler->SetSentErrorMessage(true);
                     return true;
                 }
 
                 if (player->getGender() == GENDER_FEMALE && (raceId == RACE_TROLL || raceId == RACE_DWARF))
                 {
-                    handler->SendSysMessage("Female models are not available for the following races: troll, dwarf.");
+                    handler->SendSysMessage("以下种族没有可用的女性模型：巨魔、矮人。");
                     handler->SetSentErrorMessage(true);
                     return true;
                 }
@@ -89,11 +89,11 @@ public:
 
         if (!raceId)
         {
-            handler->SendSysMessage("Race unavailable. CFBG selected race set to random. You will be morphed into a random race when you enter a battleground on the opposite team.");
+            handler->SendSysMessage("该种族不可用。CFBG 已把选定种族设为随机；当你以对方阵营进入战场时，会被变成随机种族。");
         }
         else
         {
-            handler->PSendSysMessage("CFBG selected race set to {}", raceInput);
+            handler->PSendSysMessage("CFBG 选定种族已设为 {}", raceInput);
         }
 
         return true;
@@ -109,7 +109,7 @@ public:
         }
     }
 
-    static char const* YesNo(bool v) { return v ? "yes" : "no"; }
+    static char const* YesNo(bool v) { return v ? "是" : "否"; }
     static char const* MarkYN(bool v) { return v ? "Y" : "-"; }
 
     static bool HandleCFBGDebug(ChatHandler* handler, Optional<PlayerIdentifier> player)
@@ -134,41 +134,41 @@ public:
         FakePlayer const* fake = sCFBG->GetFakePlayer(target);
 
         // === Header ===
-        handler->PSendSysMessage("=== CFBG debug: {} ===", target->GetName());
-        handler->PSendSysMessage("  GUID: {}", guid.ToString());
-        handler->PSendSysMessage("  Config:  System={}  WG={}",
+        handler->PSendSysMessage("=== CFBG 调试：{} ===", target->GetName());
+        handler->PSendSysMessage("  GUID：{}", guid.ToString());
+        handler->PSendSysMessage("  配置：  系统={}  冬拥湖={}",
             YesNo(sCFBG->IsEnableSystem()), YesNo(sCFBG->IsEnableWGSystem()));
 
         // === Faction / appearance ===
         handler->SendSysMessage(" ");
-        handler->SendSysMessage("  Faction");
-        handler->PSendSysMessage("    Native     {:<8}  (race {})",
+        handler->SendSysMessage("  阵营");
+        handler->PSendSysMessage("    原生       {:<8}  (种族 {})",
             TeamIdName(target->GetTeamId(true)), uint32(target->getRace(true)));
-        handler->PSendSysMessage("    Current    {:<8}  (race {})",
+        handler->PSendSysMessage("    当前       {:<8}  (种族 {})",
             TeamIdName(target->GetTeamId()), uint32(target->getRace()));
-        handler->PSendSysMessage("    BG team    {}", TeamIdName(target->GetBgTeamId()));
-        handler->PSendSysMessage("    Display    {} (current) / {} (native)",
+        handler->PSendSysMessage("    战场队伍   {}", TeamIdName(target->GetBgTeamId()));
+        handler->PSendSysMessage("    外观       {}（当前）/ {}（原生）",
             target->GetDisplayId(), target->GetNativeDisplayId());
 
         // === CFBG state ===
         handler->SendSysMessage(" ");
-        handler->SendSysMessage("  State");
-        handler->PSendSysMessage("    Faked              {}", YesNo(isFake));
-        handler->PSendSysMessage("    Playing native     {}", YesNo(native));
-        handler->PSendSysMessage("    In battleground    {}", YesNo(inBG));
-        handler->PSendSysMessage("    Class / Gender     {} / {}",
+        handler->SendSysMessage("  状态");
+        handler->PSendSysMessage("    已伪装             {}", YesNo(isFake));
+        handler->PSendSysMessage("    以原生身份战斗     {}", YesNo(native));
+        handler->PSendSysMessage("    在战场中           {}", YesNo(inBG));
+        handler->PSendSysMessage("    职业 / 性别        {} / {}",
             uint32(target->getClass()), uint32(target->getGender()));
-        handler->PSendSysMessage("    Preferred race     {}", uint32(preferredRace));
-        handler->PSendSysMessage("    Forget BG players  {}", YesNo(forgetBG));
+        handler->PSendSysMessage("    首选种族           {}", uint32(preferredRace));
+        handler->PSendSysMessage("    遗忘战场玩家       {}", YesNo(forgetBG));
 
         // === Fake record ===
         if (fake)
         {
             handler->SendSysMessage(" ");
-            handler->SendSysMessage("  Fake record");
-            handler->PSendSysMessage("    Fake  team={:<8}  race={}  morph={}",
+            handler->SendSysMessage("  伪装记录");
+            handler->PSendSysMessage("    伪装  队伍={:<8}  种族={}  变形={}",
                 TeamIdName(fake->FakeTeamID), uint32(fake->FakeRace), fake->FakeMorph);
-            handler->PSendSysMessage("    Real  team={:<8}  race={}  morph={}  nativeMorph={}",
+            handler->PSendSysMessage("    真实  队伍={:<8}  种族={}  变形={}  原生变形={}",
                 TeamIdName(fake->RealTeamID), uint32(fake->RealRace),
                 fake->RealMorph, fake->RealNativeMorph);
         }
@@ -187,16 +187,16 @@ public:
                     wg = candidate;
 
         handler->SendSysMessage(" ");
-        handler->SendSysMessage("  Wintergrasp");
-        handler->PSendSysMessage("    In WG zone   {} (zone {})", YesNo(inWGZone), zoneId);
+        handler->SendSysMessage("  冬拥湖");
+        handler->PSendSysMessage("    在冬拥湖区域 {}（区域 {}）", YesNo(inWGZone), zoneId);
 
         if (!wg)
         {
-            handler->SendSysMessage("    War time     n/a (no WG battlefield)");
+            handler->SendSysMessage("    战争时间     不适用（无冬拥湖战场）");
         }
         else
         {
-            handler->PSendSysMessage("    War time     {}", YesNo(wg->IsWarTime()));
+            handler->PSendSysMessage("    战争时间     {}", YesNo(wg->IsWarTime()));
 
             bool const inQueueA = wg->GetPlayersQueueSet(TEAM_ALLIANCE).count(guid) > 0;
             bool const inQueueH = wg->GetPlayersQueueSet(TEAM_HORDE).count(guid)    > 0;
@@ -205,11 +205,11 @@ public:
             bool const inWarA   = wg->GetPlayersInWarSet(TEAM_ALLIANCE).count(guid)   > 0;
             bool const inWarH   = wg->GetPlayersInWarSet(TEAM_HORDE).count(guid)      > 0;
 
-            handler->SendSysMessage("    Player in sets:");
-            handler->PSendSysMessage("                   Alliance  Horde");
-            handler->PSendSysMessage("      Queue           {}        {}", MarkYN(inQueueA), MarkYN(inQueueH));
-            handler->PSendSysMessage("      Invited         {}        {}", MarkYN(invitedA), MarkYN(invitedH));
-            handler->PSendSysMessage("      In war          {}        {}", MarkYN(inWarA),   MarkYN(inWarH));
+            handler->SendSysMessage("    玩家所在集合：");
+            handler->PSendSysMessage("                   联盟      部落");
+            handler->PSendSysMessage("      排队            {}        {}", MarkYN(inQueueA), MarkYN(inQueueH));
+            handler->PSendSysMessage("      已邀请          {}        {}", MarkYN(invitedA), MarkYN(invitedH));
+            handler->PSendSysMessage("      战斗中          {}        {}", MarkYN(inWarA),   MarkYN(inWarH));
 
             // Which side does core track this player on, if any?
             bool const onA = inWarA || invitedA || inQueueA;
@@ -223,21 +223,21 @@ public:
             std::vector<std::string> issues;
 
             if (inBothSides)
-                issues.emplace_back("Tracked on BOTH Alliance and Horde WG sets (set leak)");
+                issues.emplace_back("同时被联盟与部落的冬拥湖集合追踪（集合泄漏）");
 
             if (fake && fake->FakeTeamID == fake->RealTeamID)
                 issues.emplace_back(Acore::StringFormat(
-                    "Stale fake record: FakeTeamID == RealTeamID ({})",
+                    "过期伪装记录：伪装队伍 == 真实队伍（{}）",
                     TeamIdName(fake->FakeTeamID)));
 
             if (coreTeam && !inBothSides && target->GetTeamId() != *coreTeam)
                 issues.emplace_back(Acore::StringFormat(
-                    "Current team ({}) does not match core WG side ({})",
+                    "当前队伍（{}）与核心冬拥湖阵营（{}）不一致",
                     TeamIdName(target->GetTeamId()), TeamIdName(*coreTeam)));
 
             if (fake && coreTeam && !inBothSides && fake->FakeTeamID != *coreTeam)
                 issues.emplace_back(Acore::StringFormat(
-                    "Fake team ({}) does not match core WG side ({})",
+                    "伪装队伍（{}）与核心冬拥湖阵营（{}）不一致",
                     TeamIdName(fake->FakeTeamID), TeamIdName(*coreTeam)));
 
             if (isFake && fake)
@@ -246,27 +246,27 @@ public:
                 bool const inFakeWarSet = (fake->FakeTeamID == TEAM_ALLIANCE) ? inWarA : inWarH;
                 if (inRealWarSet && !inFakeWarSet && fake->FakeTeamID != fake->RealTeamID)
                     issues.emplace_back(Acore::StringFormat(
-                        "Faked {} but sitting in core {} war set (battlegroup desync)",
+                        "已伪装为 {}，却处于核心 {} 的战斗集合中（战场组不同步）",
                         TeamIdName(fake->FakeTeamID), TeamIdName(fake->RealTeamID)));
             }
 
             if (inWGZone && wg->IsWarTime() && isFake && !inWarA && !inWarH && !invitedA && !invitedH)
-                issues.emplace_back("Faked in WG zone during war but absent from war/invited sets");
+                issues.emplace_back("战争期间在冬拥湖区域伪装，但不在战斗/邀请集合中");
 
             if (isFake && !inWGZone && !inBG)
-                issues.emplace_back("Faked outside WG zone with no battleground (cleanup leak)");
+                issues.emplace_back("在冬拥湖区域外伪装且不在战场中（清理泄漏）");
 
             if (inWGZone && isFake && !sCFBG->IsEnableWGSystem())
-                issues.emplace_back("Faked in WG zone but CFBG.Battlefield.Enable=0");
+                issues.emplace_back("在冬拥湖区域伪装，但 CFBG.Battlefield.Enable=0");
 
             handler->SendSysMessage(" ");
             if (issues.empty())
             {
-                handler->SendSysMessage("  Oddities: none");
+                handler->SendSysMessage("  异常：无");
             }
             else
             {
-                handler->PSendSysMessage("  Oddities ({}):", uint32(issues.size()));
+                handler->PSendSysMessage("  异常（{}）：", uint32(issues.size()));
                 for (std::string const& msg : issues)
                     handler->PSendSysMessage("    ! {}", msg);
             }
@@ -325,7 +325,7 @@ public:
 
         if (!bf)
         {
-            handler->SendErrorMessage("Battlefield {} not found.", battleId);
+            handler->SendErrorMessage("未找到战场 {}。", battleId);
             return false;
         }
 
@@ -335,11 +335,11 @@ public:
         uint32 const hordeWar     = bf->GetPlayersInWarCount(TEAM_HORDE);
         uint32 const maxPerTeam   = bf->GetMaxPlayersPerTeam();
 
-        handler->SendSysMessage(Acore::StringFormat("Battlefield {} | {}", battleId,
-            bf->IsWarTime() ? "WAR" : "PEACE").c_str());
-        handler->SendSysMessage(Acore::StringFormat("  Alliance: {} in zone, {} in war / {} max",
+        handler->SendSysMessage(Acore::StringFormat("战场 {} | {}", battleId,
+            bf->IsWarTime() ? "战争" : "和平").c_str());
+        handler->SendSysMessage(Acore::StringFormat("  联盟：{} 在区域内，{} 在战斗中 / 上限 {}",
             allianceZone, allianceWar, maxPerTeam).c_str());
-        handler->SendSysMessage(Acore::StringFormat("  Horde:    {} in zone, {} in war / {} max",
+        handler->SendSysMessage(Acore::StringFormat("  部落：{} 在区域内，{} 在战斗中 / 上限 {}",
             hordeZone, hordeWar, maxPerTeam).c_str());
 
         return true;

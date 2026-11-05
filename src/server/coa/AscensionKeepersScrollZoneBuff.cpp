@@ -63,8 +63,8 @@ std::string ZoneBlessingAnnouncement(Player const* player, ItemTemplate const* p
 {
     std::string icon = ItemIcon(proto);
     return Acore::StringFormat(
-        "{}|cff{}[Keeper's Scroll]|r {}{} used their |c{:08x}|Hitem:{}:0:0:0:0:0:0:0:0:0|h[{}]|h|r "
-        "to buff the zone with |cff71d5ff|Hspell:{}|h[{}]|h|r!",
+        "{}|cff{}[守护者的卷轴]|r {}{} 使用了 |c{:08x}|Hitem:{}:0:0:0:0:0:0:0:0:0|h[{}]|h|r "
+        "为本区域施加了 |cff71d5ff|Hspell:{}|h[{}]|h|r 增益！",
         icon, ANNOUNCE_TAG_COLOR, icon, player->GetName(), ItemQualityColors[proto->Quality], proto->ItemId,
         proto->Name1, spellInfo->Id, spellInfo->SpellName[LOCALE_enUS]);
 }
@@ -256,7 +256,7 @@ public:
 
         Spell::SendCastResult(player, spellInfo, castCount, SPELL_FAILED_AURA_BOUNCED);
         ChatHandler(player->GetSession()).PSendSysMessage(
-            "{} is already active in this zone.", spellInfo->SpellName[LOCALE_enUS]);
+            "{} 已在本区域生效。", spellInfo->SpellName[LOCALE_enUS]);
         return false;
     }
 

@@ -210,7 +210,7 @@ public:
         handler->PSendSysMessage(LANG_ARENA_INFO_HEADER, arena->GetName(), arena->GetId(), arena->GetRating(), arena->GetType(), arena->GetType());
 
         for (auto const& itr : arena->GetMembers())
-            handler->PSendSysMessage(LANG_ARENA_INFO_MEMBERS, itr.Name, itr.Guid.GetCounter(), itr.PersonalRating, (arena->GetCaptain() == itr.Guid ? "Captain" : ""));
+            handler->PSendSysMessage(LANG_ARENA_INFO_MEMBERS, itr.Name, itr.Guid.GetCounter(), itr.PersonalRating, (arena->GetCaptain() == itr.Guid ? "队长" : ""));
 
         return true;
     }
@@ -245,7 +245,7 @@ public:
         std::unique_ptr<ArenaTeamFilter> uniqueFilter = ArenaTeamFilterFactoryByUserInput().CreateFilterByUserInput(teamsFilterStr);
         if (!uniqueFilter)
         {
-            handler->PSendSysMessage("Invalid filter. Please check your input.");
+            handler->PSendSysMessage("过滤条件无效。请检查你的输入。");
             return false;
         }
 
@@ -253,22 +253,22 @@ public:
 
         if (!sArenaSeasonMgr->CanDeleteArenaTeams())
         {
-            handler->PSendSysMessage("Cannot proceed. Make sure there are no active arenas and that rewards exist for the current season.");
-            handler->PSendSysMessage("Hint: You can disable the arena queue using the following command: .arena season set state 0");
+            handler->PSendSysMessage("无法继续。请确保没有正在进行的竞技场，且当前赛季存在奖励。");
+            handler->PSendSysMessage("提示：你可以使用以下命令关闭竞技场队列：.arena season set state 0");
             return false;
         }
 
-        handler->PSendSysMessage("Distributing rewards for arena teams (types: "+teamsFilterStr+")...");
+        handler->PSendSysMessage("正在为竞技场队伍发放奖励（类型："+teamsFilterStr+")...");
         sArenaSeasonMgr->RewardTeamsForTheSeason(sharedFilter);
-        handler->PSendSysMessage("Rewards distributed.");
+        handler->PSendSysMessage("奖励已发放。");
         return true;
     }
 
     static bool HandleArenaSeasonDeleteTeamsCommand(ChatHandler* handler)
     {
-        handler->PSendSysMessage("Deleting arena teams...");
+        handler->PSendSysMessage("正在删除竞技场队伍…");
         sArenaSeasonMgr->DeleteArenaTeams();
-        handler->PSendSysMessage("Arena teams deleted.");
+        handler->PSendSysMessage("竞技场队伍已删除。");
         return true;
     }
 
@@ -277,19 +277,19 @@ public:
         if (seasonId == sArenaSeasonMgr->GetCurrentSeason())
         {
             sArenaSeasonMgr->SetSeasonState(ARENA_SEASON_STATE_IN_PROGRESS);
-            handler->PSendSysMessage("Arena season updated.");
+            handler->PSendSysMessage("竞技场赛季已更新。");
             return true;
         }
 
         const uint8 maxSeasonId = 8;
         if (seasonId > maxSeasonId)
         {
-            handler->PSendSysMessage("Invalid season id.");
+            handler->PSendSysMessage("赛季 ID 无效。");
             return false;
         }
 
         sArenaSeasonMgr->ChangeCurrentSeason(seasonId);
-        handler->PSendSysMessage("Arena season changed to season {}.", seasonId);
+        handler->PSendSysMessage("竞技场赛季已切换到第 {} 赛季。", seasonId);
         return true;
     }
 
@@ -304,12 +304,12 @@ public:
                 seasonState = ARENA_SEASON_STATE_IN_PROGRESS;
                 break;
             default:
-                handler->PSendSysMessage("Invalid state.");
+                handler->PSendSysMessage("状态无效。");
                 return false;
         }
 
         sArenaSeasonMgr->SetSeasonState(seasonState);
-        handler->PSendSysMessage("Arena season updated.");
+        handler->PSendSysMessage("竞技场赛季已更新。");
         return true;
     }
 

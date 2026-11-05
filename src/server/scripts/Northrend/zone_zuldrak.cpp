@@ -135,32 +135,32 @@ public:
             switch (counter)
             {
                 case 1:
-                    me->TextEmote("Quickly, get me some...", player, true);
+                    me->TextEmote("快，给我弄点……", player, true);
                     me->TextEmote(itemName, player, true);
                     me->CastSpell(player, auraId, true);
                     break;
                 case 2:
-                    me->TextEmote("Find me some...", player, true);
+                    me->TextEmote("帮我找点……", player, true);
                     me->TextEmote(itemName, player, true);
                     me->CastSpell(player, auraId, true);
                     break;
                 case 3:
-                    me->TextEmote("I think it needs...", player, true);
+                    me->TextEmote("我觉得它需要……", player, true);
                     me->TextEmote(itemName, player, true);
                     me->CastSpell(player, auraId, true);
                     break;
                 case 4:
-                    me->TextEmote("Alright, now fetch me some...", player, true);
+                    me->TextEmote("好，现在给我拿点……", player, true);
                     me->TextEmote(itemName, player, true);
                     me->CastSpell(player, auraId, true);
                     break;
                 case 5:
-                    me->TextEmote("Before it thickens, we must add...", player, true);
+                    me->TextEmote("在它变稠之前，我们必须加入……", player, true);
                     me->TextEmote(itemName, player, true);
                     me->CastSpell(player, auraId, true);
                     break;
                 case 6:
-                    me->TextEmote("It's thickening! Quickly get me some...", player, true);
+                    me->TextEmote("它变稠了！快给我弄点……", player, true);
                     me->TextEmote(itemName, player, true);
                     me->CastSpell(player, auraId, true);
                     break;
@@ -195,7 +195,7 @@ public:
         {
             if (creature->AI() && CAST_AI(npc_finklestein::npc_finklesteinAI, creature->AI()))
                 if (!CAST_AI(npc_finklestein::npc_finklesteinAI, creature->AI())->IsPlayerOnTask(player->GetGUID()))
-                    AddGossipItemFor(player, GOSSIP_ICON_CHAT, "I'm ready to begin. What is the first ingredient you require?", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 1);
+                    AddGossipItemFor(player, GOSSIP_ICON_CHAT, "我准备好开始了。你需要的第一种材料是什么？", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 1);
 
             SendGossipMenuFor(player, player->GetGossipTextId(creature), creature->GetGUID());
         }

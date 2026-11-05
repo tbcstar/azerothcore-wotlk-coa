@@ -33,7 +33,7 @@ namespace
         LOG_INFO("module", "LFG start point suggestion {} '{}' {} {} {} {} by {} (account {})", dungeon->ID, name,
             player->GetPositionX(), player->GetPositionY(), player->GetPositionZ(), player->GetOrientation(),
             player->GetName(), session->GetAccountId());
-        handler->PSendSysMessage("Thanks! Your start point for {} was saved as a suggestion.", name);
+        handler->PSendSysMessage("谢谢！你记录的 {} 起点已作为建议保存。", name);
     }
 
     void ApplyStartPoint(ChatHandler* handler, Player* player, LFGDungeonEntry const* dungeon)
@@ -52,7 +52,7 @@ namespace
             ++difficulties;
         }
         sLFGMgr->LoadLFGDungeons(true);
-        handler->PSendSysMessage("Dungeon finder: {} now starts here ({} difficulties).", name, difficulties);
+        handler->PSendSysMessage("地下城查找器：{} 现在从这里开始（{} 个难度）。", name, difficulties);
     }
 }
 
@@ -80,12 +80,12 @@ public:
         LFGDungeonEntry const* dungeon = sLFGDungeonStore.LookupEntry(dungeonId);
         if (!player || !dungeon)
         {
-            handler->SendErrorMessage("Unknown dungeon finder id {}.", dungeonId);
+            handler->SendErrorMessage("未知的地下城查找器 ID {}。", dungeonId);
             return false;
         }
         if (player->GetMapId() != dungeon->MapID)
         {
-            handler->SendErrorMessage("{} is on map {}, you are on map {}.", dungeon->Name[0], dungeon->MapID,
+            handler->SendErrorMessage("{} 位于地图 {}，你当前在地图 {}。", dungeon->Name[0], dungeon->MapID,
                 player->GetMapId());
             return false;
         }

@@ -48,7 +48,7 @@ public:
 
         if (!learned)
         {
-            ChatHandler(player->GetSession()).SendNotification("You already know every flight path of Azeroth.");
+            ChatHandler(player->GetSession()).SendNotification("你已经掌握了艾泽拉斯的所有飞行路线。");
             return true;
         }
 

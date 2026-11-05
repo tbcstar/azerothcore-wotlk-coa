@@ -77,7 +77,7 @@ public:
         auto const it = g_setCaches.find(item->GetEntry());
         if (it == g_setCaches.end() || it->second.empty())
         {
-            ChatHandler(player->GetSession()).PSendSysMessage("This cache is empty. Tell an administrator.");
+            ChatHandler(player->GetSession()).PSendSysMessage("这个宝箱是空的。请告知管理员。");
             return true;
         }
 
@@ -109,7 +109,7 @@ public:
             CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
             for (std::size_t index = 0; index < mail.size(); index += MAX_MAIL_ITEMS)
             {
-                MailDraft draft("Set cache", "Your bags were full, so the rest of your set was sent by mail.");
+                MailDraft draft("套装宝箱", "你的背包已满，因此套装中剩余的部分已通过邮件寄出。");
                 for (std::size_t i = index; i < std::min(index + std::size_t(MAX_MAIL_ITEMS), mail.size()); ++i)
                 {
                     mail[i]->SaveToDB(trans);

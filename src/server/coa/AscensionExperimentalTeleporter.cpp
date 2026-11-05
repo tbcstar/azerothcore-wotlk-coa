@@ -126,7 +126,7 @@ void Teleport(Player* player, Destination const& destination)
 {
     if (player->HasAura(SPELL_TELEPORTER_LOCKOUT))
     {
-        ChatHandler(player->GetSession()).SendNotification("The teleporter is still recharging.");
+        ChatHandler(player->GetSession()).SendNotification("传送器仍在充能中。");
         return;
     }
 

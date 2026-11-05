@@ -96,7 +96,7 @@ bool OpenFireLordCache(Player* player, Item* item)
     if (!PickReward(tier, rewardItem))
     {
         ChatHandler(player->GetSession()).SendSysMessage(
-            "The cache holds nothing for this raid difficulty.");
+            "该团队副本难度下的宝箱中没有可用的物品。");
         return true;
     }
 

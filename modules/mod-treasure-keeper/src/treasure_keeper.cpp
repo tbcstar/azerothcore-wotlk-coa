@@ -11,7 +11,7 @@
  *
  * Their own text is the whole specification:
  *
- *     "Right Click to summon and dismiss your companion, that acts as a portable bank while in
+ *     "右键点击可召唤或解散你的伙伴，它可作为随身银行使用，仅在
  *      safe zones. Cannot be summoned in High-Risk Open World."
  *
  * The bank they open is the *native* one - not this realm's personal/realm banks, which are
@@ -157,8 +157,8 @@ struct Ruleset
 [[nodiscard]] char const* RefusalText(Player* player)
 {
     return player->HasAura(SPELL_HIGH_RISK)
-               ? "Your Treasure Keeper cannot be summoned in High-Risk Open World."
-               : "Your Treasure Keeper cannot be summoned while War Mode is active.";
+               ? "你的宝物守护者无法在高风险开放世界中召唤。"
+               : "战争模式开启时无法召唤你的宝物守护者。";
 }
 
 /// The same rules, said about the companion that is already out: the item limits where it may be
@@ -167,8 +167,8 @@ struct Ruleset
 [[nodiscard]] char const* UseRefusalText(Player* player)
 {
     return player->HasAura(SPELL_HIGH_RISK)
-               ? "Your Treasure Keeper cannot be used in High-Risk Open World."
-               : "Your Treasure Keeper cannot be used while War Mode is active.";
+               ? "你的宝物守护者无法在高风险开放世界中使用。"
+               : "战争模式开启时无法使用你的宝物守护者。";
 }
 
 /// Whether the character stands in a city - Stormwind, Orgrimmar, the Undercity, Thunder Bluff,

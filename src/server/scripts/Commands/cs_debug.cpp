@@ -140,14 +140,14 @@ public:
         // Dump camera locations
         if (std::vector<FlyByCamera> const* flyByCameras = GetFlyByCameras(cineSeq->cinematicCamera))
         {
-            handler->PSendSysMessage("Waypoints for sequence {}, camera {}", cinematicId, cineSeq->cinematicCamera);
+            handler->PSendSysMessage("路径点：序列 {}，镜头 {}", cinematicId, cineSeq->cinematicCamera);
             uint32 count = 1;
             for (FlyByCamera const& cam : *flyByCameras)
             {
-                handler->PSendSysMessage("{} - {}ms [{} ({} degrees)]", count, cam.timeStamp, cam.locations.ToString(), cam.locations.GetOrientation() * (180 / M_PI));
+                handler->PSendSysMessage("{} - {} 毫秒 [{}（{} 度）]", count, cam.timeStamp, cam.locations.ToString(), cam.locations.GetOrientation() * (180 / M_PI));
                 ++count;
             }
-            handler->PSendSysMessage("{} waypoints dumped", flyByCameras->size());
+            handler->PSendSysMessage("已导出 {} 个路径点", flyByCameras->size());
         }
 
         handler->GetPlayer()->GetCinematicMgr().StartCinematic(cinematicId);
@@ -443,7 +443,7 @@ public:
             }
             else
             {
-                LOG_ERROR("network.opcode", "Sending opcode that has unknown type '{}'", type);
+                LOG_ERROR("network.opcode", "发送的操作码类型未知：'{}'", type);
                 break;
             }
         }
@@ -508,9 +508,9 @@ public:
         if (!target)
             return false;
 
-        handler->PSendSysMessage("Loot recipient for creature {} (GUID {}, SpawnID {}) is {}",
+        handler->PSendSysMessage("生物 {}（GUID {}，生成ID {}）的拾取者：{}",
             target->GetName(), target->GetGUID().ToString(), target->GetSpawnId(),
-            target->hasLootRecipient() ? (target->GetLootRecipient() ? target->GetLootRecipient()->GetName() : "offline") : "no loot recipient");
+            target->hasLootRecipient() ? (target->GetLootRecipient() ? target->GetLootRecipient()->GetName() : "offline") : "没有拾取者");
         return true;
     }
 
@@ -547,7 +547,7 @@ public:
 
         if (!listQueue && !checkAll)
         {
-            itemState = "The player has the following " + itemState + " items: ";
+            itemState = "玩家拥有以下 " + itemState + " 件物品：";
             handler->SendSysMessage(itemState.c_str());
             for (uint8 i = PLAYER_SLOT_START; i < PLAYER_SLOT_END; ++i)
             {
@@ -561,10 +561,10 @@ public:
                         for (uint8 j = 0; j < bag->GetBagSize(); ++j)
                             if (Item* item2 = bag->GetItemByPos(j))
                                 if (item2->GetState() == state)
-                                    handler->PSendSysMessage("bag: 255 slot: {} {} owner: {}", item2->GetSlot(), item2->GetGUID().ToString(), item2->GetOwnerGUID().ToString());
+                                    handler->PSendSysMessage("包裹：255 槽位：{} {} 所有者：{}", item2->GetSlot(), item2->GetGUID().ToString(), item2->GetOwnerGUID().ToString());
                     }
                     else if (item->GetState() == state)
-                        handler->PSendSysMessage("bag: 255 slot: {} {} owner: {}", item->GetSlot(), item->GetGUID().ToString(), item->GetOwnerGUID().ToString());
+                        handler->PSendSysMessage("包裹：255 槽位：{} {} 所有者：{}", item->GetSlot(), item->GetGUID().ToString(), item->GetOwnerGUID().ToString());
                 }
             }
         }
@@ -595,11 +595,11 @@ public:
                     break;
                 }
 
-                handler->PSendSysMessage("bag: {} slot: {} guid: {} - state: {}", bagSlot, item->GetSlot(), item->GetGUID().ToString(), st);
+                handler->PSendSysMessage("包裹：{} 槽位：{} guid：{} - 状态：{}", bagSlot, item->GetSlot(), item->GetGUID().ToString(), st);
             }
 
             if (updateQueue.empty())
-                handler->PSendSysMessage("The player's updatequeue is empty");
+                handler->PSendSysMessage("玩家的更新队列为空");
         }
 
         if (checkAll)
@@ -617,21 +617,21 @@ public:
 
                 if (item->GetSlot() != i)
                 {
-                    handler->PSendSysMessage("Item with slot {} and guid {} has an incorrect slot value: {}", i, item->GetGUID().ToString(), item->GetSlot());
+                    handler->PSendSysMessage("槽位 {}、guid {} 的物品槽位值不正确：{}", i, item->GetGUID().ToString(), item->GetSlot());
                     error = true;
                     continue;
                 }
 
                 if (item->GetOwnerGUID() != player->GetGUID())
                 {
-                    handler->PSendSysMessage("The item with slot {} {} does have non-matching owner guid {} and {}!", item->GetSlot(), item->GetGUID().ToString(), item->GetOwnerGUID().ToString(), player->GetGUID().ToString());
+                    handler->PSendSysMessage("槽位 {} {} 的物品所有者 guid {} 与 {} 不匹配！", item->GetSlot(), item->GetGUID().ToString(), item->GetOwnerGUID().ToString(), player->GetGUID().ToString());
                     error = true;
                     continue;
                 }
 
                 if (Bag* container = item->GetContainer())
                 {
-                    handler->PSendSysMessage("The item with slot {} {} has a container (slot: {}, {}) but shouldn't!", item->GetSlot(), item->GetGUID().ToString(), container->GetSlot(), container->GetGUID().ToString());
+                    handler->PSendSysMessage("槽位 {} {} 的物品不应有容器（槽位：{}，{}），却存在！", item->GetSlot(), item->GetGUID().ToString(), container->GetSlot(), container->GetGUID().ToString());
                     error = true;
                     continue;
                 }
@@ -641,28 +641,28 @@ public:
                     uint16 qp = item->GetQueuePos();
                     if (qp > updateQueue.size())
                     {
-                        handler->PSendSysMessage("The item with slot {} and guid {} has its queuepos ({}) larger than the update queue size! ", item->GetSlot(), item->GetGUID().ToString(), qp);
+                        handler->PSendSysMessage("槽位 {}、guid {} 的物品队列位置（{}）超出更新队列长度！", item->GetSlot(), item->GetGUID().ToString(), qp);
                         error = true;
                         continue;
                     }
 
                     if (!updateQueue[qp])
                     {
-                        handler->PSendSysMessage("The item with slot {} and guid {} has its queuepos ({}) pointing to NULL in the queue!", item->GetSlot(), item->GetGUID().ToString(), qp);
+                        handler->PSendSysMessage("槽位 {}、guid {} 的物品队列位置（{}）指向队列中的 NULL！", item->GetSlot(), item->GetGUID().ToString(), qp);
                         error = true;
                         continue;
                     }
 
                     if (updateQueue[qp] != item)
                     {
-                        handler->PSendSysMessage("The item with slot {} and guid {} has a queuepos ({}) that points to another item in the queue (bag: {}, slot: {}, guid: {})", item->GetSlot(), item->GetGUID().ToString(), qp, updateQueue[qp]->GetBagSlot(), updateQueue[qp]->GetSlot(), updateQueue[qp]->GetGUID().ToString());
+                        handler->PSendSysMessage("槽位 {}、guid {} 的物品队列位置（{}）指向队列中的另一件物品（包裹：{}，槽位：{}，guid：{}）", item->GetSlot(), item->GetGUID().ToString(), qp, updateQueue[qp]->GetBagSlot(), updateQueue[qp]->GetSlot(), updateQueue[qp]->GetGUID().ToString());
                         error = true;
                         continue;
                     }
                 }
                 else if (item->GetState() != ITEM_UNCHANGED)
                 {
-                    handler->PSendSysMessage("The item with slot {} and guid {} is not in queue but should be (state: {})!", item->GetSlot(), item->GetGUID().ToString(), item->GetState());
+                    handler->PSendSysMessage("槽位 {}、guid {} 的物品不在队列中，但应当在（状态：{}）！", item->GetSlot(), item->GetGUID().ToString(), item->GetState());
                     error = true;
                     continue;
                 }
@@ -677,14 +677,14 @@ public:
 
                         if (item2->GetSlot() != j)
                         {
-                            handler->PSendSysMessage("The item in bag {} and slot {} (guid: {}) has an incorrect slot value: {}", bag->GetSlot(), j, item2->GetGUID().ToString(), item2->GetSlot());
+                            handler->PSendSysMessage("包裹 {}、槽位 {}（guid：{}）中的物品槽位值不正确：{}", bag->GetSlot(), j, item2->GetGUID().ToString(), item2->GetSlot());
                             error = true;
                             continue;
                         }
 
                         if (item2->GetOwnerGUID() != player->GetGUID())
                         {
-                            handler->PSendSysMessage("The item in bag {} at slot {} and {}, the owner ({}) and the player ({}) don't match!", bag->GetSlot(), item2->GetSlot(), item2->GetGUID().ToString(), item2->GetOwnerGUID().ToString(), player->GetGUID().ToString());
+                            handler->PSendSysMessage("包裹 {} 槽位 {} 与 {} 的物品，所有者（{}）与玩家（{}）不匹配！", bag->GetSlot(), item2->GetSlot(), item2->GetGUID().ToString(), item2->GetOwnerGUID().ToString(), player->GetGUID().ToString());
                             error = true;
                             continue;
                         }
@@ -692,14 +692,14 @@ public:
                         Bag* container = item2->GetContainer();
                         if (!container)
                         {
-                            handler->PSendSysMessage("The item in bag {} at slot {} {} has no container!", bag->GetSlot(), item2->GetSlot(), item2->GetGUID().ToString());
+                            handler->PSendSysMessage("包裹 {} 槽位 {} 的物品 {} 没有容器！", bag->GetSlot(), item2->GetSlot(), item2->GetGUID().ToString());
                             error = true;
                             continue;
                         }
 
                         if (container != bag)
                         {
-                            handler->PSendSysMessage("The item in bag {} at slot {} {} has a different container(slot {} {})!", bag->GetSlot(), item2->GetSlot(), item2->GetGUID().ToString(), container->GetSlot(), container->GetGUID().ToString());
+                            handler->PSendSysMessage("包裹 {} 槽位 {} 的物品 {} 容器不同（槽位 {} {}）！", bag->GetSlot(), item2->GetSlot(), item2->GetGUID().ToString(), container->GetSlot(), container->GetGUID().ToString());
                             error = true;
                             continue;
                         }
@@ -709,28 +709,28 @@ public:
                             uint16 qp = item2->GetQueuePos();
                             if (qp > updateQueue.size())
                             {
-                                handler->PSendSysMessage("The item in bag {} at slot {} having guid {} has a queuepos ({}) larger than the update queue size! ", bag->GetSlot(), item2->GetSlot(), item2->GetGUID().ToString(), qp);
+                                handler->PSendSysMessage("包裹 {} 槽位 {}、guid {} 的物品队列位置（{}）超出更新队列长度！", bag->GetSlot(), item2->GetSlot(), item2->GetGUID().ToString(), qp);
                                 error = true;
                                 continue;
                             }
 
                             if (!updateQueue[qp])
                             {
-                                handler->PSendSysMessage("The item in bag {} at slot {} having guid {} has a queuepos ({}) that points to NULL in the queue!", bag->GetSlot(), item2->GetSlot(), item2->GetGUID().ToString(), qp);
+                                handler->PSendSysMessage("包裹 {} 槽位 {}、guid {} 的物品队列位置（{}）指向队列中的 NULL！", bag->GetSlot(), item2->GetSlot(), item2->GetGUID().ToString(), qp);
                                 error = true;
                                 continue;
                             }
 
                             if (updateQueue[qp] != item2)
                             {
-                                handler->PSendSysMessage("The item in bag {} at slot {} having guid {} has a queuepos ({}) that points to another item in the queue (bag: {}, slot: {}, guid: {})", bag->GetSlot(), item2->GetSlot(), item2->GetGUID().ToString(), qp, updateQueue[qp]->GetBagSlot(), updateQueue[qp]->GetSlot(), updateQueue[qp]->GetGUID().ToString());
+                                handler->PSendSysMessage("包裹 {} 槽位 {}、guid {} 的物品队列位置（{}）指向队列中的另一件物品（包裹：{}，槽位：{}，guid：{}）", bag->GetSlot(), item2->GetSlot(), item2->GetGUID().ToString(), qp, updateQueue[qp]->GetBagSlot(), updateQueue[qp]->GetSlot(), updateQueue[qp]->GetGUID().ToString());
                                 error = true;
                                 continue;
                             }
                         }
                         else if (item2->GetState() != ITEM_UNCHANGED)
                         {
-                            handler->PSendSysMessage("The item in bag {} at slot {} having guid {} is not in queue but should be (state: {})!", bag->GetSlot(), item2->GetSlot(), item2->GetGUID().ToString(), item2->GetState());
+                            handler->PSendSysMessage("包裹 {} 槽位 {}、guid {} 的物品不在队列中，但应当在（状态：{}）！", bag->GetSlot(), item2->GetSlot(), item2->GetGUID().ToString(), item2->GetState());
                             error = true;
                             continue;
                         }
@@ -746,14 +746,14 @@ public:
 
                 if (item->GetOwnerGUID() != player->GetGUID())
                 {
-                    handler->SendSysMessage(Acore::StringFormat("queue({}): For the item {}, the owner ({}) and the player ({}) don't match!", index, item->GetGUID().ToString(), item->GetOwnerGUID().ToString(), player->GetGUID().ToString()));
+                    handler->SendSysMessage(Acore::StringFormat("队列（{}）：物品 {} 的所有者（{}）与玩家（{}）不匹配！", index, item->GetGUID().ToString(), item->GetOwnerGUID().ToString(), player->GetGUID().ToString()));
                     error = true;
                     continue;
                 }
 
                 if (item->GetQueuePos() != index)
                 {
-                    handler->SendSysMessage(Acore::StringFormat("queue({}): For the item {}, the queuepos doesn't match it's position in the queue!", index, item->GetGUID().ToString()));
+                    handler->SendSysMessage(Acore::StringFormat("队列（{}）：物品 {} 的队列位置与它在队列中的实际位置不符！", index, item->GetGUID().ToString()));
                     error = true;
                     continue;
                 }
@@ -765,21 +765,21 @@ public:
 
                 if (!test)
                 {
-                    handler->SendSysMessage(Acore::StringFormat("queue({}): The bag({}) and slot({}) values for {} are incorrect, the player doesn't have any item at that position!", index, item->GetBagSlot(), item->GetSlot(), item->GetGUID().ToString()));
+                    handler->SendSysMessage(Acore::StringFormat("队列（{}）：{} 的包裹（{}）与槽位（{}）值不正确，玩家在该位置没有任何物品！", index, item->GetBagSlot(), item->GetSlot(), item->GetGUID().ToString()));
                     error = true;
                     continue;
                 }
 
                 if (test != item)
                 {
-                    handler->SendSysMessage(Acore::StringFormat("queue({}): The bag({}) and slot({}) values for the {} are incorrect, {} is there instead!", index, item->GetBagSlot(), item->GetSlot(), item->GetGUID().ToString(), test->GetGUID().ToString()));
+                    handler->SendSysMessage(Acore::StringFormat("队列（{}）：{} 的包裹（{}）与槽位（{}）值不正确，该位置实际是 {}！", index, item->GetBagSlot(), item->GetSlot(), item->GetGUID().ToString(), test->GetGUID().ToString()));
                     error = true;
                     continue;
                 }
             }
 
             if (!error)
-                handler->SendSysMessage("All OK!");
+                handler->SendSysMessage("全部正常！");
         }
 
         return true;
@@ -839,23 +839,23 @@ public:
         ThreatManager& mgr = target->GetThreatMgr();
         if (!target->IsAlive())
         {
-            handler->PSendSysMessage("{} ({}) is not alive.{}", target->GetName(), target->GetGUID().ToString(), target->IsEngaged() ? " (It is, however, engaged. Huh?)" : "");
+            handler->PSendSysMessage("{}（{}）没有存活。{}", target->GetName(), target->GetGUID().ToString(), target->IsEngaged() ? "（不过它仍在交战中，奇怪？）" : "");
             return true;
         }
 
         uint32 count = 0;
         auto const& threatenedByMe = target->GetThreatMgr().GetThreatenedByMeList();
         if (threatenedByMe.empty())
-            handler->PSendSysMessage("{} ({}) does not threaten any units.", target->GetName(), target->GetGUID().ToString());
+            handler->PSendSysMessage("{}（{}）没有威胁任何单位。", target->GetName(), target->GetGUID().ToString());
         else
         {
-            handler->PSendSysMessage("List of units threatened by {} ({})", target->GetName(), target->GetGUID().ToString());
+            handler->PSendSysMessage("被 {}（{}）威胁的单位列表", target->GetName(), target->GetGUID().ToString());
             for (auto const& pair : threatenedByMe)
             {
                 Unit* unit = pair.second->GetOwner();
-                handler->PSendSysMessage("   {}.   {}   ({}, SpawnID {})  - threat {}", ++count, unit->GetName(), unit->GetGUID().ToString(), unit->IsCreature() ? unit->ToCreature()->GetSpawnId() : 0, pair.second->GetThreat());
+                handler->PSendSysMessage("   {}.   {}   （{}，生成ID {}）  - 仇恨 {}", ++count, unit->GetName(), unit->GetGUID().ToString(), unit->IsCreature() ? unit->ToCreature()->GetSpawnId() : 0, pair.second->GetThreat());
             }
-            handler->SendSysMessage("End of threatened-by-me list.");
+            handler->SendSysMessage("被威胁单位列表结束。");
         }
 
         if (mgr.CanHaveThreatList())
@@ -863,9 +863,9 @@ public:
             if (!mgr.IsThreatListEmpty(true))
             {
                 if (target->IsEngaged())
-                    handler->PSendSysMessage("Threat list of {} ({}, SpawnID {}):", target->GetName(), target->GetGUID().ToString(), target->IsCreature() ? target->ToCreature()->GetSpawnId() : 0);
+                    handler->PSendSysMessage("{}（{}，生成ID {}）的仇恨列表：", target->GetName(), target->GetGUID().ToString(), target->IsCreature() ? target->ToCreature()->GetSpawnId() : 0);
                 else
-                    handler->PSendSysMessage("{} ({}, SpawnID {}) is not engaged, but still has a threat list? Well, here it is:", target->GetName(), target->GetGUID().ToString(), target->IsCreature() ? target->ToCreature()->GetSpawnId() : 0);
+                    handler->PSendSysMessage("{}（{}，生成ID {}）并未交战，却仍持有仇恨列表？好吧，它在这里：", target->GetName(), target->GetGUID().ToString(), target->IsCreature() ? target->ToCreature()->GetSpawnId() : 0);
 
                 count = 0;
                 Unit* fixateVictim = mgr.GetFixateTarget();
@@ -876,42 +876,42 @@ public:
                     switch (ref->GetOnlineState())
                     {
                         case ThreatReference::ONLINE_STATE_SUPPRESSED:
-                            onlineStr = " [SUPPRESSED]";
+                            onlineStr = " [已抑制]";
                             break;
                         case ThreatReference::ONLINE_STATE_OFFLINE:
-                            onlineStr = " [OFFLINE]";
+                            onlineStr = " [离线]";
                             break;
                         default:
                             onlineStr = "";
                     }
                     char const* tauntStr;
                     if (unit == fixateVictim)
-                        tauntStr = " [FIXATE]";
+                        tauntStr = " [锁定]";
                     else
                         switch (ref->GetTauntState())
                         {
                             case ThreatReference::TAUNT_STATE_TAUNT:
-                                tauntStr = " [TAUNT]";
+                                tauntStr = " [嘲讽]";
                                 break;
                             case ThreatReference::TAUNT_STATE_DETAUNT:
-                                tauntStr = " [DETAUNT]";
+                                tauntStr = " [消除嘲讽]";
                                 break;
                             default:
                                 tauntStr = "";
                         }
-                    handler->PSendSysMessage("   {}.   {}   ({})  - threat {}{}{}", ++count, unit->GetName(), unit->GetGUID().ToString(), ref->GetThreat(), tauntStr, onlineStr);
+                    handler->PSendSysMessage("   {}.   {}   （{}）  - 仇恨 {}{}{}", ++count, unit->GetName(), unit->GetGUID().ToString(), ref->GetThreat(), tauntStr, onlineStr);
                 }
-                handler->SendSysMessage("End of threat list.");
+                handler->SendSysMessage("仇恨列表结束。");
             }
             else if (!target->IsEngaged())
-                handler->PSendSysMessage("{} ({}, SpawnID {}) is not currently engaged.", target->GetName(), target->GetGUID().ToString(), target->IsCreature() ? target->ToCreature()->GetSpawnId() : 0);
+                handler->PSendSysMessage("{}（{}，生成ID {}）当前并未交战。", target->GetName(), target->GetGUID().ToString(), target->IsCreature() ? target->ToCreature()->GetSpawnId() : 0);
             else
-                handler->PSendSysMessage("{} ({}, SpawnID {}) seems to be engaged, but does not have a threat list??", target->GetName(), target->GetGUID().ToString(), target->IsCreature() ? target->ToCreature()->GetSpawnId() : 0);
+                handler->PSendSysMessage("{}（{}，生成ID {}）似乎正在交战，却没有仇恨列表？？", target->GetName(), target->GetGUID().ToString(), target->IsCreature() ? target->ToCreature()->GetSpawnId() : 0);
         }
         else if (target->IsEngaged())
-            handler->PSendSysMessage("{} ({}) is currently engaged. (This unit cannot have a threat list.)", target->GetName(), target->GetGUID().ToString());
+            handler->PSendSysMessage("{}（{}）当前正在交战。（该单位不能持有仇恨列表。）", target->GetName(), target->GetGUID().ToString());
         else
-            handler->PSendSysMessage("{} ({}) is not currently engaged. (This unit cannot have a threat list.)", target->GetName(), target->GetGUID().ToString());
+            handler->PSendSysMessage("{}（{}）当前并未交战。（该单位不能持有仇恨列表。）", target->GetName(), target->GetGUID().ToString());
 
         return true;
     }
@@ -926,43 +926,43 @@ public:
             return false;
         }
 
-        handler->PSendSysMessage("Threat info for {} ({}):", target->GetName(), target->GetGUID().ToString());
+        handler->PSendSysMessage("{}（{}）的仇恨信息：", target->GetName(), target->GetGUID().ToString());
 
         ThreatManager const& mgr = target->GetThreatMgr();
 
         // _singleSchoolModifiers
         {
             auto& mods = mgr._singleSchoolModifiers;
-            handler->SendSysMessage(" - Single-school threat modifiers:");
-            handler->PSendSysMessage(" |-- Physical: {:.2f}%", mods[SPELL_SCHOOL_NORMAL] * 100.0f);
-            handler->PSendSysMessage(" |-- Holy    : {:.2f}%", mods[SPELL_SCHOOL_HOLY] * 100.0f);
-            handler->PSendSysMessage(" |-- Fire    : {:.2f}%", mods[SPELL_SCHOOL_FIRE] * 100.0f);
-            handler->PSendSysMessage(" |-- Nature  : {:.2f}%", mods[SPELL_SCHOOL_NATURE] * 100.0f);
-            handler->PSendSysMessage(" |-- Frost   : {:.2f}%", mods[SPELL_SCHOOL_FROST] * 100.0f);
-            handler->PSendSysMessage(" |-- Shadow  : {:.2f}%", mods[SPELL_SCHOOL_SHADOW] * 100.0f);
-            handler->PSendSysMessage(" |-- Arcane  : {:.2f}%", mods[SPELL_SCHOOL_ARCANE] * 100.0f);
+            handler->SendSysMessage(" - 单系仇恨修正：");
+            handler->PSendSysMessage(" |-- 物理：{:.2f}%", mods[SPELL_SCHOOL_NORMAL] * 100.0f);
+            handler->PSendSysMessage(" |-- 神圣    ：{:.2f}%", mods[SPELL_SCHOOL_HOLY] * 100.0f);
+            handler->PSendSysMessage(" |-- 火焰    ：{:.2f}%", mods[SPELL_SCHOOL_FIRE] * 100.0f);
+            handler->PSendSysMessage(" |-- 自然  ：{:.2f}%", mods[SPELL_SCHOOL_NATURE] * 100.0f);
+            handler->PSendSysMessage(" |-- 冰霜   ：{:.2f}%", mods[SPELL_SCHOOL_FROST] * 100.0f);
+            handler->PSendSysMessage(" |-- 暗影  ：{:.2f}%", mods[SPELL_SCHOOL_SHADOW] * 100.0f);
+            handler->PSendSysMessage(" |-- 奥术  ：{:.2f}%", mods[SPELL_SCHOOL_ARCANE] * 100.0f);
         }
 
         // _multiSchoolModifiers
         {
             auto& mods = mgr._multiSchoolModifiers;
-            handler->PSendSysMessage(" - Multi-school threat modifiers ({} entries):", mods.size());
+            handler->PSendSysMessage(" - 多系仇恨修正（{} 条）：", mods.size());
             for (auto const& pair : mods)
-                handler->PSendSysMessage(" |-- Mask 0x{:x}: {:.2f}%", uint32(pair.first), pair.second * 100.0f);
+                handler->PSendSysMessage(" |-- 掩码 0x{:x}：{:.2f}%", uint32(pair.first), pair.second * 100.0f);
         }
 
         // _redirectInfo
         {
             auto const& redirectInfo = mgr._redirectInfo;
             if (redirectInfo.empty())
-                handler->SendSysMessage(" - No redirects being applied");
+                handler->SendSysMessage(" - 没有应用任何重定向");
             else
             {
-                handler->PSendSysMessage(" - {:02} redirects being applied:", redirectInfo.size());
+                handler->PSendSysMessage(" - 正在应用 {:02} 条重定向：", redirectInfo.size());
                 for (auto const& pair : redirectInfo)
                 {
                     Unit* unit = ObjectAccessor::GetUnit(*target, pair.first);
-                    handler->PSendSysMessage(" |-- {:02}% to {}", pair.second, unit ? unit->GetName() : pair.first.ToString());
+                    handler->PSendSysMessage(" |-- {:02}% 转到 {}", pair.second, unit ? unit->GetName() : pair.first.ToString());
                 }
             }
         }
@@ -971,18 +971,18 @@ public:
         {
             auto const& redirectRegistry = mgr._redirectRegistry;
             if (redirectRegistry.empty())
-                handler->SendSysMessage(" - No redirects are registered");
+                handler->SendSysMessage(" - 没有注册任何重定向");
             else
             {
-                handler->PSendSysMessage(" - {:02} spells may have redirects registered", redirectRegistry.size());
+                handler->PSendSysMessage(" - {:02} 个法术可能注册了重定向", redirectRegistry.size());
                 for (auto const& outerPair : redirectRegistry)
                 {
                     SpellInfo const* const spell = sSpellMgr->GetSpellInfo(outerPair.first);
-                    handler->PSendSysMessage(" |-- #{:06} {} ({} entries):", outerPair.first, spell ? spell->SpellName[0] : "<unknown>", outerPair.second.size());
+                    handler->PSendSysMessage(" |-- #{:06} {}（{} 条）：", outerPair.first, spell ? spell->SpellName[0] : "<unknown>", outerPair.second.size());
                     for (auto const& innerPair : outerPair.second)
                     {
                         Unit* unit = ObjectAccessor::GetUnit(*target, innerPair.first);
-                        handler->PSendSysMessage("   |-- {:02}% to {}", innerPair.second, unit ? unit->GetName() : innerPair.first.ToString());
+                        handler->PSendSysMessage("   |-- {:02}% 转到 {}", innerPair.second, unit ? unit->GetName() : innerPair.first.ToString());
                     }
                 }
             }
@@ -997,16 +997,16 @@ public:
         if (!target)
             target = handler->GetPlayer();
 
-        handler->PSendSysMessage("Combat refs: (Combat state: {} | Manager state: {})", target->IsInCombat(), target->GetCombatManager().HasCombat());
+        handler->PSendSysMessage("战斗引用：（战斗状态：{} | 管理器状态：{}）", target->IsInCombat(), target->GetCombatManager().HasCombat());
         for (auto const& ref : target->GetCombatManager().GetPvPCombatRefs())
         {
             Unit* unit = ref.second->GetOther(target);
-            handler->PSendSysMessage("[PvP] {} (SpawnID {})", unit->GetName(), unit->IsCreature() ? unit->ToCreature()->GetSpawnId() : 0);
+            handler->PSendSysMessage("[PvP] {}（生成ID {}）", unit->GetName(), unit->IsCreature() ? unit->ToCreature()->GetSpawnId() : 0);
         }
         for (auto const& ref : target->GetCombatManager().GetPvECombatRefs())
         {
             Unit* unit = ref.second->GetOther(target);
-            handler->PSendSysMessage("[PvE] {} (SpawnID {})", unit->GetName(), unit->IsCreature() ? unit->ToCreature()->GetSpawnId() : 0);
+            handler->PSendSysMessage("[PvE] {}（生成ID {}）", unit->GetName(), unit->IsCreature() ? unit->ToCreature()->GetSpawnId() : 0);
         }
         return true;
     }
@@ -1019,7 +1019,7 @@ public:
 
         uint32 count = 0;
 
-        handler->PSendSysMessage("Threatened by me list of {} ({})", target->GetName(), target->GetGUID().ToString());
+        handler->PSendSysMessage("{}（{}）威胁的单位列表", target->GetName(), target->GetGUID().ToString());
 
         for (auto const& pair : target->GetThreatMgr().GetThreatenedByMeList())
         {
@@ -1029,34 +1029,34 @@ public:
             {
                 std::string stateStr = "";
                 if (ref->IsOffline())
-                    stateStr = "[offline] ";
+                    stateStr = "[离线] ";
                 else if (ref->IsSuppressed())
-                    stateStr = "[suppressed] ";
+                    stateStr = "[已抑制] ";
 
-                handler->PSendSysMessage("   {}.   {}{}   ({})  - threat {}", ++count, stateStr,
+                handler->PSendSysMessage("   {}.   {}{}   （{}）  - 仇恨 {}", ++count, stateStr,
                     owner->GetName(), owner->GetGUID().ToString(), ref->GetThreat());
             }
             else
             {
-                handler->PSendSysMessage("   {}.   No Owner  - threat {}", ++count, ref->GetThreat());
+                handler->PSendSysMessage("   {}.   无所有者  - 仇恨 {}", ++count, ref->GetThreat());
             }
         }
 
-        handler->SendSysMessage("End of threatened by me list.");
+        handler->SendSysMessage("威胁单位列表结束。");
 
         // Also show combat refs that may not appear in the threat list
         // (e.g. creatures without threat lists like triggers/environmental hazards)
-        handler->PSendSysMessage("Combat refs (InCombat: {} | HasCombat: {})", target->IsInCombat(), target->GetCombatManager().HasCombat());
+        handler->PSendSysMessage("战斗引用（战斗中：{} | 拥有战斗：{}）", target->IsInCombat(), target->GetCombatManager().HasCombat());
         for (auto const& ref : target->GetCombatManager().GetPvECombatRefs())
         {
             Unit* unit = ref.second->GetOther(target);
-            handler->PSendSysMessage("   [PvE] {} ({}) Entry: {}", unit->GetName(), unit->GetGUID().ToString(),
+            handler->PSendSysMessage("   [PvE] {}（{}）条目：{}", unit->GetName(), unit->GetGUID().ToString(),
                 unit->IsCreature() ? unit->ToCreature()->GetEntry() : 0);
         }
         for (auto const& ref : target->GetCombatManager().GetPvPCombatRefs())
         {
             Unit* unit = ref.second->GetOther(target);
-            handler->PSendSysMessage("   [PvP] {} ({})", unit->GetName(), unit->GetGUID().ToString());
+            handler->PSendSysMessage("   [PvP] {}（{}）", unit->GetName(), unit->GetGUID().ToString());
         }
 
         return true;
@@ -1069,7 +1069,7 @@ public:
             return false;
 
         //target->SetVehicleId(id);
-        handler->PSendSysMessage("Vehicle id set to {}", id);
+        handler->PSendSysMessage("载具 ID 已设为 {}", id);
         return true;
     }
 
@@ -1097,7 +1097,7 @@ public:
             passenger->EnterVehicle(target, *seatId);
         }
 
-        handler->PSendSysMessage("Unit {} entered vehicle {:d}", entry, *seatId);
+        handler->PSendSysMessage("单位 {} 进入了载具 {:d}", entry, *seatId);
         return true;
     }
 
@@ -1139,7 +1139,7 @@ public:
         std::ostringstream ss;
 
         while (ss.str().size() < 128000)
-            ss << "This is a dummy string to push the packet's size beyond 128000 bytes. ";
+            ss << "这是一条用于把数据包大小推过 128000 字节的占位字符串。";
 
         handler->SendSysMessage(ss.str().c_str());
         return true;
@@ -1163,7 +1163,7 @@ public:
 
         uint32 value = i->GetUInt32Value(index);
 
-        handler->PSendSysMessage("Item {}: value at {} is {}", guid, index, value);
+        handler->PSendSysMessage("物品 {}：在 {} 处的值为 {}", guid, index, value);
 
         return true;
     }
@@ -1202,7 +1202,7 @@ public:
         if (Unit* unit = handler->getSelectedUnit())
             unit->HandleEmoteCommand(emote);
 
-        handler->PSendSysMessage("Playing emote {}", EnumUtils::ToConstant(emote));
+        handler->PSendSysMessage("播放表情 {}", EnumUtils::ToConstant(emote));
 
         return true;
     }
@@ -1212,10 +1212,10 @@ public:
         if (Unit* unit = handler->getSelectedUnit())
         {
             Player* player = handler->GetSession()->GetPlayer();
-            handler->PSendSysMessage("Checking LoS {} -> {}:", player->GetName(), unit->GetName());
-            handler->PSendSysMessage("    VMAP LoS: {}", player->IsWithinLOSInMap(unit, VMAP::ModelIgnoreFlags::Nothing, LINEOFSIGHT_CHECK_VMAP) ? "clear" : "obstructed");
-            handler->PSendSysMessage("    GObj LoS: {}", player->IsWithinLOSInMap(unit, VMAP::ModelIgnoreFlags::Nothing, LINEOFSIGHT_CHECK_GOBJECT_ALL) ? "clear" : "obstructed");
-            handler->PSendSysMessage("{} is {}in line of sight of {}.", unit->GetName(), (player->IsWithinLOSInMap(unit) ? "" : "not "), player->GetName());
+            handler->PSendSysMessage("检查视线 {} -> {}：", player->GetName(), unit->GetName());
+            handler->PSendSysMessage("    VMAP 视线：{}", player->IsWithinLOSInMap(unit, VMAP::ModelIgnoreFlags::Nothing, LINEOFSIGHT_CHECK_VMAP) ? "通畅" : "受阻");
+            handler->PSendSysMessage("    游戏对象视线：{}", player->IsWithinLOSInMap(unit, VMAP::ModelIgnoreFlags::Nothing, LINEOFSIGHT_CHECK_GOBJECT_ALL) ? "通畅" : "受阻");
+            handler->PSendSysMessage("{} {}能看到 {}。", unit->GetName(), (player->IsWithinLOSInMap(unit) ? "" : "不"), player->GetName());
             return true;
         }
 
@@ -1459,7 +1459,7 @@ public:
             LOG_INFO("sql.dev", "(@PATH, XX, {:.3f}, {:.3f}, {:.5f}, {:.5f}, 0),", player->GetPositionX(), player->GetPositionY(), player->GetPositionZ(), player->GetOrientation());
         }
 
-        handler->PSendSysMessage("Waypoint SQL written to SQL Developer log");
+        handler->PSendSysMessage("路径点 SQL 已写入开发者 SQL 日志");
         return true;
     }
 
@@ -1525,7 +1525,7 @@ public:
 
     static void HandleDebugObjectCountMap(ChatHandler* handler, Map* map)
     {
-        handler->PSendSysMessage("Map Id: {} Name: '{}' Instance Id: {} Creatures: {} GameObjects: {} Update Objects: {}",
+        handler->PSendSysMessage("地图 ID：{} 名称：'{}' 实例 ID：{} 生物：{} 游戏对象：{} 更新对象：{}",
                 map->GetId(), map->GetMapName(), map->GetInstanceId(),
                 uint64(map->GetObjectsStore().Size<Creature>()),
                 uint64(map->GetObjectsStore().Size<GameObject>()),
@@ -1535,15 +1535,15 @@ public:
         TypeContainerVisitor<CreatureCountWorker, MapStoredObjectTypesContainer> visitor(worker);
         visitor.Visit(map->GetObjectsStore());
 
-        handler->PSendSysMessage("Top Creatures count:");
+        handler->PSendSysMessage("生物数量排行：");
 
         for (auto&& p : worker.GetTopCreatureCount(5))
-            handler->PSendSysMessage("Entry: {} Count: {}", p.first, p.second);
+            handler->PSendSysMessage("条目：{} 数量：{}", p.first, p.second);
     }
 
     static bool HandleDebugDummyCommand(ChatHandler* handler)
     {
-        handler->SendSysMessage("This command does nothing right now. Edit your local core (cs_debug.cpp) to make it do whatever you need for testing.");
+        handler->SendSysMessage("该命令目前不执行任何操作。请修改本地核心（cs_debug.cpp），让它执行你需要的测试。");
         return true;
     }
 
@@ -1552,12 +1552,12 @@ public:
         Cell cell(handler->GetPlayer()->GetPositionX(), handler->GetPlayer()->GetPositionY());
         Map* map = handler->GetPlayer()->GetMap();
 
-        handler->PSendSysMessage("GridX {} GridY {}", cell.GridX(), cell.GridY());
-        handler->PSendSysMessage("CellX {} CellY {}", cell.CellX(), cell.CellY());
-        handler->PSendSysMessage("Created Grids: {} / {}", map->GetCreatedGridsCount(), MAX_NUMBER_OF_GRIDS * MAX_NUMBER_OF_GRIDS);
-        handler->PSendSysMessage("Loaded Grids: {} / {}", map->GetLoadedGridsCount(), MAX_NUMBER_OF_GRIDS * MAX_NUMBER_OF_GRIDS);
-        handler->PSendSysMessage("Created Cells In Grid: {} / {}", map->GetCreatedCellsInGridCount(cell.GridX(), cell.GridY()), MAX_NUMBER_OF_CELLS * MAX_NUMBER_OF_CELLS);
-        handler->PSendSysMessage("Created Cells In Map: {} / {}", map->GetCreatedCellsInMapCount(), TOTAL_NUMBER_OF_CELLS_PER_MAP * TOTAL_NUMBER_OF_CELLS_PER_MAP);
+        handler->PSendSysMessage("网格X {} 网格Y {}", cell.GridX(), cell.GridY());
+        handler->PSendSysMessage("单元格X {} 单元格Y {}", cell.CellX(), cell.CellY());
+        handler->PSendSysMessage("已创建网格：{} / {}", map->GetCreatedGridsCount(), MAX_NUMBER_OF_GRIDS * MAX_NUMBER_OF_GRIDS);
+        handler->PSendSysMessage("已加载网格：{} / {}", map->GetLoadedGridsCount(), MAX_NUMBER_OF_GRIDS * MAX_NUMBER_OF_GRIDS);
+        handler->PSendSysMessage("网格中已创建单元格：{} / {}", map->GetCreatedCellsInGridCount(cell.GridX(), cell.GridY()), MAX_NUMBER_OF_CELLS * MAX_NUMBER_OF_CELLS);
+        handler->PSendSysMessage("地图中已创建单元格：{} / {}", map->GetCreatedCellsInMapCount(), TOTAL_NUMBER_OF_CELLS_PER_MAP * TOTAL_NUMBER_OF_CELLS_PER_MAP);
         return true;
     }
 
@@ -1601,14 +1601,14 @@ public:
         if (ZoneWideVisibleWorldObjectsSet const* farVisibleSet = player->GetMap()->GetZoneWideVisibleWorldObjectsForZone(player->GetZoneId()))
             zoneWideVisibleObjectsInZone = farVisibleSet->size();
 
-        handler->PSendSysMessage("Visibility Range: {}", player->GetVisibilityRange());
-        handler->PSendSysMessage("Visible Creatures: {}", objectByTypeCount[TYPEID_UNIT]);
-        handler->PSendSysMessage("Visible Players: {}", objectByTypeCount[TYPEID_PLAYER]);
-        handler->PSendSysMessage("Visible GameObjects: {}", objectByTypeCount[TYPEID_GAMEOBJECT]);
-        handler->PSendSysMessage("Visible DynamicObjects: {}", objectByTypeCount[TYPEID_DYNAMICOBJECT]);
-        handler->PSendSysMessage("Visible Corpses: {}", objectByTypeCount[TYPEID_CORPSE]);
-        handler->PSendSysMessage("Players we are visible to: {}", objectVisibilityContainer.GetVisiblePlayersMap().size());
-        handler->PSendSysMessage("Zone wide visible objects in zone: {}", zoneWideVisibleObjectsInZone);
+        handler->PSendSysMessage("可见范围：{}", player->GetVisibilityRange());
+        handler->PSendSysMessage("可见生物：{}", objectByTypeCount[TYPEID_UNIT]);
+        handler->PSendSysMessage("可见玩家：{}", objectByTypeCount[TYPEID_PLAYER]);
+        handler->PSendSysMessage("可见游戏对象：{}", objectByTypeCount[TYPEID_GAMEOBJECT]);
+        handler->PSendSysMessage("可见动态对象：{}", objectByTypeCount[TYPEID_DYNAMICOBJECT]);
+        handler->PSendSysMessage("可见尸体：{}", objectByTypeCount[TYPEID_CORPSE]);
+        handler->PSendSysMessage("能看到我们的玩家：{}", objectVisibilityContainer.GetVisiblePlayersMap().size());
+        handler->PSendSysMessage("区域内全区域可见对象：{}", zoneWideVisibleObjectsInZone);
         return true;
     }
 
@@ -1633,7 +1633,7 @@ public:
 
         uint32 zoneId = player->GetZoneId();
         AreaTableEntry const* zoneEntry = sAreaTableStore.LookupEntry(zoneId);
-        handler->PSendSysMessage("Player count in zone {} ({}): {}.", zoneId, (zoneEntry ? zoneEntry->area_name[LOCALE_enUS] : "<unknown>"), player->GetMap()->GetPlayerCountInZone(zoneId));
+        handler->PSendSysMessage("区域 {}（{}）内的玩家数量：{}。", zoneId, (zoneEntry ? zoneEntry->area_name[LOCALE_enUS] : "<unknown>"), player->GetMap()->GetPlayerCountInZone(zoneId));
         return true;
     }
 

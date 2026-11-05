@@ -188,7 +188,7 @@
       "label": "The player is told it holds nothing",
       "actor": "prestiger",
       "metric": "notification_contains",
-      "text": "Your Aetherial Reliquary holds no stored buffs.",
+      "text": "你的以太圣物匣中没有存放任何增益。",
       "equals": 1
     }
   ]

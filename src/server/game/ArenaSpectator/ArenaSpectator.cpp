@@ -38,39 +38,39 @@ bool ArenaSpectator::HandleSpectatorSpectateCommand(ChatHandler* handler, std::s
             HandleSpectatorWatchCommand(handler, name);
             return true;
         }
-        handler->PSendSysMessage("You are already spectacting arena.");
+        handler->PSendSysMessage("你已经在观战竞技场了。");
         return true;
     }
 
     if (player->IsClass(CLASS_DEATH_KNIGHT, CLASS_CONTEXT_TELEPORT) && player->GetMapId() == MAP_EBON_HOLD)
     {
-        handler->PSendSysMessage("Death Knights can't spectate before finishing questline.");
+        handler->PSendSysMessage("死亡骑士在完成职业任务线前无法观战。");
         return true;
     }
 
     Player* spectate = ObjectAccessor::FindPlayerByName(name);
     if (!spectate)
     {
-        handler->SendSysMessage("Requested player not found.");
+        handler->SendSysMessage("未找到指定的玩家。");
         return true;
     }
 
     if (spectate->IsSpectator())
     {
-        handler->SendSysMessage("Requested player is a spectator.");
+        handler->SendSysMessage("指定的玩家是一名观战者。");
         return true;
     }
 
     if (!spectate->FindMap() || !spectate->FindMap()->IsBattleArena())
     {
-        handler->SendSysMessage("Requested player is not in arena.");
+        handler->SendSysMessage("指定的玩家不在竞技场中。");
         return true;
     }
 
     BattlegroundMap* bgmap = ((BattlegroundMap*)spectate->FindMap());
     if (!bgmap->GetBG() || bgmap->GetBG()->GetStatus() == STATUS_WAIT_LEAVE)
     {
-        handler->SendSysMessage("This arena battle has finished.");
+        handler->SendSysMessage("这场竞技场战斗已经结束。");
         return true;
     }
 
@@ -147,14 +147,14 @@ bool ArenaSpectator::HandleSpectatorSpectateCommand(ChatHandler* handler, std::s
             (handler->GetSession()->GetSecurity() && bgmap->GetBG()->GetStatus() != STATUS_WAIT_JOIN && bgmap->GetBG()->GetStatus() != STATUS_IN_PROGRESS))
     {
         bgPreparation = true;
-        handler->SendSysMessage("Arena is not in progress yet. You will be invited as soon as it starts.");
+        handler->SendSysMessage("竞技场尚未开始。开始后会立即邀请你。");
         bgmap->GetBG()->AddToBeTeleported(player->GetGUID(), spectate->GetGUID());
         player->SetPendingSpectatorInviteInstanceId(spectate->GetBattlegroundId());
     }
 
     if (!errors.empty())
     {
-        handler->PSendSysMessage("To spectate, please fix the following:");
+        handler->PSendSysMessage("要观战，请先解决以下问题：");
         for (std::list<std::string>::const_iterator itr = errors.begin(); itr != errors.end(); ++itr)
             handler->PSendSysMessage("- {}", (*itr));
 

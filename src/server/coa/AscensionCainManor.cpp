@@ -53,7 +53,7 @@ public:
         if (player->HasItemCount(ITEM_REPAIRED_CELLAR_KEY, 1))
             return false;
 
-        ChatHandler(player->GetSession()).SendNotification("The door is locked.");
+        ChatHandler(player->GetSession()).SendNotification("门锁着。");
         return true;
     }
 };

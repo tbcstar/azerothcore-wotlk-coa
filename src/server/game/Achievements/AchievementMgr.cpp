@@ -2297,7 +2297,7 @@ void AchievementMgr::CompletedAchievement(AchievementEntry const* achievement)
     if (_player->IsGameMaster())
     {
         LOG_INFO("achievement", "Not available in GM mode.");
-        ChatHandler(_player->GetSession()).PSendSysMessage("Not available in GM mode");
+        ChatHandler(_player->GetSession()).PSendSysMessage("GM 模式下不可用");
         return;
     }
     if (_player->GetSession()->HasPermission(rbac::RBAC_PERM_CANNOT_EARN_ACHIEVEMENTS))

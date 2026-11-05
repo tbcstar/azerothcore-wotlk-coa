@@ -128,7 +128,7 @@ bool RefuseOutsideRest(Player* player, bool wholeGroup, std::string_view action)
         return false;
 
     ChatHandler(player->GetSession()).SendSysMessage(Acore::StringFormat(
-        "{} must be in a city or inn to {} while in High-Risk.", blocked == player ? "You" : blocked->GetName(),
+        "{}在高风险模式下必须身处城市或旅店才能{}。", blocked == player ? "你" : blocked->GetName(),
         action));
     return true;
 }
@@ -148,7 +148,7 @@ bool RefuseFinder(Player* player, bool wholeGroup, std::string_view action)
         return false;
 
     ChatHandler(player->GetSession()).SendSysMessage(Acore::StringFormat(
-        "{} cannot {} while in High-Risk.", blocked == player ? "You" : blocked->GetName(), action));
+        "{}在高风险模式下无法{}。", blocked == player ? "你" : blocked->GetName(), action));
     return true;
 }
 
@@ -272,7 +272,7 @@ void Open(Player* player, GameObject* object)
     if (!Access(player, object))
     {
         ChatHandler(player->GetSession()).SendSysMessage(
-            "You must be alive, in High-Risk mode and close to the chest to recover its contents.");
+            "你必须活着、处于高风险模式并靠近宝箱，才能取回其中的物品。");
         LOG_INFO("server.worldserver", "High Risk chest access denied for {}: alive {}, mode {}, distance {}",
             player->GetGUID().ToString(), player->IsAlive(), InHighRisk(player), player->GetDistance(object));
         player->SendLootError(object->GetGUID(), LOOT_ERROR_DIDNT_KILL);
@@ -388,7 +388,7 @@ void ClaimGold(Player* player, GameObject* object)
     }
     if (uint64(player->GetMoney()) + chest->gold > MAX_MONEY_AMOUNT)
     {
-        ChatHandler(player->GetSession()).SendSysMessage("You cannot carry any more gold.");
+        ChatHandler(player->GetSession()).SendSysMessage("你无法携带更多金币。");
         return;
     }
 
@@ -487,7 +487,7 @@ void Drop(Player* player)
     if (losses.empty() && !gold && !insuranceFee)
     {
         ChatHandler(player->GetSession()).SendSysMessage(
-            "No High-Risk chest was created: you have no eligible items or money to lose.");
+            "未生成高风险宝箱：你没有可损失的物品或金钱。");
         LOG_INFO("server.worldserver", "High Risk death for {}: no eligible losses; map {}, level {}",
             player->GetGUID().ToString(), player->GetMapId(), player->GetLevel());
         return;
@@ -534,7 +534,7 @@ void Drop(Player* player)
     auto [found, inserted] = chests.emplace(chest.id, std::move(chest));
     Spawn(player->GetMap(), found->second);
     ChatHandler(player->GetSession()).SendSysMessage(
-        "Your High-Risk losses are in a chest at your death location. Any High-Risk player can recover them.");
+        "你的高风险损失存放在死亡地点的宝箱中。任何高风险玩家都可以取回它们。");
     LOG_INFO("server.worldserver", "High Risk chest {} created for {}: {} items, {} copper",
         found->first, player->GetGUID().ToString(), losses.size(), chest.gold);
 }
@@ -635,7 +635,7 @@ public:
 
     bool OnPlayerCanJoinLfg(Player* player, uint8, lfg::LfgDungeonSet&, std::string const&) override
     {
-        if (!RefuseFinder(player, true, "use the Dungeon Finder"))
+        if (!RefuseFinder(player, true, "使用地下城查找器"))
             return true;
         player->GetSession()->SendLfgJoinResult(lfg::LfgJoinResultData(
             player->GetGroup() ? lfg::LFG_JOIN_PARTY_NOT_MEET_REQS : lfg::LFG_JOIN_NOT_MEET_REQS));
@@ -656,12 +656,12 @@ public:
 
     bool OnPlayerCanLfgTeleport(Player* player) override
     {
-        return !RefuseFinder(player, false, "teleport into a Dungeon Finder dungeon");
+        return !RefuseFinder(player, false, "传送进地下城查找器的副本");
     }
 
     bool OnPlayerCanBattleFieldPort(Player* player, uint8, BattlegroundTypeId, uint8 action) override
     {
-        return action != BattlefieldPortEnter || !RefuseOutsideRest(player, false, "enter");
+        return action != BattlefieldPortEnter || !RefuseOutsideRest(player, false, "进入");
     }
 
 private:
@@ -669,7 +669,7 @@ private:
 
     static bool Refuse(Player* player, uint8 joinAsGroup, GroupJoinBattlegroundResult& err)
     {
-        if (!RefuseOutsideRest(player, joinAsGroup, "queue"))
+        if (!RefuseOutsideRest(player, joinAsGroup, "排队"))
             return false;
         err = ERR_BATTLEGROUND_NONE;
         return true;

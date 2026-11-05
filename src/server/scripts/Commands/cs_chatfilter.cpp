@@ -51,22 +51,22 @@ public:
 
         if (!result)
         {
-            handler->SendSysMessage("No chat filter words found.");
+            handler->SendSysMessage("未找到聊天过滤词。");
             return true;
         }
 
-        handler->SendSysMessage("Chat filter words:");
+        handler->SendSysMessage("聊天过滤词：");
         uint32 count = 0;
         do
         {
             Field* fields = result->Fetch();
             uint32 id = fields[0].Get<uint32>();
             std::string word = fields[1].Get<std::string>();
-            handler->PSendSysMessage("  ID: {} | Word: {}", id, word);
+            handler->PSendSysMessage("  ID：{} | 词语：{}", id, word);
             ++count;
         } while (result->NextRow());
 
-        handler->PSendSysMessage("{} chat filter word(s) total.", count);
+        handler->PSendSysMessage("共 {} 个聊天过滤词。", count);
         return true;
     }
 
@@ -81,7 +81,7 @@ public:
         stmt->SetData(0, text);
         if (CharacterDatabase.Query(stmt))
         {
-            handler->SendErrorMessage("Chat filter word \"{}\" already exists.", text);
+            handler->SendErrorMessage("聊天过滤词 “{}” 已存在。", text);
             return true;
         }
 
@@ -91,7 +91,7 @@ public:
 
         sObjectMgr->LoadChatFilter();
 
-        handler->PSendSysMessage("Chat filter word \"{}\" added.", text);
+        handler->PSendSysMessage("聊天过滤词 “{}” 已添加。", text);
         return true;
     }
 
@@ -106,7 +106,7 @@ public:
         stmt->SetData(0, text);
         if (!CharacterDatabase.Query(stmt))
         {
-            handler->SendErrorMessage("Chat filter word \"{}\" not found.", text);
+            handler->SendErrorMessage("未找到聊天过滤词 “{}”。", text);
             return true;
         }
 
@@ -116,7 +116,7 @@ public:
 
         sObjectMgr->LoadChatFilter();
 
-        handler->PSendSysMessage("Chat filter word \"{}\" removed.", text);
+        handler->PSendSysMessage("聊天过滤词 “{}” 已移除。", text);
         return true;
     }
 };

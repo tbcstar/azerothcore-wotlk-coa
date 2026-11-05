@@ -248,25 +248,25 @@ struct Case
 int main()
 {
     { Case c; c.Buy(MOUNT); assert(c.Tokens()==65 && c.cosmetics.collected==(std::vector<std::pair<uint32, bool>>{{MOUNT, true}})); assert(c.Said().empty()); }
-    { Case c; c.cosmetics.state->OwnedVanityItems.insert(MOUNT); c.Buy(MOUNT); assert(c.Tokens()==100 && c.cosmetics.collected.empty() && c.Said()=="You already own this item."); }
-    { Case c; c.player.bags[TOKEN]=34; c.Buy(MOUNT); assert(c.Tokens()==34 && c.cosmetics.collected.empty() && c.Said()=="You do not have enough Bazaar Tokens."); }
-    { Case c; c.Buy(FREE); assert(c.Tokens()==100 && c.Said()=="That item cannot be bought with Bazaar Tokens."); }
+    { Case c; c.cosmetics.state->OwnedVanityItems.insert(MOUNT); c.Buy(MOUNT); assert(c.Tokens()==100 && c.cosmetics.collected.empty() && c.Said()=="你已经拥有此物品。"); }
+    { Case c; c.player.bags[TOKEN]=34; c.Buy(MOUNT); assert(c.Tokens()==34 && c.cosmetics.collected.empty() && c.Said()=="你的集市代币不足。"); }
+    { Case c; c.Buy(FREE); assert(c.Tokens()==100 && c.Said()=="该物品无法用集市代币购买。"); }
     for (uint32 item : {SEASONAL, ONLY_CLASS_9, 700u, 999u})
-    { Case c; c.Buy(item); assert(c.Tokens()==100 && c.cosmetics.collected.empty() && c.Said()=="That item is not sold on this realm."); }
+    { Case c; c.Buy(item); assert(c.Tokens()==100 && c.cosmetics.collected.empty() && c.Said()=="本服务器不出售该物品。"); }
     { Case c; c.player.cls=9; c.Buy(ONLY_CLASS_9); assert(c.Tokens()==90); }
     { Case c; ascensionCompatConfig.realmType="live seasonal"; c.Buy(SEASONAL); ascensionCompatConfig.realmType="live"; assert(c.Tokens()==90); }
     { Case c; c.cosmetics._vanityItems[MOUNT].Flags=VANITY_FLAG_NOT_OFFERED; c.Buy(MOUNT); assert(c.Tokens()==100); }
     { Case c; c.cosmetics._vanityItems[MOUNT].RaceMask=2; c.Buy(MOUNT); assert(c.Tokens()==100); c.player.race=2; c.Buy(MOUNT); assert(c.Tokens()==65); }
     {
         Case c; ascensionCompatConfig.unlockAll=true;
-        c.Buy(MOUNT); assert(c.Tokens()==100 && c.Said()=="You already own this item.");
+        c.Buy(MOUNT); assert(c.Tokens()==100 && c.Said()=="你已经拥有此物品。");
         c.Buy(600); c.Buy(800); assert(c.Tokens()==80 && c.cosmetics.collected.size()==2);
         ascensionCompatConfig.unlockAll=false;
     }
     {
         Case c; c.cosmetics.state->OwnedVanityItems.insert(SCROLL);
         c.Buy(SCROLL); assert(c.player.bags[SCROLL]==1 && c.Tokens()==40 && c.player.announced==1 && c.player.created.back().bound);
-        c.Buy(SCROLL); assert(c.player.bags[SCROLL]==1 && c.Tokens()==40 && c.Said()=="You do not have enough Bazaar Tokens.");
+        c.Buy(SCROLL); assert(c.player.bags[SCROLL]==1 && c.Tokens()==40 && c.Said()=="你的集市代币不足。");
         assert(c.cosmetics.collected.empty());
     }
     { Case c; c.player.bags[TOKEN]=200; c.Buy(SCROLL); c.Buy(SCROLL); c.Buy(SCROLL); assert(c.player.bags[SCROLL]==3 && c.Tokens()==20 && c.cosmetics.collected.empty()); }

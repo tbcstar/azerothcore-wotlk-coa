@@ -24,7 +24,7 @@
  * What the module adds is the two things data cannot express:
  *
  *   * the page's first option. A right click is answered with the page the SQL defines - "I
- *     require training!" and "I would like to browse your goods." - and the core is what
+ *     require training!" and "我想看看你的货物。" - and the core is what
  *     sends it, so the module only takes over the training option: that is what keeps the
  *     window it opens the filtered one. The second option opens the vendor list, which is the
  *     core's own business, and the list of goods is data (`npc_vendor`);
@@ -100,7 +100,7 @@ namespace
             return;
 
         CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
-        MailDraft draft("Book of Artisans", "The tool of your new trade did not fit in your bags.");
+        MailDraft draft("Book of Artisans", "你新专业的工具没能放进你的背包。");
         if (Item* item = Item::CreateItem(itemId, 1, player))
         {
             item->SaveToDB(trans);
@@ -113,7 +113,7 @@ namespace
 }
 
 /// The page a right click opens is the SQL's (`gossip_menu_option` 57500: "I require
-/// training!" and "I would like to browse your goods."), and the core sends it, so this class
+/// training!" and "我想看看你的货物。"), and the core sends it, so this class
 /// does not answer the hello at all. It answers one of the page's two options: the training one
 /// is taken over, because that is the only way the window it opens is the filtered one, and the
 /// goods one is left to the core, which is where a vendor list comes from.

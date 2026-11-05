@@ -95,7 +95,7 @@ public:
 
                 uint32 maxpathid = result->Fetch()->Get<int32>();
                 pathid = maxpathid + 1;
-                handler->PSendSysMessage("{}{}|r", "|cff00ff00", "New path started.");
+                handler->PSendSysMessage("{}{}|r", "|cff00ff00", "新的路径已开始。");
             }
         }
         else
@@ -106,7 +106,7 @@ public:
 
         if (!pathid)
         {
-            handler->PSendSysMessage("{}{}|r", "|cffff33ff", "Current creature haven't loaded path.");
+            handler->PSendSysMessage("{}{}|r", "|cffff33ff", "当前生物尚未加载路径。");
             return true;
         }
 
@@ -130,7 +130,7 @@ public:
 
         WorldDatabase.Execute(stmt);
 
-        handler->PSendSysMessage("{}{}{}{}{}{}|r", "|cff00ff00", "PathID: |r|cff00ffff", pathid, "|r|cff00ff00: Waypoint |r|cff00ffff", point + 1, "|r|cff00ff00 created. ");
+        handler->PSendSysMessage("{}{}{}{}{}{}|r", "|cff00ff00", "路径ID：|r|cff00ffff", pathid, "|r|cff00ff00：路径点 |r|cff00ffff", point + 1, "|r|cff00ff00 已创建。");
         return true;
     }                                                           // HandleWpAddCommand
 
@@ -161,7 +161,7 @@ public:
 
         if (target->GetEntry() == 1)
         {
-            handler->SendErrorMessage("{}{}|r", "|cffff33ff", "You want to load path to a waypoint? Aren't you?");
+            handler->SendErrorMessage("{}{}|r", "|cffff33ff", "你是想把路径加载到某个路径点上吧？");
             return false;
         }
 
@@ -169,7 +169,7 @@ public:
 
         if (!pathid)
         {
-            handler->PSendSysMessage("{}{}|r", "|cffff33ff", "No valid path number provided.");
+            handler->PSendSysMessage("{}{}|r", "|cffff33ff", "未提供有效的路径编号。");
             return true;
         }
 
@@ -208,7 +208,7 @@ public:
         target->LoadPath(pathid);
         target->SetDefaultMovementType(WAYPOINT_MOTION_TYPE);
         target->GetMotionMaster()->Initialize();
-        target->Say("Path loaded.", LANG_UNIVERSAL);
+        target->Say("路径已加载。", LANG_UNIVERSAL);
 
         return true;
     }
@@ -223,7 +223,7 @@ public:
         if (!id)
             return false;
 
-        handler->PSendSysMessage("{}{}|r|cff00ffff{}|r", "|cff00ff00", "Loading Path: ", id);
+        handler->PSendSysMessage("{}{}|r|cff00ffff{}|r", "|cff00ff00", "正在加载路径：", id);
         sWaypointMgr->ReloadPath(id);
         return true;
     }
@@ -234,7 +234,7 @@ public:
 
         if (!target)
         {
-            handler->PSendSysMessage("{}{}|r", "|cff33ffff", "You must select target.");
+            handler->PSendSysMessage("{}{}|r", "|cff33ffff", "你必须选择一个目标。");
             return true;
         }
 
@@ -261,10 +261,10 @@ public:
                 target->SetDefaultMovementType(IDLE_MOTION_TYPE);
                 target->GetMotionMaster()->MoveTargetedHome();
                 target->GetMotionMaster()->Initialize();
-                target->Say("Path unloaded.", LANG_UNIVERSAL);
+                target->Say("路径已卸载。", LANG_UNIVERSAL);
                 return true;
             }
-            handler->PSendSysMessage("{}{}|r", "|cffff33ff", "Target have no loaded path.");
+            handler->PSendSysMessage("{}{}|r", "|cffff33ff", "目标没有已加载的路径。");
         }
         return true;
     }
@@ -303,10 +303,10 @@ public:
 
                     WorldDatabase.Execute(stmt);
 
-                    handler->PSendSysMessage("{}{}{}|r", "|cff00ff00", "Wp Event: New waypoint event added: ", id);
+                    handler->PSendSysMessage("{}{}{}|r", "|cff00ff00", "路径点事件：已添加新的路径点事件：", id);
                 }
                 else
-                    handler->PSendSysMessage("|cff00ff00Wp Event: You have choosed an existing waypoint script guid: {}|r", id);
+                    handler->PSendSysMessage("|cff00ff00路径点事件：你选择了一个已存在的路径点脚本 GUID：{}|r", id);
             }
             else
             {
@@ -322,7 +322,7 @@ public:
 
                 WorldDatabase.Execute(stmt);
 
-                handler->PSendSysMessage("{}{}{}|r", "|cff00ff00", "Wp Event: New waypoint event added: |r|cff00ffff", id + 1);
+                handler->PSendSysMessage("{}{}{}|r", "|cff00ff00", "路径点事件：已添加新的路径点事件：|r|cff00ffff", id + 1);
             }
 
             return true;
@@ -332,7 +332,7 @@ public:
         {
             if (!arg_id)
             {
-                handler->PSendSysMessage("{}{}|r", "|cff33ffff", "Wp Event: You must provide waypoint script id.");
+                handler->PSendSysMessage("{}{}|r", "|cff33ffff", "路径点事件：你必须提供路径点脚本 ID。");
                 return true;
             }
 
@@ -348,7 +348,7 @@ public:
 
             if (!result)
             {
-                handler->PSendSysMessage("{}{}{}|r", "|cff33ffff", "Wp Event: No waypoint scripts found on id: ", id);
+                handler->PSendSysMessage("{}{}{}|r", "|cff33ffff", "路径点事件：在该 ID 上未找到路径点脚本：", id);
                 return true;
             }
 
@@ -368,7 +368,7 @@ public:
                 a10 = fields[8].Get<float>();
                 a11 = fields[9].Get<float>();
 
-                handler->PSendSysMessage("|cffff33ffid:|r|cff00ffff {}|r|cff00ff00, guid: |r|cff00ffff{}|r|cff00ff00, delay: |r|cff00ffff{}|r|cff00ff00, command: |r|cff00ffff{}|r|cff00ff00, datalong: |r|cff00ffff{}|r|cff00ff00, datalong2: |r|cff00ffff{}|r|cff00ff00, datatext: |r|cff00ffff{}|r|cff00ff00, posx: |r|cff00ffff{}|r|cff00ff00, posy: |r|cff00ffff{}|r|cff00ff00, posz: |r|cff00ffff{}|r|cff00ff00, orientation: |r|cff00ffff{}|r", id, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11);
+                handler->PSendSysMessage("|cffff33ffID：|r|cff00ffff {}|r|cff00ff00，GUID：|r|cff00ffff{}|r|cff00ff00，延迟：|r|cff00ffff{}|r|cff00ff00，命令：|r|cff00ffff{}|r|cff00ff00，数据一：|r|cff00ffff{}|r|cff00ff00，数据二：|r|cff00ffff{}|r|cff00ff00，数据文本：|r|cff00ffff{}|r|cff00ff00，坐标X：|r|cff00ffff{}|r|cff00ff00，坐标Y：|r|cff00ffff{}|r|cff00ff00，坐标Z：|r|cff00ffff{}|r|cff00ff00，朝向：|r|cff00ffff{}|r", id, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11);
             } while (result->NextRow());
         }
 
@@ -376,7 +376,7 @@ public:
         {
             if (!arg_id)
             {
-                handler->SendSysMessage("|cffff33ffERROR: Waypoint script guid not present.|r");
+                handler->SendSysMessage("|cffff33ff错误：路径点脚本 GUID 不存在。|r");
                 return true;
             }
 
@@ -396,10 +396,10 @@ public:
 
                 WorldDatabase.Execute(stmt);
 
-                handler->PSendSysMessage("{}{}{}|r", "|cff00ff00", "Wp Event: Waypoint script removed: ", id);
+                handler->PSendSysMessage("{}{}{}|r", "|cff00ff00", "路径点事件：已移除路径点脚本：", id);
             }
             else
-                handler->PSendSysMessage("|cffff33ffWp Event: ERROR: you have selected a non existing script: {}|r", id);
+                handler->PSendSysMessage("|cffff33ff路径点事件：错误：你选择了一个不存在的脚本：{}|r", id);
 
             return true;
         }
@@ -408,7 +408,7 @@ public:
         {
             if (!arg_id)
             {
-                handler->SendSysMessage("|cffff33ffERROR: Waypoint script guid not present.|r");
+                handler->SendSysMessage("|cffff33ff错误：路径点脚本 GUID 不存在。|r");
                 return true;
             }
 
@@ -416,7 +416,7 @@ public:
 
             if (!id)
             {
-                handler->SendSysMessage("|cffff33ffERROR: No vallid waypoint script id not present.|r");
+                handler->SendSysMessage("|cffff33ff错误：未提供有效的路径点脚本 ID。|r");
                 return true;
             }
 
@@ -424,7 +424,7 @@ public:
 
             if (!arg_2)
             {
-                handler->SendSysMessage("|cffff33ffERROR: No argument present.|r");
+                handler->SendSysMessage("|cffff33ff错误：未提供参数。|r");
                 return true;
             }
 
@@ -434,7 +434,7 @@ public:
                     && (arg_string != "datalong") && (arg_string != "datalong2") && (arg_string != "dataint") && (arg_string != "posx")
                     && (arg_string != "posy") && (arg_string != "posz") && (arg_string != "orientation"))
             {
-                handler->SendSysMessage("|cffff33ffERROR: No valid argument present.|r");
+                handler->SendSysMessage("|cffff33ff错误：未提供有效的参数。|r");
                 return true;
             }
 
@@ -444,14 +444,14 @@ public:
 
             if (!arg_3)
             {
-                handler->SendSysMessage("|cffff33ffERROR: No additional argument present.|r");
+                handler->SendSysMessage("|cffff33ff错误：未提供附加参数。|r");
                 return true;
             }
 
             if (arg_str_2 == "setid")
             {
                 uint32 newid = atoi(arg_3);
-                handler->PSendSysMessage("{}{}|r|cff00ffff{}|r|cff00ff00{}|r|cff00ffff{}|r", "|cff00ff00", "Wp Event: Wypoint scipt guid: ", newid, " id changed: ", id);
+                handler->PSendSysMessage("{}{}|r|cff00ffff{}|r|cff00ff00{}|r|cff00ffff{}|r", "|cff00ff00", "路径点事件：路径点脚本 GUID ", newid, " 的 ID 已改为 ", id);
 
                 WorldDatabasePreparedStatement* stmt = WorldDatabase.GetPreparedStatement(WORLD_UPD_WAYPOINT_SCRIPT_ID);
 
@@ -470,7 +470,7 @@ public:
 
                 if (!result)
                 {
-                    handler->SendSysMessage("|cffff33ffERROR: You have selected an non existing waypoint script guid.|r");
+                    handler->SendSysMessage("|cffff33ff错误：你选择了一个不存在的路径点脚本 GUID。|r");
                     return true;
                 }
 
@@ -483,7 +483,7 @@ public:
 
                     WorldDatabase.Execute(stmt);
 
-                    handler->PSendSysMessage("|cff00ff00Waypoint script:|r|cff00ffff {}|r|cff00ff00 position_x updated.|r", id);
+                    handler->PSendSysMessage("|cff00ff00路径点脚本：|r|cff00ffff {}|r|cff00ff00 的 position_x 已更新。|r", id);
                     return true;
                 }
                 else if (arg_str_2 == "posy")
@@ -495,7 +495,7 @@ public:
 
                     WorldDatabase.Execute(stmt);
 
-                    handler->PSendSysMessage("|cff00ff00Waypoint script: {} position_y updated.|r", id);
+                    handler->PSendSysMessage("|cff00ff00路径点脚本：{} 的 position_y 已更新。|r", id);
                     return true;
                 }
                 else if (arg_str_2 == "posz")
@@ -507,7 +507,7 @@ public:
 
                     WorldDatabase.Execute(stmt);
 
-                    handler->PSendSysMessage("|cff00ff00Waypoint script: |r|cff00ffff{}|r|cff00ff00 position_z updated.|r", id);
+                    handler->PSendSysMessage("|cff00ff00路径点脚本：|r|cff00ffff{}|r|cff00ff00 的 position_z 已更新。|r", id);
                     return true;
                 }
                 else if (arg_str_2 == "orientation")
@@ -519,14 +519,14 @@ public:
 
                     WorldDatabase.Execute(stmt);
 
-                    handler->PSendSysMessage("|cff00ff00Waypoint script: |r|cff00ffff{}|r|cff00ff00 orientation updated.|r", id);
+                    handler->PSendSysMessage("|cff00ff00路径点脚本：|r|cff00ffff{}|r|cff00ff00 的朝向已更新。|r", id);
                     return true;
                 }
                 else if (arg_str_2 == "dataint")
                 {
                     WorldDatabase.Execute("UPDATE waypoint_scripts SET {}='{}' WHERE guid='{}'", arg_2, atoi(arg_3), id); // Query can't be a prepared statement
 
-                    handler->PSendSysMessage("|cff00ff00Waypoint script: |r|cff00ffff{}|r|cff00ff00 dataint updated.|r", id);
+                    handler->PSendSysMessage("|cff00ff00路径点脚本：|r|cff00ffff{}|r|cff00ff00 的数据文本已更新。|r", id);
                     return true;
                 }
                 else
@@ -536,7 +536,7 @@ public:
                     WorldDatabase.Execute("UPDATE waypoint_scripts SET {}='{}' WHERE guid='{}'", arg_2, arg_str_3, id); // Query can't be a prepared statement
                 }
             }
-            handler->PSendSysMessage("{}{}|r|cff00ffff{}:|r|cff00ff00 {} {}|r", "|cff00ff00", "Waypoint script:", id, arg_2, "updated.");
+            handler->PSendSysMessage("{}{}|r|cff00ffff{}:|r|cff00ff00 {} {}|r", "|cff00ff00", "路径点脚本 ", id, arg_2, "已更新。");
         }
         return true;
     }
@@ -575,7 +575,7 @@ public:
 
         if (!target || target->GetEntry() != VISUAL_WAYPOINT)
         {
-            handler->SendSysMessage("|cffff33ffERROR: You must select a waypoint.|r");
+            handler->SendSysMessage("|cffff33ff错误：你必须选择一个路径点。|r");
             return false;
         }
 
@@ -636,7 +636,7 @@ public:
 
         if (show == "del")
         {
-            handler->PSendSysMessage("|cff00ff00DEBUG: wp modify del, PathID: |r|cff00ffff{}|r", pathid);
+            handler->PSendSysMessage("|cff00ff00调试：wp modify del，路径ID：|r|cff00ffff{}|r", pathid);
 
             if (wpSpawnId != 0)
                 if (Creature* wpCreature = handler->GetSession()->GetPlayer()->GetMap()->GetCreature(target->GetGUID()))
@@ -664,7 +664,7 @@ public:
 
         if (show == "move")
         {
-            handler->PSendSysMessage("|cff00ff00DEBUG: wp move, PathID: |r|cff00ffff{}|r", pathid);
+            handler->PSendSysMessage("|cff00ff00调试：wp move，路径ID：|r|cff00ffff{}|r", pathid);
 
             Player* chr = handler->GetSession()->GetPlayer();
             Map* map = chr->GetMap();
@@ -805,7 +805,7 @@ public:
                 return false;
             }
 
-            handler->SendSysMessage("|cff00ffffDEBUG: wp show info:|r");
+            handler->SendSysMessage("|cff00ffff调试：wp show info：|r");
             do
             {
                 Field* fields = result->Fetch();
@@ -816,11 +816,11 @@ public:
                 uint32 ev_id            = fields[4].Get<uint32>();
                 uint32 ev_chance        = fields[5].Get<uint32>();
 
-                handler->PSendSysMessage("|cff00ff00Show info: for current point: |r|cff00ffff{}|r|cff00ff00, Path ID: |r|cff00ffff{}|r", point, pathid);
-                handler->PSendSysMessage("|cff00ff00Show info: delay: |r|cff00ffff{}|r", delay);
-                handler->PSendSysMessage("|cff00ff00Show info: Move flag: |r|cff00ffff{}|r", flag);
-                handler->PSendSysMessage("|cff00ff00Show info: Waypoint event: |r|cff00ffff{}|r", ev_id);
-                handler->PSendSysMessage("|cff00ff00Show info: Event chance: |r|cff00ffff{}|r", ev_chance);
+                handler->PSendSysMessage("|cff00ff00显示信息：当前路径点：|r|cff00ffff{}|r|cff00ff00，路径ID：|r|cff00ffff{}|r", point, pathid);
+                handler->PSendSysMessage("|cff00ff00显示信息：延迟：|r|cff00ffff{}|r", delay);
+                handler->PSendSysMessage("|cff00ff00显示信息：移动标记：|r|cff00ffff{}|r", flag);
+                handler->PSendSysMessage("|cff00ff00显示信息：路径点事件：|r|cff00ffff{}|r", ev_id);
+                handler->PSendSysMessage("|cff00ff00显示信息：事件几率：|r|cff00ffff{}|r", ev_chance);
             } while (result->NextRow());
 
             return true;
@@ -836,11 +836,11 @@ public:
 
             if (!result)
             {
-                handler->SendErrorMessage("|cffff33ffPath no found.|r");
+                handler->SendErrorMessage("|cffff33ff未找到路径。|r");
                 return false;
             }
 
-            handler->PSendSysMessage("|cff00ff00DEBUG: wp on, PathID: |cff00ffff{}|r", pathid);
+            handler->PSendSysMessage("|cff00ff00调试：wp on，路径ID：|cff00ffff{}|r", pathid);
 
             // Delete all visuals for this NPC
             stmt = WorldDatabase.GetPreparedStatement(WORLD_SEL_WAYPOINT_DATA_WPGUID_BY_ID);
@@ -932,13 +932,13 @@ public:
                 }
             } while (result->NextRow());
 
-            handler->SendSysMessage("|cff00ff00Showing the current creature's path.|r");
+            handler->SendSysMessage("|cff00ff00正在显示当前生物的路径。|r");
             return true;
         }
 
         if (show == "first")
         {
-            handler->PSendSysMessage("|cff00ff00DEBUG: wp first, GUID: {}|r", pathid);
+            handler->PSendSysMessage("|cff00ff00调试：wp first，GUID：{}|r", pathid);
 
             WorldDatabasePreparedStatement* stmt = WorldDatabase.GetPreparedStatement(WORLD_SEL_WAYPOINT_DATA_POS_FIRST_BY_ID);
             stmt->SetData(0, pathid);
@@ -987,7 +987,7 @@ public:
 
         if (show == "last")
         {
-            handler->PSendSysMessage("|cff00ff00DEBUG: wp last, PathID: |r|cff00ffff{}|r", pathid);
+            handler->PSendSysMessage("|cff00ff00调试：wp last，路径ID：|r|cff00ffff{}|r", pathid);
 
             WorldDatabasePreparedStatement* stmt = WorldDatabase.GetPreparedStatement(WORLD_SEL_WAYPOINT_DATA_POS_LAST_BY_ID);
             stmt->SetData(0, pathid);
@@ -1088,7 +1088,7 @@ public:
             return true;
         }
 
-        handler->PSendSysMessage("|cffff33ffDEBUG: wpshow - no valid command found|r");
+        handler->PSendSysMessage("|cffff33ff调试：wpshow - 未找到有效命令|r");
         return true;
     }
 };

@@ -273,7 +273,7 @@ void NotifyForeignToken(Player* player, uint32 spellId)
     last = now;
 
     ChatHandler handler(player->GetSession());
-    handler.PSendSysMessage("Stone of Retreat: {} is a {} stone - your {} character cannot use it.",
+    handler.PSendSysMessage("退避之石：{} 是一枚{}之石——你的{}角色无法使用它。",
         TokenHub(spellId), SideName(it->second), SideName(PlayerSide(player)));
 }
 
@@ -591,7 +591,7 @@ public:
             return false;
 
         uint32 const placed = AssignTokenButtons(player, "command");
-        handler->PSendSysMessage("Teleport tokens: placed {} button(s).", placed);
+        handler->PSendSysMessage("传送令牌：已放置 {} 个按钮。", placed);
         return true;
     }
 
@@ -603,7 +603,7 @@ public:
 
         if (!tokenTeleportsLoaded)
         {
-            handler->SendSysMessage("Teleport token data is not loaded.");
+            handler->SendSysMessage("传送令牌数据尚未载入。");
             return true;
         }
 
@@ -612,7 +612,7 @@ public:
         std::vector<uint32> const spells = CollectCarriedTokenSpells(player);
         LearnTokenSpellsNow(player, spells);
         uint32 const placed = AssignTokenButtons(player, "command learn");
-        handler->PSendSysMessage("Teleport tokens: learned {} spell(s), placed {} button(s).",
+        handler->PSendSysMessage("传送令牌：已学习 {} 个法术，放置 {} 个按钮。",
             uint32(spells.size()), placed);
         return true;
     }
@@ -627,7 +627,7 @@ public:
 
         if (!tokenTeleportsLoaded)
         {
-            handler->SendSysMessage("Teleport token data is not loaded.");
+            handler->SendSysMessage("传送令牌数据尚未载入。");
             return true;
         }
 
@@ -665,7 +665,7 @@ public:
         if (!foreignHubs.empty())
             foreignHubs = " (" + foreignHubs + (foreign > 5 ? ", ..." : "") + ")";
 
-        handler->PSendSysMessage("Stones you know: {} for your faction, {} shared, {} of the other faction{}.",
+        handler->PSendSysMessage("你掌握的传送石：本方阵营 {} 枚，共享 {} 枚，对方阵营 {} 枚{}。",
             mine, shared, foreign, foreignHubs);
         return true;
     }

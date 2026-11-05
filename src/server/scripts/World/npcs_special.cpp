@@ -535,14 +535,14 @@ public:
             auto itr = _healers.find(player->GetGUID());
             if (itr == _healers.end())
             {
-                handler.PSendSysMessage("Healing Dummy: you have not healed me yet. Shields absorbed {} damage.", _absorbed);
+                handler.PSendSysMessage("治疗假人：你还没有治疗过我。护盾吸收了 {} 点伤害。", _absorbed);
                 return;
             }
 
             HealerStats const& stats = itr->second;
             uint64 const total = stats.Effective + stats.Overheal;
             uint32 const seconds = std::max<uint32>(1, uint32((GameTime::GetGameTimeMS() - stats.Start).count() / IN_MILLISECONDS));
-            handler.PSendSysMessage("Healing Dummy: {} healing in {}s ({} HPS), {} overhealing ({}%). Shields absorbed {} damage.",
+            handler.PSendSysMessage("治疗假人：{} 秒内治疗 {}（{} HPS），过量治疗 {}（{}%）。护盾吸收了 {} 点伤害。",
                 stats.Effective, seconds, stats.Effective / seconds, stats.Overheal, total ? stats.Overheal * 100 / total : 0, _absorbed);
         }
 
@@ -606,16 +606,16 @@ public:
             return false;
 
         ClearGossipMenuFor(player);
-        AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, "Take no damage.", GOSSIP_SENDER_MAIN, HEALING_DUMMY_ACTION_DAMAGE_OFF);
-        AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, "Take steady damage (3% per second).", GOSSIP_SENDER_MAIN, HEALING_DUMMY_ACTION_DAMAGE_STEADY);
-        AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, "Take heavy damage (8% per second).", GOSSIP_SENDER_MAIN, HEALING_DUMMY_ACTION_DAMAGE_HEAVY);
-        AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, "Take spiky damage (35% every 5 seconds).", GOSSIP_SENDER_MAIN, HEALING_DUMMY_ACTION_DAMAGE_SPIKY);
-        AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Drop to 20% health.", GOSSIP_SENDER_MAIN, HEALING_DUMMY_ACTION_WOUND);
-        AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Match my level and maximum health.", GOSSIP_SENDER_MAIN, HEALING_DUMMY_ACTION_MATCH_PLAYER);
-        AddGossipItemFor(player, GOSSIP_ICON_CHAT, ai->AutoWound() ? "Stop dropping to 20% when healed to full." : "Drop to 20% again when healed to full.",
+        AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, "不承受任何伤害。", GOSSIP_SENDER_MAIN, HEALING_DUMMY_ACTION_DAMAGE_OFF);
+        AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, "持续承受伤害（每秒 3%）。", GOSSIP_SENDER_MAIN, HEALING_DUMMY_ACTION_DAMAGE_STEADY);
+        AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, "承受高额伤害（每秒 8%）。", GOSSIP_SENDER_MAIN, HEALING_DUMMY_ACTION_DAMAGE_HEAVY);
+        AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, "承受爆发伤害（每 5 秒 35%）。", GOSSIP_SENDER_MAIN, HEALING_DUMMY_ACTION_DAMAGE_SPIKY);
+        AddGossipItemFor(player, GOSSIP_ICON_CHAT, "生命值降到 20%。", GOSSIP_SENDER_MAIN, HEALING_DUMMY_ACTION_WOUND);
+        AddGossipItemFor(player, GOSSIP_ICON_CHAT, "匹配我的等级与最大生命值。", GOSSIP_SENDER_MAIN, HEALING_DUMMY_ACTION_MATCH_PLAYER);
+        AddGossipItemFor(player, GOSSIP_ICON_CHAT, ai->AutoWound() ? "治疗满时不再降到 20%。" : "治疗满后再次降到 20%。",
             GOSSIP_SENDER_MAIN, HEALING_DUMMY_ACTION_AUTO_WOUND);
-        AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Show my healing.", GOSSIP_SENDER_MAIN, HEALING_DUMMY_ACTION_SHOW_STATS);
-        AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Reset the healing statistics.", GOSSIP_SENDER_MAIN, HEALING_DUMMY_ACTION_RESET_STATS);
+        AddGossipItemFor(player, GOSSIP_ICON_CHAT, "显示我的治疗统计。", GOSSIP_SENDER_MAIN, HEALING_DUMMY_ACTION_SHOW_STATS);
+        AddGossipItemFor(player, GOSSIP_ICON_CHAT, "重置治疗统计。", GOSSIP_SENDER_MAIN, HEALING_DUMMY_ACTION_RESET_STATS);
         SendGossipMenuFor(player, NPC_TEXT_HEALING_DUMMY, creature->GetGUID());
         return true;
     }
@@ -2250,11 +2250,11 @@ public:
 
         if (!player->HasPlayerFlag(PLAYER_FLAGS_NO_XP_GAIN))
         {
-            AddGossipItemFor(player, GOSSIP_MENU_EXP_NPC, 0, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 1, toggleXpCost); // "I no longer wish to gain experience."
+            AddGossipItemFor(player, GOSSIP_MENU_EXP_NPC, 0, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 1, toggleXpCost); // "我不再想要获得经验值。"
         }
         else
         {
-            AddGossipItemFor(player, GOSSIP_MENU_EXP_NPC, 1, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 2, toggleXpCost); // "I wish to start gaining experience again."
+            AddGossipItemFor(player, GOSSIP_MENU_EXP_NPC, 1, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 2, toggleXpCost); // "我希望重新开始获得经验值。"
         }
 
         SendGossipMenuFor(player, player->GetGossipTextId(creature), creature);

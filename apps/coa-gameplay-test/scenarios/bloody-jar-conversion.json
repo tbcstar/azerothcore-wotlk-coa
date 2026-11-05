@@ -153,7 +153,7 @@
       "actor": "normal",
       "metric": "server_packet_contains",
       "opcode": 381,
-      "text": "Bloodforging an item transforms it into PvP Gear, removing the PvE Power and replacing it with PvP Power.\n\nHeroic, Mythic or Ascended items will be converted into Normal Bloodforged items.\n\nThis is IRREVERSIBLE.",
+      "text": "血铸会把物品转化为 PvP 装备，移除 PvE 强度并替换为 PvP 强度。\n\n英雄、史诗或飞升品质的物品将被转换为普通血铸物品。\n\n此操作不可撤销。",
       "equals": 1
     },
     {

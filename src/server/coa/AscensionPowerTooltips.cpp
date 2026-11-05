@@ -21,16 +21,16 @@ struct ClientString
 };
 
 constexpr std::array<ClientString, 8> PowerStrings = { {
-    { 9700101, "PVE_POWER_TOOLTIP1", "Damage against creatures increased by: %g%%." },
-    { 9700102, "PVE_POWER_TOOLTIP2", "Damage taken from creatures reduced by: %g%%." },
-    { 9700103, "PVE_POWER_TOOLTIP3", "Healing and Absorption done in instances increased by: %g%%." },
-    { 9700104, "PVP_POWER_TOOLTIP1", "Damage against players increased by: %g%%." },
-    { 9700105, "PVP_POWER_TOOLTIP2", "Spirit Primary Stat Increases your Healing and Absorption done in Open World "
-        "when in War Mode or High Risk, Arenas and Battlegrounds by: %g%%." },
-    { 9700106, "PVP_POWER_TOOLTIP2_ALT", "Increases your Healing and Absorption done in Open World when in War Mode "
-        "or High Risk, Arenas and Battlegrounds by: %g%%." },
-    { 9700107, "PVP_POWER_TOOLTIP4", "Damage against creatures increased by: %g%%." },
-    { 9700108, "PVP_POWER_TOOLTIP5", "Damage taken from creatures reduced by: %g%%." },
+    { 9700101, "PVE_POWER_TOOLTIP1", "对生物造成的伤害提高：%g%%。" },
+    { 9700102, "PVE_POWER_TOOLTIP2", "受到生物造成的伤害降低：%g%%。" },
+    { 9700103, "PVE_POWER_TOOLTIP3", "在副本中造成的治疗与吸收效果提高：%g%%。" },
+    { 9700104, "PVP_POWER_TOOLTIP1", "对玩家造成的伤害提高：%g%%。" },
+    { 9700105, "PVP_POWER_TOOLTIP2", "精神主属性使你在战争模式或高风险状态的野外、竞技场与战场中"
+        "造成的治疗与吸收效果提高：%g%%。" },
+    { 9700106, "PVP_POWER_TOOLTIP2_ALT", "使你在战争模式或高风险状态的野外、竞技场与战场中"
+        "造成的治疗与吸收效果提高：%g%%。" },
+    { 9700107, "PVP_POWER_TOOLTIP4", "对生物造成的伤害提高：%g%%。" },
+    { 9700108, "PVP_POWER_TOOLTIP5", "受到生物造成的伤害降低：%g%%。" },
 } };
 
 class DecimalPercentages : public PlayerScript

@@ -149,10 +149,10 @@ bool Deliver(Player* player, std::vector<Reward> const& rewards, Item* cache)
 
     if (!posted.empty())
     {
-        std::string message = "Your bags were full, so your reward was sent to your mailbox.";
+        std::string message = "你的背包已满，奖励已通过邮件寄出。";
         if (posted.size() > 1)
-            message = "Your bags were full, so all " + std::to_string(posted.size()) +
-                " of your rewards were sent to your mailbox.";
+            message = "你的背包已满，全部 " + std::to_string(posted.size()) +
+                " 份奖励均已通过邮件寄出。";
         ChatHandler handler(player->GetSession());
         handler.SendSysMessage(message);
         handler.SendNotification(message);

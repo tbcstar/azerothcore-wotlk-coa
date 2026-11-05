@@ -141,7 +141,7 @@ public:
         PreparedQueryResult result = WorldDatabase.Query(stmt);
         if (result)
         {
-            handler->SendErrorMessage("This {} (Id: {}) is already disabled.", disableTypeStr, entry);
+            handler->SendErrorMessage("该 {}（ID：{}）已被禁用。", disableTypeStr, entry);
             return false;
         }
 
@@ -152,7 +152,7 @@ public:
         stmt->SetData(3, disableComment);
         WorldDatabase.Execute(stmt);
 
-        handler->PSendSysMessage("Add Disabled {} (Id: {}) for reason {}", disableTypeStr, entry, disableComment);
+        handler->PSendSysMessage("已禁用 {}（ID：{}），原因：{}", disableTypeStr, entry, disableComment);
         return true;
     }
 
@@ -228,7 +228,7 @@ public:
         PreparedQueryResult result = WorldDatabase.Query(stmt);
         if (!result)
         {
-            handler->SendErrorMessage("This {} (Id: {}) is not disabled.", disableTypeStr, entry);
+            handler->SendErrorMessage("此 {}（ID：{}）未被禁用。", disableTypeStr, entry);
             return false;
         }
 
@@ -237,7 +237,7 @@ public:
         stmt->SetData(1, disableType);
         WorldDatabase.Execute(stmt);
 
-        handler->PSendSysMessage("Remove Disabled {} (Id: {})", disableTypeStr, entry);
+        handler->PSendSysMessage("已解除禁用 {}（ID：{}）", disableTypeStr, entry);
         return true;
     }
 

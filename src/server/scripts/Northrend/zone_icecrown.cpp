@@ -1330,7 +1330,7 @@ public:
             if (Unit* passenger = kit->GetPassenger(SEAT_ENGINEERING))
                 if (init && !passenger->HasAura(SPELL_BURNING))
                 {
-                    me->TextEmote("Your Vehicle is burning!", GetSummoner(), true);
+                    me->TextEmote("你的载具着火了！", GetSummoner(), true);
                     passenger->AddAura(SPELL_BURNING, passenger);
                 }
 

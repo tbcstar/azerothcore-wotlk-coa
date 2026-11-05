@@ -286,7 +286,7 @@ bool OpenCallboardCache(Player* player, Item* item)
     if (!PickReward(player, *pool, uint32(AscensionAverageItemLevel::Equipped(player)), reward))
     {
         ChatHandler(player->GetSession()).SendSysMessage(
-            "The cache holds nothing this character can use.");
+            "这个宝箱中没有该角色能使用的东西。");
         return true;
     }
 
@@ -435,7 +435,7 @@ bool GrantCache(Player* player, uint32 cacheItemId)
 
     CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
     item->SaveToDB(trans);
-    MailDraft("Callboard Cache", "Your bags were full, so your Callboard Cache was sent by mail.")
+    MailDraft("任务板宝箱", "你的背包已满，因此任务板宝箱已通过邮件寄出。")
         .AddItem(item)
         .SendMailTo(trans, MailReceiver(player), MailSender(player));
     CharacterDatabase.CommitTransaction(trans);

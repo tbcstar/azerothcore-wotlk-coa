@@ -115,7 +115,7 @@ public:
     {
         if (!args || !*args)
         {
-            handler->SendSysMessage("Usage: .raf <online player> | status | levels | rewards | claim [reward_id]. Recruitment links require acceptance.");
+            handler->SendSysMessage("用法：.raf <在线玩家> | status | levels | rewards | claim [奖励ID]。招募链接需要对方接受。");
             return false;
         }
 
@@ -125,7 +125,7 @@ public:
 
         if (!normalizePlayerName(name))
         {
-            handler->SendErrorMessage("Enter a valid character name. Usage: .raf <CharacterName>.");
+            handler->SendErrorMessage("请输入有效的角色名。用法：.raf <角色名>。");
             return false;
         }
 
@@ -158,7 +158,7 @@ public:
 
             if (!result)
             {
-                LOG_ERROR("misc", "Account {} not found in login database when processing .account 2fa setup command.", accountId);
+                LOG_ERROR("misc", "处理 .account 2fa setup 命令时，在登录数据库中未找到账号 {}。", accountId);
                 handler->SendErrorMessage(LANG_UNKNOWN_ERROR);
                 return false;
             }
@@ -226,7 +226,7 @@ public:
 
             if (!result)
             {
-                LOG_ERROR("misc", "Account {} not found in login database when processing .account 2fa setup command.", accountId);
+                LOG_ERROR("misc", "处理 .account 2fa setup 命令时，在登录数据库中未找到账号 {}。", accountId);
                 handler->SendErrorMessage(LANG_UNKNOWN_ERROR);
                 return false;
             }
@@ -248,7 +248,7 @@ public:
                 bool success = Acore::Crypto::AEDecrypt<Acore::Crypto::AES>(secret, *masterKey);
                 if (!success)
                 {
-                    LOG_ERROR("misc", "Account {} has invalid ciphertext in TOTP token.", accountId);
+                    LOG_ERROR("misc", "账号 {} 的 TOTP 令牌密文无效。", accountId);
                     handler->SendErrorMessage(LANG_UNKNOWN_ERROR);
                     return false;
                 }
@@ -325,7 +325,7 @@ public:
                 handler->PSendSysMessage(LANG_ACCOUNT_CREATED, accountName);
                 if (handler->GetSession())
                 {
-                    LOG_DEBUG("warden", "Account: {} (IP: {}) Character:[{}] ({}) Change Password.",
+                    LOG_DEBUG("warden", "账号：{}（IP：{}）角色：[{}]（{}）修改密码。",
                                    handler->GetSession()->GetAccountId(), handler->GetSession()->GetRemoteAddress(),
                                    handler->GetSession()->GetPlayer()->GetName(), handler->GetSession()->GetPlayer()->GetGUID().ToString());
                 }
@@ -510,7 +510,7 @@ public:
                 }
                 else
                 {
-                    handler->SendErrorMessage("No IP2Location information - account not locked");
+                    handler->SendErrorMessage("没有 IP2Location 信息 - 账号未锁定");
                     return false;
                 }
             }

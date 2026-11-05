@@ -2208,8 +2208,8 @@ Rate.Talent.Pet = 1
 
 #
 #    Rate.Threat.TankStance
-#        Description: Threat multiplier for players in a CoA tank stance (spells 807725-807736),
-#                     on top of the stance's own threat bonus. Temporary tuning, 1 disables it.
+#        Description: 针对处于 CoA 坦克姿态（法术 807725-807736）的玩家的威胁值倍率，
+#                     在其自身姿态威胁加成之上叠加。临时调参用，设为 1 即禁用。
 #        Default:     2
 
 Rate.Threat.TankStance = 2

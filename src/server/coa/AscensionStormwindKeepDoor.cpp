@@ -28,7 +28,7 @@ public:
             return false;
         }
 
-        ChatHandler(player->GetSession()).SendNotification("The door won't budge.");
+        ChatHandler(player->GetSession()).SendNotification("这扇门纹丝不动。");
         return true;
     }
 };

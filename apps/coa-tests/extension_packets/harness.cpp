@@ -1066,7 +1066,7 @@ void TestVanityDelivery()
     service._vanityItems[altar] = {};
     Delivery const withheld = Deliver({}, {DonationPointsRequest(altar)});
     Check(withheld.Stored.empty() && withheld.Learned.empty() && withheld.Reported.empty() &&
-        withheld.Messages == std::vector<std::string>{"Mystic Enchanting altars are not available on this realm."},
+        withheld.Messages == std::vector<std::string>{"本服务器未开放神秘附魔祭坛。"},
         "Mystic altars are withheld when the realm does not offer them");
     Delivery const allowed = Deliver({true, true, false, true}, {DonationPointsRequest(altar)});
     Check(allowed.Stored == std::vector<uint32>{altar} && allowed.Reported == std::vector<uint32>{altar},

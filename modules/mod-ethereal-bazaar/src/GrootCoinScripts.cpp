@@ -62,7 +62,7 @@ namespace GrootCoin::TiraxisMenu
 
         std::string Coins(uint32 coins)
         {
-            return Acore::StringFormat("{} Groot Coin{}", coins, coins == 1 ? "" : "s");
+            return Acore::StringFormat("{} 枚格鲁特币", coins, coins == 1 ? "" : "s");
         }
 
         // One option per amount. The client's own pop-up is the only confirmation;
@@ -73,7 +73,7 @@ namespace GrootCoin::TiraxisMenu
             if (tokens > std::numeric_limits<uint32>::max())
                 return;
             AddGossipItemFor(player, GOSSIP_ICON_VENDOR, label, uint32(tokens), action,
-                Acore::StringFormat("Exchange {} for {} Bazaar Tokens?", Coins(coins), tokens), 0, false);
+                Acore::StringFormat("用 {} 兑换 {} 枚集市代币？", Coins(coins), tokens), 0, false);
         }
 
         void ShowExchange(Player* player, Creature* creature)
@@ -84,14 +84,14 @@ namespace GrootCoin::TiraxisMenu
             ClearGossipMenuFor(player);
             for (uint32 const coins : EXCHANGE_BUNDLES)
                 if (carried >= coins)
-                    AddOffer(player, Acore::StringFormat("Exchange {} for {} Bazaar Tokens.", Coins(coins),
+                    AddOffer(player, Acore::StringFormat("用 {} 兑换 {} 枚集市代币。", Coins(coins),
                         uint64(coins) * rate), coins, rate, BundleAction(coins));
             if (carried >= 1)
-                AddOffer(player, Acore::StringFormat("Exchange all {} for {} Bazaar Tokens.", Coins(carried),
+                AddOffer(player, Acore::StringFormat("用全部 {} 兑换 {} 枚集市代币。", Coins(carried),
                     uint64(carried) * rate), carried, rate, GOSSIP_GROOT_ALL);
-            AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Back.", GOSSIP_SENDER_GROOT, GOSSIP_GROOT_BACK);
-            player->PlayerTalkClass->SendDynamicGossipMenu(Acore::StringFormat("You carry {} Groot Coin(s). One coin "
-                "is worth {} Bazaar Tokens.", carried, rate), creature->GetGUID());
+            AddGossipItemFor(player, GOSSIP_ICON_CHAT, "返回。", GOSSIP_SENDER_GROOT, GOSSIP_GROOT_BACK);
+            player->PlayerTalkClass->SendDynamicGossipMenu(Acore::StringFormat("你携带了 {} 枚格鲁特币。一枚币"
+                "价值 {} 枚集市代币。", carried, rate), creature->GetGUID());
         }
 
         void Tell(Player* player, std::string_view text)
@@ -108,7 +108,7 @@ namespace GrootCoin::TiraxisMenu
     void AddEntry(Player* player)
     {
         if (ExchangeAvailable())
-            AddGossipItemFor(player, GOSSIP_ICON_MONEY_BAG, "I want to exchange Groot Coins.", GOSSIP_SENDER_GROOT,
+            AddGossipItemFor(player, GOSSIP_ICON_MONEY_BAG, "我想兑换格鲁特币。", GOSSIP_SENDER_GROOT,
                 GOSSIP_GROOT_MENU);
     }
 
@@ -153,7 +153,7 @@ namespace
     using namespace Acore::ChatCommands;
 
     constexpr char const* AWARD_USAGE =
-        "Usage: .groot award <character> <amount> <issue-number> \"<reason>\" \"<attribution-ref>\"";
+        "用法：.groot award <角色名> <数量> <议题编号> \"<理由>\" \"<归属引用>\"";
 
     class groot_coin_commands : public CommandScript
     {
@@ -182,17 +182,17 @@ namespace
             WorldSession* session = handler->GetSession();
             if (!session || !session->GetPlayer())
             {
-                handler->SendSysMessage("Groot Coin awards need an in-game staff character.");
+                handler->SendSysMessage("格鲁特币发放需要在游戏内由工作人员角色执行。");
                 return true;
             }
             if (!AwardsAvailable())
             {
-                handler->SendSysMessage("Groot Coin awards are disabled. See .groot status.");
+                handler->SendSysMessage("格鲁特币发放已被禁用。请查看 .groot status。");
                 return true;
             }
             if (session->GetSecurity() < SEC_GAMEMASTER)
             {
-                handler->SendSysMessage("Groot Coin awards need Game Master security.");
+                handler->SendSysMessage("格鲁特币发放需要游戏管理员权限。");
                 return true;
             }
             if (!target || !amountText || !issueText || !reason || !attribution)
@@ -205,15 +205,14 @@ namespace
             Optional<uint32> const issue = ParseIssueNumber(*issueText);
             if (!amount || !issue)
             {
-                handler->PSendSysMessage("Amount must be a whole number from 1 to {}, and the issue the plain number of "
-                    "a jealous-sound/azerothcore-wotlk-coa issue.", GetSettings().maxAward);
+                handler->PSendSysMessage("数量必须是 1 到 {} 之间的整数，议题参数应为 "
+                    "azerothcore-wotlk-coa 仓库议题的纯编号。", GetSettings().maxAward);
                 handler->SendSysMessage(AWARD_USAGE);
                 return true;
             }
             if (!IsValidAuditText(*reason, REASON_MAX) || !IsValidAuditText(*attribution, ATTRIBUTION_MAX))
             {
-                handler->PSendSysMessage("Reason (up to {} characters) and attribution reference (up to {}) are "
-                    "required.", REASON_MAX, ATTRIBUTION_MAX);
+                handler->PSendSysMessage("必须提供理由（最多 {} 个字符）与归属引用（最多 {} 个字符）。", REASON_MAX, ATTRIBUTION_MAX);
                 handler->SendSysMessage(AWARD_USAGE);
                 return true;
             }
@@ -230,7 +229,7 @@ namespace
             request.actor = session->GetPlayer()->GetGUID();
             IssueAward(std::move(request));
 
-            handler->PSendSysMessage("Groot Coin: awarding {} coin(s) to {} for issue #{}...", *amount,
+            handler->PSendSysMessage("格鲁特币：发放 {} 枚给 {}（议题 #{}）……", *amount,
                 target->GetName(), *issue);
             return true;
         }
@@ -239,14 +238,14 @@ namespace
         {
             if (!target)
             {
-                handler->PSendSysMessage("Usage: .groot history <character> [count up to {}]", HISTORY_MAX);
+                handler->PSendSysMessage("用法：.groot history <角色名> [最多条数 {}]", HISTORY_MAX);
                 return true;
             }
 
             Optional<uint32> const limit = ParseHistoryCount(count ? std::string_view(*count) : std::string_view());
             if (!limit)
             {
-                handler->PSendSysMessage("Usage: .groot history <character> [count up to {}]", HISTORY_MAX);
+                handler->PSendSysMessage("用法：.groot history <角色名> [最多条数 {}]", HISTORY_MAX);
                 return true;
             }
 
@@ -258,7 +257,7 @@ namespace
         {
             if (!id || !IsUuid(*id))
             {
-                handler->SendSysMessage("Usage: .groot inspect <award-id or exchange-id>");
+                handler->SendSysMessage("用法：.groot inspect <发放ID 或 兑换ID>");
                 return true;
             }
 

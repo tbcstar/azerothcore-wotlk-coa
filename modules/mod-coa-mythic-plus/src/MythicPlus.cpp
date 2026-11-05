@@ -337,7 +337,7 @@ namespace
         if (Data::Instance().IsKeystone(item))
             DestroyKeystones(player);
         if (!player->AddItem(item, count))
-            ChatHandler(player->GetSession()).PSendSysMessage("Mythic+: your bags are full, {} x item {} was lost.", count, item);
+            ChatHandler(player->GetSession()).PSendSysMessage("Mythic+：你的背包已满，{} 件物品 {} 已丢失。", count, item);
     }
 
     // LFG dungeons new keys never point at (MythicPlus.ExcludedDungeons), e.g.
@@ -683,28 +683,28 @@ namespace
         key = Data::Instance().GetKeystone(item);
         dungeon = key ? Data::Instance().GetDungeon(key->lfgId) : nullptr;
         if (!key || !dungeon)
-            return "This is not a keystone.";
+            return "这不是一把史诗钥匙。";
         if (!map || !map->IsDungeon() || map->IsRaid())
-            return "Use your keystone inside its dungeon.";
+            return "请在对应的地下城中使用你的史诗钥匙。";
         if (dungeon->mapId != map->GetId())
         {
             detail = DungeonName(key->lfgId);
-            return "This keystone is for another dungeon:";
+            return "这把史诗钥匙属于另一个地下城：";
         }
         if (RequiredDifficulty() >= 0 && int32(map->GetDifficulty()) != RequiredDifficulty())
-            return "Keystones only work on Mythic difficulty.";
+            return "史诗钥匙只能在史诗难度下使用。";
         if (Group* group = player->GetGroup())
         {
             if (!group->IsLeader(player->GetGUID()))
-                return "Only the group leader can start the keystone.";
+                return "只有队长才能开启史诗钥匙。";
             if (group->isLFGGroup() && !sConfigMgr->GetOption<bool>("MythicPlus.AllowInDungeonFinder", true))
-                return "Keystones cannot be used in a Dungeon Finder group.";
+                return "在地下城查找器队伍中无法使用史诗钥匙。";
         }
         if (Run* existing = RunFor(map); existing && existing->state != STATE_INACTIVE)
-            return "A keystone was already used in this instance.";
+            return "这个副本中已经使用过一把史诗钥匙。";
         if (InstanceScript* script = map->ToInstanceMap()->GetInstanceScript())
             if (script->GetCompletedEncounterMask())
-                return "A boss in this instance is already dead. Reset the instance first.";
+                return "这个副本中已有首领被击杀，请先重置副本。";
         return nullptr;
     }
 
@@ -795,18 +795,17 @@ namespace
         uint32 const base = perLevel * level;
         uint32 const bonus = base * bonusPercent / 100;
         if (bonus)
-            ChatHandler(player->GetSession()).PSendSysMessage("You have received {} Bonus Mythic Coins for first time "
-                "completion, because the Keystone holder has unlocked a new highest Mythic Level for the first time.", bonus);
+            ChatHandler(player->GetSession()).PSendSysMessage(
+                "你获得了 {} 枚额外史诗币，因为这是钥匙持有者首次解锁新的最高史诗等级的通关奖励。", bonus);
         uint32 const amount = std::min(base + bonus, cap > weekly.coins ? cap - weekly.coins : 0);
         if (amount)
         {
             Give(player, coinItem, amount);
             AddWeekly(player->GetGUID(), amount, 0);
         }
-        ChatHandler(player->GetSession()).PSendSysMessage("You've obtained {} out of {} mythic coins.",
+        ChatHandler(player->GetSession()).PSendSysMessage("你已获得 {} / {} 枚史诗币。",
             weekly.coins + amount, cap);
     }
-
 
     // Item pools the caches and spoils draw from: the Mythic+ levels of the vanilla dungeon items (level 60 armor and
     // weapons whose description is @Mythic N@ and whose name and slot match a Mythic dungeon item, as the upgrade
@@ -1016,8 +1015,8 @@ namespace
                 if (next)
                     ReplaceKeystone(player, depleted, next);
                 ChatHandler(player->GetSession()).PSendSysMessage(timed
-                    ? "Mythic+: keystone upgraded +{}, now level {}."
-                    : "Mythic+: out of time, keystone stays at level {}.", timed ? upgrade : newLevel, newLevel);
+                    ? "Mythic+：钥匙升级 +{}，当前等级 {}。"
+                    : "Mythic+：超时，钥匙保持在 {} 级。", timed ? upgrade : newLevel, newLevel);
             }
         });
     }
@@ -1077,7 +1076,7 @@ namespace
         Map* map = player->GetMap();
         auto socketed = g_socketed.find(player->GetGUID());
         if (socketed == g_socketed.end() || !player->HasItemCount(socketed->second, 1, true))
-            return "Use your keystone first.";
+            return "请先使用你的钥匙。";
         uint32 item = socketed->second;
 
         Keystone const* key = nullptr;
@@ -1089,7 +1088,7 @@ namespace
         map->DoForAllPlayers([&error](Player* p)
         {
             if (p->IsInCombat())
-                error = "Somebody is in combat.";
+                error = "有人正在战斗中。";
         });
         if (error)
             return error;
@@ -1154,7 +1153,7 @@ namespace
             SendState(p, run, STATE_COUNTDOWN);
             SendProgress(p, run);
             SendTimer(p, run);
-            ChatHandler(p->GetSession()).PSendSysMessage("Mythic+ {} +{}: affixes {}.", DungeonName(run.lfgId), run.level, affixText);
+            ChatHandler(p->GetSession()).PSendSysMessage("Mythic+ {} +{}：词缀 {}。", DungeonName(run.lfgId), run.level, affixText);
         });
 
         LOG_INFO("module", "Mythic+: {} started +{} (lfg {}) in instance {} map {}, week {}, affixes {}",
@@ -1172,7 +1171,7 @@ namespace
         std::lock_guard<std::recursive_mutex> guard(g_lock);
         std::string detail;
         if (char const* error = TryStart(player, detail))
-            ChatHandler(session).PSendSysMessage("Mythic+: {}{}{}", error, detail.empty() ? "" : " ", detail);
+            ChatHandler(session).PSendSysMessage("Mythic+：{}{}{}", error, detail.empty() ? "" : " ", detail);
         return true;
     }
 
@@ -1558,7 +1557,7 @@ private:
     // Damage done BY the dungeon's creatures during a run.
     static float Factor(Unit* attacker, bool physical)
     {
-        if (!attacker || attacker->IsControlledByPlayer() || attacker->GetTypeId() != TYPEID_UNIT)
+        if (!attacker || attacker->IsControlledByPlayer() || !attacker->IsCreature())
             return 1.0f;
         Map* map = attacker->GetMap();
         if (!map || !map->IsDungeon())
@@ -1604,7 +1603,7 @@ private:
             }
             Give(p, item, 1);
             LOG_INFO("module", "Mythic+ first key: map {}: {} received keystone {}", mapId, p->GetName(), item);
-            ChatHandler(p->GetSession()).SendSysMessage("Mythic+: you received a Mythic Keystone.");
+            ChatHandler(p->GetSession()).SendSysMessage("Mythic+：你获得了一枚史诗钥匙。");
         });
     }
 };
@@ -1697,7 +1696,7 @@ public:
         if (char const* error = CheckKeystone(player, item, key, dungeon, detail))
         {
             g_socketed.erase(player->GetGUID());
-            ChatHandler(player->GetSession()).PSendSysMessage("Mythic+: {}{}{}", error, detail.empty() ? "" : " ", detail);
+            ChatHandler(player->GetSession()).PSendSysMessage("Mythic+：{}{}{}", error, detail.empty() ? "" : " ", detail);
             LOG_INFO("module", "Mythic+: {} used keystone {} on map {}: {} {}", player->GetName(), item,
                 player->GetMapId(), error, detail);
             return;
@@ -1752,7 +1751,7 @@ public:
             Weekly const weekly = GetWeekly(player->GetGUID());
             if (weekly.caches >= WeeklyCacheCap())
             {
-                ChatHandler(player->GetSession()).PSendSysMessage("You have opened {} of {} Mythical Caches this week.",
+                ChatHandler(player->GetSession()).PSendSysMessage("你本周已开启 {} / {} 个神话宝箱。",
                     weekly.caches, WeeklyCacheCap());
                 return true;
             }
@@ -1762,7 +1761,7 @@ public:
         std::erase(rewards, 0u);
         if (rewards.empty())
         {
-            ChatHandler(player->GetSession()).SendSysMessage("The cache is empty.");
+            ChatHandler(player->GetSession()).SendSysMessage("宝箱是空的。");
             return true;
         }
         for (uint32 reward : rewards)
@@ -1782,7 +1781,7 @@ public:
         if (!spoils)
         {
             AddWeekly(player->GetGUID(), 0, 1);
-            ChatHandler(player->GetSession()).PSendSysMessage("Mythical Caches opened this week: {} / {}.",
+            ChatHandler(player->GetSession()).PSendSysMessage("本周已开启的神话宝箱：{} / {}。",
                 GetWeekly(player->GetGUID()).caches, WeeklyCacheCap());
         }
         return true;
@@ -1833,7 +1832,7 @@ namespace
     constexpr uint32 TEXT_MARKUS = 9414500;
     constexpr uint32 RANDOMIZE_COST = 10 * GOLD;
 
-    char const* const SLOT_NAMES[17] = { "", "Head", "Neck", "Shoulders", "Back", "Chest", "Wrists", "Main Hand",
+    char const* const SLOT_NAMES[17] = { "", "Head", "Neck", "Shoulders", "返回", "Chest", "Wrists", "Main Hand",
         "Two-Hand", "Off Hand", "Ranged", "Gloves", "Belt", "Pants", "Boots", "Rings", "Trinkets" };
     char const* const SLOT_ICONS[17] = { "", "INV_Helmet_03", "INV_Jewelry_Necklace_07", "INV_Shoulder_02", "INV_Misc_Cape_02",
         "INV_Chest_Chain_05", "INV_Bracer_07", "INV_Sword_04", "INV_Axe_09", "INV_Shield_06", "INV_Weapon_Bow_07",
@@ -1978,7 +1977,7 @@ namespace
         uint32 const coinItem = sConfigMgr->GetOption<uint32>("MythicPlus.CoinItem", 1414500);
         if (!player->HasItemCount(coinItem, coins))
         {
-            ChatHandler(player->GetSession()).PSendSysMessage("You need {} Mythic Coins.", coins);
+            ChatHandler(player->GetSession()).PSendSysMessage("你需要 {} 枚史诗币。", coins);
             return false;
         }
         player->DestroyItemCount(coinItem, coins, true);
@@ -1994,14 +1993,14 @@ namespace
             return false;
         if (!itr->second.second)
         {
-            ChatHandler(player->GetSession()).SendSysMessage("Only Mythic 1 and higher items can be recycled.");
+            ChatHandler(player->GetSession()).SendSysMessage("只有史诗 1 级及以上的物品才能回收。");
             return false;
         }
         uint32 const value = RecycleValue(itr->second.second);
         Weekly const weekly = GetWeekly(player->GetGUID());
         if (weekly.coins + value > WeeklyCoinCap())
         {
-            ChatHandler(player->GetSession()).PSendSysMessage("You have reached the weekly cap of {} Mythic Coins.", WeeklyCoinCap());
+            ChatHandler(player->GetSession()).PSendSysMessage("你已达到每周 {} 枚史诗币的上限。", WeeklyCoinCap());
             return false;
         }
         player->DestroyItem(item->GetBagSlot(), item->GetSlot(), true);
@@ -2088,11 +2087,11 @@ private:
     static void AddInfo(Player* player)
     {
         Weekly const weekly = GetWeekly(player->GetGUID());
-        AddGossipItemFor(player, GOSSIP_ICON_MONEY_BAG, Opt("inv_legion_chest_legionfall", Acore::StringFormat("Mythical Caches Opened: {} / {}", weekly.caches,
+        AddGossipItemFor(player, GOSSIP_ICON_MONEY_BAG, Opt("inv_legion_chest_legionfall", Acore::StringFormat("已开启神话宝箱：{} / {}", weekly.caches,
             WeeklyCacheCap()), 30), MENU_MAIN, 0);
-        AddGossipItemFor(player, GOSSIP_ICON_MONEY_BAG, Opt("timelesscoin", Acore::StringFormat("Mythic Coins Obtained: {} / {}", weekly.coins,
+        AddGossipItemFor(player, GOSSIP_ICON_MONEY_BAG, Opt("timelesscoin", Acore::StringFormat("已获得史诗币：{} / {}", weekly.coins,
             WeeklyCoinCap()), 30), MENU_MAIN, 0);
-        AddGossipItemFor(player, GOSSIP_ICON_BATTLE, Opt("inv_relics_hourglass", Acore::StringFormat("Highest Mythic Level Completed: {}\n",
+        AddGossipItemFor(player, GOSSIP_ICON_BATTLE, Opt("inv_relics_hourglass", Acore::StringFormat("已完成的最高史诗等级：{}\n",
             GetBestLevel(player->GetGUID())), 30), MENU_MAIN, 0);
     }
 
@@ -2100,19 +2099,19 @@ private:
     {
         ClearGossipMenuFor(player);
         AddInfo(player);
-        AddGossipItemFor(player, GOSSIP_ICON_VENDOR, Opt("inv__faction_championsofazeroth", "Purchase Items"), MENU_PURCHASE, 0);
-        AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, Opt("garrison_greenarmorupgrade", "Upgrade Items"), MENU_UPGRADE, 0);
+        AddGossipItemFor(player, GOSSIP_ICON_VENDOR, Opt("inv__faction_championsofazeroth", "购买物品"), MENU_PURCHASE, 0);
+        AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, Opt("garrison_greenarmorupgrade", "升级物品"), MENU_UPGRADE, 0);
         uint32 const highest = std::min(HighestOwnedLevel(player), GetBestLevel(player->GetGUID()));
         uint32 count = 0, cost = 0;
         UpgradeAllPlan(player, highest, count, cost);
         if (count)
-            AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, Opt("garrison_purplearmorupgrade", Acore::StringFormat("Upgrade Items to Highest Level ({})", highest)),
-                DO_UPGRADE_ALL, 0, Acore::StringFormat("Upgrade {} items to Mythic {} for {} Mythic Coins?", count, highest, cost), 0, false);
-        AddGossipItemFor(player, GOSSIP_ICON_INTERACT_2, Opt("INV_Misc_Dice_01", "Randomize your Mythic Keystone"), DO_RANDOMIZE, 0,
-            "Randomize the dungeon of your Mythic Keystone?", RANDOMIZE_COST, false);
-        AddGossipItemFor(player, GOSSIP_ICON_INTERACT_2, Opt("misc_arrowdown", "Downgrade Keystone"), DO_DOWNGRADE, 0,
-            "Lower your Mythic Keystone by one level?", 0, false);
-        AddGossipItemFor(player, GOSSIP_ICON_TRAINER, Opt("inv_enchant_alchemistcauldron", "Recycle Items"), MENU_RECYCLE, 0);
+            AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, Opt("garrison_purplearmorupgrade", Acore::StringFormat("将物品升级至最高等级（{}）", highest)),
+                DO_UPGRADE_ALL, 0, Acore::StringFormat("将 {} 件物品升级到史诗 {}，花费 {} 枚史诗币？", count, highest, cost), 0, false);
+        AddGossipItemFor(player, GOSSIP_ICON_INTERACT_2, Opt("INV_Misc_Dice_01", "随机化你的史诗钥匙"), DO_RANDOMIZE, 0,
+            "随机化你的史诗钥匙所对应的地下城？", RANDOMIZE_COST, false);
+        AddGossipItemFor(player, GOSSIP_ICON_INTERACT_2, Opt("misc_arrowdown", "降低钥匙等级"), DO_DOWNGRADE, 0,
+            "将你的史诗钥匙降低一级？", 0, false);
+        AddGossipItemFor(player, GOSSIP_ICON_TRAINER, Opt("inv_enchant_alchemistcauldron", "回收物品"), MENU_RECYCLE, 0);
         SendGossipMenuFor(player, TEXT_EDRIM, creature->GetGUID());
     }
 
@@ -2122,7 +2121,7 @@ private:
         for (uint32 slot = 1; slot <= 16; ++slot)
             if (VendorItemData const* items = sObjectMgr->GetNpcVendorItemList(EDRIM_VENDOR_BASE + slot); items && !items->Empty())
                 AddGossipItemFor(player, GOSSIP_ICON_VENDOR, Opt(SLOT_ICONS[slot], SLOT_NAMES[slot]), DO_BUY, slot);
-        AddGossipItemFor(player, GOSSIP_ICON_CHAT, Opt("Spell_Shadow_Teleport", "Back"), MENU_MAIN, 0);
+        AddGossipItemFor(player, GOSSIP_ICON_CHAT, Opt("Spell_Shadow_Teleport", "返回"), MENU_MAIN, 0);
         SendGossipMenuFor(player, TEXT_EDRIM, creature->GetGUID());
     }
 
@@ -2142,7 +2141,7 @@ private:
                 DO_UPGRADE, item->GetGUID().GetCounter(), Acore::StringFormat("Upgrade {} to {} for {} Mythic Coins?", name,
                 LevelName(nextLevel), UpgradeCost(nextLevel)), 0, false);
         });
-        AddGossipItemFor(player, GOSSIP_ICON_CHAT, Opt("Spell_Shadow_Teleport", "Back"), MENU_MAIN, 0);
+        AddGossipItemFor(player, GOSSIP_ICON_CHAT, Opt("Spell_Shadow_Teleport", "返回"), MENU_MAIN, 0);
         SendGossipMenuFor(player, TEXT_EDRIM, creature->GetGUID());
     }
 
@@ -2154,7 +2153,7 @@ private:
         for (; sellList < 16; ++sellList)
             if (VendorItemData const* items = sObjectMgr->GetNpcVendorItemList(EDRIM_VENDOR_BASE + sellList); items && !items->Empty())
                 break;
-        AddGossipItemFor(player, GOSSIP_ICON_MONEY_BAG, Opt("INV_Misc_Bag_07", "You can MASS recycle items by selling them to me.", 24), DO_BUY, sellList);
+        AddGossipItemFor(player, GOSSIP_ICON_MONEY_BAG, Opt("INV_Misc_Bag_07", "你可以把物品卖给我来批量回收。", 24), DO_BUY, sellList);
         ForEachOwnedItem(player, false, [&](Item* item)
         {
             auto itr = g_chainOf.find(item->GetEntry());
@@ -2168,7 +2167,7 @@ private:
                 "process is irreversible, but it will reward you with {} Mythic Coin.", name, level,
                 RecycleValue(itr->second.second)), 0, false);
         });
-        AddGossipItemFor(player, GOSSIP_ICON_CHAT, Opt("Spell_Shadow_Teleport", "Back"), MENU_MAIN, 0);
+        AddGossipItemFor(player, GOSSIP_ICON_CHAT, Opt("Spell_Shadow_Teleport", "返回"), MENU_MAIN, 0);
         SendGossipMenuFor(player, TEXT_EDRIM, creature->GetGUID());
     }
 
@@ -2222,7 +2221,7 @@ private:
         Keystone const* info = key ? Data::Instance().GetKeystone(key) : nullptr;
         if (!info)
         {
-            ChatHandler(player->GetSession()).SendSysMessage("You have no Mythic Keystone.");
+            ChatHandler(player->GetSession()).SendSysMessage("你没有史诗钥匙。");
             return;
         }
         if (!player->HasEnoughMoney(RANDOMIZE_COST))
@@ -2243,7 +2242,7 @@ private:
         Keystone const* info = key ? Data::Instance().GetKeystone(key) : nullptr;
         if (!info || info->level <= 1)
         {
-            ChatHandler(player->GetSession()).SendSysMessage("You have no Mythic Keystone above level 1.");
+            ChatHandler(player->GetSession()).SendSysMessage("你没有 1 级以上的史诗钥匙。");
             return;
         }
         if (uint32 lower = Data::Instance().GetKeystoneItem(info->lfgId, info->level - 1))
@@ -2260,8 +2259,8 @@ public:
     bool OnGossipHello(Player* player, Creature* creature) override
     {
         ClearGossipMenuFor(player);
-        AddGossipItemFor(player, GOSSIP_ICON_VENDOR, Opt("pvecurrency-valor", "Mark of Triumph"), 2, 0);
-        AddGossipItemFor(player, GOSSIP_ICON_VENDOR, Opt("pvecurrency-valor", "Heroic Dungeon Items"), 1, 0);
+        AddGossipItemFor(player, GOSSIP_ICON_VENDOR, Opt("pvecurrency-valor", "凯旋印记"), 2, 0);
+        AddGossipItemFor(player, GOSSIP_ICON_VENDOR, Opt("pvecurrency-valor", "英雄副本物品"), 1, 0);
         SendGossipMenuFor(player, TEXT_MARKUS, creature->GetGUID());
         return true;
     }
@@ -2274,7 +2273,7 @@ public:
             for (uint32 slot = 1; slot <= 16; ++slot)
                 if (VendorItemData const* items = sObjectMgr->GetNpcVendorItemList(MARK_VENDOR + slot); items && !items->Empty())
                     AddGossipItemFor(player, GOSSIP_ICON_VENDOR, Opt(SLOT_ICONS[slot], SLOT_NAMES[slot]), 2, slot);
-            AddGossipItemFor(player, GOSSIP_ICON_CHAT, Opt("Spell_Shadow_Teleport", "Back"), 3, 0);
+            AddGossipItemFor(player, GOSSIP_ICON_CHAT, Opt("Spell_Shadow_Teleport", "返回"), 3, 0);
             SendGossipMenuFor(player, TEXT_MARKUS, creature->GetGUID());
             return true;
         }
@@ -2377,7 +2376,7 @@ public:
         if (!InRunningKey(player->GetMap()))
         {
             player->SendEquipError(EQUIP_ERR_CANT_DO_RIGHT_NOW, item, nullptr);
-            ChatHandler(player->GetSession()).SendSysMessage("Mythical Boons work only inside a Mythic Keystone.");
+            ChatHandler(player->GetSession()).SendSysMessage("神话恩赐只能在史诗钥匙中使用。");
             return true;
         }
         uint32 const spellId = item->GetTemplate()->Spells[0].SpellId;
@@ -2773,7 +2772,7 @@ public:
         std::lock_guard<std::recursive_mutex> guard(g_lock);
         if (!g_socketed.count(player->GetGUID()))
         {
-            handler->SendSysMessage("Use your keystone first.");
+            handler->SendSysMessage("请先使用你的钥匙。");
             return true;
         }
         SendWindow(player, true);
@@ -2787,15 +2786,15 @@ public:
         Run* run = RunFor(player->GetMap());
         if (!run)
         {
-            handler->SendSysMessage("No keystone run in this instance.");
+            handler->SendSysMessage("此副本中没有正在进行的钥匙进程。");
             return true;
         }
-        handler->PSendSysMessage("Mythic+ +{} lfg {} state {}: {} / {} s, forces {} / {}, encounters {} / {} (final {})",
+        handler->PSendSysMessage("史诗+ +{} lfg {} 状态 {}：{} / {} 秒，敌军兵力 {} / {}，遭遇 {} / {}（最终 {}）",
             run->level, run->lfgId, uint32(run->state), run->elapsedMs / 1000, run->dungeon.timeLimitMs / 1000,
             run->forces, run->dungeon.forcesTotal, uint32(run->encounters.size()), run->dungeon.encountersRequired,
             run->finalKilled ? "down" : "alive");
-        handler->PSendSysMessage("Week {}, affixes: {}", run->rotation, AffixNames(run->affixes));
-        handler->PSendSysMessage("Forces: {} in this wing, each kill x{:.2f}", run->forcesAvailable, run->forcesScale);
+        handler->PSendSysMessage("第 {} 周，词缀：{}", run->rotation, AffixNames(run->affixes));
+        handler->PSendSysMessage("敌军兵力：本区域 {} 点，每次击杀 x{:.2f}", run->forcesAvailable, run->forcesScale);
         return true;
     }
 
@@ -2804,7 +2803,7 @@ public:
     {
         uint32 const week = CurrentRotation();
         for (uint32 l : level ? std::vector<uint32> { *level } : std::vector<uint32> { 2, 4, 7, 10, 15, 20 })
-            handler->PSendSysMessage("Week {} +{}: {}", week, l, AffixNames(Data::Instance().GetAffixes(week, l)));
+            handler->PSendSysMessage("第 {} 周 +{}：{}", week, l, AffixNames(Data::Instance().GetAffixes(week, l)));
         return true;
     }
 
@@ -2814,7 +2813,7 @@ public:
     {
         std::lock_guard<std::recursive_mutex> guard(g_lock);
         g_weekOverride = week ? std::clamp<int32>(*week, -1, 52) : -1;
-        handler->PSendSysMessage("Mythic+ affix week: {}{}", CurrentRotation(), g_weekOverride < 0 ? " (calendar)" : " (forced)");
+        handler->PSendSysMessage("史诗+ 词缀周：{}{}", CurrentRotation(), g_weekOverride < 0 ? "（日历）" : "（强制）");
         return true;
     }
 
@@ -2824,7 +2823,7 @@ public:
         Player* player = handler->GetSession()->GetPlayer();
         std::lock_guard<std::recursive_mutex> guard(g_lock);
         g_socketed.erase(player->GetGUID());
-        handler->PSendSysMessage("Mythic+: {} keystone(s) destroyed.", DestroyKeystones(player));
+        handler->PSendSysMessage("史诗+：已销毁 {} 把钥匙。", DestroyKeystones(player));
         return true;
     }
 
@@ -2835,11 +2834,11 @@ public:
         uint32 item = lfgId ? Data::Instance().GetKeystoneItem(*lfgId, level) : RandomKeystone(level);
         if (!item)
         {
-            handler->SendSysMessage("No keystone for that dungeon and level.");
+            handler->SendSysMessage("该地下城与等级没有对应的钥匙。");
             return true;
         }
         Give(player, item, 1);
-        handler->PSendSysMessage("Gave keystone {}.", item);
+        handler->PSendSysMessage("已发放钥匙 {}。", item);
         return true;
     }
 
@@ -2849,12 +2848,12 @@ public:
         Creature* creature = handler->getSelectedCreature();
         if (!creature)
         {
-            handler->SendSysMessage("Select a creature.");
+            handler->SendSysMessage("请选择一个生物。");
             return true;
         }
         std::lock_guard<std::recursive_mutex> guard(g_lock);
         bool fromTable = g_forces.count(creature->GetEntry()) || g_forces.count(BaseEntry(creature->GetEntry()));
-        handler->PSendSysMessage("{} ({}): {} enemy forces ({})", creature->GetName(), creature->GetEntry(),
+        handler->PSendSysMessage("{}（{}）：{} 点敌军兵力（{}）", creature->GetName(), creature->GetEntry(),
             ForcesFor(creature), fromTable ? "coa_mythic_forces" : "default");
         return true;
     }
@@ -2896,7 +2895,7 @@ public:
         if (!target)
             return false;
         CharacterDatabase.DirectExecute("REPLACE INTO coa_mythic_best (guid, level) VALUES ({}, {})", target->GetGUID().GetCounter(), level);
-        handler->PSendSysMessage("Highest Mythic Level Completed of {}: {}", target->GetName(), level);
+        handler->PSendSysMessage("{} 的最高完成史诗等级：{}", target->GetName(), level);
         return true;
     }
 
@@ -2911,11 +2910,11 @@ public:
         Run* run = RunFor(target->GetMap());
         if (!run || run->state != STATE_RUNNING)
         {
-            handler->SendSysMessage("No Mythic+ run is under way there.");
+            handler->SendSysMessage("那里没有正在进行的史诗+进程。");
             return true;
         }
         run->elapsedMs = seconds * IN_MILLISECONDS;
-        handler->PSendSysMessage("Mythic+: {} s of {} s elapsed.", seconds, run->dungeon.timeLimitMs / IN_MILLISECONDS);
+        handler->PSendSysMessage("史诗+：已进行 {} 秒 / 共 {} 秒。", seconds, run->dungeon.timeLimitMs / IN_MILLISECONDS);
         return true;
     }
 
@@ -2928,7 +2927,7 @@ public:
         Keystone const* info = key ? Data::Instance().GetKeystone(key) : nullptr;
         if (!info)
         {
-            handler->SendSysMessage("You have no Mythic Keystone.");
+            handler->SendSysMessage("你没有史诗钥匙。");
             return true;
         }
         uint32 next = 0;
@@ -2937,12 +2936,12 @@ public:
         Keystone const* nextInfo = next ? Data::Instance().GetKeystone(next) : nullptr;
         if (!nextInfo || next == key)
         {
-            handler->SendSysMessage("No other dungeon has a keystone at this level.");
+            handler->SendSysMessage("没有其他地下城在此等级有钥匙。");
             return true;
         }
         g_socketed.erase(player->GetGUID());
         Give(player, next, 1);
-        handler->PSendSysMessage("Mythic+: your keystone is now {} +{}.", DungeonName(nextInfo->lfgId), nextInfo->level);
+        handler->PSendSysMessage("史诗+：你的钥匙现在是 {} +{}。", DungeonName(nextInfo->lfgId), nextInfo->level);
         return true;
     }
 
@@ -2955,7 +2954,7 @@ public:
         if (point == 1)
         {
             pending[player->GetGUID()] = { player->GetMapId(), player->GetPosition() };
-            handler->PSendSysMessage("Champion point A set at {:.1f} {:.1f} {:.1f}. Walk to point B and use .mythic setchampionpos 2.",
+            handler->PSendSysMessage("勇气点 A 已设为 {:.1f} {:.1f} {:.1f}。走到 B 点后使用 .mythic setchampionpos 2。",
                 player->GetPositionX(), player->GetPositionY(), player->GetPositionZ());
             return true;
         }
@@ -2980,7 +2979,7 @@ public:
             id = result->Fetch()[0].Get<uint32>();
             count = uint32(result->Fetch()[1].Get<uint64>());
         }
-        handler->PSendSysMessage("Champion path {} saved ({:.0f} yd). Map {} now has {} champion path(s).", id,
+        handler->PSendSysMessage("勇气路径 {} 已保存（{:.0f} 码）。地图 {} 现在有 {} 条勇气路径。", id,
             a.GetExactDist(player), player->GetMapId(), count);
         return true;
     }
@@ -2993,7 +2992,7 @@ public:
             player->GetMapId());
         if (!result)
         {
-            handler->SendSysMessage("No champion paths on this map.");
+            handler->SendSysMessage("此地图上没有勇气路径。");
             return true;
         }
         std::vector<std::tuple<float, uint32, float>> paths;
@@ -3006,7 +3005,7 @@ public:
         } while (result->NextRow());
         std::sort(paths.begin(), paths.end());
         for (auto const& [distance, id, length] : paths)
-            handler->PSendSysMessage("Champion path {}: {:.0f} yd long, {:.0f} yd away", id, length, distance);
+            handler->PSendSysMessage("勇气路径 {}：长 {:.0f} 码，相距 {:.0f} 码", id, length, distance);
         return true;
     }
 
@@ -3020,7 +3019,7 @@ public:
             if (dungeon.mapId == map->GetId())
                 expansion = dungeon.expansion;
         std::lock_guard<std::recursive_mutex> guard(g_lock);
-        handler->PSendSysMessage("Mythic+: {} champion(s) placed.", SpawnChampions(map, expansion, 0));
+        handler->PSendSysMessage("史诗+：已放置 {} 个勇气生物。", SpawnChampions(map, expansion, 0));
         return true;
     }
 
@@ -3028,7 +3027,7 @@ public:
     static bool HandleDelChampion(ChatHandler* handler, uint32 id)
     {
         WorldDatabase.DirectExecute("DELETE FROM coa_mythic_champion_path WHERE id = {}", id);
-        handler->PSendSysMessage("Champion path {} deleted.", id);
+        handler->PSendSysMessage("勇气路径 {} 已删除。", id);
         return true;
     }
 
@@ -3037,7 +3036,7 @@ public:
         std::lock_guard<std::recursive_mutex> guard(g_lock);
         Data::Instance().Load();
         LoadTables();
-        handler->SendSysMessage("Mythic+ data reloaded.");
+        handler->SendSysMessage("史诗+ 数据已重新加载。");
         return true;
     }
 };

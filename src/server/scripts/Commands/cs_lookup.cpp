@@ -136,7 +136,7 @@ public:
                     return true;
                 }
 
-                // send area in "id - [name]" format
+                // send area in "id - [名称]" format
                 std::ostringstream ss;
                 if (handler->GetSession())
                 {
@@ -381,8 +381,8 @@ public:
                     return true;
                 }
 
-                // send faction in "id - [faction] rank reputation [visible] [at war] [own team] [unknown] [invisible] [inactive]" format
-                // or              "id - [faction] [no reputation]" format
+                // send faction in "id - [阵营] 等级 声望 [可见] [交战中] [己方] [未知] [不可见] [未激活]" format
+                // or              "id - [阵营] [无声望]" format
                 std::ostringstream ss;
                 if (handler->GetSession())
                 {
@@ -621,7 +621,7 @@ public:
                         return true;
                     }
 
-                    // send item set in "id - [namedlink locale]" format
+                    // send item set in "id - [名称链接 语言区域]" format
                     if (handler->GetSession())
                     {
                         handler->PSendSysMessage(LANG_ITEMSET_LIST_CHAT, id, id, name, localeNames[locale]);
@@ -968,7 +968,7 @@ public:
                     valStr = Acore::StringFormat(handler->GetAcoreString(LANG_SKILL_VALUES), curValue, maxValue, permValue, tempValue);
                 }
 
-                // send skill in "id - [namedlink locale]" format
+                // send skill in "id - [名称链接 语言区域]" format
                 if (handler->GetSession())
                 {
                     handler->PSendSysMessage(LANG_SKILL_LIST_CHAT, skillInfo->id, skillInfo->id, name, localeNames[locale], knownStr, valStr);
@@ -1076,7 +1076,7 @@ public:
                     // find rank of learned spell for learning spell, or talent rank
                     uint32 rank = talentCost ? talentCost : learn && learnSpellInfo ? learnSpellInfo->GetRank() : spellInfo->GetRank();
 
-                    // send spell in "id - [name, rank N] [talent] [passive] [learn] [known]" format
+                    // send spell in "id - [名称, 等级 N] [天赋] [被动] [可学习] [已掌握]" format
                     std::ostringstream ss;
                     if (handler->GetSession())
                     {
@@ -1191,7 +1191,7 @@ public:
             // find rank of learned spell for learning spell, or talent rank
             uint32 rank = talentCost ? talentCost : learn && learnSpellInfo ? learnSpellInfo->GetRank() : spell->GetRank();
 
-            // send spell in "id - [name, rank N] [talent] [passive] [learn] [known]" format
+            // send spell in "id - [名称, 等级 N] [天赋] [被动] [可学习] [已掌握]" format
             std::ostringstream ss;
             if (handler->GetSession())
             {
@@ -1322,7 +1322,7 @@ public:
                     return true;
                 }
 
-                // send taxinode in "id - [name] (Map:m X:x Y:y Z:z)" format
+                // send taxinode in "id - [名称]（地图:m X:x Y:y Z:z）" format
                 if (handler->GetSession())
                 {
                     handler->PSendSysMessage(LANG_TAXINODE_ENTRY_LIST_CHAT, nodeEntry->ID, nodeEntry->ID, name, localeNames[locale],
@@ -1483,7 +1483,7 @@ public:
 
                 std::string titleNameStr = Acore::StringFormat(name, targetName);
 
-                // send title in "id (idx:idx) - [namedlink locale]" format
+                // send title in "id（idx:idx）- [名称链接 语言区域]" format
                 if (handler->GetSession())
                     handler->PSendSysMessage(LANG_TITLE_LIST_CHAT, titleInfo->ID, titleInfo->bit_index, titleInfo->ID, titleNameStr, localeNames[locale], knownStr, activeStr);
                 else
@@ -1674,7 +1674,7 @@ public:
 
                     if (plevel > 0 && prace > 0 && prace <= RACE_DRAENEI && pclass > 0 && pclass <= CLASS_DRUID)
                     {
-                        handler->PSendSysMessage("  {} (GUID {}) - {} - {} - {}{}", name, guid, EnumUtils::ToTitle(Races(prace)), EnumUtils::ToTitle(Classes(pclass)), plevel, (online ? " - [ONLINE]" : ""));
+                        handler->PSendSysMessage("  {}（GUID {}）- {} - {} - {}{}", name, guid, EnumUtils::ToTitle(Races(prace)), EnumUtils::ToTitle(Classes(pclass)), plevel, (online ? " - [在线]" : ""));
                     }
                     else
                     {

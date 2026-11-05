@@ -419,16 +419,16 @@ struct npc_dark_iron_attack_generator : public ScriptedAI
                     if (thrown == 3)
                     {
                         thrown = 0;
-                        sayer->Say("SOMEONE TRY THIS SUPER BREW!", LANG_UNIVERSAL);
+                        sayer->Say("谁来试试这超级酒酿！", LANG_UNIVERSAL);
                         //sayer->CastSpell(sayer, SPELL_CREATE_SUPER_BREW, true);
                         sayer->SummonCreature(NPC_SUPER_BREW_TRIGGER, sayer->GetPositionX() + 15 * cos(sayer->GetOrientation()), sayer->GetPositionY() + 15 * std::sin(sayer->GetOrientation()), sayer->GetPositionZ(), 0.0f, TEMPSUMMON_TIMED_OR_CORPSE_DESPAWN, 30000);
                     }
                     else
                     {
                         if (urand(0, 1))
-                            sayer->Say("Chug and chuck! Chug and chuck!", LANG_UNIVERSAL);
+                            sayer->Say("干杯、投掷！干杯、投掷！", LANG_UNIVERSAL);
                         else
-                            sayer->Say("Down the free brew and pelt the Guzzlers with your mug!", LANG_UNIVERSAL);
+                            sayer->Say("喝光免费酒酿，再用酒杯砸向狂饮者！", LANG_UNIVERSAL);
                     }
 
                     break;
@@ -708,19 +708,19 @@ struct npc_dark_iron_guzzler : public ScriptedAI
             switch (urand(0, 4))
             {
                 case 0:
-                    me->Say("Drink it all boys!", LANG_UNIVERSAL);
+                    me->Say("喝光它，伙计们！", LANG_UNIVERSAL);
                     break;
                 case 1:
-                    me->Say("DRINK! BRAWL! DRINK! BRAWL!", LANG_UNIVERSAL);
+                    me->Say("喝！打！喝！打！", LANG_UNIVERSAL);
                     break;
                 case 2:
-                    me->Say("Did someone say, \"Free Brew\"?", LANG_UNIVERSAL);
+                    me->Say("刚才是谁说了「免费酒酿」？", LANG_UNIVERSAL);
                     break;
                 case 3:
-                    me->Say("No one expects the Dark Iron dwarves!", LANG_UNIVERSAL);
+                    me->Say("没人会料到黑铁矮子出现！", LANG_UNIVERSAL);
                     break;
                 case 4:
-                    me->Say("It's not a party without some crashers!", LANG_UNIVERSAL);
+                    me->Say("没有捣乱的，就不算派对！", LANG_UNIVERSAL);
                     break;
             }
         }

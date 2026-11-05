@@ -358,11 +358,11 @@ bool GmSetEntry(Player* player, std::uint32_t entryId, bool learn, std::string& 
 {
     Row const* row = Loaded.Find(entryId);
     if (!HasFreepickBuild(player))
-        error = "That character has no free-pick build.";
+        error = "该角色没有自由构建方案。";
     else if (!row || !row->MaxRank())
-        error = "That is not a Character Advancement entry.";
+        error = "那不是一条角色成长（Character Advancement）条目。";
     else if (!learn && row->Has(ROW_AUTOMATIC) && !row->AECost && !row->TECost)
-        error = "That entry is granted automatically and cannot be removed.";
+        error = "该条目自动获得，无法移除。";
     if (!error.empty())
         return false;
 
@@ -379,7 +379,7 @@ bool GmSetEntry(Player* player, std::uint32_t entryId, bool learn, std::string& 
         after.push_back({ entryId, row->MaxRank() });
     else if (after.size() == before.size())
     {
-        error = "That character does not know that entry.";
+        error = "该角色尚未掌握该条目。";
         return false;
     }
 
@@ -403,7 +403,7 @@ bool SwitchSpecialization(Player* player, std::uint32_t index, std::string& erro
     if (!IsFreepickHero(player) || index >= AscensionWildcard::SPECIALIZATION_COUNT ||
         !player->HasSpell(AscensionWildcard::SPECIALIZATION_SWAP_SPELLS[index]))
     {
-        error = "That specialization slot is not unlocked.";
+        error = "该专精槽位尚未解锁。";
         return false;
     }
     std::uint32_t const previous = ActiveSpecialization(player);
@@ -580,7 +580,7 @@ public:
         if (CurrentRealm.ConquestOfAzeroth)
             sGameEventMgr->StartInternalEvent(COA_CLASS_TRAINERS_EVENT);
         if ((Classless || Reborn) && !LoadCatalog(Loaded))
-            LOG_ERROR("coa", "Free-pick Character Advancement is unavailable: its client DBCs did not load");
+            LOG_ERROR("coa", "自由构建的角色成长功能不可用：其客户端 DBC 未能加载");
     }
 };
 
@@ -621,16 +621,16 @@ public:
         Player* player = target.GetConnectedPlayer();
         if (!player)
         {
-            handler->SendErrorMessage("{} must be online.", target.GetName());
+            handler->SendErrorMessage("{} 必须在线。", target.GetName());
             return false;
         }
         std::string error;
         if (!GmSetEntry(player, entryId, learn, error))
         {
-            handler->SendErrorMessage("Entry {}: {}", entryId, error);
+            handler->SendErrorMessage("条目 {}：{}", entryId, error);
             return false;
         }
-        handler->PSendSysMessage("{} entry {} for {}.", learn ? "Learned" : "Unlearned", entryId, player->GetName());
+        handler->PSendSysMessage("已为 {} {} 条目 {}。", learn ? "学习" : "遗忘", entryId, player->GetName());
         return true;
     }
 };

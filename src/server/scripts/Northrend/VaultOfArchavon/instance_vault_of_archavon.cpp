@@ -86,7 +86,7 @@ public:
                             if (!PlayerList.IsEmpty())
                                 for (Map::PlayerList::const_iterator i = PlayerList.begin(); i != PlayerList.end(); ++i)
                                     if (Player* player = i->GetSource())
-                                        player->TextEmote("This instance will reset in 15 minutes.", nullptr, true);
+                                        player->TextEmote("此副本将在 15 分钟后重置。", nullptr, true);
                         }
                         else if (bf->GetTimer() <= (10 * MINUTE * IN_MILLISECONDS) && bf->GetTimer() >= (9 * MINUTE * IN_MILLISECONDS))
                         {
@@ -110,7 +110,7 @@ public:
                             if (!PlayerList.IsEmpty())
                                 for (Map::PlayerList::const_iterator i = PlayerList.begin(); i != PlayerList.end(); ++i)
                                     if (Player* player = i->GetSource())
-                                        player->TextEmote("This instance is about to reset. Prepare to be removed.", nullptr, true);
+                                        player->TextEmote("此副本即将重置。请准备被移出。", nullptr, true);
                         }
                         else if (bf->GetTimer() <= MINUTE * IN_MILLISECONDS)
                         {

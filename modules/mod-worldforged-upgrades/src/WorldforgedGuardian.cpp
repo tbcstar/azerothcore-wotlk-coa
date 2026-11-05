@@ -165,7 +165,7 @@ public:
                 if (!AscensionAccountProgress::HasLevelOrPrestige(player, HEIRLOOM_LEVEL))
                 {
                     ChatHandler(player->GetSession()).SendSysMessage(
-                        "Your account needs a level 60 or a previously prestiged character on this realm to buy heirlooms.");
+                        "你的账号需要在本服务器上拥有 60 级角色或曾经转生过的角色才能购买传家宝。");
                     SendMainMenu(player, creature);
                     return true;
                 }

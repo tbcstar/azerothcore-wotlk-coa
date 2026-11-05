@@ -1095,7 +1095,7 @@ UpdateUptimeInterval = 10
 #                     10+ - (启用，建议 30+)
 #        Note:        如果启用且设置太低，可能导致意外崩溃。
 
-MaxCoreStuckTime = 30
+MaxCoreStuckTime = 300
 
 #
 #    SaveRespawnTimeImmediately

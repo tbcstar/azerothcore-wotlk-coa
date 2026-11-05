@@ -166,10 +166,10 @@ char const* LocationName(Event const& event)
 {
     switch (EventZone(event))
     {
-        case Silithus: return "Southwind Village, Silithus";
-        case ThousandNeedles: return "Weazel's Crater, Thousand Needles";
-        case Barrens: return "the Barrens";
-        default: return "Abyssal Sands, Tanaris";
+        case Silithus: return "希利苏斯·南风村";
+        case ThousandNeedles: return "千针石林·鼬鼠坑";
+        case Barrens: return "贫瘠之地";
+        default: return "塔纳利斯";
     }
 }
 
@@ -177,9 +177,9 @@ char const* DeliveryTown(Event const& event)
 {
     switch (EventZone(event))
     {
-        case Silithus: return "Cenarion Hold";
-        case Barrens: return "Ratchet";
-        default: return "Gadgetzan";
+        case Silithus: return "塞纳里奥要塞";
+        case Barrens: return "棘齿城";
+        default: return "加基森";
     }
 }
 
@@ -193,8 +193,8 @@ void Announce(Event& event, uint64 now)
     event.announcements |= uint8((1u << (index + 1)) - 1);
     Save(event);
     BroadcastAnnouncement(Acore::StringFormat(
-        "乌鸦的宝藏将在 {} 分钟后于 {} 显现{}！",
-        LocationName(event), WarningSeconds[index] / 60, index == 3 ? "" : "s").c_str());
+        "乌鸦的宝藏将在 {} 分钟后于 {} 显现！",
+        WarningSeconds[index] / 60, LocationName(event)).c_str());
 }
 
 bool Carries(Player const* player)
@@ -443,7 +443,7 @@ void Begin(uint32 seconds, Position const& point)
     if (std::none_of(std::begin(WarningSeconds), std::end(WarningSeconds), [seconds](unsigned value)
         { return value == seconds; }))
         BroadcastAnnouncement(Acore::StringFormat(
-            "乌鸦的宝藏将在 {} 秒后于 {} 显现！", LocationName(found->second), seconds).c_str());
+            "乌鸦的宝藏将在 {} 秒后于 {} 显现！", seconds, LocationName(found->second)).c_str());
 }
 
 void UpdateEvents()

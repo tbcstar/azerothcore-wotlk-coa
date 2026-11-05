@@ -10157,6 +10157,9 @@ int32 Unit::SpellBaseDamageBonusDone(SpellSchoolMask schoolMask)
         if (HasAura(84866))
             DoneAdvertisedBenefit = int32(std::clamp<int64>(int64(DoneAdvertisedBenefit) * 2,
                 std::numeric_limits<int32>::min(), std::numeric_limits<int32>::max()));
+        else if (HasAura(820054))
+            DoneAdvertisedBenefit = int32(std::clamp<int64>(int64(DoneAdvertisedBenefit) * 7 / 4,
+                std::numeric_limits<int32>::min(), std::numeric_limits<int32>::max()));
     }
     return DoneAdvertisedBenefit;
 }
@@ -10444,6 +10447,11 @@ float Unit::SpellTakenCritChance(Unit const* caster, SpellInfo const* spellProto
             [[fallthrough]]; /// @todo: Not sure whether the fallthrough was a mistake (forgetting a break) or intended. This should be double-checked.
         case SPELL_DAMAGE_CLASS_RANGED:
             {
+                if (spellProto->SpellFamilyName == 28 && (spellProto->SpellFamilyFlags[1] & 0x00100000) &&
+                    (GetCreatureTypeMask() & CREATURE_TYPEMASK_DEMON_OR_UNDEAD) &&
+                    GetTotalAuraModifier(SPELL_AURA_MOD_ATTACKER_SPELL_AND_WEAPON_CRIT_CHANCE) > -100)
+                    return 100.0f;
+
                 // flat aura mods
                 if (attackType == RANGED_ATTACK)
                     crit_chance += GetTotalAuraModifier(SPELL_AURA_MOD_ATTACKER_RANGED_CRIT_CHANCE);
@@ -11003,6 +11011,9 @@ int32 Unit::SpellBaseHealingBonusDone(SpellSchoolMask schoolMask)
         AdvertisedBenefit += int32(CalculatePct(GetTotalAttackPowerValue(BASE_ATTACK), GetTotalAuraModifierByMiscMask(SPELL_AURA_MOD_SPELL_HEALING_OF_ATTACK_POWER, schoolMask)));
         if (HasAura(84866))
             AdvertisedBenefit = int32(std::clamp<int64>(int64(AdvertisedBenefit) * 2,
+                std::numeric_limits<int32>::min(), std::numeric_limits<int32>::max()));
+        else if (HasAura(820054))
+            AdvertisedBenefit = int32(std::clamp<int64>(int64(AdvertisedBenefit) * 7 / 4,
                 std::numeric_limits<int32>::min(), std::numeric_limits<int32>::max()));
     }
     return AdvertisedBenefit;

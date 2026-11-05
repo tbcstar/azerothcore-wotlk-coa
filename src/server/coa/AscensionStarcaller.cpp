@@ -352,8 +352,18 @@ class starcaller_player : public PlayerScript
 {
   public:
     starcaller_player()
-        : PlayerScript("starcaller_player", {PLAYERHOOK_ON_UPDATE, PLAYERHOOK_ON_BEFORE_LOGOUT, PLAYERHOOK_ON_LOGOUT})
+        : PlayerScript("starcaller_player", {PLAYERHOOK_ON_LOGIN, PLAYERHOOK_ON_UPDATE,
+                                              PLAYERHOOK_ON_BEFORE_LOGOUT, PLAYERHOOK_ON_LOGOUT})
     {
+    }
+    void OnPlayerLogin(Player* player) override
+    {
+        using namespace AscensionStarcaller;
+        if (!Owner(player))
+            return;
+        for (uint32 spellId : {573711u, 805527u})
+            if (!player->HasSpell(spellId) && sSpellMgr->GetSpellInfo(spellId))
+                player->learnSpell(spellId, false);
     }
     void OnPlayerBeforeLogout(Player* player) override
     {
@@ -362,6 +372,8 @@ class starcaller_player : public PlayerScript
         {
             PayDelayedDamage(player);
             player->RemoveAurasDueToSpell(954791);
+            player->RemoveAurasDueToSpell(572319);
+            player->RemoveAurasDueToSpell(572318);
         }
     }
     void OnPlayerUpdate(Player* player, uint32 diff) override

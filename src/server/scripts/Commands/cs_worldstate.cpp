@@ -71,7 +71,7 @@ public:
     {
         if (phase > SUNS_REACH_PHASE_4_HARBOR)
         {
-            handler->PSendSysMessage("阶段无效，请查看 ".worldstate sunsreach phase" 了解用法");
+            handler->PSendSysMessage("阶段无效，请查看 \".worldstate sunsreach phase\" 了解用法");
             return false;
         }
         sWorldState->HandleSunsReachPhaseTransition(phase);
@@ -83,7 +83,7 @@ public:
     {
         if (subphase > SUBPHASE_ALL)
         {
-            handler->PSendSysMessage("子阶段无效，请查看 ".worldstate sunsreach subphase" 了解用法");
+            handler->PSendSysMessage("子阶段无效，请查看 \".worldstate sunsreach subphase\" 了解用法");
             return false;
         }
         sWorldState->HandleSunsReachSubPhaseTransition(subphase);
@@ -108,7 +108,7 @@ public:
     {
         if (newGate > SUNWELL_ARCHONISUS_GATE3_OPEN)
         {
-            handler->PSendSysMessage("阶段无效，请查看 ".worldstate sunsreach gate" 了解用法");
+            handler->PSendSysMessage("阶段无效，请查看 \".worldstate sunsreach gate\" 了解用法");
             return false;
         }
         sWorldState->HandleSunwellGateTransition(newGate);

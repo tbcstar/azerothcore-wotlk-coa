@@ -163,3 +163,4 @@ __pycache__/
 # DSH local runtime state (not part of the repository)
 .dsh-ops/
 .dsh-memery/
+.dshwolf/

@@ -46,12 +46,12 @@ std::string BoostPrompt(uint8 level)
 {
     std::string rewards;
     if (uint32 const gold = BoostGoldReward())
-        rewards = Acore::StringFormat("{} gold", gold);
+        rewards = Acore::StringFormat("{} 金币", gold);
     if (uint32 const runes = BoostRuneReward())
-        rewards += Acore::StringFormat("{}{} Runes of Descension", rewards.empty() ? "" : " and ", runes);
+        rewards += Acore::StringFormat("{}{} 枚降格符文", rewards.empty() ? "" : " 和 ", runes);
     if (rewards.empty())
-        return Acore::StringFormat("Raise this character to level {}? This cannot be undone.", level);
-    return Acore::StringFormat("Raise this character to level {} and receive {}? This cannot be undone.", level, rewards);
+        return Acore::StringFormat("将此角色提升至 {} 级？此操作无法撤销。", level);
+    return Acore::StringFormat("将此角色提升至 {} 级并获得 {}？此操作无法撤销。", level, rewards);
 }
 
 void PayRunes(Player* player, uint32 amount)
@@ -83,7 +83,7 @@ public:
 
         uint8 const level = BoostLevel();
         if (player->GetLevel() < level)
-            AddGossipItemFor(player, GOSSIP_ICON_TRAINER, Acore::StringFormat("Raise me to level {}", level),
+            AddGossipItemFor(player, GOSSIP_ICON_TRAINER, Acore::StringFormat("将我提升至 {} 级", level),
                 GOSSIP_SENDER_MAIN, ACTION_BOOST,
                 BoostPrompt(level), 0, false);
         SendGossipMenuFor(player, TEXT_LEVEL_BOOST, creature->GetGUID());

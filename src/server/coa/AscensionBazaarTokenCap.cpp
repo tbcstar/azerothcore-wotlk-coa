@@ -129,7 +129,7 @@ uint32 AscensionBazaarTokenCap::Claim(Player* player, uint32 count)
 
     if (notify)
         ChatHandler(player->GetSession()).PSendSysMessage(
-            "You have reached the limit of {} Bazaar Tokens per hour. You can earn Bazaar Tokens again in {} min.",
+            "你已达到每小时 {} 个市集代币的上限。你可以在 {} 分钟后再次获得市集代币。",
             cap, std::max<uint32>(1, minutesLeft));
 
     if (allowed || notify)
@@ -147,15 +147,15 @@ std::string AscensionBazaarTokenCap::Describe(uint32 accountId)
 {
     uint32 const cap = GetCap();
     if (!cap)
-        return "Bazaar Tokens have no hourly limit.";
+        return "市集代币没有每小时上限。";
 
     uint32 const now = Now();
     std::lock_guard<std::mutex> guard(capLock);
     Window const& window = WindowRef(accountId);
     if (Expired(window, now))
-        return Acore::StringFormat("Bazaar Tokens this hour: 0 of {}. The hour starts with the next token earned.", cap);
+        return Acore::StringFormat("本小时市集代币：0 / {}。本小时从获得下一个代币时开始计算。", cap);
 
-    return Acore::StringFormat("Bazaar Tokens this hour: {} of {}. The hour ends in {} min.",
+    return Acore::StringFormat("本小时市集代币：{} / {}。本小时将在 {} 分钟后结束。",
         std::min(window.earned, cap), cap, std::max<uint32>(1, MinutesLeft(window, now)));
 }
 
@@ -245,7 +245,7 @@ private:
         AscensionBazaarTokenCap::Set(accountId, earned, secondsAgo);
         if (target->IsConnected())
             AscensionBazaarTokenCap::SendClientState(target->GetConnectedPlayer());
-        handler->PSendSysMessage("{} (account {}): {}", target->GetName(), accountId,
+        handler->PSendSysMessage("{}（账号 {}）：{}", target->GetName(), accountId,
             AscensionBazaarTokenCap::Describe(accountId));
         return true;
     }

@@ -128,8 +128,8 @@ namespace
         {
             CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
             item->SaveToDB(trans);
-            MailDraft("Bazaar Tokens",
-                      "Your bags were full, so Tiraxis had these sent on.")
+            MailDraft("市集代币",
+                      "你的背包已满，因此提拉克西斯把这些寄给了你。")
                 .AddItem(item)
                 .SendMailTo(trans, MailReceiver(player), MailSender(MAIL_CREATURE, BAZAAR_NPC_TIRAXIS));
             CharacterDatabase.CommitTransaction(trans);

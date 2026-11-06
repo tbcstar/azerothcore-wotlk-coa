@@ -1042,8 +1042,8 @@ namespace
     {
         bool const countdown = run.state == STATE_COUNTDOWN;
         char const* const message = run.brick == BrickCause::MEMBER_LEFT_GROUP
-            ? "Mythic+: a group member left, the keystone is depleted."
-            : "Mythic+: the keystone's owner left, the keystone is depleted.";
+            ? "秘境+：一名队伍成员离开了队伍，钥石已枯竭。"
+            : "秘境+：钥石持有者离开了队伍，钥石已枯竭。";
         run.state = STATE_INACTIVE;
         ClearRunSpawns(map);
         LOG_INFO("module", "Mythic+: instance {} map {} +{} bricked after {} s: {}",
@@ -2140,7 +2140,7 @@ private:
                 return;
             std::string const name = item->GetTemplate()->Name1;
             AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, ItemOpt(item->GetTemplate(), Acore::StringFormat("{} ({})", name, LevelName(nextLevel - 1))),
-                DO_UPGRADE, item->GetGUID().GetCounter(), Acore::StringFormat("Upgrade {} to {} for {} Mythic Coins?", name,
+                DO_UPGRADE, item->GetGUID().GetCounter(), Acore::StringFormat("将 {} 升级为 {}，需要 {} 枚神话硬币？", name,
                 LevelName(nextLevel), UpgradeCost(nextLevel)), 0, false);
         });
         AddGossipItemFor(player, GOSSIP_ICON_CHAT, Opt("Spell_Shadow_Teleport", "返回"), MENU_MAIN, 0);
@@ -2165,8 +2165,8 @@ private:
             std::string const name = item->GetTemplate()->Name1;
             std::string const level = LevelName(itr->second.second);
             AddGossipItemFor(player, GOSSIP_ICON_TRAINER, ItemOpt(item->GetTemplate(), Acore::StringFormat("{} ({})", name, level)), DO_RECYCLE,
-                item->GetGUID().GetCounter(), Acore::StringFormat("Are you sure you would like to recycle your {} ({})? This "
-                "process is irreversible, but it will reward you with {} Mythic Coin.", name, level,
+                item->GetGUID().GetCounter(),
+                Acore::StringFormat("确定要回收你的 {}（{}）吗？此操作无法撤销，但会奖励你 {} 枚神话硬币。", name, level,
                 RecycleValue(itr->second.second)), 0, false);
         });
         AddGossipItemFor(player, GOSSIP_ICON_CHAT, Opt("Spell_Shadow_Teleport", "返回"), MENU_MAIN, 0);
@@ -2965,7 +2965,7 @@ public:
         auto itr = pending.find(player->GetGUID());
         if (itr == pending.end() || itr->second.first != player->GetMapId())
         {
-            handler->SendSysMessage("Set point A on this map first: .mythic setchampionpos 1");
+            handler->SendSysMessage("请先在此地图上设置 A 点：.mythic setchampionpos 1");
             return true;
         }
         Position const& a = itr->second.second;

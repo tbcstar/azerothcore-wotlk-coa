@@ -292,7 +292,7 @@ namespace
         if (!count)
             return;
         CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
-        MailDraft draft("Setis", "Your bags were full, so this part of your reward was sent by mail.");
+        MailDraft draft("塞提斯", "你的背包已满，因此这部分奖励已通过邮件寄给你。");
         if (Item* mailed = Item::CreateItem(item, count, player))
         {
             mailed->SaveToDB(trans);
@@ -471,9 +471,9 @@ namespace
             if (!player->IsAlive())
                 return true;
             ClearGossipMenuFor(player);
-            AddGossipItemFor(player, GOSSIP_ICON_BATTLE, "Challenge Setis the Gate Warden", GOSSIP_SENDER_MAIN,
+            AddGossipItemFor(player, GOSSIP_ICON_BATTLE, "挑战守门人塞提斯", GOSSIP_SENDER_MAIN,
                 GOSSIP_ACTION_INFO_DEF + 1);
-            AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Take your hands off the shrine.", GOSSIP_SENDER_MAIN,
+            AddGossipItemFor(player, GOSSIP_ICON_CHAT, "把你的手从神龛上拿开。", GOSSIP_SENDER_MAIN,
                 GOSSIP_ACTION_INFO_DEF + 2);
             SendGossipMenuFor(player, SETIS_SHRINE_TEXT, go->GetGUID());
             return true;
@@ -487,7 +487,7 @@ namespace
             // Only the Normal difficulties are open for now.
             if (player->GetRaidDifficulty() > RAID_DIFFICULTY_25MAN_NORMAL)
             {
-                ChatHandler(player->GetSession()).SendNotification("Setis only answers the Normal difficulty.");
+                ChatHandler(player->GetSession()).SendNotification("塞提斯只回应普通难度。");
                 return true;
             }
             player->TeleportTo(SETIS_MAP, SetisEntrance.GetPositionX(), SetisEntrance.GetPositionY(),

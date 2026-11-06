@@ -17,7 +17,7 @@ namespace
 using namespace Ascension::BattleResurrection;
 
 constexpr char const* BudgetKey = "AscensionBattleResurrection";
-constexpr char const* NoChargesMessage = "No battle resurrections left.";
+constexpr char const* NoChargesMessage = "战斗复活次数已用尽。";
 
 struct InstanceBudget final : DataMap::Base
 {
@@ -97,7 +97,7 @@ public:
         if (!state || !state->budget.Consume())
             return;
 
-        std::string const text = Acore::StringFormat("{} used a battle resurrection: {} of {} left.",
+        std::string const text = Acore::StringFormat("{} 使用了战斗复活：剩余 {} / {}。",
             caster->GetName(), state->budget.Remaining(), state->budget.Total());
         caster->GetMap()->DoForAllPlayers([&text](Player* player)
         {

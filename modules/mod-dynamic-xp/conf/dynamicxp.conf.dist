@@ -32,15 +32,15 @@
 #                               公告的玩家。
 #
 
-Dynamic.XP.Rate.Announce = 1
+Dynamic.XP.Rate.Announce = 0
 
 Dynamic.XP.Preset = 1
 
 Dynamic.XP.Preset.Allowed = "1,2,3,4,5"
 
-Dynamic.XP.Preset.PlayerChoice = 1
+Dynamic.XP.Preset.PlayerChoice = 0
 
-Dynamic.XP.Reminder.Enable = 1
+Dynamic.XP.Reminder.Enable = 0
 
 Dynamic.XP.Reminder.Interval = 40
 

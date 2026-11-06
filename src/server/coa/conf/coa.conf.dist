@@ -35,7 +35,12 @@ CoA.MapClass10ToWarrior = 1
 CoA.ProbeRelay.Enable = 0
 CoA.ProbeRelay.AccountPrefix = "COALAB"
 
-# 在协议发现期间记录每个被消费的扩展数据包。
+CoA.LevelBoostNpc.Enable = 0
+CoA.LevelBoostNpc.Level = 60
+CoA.LevelBoostNpc.GoldReward = 5000
+CoA.LevelBoostNpc.RuneOfDescensionReward = 2000000
+
+# 在协议发现期间记录每个被消费的扩展包。
 CoA.LogConsumedPackets = 1
 
 # 来自精英战争宝箱（2977351）的服务器绑定集市代币。
@@ -44,8 +49,11 @@ CoA.LogConsumedPackets = 1
 # 账号自身角色之间的邮件免费。超过储备的刷取代币仍可交易。
 CoA.BazaarTokens.WarchestRealmBound = 1
 
-# Ascension 角色选择界面：启用/禁用（激活/停用）以及
-# 按账号的角色列表排序顺序。
+CoA.BazaarTokens.HourlyCap.Amount = 0
+CoA.BazaarTokens.HourlyCap.WindowSeconds = 3600
+
+# 飞升角色界面：启用/禁用（激活/停用）以及
+# 按账号维度的角色列表排序顺序。
 # Requests: CMSG 0x072E / 0x072F / 0x0772.
 # Responses: SMSG 0x075E / 0x075F / 0x0760 / 0x076F / 0x0770 / 0x0771.
 CoA.CharacterSelectionEnable = 1
@@ -115,13 +123,28 @@ CoA.MonsterResistance.PerLevel = 1.0
 CoA.MonsterResistance.PerPercent = 5.0
 CoA.MonsterResistance.MaxReductionPct = 75.0
 
-# 为机器人操控的角色启用衣柜、套装、外观和坐骑/伙伴收藏。
+# 飞升职业 12-32 的等级属性：60 级基础属性、基础生命值和基础法力值，数据来自 coa.bisbeard.com
+# 包含种族调整（ascension_class_stats, ascension_race_class_stats）。死灵法师的爪牙无论如何都保留其
+# 生命值。重启后生效。
+# 1 - enabled.
+# 0 - 使用之前的 player_class_stats 曲线，不含种族调整（默认）。
+CoA.ClassLevelSixtyStats.Enable = 0
+
+# 坚韧体魄（法术 552011），降低来自玩家及其宠物的伤害的职业被动。
+# DamageReductionPct 降低每次命中；CriticalReductionPct 在此基础上进一步降低暴击伤害，因此 50 和 20
+# 使普通命中保留 50%，暴击命中保留 40%。玩家的宠物通过其主人的光环获得这两种减伤的 PetSharePct 百分比
+# 的份额。数值为 0 到 100 的百分比；更高的值会被限制在 100。
+CoA.ResilientConstitution.DamageReductionPct = 50
+CoA.ResilientConstitution.CriticalReductionPct = 20
+CoA.ResilientConstitution.PetSharePct = 85
+
+# 由机器人操控的角色的衣柜、套装、装饰品以及坐骑/伙伴收藏。
 # 0 - 从不：机器人会话跳过收藏（默认）。
-# 1 - 仅限玩家账号中被作为机器人操控的角色（小号），绝不包含随机机器人账号：
+# 1 - 仅限作为机器人运行（小号）的玩家账号角色，绝不包括随机机器人账号：
 #     其保存的套装和外观会像玩家一样被应用。
-# 2 - 所有机器人会话。
-# 随机机器人账号通过名称前缀 CoA.RandomBotAccountPrefix 识别，该前缀必须
-# 与 mod-playerbots 的 AiPlayerbot.RandomBotAccountPrefix 匹配（默认：rndbot）。
+# 2 - 每个机器人会话。
+# 随机机器人账号通过其名称前缀 CoA.RandomBotAccountPrefix 来识别，该前缀
+# 必须与 mod-playerbots 的 AiPlayerbot.RandomBotAccountPrefix 一致（默认：rndbot）。
 CoA.CollectionsForBots = 0
 CoA.RandomBotAccountPrefix = "rndbot"
 
@@ -625,19 +648,19 @@ Ascension.CallboardCache.GoldMax = 15
 
 #
 #    CoA.CallboardContracts.Enable
-#        Description: Call Board Temporal Contracts. Every contract type listed in
-#                     ascension_callboard_contract earns DailyCompletions completions per day
-#                     begun since the weekly reset; missed days bank up until that reset. A
-#                     character can take and turn in quests of a type only while it has
-#                     completions left, and the Call Board's Complete Now button finishes the
-#                     banked ones for gold or Bazaar Tokens.
+#        Description: 公告板时空合约。ascension_callboard_contract 中列出的每种合约类型，
+#                     每自每周重置以来已开始的每天都会获得 DailyCompletions 次完成次数；
+#                     错过的天数会累积直到该次重置。
+#                     角色只有在仍有剩余完成次数时才能
+#                     接取和交付某类型的任务，
+#                     公告板的"立即完成"按钮可用金币或集市代币完成已累积的完成次数。
 #        Default:     1
 
 CoA.CallboardContracts.Enable = 1
 
 #
 #    CoA.CallboardContracts.DailyCompletions
-#        Description: Completions every contract type earns per day, shared by all its quests.
+#        Description: 每种合约类型每天获得的完成次数，由其所有任务共享。
 #        Default:     1
 
 CoA.CallboardContracts.DailyCompletions = 1
@@ -645,8 +668,8 @@ CoA.CallboardContracts.DailyCompletions = 1
 #
 #    CoA.CallboardContracts.MoneyCostMultiplier
 #    CoA.CallboardContracts.MinMoneyCost
-#        Description: Gold price of one Complete Now completion: the quest's money reward
-#                     times the multiplier, at least MinMoneyCost copper.
+#        Description: 一次"立即完成"的金币价格：任务的金币奖励乘以该倍率，
+#                     最低为 MinMoneyCost 铜币。
 #        Default:     2.0, 100000
 
 CoA.CallboardContracts.MoneyCostMultiplier = 2.0
@@ -655,8 +678,8 @@ CoA.CallboardContracts.MinMoneyCost = 100000
 #
 #    CoA.CallboardContracts.TokenCostMultiplier
 #    CoA.CallboardContracts.MinTokenCost
-#        Description: Bazaar Token price of one Complete Now completion: the quest's Bazaar
-#                     Token reward times the multiplier, at least MinTokenCost tokens.
+#        Description: 一次"立即完成"的集市代币价格：任务的集市代币奖励乘以该倍率，
+#                     最低为 MinTokenCost 个代币。
 #        Default:     2.0, 50
 
 CoA.CallboardContracts.TokenCostMultiplier = 2.0
@@ -684,10 +707,10 @@ CoA.DungeonNormal.Enable = 1
 
 #
 #    CoA.FierceBlow.Enable
-#        Description: Ascension's Fierce Blow (975011) on every hostile creature fighting a player or a
-#                     player's unit: one every 6-9.5 s, taking the place of its next melee swing. It
-#                     cannot be dodged, parried or missed. Creatures that already schedule their own
-#                     Fierce Blow (boss kits, SmartAI, C++ scripts) keep their own timing.
+#        Description: 在与玩家或玩家单位战斗的每个敌对生物上启用飞升的凶猛打击（975011）：
+#                     每 6-9.5 秒一次，取代其下一次近战挥击。
+#                     它无法被闪避、招架或未命中。
+#                     已经自行安排凶猛打击的生物（首领套件、SmartAI、C++ 脚本）保持其自身的时间节奏。
 #        Default:     1
 
 CoA.FierceBlow.Enable = 1

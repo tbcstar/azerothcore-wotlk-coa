@@ -102,6 +102,10 @@ void WorldConfig::BuildConfigCache()
         ConfigValueCache::Reloadable::Yes, validXPRate, "finite and >= 0");
     SetConfigValue<float>(RATE_XP_PROFESSION_INSCRIPTION, "Rate.XP.Profession.Inscription", 2.88f,
         ConfigValueCache::Reloadable::Yes, validXPRate, "finite and >= 0");
+    SetConfigValue<float>(RATE_XP_PROFESSION_WOODCUTTING, "Rate.XP.Profession.Woodcutting", 0.33f,
+        ConfigValueCache::Reloadable::Yes, validXPRate, "finite and >= 0");
+    SetConfigValue<float>(RATE_XP_PROFESSION_WOODWORKING, "Rate.XP.Profession.Woodworking", 1.0f,
+        ConfigValueCache::Reloadable::Yes, validXPRate, "finite and >= 0");
     SetConfigValue<float>(RATE_XP_KILL, "Rate.XP.Kill", 1.0909091f);
     SetConfigValue<float>(RATE_XP_KILL_TBC, "Rate.XP.Kill.TBC", 1.0909091f);
     SetConfigValue<float>(RATE_XP_KILL_WOTLK, "Rate.XP.Kill.WotLK", 0.90909094f);
@@ -183,6 +187,7 @@ void WorldConfig::BuildConfigCache()
     SetConfigValue<bool>(CONFIG_MISS_CHANCE_MULTIPLIER_ONLY_FOR_PLAYERS, "Rate.MissChanceMultiplier.OnlyAffectsPlayer", false);
 
     SetConfigValue<float>(RATE_TALENT, "Rate.Talent", 1.0f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
+    SetConfigValue<float>(RATE_THREAT_HEALING, "Rate.Threat.Healing", 0.25f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return std::isfinite(value) && value >= 0.0f; }, "finite and >= 0");
     SetConfigValue<float>(RATE_TALENT_PET, "Rate.Talent.Pet", 1.0f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
     SetConfigValue<float>(RATE_THREAT_TANK_STANCE, "Rate.Threat.TankStance", 2.0f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return std::isfinite(value) && value > 0.0f; }, "finite and > 0");
     // Controls Player movespeed rate.

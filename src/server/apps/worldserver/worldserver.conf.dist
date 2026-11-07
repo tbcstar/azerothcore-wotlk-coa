@@ -97,7 +97,7 @@ RealmID = 1
 #        Description: 用于访问世界服务器的 TCP 端口。
 #        Default:     8085
 
-WorldServerPort = 8085
+WorldServerPort = 18085
 
 #
 #    BindIP
@@ -486,7 +486,7 @@ SOAP.IP = "0.0.0.0"
 #        Description: 用于访问 SOAP 服务的 TCP 端口。
 #        Default:     7878
 
-SOAP.Port = 7878
+SOAP.Port = 17878
 
 #
 ###################################################################################################
@@ -990,7 +990,7 @@ GameType = 1
 #                     28 - （QA 服务器 - 任何语言）
 #                     29 - （CN9 - 创建时基本拉丁，登录时任意）
 
-RealmZone = 16
+RealmZone = 1
 
 #
 #    DBC.Locale
@@ -2207,6 +2207,15 @@ Rate.Talent = 1
 Rate.Talent.Pet = 1
 
 #
+#    Rate.Threat.Healing
+#        Description: Threat a heal generates, as a share of the health it restores, split among the
+#                     creatures fighting its target (a paladin's heal half of it). Stock WotLK is 0.5;
+#                     CoA lowers it so a healer does not pull a group off its tank.
+#        Default:     0.25
+
+Rate.Threat.Healing = 0.25
+
+#
 #    Rate.Threat.TankStance
 #        Description: 针对处于 CoA 坦克姿态（法术 807725-807736）的玩家的威胁值倍率，
 #                     在其自身姿态威胁加成之上叠加。临时调参用，设为 1 即禁用。
@@ -2588,18 +2597,18 @@ MaxGroupXPDistance = 74
 Rate.XP.Global = 0.9295
 
 #    Rate.XP.Profession
-#        临时本地公式，尚未验证与 Ascension 线上 XP 完全一致：
-#        floor(当前等级所需 XP * BaseFraction * Profession * 技能修正 * 难度)。
-#        然后应用 Global 和 XP 模块修正，随后是正常的 GiveXP 限制/加成。
-#        每次完成采集/制作动作时发放，独立于技能提升判定。
-#        钓鱼使用区域技能阈值；垃圾钓获不发放任何奖励。灰色默认值为零。
-#        采集节点使用核心的“每名玩家每次重生仅一次技能尝试”保护。
-#        技能/难度默认值来自 PR #4128；BaseFraction 是本地策略（一级的 1/50）。
+#        临时的本地公式，未经验证与线上飞升经验值一致：
+#        floor(当前等级所需经验 * BaseFraction * Profession * 技能修正 * 难度)。
+#        随后应用 Global 和 XP 模块的修正，再应用正常的 GiveXP 限制/加成。
+#        每次完成采集/制造动作时发放，独立于技能提升判定。
+#        钓鱼使用区域技能阈值；垃圾钓获不发放经验。灰色默认计为零。
+#        采集节点使用核心的每位玩家每次重生仅一次技能尝试的保护。
+#        技能/难度默认值来自 PR #4128；BaseFraction 是本地策略（1/50 级）。
 #        将 Profession 设为 0 可禁用普通专业奖励。所有速率可通过 .reload config 重载。
 #        仅专业挑战保留其独立的每次技能提升公式和队伍共享；
-#        这些奖励也使用 Global 和动态 XP。伐木/木工在此没有核心动作路径。
-#        熔炼是采矿专业制作，使用 Rate.XP.Profession.Smelting 而非 Mining 速率，因此
-#        矿石在开采时支付一次；0（默认）使熔炼不获得 XP。
+#        这些奖励也使用 Global 和动态 XP。
+#        熔炼属于采矿制造，使用 Rate.XP.Profession.Smelting 而非采矿速率，因此
+#        矿石在开采时只支付一次；0（默认）使熔炼不获得经验。
 Rate.XP.Profession = 0.2
 Rate.XP.Profession.BaseFraction = 0.02
 Rate.XP.Profession.Gray = 0
@@ -2623,6 +2632,8 @@ Rate.XP.Profession.Engineering = 3.6
 Rate.XP.Profession.Tailoring = 1.66
 Rate.XP.Profession.Lockpicking = 0
 Rate.XP.Profession.Inscription = 2.88
+Rate.XP.Profession.Woodcutting = 0.33
+Rate.XP.Profession.Woodworking = 1
 
 Rate.XP.Kill            = 1.0909091
 Rate.XP.Kill.TBC        = 1.0909091

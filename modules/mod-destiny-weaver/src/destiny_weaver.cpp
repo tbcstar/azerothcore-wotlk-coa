@@ -112,8 +112,8 @@ namespace
 
     /// The green / red the original paints the state in. The trailing |r closes both the colour
     /// and the texture escape that precedes the label.
-    constexpr char const* STATE_ENABLED = "|cff00ff00ENABLED";
-    constexpr char const* STATE_DISABLED = "|cffff2020DISABLED";
+    constexpr char const* STATE_ENABLED = "|cff00ff00已启用";
+    constexpr char const* STATE_DISABLED = "|cffff2020已禁用";
 
     enum DestinyWeaverAction : uint32
     {

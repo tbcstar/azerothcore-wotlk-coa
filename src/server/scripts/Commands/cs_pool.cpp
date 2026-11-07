@@ -148,7 +148,7 @@ private:
             activeCount += spawns->GetSpawnedObjects(poolId);
 
         handler->PSendSysMessage(LANG_POOL_INFO_HEADER, poolId,
-            tpl->Description.empty() ? "(none)" : tpl->Description,
+            tpl->Description.empty() ? "（无）" : tpl->Description,
             tpl->MaxLimit, activeCount);
 
         // Show parent pool if nested

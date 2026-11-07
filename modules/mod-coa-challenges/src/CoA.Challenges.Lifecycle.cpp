@@ -401,8 +401,7 @@ namespace CoAChallenges
                     blocked = blocked || fighting(participant);
         if (blocked)
             ChatHandler(player->GetSession()).SendSysMessage(
-                "Adventure Mode cannot change during combat, an encounter, death, flight, control or teleportation. "
-                "Your party and pets must also be out of combat.");
+                "冒险模式无法在战斗、首领战、死亡、飞行、被控制或传送期间变更。你的队伍与宠物也必须脱离战斗。");
         return blocked;
     }
 
@@ -442,7 +441,7 @@ namespace CoAChallenges
             if (conflictCode)                                    // 5/13/14 EXCLUSIVE/TRIAL/CHALLENGE
             {
                 ChatHandler(player->GetSession()).PSendSysMessage(
-                    "You already have an active challenge that conflicts ({}).", conflictId);
+                    "你已有一个与之冲突的进行中挑战（{}）。", conflictId);
                 return conflictCode;
             }
         }
@@ -451,14 +450,14 @@ namespace CoAChallenges
             if (!sGameEventMgr->IsActiveEvent(eventId))
             {
                 ChatHandler(player->GetSession()).PSendSysMessage(
-                    "{} requires a game event that is not active.", ChallengeName(challengeID));
+                    "{} 需要一场尚未开启的游戏事件。", ChallengeName(challengeID));
                 return 6;
             }
         }
         if (std::string reason = CheckActivationConditions(player, challengeID); !reason.empty())
         {                                                        // 8 CONDITIONS_NOT_MET
             ChatHandler(player->GetSession()).PSendSysMessage(
-                "Cannot start {}: {}", ChallengeName(challengeID), reason);
+                "无法开始 {}：{}", ChallengeName(challengeID), reason);
             return 8;
         }
         // NO_GROUP (solo-only, e.g. Ironman): cannot start while grouped.
@@ -468,7 +467,7 @@ namespace CoAChallenges
             if (CoAParse::ListContains(rules, "CHALLENGE_RULES_TYPE_NO_GROUP"))
             {
                 ChatHandler(player->GetSession()).PSendSysMessage(
-                    "You must leave your group before starting {}.", ChallengeName(challengeID));
+                    "开始 {} 前必须先离开队伍。", ChallengeName(challengeID));
                 return 12; // RULE_BROKEN
             }
         }
@@ -478,7 +477,7 @@ namespace CoAChallenges
             && HighRiskActivationBlocked(player))
         {
             ChatHandler(player->GetSession()).PSendSysMessage(
-                "{} requires you to be in High Risk.", ChallengeName(challengeID));
+                "{} 要求你处于高风险模式。", ChallengeName(challengeID));
             return 12; // RULE_BROKEN
         }
         // Multi-level challenges are difficulty picks, not a ladder: any level can be
@@ -496,14 +495,14 @@ namespace CoAChallenges
             LOG_INFO("module.coa_challenges", "Blocked activation of {} for {}: character already failed a challenge",
                 challengeID, player->GetName());
             ChatHandler(player->GetSession()).PSendSysMessage(
-                "You have already failed a challenge and cannot start another.");
+                "你已有挑战失败，无法再开始新的挑战。");
             return 12;
         }
         if (sConfigMgr->GetOption<bool>("CoAChallenges.BlockFailedReactivate", true)
             && HasFailure(guid, challengeID))                    // 12 RULE_BROKEN
         {
             ChatHandler(player->GetSession()).PSendSysMessage(
-                "You have already failed {} and cannot retake it.", ChallengeName(challengeID));
+                "你已在 {} 上失败，无法重新挑战。", ChallengeName(challengeID));
             return 12;
         }
         // Level-scoped: a multi-level challenge must stay activatable at level N
@@ -515,7 +514,7 @@ namespace CoAChallenges
             LOG_INFO("module.coa_challenges", "Blocked reactivation of completed challenge {} for {}",
                 challengeID, player->GetName());
             ChatHandler(player->GetSession()).PSendSysMessage(
-                "You have already completed this trial ({}).", ChallengeName(challengeID));
+                "你已完成该试炼（{}）。", ChallengeName(challengeID));
             return 12;
         }
         return 0;
@@ -552,7 +551,7 @@ namespace CoAChallenges
             if (!member)
                 continue;
             ChatHandler(member->GetSession()).PSendSysMessage(
-                "You have been removed from the group: it now requires the same challenge set.");
+                "你已被移出队伍：队伍现在要求相同的挑战组合。");
             member->RemoveFromGroup();
         }
     }
@@ -615,7 +614,7 @@ namespace CoAChallenges
         if (!GetActiveCustomTrial(guid).empty() || HasCompletionLevel(guid, challengeID, level))
         {
             ChatHandler(player->GetSession()).SendSysMessage(
-                "Cannot lower a custom trial or select an Adventure Mode level already completed.");
+                "无法降低自定义试炼的等级，也无法选择已完成的冒险模式等级。");
             return 12;
         }
 
@@ -633,7 +632,7 @@ namespace CoAChallenges
         SendCriteriaState(player);
         BroadcastChallengeSync(player, challengeID, level, false);
         ChatHandler(player->GetSession()).PSendSysMessage(
-            "Adventure Mode reduced to level {}. Difficulty and rewards now use this level.", level);
+            "冒险模式已降至等级 {}。难度与奖励现在按此等级计算。", level);
         return 0;
     }
 
@@ -1052,14 +1051,14 @@ namespace CoAChallenges
     // OUTSIDE_INTERACTION is the legacy aggregate flag (kept for old rows).
     char const* OutsideFacetLabel(std::string const& flag)
     {
-        if (flag == "OUTSIDE_MAIL")        return "taken items or money from the mailbox";
-        if (flag == "OUTSIDE_TRADE")       return "traded with another player";
-        if (flag == "OUTSIDE_AH")          return "used the auction house";
-        if (flag == "OUTSIDE_VENDOR")      return "used a vendor";
-        if (flag == "OUTSIDE_GUILD_BANK")  return "withdrawn from the guild bank";
-        if (flag == "OUTSIDE_BANK")        return "withdrawn from your bank";
-        if (flag == "OUTSIDE_REALM_BANK")  return "withdrawn from your realm bank";
-        if (flag == "OUTSIDE_INTERACTION") return "interacted with the outside world";
+        if (flag == "OUTSIDE_MAIL")        return "从邮箱取走了物品或金币";
+        if (flag == "OUTSIDE_TRADE")       return "与其他玩家进行过交易";
+        if (flag == "OUTSIDE_AH")          return "使用过拍卖行";
+        if (flag == "OUTSIDE_VENDOR")      return "使用过商人";
+        if (flag == "OUTSIDE_GUILD_BANK")  return "从公会银行取出过物品";
+        if (flag == "OUTSIDE_BANK")        return "从银行取出过物品";
+        if (flag == "OUTSIDE_REALM_BANK")  return "从服务器银行取出过物品";
+        if (flag == "OUTSIDE_INTERACTION") return "与外界进行过交互";
         return nullptr;
     }
 
@@ -1115,7 +1114,7 @@ namespace CoAChallenges
         }
         if (list.empty())
             return false;
-        message = "You have already " + list + " before starting this trial.";
+        message = "你在开始此试炼之前已经" + list + "。";
         return true;
     }
 
@@ -1188,17 +1187,17 @@ namespace CoAChallenges
                     // "Your group must have 0 members" -> must be solo.
                     s.broken = (player->GetGroup() != nullptr);
                     s.detail = s.broken
-                        ? "requires solo, current group of " + std::to_string(g)
-                        : "solo";
-                    s.message = "This trial must be started solo (you are in a group of "
-                        + std::to_string(g) + ").";
+                        ? "要求单人，当前队伍 " + std::to_string(g) + " 人"
+                        : "单人";
+                    s.message = "此试炼必须以单人开始（你当前所在队伍有 "
+                        + std::to_string(g) + " 人）。";
                 }
                 else
                 {
                     s.broken = (g != v1);
-                    s.detail = "requires " + std::to_string(v1) + ", current " + std::to_string(g);
-                    s.message = "This trial requires a group of " + std::to_string(v1)
-                        + " (you have " + std::to_string(g) + ").";
+                    s.detail = "要求 " + std::to_string(v1) + " 人，当前 " + std::to_string(g) + " 人";
+                    s.message = "此试炼需要 " + std::to_string(v1)
+                        + " 人队伍（你当前有 " + std::to_string(g) + " 人）。";
                 }
             }
             else if (type == "CHALLENGE_CONDITIONS_TYPE_HAVE_FREE_INVENTORY_SLOTS")
@@ -1206,9 +1205,9 @@ namespace CoAChallenges
                 uint32 f = FreeInventorySlots(player);
                 s.label = "HAVE_FREE_INVENTORY_SLOTS";
                 s.broken = (f < v1);
-                s.detail = "requires " + std::to_string(v1) + ", current " + std::to_string(f);
-                s.message = "You need at least " + std::to_string(v1)
-                    + " free inventory slots (you have " + std::to_string(f) + ").";
+                s.detail = "要求 " + std::to_string(v1) + " 个空栏位，当前 " + std::to_string(f) + " 个";
+                s.message = "你至少需要 " + std::to_string(v1)
+                    + " 个空背包栏位（当前有 " + std::to_string(f) + " 个）。";
             }
             else if (type == "CHALLENGE_CONDITIONS_TYPE_HAVE_TWO_PRIMARY_PROFESSIONS")
             {
@@ -1217,9 +1216,9 @@ namespace CoAChallenges
                 uint32 const n = PrimaryProfessionCount(player);
                 s.label = "HAVE_TWO_PRIMARY_PROFESSIONS";
                 s.broken = (n >= 2);
-                s.detail = "primary professions: " + std::to_string(n);
-                s.message = "You cannot have two primary professions (you have "
-                    + std::to_string(n) + ").";
+                s.detail = "主要专业数量：" + std::to_string(n);
+                s.message = "你不能拥有两个主要专业（当前已有 "
+                    + std::to_string(n) + " 个）。";
             }
             else if (type == "CHALLENGE_CONDITIONS_TYPE_LOOT_INTERACTION")
             {
@@ -1233,9 +1232,9 @@ namespace CoAChallenges
                 bool looted = !ladder && HasConditionFlag(guid, "LOOTED");
                 s.label = "LOOT_INTERACTION";
                 s.broken = looted;
-                s.detail = ladder ? "not required for a multi-level challenge"
-                                  : (looted ? "LOOTED" : "clean");
-                s.message = "You have already looted something; this trial must be started before any loot interaction.";
+                s.detail = ladder ? "多等级挑战不要求此项"
+                                  : (looted ? "已拾取过" : "正常");
+                s.message = "你已经拾取过物品；此试炼必须在任何拾取行为之前开始。";
             }
             else if (type == "CHALLENGE_CONDITIONS_TYPE_LEVEL_UP")
             {
@@ -1244,8 +1243,8 @@ namespace CoAChallenges
                 bool leveled = player->GetLevel() > 1;
                 s.label = "LEVEL_UP";
                 s.broken = leveled;
-                s.detail = "requires level 1, current " + std::to_string(player->GetLevel());
-                s.message = "You have already gained experience; this trial must be started at level 1.";
+                s.detail = "要求 1 级，当前 " + std::to_string(player->GetLevel()) + " 级";
+                s.message = "你已经获得过经验；此试炼必须从 1 级开始。";
             }
             else if (type == "CHALLENGE_CONDITIONS_TYPE_CANNOT_HAVE_GAINED_EXPERIENCE")
             {
@@ -1253,8 +1252,8 @@ namespace CoAChallenges
                 bool leveled = player->GetLevel() > 1;
                 s.label = "CANNOT_HAVE_GAINED_EXPERIENCE";
                 s.broken = leveled;
-                s.detail = "requires level 1, current " + std::to_string(player->GetLevel());
-                s.message = "You have already gained experience; this trial must be started at level 1.";
+                s.detail = "要求 1 级，当前 " + std::to_string(player->GetLevel()) + " 级";
+                s.message = "你已经获得过经验；此试炼必须从 1 级开始。";
             }
             else if (auto facets = OutsideFacetsForType(type); !facets.empty())
             {
@@ -1265,7 +1264,7 @@ namespace CoAChallenges
                 bool const outside = OutsideInteractionBroken(ConditionFlags(guid), facets, message);
                 s.label = type.substr(std::string("CHALLENGE_CONDITIONS_TYPE_").size());
                 s.broken = outside;
-                s.detail = outside ? "INTERACTED" : "clean";
+                s.detail = outside ? "已交互过" : "正常";
                 if (outside)
                     s.message = message;
                 if (type == "CHALLENGE_CONDITIONS_TYPE_OUTSIDE_INTERACTION")
@@ -1277,8 +1276,8 @@ namespace CoAChallenges
                 // silently allow activation.
                 s.label = type;
                 s.broken = true;
-                s.detail = "unhandled condition type";
-                s.message = "This trial has an unsupported activation requirement and cannot be started.";
+                s.detail = "未处理的条件类型";
+                s.message = "此试炼的激活条件不受支持，无法开始。";
                 LOG_WARN("module.coa_challenges",
                     "Unhandled activation condition type '{}' (challenge {}) -> blocked",
                     type, challengeID);
@@ -1302,7 +1301,7 @@ namespace CoAChallenges
             ConditionState s;
             s.label = "OUTSIDE_INTERACTION";
             s.broken = outside;
-            s.detail = outside ? "INTERACTED" : "clean";
+            s.detail = outside ? "已交互过" : "正常";
             if (outside)
                 s.message = message;
             out.push_back(s);
@@ -1662,13 +1661,13 @@ namespace CoAChallenges
     // is missed (the player is killed for it).
     std::string ObjectiveFailLabel(std::string const& type)
     {
-        if (type == "CHALLENGE_REQUIREMENT_TYPE_EARN_MONEY_BEFORE_LEVEL")     return "Greedy";
-        if (type == "CHALLENGE_REQUIREMENT_TYPE_KILL_CREATURE_BEFORE_LEVEL")  return "Hunt Failed";
-        if (type == "CHALLENGE_REQUIREMENT_TYPE_LOOT_ITEM_BEFORE_LEVEL")      return "Loot Failed";
-        if (type == "CHALLENGE_REQUIREMENT_TYPE_COMPLETE_QUEST_BEFORE_LEVEL") return "Quest Failed";
-        if (type == "CHALLENGE_REQUIREMENT_TYPE_DUO")  return "Duo Broken";
-        if (type == "CHALLENGE_REQUIREMENT_TYPE_TRIO") return "Trio Broken";
-        return "Failed Objective";
+        if (type == "CHALLENGE_REQUIREMENT_TYPE_EARN_MONEY_BEFORE_LEVEL")     return "贪婪";
+        if (type == "CHALLENGE_REQUIREMENT_TYPE_KILL_CREATURE_BEFORE_LEVEL")  return "狩猎失败";
+        if (type == "CHALLENGE_REQUIREMENT_TYPE_LOOT_ITEM_BEFORE_LEVEL")      return "拾取失败";
+        if (type == "CHALLENGE_REQUIREMENT_TYPE_COMPLETE_QUEST_BEFORE_LEVEL") return "任务失败";
+        if (type == "CHALLENGE_REQUIREMENT_TYPE_DUO")  return "双人组合中断";
+        if (type == "CHALLENGE_REQUIREMENT_TYPE_TRIO") return "三人组合中断";
+        return "目标失败";
     }
 
     // On level up: every tracked objective whose V2 level has been reached is
@@ -2077,7 +2076,7 @@ namespace CoAChallenges
                     RemoveHungerChallenge(player, SURVIVALIST_HUNGER_ID);
                 SendGameModeState(player, mask);
                 ChatHandler(player->GetSession()).PSendSysMessage(
-                    "Your {} challenge has failed.", GameModeNameForBit(bit));
+                    "你的 {} 挑战已失败。", GameModeNameForBit(bit));
             }
         }
     }

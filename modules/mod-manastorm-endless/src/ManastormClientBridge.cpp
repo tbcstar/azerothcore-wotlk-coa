@@ -639,7 +639,7 @@ bool ManastormClientBridge::HandleIncoming(WorldSession* session, WorldPacket co
         return true;
     if (!NativeEnabled())
     {
-        player->SendSystemMessage("Native Manastorm requires Manastorm.Enable=1 and Manastorm.ClientMode=2 (restart required).");
+        player->SendSystemMessage("原生法力风暴需要 Manastorm.Enable=1 且 Manastorm.ClientMode=2（需重启）。");
         if (packet.GetOpcode() == ManastormNativeOpcode::Enter)
             SendEnterResult(player, ManastormNativeResult::EnterUnknown);
         else if (packet.GetOpcode() == ManastormNativeOpcode::Leave)

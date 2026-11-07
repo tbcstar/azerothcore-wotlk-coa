@@ -178,7 +178,7 @@ static void AnnounceUnlock(Player* player)
     // gone again in a few seconds. Same palette as the chat line rather than one flat colour, so
     // it reads as an announcement and not as an error.
     player->GetSession()->SendAreaTriggerMessage(
-        "|cffffd100New profession slot|r |cff40ff40unlocked|r");
+        "|cffffd100新的专业栏位|r |cff40ff40已解锁|r");
 }
 
 // The codexes each character has spent, backed by the characters database and remembered for

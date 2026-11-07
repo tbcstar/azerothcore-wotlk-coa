@@ -1891,7 +1891,7 @@ uint32 Map::GetPlayersCountExceptGMs(bool aliveOnly /*= false*/) const
 void Map::StartPlayersRedirectKickTimer()
 {
     for (MapRefMgr::iterator itr = m_mapRefMgr.begin(); itr != m_mapRefMgr.end(); ++itr)
-        itr->GetSource()->SendSystemMessage("Preparing to enter parallel dimension... One minute!\nAccelerate transfer: Teleport or type \"/ready\" in chat.");
+        itr->GetSource()->SendSystemMessage("即将进入平行维度……还有一分钟！\n可加速传送：使用传送，或在聊天框输入 \"/ready\"。");
 
     _redirectKickTimer.Reset(60 * SECOND * IN_MILLISECONDS);
     _lastAnnounceRedirectKickTimer.Reset(55 * SECOND * IN_MILLISECONDS);
@@ -1929,7 +1929,7 @@ void Map::UpdatePlayersRedirectKickEvent(uint32 diff)
 
     if (_lastAnnounceRedirectKickTimer.Passed())
         for (MapRefMgr::iterator itr = m_mapRefMgr.begin(); itr != m_mapRefMgr.end(); ++itr)
-            itr->GetSource()->SendSystemMessage("Dimensional shift incoming! Prepare to transition in 5 seconds...");
+            itr->GetSource()->SendSystemMessage("维度转移即将开始！请在 5 秒内做好准备……");
 }
 
 void Map::SendToPlayers(WorldPacket const* data) const

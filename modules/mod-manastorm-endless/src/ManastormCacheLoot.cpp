@@ -568,7 +568,7 @@ namespace
             if (!ManastormModuleConfig::Enabled() ||
                 (item->GetEntry() == 1478051 && !std::atomic_load(&MaterialCachePools)))
             {
-                player->SendSystemMessage("This cache's rewards are unavailable. The cache was not consumed.");
+                player->SendSystemMessage("该宝箱的奖励当前不可用，宝箱未被消耗。");
                 return true;
             }
 

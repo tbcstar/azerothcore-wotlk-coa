@@ -74,6 +74,11 @@ namespace
     constexpr uint32 GallywixRulesAction = 10001;
     constexpr uint32 GallywixWinnersAction = 10002;
 
+    std::string HouseWinnerName()
+    {
+        return "贸易亲王加里维克斯";
+    }
+
     std::mutex lotteryMutex;
     LotterySettings settings;
     LotteryRound round;
@@ -339,7 +344,7 @@ namespace
             SelectDrawWinner(drawRound.entries, drawRound.fakeTickets, winningTicket);
         if (!houseWin && !winner)
             return false;
-        std::string winnerName = "Trade Prince Gallywix";
+        std::string winnerName = HouseWinnerName();
         uint32 winnerAccount = 0;
         if (!houseWin)
         {
@@ -772,6 +777,8 @@ namespace
                 {
                     Field* fields = winners->Fetch();
                     std::string name = fields[0].Get<std::string>();
+                    if (name == "Trade Prince Gallywix")
+                        name = HouseWinnerName();
                     uint32 copper = fields[1].Get<uint32>();
                     uint32 tickets = fields[2].Get<uint32>();
                     uint32 complimentary = fields[4].Get<uint32>();
@@ -1082,7 +1089,7 @@ namespace
             }
             uint64 remaining = Remaining();
             handler->PSendSysMessage("彩票第 {} 轮：{}。时长 {} 秒（{}天 {}时 {}分）；剩余 {} 秒（{}天 {}时 {}分 {}秒）。",
-                round.id, round.paused ? "paused" : "running", round.duration,
+                round.id, round.paused ? "已暂停" : "进行中", round.duration,
                 round.duration / DAY, round.duration / HOUR % 24, round.duration / MINUTE % 60,
                 remaining, remaining / DAY, remaining / HOUR % 24, remaining / MINUTE % 60, remaining % MINUTE);
             handler->PSendSysMessage("内部票：{}。奖池：{}金{}银{}铜。奖励物品：{}。", round.fakeTickets,

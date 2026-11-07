@@ -181,7 +181,7 @@ namespace CoAChallenges
         std::string const subject = sConfigMgr->GetOption<std::string>(
             "CoAChallenges.Reward.MailSubject", "Challenge Reward");
         std::string const body = sConfigMgr->GetOption<std::string>(
-            "CoAChallenges.Reward.MailBody", "Your challenge reward is enclosed.");
+            "CoAChallenges.Reward.MailBody", "你的挑战奖励已随信附上。");
 
         CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
         // (itemId, stack) pairs collected here; sent as one or more mails, each

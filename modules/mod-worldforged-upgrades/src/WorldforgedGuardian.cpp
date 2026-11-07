@@ -61,28 +61,28 @@ namespace
     };
 
     constexpr std::array<ScrollStore, 10> SCROLL_STORES = { {
-        { "Ability_Rogue_Ambush", "Warrior", 9781002 },
-        { "Ability_ThunderBolt", "Paladin", 9781003 },
-        { "Ability_MeleeDamage", "Hunter", 9781004 },
-        { "Spell_Shadow_RitualOfSacrifice", "Rogue", 9781005 },
-        { "Spell_Holy_HolySmite", "Priest", 9781006 },
-        { "Spell_DeathKnight_IceTouch", "Death Knight", 9781007 },
-        { "Spell_Nature_Lightning", "Shaman", 9781008 },
-        { "Spell_Fire_FlameBolt", "Mage", 9781009 },
-        { "Spell_Shadow_ShadowBolt", "Warlock", 9781010 },
-        { "Spell_Nature_AbolishMagic", "Druid", 9781011 },
+        { "Ability_Rogue_Ambush", "战士", 9781002 },
+        { "Ability_ThunderBolt", "圣骑士", 9781003 },
+        { "Ability_MeleeDamage", "猎人", 9781004 },
+        { "Spell_Shadow_RitualOfSacrifice", "潜行者", 9781005 },
+        { "Spell_Holy_HolySmite", "牧师", 9781006 },
+        { "Spell_DeathKnight_IceTouch", "死亡骑士", 9781007 },
+        { "Spell_Nature_Lightning", "萨满祭司", 9781008 },
+        { "Spell_Fire_FlameBolt", "法师", 9781009 },
+        { "Spell_Shadow_ShadowBolt", "术士", 9781010 },
+        { "Spell_Nature_AbolishMagic", "德鲁伊", 9781011 },
     } };
 
     constexpr std::array<ScrollStore, 9> REBORN_SCROLL_STORES = { {
-        { "Ability_Rogue_Ambush", "Warrior", 9781013 },
-        { "Ability_ThunderBolt", "Paladin", 9781014 },
-        { "Ability_MeleeDamage", "Hunter", 9781015 },
-        { "Spell_Shadow_RitualOfSacrifice", "Rogue", 9781016 },
-        { "Spell_Holy_HolySmite", "Priest", 9781017 },
-        { "Spell_Nature_Lightning", "Shaman", 9781018 },
-        { "Spell_Fire_FlameBolt", "Mage", 9781019 },
-        { "Spell_Shadow_ShadowBolt", "Warlock", 9781020 },
-        { "Spell_Nature_AbolishMagic", "Druid", 9781021 },
+        { "Ability_Rogue_Ambush", "战士", 9781013 },
+        { "Ability_ThunderBolt", "圣骑士", 9781014 },
+        { "Ability_MeleeDamage", "猎人", 9781015 },
+        { "Spell_Shadow_RitualOfSacrifice", "潜行者", 9781016 },
+        { "Spell_Holy_HolySmite", "牧师", 9781017 },
+        { "Spell_Nature_Lightning", "萨满祭司", 9781018 },
+        { "Spell_Fire_FlameBolt", "法师", 9781019 },
+        { "Spell_Shadow_ShadowBolt", "术士", 9781020 },
+        { "Spell_Nature_AbolishMagic", "德鲁伊", 9781021 },
     } };
 
     std::string IconText(std::string const& icon, std::string const& text)
@@ -108,14 +108,14 @@ namespace
     void SendMainMenu(Player* player, Creature* creature)
     {
         ClearGossipMenuFor(player);
-        AddOption(player, "Inv_Misc_Coin_02", "General Goods", ACTION_GENERAL_GOODS);
-        AddOption(player, "inv_axe_09", "Heirlooms |cffFF0000(Requires a level 60)|r", ACTION_HEIRLOOMS);
+        AddOption(player, "Inv_Misc_Coin_02", "杂货", ACTION_GENERAL_GOODS);
+        AddOption(player, "inv_axe_09", "传家宝 |cffFF0000（需要 60 级）|r", ACTION_HEIRLOOMS);
         if (SellsScrolls(player))
-            AddOption(player, "inv_misc_scrollunrolled01c", "Mystic Scrolls", ACTION_MYSTIC_SCROLLS);
+            AddOption(player, "inv_misc_scrollunrolled01c", "神秘卷轴", ACTION_MYSTIC_SCROLLS);
         if (SellsAltars())
-            AddOption(player, "ability_racial_arcaneaffinity", "Altars", ACTION_ALTARS);
-        AddOption(player, "Mail_GMIcon", "Upgrade Worldforged Weapons", ACTION_WEAPONS);
-        AddOption(player, "Mail_GMIcon", "Upgrade Worldforged Armor", ACTION_ARMOUR);
+            AddOption(player, "ability_racial_arcaneaffinity", "祭坛", ACTION_ALTARS);
+        AddOption(player, "Mail_GMIcon", "升级世界铸造武器", ACTION_WEAPONS);
+        AddOption(player, "Mail_GMIcon", "升级世界铸造护甲", ACTION_ARMOUR);
         SendGossipMenuFor(player, Worldforged::GUARDIAN_ENTRY, creature->GetGUID());
     }
 

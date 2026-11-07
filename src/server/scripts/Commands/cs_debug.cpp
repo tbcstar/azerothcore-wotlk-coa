@@ -510,7 +510,7 @@ public:
 
         handler->PSendSysMessage("生物 {}（GUID {}，生成ID {}）的拾取者：{}",
             target->GetName(), target->GetGUID().ToString(), target->GetSpawnId(),
-            target->hasLootRecipient() ? (target->GetLootRecipient() ? target->GetLootRecipient()->GetName() : "offline") : "没有拾取者");
+            target->hasLootRecipient() ? (target->GetLootRecipient() ? target->GetLootRecipient()->GetName() : "离线") : "没有拾取者");
         return true;
     }
 
@@ -978,7 +978,7 @@ public:
                 for (auto const& outerPair : redirectRegistry)
                 {
                     SpellInfo const* const spell = sSpellMgr->GetSpellInfo(outerPair.first);
-                    handler->PSendSysMessage(" |-- #{:06} {}（{} 条）：", outerPair.first, spell ? spell->SpellName[0] : "<unknown>", outerPair.second.size());
+                    handler->PSendSysMessage(" |-- #{:06} {}（{} 条）：", outerPair.first, spell ? spell->SpellName[0] : "<未知>", outerPair.second.size());
                     for (auto const& innerPair : outerPair.second)
                     {
                         Unit* unit = ObjectAccessor::GetUnit(*target, innerPair.first);
@@ -1633,7 +1633,7 @@ public:
 
         uint32 zoneId = player->GetZoneId();
         AreaTableEntry const* zoneEntry = sAreaTableStore.LookupEntry(zoneId);
-        handler->PSendSysMessage("区域 {}（{}）内的玩家数量：{}。", zoneId, (zoneEntry ? zoneEntry->area_name[LOCALE_enUS] : "<unknown>"), player->GetMap()->GetPlayerCountInZone(zoneId));
+        handler->PSendSysMessage("区域 {}（{}）内的玩家数量：{}。", zoneId, (zoneEntry ? zoneEntry->area_name[LOCALE_enUS] : "<未知>"), player->GetMap()->GetPlayerCountInZone(zoneId));
         return true;
     }
 

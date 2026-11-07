@@ -877,7 +877,7 @@ namespace
                             continue;
                         if (ItemTemplate const* item = sObjectMgr->GetItemTemplate(gadget.item))
                             AddGossipItemFor(player, GOSSIP_ICON_VENDOR,
-                                item->Name1 + " - " + std::to_string(gadget.cost) + " Bonzo Bolts", GOSSIP_SENDER_MAIN, 100 + i);
+                                item->Name1 + " - " + std::to_string(gadget.cost) + " 枚邦佐弩矢", GOSSIP_SENDER_MAIN, 100 + i);
                     }
                     if (!player->HasSpell(93418) && !player->HasItemCount(98074, 1, true))
                         AddGossipItemFor(player, GOSSIP_ICON_VENDOR, "科格斯利伙伴 - 10 只疯乱金锭",

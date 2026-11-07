@@ -2048,8 +2048,7 @@ void ManastormRewards::PublishCommitted(
         {
             ManastormWeeklyCacheAllowance const& allowance = publication->WeeklyAllowance;
             player->SendSystemMessage(Acore::StringFormat(
-                "Manastorm regular endgame caches: {}/{} earned this week; {} remaining. Reset: {} (server time). "
-                "Bonus caches are exempt.", allowance.Earned, allowance.Limit,
+                "法力风暴常规终局宝箱：本周已获得 {}/{}，剩余 {}。重置时间：{}（服务器时间）。奖励宝箱不占用此额度。", allowance.Earned, allowance.Limit,
                 allowance.Earned < allowance.Limit ? allowance.Limit - allowance.Earned : 0,
                 Acore::Time::TimeToTimestampStr(Seconds(allowance.ResetTime))).c_str());
         }

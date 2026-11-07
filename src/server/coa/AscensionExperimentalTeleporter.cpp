@@ -48,18 +48,18 @@ struct Destination
 
 std::array<Destination, 11> const Destinations =
 { {
-    { "Stormwind", "Spell_Arcane_TeleportStormWind", DestinationGroup::Alliance, 0, -8833.38f, 628.63f, 94.01f, 1.07f },
-    { "Ironforge", "Spell_Arcane_TeleportIronForge", DestinationGroup::Alliance, 0, -4918.88f, -940.41f, 501.56f, 5.42f },
-    { "Orgrimmar", "Spell_Arcane_TeleportOrgrimmar", DestinationGroup::Horde, 1, 1629.85f, -4373.64f, 31.56f, 3.7f },
-    { "Undercity", "Spell_Arcane_TeleportUnderCity", DestinationGroup::Horde, 0, 1584.14f, 240.31f, -52.15f, 0.04f },
-    { "Western Plaguelands", "Achievement_Zone_WesternPlaguelands_01", DestinationGroup::Zone, 0, 1728.65f, -1602.25f, 63.43f,
+    { "暴风城", "Spell_Arcane_TeleportStormWind", DestinationGroup::Alliance, 0, -8833.38f, 628.63f, 94.01f, 1.07f },
+    { "铁炉堡", "Spell_Arcane_TeleportIronForge", DestinationGroup::Alliance, 0, -4918.88f, -940.41f, 501.56f, 5.42f },
+    { "奥格瑞玛", "Spell_Arcane_TeleportOrgrimmar", DestinationGroup::Horde, 1, 1629.85f, -4373.64f, 31.56f, 3.7f },
+    { "幽暗城", "Spell_Arcane_TeleportUnderCity", DestinationGroup::Horde, 0, 1584.14f, 240.31f, -52.15f, 0.04f },
+    { "西瘟疫之地", "Achievement_Zone_WesternPlaguelands_01", DestinationGroup::Zone, 0, 1728.65f, -1602.25f, 63.43f,
         0.0f },
-    { "Winterspring", "Achievement_Zone_Winterspring", DestinationGroup::Zone, 1, 6759.18f, -4419.63f, 763.21f, 0.0f },
-    { "Burning Steppes", "Achievement_Zone_BurningSteppes_01", DestinationGroup::Zone, 0, -8118.54f, -1633.83f, 133.0f, 0.0f },
-    { "Silithus", "Achievement_Zone_Silithus_01", DestinationGroup::Zone, 1, -7426.87f, 1005.31f, 1.13f, 0.0f },
-    { "Un'Goro Crater", "Achievement_Zone_UnGoroCrater_01", DestinationGroup::Zone, 1, -7943.22f, -2119.09f, -218.34f, 0.0f },
-    { "Azshara", "Achievement_Zone_Azshara_01", DestinationGroup::Zone, 1, 3203.8f, -4947.2f, 157.8f, 0.0f },
-    { "Booty Bay", "Achievement_Zone_Stranglethorn_01", DestinationGroup::Neutral, 0, -14297.2f, 530.99f, 8.78f, 3.99f }
+    { "冬泉谷", "Achievement_Zone_Winterspring", DestinationGroup::Zone, 1, 6759.18f, -4419.63f, 763.21f, 0.0f },
+    { "燃烧平原", "Achievement_Zone_BurningSteppes_01", DestinationGroup::Zone, 0, -8118.54f, -1633.83f, 133.0f, 0.0f },
+    { "希利苏斯", "Achievement_Zone_Silithus_01", DestinationGroup::Zone, 1, -7426.87f, 1005.31f, 1.13f, 0.0f },
+    { "安戈洛环形山", "Achievement_Zone_UnGoroCrater_01", DestinationGroup::Zone, 1, -7943.22f, -2119.09f, -218.34f, 0.0f },
+    { "艾萨拉", "Achievement_Zone_Azshara_01", DestinationGroup::Zone, 1, 3203.8f, -4947.2f, 157.8f, 0.0f },
+    { "藏宝海湾", "Achievement_Zone_Stranglethorn_01", DestinationGroup::Neutral, 0, -14297.2f, 530.99f, 8.78f, 3.99f }
 } };
 
 bool IsZoneDrop(Destination const& destination)
@@ -107,7 +107,7 @@ void ShowMenu(Player* player, GameObject* go)
 
         if (uint32 fee = FeeFor(destination))
             AddGossipItemFor(player, GOSSIP_ICON_TAXI, OptionText(destination), GOSSIP_SENDER_MAIN,
-                DESTINATION_ACTION_BASE + index, std::string("Teleport to ") + destination.name + "?", fee, false);
+                DESTINATION_ACTION_BASE + index, std::string("传送至 ") + destination.name + "？", fee, false);
         else
             AddGossipItemFor(player, GOSSIP_ICON_TAXI, OptionText(destination), GOSSIP_SENDER_MAIN,
                 DESTINATION_ACTION_BASE + index);

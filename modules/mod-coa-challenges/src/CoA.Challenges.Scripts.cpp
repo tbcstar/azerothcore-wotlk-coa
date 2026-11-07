@@ -3363,7 +3363,7 @@ namespace CoAChallenges
             if (!on || *on)
             {
                 SetConditionFlag(guid, flag.c_str());
-                handler->PSendSysMessage("Set condition flag '{}' for {}.", flag, p->GetName());
+                handler->PSendSysMessage("已为 {} 设置条件标记 '{}'。", p->GetName(), flag);
             }
             else
             {
@@ -3489,8 +3489,7 @@ namespace CoAChallenges
             {
                 HardResetCharacter(p);
                 handler->PSendSysMessage(
-                    "Hard reset ALL for {}: level 1, 0 money, no CoA state, repairs, "
-                    "spells/talents/skills unlearned, quest log cleared.", playerName);
+                    "已对 {} 执行全面硬重置：等级 1、金钱清零、无 CoA 状态、修复、法术/天赋/技能已遗忘、任务日志已清空。", playerName);
             }
             else
             {

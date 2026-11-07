@@ -169,22 +169,22 @@ namespace
 
         if (!player->HasItemCount(recipe.baseItem, 1, true))
         {
-            SendPurchaseResult(session, "You no longer carry the item to upgrade.");
+            SendPurchaseResult(session, "你身上已经没有可升级的这件物品了。");
             return true;
         }
 
         if (!Worldforged::IsUnlocked(session->GetAccountId(), recipe.unlockCreature))
         {
             CreatureTemplate const* boss = sObjectMgr->GetCreatureTemplate(recipe.unlockCreature);
-            std::string const message = Acore::StringFormat("Defeat {} to unlock this upgrade for your account.",
-                                                            boss ? boss->Name : "the raid's last boss");
+            std::string const message = Acore::StringFormat("击败{}，即可为你的账号解锁此升级。",
+                                                            boss ? boss->Name : "该团队副本的最终首领");
             SendPurchaseResult(session, message.c_str());
             return true;
         }
 
         if (!player->HasItemCount(Worldforged::CURRENCY_ITEM, cost, true))
         {
-            SendPurchaseResult(session, "You do not have enough Runes of Ascension.");
+            SendPurchaseResult(session, "你的飞升符文不足。");
             return true;
         }
 
@@ -196,7 +196,7 @@ namespace
         if (fits != EQUIP_ERR_OK)
         {
             player->SendEquipError(fits, nullptr, nullptr, recipe.targetItem);
-            SendPurchaseResult(session, "You have no room for the upgraded item.");
+            SendPurchaseResult(session, "你的背包没有空间存放升级后的物品。");
             return true;
         }
 

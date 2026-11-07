@@ -68,7 +68,7 @@ void GrantWarchest(Player* player)
 
     CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
     item->SaveToDB(trans);
-    MailDraft("Conquest of Azeroth - Elite Warchest",
+    MailDraft("艾泽拉斯的征服 - 精英战利品箱",
               "欢迎来到《艾泽拉斯的征服》！这个战利品箱是我们送你的礼物，助你开启旅程。")
         .AddItem(item)
         .SendMailTo(trans, MailReceiver(player), MailSender(player));
@@ -165,7 +165,7 @@ void DeliverOrQueueMail(Player* player, std::vector<Item*>& mailQueue, uint32 en
 }
 
 void FlushMailQueue(Player* player, std::vector<Item*> const& mailQueue,
-                     char const* subject = "Conquest of Azeroth - Elite Warchest",
+                     char const* subject = "艾泽拉斯的征服 - 精英战利品箱",
                      char const* body = "你的背包已满，因此战利品箱的一部分已通过邮件寄出。")
 {
     if (mailQueue.empty())
@@ -220,7 +220,7 @@ public:
     {
         std::vector<Item*> mailQueue;
         DeliverOrQueueMail(player, mailQueue, 1004039, 4);
-        FlushMailQueue(player, mailQueue, "Bag of Bags");
+        FlushMailQueue(player, mailQueue, "背包套包");
 
         uint32 count = 1;
         player->DestroyItemCount(item, count, true);

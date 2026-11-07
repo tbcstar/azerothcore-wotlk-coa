@@ -82,7 +82,7 @@ namespace
     /// which is the first moment the announcement push can be answered at all. The compat
     /// layer answers the same message for the advancement handshake.
     constexpr uint16 CMSG_EXTENSION_INITIALIZED = 0x0561;
-    constexpr char const *GREETING = "Hello! Ready for some training?";
+    constexpr char const *GREETING = "你好！准备好接受训练了吗？";
 
     constexpr uint32 BEGINNERS_BOOK = 75118;
     constexpr uint32 BEGINNERS_TEXT = 22;

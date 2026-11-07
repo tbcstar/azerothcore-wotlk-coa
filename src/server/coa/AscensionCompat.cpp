@@ -9070,15 +9070,14 @@ public:
     if (!AscensionCollectionService::Instance().GrantFullVanityCollection(target))
     {
       handler->PSendSysMessage(
-          "Could not grant the vanity collection to {}: their Ascension "
-          "collection state isn't loaded (bot, or collection data failed to "
-          "load).",
+          "无法为 {} 发放幻化外观收藏：其 Ascension 收藏状态未载入"
+          "（机器人，或收藏数据加载失败）。",
           player->GetName());
       return true;
     }
 
     handler->PSendSysMessage(
-        "Granted the full Ascension vanity collection to {}.",
+        "已为 {} 发放完整的 Ascension 外观收藏。",
         player->GetName());
     if (handler->GetPlayer() != target)
       ChatHandler(target->GetSession())
@@ -9101,15 +9100,14 @@ public:
     if (!AscensionCollectionService::Instance().GrantFullAppearanceCollection(target))
     {
       handler->PSendSysMessage(
-          "Could not grant the transmog collection to {}: their Ascension "
-          "collection state isn't loaded (bot, or collection data failed to "
-          "load).",
+          "无法为 {} 发放幻化（换装）收藏：其 Ascension 收藏状态未载入"
+          "（机器人，或收藏数据加载失败）。",
           player->GetName());
       return true;
     }
 
     handler->PSendSysMessage(
-        "Granted the full Ascension transmog collection to {}.",
+        "已为 {} 发放完整的 Ascension 幻化收藏。",
         player->GetName());
     if (handler->GetPlayer() != target)
       ChatHandler(target->GetSession())
@@ -9132,16 +9130,15 @@ public:
     if (!AscensionCollectionService::Instance().GrantMysticAltarVanityItems(target))
     {
       handler->PSendSysMessage(
-          "Could not grant the Mystic Altar vanity items to {}: their "
-          "Ascension collection state isn't loaded (bot, or collection data "
-          "failed to load).",
+          "无法为 {} 发放秘法祭坛的外观物品：其 Ascension 收藏状态未载入"
+          "（机器人，或收藏数据加载失败）。",
           player->GetName());
       return true;
     }
 
     handler->PSendSysMessage(
-        "Granted the Mystic Altar vanity items to {} (account-wide "
-        "ownership; this realm may not offer altars to use them on).",
+        "已为 {} 发放秘法祭坛的外观物品（账号通用持有；本服务器可能未提供"
+        "可供使用的祭坛）。",
         player->GetName());
     if (handler->GetPlayer() != target)
       ChatHandler(target->GetSession())

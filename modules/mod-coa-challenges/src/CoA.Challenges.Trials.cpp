@@ -569,7 +569,7 @@ namespace CoAChallenges
                     "SaveTrial {} by {} rejected: challenges {} and {} share an exclusive group",
                     trialID, player->GetName(), conflictA, conflictB);
                 ChatHandler(player->GetSession()).PSendSysMessage(
-                    "A trial cannot combine two mutually exclusive challenges ({} and {}).",
+                    "试炼无法组合两个互斥的挑战（{} 与 {}）。",
                     conflictA, conflictB);
                 // No dedicated save-conflict code in Enum.TrialSaveResponse.
                 SendTrialResult(player, SMSG_COA_TRIAL_SAVE_RESULT, trialID, "SAVE_CHALLENGE_CANNOT_EDIT_CHALLENGES");
@@ -720,7 +720,7 @@ namespace CoAChallenges
                     "ActivateTrial {} by {} rejected: challenges {} and {} share an exclusive group",
                     trialID, player->GetName(), conflictA, conflictB);
                 ChatHandler(player->GetSession()).PSendSysMessage(
-                    "This trial combines two mutually exclusive challenges ({} and {}).",
+                    "该试炼组合了两个互斥的挑战（{} 与 {}）。",
                     conflictA, conflictB);
                 SendTrialResult(player, SMSG_COA_TRIAL_ACTIVATE_RESULT, trialID, "ACTIVATE_TRIAL_CANNOT_ACTIVATE_CHALLENGE");
                 // Same reasoning as the single-challenge path: the client

@@ -71,7 +71,7 @@ public:
                 uint32 ttr = (resetTime >= GameTime::GetGameTime().count() ? resetTime - GameTime::GetGameTime().count() : 0);
                 std::string timeleft = secsToTimeString(ttr);
                 handler->PSendSysMessage("地图：{}，实例：{}，永久：{}，难度：{}，可重置：{}，剩余时间：{}{}",
-                    mapId, save->GetInstanceId(), bind.perm ? "yes" : "no", save->GetDifficulty(), save->CanReset() ? "yes" : "no", timeleft, (bind.extended ? " (extended)" : ""));
+                    mapId, save->GetInstanceId(), bind.perm ? "是" : "否", save->GetDifficulty(), save->CanReset() ? "是" : "否", timeleft, (bind.extended ? "（已延长）" : ""));
                 counter++;
             }
         }
@@ -108,7 +108,7 @@ public:
                     uint32 resetTime = itr->second.extended ? save->GetExtendedResetTime() : save->GetResetTime();
                     uint32 ttr = (resetTime >= GameTime::GetGameTime().count() ? resetTime - GameTime::GetGameTime().count() : 0);
                     std::string timeleft = secsToTimeString(ttr);
-                    handler->PSendSysMessage("正在解除绑定 地图：{}，实例：{}，永久：{}，难度：{}，可重置：{}，剩余时间：{}{}", itr->first, save->GetInstanceId(), itr->second.perm ? "yes" : "no", save->GetDifficulty(), save->CanReset() ? "yes" : "no", timeleft, (itr->second.extended ? " (extended)" : ""));
+                    handler->PSendSysMessage("正在解除绑定 地图：{}，实例：{}，永久：{}，难度：{}，可重置：{}，剩余时间：{}{}", itr->first, save->GetInstanceId(), itr->second.perm ? "是" : "否", save->GetDifficulty(), save->CanReset() ? "是" : "否", timeleft, (itr->second.extended ? "（已延长）" : ""));
                     sInstanceSaveMgr->PlayerUnbindInstance(player->GetGUID(), itr->first, Difficulty(i), true, player);
                     itr = m_boundInstances.begin();
                     counter++;

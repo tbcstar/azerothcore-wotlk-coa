@@ -47,12 +47,12 @@ constexpr uint32 ICON_SIZE = 40;
 
 constexpr std::array<Destination, 6> Destinations =
 {{
-    {"Elwynn Forest", "Spell_Arcane_TeleportStormWind", TEAM_ALLIANCE, RACE_HUMAN, 0, -8949.95f, -132.493f, 83.5312f, 0.0f},
-    {"Dun Morogh", "Spell_Arcane_TeleportIronForge", TEAM_ALLIANCE, RACE_DWARF, 0, -6240.32f, 331.033f, 382.758f, 6.17716f},
-    {"Teldrassil", "Spell_Arcane_TeleportDarnassus", TEAM_ALLIANCE, RACE_NIGHTELF, 1, 10311.3f, 832.463f, 1326.41f, 5.69632f},
-    {"Tirisfal Glades", "Spell_Arcane_TeleportUnderCity", TEAM_HORDE, RACE_UNDEAD_PLAYER, 0, 1676.71f, 1678.31f, 121.67f, 2.70526f},
-    {"Durotar", "Spell_Arcane_TeleportOrgrimmar", TEAM_HORDE, RACE_ORC, 1, -618.518f, -4251.67f, 38.718f, 0.0f},
-    {"Mulgore", "Spell_Arcane_TeleportThunderBluff", TEAM_HORDE, RACE_TAUREN, 1, -2917.58f, -257.98f, 52.9968f, 0.0f}
+    {"艾尔文森林", "Spell_Arcane_TeleportStormWind", TEAM_ALLIANCE, RACE_HUMAN, 0, -8949.95f, -132.493f, 83.5312f, 0.0f},
+    {"丹莫罗", "Spell_Arcane_TeleportIronForge", TEAM_ALLIANCE, RACE_DWARF, 0, -6240.32f, 331.033f, 382.758f, 6.17716f},
+    {"泰达希尔", "Spell_Arcane_TeleportDarnassus", TEAM_ALLIANCE, RACE_NIGHTELF, 1, 10311.3f, 832.463f, 1326.41f, 5.69632f},
+    {"提瑞斯法林地", "Spell_Arcane_TeleportUnderCity", TEAM_HORDE, RACE_UNDEAD_PLAYER, 0, 1676.71f, 1678.31f, 121.67f, 2.70526f},
+    {"杜隆塔尔", "Spell_Arcane_TeleportOrgrimmar", TEAM_HORDE, RACE_ORC, 1, -618.518f, -4251.67f, 38.718f, 0.0f},
+    {"莫高雷", "Spell_Arcane_TeleportThunderBluff", TEAM_HORDE, RACE_TAUREN, 1, -2917.58f, -257.98f, 52.9968f, 0.0f}
 }};
 
 SpellCastResult CheckTravel(Player const* player)

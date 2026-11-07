@@ -718,7 +718,7 @@ bool WorldSession::HandleRecruitAFriendRewardsCommand(std::string const& command
         if (auto existing = claimed.find(requested); existing != claimed.end())
         {
             chat.SendSysMessage(existing->second ? "该奖励已通过邮件发送到你的账号。" :
-                "This reward is reserved for delivery to the original character and realm; recovery runs there on login.");
+                "该奖励只发放给最初的服务器与角色，补偿将在该处登录时进行。");
             return true;
         }
     }
@@ -772,6 +772,6 @@ bool WorldSession::HandleRecruitAFriendRewardsCommand(std::string const& command
     }
     if (!listed)
         chat.SendSysMessage(requested ? "本服务器上没有该 ID 的可用奖励。" :
-            "No enabled rewards are configured for this realm.");
+            "本服务器未配置任何已启用的奖励。");
     return true;
 }

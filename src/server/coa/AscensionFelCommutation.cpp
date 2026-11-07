@@ -130,8 +130,7 @@ void HandleWindowMessage(Player* player, std::string const& body)
             insured += SlotInsured(mask, slot) ? 1 : 0;
         if (maxSlots && !SlotInsured(mask, key) && insured >= maxSlots)
         {
-            SendAddon(player, Acore::StringFormat("ERROR 你只能转换 {} {}。", maxSlots.load(),
-                maxSlots == 1 ? "slot" : "slots"));
+            SendAddon(player, Acore::StringFormat("ERROR 你最多只能同时转换 {} 个栏位。", maxSlots.load()));
             return;
         }
 
@@ -161,14 +160,14 @@ if not w then
   local PREFIX = "FELCOMM"
   local ART = "Interface\\AddOns\\AwAddons\\Textures\\SafeSlots\\"
   local EMPTY = "Interface\\PaperDoll\\UI-Backpack-EmptySlot"
-  local NO_DROP_TEXT = "This item doesn't \ndrop on death. You can remove\nFel Commutation from it"
+  local NO_DROP_TEXT = "此物品死亡后\n不会掉落。你可以移除\n它的邪能转换。"
   local noDrop = {[4] = true, [19] = true}
   local slots = {
-    [1] = {"Head", 1}, [2] = {"Neck", 2}, [3] = {"Shoulders", 3}, [4] = {"Shirt", 6}, [5] = {"Chest", 5},
-    [6] = {"Waist", 10}, [7] = {"Legs", 11}, [8] = {"Feet", 12}, [9] = {"Wrist", 8}, [10] = {"Hands", 9},
-    [11] = {"Finger", 13}, [12] = {"Finger", 14}, [13] = {"Trinket", 15}, [14] = {"Trinket", 16},
-    [15] = {"Back", 4}, [16] = {"Main Hand", 17}, [17] = {"Off Hand", 18}, [18] = {"Ranged", 19},
-    [19] = {"Tabard", 7},
+    [1] = {"头部", 1}, [2] = {"颈部", 2}, [3] = {"肩部", 3}, [4] = {"衬衣", 6}, [5] = {"胸甲", 5},
+    [6] = {"腰部", 10}, [7] = {"腿部", 11}, [8] = {"脚部", 12}, [9] = {"手腕", 8}, [10] = {"手部", 9},
+    [11] = {"手指", 13}, [12] = {"手指", 14}, [13] = {"饰品", 15}, [14] = {"饰品", 16},
+    [15] = {"背部", 4}, [16] = {"主手", 17}, [17] = {"副手", 18}, [18] = {"远程", 19},
+    [19] = {"战袍", 7},
   }
   local positions = {
     {-100, 144}, {-121, 106}, {-134, 64}, {-140, 22}, {-140, -22}, {-134, -64}, {-121, -106}, {-100, -144},
@@ -185,11 +184,11 @@ if not w then
 
   local function updateSheet()
     if count == 0 then
-      FEL_COMMUTATION_POTENTIAL_LOSS = "No slots insured in High-Risk"
+      FEL_COMMUTATION_POTENTIAL_LOSS = "高风险模式下没有已投保的栏位"
     elseif cap > 0 then
-      FEL_COMMUTATION_POTENTIAL_LOSS = format("%d of %d slots insured in High-Risk", count, cap)
+      FEL_COMMUTATION_POTENTIAL_LOSS = format("高风险模式下已投保 %d/%d 个栏位", count, cap)
     else
-      FEL_COMMUTATION_POTENTIAL_LOSS = format("%d %s insured in High-Risk", count, count == 1 and "slot" or "slots")
+      FEL_COMMUTATION_POTENTIAL_LOSS = format("高风险模式下已投保 %d 个栏位", count)
     end
     local panel = AscensionPaperDollPanel
     if panel and panel:IsShown() and panel.UpdateFelCommutation then
@@ -225,7 +224,7 @@ if not w then
   local title = w:CreateFontString(nil, "OVERLAY", "GameFontNormal")
   title:SetPoint("TOP", 0, -55)
   title:SetShadowOffset(1, -1)
-  title:SetText("Fel Commutation")
+  title:SetText("邪能转换")
   local maxText = w:CreateFontString(nil, "OVERLAY", "GameFontNormal")
   maxText:SetPoint("TOP", 0, -80)
   maxText:SetShadowOffset(1, -1)
@@ -265,11 +264,11 @@ if not w then
   local insure = CreateFrame("Button", nil, confirm, "UIPanelButtonTemplate")
   insure:SetSize(141, 21)
   insure:SetPoint("CENTER", 0, -54)
-  insure:SetText("Commute slot")
+  insure:SetText("转换栏位")
   local remove = CreateFrame("Button", nil, confirm, "UIPanelButtonTemplate")
   remove:SetSize(141, 21)
   remove:SetPoint("CENTER", 0, -54)
-  remove:SetText("Remove Commutation")
+  remove:SetText("移除转换")
 
   local buttons = {}
   for i = 1, 19 do
@@ -342,7 +341,7 @@ if not w then
       GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
       GameTooltip:SetText("|cffFFFFFF" .. slots[self.slot][1])
       if not insured[self.slot] then
-        GameTooltip:AddLine("Click on this slot to insure it")
+        GameTooltip:AddLine("点击此栏位为其投保")
       end
       GameTooltip:Show()
     end)
@@ -354,7 +353,7 @@ if not w then
     if GetInventoryItemLink("player", self.slot) then
       GameTooltip:SetInventoryItem("player", self.slot)
     elseif insured[self.slot] then
-      GameTooltip:AddLine("Slot is empty")
+      GameTooltip:AddLine("栏位为空")
     end
     GameTooltip:Show()
   end)
@@ -370,9 +369,9 @@ if not w then
       icon:SetNormalTexture(texture or EMPTY)
       local id = GetInventoryItemID("player", key)
       if not texture then
-        costText:SetText(noDrop[key] and NO_DROP_TEXT or "Equip an Item.\nThis saves it\nwhen you die.")
+        costText:SetText(noDrop[key] and NO_DROP_TEXT or "装备一件物品。\n死亡时它会被保留。")
       elseif id and costs[id] and not noDrop[key] then
-        costText:SetText("Saving this item\nwill cost you\n" .. money(costs[id]) .. "\neach death")
+        costText:SetText("保留此物品\n需要花费\n" .. money(costs[id]) .. "\neach death")
       else
         costText:SetText(NO_DROP_TEXT)
       end
@@ -382,16 +381,16 @@ if not w then
       if noDrop[key] then
         insure:Disable()
         icon:SetNormalTexture("Interface\\icons\\World_Marker_Cross")
-        costText:SetText("This item doesn't \ndrop on death.")
+        costText:SetText("此物品死亡后\n不会掉落。")
       else
         insure:Enable()
         local id = GetInventoryItemID("player", key)
         if texture and id and costs[id] then
           icon:SetNormalTexture(texture)
-          costText:SetText("Saving this item\nwill cost you\n" .. money(costs[id]) .. "\neach death")
+          costText:SetText("保留此物品\n需要花费\n" .. money(costs[id]) .. "\neach death")
         else
           icon:SetNormalTexture("Interface\\icons\\inv_custom_demonstears")
-          costText:SetText("Commutation Cost\neach Death: |cffFFFFFFGold|r")
+          costText:SetText("转换费用\n每次死亡：|cffFFFFFF金币|r")
         end
       end
     end
@@ -404,7 +403,7 @@ if not w then
       if insured[key] and GetInventoryItemLink("player", key) == link then
         local id = GetInventoryItemID("player", key)
         if id and costs[id] then
-          tip:AddDoubleLine("|cffFFFFFFPotential drop cost:\n" .. money(costs[id]), "|cffFFFFFFEach death|r")
+          tip:AddDoubleLine("|cffFFFFFF可能损失的费用：\n" .. money(costs[id]), "|cffFFFFFF每次死亡|r")
           tip:Show()
         end
         return
@@ -450,7 +449,7 @@ if not w then
         total = tonumber(rest) or 0
         updateSheet()
         if total > 0 then
-          maxText:SetText("Maximum gold lost on death\n" .. money(total) .. " each death")
+          maxText:SetText("死亡时最多损失的金币\n" .. money(total) .. " 每次死亡")
           maxText:Show()
         else
           maxText:Hide()

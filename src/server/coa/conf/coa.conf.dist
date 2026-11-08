@@ -556,7 +556,7 @@ Bloodforged.Rates55 = "0.00 2.20 0.40"
 #                     Tier2.5 计为 2.5，所以 3 仍然覆盖它。
 #        Default:     6
 
-Ascension.PrestigiousCache.ReleaseStage = 6
+Ascension.PrestigiousCache.ReleaseStage = 0
 
 #
 #    Ascension.PrestigiousCache.TokenChancePercent

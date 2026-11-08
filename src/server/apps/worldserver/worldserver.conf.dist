@@ -990,7 +990,7 @@ GameType = 1
 #                     28 - （QA 服务器 - 任何语言）
 #                     29 - （CN9 - 创建时基本拉丁，登录时任意）
 
-RealmZone = 1
+RealmZone = 16
 
 #
 #    DBC.Locale
@@ -4989,7 +4989,7 @@ Calculate.Gameoject.Zone.Area.Data = 0
 #        Description: 允许在 70 级首次赢得评级战场时获得竞技场点数。
 #        Default:     71 - (Blizzlike)
 
-DailyRBGArenaPoints.MinLevel = 71
+DailyRBGArenaPoints.MinLevel = 60
 
 #
 #    MunchingBlizzlike.Enabled

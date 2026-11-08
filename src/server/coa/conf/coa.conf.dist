@@ -585,7 +585,7 @@ Ascension.PrestigiousCache.SecondTokenChancePercent = 5
 #                     解析为允许的最新且已填充的池。
 #        Default:     8
 
-Ascension.PrestigiousCache.ClassicStages = 8
+Ascension.PrestigiousCache.ClassicStages = 1
 
 #
 #    Ascension.PrestigiousCache.TbcStages

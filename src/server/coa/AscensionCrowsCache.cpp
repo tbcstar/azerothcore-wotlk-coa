@@ -163,12 +163,12 @@ std::string PinPayload(Event const& event, bool visible)
     if (!visible)
         return Acore::StringFormat("{{\"Apply\":false,\"ID\":\"crows-cache-{}\"}}", event.id);
     return Acore::StringFormat(
-        "{{\"Apply\":true,\"ZoneId\":{},\"ID\":\"crows-cache-{}\",\"Name\":\"Crow's Cache\","
+        "{{\"Apply\":true,\"ZoneId\":{},\"ID\":\"crows-cache-{}\",\"Name\":\"乌鸦的宝藏\","
         "\"Description\":\"{}\",\"X\":{:.4f},\"Y\":{:.4f},\"Z\":{:.4f},"
         "\"TextureId\":\"hr-event-gear-active\",\"Scale\":0.50,\"POIFlags\":{}}}",
         EventZone(event), event.id,
-        event.phase == Phase::Warning ? "High-Risk 60 PvP Event: materializing soon."
-            : "High-Risk 60 PvP Event: High-Risk level-60 players can claim it.",
+        event.phase == Phase::Warning ? "高风险 60 级 PvP 事件：即将显现。"
+            : "高风险 60 级 PvP 事件：高风险模式的 60 级玩家可以领取。",
         event.position.GetPositionX(), event.position.GetPositionY(), event.position.GetPositionZ(), PinFlags);
 }
 
@@ -929,7 +929,7 @@ public:
     {
         std::lock_guard lock(mutex);
         RemoveUnclaimed();
-        handler->SendSysMessage("Unclaimed Crow's Cache test events cancelled. Carried and dropped caches are preserved.");
+        handler->SendSysMessage("未领取的乌鸦宝库测试事件已取消。已携带与掉落的宝箱均保留。");
         return true;
     }
     static bool Status(ChatHandler* handler)

@@ -6982,8 +6982,8 @@ private:
             item->SaveToDB(trans);
             MailSender const sender = kind == "postmaster" ? MailSender(MAIL_CREATURE, 34337)
                                                            : MailSender(MAIL_NORMAL, 0, MAIL_STATIONERY_GM);
-            std::string const subject = kind == "reward" ? RECRUIT_A_FRIEND_REWARD_MAIL_SUBJECT : "System mail";
-            MailDraft(subject, "Sent by the gameplay test.").AddItem(item)
+            std::string const subject = kind == "reward" ? RECRUIT_A_FRIEND_REWARD_MAIL_SUBJECT : "系统邮件";
+            MailDraft(subject, "由玩法测试发送。").AddItem(item)
                 .SendMailTo(trans, MailReceiver(player, player->GetGUID().GetCounter()), sender);
             CharacterDatabase.CommitTransaction(trans);
         }

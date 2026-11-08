@@ -41,18 +41,18 @@
     {"action": "command", "label": "then the community manager tag, which replaces it", "actor": "admin", "command": ".gm cm chat on"},
     {"action": "command", "label": "Turning off the inactive moderator tag changes nothing", "actor": "admin", "command": ".gm mod chat off"},
     {"action": "command", "label": "Ask for the community manager tag state", "actor": "admin", "command": ".gm cm chat"},
-    {"action": "assert", "label": "The community manager tag is on", "actor": "admin", "metric": "system_message_contains", "text": "Community Manager tag is ON.", "equals": 1, "within_ms": 2000},
+    {"action": "assert", "label": "The community manager tag is on", "actor": "admin", "metric": "system_message_contains", "text": "社区管理员徽章当前为开启。", "equals": 1, "within_ms": 2000},
     {"action": "command", "label": "Ask for the moderator tag state", "actor": "admin", "command": ".gm mod chat"},
-    {"action": "assert", "label": "The moderator tag was replaced", "actor": "admin", "metric": "system_message_contains", "text": "Moderator tag is OFF.", "equals": 1, "within_ms": 2000},
+    {"action": "assert", "label": "The moderator tag was replaced", "actor": "admin", "metric": "system_message_contains", "text": "版主徽章当前为关闭。", "equals": 1, "within_ms": 2000},
 
     {"action": "command", "label": "The administrator tag replaces the community manager tag", "actor": "admin", "command": ".gm admin chat on"},
     {"action": "command", "label": "Ask for the administrator tag state", "actor": "admin", "command": ".gm admin chat"},
-    {"action": "assert", "label": "The administrator tag is on", "actor": "admin", "metric": "system_message_contains", "text": "Administrator tag is ON.", "equals": 1, "within_ms": 2000},
+    {"action": "assert", "label": "The administrator tag is on", "actor": "admin", "metric": "system_message_contains", "text": "管理员徽章当前为开启。", "equals": 1, "within_ms": 2000},
     {"action": "command", "label": "Ask for the community manager tag state again", "actor": "admin", "command": ".gm cm chat"},
-    {"action": "assert", "label": "The community manager tag was replaced", "actor": "admin", "metric": "system_message_contains", "text": "Community Manager tag is OFF.", "equals": 1, "within_ms": 2000},
+    {"action": "assert", "label": "The community manager tag was replaced", "actor": "admin", "metric": "system_message_contains", "text": "社区管理员徽章当前为关闭。", "equals": 1, "within_ms": 2000},
 
     {"action": "command", "label": "The administrator turns the administrator tag off", "actor": "admin", "command": ".gm admin chat off"},
     {"action": "command", "label": "Ask for the administrator tag state again", "actor": "admin", "command": ".gm admin chat"},
-    {"action": "assert", "label": "The administrator tag is off", "actor": "admin", "metric": "system_message_contains", "text": "Administrator tag is OFF.", "equals": 1, "within_ms": 2000}
+    {"action": "assert", "label": "The administrator tag is off", "actor": "admin", "metric": "system_message_contains", "text": "管理员徽章当前为关闭。", "equals": 1, "within_ms": 2000}
   ]
 }

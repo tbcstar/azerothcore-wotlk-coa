@@ -838,14 +838,14 @@ uint32 Shield(Player* player, std::vector<Item*> const& insurable, std::vector<I
     if (!cost.covered)
     {
         chat.SendSysMessage(Acore::StringFormat(
-            "Fel Commutation could not protect your items: it needs {} and you carry {}.", FormatMoney(cost.total),
+            "邪能转换无法保护你的物品：需要{}，而你身上只有{}。", FormatMoney(cost.total),
             FormatMoney(player->GetMoney())));
         return 0;
     }
 
     for (std::size_t i = 0; i < hit.size(); ++i)
     {
-        chat.SendSysMessage(Acore::StringFormat("Item {} kept safe for {}", ItemLink(hit[i]),
+        chat.SendSysMessage(Acore::StringFormat("物品{}已受保护，花费{}", ItemLink(hit[i]),
             FormatMoney(cost.perItem[i])));
         losses.erase(std::remove(losses.begin(), losses.end(), hit[i]), losses.end());
     }

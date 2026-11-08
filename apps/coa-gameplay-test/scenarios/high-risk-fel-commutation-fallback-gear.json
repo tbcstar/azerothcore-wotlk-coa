@@ -199,7 +199,7 @@
       "label": "THE FIX: the fallback gear loss goes through Fel Commutation",
       "actor": "v",
       "metric": "system_message_contains",
-      "text": "kept safe for",
+      "text": "已受保护，花费",
       "equals": 1
     },
     {

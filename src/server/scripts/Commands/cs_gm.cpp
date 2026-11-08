@@ -82,7 +82,7 @@ public:
 
         if (!enableArg)
         {
-            handler->PSendSysMessage("{} tag is {}.", name, isOn ? "ON" : "OFF");
+            handler->PSendSysMessage("{}徽章当前为{}。", name, isOn ? "开启" : "关闭");
             return true;
         }
 
@@ -91,23 +91,23 @@ public:
         else if (isOn)
             player->CustomData.Erase(STAFF_CHAT_TAG_KEY);
 
-        handler->SendNotification(*enableArg ? "{} tag is ON" : "{} tag is OFF", name);
+        handler->SendNotification(*enableArg ? "{}徽章已开启" : "{}徽章已关闭", name);
         return true;
     }
 
     static bool HandleGMModChatCommand(ChatHandler* handler, Optional<bool> enableArg)
     {
-        return HandleStaffChatTag(handler, enableArg, StaffChatTag::Moderator, "Moderator");
+        return HandleStaffChatTag(handler, enableArg, StaffChatTag::Moderator, "版主");
     }
 
     static bool HandleGMCmChatCommand(ChatHandler* handler, Optional<bool> enableArg)
     {
-        return HandleStaffChatTag(handler, enableArg, StaffChatTag::CommunityManager, "Community Manager");
+        return HandleStaffChatTag(handler, enableArg, StaffChatTag::CommunityManager, "社区管理员");
     }
 
     static bool HandleGMAdminChatCommand(ChatHandler* handler, Optional<bool> enableArg)
     {
-        return HandleStaffChatTag(handler, enableArg, StaffChatTag::Administrator, "Administrator");
+        return HandleStaffChatTag(handler, enableArg, StaffChatTag::Administrator, "管理员");
     }
 
     // Enables or disables the staff badge

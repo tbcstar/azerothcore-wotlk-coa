@@ -519,8 +519,8 @@ void WorldSession::DeliverRecruitAFriendRewards(PreparedQueryResult rows, bool r
             while (remaining && valid)
             {
                 auto draft = std::make_unique<MailDraft>(RECRUIT_A_FRIEND_REWARD_MAIL_SUBJECT,
-                    recruit ? "Welcome! Your recruit milestone reward is enclosed. Each milestone is rewarded once per account on this realm." :
-                    "Thank you for recruiting your friends! Your account-wide reward is enclosed.");
+                    recruit ? "欢迎！随信附上你的招募里程碑奖励。每个里程碑在本服每个账号只发放一次。" :
+                    "感谢你招募好友！随信附上你的账号通用奖励。");
                 for (uint32 slot = 0; remaining && slot < MAX_MAIL_ITEMS; ++slot)
                 {
                     uint32 const count = std::min(remaining, itemTemplate->GetMaxStackSize());

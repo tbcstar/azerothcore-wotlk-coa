@@ -64,7 +64,7 @@ enum MailStationery
     MAIL_STATIONERY_ORP     = 67,                           // Orphan
 };
 
-inline constexpr char RECRUIT_A_FRIEND_REWARD_MAIL_SUBJECT[] = "Recruit-A-Friend reward";
+inline constexpr char RECRUIT_A_FRIEND_REWARD_MAIL_SUBJECT[] = "招募好友奖励";
 
 enum MailState
 {

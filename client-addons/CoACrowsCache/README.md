@@ -13,10 +13,11 @@
 随附的默认值为禁用。坐标、间隔和随机位置设置位于
 src/server/coa/conf/coa.conf.dist。
 
-将整个CoACrowsCache目录复制到CoA客户端的Interface/AddOns目录。
-首次安装后完全重新打开客户端；后续插件更新使用/reload。
-标记使用客户端的地下城传送门图集，宽55像素，悬停文本为
-“高风险60级PvP事件”。每个应显示标记的客户端都需要安装该插件。
+Copy this entire `CoACrowsCache` directory into the CoA client's `Interface/AddOns` directory.
+Fully reopen the client after first installation; use `/reload` for later addon updates.
+The marker uses the client's dungeon portal atlas, is 55 pixels wide and has the hover text
+"High-Risk 60 PvP Event". The server also sends the location as a native client map pin
+(`SMSG_COA_AREA_POI_PAYLOAD`, atlas `hr-event-gear-active`), so clients without this addon still see it.
 
 ## 事件行为
 

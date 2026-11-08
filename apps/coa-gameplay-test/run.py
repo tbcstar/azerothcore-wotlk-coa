@@ -41,6 +41,7 @@ TIMELINE_FIELDS = {'event', 'source_entry', 'state', 'target_actors', 'exclude_t
 ENCOUNTER_STATES = {'NOT_STARTED', 'IN_PROGRESS', 'FAIL', 'DONE', 'SPECIAL'}
 MAX_ENCOUNTER_RADIUS = 200
 RAID_ROLES = {'tank', 'healer', 'melee', 'ranged'}
+SYSTEM_MAIL_KINDS = {'postmaster', 'reward', 'server'}
 RAID_ROLE_FIELDS = {'rotation', 'heal_spell', 'taunt_spell', 'rotation_assist'}
 SPAWN_PLACEMENT_METRICS = {'spawn_placement', 'spawn_ground_gap', 'spawn_submerged', 'spawn_display_state',
                             'spawn_stand_state', 'spawn_clearance', 'spawn_headroom', 'spawn_distance'}
@@ -216,7 +217,7 @@ METRIC_FIELDS = {'actor', 'metric', 'spell', 'power', 'caster', 'effect', 'item'
                  'phase_mask', 'trigger_spell', 'trials', 'incoming', 'heal', 'quality',
                  'row', 'offset', 'skip_strings', 'from_end', 'x', 'y', 'min_required_level', 'max_required_level',
                  'flat_coefficient_modifier', 'dominant_stat', 'off_stat', 'below_armor_class', 'unwearable', 'spells',
-                 'min_level', 'max_level', 'min_home_distance', 'spawn',
+                 'min_level', 'max_level', 'min_home_distance', 'spawn', 'entries',
                  'guid', 'spawn_type', 'tolerance', 'map', 'z'} | TIMELINE_FIELDS
 ACTIONS = {
     'stop_attack': ({'actor'}, {'actor'}),
@@ -274,6 +275,7 @@ ACTIONS = {
                            {'actor', 'entry', 'direction', 'item', 'slot', 'count', 'inventory_slot'}),
     'binder_activate': ({'actor'}, {'actor', 'target', 'owner', 'entry'}),
     'destroy_item': ({'actor', 'item'}, {'actor', 'item'}),
+    'system_mail': ({'actor', 'item', 'kind'}, {'actor', 'item', 'kind'}),
     'start_challenge': ({'actor', 'challenge', 'level'}, {'actor', 'challenge', 'level'}),
     'stop_challenge': ({'actor', 'challenge'}, {'actor', 'challenge'}),
     'area_trigger': ({'actor', 'id'}, {'actor', 'id'}),
@@ -602,6 +604,10 @@ def validate(scenario):
         if action == 'addon_message':
             require(isinstance(step['prefix'], str) and step['prefix'].strip() and '\t' not in step['prefix']
                     and isinstance(step['text'], str), f'{where}: addon_message needs a prefix without tabs and text')
+        if action == 'system_mail':
+            require(step['kind'] in SYSTEM_MAIL_KINDS,
+                    f'{where}: system_mail kind must be one of {sorted(SYSTEM_MAIL_KINDS)}')
+            number(step['item'], f'{where}.item', 1, 2**32 - 1, True)
         if action == 'summon':
             require(isinstance(step['as'], str) and step['as'] not in actor_ids, f'{where}: duplicate summon id')
             actor_ids.add(step['as'])
@@ -946,10 +952,18 @@ def validate(scenario):
             validate_placement_metric(step, where, player_ids)
             require(metric not in PLACEMENT_AUDIT_METRICS or placement_audited,
                     f'{where}: placement audit metric needs an earlier placement_audit')
+            require('entries' not in step or metric == 'map_creature_count',
+                    f'{where}: entries only applies to map creature counts')
             if metric == 'map_creature_count':
                 require(step['actor'] in player_ids, f'{where}: creature count needs a player')
                 if 'entry' in step:
                     number(step['entry'], f'{where}.entry', 1, 2**32 - 1, True)
+                if 'entries' in step:
+                    require('entry' not in step, f'{where}: give entry or entries, not both')
+                    require(isinstance(step['entries'], list) and step['entries'],
+                            f'{where}.entries must be a non-empty list')
+                    for index, entry in enumerate(step['entries']):
+                        number(entry, f'{where}.entries[{index}]', 1, 2**32 - 1, True)
             if metric == 'nearest_creature_distance':
                 require(step['actor'] in player_ids, f'{where}: creature distance needs a player')
                 number(step.get('entry'), f'{where}.entry', 1, 2**32 - 1, True)

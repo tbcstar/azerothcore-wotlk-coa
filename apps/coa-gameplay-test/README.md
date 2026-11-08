@@ -517,6 +517,7 @@ assert stable maximums and final levels when testing damage coefficients.
 | `personal_bank_swap` | `actor`, vault `entry`, `direction` `deposit` or `withdraw`, optional bank `slot` (default 0) and split `count` (0 moves the stack); `deposit` needs `item`, the first carried item of that entry. Withdrawals optionally take backpack `inventory_slot` (23-38), otherwise use automatic storage. Sends native `CMSG_GUILD_BANK_SWAP_ITEMS` into or out of the open Personal Bank. |
 | `binder_activate` | `actor`, innkeeper `target` (or `owner` + `entry` for a creature that actor has out): native "make this inn your home" confirmation (`CMSG_BINDER_ACTIVATE`), walking up to the innkeeper first. |
 | `destroy_item` | `actor`, `item`: native `CMSG_DESTROYITEM` of the first carried item of that entry, as the player deleting it. |
+| `system_mail` | `actor`, `item`, `kind` `postmaster` (a mail from the Postmaster creature, as `Player::SendItemRetrievalMail` sends), `reward` (a Recruit-A-Friend reward mail: no sender, GM stationery and the reward subject) or `server` (the same sender-less GM-stationery mail with another subject, as boss loot and item recovery mail): post one such mail carrying one `item` to the actor. |
 | `area_trigger` | `actor`, `id`: native area-trigger packet, as the client sends on walking into one; inn triggers are what set the rested flag. |
 | `gossip_select` | `actor`, zero-based `option`: select from the current menu through the session handler. |
 | `who` | `actor`, optional name-filter `target`, `class_mask`, `race_mask`: submit a native Who query. |
@@ -1099,7 +1100,8 @@ all 19 map/mode pairs per tier and a real VanCleef killing blow, without a GM ac
 at least that many yards from their own home positions (2D), and `spell` those carrying that aura. This can
 observe movement and auras of native summons without creating or controlling them.
 `map_creature_count` requires a player and counts living spawned creatures loaded anywhere on the player's map,
-in any phase, of `entry` when given and of every entry otherwise; a spawn whose grid is not loaded is not counted.
+in any phase, of `entry` or of any entry in the list `entries` when given and of every entry otherwise; a spawn
+whose grid is not loaded is not counted.
 `map_creatures_below_floor` requires a player and counts those loaded living spawns that stand more than 3 yards
 below the floor under them, or over no floor at all. The floor is searched downward from the higher of the
 creature's current Z and its spawn Z, so a creature that sank through the ground counts while one that walked

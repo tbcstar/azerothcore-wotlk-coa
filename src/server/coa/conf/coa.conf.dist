@@ -128,7 +128,7 @@ CoA.MonsterResistance.MaxReductionPct = 75.0
 # 生命值。重启后生效。
 # 1 - enabled.
 # 0 - 使用之前的 player_class_stats 曲线，不含种族调整（默认）。
-CoA.ClassLevelSixtyStats.Enable = 0
+CoA.ClassLevelSixtyStats.Enable = 1
 
 # 坚韧体魄（法术 552011），降低来自玩家及其宠物的伤害的职业被动。
 # DamageReductionPct 降低每次命中；CriticalReductionPct 在此基础上进一步降低暴击伤害，因此 50 和 20
@@ -434,31 +434,46 @@ RatedSoloArena.Title.Rival = 2000
 RatedSoloArena.Title.Duelist = 2300
 RatedSoloArena.Title.Gladiator = 2600
 
+#    Ascension.PvPVendors.ReleaseStage
+#        Description: 该服务器已开放的最新 PvP 第 1 赛季商人阶段，取值 0-2。
+#                     每个阶段的商人只在其开放后才驻留在冠军大厅和英雄大厅，且较早阶段会保留。
+#                     更改通过 .reload config 生效。
+#                     0 - 无第 1 赛季 PvP 商人
+#                     1 - 第 1 阶段：索恩中尉 48051/48052、军需官哈德温、科加什上尉
+#                         49050/49051 以及战争使者克罗加什（下士、步兵、挑战者、
+#                         中士和上尉）
+#                     2 - 同时开放第 2 阶段：索恩中尉 48053、科加什上尉 49053 以及两位
+#                         维克的"愤怒"斯莫尔斯（CoA PvP 装备、军团士兵、百夫长以及传承列表）
+#        Default:     1
+
+Ascension.PvPVendors.ReleaseStage = 1
+
 #    HighRisk.FelCommutation.Enable
-#        Description: 邪能置换。高风险角色开启此功能后，在邪能置换传送门（物件 8000053）的窗口中
-#                     选择要投保的装备栏位。开启期间，若角色携带的金币足以支付所有费用，
-#                     因高风险死亡而本会掉落的投保栏位物品将被保留，费用则存入死亡宝箱。
-#                     若金币不足，角色保留金币，物品照常掉落。正常的金币损失
-#                     （HighRisk.GoldChance）仍会在此基础上生效，
-#                     从扣除费用后剩余的金币中计算；
-#                     死亡消息会分别显示这两部分。
+#        Description: 邪能置换。高风险角色将其开启，并在邪能置换传送门（对象 8000053）的窗口中选择要
+#                     投保的装备栏位。开启期间，若角色携带足够支付费用的金币，
+#                     则高风险死亡本会掉落的投保栏位中的物品会被保留，
+#                     费用进入死亡宝箱。若金币不足，
+#                     角色保留金币，物品掉落。正常的金币损失
+#                     （HighRisk.GoldChance）仍会在此基础上生效，从扣除费用后剩余的金币中计算；
+#                     死亡信息会分别显示这两部分。
 #        Default:     0 - (Disabled)
 #                     1 - (Enabled)
 
 HighRisk.FelCommutation.Enable = 1
 
 #    HighRisk.FelCommutation.FeeMultiplier
-#        Description: 应用于每件物品费用的倍数。物品的基础费用为其物品等级乘以
-#                     该等级对应的客户端费率区间（例如 179 x 2750 铜币）。
+#        Description: 应用于费用的倍率。费用为每次死亡一笔金额，如客户端显示的那样：
+#                     全部平均装备物品等级乘以该等级对应的客户端费率区间，加上
+#                     最高玩家等级时的 10 金币（例如 74 x 1500 铜 + 10 金币 = 21金 10银）。
 #        Default:     1.0
 
 HighRisk.FelCommutation.FeeMultiplier = 1.0
 
 #    HighRisk.FelCommutation.MaxSlots
-#        Description: 一个角色一次可投保的装备栏位数量。0 表示无限制。
-#        Default:     3
+#        Description: 角色一次可投保的装备栏位数。0 表示无限制。
+#        Default:     0
 
-HighRisk.FelCommutation.MaxSlots = 3
+HighRisk.FelCommutation.MaxSlots = 0
 
 #    HighRisk.FelCommutation.AltarRange
 #        Description: 传送门必须处于多少码范围内，才会接受该开关。
@@ -521,16 +536,17 @@ Bloodforged.Enable = 1
 #    Bloodforged.Rates35
 #    Bloodforged.Rates45
 #    Bloodforged.Rates55
-#        描述：从该等级开始的等级段内，每个符合条件尸体的基础百分比，以
-#                     三个值表示： uncommon、rare、epic。每种品质各掷骰一次，均匀分布
-#                     在该品质的物品池中，且在 Rate.Drop.Item.* 乘数之前生效。
-#        Default:     "4.50 0.50 0.00", "4.00 1.00 0.00", "3.80 1.40 0.15", "3.60 1.80 0.25", "3.40 2.20 0.40"
+#        Description: 从该等级开始的等级段内，每个符合条件尸体的基础百分比，以
+#                     三个值表示： uncommon、rare、epic。每种品质各掷一次，均匀分散在
+#                     该品质的池中，在 Rate.Drop.Item.* 倍率之前计算。Uncommon 为 0 时不掉落
+#                     任何绿色 Bloodforged 物品；否则每个值必须大于后一个值。
+#        Default:     "0.00 0.50 0.00", "0.00 1.00 0.00", "0.00 1.40 0.15", "0.00 1.80 0.25", "0.00 2.20 0.40"
 
-Bloodforged.Rates15 = "4.50 0.50 0.00"
-Bloodforged.Rates25 = "4.00 1.00 0.00"
-Bloodforged.Rates35 = "3.80 1.40 0.15"
-Bloodforged.Rates45 = "3.60 1.80 0.25"
-Bloodforged.Rates55 = "3.40 2.20 0.40"
+Bloodforged.Rates15 = "0.00 0.50 0.00"
+Bloodforged.Rates25 = "0.00 1.00 0.00"
+Bloodforged.Rates35 = "0.00 1.40 0.15"
+Bloodforged.Rates45 = "0.00 1.80 0.25"
+Bloodforged.Rates55 = "0.00 2.20 0.40"
 
 #
 #    Ascension.PrestigiousCache.ReleaseStage

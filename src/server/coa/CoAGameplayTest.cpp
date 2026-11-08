@@ -4144,11 +4144,16 @@ private:
         }
         if (metric == "map_creature_count")
         {
-            uint32 const entry = step.get<uint32>("entry", 0);
+            std::set<uint32> entries;
+            if (uint32 const entry = step.get<uint32>("entry", 0))
+                entries.insert(entry);
+            if (auto listed = step.get_child_optional("entries"))
+                for (auto const& [key, entry] : *listed)
+                    entries.insert(entry.get_value<uint32>());
             auto const& spawns = player->GetMap()->GetCreatureBySpawnIdStore();
-            return std::count_if(spawns.begin(), spawns.end(), [entry](auto const& spawn)
+            return std::count_if(spawns.begin(), spawns.end(), [&entries](auto const& spawn)
             {
-                return (!entry || spawn.second->GetEntry() == entry) && spawn.second->IsInWorld()
+                return (entries.empty() || entries.count(spawn.second->GetEntry())) && spawn.second->IsInWorld()
                     && spawn.second->IsAlive();
             });
         }
@@ -6965,6 +6970,22 @@ private:
             WorldPacket packet(CMSG_BINDER_ACTIVATE, 8);
             packet << innkeeper->GetGUID();
             player->GetSession()->HandleBinderActivateOpcode(packet);
+        }
+        else if (action == "system_mail")
+        {
+            std::string const kind = step.get<std::string>("kind");
+            Require(kind == "postmaster" || kind == "reward" || kind == "server",
+                    "system_mail kind must be postmaster, reward or server");
+            Item* item = Item::CreateItem(step.get<uint32>("item"), 1, player);
+            Require(item != nullptr, "system_mail could not create the item");
+            CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
+            item->SaveToDB(trans);
+            MailSender const sender = kind == "postmaster" ? MailSender(MAIL_CREATURE, 34337)
+                                                           : MailSender(MAIL_NORMAL, 0, MAIL_STATIONERY_GM);
+            std::string const subject = kind == "reward" ? RECRUIT_A_FRIEND_REWARD_MAIL_SUBJECT : "System mail";
+            MailDraft(subject, "Sent by the gameplay test.").AddItem(item)
+                .SendMailTo(trans, MailReceiver(player, player->GetGUID().GetCounter()), sender);
+            CharacterDatabase.CommitTransaction(trans);
         }
         else if (action == "destroy_item")
         {

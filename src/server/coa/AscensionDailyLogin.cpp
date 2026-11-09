@@ -71,8 +71,8 @@ frame:SetScript("OnUpdate", function(self, delta)
     local reward = rewards[index]
     local name, _, quality, _, _, _, _, _, _, icon = GetItemInfo(reward[1])
     if not icon then return end
-    ToastNotificationSystem:EnqueueGenericNotification("Item", "Daily Login Reward", name,
-        reward[2], icon, quality, nil, "Your reward has been sent by mail.")
+    ToastNotificationSystem:EnqueueGenericNotification("Item", "每日登录奖励", name,
+        reward[2], icon, quality, nil, "你的奖励已通过邮件寄出。")
     index = index + 1
     if index > #rewards then self:SetScript("OnUpdate", nil) end
 end)

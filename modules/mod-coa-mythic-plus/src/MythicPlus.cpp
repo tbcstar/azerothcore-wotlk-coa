@@ -1963,8 +1963,8 @@ namespace
     constexpr uint32 TEXT_MARKUS = 9414500;
     constexpr uint32 RANDOMIZE_COST = 10 * GOLD;
 
-    char const* const SLOT_NAMES[17] = { "", "Head", "Neck", "Shoulders", "返回", "Chest", "Wrists", "Main Hand",
-        "Two-Hand", "Off Hand", "Ranged", "Gloves", "Belt", "Pants", "Boots", "Rings", "Trinkets" };
+    char const* const SLOT_NAMES[17] = { "", "头部", "颈部", "肩部", "背部", "胸部", "手腕", "主手",
+        "双手", "副手", "远程", "手套", "腰带", "腿部", "脚部", "戒指", "饰品" };
     char const* const SLOT_ICONS[17] = { "", "INV_Helmet_03", "INV_Jewelry_Necklace_07", "INV_Shoulder_02", "INV_Misc_Cape_02",
         "INV_Chest_Chain_05", "INV_Bracer_07", "INV_Sword_04", "INV_Axe_09", "INV_Shield_06", "INV_Weapon_Bow_07",
         "INV_Gauntlets_04", "INV_Belt_03", "INV_Pants_03", "INV_Boots_05", "INV_Jewelry_Ring_03", "INV_Jewelry_Talisman_07" };
@@ -2037,7 +2037,7 @@ namespace
 
     std::string LevelName(uint32 level)
     {
-        return level ? Acore::StringFormat("Mythic {}", level) : "Mythic Dungeon";
+        return level ? Acore::StringFormat("史诗 {}", level) : "史诗地下城";
     }
 
     uint32 NextLevelItem(uint32 entry, uint32& nextLevel)

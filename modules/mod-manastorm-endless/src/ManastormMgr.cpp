@@ -4550,9 +4550,8 @@ void ManastormMgr::FailRun(
                 returnO);
 
             member->SendSystemMessage(
-                "Manastorm: the run failed, but "
-                "ejecting you from the failed "
-                "Manastorm did not succeed.");
+                "法力风暴：本次冒险已失败，但将你移出失败的"
+                "法力风暴时出错。");
         }
     }
 
@@ -4715,7 +4714,7 @@ void ManastormMgr::HandlePlayerDeath(
             ObjectGuid::Create<HighGuid::Player>(guid));
         if (member)
             member->SendSystemMessage(
-                "Manastorm: your run has ended. Leave Manastorm or release spirit to return.");
+                "法力风暴：你的冒险已结束。离开法力风暴或释放灵魂即可返回。");
     }
 }
 
@@ -4776,9 +4775,8 @@ void ManastormMgr::GrantBaselineRunItems(
                 playerGuid);
 
             player->SendSystemMessage(
-                "Manastorm: I could not place one "
-                "of your Manastorm tools in your bags. "
-                "Make sure you have free inventory space.");
+                "法力风暴：有件法力风暴工具无法放入你的背包。"
+                "请确认背包有足够空位。");
         }
         else
         {
@@ -6368,7 +6366,7 @@ bool ManastormMgr::OnPlayerEnterMap(Map* map, Player* player)
             segment.ObjectiveCreatureEntry);
 
         player->SendSystemMessage(
-            "Manastorm: stage ACTIVE. Instance transport succeeded.");
+            "法力风暴：阶段已激活，副本传送成功。");
 
         SendClientState(
             player,
@@ -6570,7 +6568,7 @@ void ManastormMgr::OnPlayerLevelChanged(
         rescaledCount);
 
     player->SendSystemMessage(
-        "Manastorm: active stage creature level updated.");
+        "法力风暴：当前阶段生物等级已更新。");
 }
 
 void ManastormMgr::OnPlayerGiveXP(
@@ -8973,9 +8971,8 @@ void ManastormMgr::OnUnitDeath(
             if (member)
             {
                 member->SendSystemMessage(
-                    "Manastorm: objective complete. "
-                    "Use the portal to continue now, or the next depth "
-                    "will begin automatically in 5 seconds.");
+                    "法力风暴：目标已完成。"
+                    "现在使用传送门继续，否则下一层将在 5 秒后自动开始。");
             }
         }
 }
@@ -9542,8 +9539,8 @@ bool ManastormMgr::TransitionToNextStage(
         previousInstanceId);
 
     creator->SendSystemMessage(
-        "Manastorm: next stage prepared. "
-        "Other members have until the five-second fallback to cross.");
+        "法力风暴：下一阶段已就绪。"
+        "其他队员可以在五秒兜底传送前穿过传送门。");
 
     return true;
 }
@@ -10012,7 +10009,7 @@ bool ManastormMgr::LeaveRunMember(ManastormRun& run, Player* player, bool return
     SendClientState(player, nullptr);
     SendClientProgression(player);
     BroadcastClientState(run);
-    player->SendSystemMessage("Manastorm: you left the run. The remaining members can continue.");
+    player->SendSystemMessage("法力风暴：你已离开本次冒险，其余队员可以继续。");
     return true;
 }
 
@@ -10222,8 +10219,7 @@ bool ManastormMgr::StopRun(Player* player, std::string& error)
                 returnO);
 
             member->SendSystemMessage(
-                "Manastorm: the run ended, but returning "
-                "you to your previous location failed.");
+                "法力风暴：本次冒险已结束，但将你送回原位置时出错。");
         }
     }
 

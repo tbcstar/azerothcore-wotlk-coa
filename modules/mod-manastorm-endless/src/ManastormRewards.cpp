@@ -1169,7 +1169,7 @@ bool ManastormRewards::AwardCoAGreedyReward(Player* player, ManastormRun const& 
         return false;
     }
     PublishCommitted(publications);
-    player->SendSystemMessage(Acore::StringFormat("Greedy Demon: +{} Bazaar Tokens.", quantity));
+    player->SendSystemMessage(Acore::StringFormat("贪婪恶魔：+{} 市集代币。", quantity));
     return true;
 }
 
@@ -2343,7 +2343,7 @@ void ManastormRewards::PublishCommitted(
         if (player && publication->HasCoATokens)
         {
             player->SendSystemMessage(Acore::StringFormat(
-                "Manastorm Bazaar Tokens: +{}. {}/{} earned in your personal window; {} remaining. Reset: {}.",
+                "法力风暴市集代币：+{}。你的个人额度已获得 {}/{}，剩余 {}。重置时间：{}。",
                 publication->CoATokens, publication->CoAWindow.Earned, ManastormModuleConfig::CoATokenCap(),
                 ManastormCoALoot::Remaining(publication->CoAWindow.Earned, ManastormModuleConfig::CoATokenCap()),
                 Acore::Time::TimeToTimestampStr(Seconds(publication->CoAWindow.End))).c_str());

@@ -952,7 +952,7 @@ bool ManastormGreedyDemon::ClaimLoot(
         !_rule.Enabled)
     {
         player->SendSystemMessage(
-            "Greedy Demon loot is currently unavailable.");
+            "贪婪恶魔的战利品暂时无法取得。");
         return true;
     }
 
@@ -963,7 +963,7 @@ bool ManastormGreedyDemon::ClaimLoot(
     if (!run)
     {
         player->SendSystemMessage(
-            "This Greedy Demon loot belongs to a Manastorm run.");
+            "这份贪婪恶魔的战利品来自一次法力风暴冒险。");
         return true;
     }
 
@@ -998,7 +998,7 @@ bool ManastormGreedyDemon::ClaimLoot(
         !previousStage)
     {
         player->SendSystemMessage(
-            "This Greedy Demon loot is not part of your current Manastorm stage.");
+            "这份贪婪恶魔的战利品不属于你当前的法力风暴阶段。");
         return true;
     }
 
@@ -1020,7 +1020,7 @@ bool ManastormGreedyDemon::ClaimLoot(
         if (!itemEntry)
         {
             player->SendSystemMessage(
-                "Greedy Demon loot could not resolve an item reward.");
+                "无法确定贪婪恶魔的战利品对应哪件物品奖励。");
             return true;
         }
 
@@ -1029,7 +1029,7 @@ bool ManastormGreedyDemon::ClaimLoot(
                 1))
         {
             player->SendSystemMessage(
-                "Make room in your bags before opening the Greedy Demon loot.");
+                "请先腾出背包空间，再打开贪婪恶魔的战利品。");
             return true;
         }
 
@@ -1086,7 +1086,7 @@ bool ManastormGreedyDemon::ClaimLoot(
         goldCopper);
 
     player->SendSystemMessage(
-        "Greedy Demon loot secured.");
+        "已取走贪婪恶魔的战利品。");
 
     return true;
 }

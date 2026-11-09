@@ -103,13 +103,13 @@ if not queue.CoAOriginalUpdateRewards then
                 self.CoABonusReward:SetPoint("LEFT", previous, "RIGHT", 8, 0)
             end
         end
-        local reset = seconds > 0 and ("Resets in " .. SecondsToTimeAbbrev(seconds))
-            or "Reward window starts on completion"
-        local label = first and "First clear" or "Repeat clear"
+        local reset = seconds > 0 and ("重置于 " .. SecondsToTimeAbbrev(seconds))
+            or "奖励窗口将在通关后开启"
+        local label = first and "首次通关" or "重复通关"
         if data.unavailable then
-            self.CoATokenProgress:SetText("Bazaar Token rewards temporarily unavailable")
+            self.CoATokenProgress:SetText("市集代币奖励暂时不可用")
         else
-            self.CoATokenProgress:SetText(string.format("%s: %d tokens  |  %d / %d earned\n%d remaining  |  %s",
+            self.CoATokenProgress:SetText(string.format("%s：%d 枚代币  |  已获得 %d / %d\n剩余 %d  |  %s",
                 label, quantity, earned, data.cap or 0, remaining, reset))
         end
         self.CoATokenProgress:Show()

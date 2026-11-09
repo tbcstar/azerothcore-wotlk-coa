@@ -219,7 +219,7 @@ bool WorldSession::InviteRecruitAFriend(Player* target)
 
     WorldSession* recipient = target->GetSession();
     if (!CanLinkRecruitmentAddresses(*this, *recipient))
-        return reject("Recruit-A-Friend requires two different, valid IP addresses.");
+        return reject("招募好友需要两个不同且有效的 IP 地址。");
     if (recipient->recruiterId == GetAccountId())
         return reject("That account is already recruited by you. The link is permanent; use .raf status to view your recruits.");
     if (recipient->recruiterId)
@@ -250,7 +250,7 @@ bool WorldSession::InviteRecruitAFriend(Player* target)
     target->PlayerTalkClass->ClearMenus();
     GossipMenu& menu = target->PlayerTalkClass->GetGossipMenu();
     menu.SetMenuId(RecruitAFriendMenu);
-    menu.AddMenuItem(-1, GOSSIP_ICON_CHAT, "Accept permanent recruitment", 0, AcceptRecruitment, "", 0);
+    menu.AddMenuItem(-1, GOSSIP_ICON_CHAT, "接受永久招募", 0, AcceptRecruitment, "", 0);
     menu.AddMenuItem(-1, GOSSIP_ICON_CHAT, "Decline", 0, DeclineRecruitment, "", 0);
     target->PlayerTalkClass->SendDynamicGossipMenu(_player->GetName() +
         " invites you to Recruit-A-Friend. Accepting permanently links your account to theirs. This link does not expire.",
@@ -286,7 +286,7 @@ bool WorldSession::HandleRecruitAFriendInviteResponse(uint32 menuId, uint32 acti
 
     if (!CanLinkRecruitmentAddresses(*inviter->GetSession(), *this))
     {
-        ChatHandler(this).SendSysMessage("Recruit-A-Friend requires two different, valid IP addresses.");
+        ChatHandler(this).SendSysMessage("招募好友需要两个不同且有效的 IP 地址。");
         return true;
     }
 

@@ -119,13 +119,13 @@ bool RejectUnavailable(ChatHandler* handler, Settings const& settings)
 {
     if (!settings.enabled)
     {
-        handler->SendErrorMessage("Character copies are not enabled on this realm.", false);
+        handler->SendErrorMessage("本服务器未开启角色复制。", false);
         return true;
     }
 
     if (!IsPlainSchemaName(settings.sourceSchema))
     {
-        handler->SendErrorMessage("Character copies are not configured on this realm.", false);
+        handler->SendErrorMessage("本服务器未配置角色复制。", false);
         return true;
     }
 
@@ -193,11 +193,11 @@ public:
             settings.sourceSchema, accountId, accountId);
         if (!result)
         {
-            handler->PSendSysMessage("You have no characters on {}.", settings.sourceRealm);
+            handler->PSendSysMessage("你在 {} 上没有角色。", settings.sourceRealm);
             return true;
         }
 
-        handler->PSendSysMessage("Your characters on {}:", settings.sourceRealm);
+        handler->PSendSysMessage("你在 {} 上的角色：", settings.sourceRealm);
         do
         {
             Field* fields = result->Fetch();
@@ -207,7 +207,7 @@ public:
             handler->PSendSysMessage("  {} (level {}): {}", fields[0].Get<std::string>(), fields[1].Get<uint8>(),
                 copy);
         } while (result->NextRow());
-        handler->SendSysMessage("Copy one with .ptr copy <name>.");
+        handler->SendSysMessage("使用 .ptr copy <角色名> 复制其中一个。");
         return true;
     }
 
@@ -223,14 +223,14 @@ public:
             source = FindSource(settings, accountId, name);
         if (!source)
         {
-            handler->SendErrorMessage(Acore::StringFormat("Your account has no character named {} on {}.", name,
+            handler->SendErrorMessage(Acore::StringFormat("你的账号在 {} 上没有名为 {} 的角色。", name,
                 settings.sourceRealm), false);
             return false;
         }
 
         if (settings.requireSourceOffline && source->online)
         {
-            handler->SendErrorMessage(Acore::StringFormat("Log {} out of {} before copying it.", source->name,
+            handler->SendErrorMessage(Acore::StringFormat("复制前请先在 {} 上登出 {}。", source->name,
                 settings.sourceRealm), false);
             return false;
         }
@@ -241,7 +241,7 @@ public:
             if (std::optional<std::string> copyName = LiveCopyName(record->targetGuid, accountId))
             {
                 handler->SendErrorMessage(Acore::StringFormat(
-                    "{} is already copied here as {}. Delete that character to copy it again.", source->name,
+                    "{} 已复制到本服，角色名为 {}。删除该角色后可以再次复制。", source->name,
                     *copyName), false);
                 return false;
             }
@@ -249,7 +249,7 @@ public:
             uint32 const readyAt = record->copiedAt + settings.cooldownSeconds;
             if (now < readyAt)
             {
-                handler->SendErrorMessage(Acore::StringFormat("You can copy {} again in {} min.", source->name,
+                handler->SendErrorMessage(Acore::StringFormat("{} 还需等待 {} 分钟才能再次复制。", source->name,
                     (readyAt - now + 59) / 60), false);
                 return false;
             }
@@ -279,10 +279,10 @@ public:
             "REPLACE INTO coa_ptr_character_copy (source_guid, account, target_guid, copied_at) "
             "VALUES ({}, {}, {}, {})", source->guid, accountId, reader.GetLoadedGuid(), now);
 
-        handler->PSendSysMessage("{} was copied from {}. Log out to the character screen to play it.",
+        handler->PSendSysMessage("{} 已从 {} 复制完成。请登出到角色选择界面后进入游戏。",
             source->name, settings.sourceRealm);
         if (reader.GetLoadedName() != source->name)
-            handler->SendSysMessage("That name is taken on this realm, so you will choose a new one at login.");
+            handler->SendSysMessage("该名字在本服已被占用，你将在登录时另选一个名字。");
         return true;
     }
 };

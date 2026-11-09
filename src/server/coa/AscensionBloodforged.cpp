@@ -999,13 +999,13 @@ public:
         {
             GameObject const* go = LiveCache(spawn);
             time_t const respawn = spawn.map->GetGORespawnTime(spawn.data->spawnId);
-            std::string const state = go && go->isSpawned() ? "up"
-                : respawn > now ? Acore::StringFormat("opened, back in {} min", (respawn - now + 59) / 60) : "not loaded";
+            std::string const state = go && go->isSpawned() ? "已刷出"
+                : respawn > now ? Acore::StringFormat("已打开，{} 分钟后刷新", (respawn - now + 59) / 60) : "未加载";
             handler->PSendSysMessage("{} {} - {} - .go gameobject {} ({:.1f} {:.1f} {:.1f})",
                 HiddenCacheTierNames[spawn.tier], ZoneName(spawn.zone), state, spawn.data->spawnId,
                 spawn.data->posX, spawn.data->posY, spawn.data->posZ);
         }
-        handler->PSendSysMessage("{} Rare and Epic Hidden Caches{}.", spawns.size(), scope ? "" : " in this zone");
+        handler->PSendSysMessage("{} 个稀有与史诗隐藏宝箱{}。", spawns.size(), scope ? "" : "（本区域）");
         return true;
     }
 
@@ -1040,8 +1040,8 @@ public:
             debugCaches.emplace_back(data.mapid, go->GetGUID());
             ++spawned;
         }
-        handler->PSendSysMessage("Hidden Caches{}: {} already up, {} respawned, {} extra spawned for {} min "
-            "(.hiddencache despawn removes them).", scope ? "" : " in this zone", alreadyUp, respawned, spawned,
+        handler->PSendSysMessage("隐藏宝箱{}：{} 个已刷出，{} 个已重生，{} 个额外生成，持续 {} 分钟"
+            "（.hiddencache despawn 可移除它们）。", scope ? "" : "（本区域）", alreadyUp, respawned, spawned,
             DebugCacheSeconds / 60);
         return true;
     }
@@ -1057,14 +1057,14 @@ public:
                     ++removed;
                 }
         debugCaches.clear();
-        handler->PSendSysMessage("Removed {} debug Hidden Caches.", removed);
+        handler->PSendSysMessage("已移除 {} 个调试用隐藏宝箱。", removed);
         return true;
     }
 
     static bool HandleStageStatus(ChatHandler* handler)
     {
         uint32 const stageOverride = uint32(sWorldState->getWorldState(WorldStateHighRiskStageOverride));
-        handler->PSendSysMessage("High-Risk stage {}. Config {}, override {}.", highRiskStage.load(),
+        handler->PSendSysMessage("高风险阶段 {}。配置 {}，覆盖值 {}。", highRiskStage.load(),
             configuredHighRiskStage.load(), stageOverride ? std::to_string(stageOverride - 1) : std::string("none"));
         return true;
     }
@@ -1073,12 +1073,12 @@ public:
     {
         if (stage < 1 || stage > RaidRelease::AllReleased)
         {
-            handler->PSendSysMessage("High-Risk stage must be 1-{}.", RaidRelease::AllReleased);
+            handler->PSendSysMessage("高风险阶段必须在 1-{} 之间。", RaidRelease::AllReleased);
             return false;
         }
         sWorldState->setWorldState(WorldStateHighRiskStageOverride, stage + 1);
         highRiskStage = stage;
-        handler->PSendSysMessage("High-Risk stage set to {}.", stage);
+        handler->PSendSysMessage("高风险阶段已设为 {}。", stage);
         return true;
     }
 
@@ -1086,7 +1086,7 @@ public:
     {
         sWorldState->setWorldState(WorldStateHighRiskStageOverride, 0);
         highRiskStage = configuredHighRiskStage.load();
-        handler->PSendSysMessage("High-Risk stage override cleared; now {}.", highRiskStage.load());
+        handler->PSendSysMessage("高风险阶段的覆盖值已清除，当前为 {}。", highRiskStage.load());
         return true;
     }
 };

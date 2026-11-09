@@ -120,7 +120,7 @@ public:
     static bool HandleStatus(ChatHandler* handler)
     {
         uint32 const stageOverride = uint32(sWorldState->getWorldState(WorldStateStageOverride));
-        handler->PSendSysMessage("Release stage {} ({}). Config {}, override {}.", g_raidReleaseStage.load(),
+        handler->PSendSysMessage("开放阶段 {}（{}）。配置 {}，覆盖值 {}。", g_raidReleaseStage.load(),
             StageName(g_raidReleaseStage.load()), g_configuredStage,
             stageOverride ? std::to_string(stageOverride - 1) : std::string("none"));
         return true;
@@ -130,12 +130,12 @@ public:
     {
         if (stage > RaidRelease::AllReleased)
         {
-            handler->PSendSysMessage("Release stage must be 0-{}.", RaidRelease::AllReleased);
+            handler->PSendSysMessage("开放阶段必须在 0-{} 之间。", RaidRelease::AllReleased);
             return false;
         }
         sWorldState->setWorldState(WorldStateStageOverride, stage + 1);
         RefreshReleasedStage();
-        handler->PSendSysMessage("Release stage set to {} ({}).", stage, StageName(stage));
+        handler->PSendSysMessage("开放阶段已设为 {}（{}）。", stage, StageName(stage));
         return true;
     }
 
@@ -143,7 +143,7 @@ public:
     {
         sWorldState->setWorldState(WorldStateStageOverride, 0);
         RefreshReleasedStage();
-        handler->PSendSysMessage("Release stage override cleared; now {} ({}).", g_raidReleaseStage.load(),
+        handler->PSendSysMessage("开放阶段的覆盖值已清除，当前为 {}（{}）。", g_raidReleaseStage.load(),
             StageName(g_raidReleaseStage.load()));
         return true;
     }

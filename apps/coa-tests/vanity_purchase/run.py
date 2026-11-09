@@ -271,7 +271,7 @@ int main()
     }
     { Case c; c.player.bags[TOKEN]=200; c.Buy(SCROLL); c.Buy(SCROLL); c.Buy(SCROLL); assert(c.player.bags[SCROLL]==3 && c.Tokens()==20 && c.cosmetics.collected.empty()); }
     { Case c; c.player.full=true; c.Buy(SCROLL); assert(c.Tokens()==100 && c.player.equipErrors==1 && !c.player.bags.contains(SCROLL)); }
-    { Case c; templates.known.clear(); c.Buy(SCROLL); assert(c.Tokens()==100 && c.Said()=="Vanity item {} has no AzerothCore item template yet."); }
+    { Case c; templates.known.clear(); c.Buy(SCROLL); assert(c.Tokens()==100 && c.Said()=="该外观物品（{}）尚无服务器的物品模板。"); }
     { Case c; c.Buy(MOUNT, VANITY_CURRENCY_DONATION_POINTS); assert(c.cosmetics.delivered==std::vector<uint32>{MOUNT} && c.Tokens()==100); }
     { Case c; c.Buy(MOUNT, 1); assert(c.cosmetics.delivered.empty() && c.Tokens()==100 && c.Said().empty()); }
     { Case c; WorldPacket packet=Request(VANITY_CURRENCY_BAZAAR_TOKENS, MOUNT); packet << uint8(0); c.cosmetics.HandlePointSpendRequest(&c.player, packet); assert(c.cosmetics.rejected==1 && c.Tokens()==100); }

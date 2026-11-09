@@ -52,6 +52,16 @@ CoA.BazaarTokens.WarchestRealmBound = 1
 CoA.BazaarTokens.HourlyCap.Amount = 0
 CoA.BazaarTokens.HourlyCap.WindowSeconds = 3600
 
+# PTR 角色复制：玩家可通过 .ptr list 和 .ptr copy <name> 从另一个服务器复制自己的角色。
+# 仅在 PTR 上启用。SourceDatabase 是同一 MySQL 服务器上源服务器的 characters schema；
+# 本服务器的 characters 数据库用户需要对其有 SELECT 权限。两个服务器必须共享 auth 数据库，因为复制
+# 会保留账号 ID。一个角色至多有一个存活副本；删除后，下一次复制需等待
+# CooldownSeconds 秒（自上一个副本算起）。
+CoA.PtrCopy.Enable = 0
+CoA.PtrCopy.SourceDatabase = ""
+CoA.PtrCopy.SourceRealmName = "Rexxar"
+CoA.PtrCopy.CooldownSeconds = 3600
+
 # 飞升角色界面：启用/禁用（激活/停用）以及
 # 按账号维度的角色列表排序顺序。
 # Requests: CMSG 0x072E / 0x072F / 0x0772.
@@ -520,33 +530,289 @@ PvpPower.Enable = 1
 PvePower.Enable = 1
 
 #    Bloodforged.Enable
-#        描述：将血铸装备加入符合条件的高风险玩家（15 级起）开放世界
-#                     生物尸体的原生拾取掷骰中，物品从 coa_bloodforged_catalogue 中
-#                     经过审核的目录抽取。物品池和掉率区间跟随
-#                     玩家等级；对玩家显示为灰名的生物不产生掷骰。掉落遵循
-#                     标准尸体物品上限，并受 Rate.Drop.Item.Uncommon、.Rare 和
-#                     .Epic 缩放。需要 PvpPower.Enable。
+#        Description: 为 15 级及以上的高风险玩家，
+#                     在符合条件的开放世界生物尸体的原生拾取roll中加入Bloodforged 装备，
+#                     从 coa_bloodforged_catalogue 中已审核的目录中抽取。
+#                     物品池和掉率区间跟随玩家等级；对玩家显示为灰色的生物不进行roll。
+#                     掉落遵循标准尸体物品数量限制，并受 Bloodforged.DropRate.Rare 和 
+#                     .Epic 缩放（不受 Rate.Drop.Item.* 影响）。需要 PvpPower.Enable。
 #        Default:     0 - (Disabled)
 #                     1 - (Enabled)
 
 Bloodforged.Enable = 1
+
+#    HighRisk.ReleaseStage
+#        描述：高风险内容的发布阶段 0-8，独立于服务器其余部分
+#              （Ascension.CallboardCache.ReleaseStage 和 .raidphase 不会改变它）。它决定
+#              哪些团本的 Bloodforged 装备（普通和英雄副本）可以掉落，以及鸦巢宝箱（Crow's Cache）
+#              给予哪些英雄物品，并选取
+#              Bloodforged.EpicMaxItemLevelByStage 和 Bloodforged.BlueMaxItemLevelByStage 的阶段值。
+#              阶段：0 普通地下城，1 英雄地下城，2 史诗地下城，3 祖尔格拉布，
+#              4 熔火之心，5 奥妮克希亚的巢穴，6 黑翼之巢，7 安其拉，8 纳克萨玛斯。
+#              通过 .reload config 应用。.hr stage set <1-8> 会在
+#              characters 数据库中覆盖此值，直到 .hr stage clear；.hr stage 显示当前阶段。
+#        Default:     3
+
+HighRisk.ReleaseStage = 3
 
 #    Bloodforged.Rates15
 #    Bloodforged.Rates25
 #    Bloodforged.Rates35
 #    Bloodforged.Rates45
 #    Bloodforged.Rates55
-#        Description: 从该等级开始的等级段内，每个符合条件尸体的基础百分比，以
-#                     三个值表示： uncommon、rare、epic。每种品质各掷一次，均匀分散在
-#                     该品质的池中，在 Rate.Drop.Item.* 倍率之前计算。Uncommon 为 0 时不掉落
-#                     任何绿色 Bloodforged 物品；否则每个值必须大于后一个值。
-#        Default:     "0.00 0.50 0.00", "0.00 1.00 0.00", "0.00 1.40 0.15", "0.00 1.80 0.25", "0.00 2.20 0.40"
+#        描述：从该等级开始的等级区间内，每个符合条件的尸体对应的基础百分比，
+#              以三个值表示：优秀、精良、史诗。每种品质各进行一次掷骰，在该品质的
+#              物品池中均匀分布，且在应用 Bloodforged.DropRate.* 乘数之前进行。优秀为 0：
+#              Bloodforged 掉落仅为精良或史诗。非零的优秀掉率必须高于精良掉率。
+#              精英生物改用 Bloodforged.EliteEpicPercent 作为史诗掉率。
+#        Default:     "0.00 0.50 0.00", "0.00 1.00 0.00", "0.00 1.40 0.15", "0.00 1.80 0.25", "0.00 2.20 1.00"
 
 Bloodforged.Rates15 = "0.00 0.50 0.00"
 Bloodforged.Rates25 = "0.00 1.00 0.00"
 Bloodforged.Rates35 = "0.00 1.40 0.15"
 Bloodforged.Rates45 = "0.00 1.80 0.25"
-Bloodforged.Rates55 = "0.00 2.20 0.40"
+Bloodforged.Rates55 = "0.00 2.20 1.00"
+
+#    Bloodforged.EliteEpicPercent
+#        描述：高风险精英（Bloodforged.HighRiskEliteEntries）掉落一件非团本史诗
+#              Bloodforged 物品的百分比概率，受阶段上限限制，在应用
+#              Bloodforged.DropRate.Epic 乘数之前进行。此掉落在其精良（蓝色）掷骰之上额外进行。
+#        Default:     15
+
+Bloodforged.EliteEpicPercent = 15
+
+#    Bloodforged.EliteHeroicUpgradePercent
+#        Description: Bloodforged.EliteEpicPercent 产出的史诗物品改为英雄
+#                     Bloodforged 物品的百分比概率，该物品永非团本装备，且受阶段上限限制。允许小数。
+#        Default:     2.5
+
+Bloodforged.EliteHeroicUpgradePercent = 2.5
+
+#    Bloodforged.BlueMaxItemLevelByStage
+#        描述：掉落的精良（蓝色）Bloodforged 物品的最高物品等级，每个
+#              高风险发布阶段 0-8（HighRisk.ReleaseStage）对应一个值。允许的
+#              最低值为 57，即 60 级蓝色物品的最低物品等级：更低的值会被
+#              提升到 57 并记录日志。已发布团本的团本装备不受此限制。
+#        Default:     "57 57 57 57 57 57 57 57 57"
+
+Bloodforged.BlueMaxItemLevelByStage = "57 57 57 57 57 57 57 57 57"
+
+#    Bloodforged.EpicMaxItemLevelByStage
+#        描述：掉落的史诗 Bloodforged 物品的最高物品等级，每个
+#              高风险发布阶段 0-8（HighRisk.ReleaseStage）对应一个值。已发布团本的
+#              团本装备不受此限制。
+#        Default:     "61 61 64 65 70 70 70 70 70"
+
+Bloodforged.EpicMaxItemLevelByStage = "61 61 64 65 70 70 70 70 70"
+
+#    Bloodforged.Level60EndgameZonesOnly
+#        描述：需要 60 级的 Bloodforged 物品仅在西瘟疫之地、
+#              东瘟疫之地、燃烧平原、诅咒之地、艾萨拉、冬泉谷、
+#              安戈洛环形山和希利苏斯掉落。
+#        Default:     1 - (Enabled)
+#                     0 - (Disabled)
+
+Bloodforged.Level60EndgameZonesOnly = 1
+
+#    Bloodforged.RareRaidItemPercent
+#    Bloodforged.RareEliteRaidItemPercent
+#        描述：稀有（4级）和稀有精英（2级）生物总是掉落一件史诗 Bloodforged
+#              物品（当没有符合玩家等级的史诗物品时则为精良品质）和一件英雄
+#              Bloodforged 物品，替代普通掷骰。这两个值
+#              分别是 Bloodforged 物品和英雄
+#              Bloodforged 物品为已发布团本的史诗团本装备的百分比概率。蓝色团本装备
+#              仅来自 Bloodforged.ExtraBluePercent。
+#        Default:     "15 5", "25 10"
+
+Bloodforged.RareRaidItemPercent = "15 5"
+Bloodforged.RareEliteRaidItemPercent = "25 10"
+
+#    Bloodforged.ExtraBluePercent
+#    Bloodforged.ExtraBlueRaidItemPercent
+#        描述：稀有生物、稀有精英生物以及
+#              Bloodforged.HighRiskEliteEntries 中的高风险精英，有 Bloodforged.ExtraBluePercent 的概率
+#              在其其他掉落之上额外掉落一件精良（蓝色）Bloodforged 物品。该
+#              蓝色物品为已发布团本的蓝色团本装备，概率为
+#              Bloodforged.ExtraBlueRaidItemPercent，前提是该团本有蓝色物品；
+#              否则来自普通蓝色物品池。不受任何掉率
+#              乘数缩放。0 表示关闭。
+#        Default:     50, 50
+
+Bloodforged.ExtraBluePercent = 50
+Bloodforged.ExtraBlueRaidItemPercent = 50
+
+#    Bloodforged.EndgameRareRespawnMinutes
+#    Bloodforged.EndgameRareEliteRespawnMinutes
+#        描述：Bloodforged.Level60EndgameZonesOnly 下列出的 60 级区域中，
+#              稀有（4级）和稀有精英（2级）生物的重生时间，
+#              以最短和最长分钟数表示。每次死亡时都会重新随机选择时间。
+#              "0 0" 表示保留刷新点自身的重生时间。
+#        Default:     "90 150", "150 210"
+
+Bloodforged.EndgameRareRespawnMinutes = "90 150"
+Bloodforged.EndgameRareEliteRespawnMinutes = "150 210"
+
+#    Bloodforged.EndgameRareRespawnMinLevel
+#        Description: 获得上述随机重生时间的最低生物等级。
+#        Default:     45
+
+Bloodforged.EndgameRareRespawnMinLevel = 45
+
+#    Bloodforged.EndgameEliteHighRiskRespawnMinutes
+#        描述：Bloodforged.Level60EndgameZonesOnly 下列出的 60 级区域中，精英（1级）生物
+#              在高风险玩家（或其宠物）击杀它或拥有其战利品时的重生时间，
+#              以最短和最长分钟数表示，每次此类死亡时随机选择。其他玩家的击杀
+#              保留刷新点自身的重生时间，精英自身重生时间至少为最短值的
+#              也同样如此。"0 0" 表示关闭。
+#              Bloodforged.HighRiskEliteEntries 中的高风险精英改用
+#              Bloodforged.HighRiskEliteRespawnMinutes。
+#        Default:     "10 15"
+
+Bloodforged.EndgameEliteHighRiskRespawnMinutes = "10 15"
+
+#    Bloodforged.HighRiskEliteRespawnMinutes
+#        描述：开放世界中 Bloodforged.HighRiskEliteEntries 里高风险精英的重生时间，
+#              以最短和最长分钟数表示，每次死亡时随机选择，无论谁击杀它们。
+#              "0 0" 表示保留刷新点自身的重生时间。
+#        Default:     "45 60"
+
+Bloodforged.HighRiskEliteRespawnMinutes = "45 60"
+
+#    Bloodforged.HighRiskEliteEntries
+#        描述：高风险精英生物的生物条目，以空格分隔。只有这些生物适用
+#              精英规则：Bloodforged.EliteEpicPercent、Bloodforged.EliteHeroicUpgradePercent、
+#              精英短暂钥匙几率以及精英战争印记。其他所有精英都像
+#              普通生物一样掉落。默认值列出飞升的高风险精英（血色大师铁匠和
+#              剥皮者、诅咒教派、艾萨拉、希利苏斯和元素精英，918530-919450）。
+#        Default:     "918530 918547 918550 918555 918562 918563 918578 918588 918589 918590 918591 918647 918648 918690 919448 919450"
+
+Bloodforged.HighRiskEliteEntries = "918530 918547 918550 918555 918562 918563 918578 918588 918589 918590 918591 918647 918648 918690 919448 919450"
+
+#    Bloodforged.EndgameRareMinRequiredLevel
+#        描述：在 Bloodforged.Level60EndgameZonesOnly 下列出的 60 级区域中，稀有和
+#              稀有精英生物只掉落需要至少此等级的 Bloodforged 物品（普通、英雄和团本装备），
+#              无论拾取者的等级如何。0 表示像其他地方一样使用拾取者的
+#              等级物品池。
+#        Default:     60
+
+Bloodforged.EndgameRareMinRequiredLevel = 60
+
+#    Bloodforged.RareHiddenCachePercent
+#    Bloodforged.EpicHiddenCachePercent
+#        描述：高风险隐藏宝箱（战利品 9670 / 9671 / 9672，用短暂钥匙开启）会添加
+#              需要 60 级的 Bloodforged 物品，且受阶段上限限制。隐藏宝箱始终
+#              给予一件精良（蓝色）物品。精良隐藏宝箱始终给予一件史诗物品，并有以下
+#              两个百分比几率：一件英雄 Bloodforged 物品、一件已发布
+#              团本的团本装备。史诗隐藏宝箱始终给予一件已发布团本的团本物品（在
+#              任何团本发布前为史诗物品）和一件史诗物品；这两个百分比几率分别对应团本
+#              物品为其英雄副本，以及该史诗物品为英雄 Bloodforged 物品。
+#        Default:     "15 5", "5 15"
+
+Bloodforged.RareHiddenCachePercent = "15 5"
+Bloodforged.EpicHiddenCachePercent = "5 15"
+
+#    Bloodforged.EphemeralKeyPercent
+#        Description: 高风险玩家在开放世界中击杀生物时，获得一把短暂钥匙（967680，用于开启隐藏宝箱）
+#                     的百分比几率，前提是该生物对他们不显示为灰色。
+#                     以四个值表示：普通（以及所有其他精英）、
+#                     高风险精英（Bloodforged.HighRiskEliteEntries）、稀有、稀有精英。
+#                     允许小数。不受任何掉率乘数缩放。
+#        Default:     "8 50 100 100"
+
+Bloodforged.EphemeralKeyPercent = "8 50 100 100"
+
+#    Bloodforged.HighRiskEliteExtraKeyPercent
+#        Description: 高风险精英（Bloodforged.HighRiskEliteEntries）掉落的短暂钥匙
+#                     为两把而非一把的百分比几率。仅当
+#                     Bloodforged.EphemeralKeyPercent 的高风险精英值已给予一把钥匙时才会掷骰，
+#                     因此此类击杀会给予 0、1 或 2 把钥匙。允许小数。不受任何掉率乘数缩放。
+#        Default:     10
+
+Bloodforged.HighRiskEliteExtraKeyPercent = 10
+
+#    Bloodforged.DropRate.Rare
+#    Bloodforged.DropRate.Epic
+#        描述：调高或调低生物掉落 Bloodforged 精良（蓝色）和史诗物品的几率。
+#              Bloodforged.Rates*（普通生物和普通精英）的几率以及高风险精英
+#              史诗几率（Bloodforged.EliteEpicPercent）会乘以这些值，且
+#              几率永远不会超过 100%。示例：Rates55 = "0.00 2.20 1.00"，Rare = 10 且
+#              Epic = 4，则 55-60 级玩家每次击杀获得 22% 蓝色和 4% 史诗。
+#              Bloodforged 物品忽略 Rate.Drop.Item.*。必定掉落的物品（稀有生物、隐藏
+#              宝箱、鸦巢宝箱）不受影响。0 = 无此类掉落。允许小数。
+#        Default:     1
+
+Bloodforged.DropRate.Rare = 1
+Bloodforged.DropRate.Epic = 1
+
+#    Bloodforged.MarksOfWar.NormalMob
+#    Bloodforged.MarksOfWar.HighRiskElite
+#    Bloodforged.MarksOfWar.RareMob
+#    Bloodforged.MarksOfWar.RareEliteMob
+#    Bloodforged.MarksOfWar.HiddenCache
+#    Bloodforged.MarksOfWar.RareHiddenCache
+#    Bloodforged.MarksOfWar.EpicHiddenCache
+#        Description: 高风险玩家从每种来源获得的银色（1201002）和金色（1201003）战争印记。
+#                     每个值包含四个数字：
+#
+#                         "<银色必定> <额外1个银色的%几率> <金色必定> <%额外1个金色的几率>"
+#
+#                     “必定”印记每次都会给予；然后一次掷骰决定额外银色，
+#                     一次掷骰决定额外金色。示例：
+#                         "0 1 0 0"    = 1% 几率获得 1 个银色，永不给金色
+#                         "1 10 0 10"  = 必定 1 个银色（10% 几率给 2 个），10% 几率给 1 个金色
+#                         "2 50 1 20"  = 必定 2 个银色（50% 几率给 3 个），必定 1 个金色（20% 几率给 2 个）
+#
+#                     NormalMob 由普通生物和普通精英使用，HighRiskElite 仅由
+#                     Bloodforged.HighRiskEliteEntries 中的条目使用。三个 HiddenCache 键分别对应
+#                     绿色、精良和史诗隐藏宝箱。鸦巢宝箱印记由
+#                     CrowsCache.SilverMarksOfWar 和 CrowsCache.GoldenMarksOfWar 设置。
+#                     印记不受 Rate.Drop.Item.* 缩放；请使用下方的 DropRate 键。
+#        Default:     "0 5 0 0.5", "0 8 0 0.5", "1 10 0 10", "2 10 0 50", "1 10 0 0", "1 60 0 20", "2 50 1 20"
+
+Bloodforged.MarksOfWar.NormalMob = "0 5 0 0.5"
+Bloodforged.MarksOfWar.HighRiskElite = "0 8 0 0.5"
+Bloodforged.MarksOfWar.RareMob = "1 10 0 10"
+Bloodforged.MarksOfWar.RareEliteMob = "2 10 0 50"
+Bloodforged.MarksOfWar.HiddenCache = "1 10 0 0"
+Bloodforged.MarksOfWar.RareHiddenCache = "1 60 0 20"
+Bloodforged.MarksOfWar.EpicHiddenCache = "2 50 1 20"
+
+#    Bloodforged.DropRate.SilverMarkOfWar
+#    Bloodforged.DropRate.GoldenMarkOfWar
+#        描述：一次性调高或调低上述所有战争印记的几率。仅乘“% 几率”
+#              数值，绝不乘“必定”印记，且几率永远不会超过 100%。
+#              示例：SilverMarkOfWar = 3 时，“0 1 0 0”变为 3% 的银色几率，
+#              “1 10 0 10”变为必定 1 个银色，另有 30% 几率给 2 个。0 = 只掉落“必定”印记。
+#        Default:     1
+
+Bloodforged.DropRate.SilverMarkOfWar = 1
+Bloodforged.DropRate.GoldenMarkOfWar = 1
+
+#    Bloodforged.BazaarTokens.HighRiskElite
+#    Bloodforged.BazaarTokens.RareMob
+#    Bloodforged.BazaarTokens.RareEliteMob
+#        Description: 组内每位高风险玩家击杀开放世界中的高风险精英
+#                     （Bloodforged.HighRiskEliteEntries）、稀有或稀有精英时获得的集市代币（975001），
+#                     前提是该生物对他们不显示为灰色，且他们距离足够近以共享战利品。
+#                     计入每小时集市代币上限（CoA.BazaarTokens.HourlyCap.Amount）；
+#                     超出上限的代币不会给予。0 = 不给代币。
+#        Default:     300, 300, 300
+
+Bloodforged.BazaarTokens.HighRiskElite = 300
+Bloodforged.BazaarTokens.RareMob = 300
+Bloodforged.BazaarTokens.RareEliteMob = 300
+
+#    Bloodforged.BazaarTokens.HiddenCache
+#    Bloodforged.BazaarTokens.RareHiddenCache
+#    Bloodforged.BazaarTokens.EpicHiddenCache
+#        Description: 开启绿色、精良或史诗隐藏宝箱的玩家获得的集市代币（975001）。
+#                     计入每小时集市代币上限；超出上限的代币不会给予。
+#                     0 = 不给代币。
+#        Default:     40, 100, 150
+
+Bloodforged.BazaarTokens.HiddenCache = 40
+Bloodforged.BazaarTokens.RareHiddenCache = 100
+Bloodforged.BazaarTokens.EpicHiddenCache = 150
 
 #
 #    Ascension.PrestigiousCache.ReleaseStage
@@ -588,6 +854,15 @@ Ascension.PrestigiousCache.SecondTokenChancePercent = 5
 Ascension.PrestigiousCache.ClassicStages = 1
 
 #
+#    Ascension.PrestigiousCache.PreviousStageOnly
+#        描述：将经典声望宝箱及其层级代币保持在比
+#              Ascension.CallboardCache.ReleaseStage 低一个发布阶段的水平，
+#              因此某个团本的宝箱只有在它之后的阶段发布后才会发放。
+#        Default:     0
+
+Ascension.PrestigiousCache.PreviousStageOnly = 0
+
+#
 #    Ascension.PrestigiousCache.TbcStages
 #        Description: 已发布多少个燃烧的远征 Prestigious Cache，0-9，
 #                     按顺序 1297310 依次对应
@@ -601,23 +876,27 @@ Ascension.PrestigiousCache.TbcStages = 0
 #
 #    Ascension.CallboardCache.ReleaseStage
 #        Description: 服务器当前的内容进度阶段，0-8。
-#                     每个阶段也会同时开放其之前的所有阶段：
+#                     每个阶段也会解锁其之前的阶段：
 #                     0 - 仅普通地下城
 #                     1 - 英雄地下城
 #                     2 - 史诗地下城
-#                     3 - 熔火之心
-#                     4 - 祖尔格拉布
+#                     3 - 祖尔格拉布
+#                     4 - 熔火之心
 #                     5 - 奥妮克希亚的巢穴
 #                     6 - 黑翼之巢
 #                     7 - 安其拉废墟和安其拉神殿
 #                     8 - 纳克萨玛斯
-#                     高于该阶段的团队副本或地下城难度将处于关闭状态：
-#                     进入时会显示“副本已关闭”，
-#                     若角色在副本内登录则会被移出。游戏管理员仍可进入；其他地图不受影响。
-#                     客户端只有在英雄和史诗难度开放后才会列出它们。
-#                     公告板缓存遵循相同的阶段：只有已开放的缓存才会被获得，
-#                     通用公告板缓存会解析为已开放的层级。
-#                     通过 .reload config 应用；客户端的难度列表在下次登录时更新。
+#                     高于该阶段的团本或地下城难度将关闭：进入时会显示“副本已关闭”，
+#                     在其中登录的角色会被移出。游戏管理员仍可进入；其他地图不受影响。
+#                     客户端仅在英雄和史诗难度发布后才会列出它们。
+#                     公告板宝箱遵循相同阶段：只有已发布的宝箱才能获得，
+#                     通用公告板宝箱会解析为已发布的层级。
+#                     高风险内容（Bloodforged 团本装备、鸦巢宝箱）不遵循此值；
+#                     它使用 HighRisk.ReleaseStage。
+#                     通过 .reload config 应用；
+#                     客户端的难度列表在下次登录时更新。
+#                     .raidphase set <0-8> 会在 characters 数据库中覆盖此值，
+#                     直到 .raidphase clear；.raidphase 显示当前阶段。
 #        Default:     3
 
 Ascension.CallboardCache.ReleaseStage = 0
@@ -757,9 +1036,38 @@ CoA.DungeonNormal.TargetHitCapPct = 40
 
 CoA.TestZoneBonus.AnnounceIntervalMinutes = 0
 
-CrowsCache.Enable = 1
+#
+#    CrowsCache.Enable
+#        描述：鸦巢（Crow's Cache）高风险 PvP 事件。宝箱仅在史诗地下城
+#              （HighRisk.ReleaseStage 2）中开始，且仅在至少三个英雄
+#              Bloodforged 奖励已发布时才会开始，因此还需要 Bloodforged.Enable = 1。在此之前，
+#              自动日程会跳过其轮次（未领取的宝箱仍会在
+#              每轮次被移除），且 .crows start 会被拒绝。
+#        Default:     0 - (Disabled)
+#                     1 - (Enabled)
+
+CrowsCache.Enable = 0
 CrowsCache.IntervalSeconds = 10800
 CrowsCache.WarningSeconds = 1800
+
+#    CrowsCache.SilverMarksOfWar
+#    CrowsCache.GoldenMarksOfWar
+#        描述：开启一个鸦巢宝箱给予多少银色（1201002）和金色（1201003）战争印记，
+#              格式为 "<最低> <最高>"。数量每次在两个数字之间随机选取。
+#              使用相同的数字两次表示固定数量，"0 0" 表示不给。
+#              最高允许值：200。不受任何掉率设置影响。
+#        Default:     "5 10", "10 10"
+
+CrowsCache.SilverMarksOfWar = "5 10"
+CrowsCache.GoldenMarksOfWar = "10 10"
+
+#    CrowsCache.BazaarTokens
+#        描述：在城镇中开启已领取的鸦巢宝箱的玩家获得的集市代币（975001）。
+#              计入每小时的集市代币上限；超出上限的代币不会给予。
+#              0 = 不给代币。
+#        Default:     400
+
+CrowsCache.BazaarTokens = 400
 CrowsCache.X = -7831
 CrowsCache.Y = -3465
 CrowsCache.Z = 56.87

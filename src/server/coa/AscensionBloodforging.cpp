@@ -3,9 +3,7 @@
 #include "AscensionBloodforging.h"
 #include "AscensionClientSpellPatches.h"
 #include "Chat.h"
-#include "DatabaseEnv.h"
 #include "DataMap.h"
-#include "Errors.h"
 #include "GameTime.h"
 #include "Item.h"
 #include "ObjectMgr.h"
@@ -30,9 +28,9 @@ constexpr uint32 BloodyJar = 777999;
 constexpr uint32 BloodyJarSpell = 9977999;
 constexpr char const* PendingBloodforgeKey = "ascension_bloody_jar_confirmation";
 constexpr char const* BloodforgeWarning =
-    "血铸会把物品转化为 PvP 装备，移除 PvE 强度并替换为 PvP 强度。\n\n"
-    "英雄、史诗或飞升品质的物品将被转换为普通血铸物品。\n\n"
-    "此操作不可撤销。";
+    "Bloodforging an item transforms it into PvP Gear, removing the PvE Power and replacing it with PvP Power.\n\n"
+    "Heroic, Mythic or Ascended items will be converted into Normal Bloodforged items.\n\n"
+    "This is IRREVERSIBLE.";
 
 enum BloodforgeActions : uint32
 {
@@ -111,7 +109,7 @@ bool ConvertOwned(Player* player, Item* jar, Item* target)
         || player->IsInCombat() || !player->IsAlive() || !FindEntry(*target->GetTemplate()))
     {
         ChatHandler(player->GetSession()).SendSysMessage(
-            "该物品无法被血铸。请先卸下它，并确认存在对应的血铸版本。");
+            "This item cannot be Bloodforged. Unequip it and check that a matching Bloodforged version exists.");
         return false;
     }
     uint32 const original = target->GetEntry();
@@ -127,7 +125,7 @@ bool ConvertOwned(Player* player, Item* jar, Item* target)
     if (!Convert(*target))
     {
         player->ApplyItemObtainSpells(target, true);
-        ChatHandler(player->GetSession()).SendSysMessage("未找到匹配的血铸版本。");
+        ChatHandler(player->GetSession()).SendSysMessage("No compatible Bloodforged version was found.");
         return false;
     }
     player->ItemRemovedQuestCheck(original, count);
@@ -135,12 +133,8 @@ bool ConvertOwned(Player* player, Item* jar, Item* target)
     player->ApplyItemObtainSpells(target, true);
     target->SetState(ITEM_CHANGED, player);
     target->SendUpdateToPlayer(player);
-    auto transaction = CharacterDatabase.BeginTransaction();
-    player->SaveInventoryAndGoldToDB(transaction);
-    auto committed = CharacterDatabase.AsyncCommitTransaction(transaction);
-    if (!committed.m_future.get())
-        ABORT("Bloodforging inventory transaction failed; refusing to continue");
-    ChatHandler(player->GetSession()).SendSysMessage("你的物品已完成血铸。");
+    player->AdditionalSavingAddMask(ADDITIONAL_SAVING_INVENTORY_AND_GOLD);
+    ChatHandler(player->GetSession()).SendSysMessage("Your item has been Bloodforged.");
     return true;
 }
 
@@ -186,7 +180,7 @@ public:
         pending->SourceEntry = target->GetEntry();
         pending->BloodforgedEntry = FindEntry(*target->GetTemplate());
         pending->Expires = GameTime::GetGameTimeMS() + Milliseconds(60000);
-        AddGossipItemFor(player, GOSSIP_ICON_TRAINER, "血铸 " + target->GetTemplate()->Name1,
+        AddGossipItemFor(player, GOSSIP_ICON_TRAINER, "Bloodforge " + target->GetTemplate()->Name1,
             GOSSIP_SENDER_MAIN, ActionBloodforge, BloodforgeWarning, 0, false);
         SendGossipMenuFor(player, 1, jar->GetGUID());
         return true;
@@ -209,7 +203,7 @@ public:
             || FindEntry(*target->GetTemplate()) != confirmation.BloodforgedEntry)
         {
             ChatHandler(player->GetSession()).SendSysMessage(
-                "血铸确认已过期或物品已不可用，请重新选择该物品。");
+                "Bloodforging confirmation expired or the item is no longer available. Select the item again.");
             return;
         }
         confirmation.Accepted = true;

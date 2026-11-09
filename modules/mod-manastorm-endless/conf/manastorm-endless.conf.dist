@@ -3,10 +3,27 @@
 # 启用/禁用法力风暴玩法模块（需要重启）。
 Manastorm.Enable = 1
 
-# 仅针对常规终局轨道宝箱的每周上限，按角色计算，并在各模式/层级间共享。
-# 升级和普通轨道宝箱（包括 60 级）、首通奖励宝箱、
-# 宝藏守护者宝箱、货币、箱子、卡牌包和贪婪恶魔奖励不受此限制。
-# 使用核心的每周任务重置计划。两个选项均可重载。
+# 仅限 CoA 服务器（CoA.ClassModel = "coa"）。用集市代币替换常规宝箱。
+# 奖励宝箱和其他奖励货币保持各自的发放规则。
+# 启用前需应用 world/character 两个文件 rev_20261103_01_manastorm_coa_token_rewards.sql 和
+# rev_20261104_02_manastorm_coa_encounter_rewards.sql。启用需要重启。
+# 其余策略选项可重载。现有窗口保留其已保存的到期时间。
+Manastorm.CoALootMode.Enabled = 0
+Manastorm.CoALootMode.FirstClear.Enabled = 1
+Manastorm.CoALootMode.Repeat.Enabled = 1
+# 1 = 首通随个人窗口重置；0 = 终生首通。
+# 首通按角色、深度、难度以及普通/终局路线分别计算。
+Manastorm.CoALootMode.FirstClear.ResetWithWindow = 1
+# 每个角色跨所有难度/路线共享。范围 0..1000000；0 停止代币奖励。
+Manastorm.CoALootMode.TokenCap = 1000
+# 窗口在首次符合条件的完成时开始，然后在这么多小时后过期（1..168）。
+Manastorm.CoALootMode.WindowHours = 24
+# 奖励金额/深度覆盖/里程碑在 manastorm_coa_token_rewards 中。
+
+# 仅针对常规终局路线宝箱的每周上限，按角色计算并跨模式/层级共享。
+# 练级和普通路线宝箱（包括60级）、首通奖励宝箱、
+# 宝藏守护者宝箱、货币、箱子、卡包和贪婪恶魔奖励不受此限制。
+# 使用核心每周任务重置时间表。两个选项均可重载。
 Manastorm.WeeklyCacheLockout.Enabled = 1
 # 有效范围：0..255；无效值会记录错误并回退到 5。
 # 当 Enabled = 1 时，Limit = 0 会阻止所有常规终局宝箱奖励。
@@ -16,11 +33,11 @@ Manastorm.WeeklyCacheLockout.Limit = 5
 # 个体进度词缀仍然需要其匹配的原生解锁/提示；这些深度保持不变。
 Manastorm.AffixMinimumLevel = 50
 
-# 1 = 缓存跟随 coa.conf 中的 Ascension.CallboardCache.ReleaseStage：
-# 0 普通地下城，1 英雄地下城，2 史诗地下城，3 熔火之心 ... 8 纳克萨玛斯。
-# 关闭的缓存层级会回退到符合条件的最高较低层级；数据库深度/解锁要求仍然适用。
-# 贪婪恶魔战利品使用由已发布启用的终局缓存层级推导出的物品等级上限。
-# 0 = 禁用发布阶段限制；现有深度/解锁要求仍然适用。
+# 1 = 宝箱遵循 coa.conf 中的 Ascension.CallboardCache.ReleaseStage：
+# 0 普通地下城，1 英雄地下城，2 史诗地下城，3 祖尔格拉布，4 熔火之心 ... 8 纳克萨玛斯。
+# 已关闭的宝箱层级会回退到符合条件的最高较低区间；数据库深度/解锁要求仍然适用。
+# 贪婪恶魔战利品使用由已发布的启用终局宝箱区间推导出的物品等级上限。
+# 0 = 禁用发布阶段限制；现有的深度/解锁要求仍然适用。
 # 可重载。
 Manastorm.FollowReleaseStage = 0
 

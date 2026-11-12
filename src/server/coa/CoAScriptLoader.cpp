@@ -79,6 +79,7 @@ void AddSC_CoAVaults();
 void AddSC_CoABlackrockCaverns();
 void AddSC_CoADungeonCompletion();
 void AddSC_CoADungeonSpoils();
+void AddSC_CoADungeonLoot();
 void AddSC_CoADungeonTuning();
 void AddSC_CoAGuardLevel();
 void AddSC_CoATestZoneBonus();
@@ -375,6 +376,7 @@ void AddSC_AscensionChronomancerMovement();
 void AddSC_AscensionAdventurerCache();
 void AddSC_AscensionBankVoucher();
 void AddSC_AscensionRunePouches();
+void AddSC_AscensionGoldSatchels();
 void AddSC_AscensionUpgradeKits();
 void AddSC_AscensionProfessionRanks();
 void AddSC_AscensionPrestigiousCache();
@@ -383,6 +385,7 @@ void AddSC_AscensionCallboardContracts();
 void AddSC_AscensionQuestMarkers();
 void AddSC_AscensionFireLordCache();
 void AddSC_AscensionTierTokenVendor();
+void AddSC_AscensionWarcraftRebornScrollShops();
 void AddSC_CoALevelBoostNpc();
 void AddSC_AscensionFeatherOfAncients();
 void AddSC_AscensionVultureCultQuests();
@@ -456,6 +459,7 @@ void AddSC_XPHotspots();
 
 void AddCoAScripts()
 {
+    AddSC_CoADungeonLoot();
     AddAscensionStockCoefficientScripts();
     AddAscensionScalingBaseScripts();
     AddAscensionManastormItemScripts();
@@ -679,6 +683,7 @@ void AddCoAScripts()
     AddSC_AscensionAdventurerCache();
     AddSC_AscensionBankVoucher();
     AddSC_AscensionRunePouches();
+    AddSC_AscensionGoldSatchels();
     AddSC_AscensionUpgradeKits();
     AddSC_AscensionProfessionRanks();
     AddSC_AscensionPrestigiousCache();
@@ -687,6 +692,7 @@ void AddCoAScripts()
     AddSC_AscensionQuestMarkers();
     AddSC_AscensionFireLordCache();
     AddSC_AscensionTierTokenVendor();
+    AddSC_AscensionWarcraftRebornScrollShops();
     AddSC_CoALevelBoostNpc();
     AddSC_AscensionFeatherOfAncients();
     AddSC_AscensionVultureCultQuests();

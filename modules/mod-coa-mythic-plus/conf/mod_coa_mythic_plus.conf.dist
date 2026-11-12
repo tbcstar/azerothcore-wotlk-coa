@@ -136,12 +136,13 @@ MythicPlus.ExcludedDungeons = "2045 2046"
 MythicPlus.Forces.ClearShare = 0.58
 
 #    MythicPlus.Forces.WingFactor
-#        Description: 每个分区的 "lfgId:factor" 配对（以空格分隔），在 ClearShare 之后
-#                     乘到每次击杀的部队上，用于实时视频中显示不同的分区。
-#                     3320 影牙城堡 - 亡灵大厅：到 Rethilgore 实时为 18.63%，此处为 29.75%。
-#        Default:     "3320:0.626"
+#        描述：按翼设置，"lfgId:factor" 对（以空格分隔），在 ClearShare 之后
+#              乘到每次击杀的 forces 值上，用于直播视频显示不同的翼。
+#                     3320 影牙城堡 - 亡灵壁垒：到雷希戈尔为止为 18.63%，此处为 29.75%。
+#                     2038 厄运之槌 - 北：常规路线大约达到 70%；该翼所需的击杀数少 25%。
+#        Default:     "3320:0.626 2038:1.333"
 
-MythicPlus.Forces.WingFactor = "3320:0.626"
+MythicPlus.Forces.WingFactor = "3320:0.626 2038:1.333"
 
 #    MythicPlus.Health.Basis
 #    MythicPlus.Health.Offset

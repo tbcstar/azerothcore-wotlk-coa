@@ -347,7 +347,8 @@ SHIPPED_EXCLUSIVE = {'bloodforged-high-risk-drop', 'coa-prestige-chromie-spawns'
                      'vanilla-dungeons-health', 'mythic-plus-keystone-run', 'mythic-plus-client-data-at-login',
                      'test-zone-bonus-command', 'test-zone-bonus-westfall', 'void-portal-capture',
                      'path-to-ascension-arena-solo-queue-tutorial', 'pvp-armor-arena-10463',
-                     'molten-core-lucifron-encounter',
+                     'molten-core-lucifron-encounter', 'setis-world-boss-altar-loot',
+                     'snowgrave-world-boss-instance',
                      'battleground-spirit-guide-queue-follows-range',
                      'battleground-spirit-guide-client-queue-request-10146',
                      'mercenary-battleground-team-faction', 'mercenary-war-mode-battleground',
@@ -966,6 +967,38 @@ class BatchTests(unittest.TestCase):
         self.assertEqual([event['exclusive'] for event in admissions[1:]], [False] * 3)
         self.assertEqual(result['simulation']['exclusive'], ['beta'])
         self.assertTrue(self.summary('beta')['simulation']['exclusive'])
+
+    def test_valueless_set_phase_does_not_make_a_case_exclusive(self):
+        valueless = {**SCENARIOS['beta'], 'steps': [*SCENARIOS['beta']['steps'],
+                     {'action': 'set_phase', 'actor': 'caster'}]}
+        self.write(self.definitions / 'scenarios' / 'beta.json', valueless)
+        code, result = self.simulated('--lanes', '3', '--scenario', 'beta', *SLOW[:3])
+        self.assertEqual(code, 0, self.stderr.getvalue())
+        admissions = self.events('lanes.log')
+        beta = next(event for event in admissions if event['name'] == 'Beta')
+        self.assertFalse(beta['exclusive'])
+        self.assertEqual(result['simulation']['exclusive'], [])
+
+    def assert_set_phase_after_a_valueless_step(self, mask, exclusive):
+        steps = [{'action': 'set_phase', 'actor': 'caster'},
+                 {'action': 'set_phase', 'actor': 'caster', 'value': mask}]
+        self.write(self.definitions / 'scenarios' / 'beta.json',
+                   {**SCENARIOS['beta'], 'steps': [*SCENARIOS['beta']['steps'], *steps]})
+        code, result = self.simulated('--lanes', '3', '--scenario', 'beta', *SLOW[:3])
+        self.assertEqual(code, 0, self.stderr.getvalue())
+        self.assertEqual(result['simulation']['exclusive'], ['beta'] if exclusive else [])
+
+    def test_set_phase_mask_0_after_a_valueless_step_is_not_exclusive(self):
+        self.assert_set_phase_after_a_valueless_step(0, False)
+
+    def test_set_phase_mask_1_after_a_valueless_step_is_exclusive(self):
+        self.assert_set_phase_after_a_valueless_step(1, True)
+
+    def test_set_phase_mask_2_after_a_valueless_step_is_not_exclusive(self):
+        self.assert_set_phase_after_a_valueless_step(2, False)
+
+    def test_set_phase_mask_3_after_a_valueless_step_is_exclusive(self):
+        self.assert_set_phase_after_a_valueless_step(3, True)
 
     def test_creature_scaling_cases_run_exclusively_without_a_policy_entry(self):
         self.write(self.definitions / 'scenarios' / 'beta.json', {**SCENARIOS['beta'], 'creature_scaling': True})

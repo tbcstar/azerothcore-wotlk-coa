@@ -52,14 +52,16 @@ CoA.BazaarTokens.WarchestRealmBound = 1
 CoA.BazaarTokens.HourlyCap.Amount = 0
 CoA.BazaarTokens.HourlyCap.WindowSeconds = 3600
 
-# PTR 角色复制：玩家可通过 .ptr list 和 .ptr copy <name> 从另一个服务器复制自己的角色。
-# 仅在 PTR 上启用。SourceDatabase 是同一 MySQL 服务器上源服务器的 characters schema；
-# 本服务器的 characters 数据库用户需要对其有 SELECT 权限。两个服务器必须共享 auth 数据库，因为复制
-# 会保留账号 ID。一个角色至多有一个存活副本；删除后，下一次复制需等待
-# CooldownSeconds 秒（自上一个副本算起）。
-CoA.PtrCopy.Enable = 0
-CoA.PtrCopy.SourceDatabase = ""
-CoA.PtrCopy.SourceRealmName = "Rexxar"
+# PTR 角色复制：在正式服上，玩家可通过 .ptr list 和
+# .ptr copy <name> 将自己的角色复制到 PTR。正式服保存角色并将其转储排入共享的 auth 数据库
+# （coa_ptr_copy_request）；PTR 每隔几秒加载排队的副本，随后正式服通知玩家。
+# 两个服务器必须共享 auth 数据库，因为复制会保留账号 ID。
+# TargetRealmID：在正式服上，PTR 的 realmlist ID；0 表示禁用该命令。
+# Receive：在 PTR 上设为 1，以加载为其服务器 ID 排队的副本。
+# 一个角色在 PTR 上至多有一个存活副本；删除后，下一次复制需等待 CooldownSeconds 秒
+# （自上一个副本算起）。
+CoA.PtrCopy.TargetRealmID = 0
+CoA.PtrCopy.Receive = 0
 CoA.PtrCopy.CooldownSeconds = 3600
 
 # 飞升角色界面：启用/禁用（激活/停用）以及
@@ -553,7 +555,7 @@ Bloodforged.Enable = 1
 #              characters 数据库中覆盖此值，直到 .hr stage clear；.hr stage 显示当前阶段。
 #        Default:     3
 
-HighRisk.ReleaseStage = 3
+HighRisk.ReleaseStage = 0
 
 #    Bloodforged.Rates15
 #    Bloodforged.Rates25
@@ -880,21 +882,21 @@ Ascension.PrestigiousCache.TbcStages = 0
 #                     0 - 仅普通地下城
 #                     1 - 英雄地下城
 #                     2 - 史诗地下城
-#                     3 - 祖尔格拉布
-#                     4 - 熔火之心
+#                     3 - 祖尔格拉布和世界首领塞蒂斯（地图 880）
+#                     4 - 熔火之心和世界首领科里姆·雪墓（地图 889）
 #                     5 - 奥妮克希亚的巢穴
 #                     6 - 黑翼之巢
 #                     7 - 安其拉废墟和安其拉神殿
 #                     8 - 纳克萨玛斯
-#                     高于该阶段的团本或地下城难度将关闭：进入时会显示“副本已关闭”，
-#                     在其中登录的角色会被移出。游戏管理员仍可进入；其他地图不受影响。
-#                     客户端仅在英雄和史诗难度发布后才会列出它们。
+#                     高于该阶段的团本或地下城难度将关闭：
+#                     进入时会显示“副本已关闭”，在其中登录的角色会被移出。
+#                     游戏管理员仍可进入；其他地图不受影响。
+#              		  客户端仅在英雄和史诗难度发布后才会列出它们。
 #                     公告板宝箱遵循相同阶段：只有已发布的宝箱才能获得，
 #                     通用公告板宝箱会解析为已发布的层级。
 #                     高风险内容（Bloodforged 团本装备、鸦巢宝箱）不遵循此值；
 #                     它使用 HighRisk.ReleaseStage。
-#                     通过 .reload config 应用；
-#                     客户端的难度列表在下次登录时更新。
+#                     通过 .reload config 应用；客户端的难度列表在下次登录时更新。
 #                     .raidphase set <0-8> 会在 characters 数据库中覆盖此值，
 #                     直到 .raidphase clear；.raidphase 显示当前阶段。
 #        Default:     3
@@ -961,10 +963,24 @@ CoA.CallboardContracts.Enable = 1
 CoA.CallboardContracts.DailyCompletions = 1
 
 #
+#    CoA.CallboardContracts.GoldEnable
+#    CoA.CallboardContracts.TokenEnable
+#        描述：允许用金币或集市代币支付“立即完成”。被禁用的货币
+#              会显示价格为 0 并会被拒绝；两者都禁用时，
+#              公告板会隐藏“立即完成”。
+#        Default:     1, 1
+
+CoA.CallboardContracts.GoldEnable = 1
+CoA.CallboardContracts.TokenEnable = 1
+
+#
 #    CoA.CallboardContracts.MoneyCostMultiplier
 #    CoA.CallboardContracts.MinMoneyCost
-#        Description: 一次"立即完成"的金币价格：任务的金币奖励乘以该倍率，
-#                     最低为 MinMoneyCost 铜币。
+#        Description: 在重置周内，某合约类型的第一次“立即完成”的金币价格：
+#                     任务的金币奖励乘以该倍率，最低为 MinMoneyCost 铜币。
+#                     该类型每次付费完成（用金币或代币），
+#                     都会再次将下一次价格乘以该倍率（倍率为 1 或更低时价格保持不变）。
+#                     计数在每周重置时重置。
 #        Default:     2.0, 100000
 
 CoA.CallboardContracts.MoneyCostMultiplier = 2.0
@@ -973,8 +989,10 @@ CoA.CallboardContracts.MinMoneyCost = 100000
 #
 #    CoA.CallboardContracts.TokenCostMultiplier
 #    CoA.CallboardContracts.MinTokenCost
-#        Description: 一次"立即完成"的集市代币价格：任务的集市代币奖励乘以该倍率，
-#                     最低为 MinTokenCost 个代币。
+#        Description: 在重置周内，某合约类型的第一次“立即完成”的集市代币价格：
+#              		  任务的集市代币奖励乘以该倍率，最低为 MinTokenCost 个代币。
+#                     该类型每次付费完成（用金币或代币），
+#                     都会再次将下一次价格乘以该倍率。
 #        Default:     2.0, 50
 
 CoA.CallboardContracts.TokenCostMultiplier = 2.0

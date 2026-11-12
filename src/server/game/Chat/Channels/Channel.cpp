@@ -362,7 +362,7 @@ void Channel::KickOrBan(Player const* player, std::string const& badname, bool b
                     }
                     else
                     {
-                        ChatHandler(player->GetSession()).PSendSysMessage("Character {} has other faction!", badname);
+                        ChatHandler(player->GetSession()).PSendSysMessage("角色 {} 属于对立阵营！", badname);
                         return;
                     }
                 }

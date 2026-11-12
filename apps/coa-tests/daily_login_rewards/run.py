@@ -82,7 +82,7 @@ class DailyLoginTests(unittest.TestCase):
         self.assertLess(completion.index('AsyncCommitTransaction'), completion.index('mail->PublishStagedMail'))
         self.assertLess(completion.index('mail->PublishStagedMail'), completion.index('ShowRewardToast(current,'))
         for guard in ('draft->DiscardItems()', 'session->IsBot()',
-                      '!current->IsInWorld()', '"Daily Login Reward"', 'HandleItemQuerySingleOpcode'):
+                      '!current->IsInWorld()', '"每日登录奖励"', 'HandleItemQuerySingleOpcode'):
             self.assertIn(guard, source)
         self.assertNotIn('AscensionWildcard', source)
         self.assertNotIn('ReadRealm()', source)

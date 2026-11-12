@@ -496,7 +496,7 @@ void Player::SendItemRetrievalMail(std::vector<std::pair<uint32, uint32>> mailIt
     for (auto const& items : allItems)
     {
         MailSender sender(MAIL_CREATURE, 34337 /* The Postmaster */);
-        MailDraft draft("Recovered Item", "We recovered a lost item in the twisting nether and noted that it was yours.$B$BPlease find said object enclosed."); // This is the text used in Cataclysm, it probably wasn't changed.
+        MailDraft draft("找回的物品", "我们在扭曲虚空中找回了一件失落的物品，并确认它属于你。$B$B物品已随信附上。"); // This is the text used in Cataclysm, it probably wasn't changed.
 
         for (auto const& [itemEntry, itemCount] : items)
         {
@@ -520,7 +520,7 @@ void Player::SendItemRetrievalMail(Item* item)
 
     CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
     item->SaveToDB(trans);
-    MailDraft("Recovered Item", "We recovered a lost item in the twisting nether and noted that it was yours.$B$BPlease find said object enclosed.")
+    MailDraft("找回的物品", "我们在扭曲虚空中找回了一件失落的物品，并确认它属于你。$B$B物品已随信附上。")
         .AddItem(item)
         .SendMailTo(trans, MailReceiver(this, GetGUID().GetCounter()), MailSender(MAIL_CREATURE, 34337 /* The Postmaster */));
     CharacterDatabase.CommitTransaction(trans);

@@ -3139,7 +3139,7 @@ namespace CoAChallenges
             bool enable = (onOff == "on" || onOff == "1" || onOff == "true" || onOff == "enable");
             ApplyGameModeToggle(p, mode, enable);
             handler->PSendSysMessage("游戏模式 {} {}：{}。", modeName,
-                enable ? "enabled" : "disabled", p->GetName());
+                enable ? "启用" : "禁用", p->GetName());
             return true;
         }
 

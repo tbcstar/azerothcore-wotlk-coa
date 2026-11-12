@@ -193,7 +193,7 @@ uint32 AscensionBazaarTokenCap::Give(Player* player, uint32 count)
     {
         CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
         item->SaveToDB(trans);
-        MailDraft("Bazaar Tokens", "Your bags were full, so your Bazaar Tokens were sent by mail.")
+        MailDraft("集市代币", "你的背包已满，兑换的代币改由邮件寄送。")
             .AddItem(item)
             .SendMailTo(trans, MailReceiver(player), MailSender(MAIL_CREATURE, TIRAXIS));
         CharacterDatabase.CommitTransaction(trans);

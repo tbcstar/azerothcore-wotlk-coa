@@ -101,8 +101,8 @@ end)
         claim->SetData(4, previousClaim);
         transaction->Append(claim);
 
-        auto mail = std::shared_ptr<MailDraft>(new MailDraft("Daily Login Reward",
-            "Thank you for playing Conquest of Azeroth! Your daily rewards are enclosed."), [](MailDraft* draft)
+        auto mail = std::shared_ptr<MailDraft>(new MailDraft("每日登录奖励",
+            "感谢游玩《征服艾泽拉斯》！你的每日奖励已随信附上。"), [](MailDraft* draft)
         {
             draft->DiscardItems();
             delete draft;

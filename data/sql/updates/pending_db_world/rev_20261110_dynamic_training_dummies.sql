@@ -3,12 +3,12 @@
 START TRANSACTION;
 
 INSERT INTO `creature_template` (`entry`, `name`, `faction`, `type`, `unit_class`, `HealthModifier`, `RegenHealth`, `ScriptName`) VALUES
-(666925, 'Dynamic Execute Training Dummy', 7, 10, 1, 1000, 0, 'npc_advanced_training_dummy'),
-(666935, 'Dynamic Healing Training Dummy', 35, 7, 1, 1000, 0, 'npc_advanced_training_dummy'),
-(967171, 'Configurable Training Dummy', 7, 10, 1, 1000, 0, 'npc_advanced_training_dummy'),
-(967182, 'Dynamic Tank Training Dummy', 7, 10, 1, 1000, 0, 'npc_advanced_training_dummy'),
-(967254, 'Dynamic Training Dummy', 7, 10, 1, 1000, 0, 'npc_advanced_training_dummy'),
-(9780200, 'Boss Simulator', 7, 10, 1, 1000, 0, 'npc_advanced_training_dummy') ON DUPLICATE KEY UPDATE `entry` = IF(`ScriptName` = VALUES(`ScriptName`), `entry`, NULL);
+(666925, '动态斩杀训练假人', 7, 10, 1, 1000, 0, 'npc_advanced_training_dummy'),
+(666935, '动态治疗训练假人', 35, 7, 1, 1000, 0, 'npc_advanced_training_dummy'),
+(967171, '可配置训练假人', 7, 10, 1, 1000, 0, 'npc_advanced_training_dummy'),
+(967182, '动态坦克训练假人', 7, 10, 1, 1000, 0, 'npc_advanced_training_dummy'),
+(967254, '动态训练假人', 7, 10, 1, 1000, 0, 'npc_advanced_training_dummy'),
+(9780200, '首领模拟器', 7, 10, 1, 1000, 0, 'npc_advanced_training_dummy') ON DUPLICATE KEY UPDATE `entry` = IF(`ScriptName` = VALUES(`ScriptName`), `entry`, NULL);
 
 DELETE FROM `creature_template_model` WHERE `CreatureID` IN (666925, 666935, 967171, 967182, 967254, 9780200);
 

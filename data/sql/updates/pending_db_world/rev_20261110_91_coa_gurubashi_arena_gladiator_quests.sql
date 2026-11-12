@@ -6,8 +6,8 @@
 
 -- camp NPCs
 INSERT INTO `creature_template` (`entry`, `name`, `subname`, `minlevel`, `maxlevel`, `faction`, `npcflag`, `speed_walk`, `speed_run`, `unit_class`, `unit_flags`, `type`, `AIName`, `HealthModifier`, `RegenHealth`, `VerifiedBuild`) VALUES
-(764795, 'Gorguk Skullhook', 'Warlord of the Arena', 60, 60, 35, 2, 1, 1.14286, 1, 768, 7, 'SmartAI', 5, 1, 0),
-(764796, 'Roderic Gravetide', 'Warlord of the Arena', 60, 60, 35, 0, 1, 1.14286, 1, 768, 7, '', 5, 1, 0) ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `subname` = VALUES(`subname`), `minlevel` = VALUES(`minlevel`), `maxlevel` = VALUES(`maxlevel`), `faction` = VALUES(`faction`), `npcflag` = VALUES(`npcflag`), `speed_walk` = VALUES(`speed_walk`), `speed_run` = VALUES(`speed_run`), `unit_class` = VALUES(`unit_class`), `unit_flags` = VALUES(`unit_flags`), `type` = VALUES(`type`), `AIName` = VALUES(`AIName`), `HealthModifier` = VALUES(`HealthModifier`), `RegenHealth` = VALUES(`RegenHealth`), `VerifiedBuild` = VALUES(`VerifiedBuild`);
+(764795, '戈古克·颅钩', '竞技场督军', 60, 60, 35, 2, 1, 1.14286, 1, 768, 7, 'SmartAI', 5, 1, 0),
+(764796, '罗德里克·墓潮', '竞技场督军', 60, 60, 35, 0, 1, 1.14286, 1, 768, 7, '', 5, 1, 0) ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `subname` = VALUES(`subname`), `minlevel` = VALUES(`minlevel`), `maxlevel` = VALUES(`maxlevel`), `faction` = VALUES(`faction`), `npcflag` = VALUES(`npcflag`), `speed_walk` = VALUES(`speed_walk`), `speed_run` = VALUES(`speed_run`), `unit_class` = VALUES(`unit_class`), `unit_flags` = VALUES(`unit_flags`), `type` = VALUES(`type`), `AIName` = VALUES(`AIName`), `HealthModifier` = VALUES(`HealthModifier`), `RegenHealth` = VALUES(`RegenHealth`), `VerifiedBuild` = VALUES(`VerifiedBuild`);
 DELETE FROM `creature_template_model` WHERE `CreatureID` IN (764795, 764796);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) VALUES
 (764795, 0, 23864, 1, 1),
@@ -22,16 +22,16 @@ UPDATE `gameobject` SET `position_x` = -13327.8579, `position_y` = 164.8902, `po
 -- Gorguk's greeting (text from the gameplay video)
 DELETE FROM `npc_text` WHERE `ID` = 764795;
 INSERT INTO `npc_text` (`ID`, `text0_0`, `Probability0`) VALUES
-(764795, 'We fight, we bleed, we break... all for a shot at the ring. Meals are hot, beds are dry, and the only fee is your pride. If you''ve got the guts to train with the rest of us, you''re welcome to stay.$B$BBut listen close: if you can''t best the fighters around you, you don''t eat. You don''t last. You vanish.$B$BGlory''s not handed out. You claw your way to it, same as the rest of us.', 1);
+(764795, '我们厮杀，我们流血，我们受伤……只为了能踏进那座擂台。饭菜是热的，床铺是干的，唯一的代价就是你的自尊。你要是有胆子跟我们一起操练，那就留下吧。$B$B但听清楚了：你要是打不过身边的斗士，就没饭吃。撑不下去，就会消失。$B$B荣耀从来不是白送的。你得自己一步步抓到手，跟我们所有人一样。', 1);
 DELETE FROM `gossip_menu` WHERE `MenuID` = 764795;
 INSERT INTO `gossip_menu` (`MenuID`, `TextID`) VALUES (764795, 764795);
 UPDATE `creature_template` SET `gossip_menu_id` = 764795, `npcflag` = 3 WHERE `entry` = 764795;
 
 -- the three arena bosses (Ascension ids and models; elite, for a group of three)
 INSERT INTO `creature_template` (`entry`, `name`, `subname`, `minlevel`, `maxlevel`, `faction`, `speed_walk`, `speed_run`, `rank`, `DamageModifier`, `BaseAttackTime`, `unit_class`, `type`, `AIName`, `HealthModifier`, `RegenHealth`, `VerifiedBuild`) VALUES
-(775897, 'Brakka', 'The Bonecrusher', 30, 30, 14, 1, 1.14286, 1, 2, 2000, 1, 7, 'SmartAI', 6, 1, 0),
-(775898, 'Ironhide Gorefist', '', 31, 31, 14, 1, 1.14286, 1, 2, 2000, 1, 7, 'SmartAI', 7, 1, 0),
-(775899, 'Majara', 'The Crimson Fang', 32, 32, 14, 1, 1.14286, 1, 2, 1600, 1, 7, 'SmartAI', 7, 1, 0) ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `subname` = VALUES(`subname`), `minlevel` = VALUES(`minlevel`), `maxlevel` = VALUES(`maxlevel`), `faction` = VALUES(`faction`), `speed_walk` = VALUES(`speed_walk`), `speed_run` = VALUES(`speed_run`), `rank` = VALUES(`rank`), `DamageModifier` = VALUES(`DamageModifier`), `BaseAttackTime` = VALUES(`BaseAttackTime`), `unit_class` = VALUES(`unit_class`), `type` = VALUES(`type`), `AIName` = VALUES(`AIName`), `HealthModifier` = VALUES(`HealthModifier`), `RegenHealth` = VALUES(`RegenHealth`), `VerifiedBuild` = VALUES(`VerifiedBuild`);
+(775897, '布拉卡', '碎骨者', 30, 30, 14, 1, 1.14286, 1, 2, 2000, 1, 7, 'SmartAI', 6, 1, 0),
+(775898, '铁皮·血拳', '', 31, 31, 14, 1, 1.14286, 1, 2, 2000, 1, 7, 'SmartAI', 7, 1, 0),
+(775899, '玛贾拉', '猩红之牙', 32, 32, 14, 1, 1.14286, 1, 2, 1600, 1, 7, 'SmartAI', 7, 1, 0) ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `subname` = VALUES(`subname`), `minlevel` = VALUES(`minlevel`), `maxlevel` = VALUES(`maxlevel`), `faction` = VALUES(`faction`), `speed_walk` = VALUES(`speed_walk`), `speed_run` = VALUES(`speed_run`), `rank` = VALUES(`rank`), `DamageModifier` = VALUES(`DamageModifier`), `BaseAttackTime` = VALUES(`BaseAttackTime`), `unit_class` = VALUES(`unit_class`), `type` = VALUES(`type`), `AIName` = VALUES(`AIName`), `HealthModifier` = VALUES(`HealthModifier`), `RegenHealth` = VALUES(`RegenHealth`), `VerifiedBuild` = VALUES(`VerifiedBuild`);
 DELETE FROM `creature_template_model` WHERE `CreatureID` IN (775897, 775898, 775899);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) VALUES
 (775897, 0, 24181, 1, 1), (775898, 0, 95376, 2, 1), (775899, 0, 328644, 3, 1);
@@ -72,9 +72,9 @@ INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry
 -- despawned after the player died), Gorguk offers to send in the opponent again
 DELETE FROM `gossip_menu_option` WHERE `MenuID` = 764795;
 INSERT INTO `gossip_menu_option` (`MenuID`, `OptionID`, `OptionIcon`, `OptionText`, `OptionBroadcastTextID`, `OptionType`, `OptionNpcFlag`, `ActionMenuID`, `ActionPoiID`, `BoxCoded`, `BoxMoney`, `BoxText`, `BoxBroadcastTextID`, `VerifiedBuild`) VALUES
-(764795, 0, 0, 'I''m ready for my fight.', 0, 1, 1, 0, 0, 0, 0, '', 0, 0),
-(764795, 1, 0, 'I''m ready for my fight.', 0, 1, 1, 0, 0, 0, 0, '', 0, 0),
-(764795, 2, 0, 'I''m ready for my fight.', 0, 1, 1, 0, 0, 0, 0, '', 0, 0);
+(764795, 0, 0, '我已经准备好开打了。', 0, 1, 1, 0, 0, 0, 0, '', 0, 0),
+(764795, 1, 0, '我已经准备好开打了。', 0, 1, 1, 0, 0, 0, 0, '', 0, 0),
+(764795, 2, 0, '我已经准备好开打了。', 0, 1, 1, 0, 0, 0, 0, '', 0, 0);
 DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 15 AND `SourceGroup` = 764795;
 INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
 (15, 764795, 0, 0, 0, 9, 0, 760000, 0, 0, 0, 0, 0, '', 'Gorguk Skullhook - fight option while Warm Blooded Welcome is incomplete'),
@@ -95,9 +95,9 @@ INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_
 -- Gorguk points the player to the pit (one line per quest, from the gameplay video)
 DELETE FROM `creature_text` WHERE `CreatureID` = 764795;
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(764795, 0, 0, 'Your first test waits in the pit. Do not keep it waiting.', 12, 0, 100, 0, 0, 0, 0, 0, 'Gorguk Skullhook - Warm Blooded Welcome accepted'),
-(764795, 1, 0, 'Challenger, the sand is ready. Bleed well.', 12, 0, 100, 0, 0, 0, 0, 0, 'Gorguk Skullhook - No Chain, No Gain accepted'),
-(764795, 2, 0, 'Challenger. The pit is waiting.', 12, 0, 100, 0, 0, 0, 0, 0, 'Gorguk Skullhook - The Final Roar accepted');
+(764795, 0, 0, '你的第一场考验还在坑里等着，别让它久等。', 12, 0, 100, 0, 0, 0, 0, 0, 'Gorguk Skullhook - Warm Blooded Welcome accepted'),
+(764795, 1, 0, '挑战者，沙地已经备好。好好流血吧。', 12, 0, 100, 0, 0, 0, 0, 0, 'Gorguk Skullhook - No Chain, No Gain accepted'),
+(764795, 2, 0, '挑战者，坑里在等你。', 12, 0, 100, 0, 0, 0, 0, 0, 'Gorguk Skullhook - The Final Roar accepted');
 
 -- quests (Ascension text, levels, money, Booty Bay up / Bloodsail down; 760002 rewards from the Rexxar quest cache)
 INSERT INTO `quest_template` (`ID`, `QuestType`, `QuestLevel`, `MinLevel`, `QuestSortID`, `QuestInfoID`, `SuggestedGroupNum`, `RewardXPDifficulty`, `RewardMoney`, `RewardMoneyDifficulty`, `Flags`,
@@ -105,23 +105,23 @@ INSERT INTO `quest_template` (`ID`, `QuestType`, `QuestLevel`, `MinLevel`, `Ques
 `RewardChoiceItemID1`, `RewardChoiceItemQuantity1`, `RewardChoiceItemID2`, `RewardChoiceItemQuantity2`, `RewardChoiceItemID3`, `RewardChoiceItemQuantity3`, `RewardChoiceItemID4`, `RewardChoiceItemQuantity4`, `RewardChoiceItemID5`, `RewardChoiceItemQuantity5`,
 `RewardFactionID1`, `RewardFactionValue1`, `RewardFactionID2`, `RewardFactionValue2`, `LogTitle`, `LogDescription`, `QuestDescription`, `QuestCompletionLog`, `RequiredNpcOrGo1`, `RequiredNpcOrGoCount1`, `VerifiedBuild`) VALUES
 (760000, 2, 30, 25, 33, 1, 3, 7, 40000, 495, 10, 375250, 300, 1397886, 1, 1710, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 2, 87, -2,
-'Warm Blooded Welcome', 'Slay Brakka the Bonecrusher in the Gladiator''s Arena.',
-'You want to fight in the Arena? First, you''ll need to survive Brakka.$B$BBrakka the Bonecrusher once led a raiding party deep into Zul''Gurub. After smashing through trolls, beasts, and even a stone golem with nothing but his fists, he went looking for something harder to break.$B$BNow he fights for the crowd''s bone, blood, and glory.$B$BStep into the pit, and prove your bones are tougher than his fists.',
-'Return to Gorguk Skullhook outside the Gurubashi Arena.', 775897, 1, 0),
+'热血相迎', '在角斗场中击杀碎骨者布拉卡。',
+'你想在竞技场里打一场？那你得先活过布拉卡这一关。$B$B碎骨者布拉卡曾率领一支突袭队深入祖尔格拉布。他仅凭一双拳头，砸穿了巨魔、野兽，甚至一具石魔像，之后便开始寻找更难打碎的东西。$B$B如今他为观众的骸骨、鲜血与荣耀而战。$B$B走进坑里，证明你的骨头比他的拳头更硬。',
+'回到古拉巴什竞技场外的戈古克·颅钩身边。', 775897, 1, 0),
 (760001, 2, 30, 25, 33, 1, 3, 7, 40000, 495, 10, 375250, 300, 1397886, 1, 1710, 5, 6149, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 2, 87, -2,
-'No Chain, No Gain', 'Slay Ironhide Gorefist in the Gladiator''s Arena.',
-'Your next opponent is Ironhide Gorefist, a brutal ogre-blooded warbringer out of the Blackrock clan.$B$BHe''s brawled his way through half the Eastern Kingdoms. His signature chains echo through every fight like a death knell, ringing louder with every blow. When they start rattling, the crowd knows someone''s about to fall.$B$BThe crowd''s seen your first taste of blood. Now they want a feast. Give them Ironhide.',
-'Return to Gorguk Skullhook outside the Gurubashi Arena.', 775898, 1, 0),
+'无链无获', '在角斗场中击杀铁皮·血拳。',
+'你的下一个对手是铁皮·血拳，黑石氏族出身，一个残暴的食人魔血统战争使者。$B$B他一路打了半个东部王国。他标志性的锁链在每场战斗中回响，如同丧钟，每一击都响得更烈。当锁链开始哗啦作响，观众就知道有人要倒下了。$B$B观众已经见过你第一次尝到血腥。现在他们要一场盛宴。把铁皮·血拳给他们。',
+'回到古拉巴什竞技场外的戈古克·颅钩身边。', 775898, 1, 0),
 (760002, 2, 30, 25, 33, 1, 3, 7, 40000, 495, 10, 375250, 300, 0, 0, 0, 0, 0, 0, 217842, 1, 217844, 1, 217843, 1, 217845, 1, 217851, 1, 21, 2, 87, -2,
-'The Final Roar', 'Slay Majara the Crimson Fang in the Gladiator''s Arena.',
-'Only one stands between you and your place in the pit.$B$BMajara the Crimson Fang is not a brawler. She is a hunter. Cold. Precise.$B$BRaised in the jungle and shaped by the hunt. Some say the Gurubashi beastmasters trained her. Others say she hunted them for sport.$B$BShe does not roar. She waits. Watches.$B$BThis is not a fight. It is a test. Prove you are more than prey. Face Majara in the arena, and survive the hunter''s killstroke.',
-'Return to Gorguk Skullhook outside the Gurubashi Arena.', 775899, 1, 0) ON DUPLICATE KEY UPDATE `QuestType` = VALUES(`QuestType`), `QuestLevel` = VALUES(`QuestLevel`), `MinLevel` = VALUES(`MinLevel`), `QuestSortID` = VALUES(`QuestSortID`), `QuestInfoID` = VALUES(`QuestInfoID`), `SuggestedGroupNum` = VALUES(`SuggestedGroupNum`), `RewardXPDifficulty` = VALUES(`RewardXPDifficulty`), `RewardMoney` = VALUES(`RewardMoney`), `RewardMoneyDifficulty` = VALUES(`RewardMoneyDifficulty`), `Flags` = VALUES(`Flags`), `RewardItem1` = VALUES(`RewardItem1`), `RewardAmount1` = VALUES(`RewardAmount1`), `RewardItem2` = VALUES(`RewardItem2`), `RewardAmount2` = VALUES(`RewardAmount2`), `RewardItem3` = VALUES(`RewardItem3`), `RewardAmount3` = VALUES(`RewardAmount3`), `RewardItem4` = VALUES(`RewardItem4`), `RewardAmount4` = VALUES(`RewardAmount4`), `RewardChoiceItemID1` = VALUES(`RewardChoiceItemID1`), `RewardChoiceItemQuantity1` = VALUES(`RewardChoiceItemQuantity1`), `RewardChoiceItemID2` = VALUES(`RewardChoiceItemID2`), `RewardChoiceItemQuantity2` = VALUES(`RewardChoiceItemQuantity2`), `RewardChoiceItemID3` = VALUES(`RewardChoiceItemID3`), `RewardChoiceItemQuantity3` = VALUES(`RewardChoiceItemQuantity3`), `RewardChoiceItemID4` = VALUES(`RewardChoiceItemID4`), `RewardChoiceItemQuantity4` = VALUES(`RewardChoiceItemQuantity4`), `RewardChoiceItemID5` = VALUES(`RewardChoiceItemID5`), `RewardChoiceItemQuantity5` = VALUES(`RewardChoiceItemQuantity5`), `RewardFactionID1` = VALUES(`RewardFactionID1`), `RewardFactionValue1` = VALUES(`RewardFactionValue1`), `RewardFactionID2` = VALUES(`RewardFactionID2`), `RewardFactionValue2` = VALUES(`RewardFactionValue2`), `LogTitle` = VALUES(`LogTitle`), `LogDescription` = VALUES(`LogDescription`), `QuestDescription` = VALUES(`QuestDescription`), `QuestCompletionLog` = VALUES(`QuestCompletionLog`), `RequiredNpcOrGo1` = VALUES(`RequiredNpcOrGo1`), `RequiredNpcOrGoCount1` = VALUES(`RequiredNpcOrGoCount1`), `VerifiedBuild` = VALUES(`VerifiedBuild`);
+'最后的咆哮', '在角斗场中击杀猩红之牙玛贾拉。',
+'现在挡在你和擂台之位之间的，只剩一个人。$B$B猩红之牙玛贾拉不是斗殴者。她是猎人。冷酷，精准。$B$B她在丛林中长大，被狩猎塑造成型。有人说古拉巴什的驯兽师训练了她；也有人说，她把那些驯兽师当成猎物猎杀取乐。$B$B她不咆哮。她等待，窥视。$B$B这不是一场打斗，而是一场试炼。证明你不只是猎物。在竞技场中面对玛贾拉，从猎人的致命一击下活下来。',
+'回到古拉巴什竞技场外的戈古克·颅钩身边。', 775899, 1, 0) ON DUPLICATE KEY UPDATE `QuestType` = VALUES(`QuestType`), `QuestLevel` = VALUES(`QuestLevel`), `MinLevel` = VALUES(`MinLevel`), `QuestSortID` = VALUES(`QuestSortID`), `QuestInfoID` = VALUES(`QuestInfoID`), `SuggestedGroupNum` = VALUES(`SuggestedGroupNum`), `RewardXPDifficulty` = VALUES(`RewardXPDifficulty`), `RewardMoney` = VALUES(`RewardMoney`), `RewardMoneyDifficulty` = VALUES(`RewardMoneyDifficulty`), `Flags` = VALUES(`Flags`), `RewardItem1` = VALUES(`RewardItem1`), `RewardAmount1` = VALUES(`RewardAmount1`), `RewardItem2` = VALUES(`RewardItem2`), `RewardAmount2` = VALUES(`RewardAmount2`), `RewardItem3` = VALUES(`RewardItem3`), `RewardAmount3` = VALUES(`RewardAmount3`), `RewardItem4` = VALUES(`RewardItem4`), `RewardAmount4` = VALUES(`RewardAmount4`), `RewardChoiceItemID1` = VALUES(`RewardChoiceItemID1`), `RewardChoiceItemQuantity1` = VALUES(`RewardChoiceItemQuantity1`), `RewardChoiceItemID2` = VALUES(`RewardChoiceItemID2`), `RewardChoiceItemQuantity2` = VALUES(`RewardChoiceItemQuantity2`), `RewardChoiceItemID3` = VALUES(`RewardChoiceItemID3`), `RewardChoiceItemQuantity3` = VALUES(`RewardChoiceItemQuantity3`), `RewardChoiceItemID4` = VALUES(`RewardChoiceItemID4`), `RewardChoiceItemQuantity4` = VALUES(`RewardChoiceItemQuantity4`), `RewardChoiceItemID5` = VALUES(`RewardChoiceItemID5`), `RewardChoiceItemQuantity5` = VALUES(`RewardChoiceItemQuantity5`), `RewardFactionID1` = VALUES(`RewardFactionID1`), `RewardFactionValue1` = VALUES(`RewardFactionValue1`), `RewardFactionID2` = VALUES(`RewardFactionID2`), `RewardFactionValue2` = VALUES(`RewardFactionValue2`), `LogTitle` = VALUES(`LogTitle`), `LogDescription` = VALUES(`LogDescription`), `QuestDescription` = VALUES(`QuestDescription`), `QuestCompletionLog` = VALUES(`QuestCompletionLog`), `RequiredNpcOrGo1` = VALUES(`RequiredNpcOrGo1`), `RequiredNpcOrGoCount1` = VALUES(`RequiredNpcOrGoCount1`), `VerifiedBuild` = VALUES(`VerifiedBuild`);
 -- turn-in texts (gameplay video)
 DELETE FROM `quest_offer_reward` WHERE `ID` IN (760000, 760001, 760002);
 INSERT INTO `quest_offer_reward` (`ID`, `RewardText`) VALUES
-(760000, 'So Brakka''s down, huh? I''ll be honest, I didn''t expect your bones to hold up.$B$BThat was your first real step into the pit. You''ve tasted the blood, felt the roar of the crowd. Doesn''t get any easier from here.$B$BBrakka''s just the warm-up. The real monsters are still waiting.'),
-(760001, 'So... the brute finally fell. I didn''t think you''d last more than a minute against him, but here you are, bloodied and still breathing.$B$BThat wasn''t just a fight, you won the respect of the old hands, the coin-tossers, and the killers who''ve seen it all. You''re one step closer to earning your place in the arena''s legend.$B$BDon''t get comfortable. The next challenge will hit even harder.'),
-(760002, 'You lived through it. You beat Majara.$B$BNot many do. That roar of hers? That was the sound of a killer who knew she finally met her match.$B$BYou''ve fought beasts, brutes, and bloodletters and come out standing.$B$BThe crowd knows your name now. Welcome to the arena... gladiator.');
+(760000, '布拉卡倒了，嗯？说实话，我没想到你这一身骨头能扛住。$B$B这是你真正踏进坑里的第一步。你尝到了血的味道，听到了观众的怒吼。从这里开始只会更难。$B$B布拉卡只是热身。真正的怪物还在等着。'),
+(760001, '那么……那头蛮子终于倒下了。我还以为你在他手下撑不过一分钟，可你现在还站在这儿，浑身是血，却还在喘气。$B$B那可不只是一场打斗——你赢得了老手、下注的赌徒，还有那些见惯生死的杀手们的敬重。你离在竞技场的传说中占有一席之地又近了一步。$B$B别太舒服。下一个挑战会更狠。'),
+(760002, '你活下来了。你击败了玛贾拉。$B$B没几个人做得到。她那一嗓子咆哮？那是一个杀手终于遇到对手的声音。$B$B你与野兽、蛮子和嗜血之徒都交过手，而且都是站着走出来的。$B$B观众现在记住你的名字了。欢迎来到竞技场……角斗士。');
 DELETE FROM `quest_template_addon` WHERE `ID` IN (760000, 760001, 760002);
 INSERT INTO `quest_template_addon` (`ID`, `PrevQuestID`, `NextQuestID`) VALUES (760000, 0, 760001), (760001, 760000, 760002), (760002, 760001, 0);
 DELETE FROM `creature_queststarter` WHERE `quest` IN (760000, 760001, 760002);

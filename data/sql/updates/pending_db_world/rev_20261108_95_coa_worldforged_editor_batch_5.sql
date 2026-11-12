@@ -12,7 +12,7 @@ UPDATE `gameobject` SET `position_x` = 5200.8114, `position_y` = 255.5983, `posi
 -- Elf Crate 01 next to the skewer
 DELETE FROM `gameobject` WHERE `guid` = 6976004;
 INSERT INTO `gameobject` (`guid`, `id`, `map`, `spawnMask`, `phaseMask`, `position_x`, `position_y`, `position_z`, `orientation`, `rotation0`, `rotation1`, `rotation2`, `rotation3`, `spawntimesecs`, `animprogress`, `state`) VALUES (6976004, 179971, 1, 1, 1, 5200.440471, 255.580729, 34.086, 1.486536, 0, 0, 0.676698, 0.736261, 300, 100, 1);
-INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `size`, `Data0`, `Data1`, `AIName`, `ScriptName`) VALUES (3297126, 5, 1029654, 'Night Elf Cart', 1, 0, 0, '', '') ON DUPLICATE KEY UPDATE `type` = 5, `displayId` = 1029654, `name` = 'Night Elf Cart', `size` = 1;
+INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `size`, `Data0`, `Data1`, `AIName`, `ScriptName`) VALUES (3297126, 5, 1029654, '暗夜精灵货车', 1, 0, 0, '', '') ON DUPLICATE KEY UPDATE `type` = 5, `displayId` = 1029654, `name` = '暗夜精灵货车', `size` = 1;
 DELETE FROM `gameobject` WHERE `guid` = 6976003;
 INSERT INTO `gameobject` (`guid`, `id`, `map`, `spawnMask`, `phaseMask`, `position_x`, `position_y`, `position_z`, `orientation`, `rotation0`, `rotation1`, `rotation2`, `rotation3`, `spawntimesecs`, `animprogress`, `state`) VALUES (6976003, 3297126, 1, 1, 1, 5201.485306, 256.8455, 34.117395, 1.553366, 0, 0, 0.700917, 0.713242, 300, 100, 1);
 
@@ -112,7 +112,7 @@ UPDATE `gameobject` SET `spawnMask` = 0 WHERE `guid` IN (6941009, 6942138) AND `
 -- pickup 6942256 (String of Ears) moved 7.9 yd across and 2.20 yd up to the spot checked in the editor
 UPDATE `gameobject` SET `position_x` = -1127.2611, `position_y` = -5582.1106, `position_z` = 12.1103, `orientation` = 1.526639, `rotation0` = -0.143869, `rotation1` = 0.149423, `rotation2` = 0.676388, `rotation3` = 0.706735 WHERE `guid` = 6942256 AND `id` = 1345142;
 -- the String of Ears hangs from a nail on the hut wall, as on Ascension
-INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `size`, `Data0`, `Data1`, `AIName`, `ScriptName`) VALUES (9900050, 5, 1046085, 'Nail', 1, 0, 0, '', '') ON DUPLICATE KEY UPDATE `type` = 5, `displayId` = 1046085, `name` = 'Nail', `size` = 1;
+INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `size`, `Data0`, `Data1`, `AIName`, `ScriptName`) VALUES (9900050, 5, 1046085, '钉子', 1, 0, 0, '', '') ON DUPLICATE KEY UPDATE `type` = 5, `displayId` = 1046085, `name` = '钉子', `size` = 1;
 DELETE FROM `gameobject` WHERE `guid` = 6976005;
 INSERT INTO `gameobject` (`guid`, `id`, `map`, `spawnMask`, `phaseMask`, `position_x`, `position_y`, `position_z`, `orientation`, `rotation0`, `rotation1`, `rotation2`, `rotation3`, `spawntimesecs`, `animprogress`, `state`) VALUES (6976005, 9900050, 1, 1, 1, -1127.275533, -5582.259811, 12.95405, 1.54321, 0, 0, 0.697287, 0.716792, 300, 100, 1);
 
@@ -120,10 +120,10 @@ INSERT INTO `gameobject` (`guid`, `id`, `map`, `spawnMask`, `phaseMask`, `positi
 -- pickup 6941715 (Lost Treasure) moved 64.5 yd across and 9.83 yd up to the spot checked in the editor
 UPDATE `gameobject` SET `position_x` = -9695.4861, `position_y` = -1924.7839, `position_z` = 0.3131, `orientation` = 0.158753, `rotation0` = 0.092481, `rotation1` = 0.007356, `rotation2` = 0.078951, `rotation3` = 0.992552 WHERE `guid` = 6941715 AND `id` = 515755;
 -- the overturned sailboat and the sand mound around the chest were missing (Ascension sailboat 515938)
-INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `size`, `Data0`, `Data1`, `AIName`, `ScriptName`) VALUES (515938, 5, 1025981, 'Raider''s Sailboat', 1, 0, 0, '', '') ON DUPLICATE KEY UPDATE `type` = 5, `displayId` = 1025981, `name` = 'Raider''s Sailboat', `size` = 1;
+INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `size`, `Data0`, `Data1`, `AIName`, `ScriptName`) VALUES (515938, 5, 1025981, '掠夺者的帆船', 1, 0, 0, '', '') ON DUPLICATE KEY UPDATE `type` = 5, `displayId` = 1025981, `name` = '掠夺者的帆船', `size` = 1;
 DELETE FROM `gameobject` WHERE `guid` = 6976001;
 INSERT INTO `gameobject` (`guid`, `id`, `map`, `spawnMask`, `phaseMask`, `position_x`, `position_y`, `position_z`, `orientation`, `rotation0`, `rotation1`, `rotation2`, `rotation3`, `spawntimesecs`, `animprogress`, `state`) VALUES (6976001, 515938, 1, 1, 1, -9698.14778, -1920.627693, 1.168119, 1.442727, 0.706231, 0.639128, -0.198224, 0.231216, 300, 100, 1);
-INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `size`, `Data0`, `Data1`, `AIName`, `ScriptName`) VALUES (9900049, 5, 1072391, 'Sand Pile', 1, 0, 0, '', '') ON DUPLICATE KEY UPDATE `type` = 5, `displayId` = 1072391, `name` = 'Sand Pile', `size` = 1;
+INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `size`, `Data0`, `Data1`, `AIName`, `ScriptName`) VALUES (9900049, 5, 1072391, '沙堆', 1, 0, 0, '', '') ON DUPLICATE KEY UPDATE `type` = 5, `displayId` = 1072391, `name` = '沙堆', `size` = 1;
 DELETE FROM `gameobject` WHERE `guid` = 6976002;
 INSERT INTO `gameobject` (`guid`, `id`, `map`, `spawnMask`, `phaseMask`, `position_x`, `position_y`, `position_z`, `orientation`, `rotation0`, `rotation1`, `rotation2`, `rotation3`, `spawntimesecs`, `animprogress`, `state`) VALUES (6976002, 9900049, 1, 1, 1, -9695.054092, -1924.630704, -0.655023, 6.004578, 0, 0, -0.138854, 0.990313, 300, 100, 1);
 

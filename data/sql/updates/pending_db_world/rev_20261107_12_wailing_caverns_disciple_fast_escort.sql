@@ -1,7 +1,7 @@
 -- Wailing Caverns: the Disciple of Naralex also offers a fast escort, as on Ascension (#11468). The second option starts the same event, but he runs his path instead of walking it.
 DELETE FROM `gossip_menu_option` WHERE `MenuID` = 201 AND `OptionID` = 1;
 INSERT INTO `gossip_menu_option` (`MenuID`, `OptionID`, `OptionIcon`, `OptionText`, `OptionBroadcastTextID`, `OptionType`, `OptionNpcFlag`, `ActionMenuID`, `ActionPoiID`, `BoxCoded`, `BoxMoney`, `BoxText`, `BoxBroadcastTextID`, `VerifiedBuild`) VALUES
-(201, 1, 0, 'I don''t have much time left. Let''s hurry!', 0, 1, 1, 0, 0, 0, 0, '', 0, 0);
+(201, 1, 0, '我剩下的时间不多了，我们快一点吧！', 0, 1, 1, 0, 0, 0, 0, '', 0, 0);
 
 DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 15 AND `SourceGroup` = 201 AND `SourceEntry` = 1 AND `SourceId` = 0 AND `ElseGroup` = 0 AND `ConditionTypeOrReference` = 13 AND `ConditionTarget` = 0 AND `ConditionValue1` = 5 AND `ConditionValue2` = 1 AND `ConditionValue3` = 0;
 INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES

@@ -39,7 +39,7 @@ UPDATE `gameobject` SET `position_z` = 264.64, `spawntimesecs` = 60 WHERE `guid`
 UPDATE `gameobject` SET `position_z` = 266.36, `spawntimesecs` = 60 WHERE `guid` = 9980040 AND `id` = 2310433;
 INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `IconName`, `castBarCaption`, `unk1`, `size`, `Data0`, `Data1`, `Data2`, `Data3`, `Data4`, `Data5`, `Data8`, `AIName`, `ScriptName`, `VerifiedBuild`)
 VALUES
-(2399011, 5, 300556, 'Hanging Moss', '', '', '', 0.25, 0, 0, 0, 0, 0, 0, 0, '', '', 0)
+(2399011, 5, 300556, '悬垂苔藓', '', '', '', 0.25, 0, 0, 0, 0, 0, 0, 0, '', '', 0)
 ON DUPLICATE KEY UPDATE `type` = VALUES(`type`), `displayId` = VALUES(`displayId`), `name` = VALUES(`name`), `size` = VALUES(`size`);
 DELETE FROM `gameobject` WHERE `guid` BETWEEN 9993016 AND 9993029;
 INSERT INTO `gameobject` (`guid`, `id`, `map`, `zoneId`, `areaId`, `spawnMask`, `phaseMask`, `position_x`, `position_y`, `position_z`, `orientation`, `rotation0`, `rotation1`, `rotation2`, `rotation3`, `spawntimesecs`, `animprogress`, `state`, `Comment`) VALUES
@@ -67,7 +67,7 @@ INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_
 -- one at the amulet channels the realm's Blessing Neck 365375 at one in front of the effigy's skull. That spell aims at
 -- a gameobject in Spell.dbc, which no script here can cast, so the server's copy aims at a unit; the client still
 -- draws its own channel visual.
-UPDATE `gameobject_template` SET `castBarCaption` = 'Picking up', `Data0` = 57, `Data10` = 0 WHERE `entry` = 2300693;
+UPDATE `gameobject_template` SET `castBarCaption` = '拾取中', `Data0` = 57, `Data10` = 0 WHERE `entry` = 2300693;
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `npcflag`, `speed_walk`, `speed_run`,
 `unit_class`, `unit_flags`, `type`, `flags_extra`, `AIName`, `MovementType`) VALUES
 (165635, '[TG] great_stag_blessing_beam', 1, 1, 35, 0, 1, 1, 1, 33554432, 10, 130, 'SmartAI', 0),
@@ -102,8 +102,8 @@ INSERT INTO `spell_dbc` (`ID`, `DispelType`, `AttributesEx6`, `CastingTimeIndex`
 `EquippedItemClass`, `Effect_1`, `EffectDieSides_1`, `EffectBasePoints_1`, `ImplicitTargetA_1`, `EffectAura_1`, `EffectAuraPeriod_1`,
 `SpellVisualID_1`, `SpellIconID`, `Name_Lang_enUS`, `Name_Lang_Mask`, `NameSubtext_Lang_Mask`, `Description_Lang_enUS`, `Description_Lang_Mask`,
 `AuraDescription_Lang_enUS`, `AuraDescription_Lang_Mask`, `EffectChainAmplitude_1`, `EffectChainAmplitude_2`, `EffectChainAmplitude_3`, `SchoolMask`) VALUES
-(365384, 1, 41943040, 1, 4718592, 101, 21, 1, -1, 6, 1, -1, 1, 226, 1000, 364280, 26385, 'Morgwena''s Curse', 16712190, 16712190,
-'Bound to Morgwena''s Will', 16712190, 'Bound to Morgwena''s Will', 16712190, 1, 1, 1, 1);
+(365384, 1, 41943040, 1, 4718592, 101, 21, 1, -1, 6, 1, -1, 1, 226, 1000, 364280, 26385, '摩根娜的诅咒', 16712190, 16712190,
+'受摩根娜意志的束缚', 16712190, '受摩根娜意志的束缚', 16712190, 1, 1, 1, 1);
 DELETE FROM `coa_client_spell_description` WHERE `ID` = 365384;
 INSERT INTO `coa_client_spell_description` (`ID`, `Description`, `ToolTip`) VALUES
-(365384, 'Bound to Morgwena''s Will', 'Bound to Morgwena''s Will');
+(365384, '受摩根娜意志的束缚', '受摩根娜意志的束缚');

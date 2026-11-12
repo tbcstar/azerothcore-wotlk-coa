@@ -1083,16 +1083,16 @@ namespace
                 ownerHere = true;
                 if (!nextKey)
                     ChatHandler(player->GetSession()).PSendSysMessage(
-                        "Mythic+: no dungeon has a level {} keystone, your keystone stays as it is.", newLevel);
+                        "Mythic+：没有任何地下城设有 {} 层钥匙，你的钥匙保持不变。", newLevel);
                 else
                 {
                     ReplaceKeystone(player, run.keystoneItem, nextKey);
                     if (timed)
                         ChatHandler(player->GetSession()).PSendSysMessage(
-                            "Mythic+: keystone upgraded +{}, now level {}.", upgrade, newLevel);
+                            "Mythic+：钥匙提升 +{}，现在为 {} 层。", upgrade, newLevel);
                     else
                         ChatHandler(player->GetSession()).PSendSysMessage(
-                            "Mythic+: out of time, keystone drops to level {}.", newLevel);
+                            "Mythic+：超时，钥匙降到 {} 层。", newLevel);
                 }
             }
         });

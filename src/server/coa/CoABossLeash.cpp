@@ -359,8 +359,8 @@ public:
             trans->Append("INSERT INTO `coa_boss_leash_point` (`entry`, `point`, `x`, `y`, `z`) VALUES ({}, {}, {}, {}, {})",
                 *entry, i, outline[i].GetPositionX(), outline[i].GetPositionY(), outline[i].GetPositionZ());
         WorldDatabase.CommitTransaction(trans);
-        handler->PSendSysMessage("{} ({}): room leash with {} points around {:.1f} {:.1f}, cut at the exits. "
-            "Check it with .leash show and fix single points with .leash undo / .leash point.",
+        handler->PSendSysMessage("{}（{}）：房间拴绳，{} 个点围绕 {:.1f} {:.1f}，在出口处截断。\n"
+            "用 .leash show 检查，用 .leash undo / .leash point 修正单个点。",
             BossName(*entry), *entry, outline.size(), from.GetPositionX(), from.GetPositionY());
         return true;
     }

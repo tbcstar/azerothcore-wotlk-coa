@@ -2,4 +2,4 @@
 -- HIbr82QgX6w 02:11:01).
 DELETE FROM `quest_request_items` WHERE `ID` = 175332;
 INSERT INTO `quest_request_items` (`ID`, `EmoteOnComplete`, `EmoteOnIncomplete`, `CompletionText`, `VerifiedBuild`) VALUES
-(175332, 0, 0, 'Have you faced them? Do you have what I asked for?', 0);
+(175332, 0, 0, '你和他们交手了？我要的东西你拿到了吗？', 0);

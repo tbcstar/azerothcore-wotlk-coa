@@ -2,11 +2,11 @@
 -- (video HIbr82QgX6w 01:27:36-01:28:01).
 DELETE FROM `quest_request_items` WHERE `ID` = 175049;
 INSERT INTO `quest_request_items` (`ID`, `EmoteOnComplete`, `EmoteOnIncomplete`, `CompletionText`, `VerifiedBuild`) VALUES
-(175049, 0, 0, 'Have you tended to them? Any help is vital right now.', 0);
+(175049, 0, 0, '你照料过他们了吗？眼下任何一点帮助都至关重要。', 0);
 
 DELETE FROM `quest_offer_reward` WHERE `ID` = 175049;
 INSERT INTO `quest_offer_reward` (`ID`, `Emote1`, `Emote2`, `Emote3`, `Emote4`, `EmoteDelay1`, `EmoteDelay2`, `EmoteDelay3`, `EmoteDelay4`, `RewardText`, `VerifiedBuild`) VALUES
-(175049, 0, 0, 0, 0, 0, 0, 0, 0, '<Soryn''s gaze betrays a sense of shame.>$B$BYou''ve done well. Forgive me for earlier, for speaking to you so curtly. The war, the trolls, all this death... I am overwhelmed. And I often take it out on the wrong person.$B$BAccept this as my thanks; at the very least, it might make me feel a little less ashamed.', 0);
+(175049, 0, 0, 0, 0, 0, 0, 0, 0, '<索林的目光泄露出一丝羞愧。>$B$B你做得很好。请原谅我刚才那样简短无礼地对你说话。这场战争、那些巨魔、这一切死亡……我快喘不过气了。而我常常把气撒在不相干的人身上。$B$B请收下这个作为我的谢意；至少，它也许能让我少羞愧一点。', 0);
 
 -- Wounded Graysky Soldiers (164055, 164056) gave credit the moment the 8 s First Aid channel (365018) began, and gave
 -- it again on every recast. Credit now comes when the channel has run its course (the soldier still carries the

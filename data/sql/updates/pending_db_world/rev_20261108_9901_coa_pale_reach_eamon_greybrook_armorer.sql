@@ -4,7 +4,7 @@ UPDATE `creature_template` SET `npcflag` = 4225 WHERE `entry` = 164142;
 
 DELETE FROM `gossip_menu_option` WHERE `MenuID` = 1200350 AND `OptionID` = 0;
 INSERT INTO `gossip_menu_option` (`MenuID`, `OptionID`, `OptionIcon`, `OptionText`, `OptionBroadcastTextID`, `OptionType`, `OptionNpcFlag`, `ActionMenuID`, `ActionPoiID`, `BoxCoded`, `BoxMoney`, `BoxText`, `BoxBroadcastTextID`, `VerifiedBuild`) VALUES
-(1200350, 0, 1, 'I want to browse your goods.', 3370, 3, 128, 0, 0, 0, 0, '', 0, 0);
+(1200350, 0, 1, '我想看看你的货品。', 3370, 3, 128, 0, 0, 0, 0, '', 0, 0);
 
 DELETE FROM `npc_vendor` WHERE `entry` = 164142;
 INSERT INTO `npc_vendor` (`entry`, `slot`, `item`, `maxcount`, `incrtime`, `ExtendedCost`, `VerifiedBuild`) VALUES

@@ -11,8 +11,8 @@ WHERE `entryorguid` = 182024 AND `source_type` = 1 AND `id` = 0 AND `action_type
 DELETE FROM `creature_text` WHERE `CreatureID` = 17830 AND `GroupID` IN (0, 1) AND `ID` = 0;
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`,
     `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(17830, 0, 0, 'Who dare summon me!', 14, 0, 100, 0, 0, 0, 0, 0, 'Zelemar the Wrathful - On Summoned'),
-(17830, 1, 0, '%s becomes enraged!', 16, 0, 100, 0, 0, 0, 0, 0, 'Zelemar the Wrathful - At 20 % health');
+(17830, 0, 0, '是谁胆敢召唤我！', 14, 0, 100, 0, 0, 0, 0, 0, 'Zelemar the Wrathful - On Summoned'),
+(17830, 1, 0, '%s变得狂暴了！', 16, 0, 100, 0, 0, 0, 0, 0, 'Zelemar the Wrathful - At 20 % health');
 
 -- He shouts, stays unattackable for three seconds, then attacks the closest player (the one at the orb).
 -- Rain of Fire first after 10 s, then every 12 s, on a random target. Enrage at 20 % health.

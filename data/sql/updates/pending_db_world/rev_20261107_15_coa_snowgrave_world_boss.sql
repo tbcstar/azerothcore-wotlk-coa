@@ -48,9 +48,9 @@ WHERE `entry` = 64627 AND `difficulty` = 2;
 -- The shrine, the portal out and the shrine at the entrance of his map.
 INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `IconName`, `castBarCaption`, `unk1`,
   `size`, `AIName`, `ScriptName`, `VerifiedBuild`) VALUES
-(978095, 10, 4076, 'Shrine of Snowgrave', '', '', '', 3, '', 'go_snowgrave_altar_coa', 12340),
-(978096, 10, 4396, 'Portal to Winterspring', '', '', '', 1.5, '', 'go_snowgrave_exit_coa', 12340),
-(978097, 10, 4076, 'Shrine of Snowgrave', '', '', '', 3, '', 'go_snowgrave_leave_coa', 12340)
+(978095, 10, 4076, '雪冢神龛', '', '', '', 3, '', 'go_snowgrave_altar_coa', 12340),
+(978096, 10, 4396, '通往冬泉谷的传送门', '', '', '', 1.5, '', 'go_snowgrave_exit_coa', 12340),
+(978097, 10, 4076, '雪冢神龛', '', '', '', 3, '', 'go_snowgrave_leave_coa', 12340)
 ON DUPLICATE KEY UPDATE `type` = VALUES(`type`), `displayId` = VALUES(`displayId`), `name` = VALUES(`name`),
   `size` = VALUES(`size`), `ScriptName` = VALUES(`ScriptName`);
 DELETE FROM `gameobject` WHERE `guid` IN (9780935, 9780936);
@@ -71,14 +71,14 @@ INSERT INTO `graveyard_zone` (`ID`, `GhostZone`, `Faction`, `Comment`) VALUES
 -- The shrine's words.
 DELETE FROM `npc_text` WHERE `ID` = 978095;
 INSERT INTO `npc_text` (`ID`, `text0_0`, `text0_1`) VALUES
-(978095, 'The shrine seems to notice your presence as you place your hand on its surface to attune to its power.',
-  'The shrine seems to notice your presence as you place your hand on its surface to attune to its power.');
+(978095, '当你的手贴上神龛的表面，与它的力量共鸣时，神龛似乎察觉到了你的存在。',
+  '当你的手贴上神龛的表面，与它的力量共鸣时，神龛似乎察觉到了你的存在。');
 
 -- His hologram above the shrine: ghostly (22650), rooted, and frozen in place (16245).
 INSERT INTO `creature_template` (`entry`, `name`, `subname`, `minlevel`, `maxlevel`, `faction`, `npcflag`,
   `speed_walk`, `speed_run`, `unit_class`, `unit_flags`, `type`, `type_flags`, `AIName`, `ScriptName`,
   `VerifiedBuild`) VALUES
-(978095, 'Snowgrave', '', 63, 63, 35, 0, 1, 1, 1, 33554434, 7, 0, '', '', 12340)
+(978095, '雪冢', '', 63, 63, 35, 0, 1, 1, 1, 33554434, 7, 0, '', '', 12340)
 ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `faction` = VALUES(`faction`), `unit_flags` = VALUES(`unit_flags`),
   `ScriptName` = VALUES(`ScriptName`);
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 978095;
@@ -107,12 +107,12 @@ INSERT INTO `creature_equip_template` (`CreatureID`, `ID`, `ItemID1`, `ItemID2`,
 UPDATE `creature` SET `equipment_id` = 1 WHERE `guid` = 9780103;
 
 -- He is just "Snowgrave", as on Ascension.
-UPDATE `creature_template` SET `name` = 'Snowgrave' WHERE `entry` = 64627;
+UPDATE `creature_template` SET `name` = '雪冢' WHERE `entry` = 64627;
 
 -- The icicles his Massive Stomp brings down stay where they fall until the fight ends.
 INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `IconName`, `castBarCaption`, `unk1`,
   `size`, `AIName`, `ScriptName`, `VerifiedBuild`) VALUES
-(978098, 5, 9227, 'Fallen Icicle', '', '', '', 1, '', '', 12340)
+(978098, 5, 9227, '坠落的冰锥', '', '', '', 1, '', '', 12340)
 ON DUPLICATE KEY UPDATE `type` = VALUES(`type`), `displayId` = VALUES(`displayId`), `name` = VALUES(`name`),
   `size` = VALUES(`size`);
 

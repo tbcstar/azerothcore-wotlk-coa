@@ -104,8 +104,8 @@ bool RejectNotSource(ChatHandler* handler, Settings const& settings)
         return false;
 
     handler->SendErrorMessage(settings.receive
-        ? "Copies to this realm start on the character's own realm: log in there and use .ptr copy <name>."
-        : "Character copies are not enabled on this realm.", false);
+        ? "向本服务器复制角色，需要在角色所在服务器操作：登录那里并使用 .ptr copy <角色名>。"
+        : "本服务器未开启角色复制。", false);
     return true;
 }
 
@@ -127,7 +127,7 @@ std::optional<std::string> QueueRefusal(Settings const& settings, SourceCharacte
     uint32 const thisRealm = realm.Id.Realm;
     if (LoginDatabase.Query("SELECT 1 FROM coa_ptr_copy_request WHERE source_realm = {} AND source_guid = {} "
         "AND state IN ({}, {})", thisRealm, source.guid, uint8(RequestState::Pending), uint8(RequestState::Loading)))
-        return Acore::StringFormat("A copy of {} is already on its way to {}.", source.name, targetName);
+        return Acore::StringFormat("{} 的复制正在发往 {}。", source.name, targetName);
 
     QueryResult lastCopy = LoginDatabase.Query("SELECT MAX(requested_at) FROM coa_ptr_copy_request "
         "WHERE source_realm = {} AND source_guid = {} AND target_realm = {} AND state = {}", thisRealm, source.guid,
@@ -138,7 +138,7 @@ std::optional<std::string> QueueRefusal(Settings const& settings, SourceCharacte
     uint32 const readyAt = lastCopy->Fetch()[0].Get<uint32>() + settings.cooldownSeconds;
     uint32 const now = Now();
     if (now < readyAt)
-        return Acore::StringFormat("You can copy {} again in {} min.", source.name, (readyAt - now + 59) / 60);
+        return Acore::StringFormat("再过 {} 分钟才能再次复制 {}。", source.name, (readyAt - now + 59) / 60);
     return std::nullopt;
 }
 
@@ -147,11 +147,11 @@ std::string DumpFailureText(DumpReturn result)
     switch (result)
     {
         case DUMP_TOO_MANY_CHARS:
-            return "your account has no free character slot there.";
+            return "你的账号在那边没有空余的角色栏位。";
         case DUMP_CHARACTER_DELETED:
-            return "the character is deleted.";
+            return "该角色已被删除。";
         default:
-            return "the copy could not be loaded. Nothing was changed there.";
+            return "复制无法载入，那边没有任何改动。";
     }
 }
 
@@ -179,8 +179,8 @@ bool QueueCopy(ChatHandler& chat, uint32 accountId, uint32 targetRealm, SourceCh
     DumpReturn const result = PlayerDumpWriter().WriteDumpToString(dump, source.guid);
     if (result != DUMP_SUCCESS)
     {
-        chat.SendErrorMessage(Acore::StringFormat("{} cannot be copied: {}", source.name,
-            result == DUMP_CHARACTER_DELETED ? "the character is deleted." : "the character could not be read."),
+        chat.SendErrorMessage(Acore::StringFormat("{} 无法复制：{}", source.name,
+            result == DUMP_CHARACTER_DELETED ? "该角色已被删除。" : "无法读取该角色。"),
             false);
         return false;
     }
@@ -191,7 +191,7 @@ bool QueueCopy(ChatHandler& chat, uint32 accountId, uint32 targetRealm, SourceCh
     LoginDatabase.DirectExecute("INSERT INTO coa_ptr_copy_request (account, source_realm, source_guid, source_name, "
         "target_realm, dump, requested_at, state) VALUES ({}, {}, {}, '{}', {}, '{}', {}, {})", accountId,
         realm.Id.Realm, source.guid, name, targetRealm, dump, Now(), uint8(RequestState::Pending));
-    chat.PSendSysMessage("{} is on its way to {}. You will be told here when the copy is ready.", source.name,
+    chat.PSendSysMessage("{} 正在发往 {}。复制就绪后会在这里通知你。", source.name,
         targetName);
     return true;
 }
@@ -251,7 +251,7 @@ void RecoverInterruptedLoad(InterruptedLoad const& load)
     LOG_WARN("misc", "PTR copy request {} of {} was interrupted before its character was created", load.id,
         load.sourceName);
     Complete(load.id, RequestState::Failed,
-        "the realm stopped before the copy was loaded. Nothing was changed there, so you can copy it again.");
+        "服务器在复制载入前停止运行，那边没有任何改动，你可以再次复制。");
 }
 
 void LoadCopy(PendingCopy const& copy)
@@ -270,7 +270,7 @@ void LoadCopy(PendingCopy const& copy)
     if (std::optional<std::string> liveName = LiveCopyName(copy))
     {
         Complete(copy.id, RequestState::Failed, Acore::StringFormat(
-            "it is already there as {}. Delete that character there to copy it again.", *liveName));
+            "它已经以 {} 的名字存在，删除那边的该角色即可再次复制。", *liveName));
         return;
     }
 
@@ -357,12 +357,12 @@ void NotifyFinishedCopies(QueryResult finished)
         ChatHandler chat(player->second->GetSession());
         if (RequestState(fields[4].Get<uint8>()) == RequestState::Copied)
         {
-            chat.PSendSysMessage("{} was copied to {}. Log in there to play it.", sourceName, targetName);
+            chat.PSendSysMessage("{} 已复制到 {}。登录那里即可游玩。", sourceName, targetName);
             if (fields[6].Get<std::string>() != sourceName)
-                chat.PSendSysMessage("That name is taken on {}, so you will choose a new one at login.", targetName);
+                chat.PSendSysMessage("该名字在 {} 已被占用，你将在登录时另选新名。", targetName);
         }
         else
-            chat.PSendSysMessage("{} was not copied to {}: {}", sourceName, targetName, fields[5].Get<std::string>());
+            chat.PSendSysMessage("{} 未能复制到 {}：{}", sourceName, targetName, fields[5].Get<std::string>());
 
         LoginDatabase.DirectExecute("UPDATE coa_ptr_copy_request SET notified = 1 WHERE id = {}",
             fields[0].Get<uint32>());
@@ -415,7 +415,7 @@ public:
             "SELECT guid, name, level FROM characters WHERE account = {} ORDER BY name", accountId);
         if (!characters)
         {
-            handler->SendSysMessage("You have no characters on this realm.");
+            handler->SendSysMessage("你在本服务器没有角色。");
             return true;
         }
 
@@ -431,28 +431,28 @@ public:
                 {
                     case RequestState::Pending:
                     case RequestState::Loading:
-                        statusByGuid[fields[0].Get<uint32>()] = "copy on its way";
+                        statusByGuid[fields[0].Get<uint32>()] = "复制进行中";
                         break;
                     case RequestState::Copied:
-                        statusByGuid[fields[0].Get<uint32>()] = Acore::StringFormat("copied as {}",
+                        statusByGuid[fields[0].Get<uint32>()] = Acore::StringFormat("已复制为 {}",
                             fields[2].Get<std::string>());
                         break;
                     default:
-                        statusByGuid[fields[0].Get<uint32>()] = "last copy failed";
+                        statusByGuid[fields[0].Get<uint32>()] = "上次复制失败";
                         break;
                 }
             } while (requests->NextRow());
         }
 
-        handler->PSendSysMessage("Your characters, for copying to {}:", RealmName(settings.targetRealm));
+        handler->PSendSysMessage("你的角色（可复制到 {}）：", RealmName(settings.targetRealm));
         do
         {
             Field* fields = characters->Fetch();
             auto const status = statusByGuid.find(fields[0].Get<uint32>());
             handler->PSendSysMessage("  {} (level {}): {}", fields[1].Get<std::string>(), fields[2].Get<uint8>(),
-                status == statusByGuid.end() ? std::string("not copied") : status->second);
+                status == statusByGuid.end() ? std::string("未复制") : status->second);
         } while (characters->NextRow());
-        handler->SendSysMessage("Copy one with .ptr copy <name>.");
+        handler->SendSysMessage("使用 .ptr copy <角色名> 复制其中一个。");
         return true;
     }
 
@@ -471,7 +471,7 @@ public:
             source = FindOwnCharacter(accountId, name);
         if (!source)
         {
-            handler->SendErrorMessage(Acore::StringFormat("Your account has no character named {} on this realm.",
+            handler->SendErrorMessage(Acore::StringFormat("你的账号在本服务器没有名为 {} 的角色。",
                 name), false);
             return false;
         }
@@ -489,7 +489,7 @@ public:
 
         if (!BeginSaving(source->guid))
         {
-            handler->SendErrorMessage(Acore::StringFormat("A copy of {} is already on its way to {}.", source->name,
+            handler->SendErrorMessage(Acore::StringFormat("{} 的复制正在发往 {}。", source->name,
                 targetName), false);
             return false;
         }
@@ -504,10 +504,10 @@ public:
                 if (saved)
                     QueueCopy(chat, accountId, targetRealm, source, targetName);
                 else
-                    chat.SendErrorMessage(Acore::StringFormat("{} could not be saved, so it was not copied.",
+                    chat.SendErrorMessage(Acore::StringFormat("{} 无法保存，因此未被复制。",
                         source.name), false);
             });
-        handler->PSendSysMessage("Saving {} for the copy to {}.", source->name, targetName);
+        handler->PSendSysMessage("正在保存 {}，以便复制到 {}。", source->name, targetName);
         return true;
     }
 };

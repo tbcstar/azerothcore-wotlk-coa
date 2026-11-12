@@ -505,8 +505,8 @@ uint32 Activate(Player* player, Catalogue const& contracts, Settings const& curr
     std::string const name = DisplayName(contract->type);
     if (!current.payment.Allows(request.payWithGold))
     {
-        chat.SendSysMessage(request.payWithGold ? "Temporal Contracts cannot be paid with gold."
-            : "Temporal Contracts cannot be paid with Bazaar Tokens.");
+        chat.SendSysMessage(request.payWithGold ? "时空契约不能用金币支付。"
+            : "时空契约不能用市集代币支付。");
         return 0;
     }
 

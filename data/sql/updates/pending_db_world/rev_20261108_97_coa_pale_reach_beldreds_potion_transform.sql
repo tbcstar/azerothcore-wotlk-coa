@@ -16,9 +16,9 @@ INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_
 
 DELETE FROM `creature_text` WHERE `CreatureID` = 164029 AND `GroupID` = 0;
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(164029, 0, 0, 'It''s too late...', 12, 0, 33, 0, 0, 0, 0, 0, 'Hexed Bloodpaw Gnoll - killed by Beldred''s Potion'),
-(164029, 0, 1, 'Aghhhhh!', 12, 0, 33, 0, 0, 0, 0, 0, 'Hexed Bloodpaw Gnoll - killed by Beldred''s Potion'),
-(164029, 0, 2, 'It hurts!', 12, 0, 34, 0, 0, 0, 0, 0, 'Hexed Bloodpaw Gnoll - killed by Beldred''s Potion');
+(164029, 0, 0, '已经太迟了……', 12, 0, 33, 0, 0, 0, 0, 0, 'Hexed Bloodpaw Gnoll - killed by Beldred''s Potion'),
+(164029, 0, 1, '啊啊啊啊！', 12, 0, 33, 0, 0, 0, 0, 0, 'Hexed Bloodpaw Gnoll - killed by Beldred''s Potion'),
+(164029, 0, 2, '好痛！', 12, 0, 34, 0, 0, 0, 0, 0, 'Hexed Bloodpaw Gnoll - killed by Beldred''s Potion');
 
 -- Beldred's Potion can only be thrown at a Hexed Bloodpaw Gnoll at or below half health, and only then takes effect, so
 -- every throw that lands also earns the quest credit (gated the same way).

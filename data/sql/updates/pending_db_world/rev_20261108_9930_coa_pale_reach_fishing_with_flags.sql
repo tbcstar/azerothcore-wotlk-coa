@@ -22,7 +22,7 @@ DELETE FROM `smart_scripts` WHERE `entryorguid` IN (16551100, 16551101) AND `sou
 
 INSERT INTO `creature_template` (`entry`, `name`, `minlevel`, `maxlevel`, `faction`, `npcflag`, `speed_walk`, `speed_run`,
 `unit_class`, `unit_flags`, `type`, `lootid`, `AIName`, `MovementType`, `HealthModifier`, `DamageModifier`) VALUES
-(165634, 'Berserk Kazadmere Fish', 22, 24, 14, 0, 0.8, 0.8, 1, 0, 1, 165634, 'SmartAI', 0, 0.8, 0.8)
+(165634, '狂暴的卡扎德米尔鱼', 22, 24, 14, 0, 0.8, 0.8, 1, 0, 1, 165634, 'SmartAI', 0, 0.8, 0.8)
 ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `minlevel` = VALUES(`minlevel`), `maxlevel` = VALUES(`maxlevel`),
 `faction` = VALUES(`faction`), `npcflag` = VALUES(`npcflag`), `speed_walk` = VALUES(`speed_walk`), `speed_run` = VALUES(`speed_run`),
 `unit_class` = VALUES(`unit_class`), `unit_flags` = VALUES(`unit_flags`), `type` = VALUES(`type`), `lootid` = VALUES(`lootid`),
@@ -50,9 +50,9 @@ INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_
 
 INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `IconName`, `castBarCaption`, `unk1`, `size`, `Data0`, `Data1`, `Data2`, `Data3`, `Data4`, `Data5`, `Data8`, `AIName`, `ScriptName`, `VerifiedBuild`)
 VALUES
-(2399006, 10, 300355, 'Fishing Flag', 'Interact', '', '', 1, 0, 175165, 0, 1, 0, 1, 0, 'SmartGameObjectAI', '', 0),
-(2399007, 3, 242, 'Kazadmere Fish', 'LootAll', '', '', 1, 57, 2399007, 0, 1, 0, 0, 175165, '', '', 0),
-(2399008, 5, 300355, 'Fishing Flag', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, '', '', 0)
+(2399006, 10, 300355, '钓鱼旗', 'Interact', '', '', 1, 0, 175165, 0, 1, 0, 1, 0, 'SmartGameObjectAI', '', 0),
+(2399007, 3, 242, '卡扎德米尔鱼', 'LootAll', '', '', 1, 57, 2399007, 0, 1, 0, 0, 175165, '', '', 0),
+(2399008, 5, 300355, '钓鱼旗', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, '', '', 0)
 ON DUPLICATE KEY UPDATE `type` = VALUES(`type`), `displayId` = VALUES(`displayId`), `name` = VALUES(`name`), `IconName` = VALUES(`IconName`),
 `size` = VALUES(`size`), `Data0` = VALUES(`Data0`), `Data1` = VALUES(`Data1`), `Data3` = VALUES(`Data3`), `Data5` = VALUES(`Data5`), `Data8` = VALUES(`Data8`),
 `AIName` = VALUES(`AIName`);
@@ -280,7 +280,7 @@ INSERT INTO `gameobject` (`guid`, `id`, `map`, `zoneId`, `areaId`, `spawnMask`, 
 -- Lofar 164464 greets players; the line is new (the quest is unreleased and no realm greeting exists).
 DELETE FROM `npc_text` WHERE `ID` = 9920304;
 INSERT INTO `npc_text` (`ID`, `text0_0`, `text0_1`, `Probability0`) VALUES
-(9920304, '<Lofar doesn''t look up from the line he''s untangling.>$B$BCareful where you step. The ice near the holes is thinner than it looks.', '<Lofar doesn''t look up from the line he''s untangling.>$B$BCareful where you step. The ice near the holes is thinner than it looks.', 1);
+(9920304, '<洛法尔没有从那团缠结的鱼线上抬起头来。>$B$B走路当心。冰窟窿附近的冰比看上去的还要薄。', '<洛法尔没有从那团缠结的鱼线上抬起头来。>$B$B走路当心。冰窟窿附近的冰比看上去的还要薄。', 1);
 DELETE FROM `gossip_menu` WHERE `MenuID` = 9920304;
 INSERT INTO `gossip_menu` (`MenuID`, `TextID`) VALUES
 (9920304, 9920304);

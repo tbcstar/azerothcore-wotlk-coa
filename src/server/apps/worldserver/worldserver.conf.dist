@@ -3097,14 +3097,13 @@ Quests.IgnoreAutoComplete = 0
 
 #
 #    Quests.LogSize
-#        Description: Number of quests a character can hold. The client shows the first 25 in its quest log;
-#                     further quests are kept by the server and listed by the server-sent Extra Quests window.
-#                     A kill, item or exploration update on such a quest counts as normal. Abandoning or turning
-#                     in a quest from the client log moves the next extra quest into the freed slot.
-#        Default:     25 - (Client quest log only)
+#        描述：角色可持有的任务数量。客户端在其任务日志中显示前 25 个；
+#              更多任务由服务器保留，并通过服务器发送的“额外任务”窗口列出。
+#              此类任务上的击杀、物品或探索更新均按正常方式计入。从客户端日志中
+#              放弃或交付任务时，下一个额外任务会移入空出的槽位。
 #        Range:       25-64
 
-Quests.LogSize = 25
+Quests.LogSize = 64
 
 #
 #    Rate.RewardQuestMoney

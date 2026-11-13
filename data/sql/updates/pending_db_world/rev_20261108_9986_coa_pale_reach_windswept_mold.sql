@@ -15,7 +15,7 @@ UPDATE `gameobject` SET `position_x` = -7700.5, `position_y` = 1, `position_z` =
 UPDATE `gameobject` SET `position_x` = -7691.5, `position_y` = 4, `position_z` = 421.01, `Comment` = 'Fresh Mold, Windswept Cave, under hanging mold 9993105' WHERE `guid` = 9999005 AND `id` = 2300683;
 INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `IconName`, `castBarCaption`, `unk1`, `size`, `Data0`, `Data1`, `Data2`, `Data3`, `Data4`, `Data5`, `Data8`, `AIName`, `ScriptName`, `VerifiedBuild`)
 VALUES
-(2399012, 5, 1075822, 'Hanging Mold', '', '', '', 1.15, 0, 0, 0, 0, 0, 0, 0, '', '', 0)
+(2399012, 5, 1075822, '悬挂的霉菌', '', '', '', 1.15, 0, 0, 0, 0, 0, 0, 0, '', '', 0)
 ON DUPLICATE KEY UPDATE `type` = VALUES(`type`), `displayId` = VALUES(`displayId`), `name` = VALUES(`name`), `size` = VALUES(`size`);
 DELETE FROM `gameobject` WHERE `guid` BETWEEN 9993100 AND 9993105;
 INSERT INTO `gameobject` (`guid`, `id`, `map`, `zoneId`, `areaId`, `spawnMask`, `phaseMask`, `position_x`, `position_y`, `position_z`, `orientation`, `rotation0`, `rotation1`, `rotation2`, `rotation3`, `spawntimesecs`, `animprogress`, `state`, `Comment`) VALUES

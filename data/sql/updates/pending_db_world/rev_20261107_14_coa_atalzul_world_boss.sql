@@ -43,9 +43,9 @@ WHERE `entry` = 67532 AND `difficulty` = 2;
 -- The shrine, the portal out and the shrine at the entrance of his map.
 INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `IconName`, `castBarCaption`, `unk1`,
   `size`, `AIName`, `ScriptName`, `VerifiedBuild`) VALUES
-(978090, 10, 4076, 'Shrine of Atal''zul', '', '', '', 3, '', 'go_atalzul_altar_coa', 12340),
+(978090, 10, 4076, '阿塔祖尔神龛', '', '', '', 3, '', 'go_atalzul_altar_coa', 12340),
 (978091, 10, 4396, 'Portal to Zul''Mashar', '', '', '', 1.5, '', 'go_atalzul_exit_coa', 12340),
-(978092, 10, 4076, 'Shrine of Atal''zul', '', '', '', 3, '', 'go_atalzul_leave_coa', 12340)
+(978092, 10, 4076, '阿塔祖尔神龛', '', '', '', 3, '', 'go_atalzul_leave_coa', 12340)
 ON DUPLICATE KEY UPDATE `type` = VALUES(`type`), `displayId` = VALUES(`displayId`), `name` = VALUES(`name`),
   `size` = VALUES(`size`), `ScriptName` = VALUES(`ScriptName`);
 DELETE FROM `gameobject` WHERE `guid` IN (9780930, 9780931);
@@ -66,15 +66,15 @@ INSERT INTO `graveyard_zone` (`ID`, `GhostZone`, `Faction`, `Comment`) VALUES
 -- The shrine's words.
 DELETE FROM `npc_text` WHERE `ID` = 978090;
 INSERT INTO `npc_text` (`ID`, `text0_0`, `text0_1`) VALUES
-(978090, 'The shrine seems to notice your presence as you place your hand on its surface to attune to its power.',
-  'The shrine seems to notice your presence as you place your hand on its surface to attune to its power.');
+(978090, '当你的手贴上神龛的表面，与它的力量共鸣时，神龛似乎察觉到了你的存在。',
+  '当你的手贴上神龛的表面，与它的力量共鸣时，神龛似乎察觉到了你的存在。');
 
 -- His hologram above each shrine, the one outside and the one inside his map: ghostly (22650), rooted, and frozen in
 -- place (16245).
 INSERT INTO `creature_template` (`entry`, `name`, `subname`, `minlevel`, `maxlevel`, `faction`, `npcflag`,
   `speed_walk`, `speed_run`, `unit_class`, `unit_flags`, `type`, `type_flags`, `AIName`, `ScriptName`,
   `VerifiedBuild`) VALUES
-(978090, 'Atal''zul, the Soulreaver', '', 63, 63, 35, 0, 1, 1, 1, 33554434, 7, 0, '', '', 12340)
+(978090, '阿塔祖尔，噬魂者', '', 63, 63, 35, 0, 1, 1, 1, 33554434, 7, 0, '', '', 12340)
 ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `faction` = VALUES(`faction`), `unit_flags` = VALUES(`unit_flags`),
   `ScriptName` = VALUES(`ScriptName`);
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 978090;
@@ -111,7 +111,7 @@ WHERE `guid` = 9780109;
 
 INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `IconName`, `castBarCaption`, `unk1`,
   `size`, `AIName`, `ScriptName`, `VerifiedBuild`) VALUES
-(978093, 10, 1060152, 'Altar of the Soul Vessel', '', '', '', 0.6, '', 'go_atalzul_vessel_coa', 12340)
+(978093, 10, 1060152, '灵魂容器祭坛', '', '', '', 0.6, '', 'go_atalzul_vessel_coa', 12340)
 ON DUPLICATE KEY UPDATE `type` = VALUES(`type`), `displayId` = VALUES(`displayId`), `name` = VALUES(`name`),
   `size` = VALUES(`size`), `ScriptName` = VALUES(`ScriptName`);
 DELETE FROM `gameobject` WHERE `guid` BETWEEN 9780941 AND 9780944;
@@ -151,7 +151,7 @@ UPDATE `creature_template_model` SET `DisplayScale` = 1.5 WHERE `CreatureID` = 9
 INSERT INTO `creature_template` (`entry`, `name`, `subname`, `minlevel`, `maxlevel`, `faction`, `npcflag`,
   `speed_walk`, `speed_run`, `unit_class`, `unit_flags`, `type`, `type_flags`, `AIName`, `ScriptName`,
   `VerifiedBuild`) VALUES
-(67537, 'Soul Vessel Barrier', '', 63, 63, 35, 0, 1, 1, 1, 33554434, 10, 0, '', '', 12340)
+(67537, '灵魂容器屏障', '', 63, 63, 35, 0, 1, 1, 1, 33554434, 10, 0, '', '', 12340)
 ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `faction` = VALUES(`faction`), `unit_flags` = VALUES(`unit_flags`),
   `ScriptName` = VALUES(`ScriptName`);
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 67537;
@@ -164,7 +164,7 @@ INSERT INTO `creature_template_movement` (`CreatureId`, `Ground`, `Swim`, `Fligh
 INSERT INTO `creature_template` (`entry`, `name`, `subname`, `minlevel`, `maxlevel`, `faction`, `npcflag`,
   `speed_walk`, `speed_run`, `unit_class`, `unit_flags`, `type`, `type_flags`, `AIName`, `ScriptName`,
   `VerifiedBuild`) VALUES
-(67538, 'Soul Vessel Anchor', '', 63, 63, 35, 0, 1, 1, 1, 33554434, 10, 0, '', '', 12340)
+(67538, '灵魂容器锚点', '', 63, 63, 35, 0, 1, 1, 1, 33554434, 10, 0, '', '', 12340)
 ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `faction` = VALUES(`faction`), `unit_flags` = VALUES(`unit_flags`),
   `ScriptName` = VALUES(`ScriptName`);
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 67538;

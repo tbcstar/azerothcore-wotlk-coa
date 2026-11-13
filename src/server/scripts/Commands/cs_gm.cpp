@@ -63,8 +63,8 @@ public:
             { "ingame",    HandleGMListIngameCommand, rbac::RBAC_PERM_COMMAND_GM_INGAME,  Console::Yes },
             { "list",      HandleGMListFullCommand,   rbac::RBAC_PERM_COMMAND_GM_LIST,    Console::Yes },
             { "visible",   HandleGMVisibleCommand,    rbac::RBAC_PERM_COMMAND_GM_VISIBLE, Console::No  },
-            { "开启",        HandleGMOnCommand,         rbac::RBAC_PERM_COMMAND_GM,         Console::No  },
-            { "关闭",       HandleGMOffCommand,        rbac::RBAC_PERM_COMMAND_GM,         Console::No  },
+            { "on",        HandleGMOnCommand,         rbac::RBAC_PERM_COMMAND_GM,         Console::No  },
+            { "off",       HandleGMOffCommand,        rbac::RBAC_PERM_COMMAND_GM,         Console::No  },
             { "spectator", HandleGMSpectatorCommand,  rbac::RBAC_PERM_COMMAND_GM,         Console::No  },
         };
         static ChatCommandTable commandTable =

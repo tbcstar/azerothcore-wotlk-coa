@@ -1,16 +1,20 @@
 {
   "schema": 1,
-  "name": "Zul'Gurub: High Priestess Mar'li Evolves a spawn on Mythic, never herself (#8075), and not on Normal",
+  "name": "Zul'Gurub: High Priestess Mar'li Evolves an egg on Mythic, never herself (#8075), and not on Normal",
   "contract": [
     "Evolve (2118116) evolves a target spider egg: it heals its target to full health (effect 67) and applies a",
-    "+200% scale aura. Mar'li (14510) casts it 22 s into the troll phase on a Spawn of Mar'li (15041) she hatches",
-    "from the nearest free egg (179985), never on herself, so she neither carries the Evolve aura nor heals to full",
-    "health. Evolve belongs to Mythic and Ascended only (round-5 tester: the Mythic and Ascended mechanics), so a",
-    "Normal Mar'li never casts it. A Normal and a Mythic hero each fight one Mar'li alone. The world's eggs share",
-    "phase 1 and the fixture lives in the lane's own phase, so each hero places eleven untimed eggs right after the",
-    "pull (eggs on a hero before it keep Mar'li from engaging): Hatch Eggs at 17 s claims ten of them and hatches",
-    "them 10 s later, which leaves Evolve one free egg whichever of the two comes first. The Normal hero therefore",
-    "sees ten spawns, the eleventh egg unclaimed."
+    "+200% scale aura (effect 1). The eggs are Spider Egg creatures (14915) that cast Hatching (2118119, 10 s), so",
+    "22 s into the troll phase Mar'li (14510) casts Evolve on the nearest free egg; that egg carries Evolve, starts",
+    "Hatching, and 10 s later (live Mythic 2026-08-04: 10.2 s) hatches a Spawn of Mar'li (15041) she Evolves,",
+    "never herself, so she neither carries the Evolve aura nor heals to full health. The evolved spawn never takes",
+    "Growth (2118117; live: no Growth on it), while the Hatch Eggs spawns still do. Evolve belongs to Mythic and",
+    "Ascended only, so a Normal Mar'li never casts it. A Normal and a Mythic hero each fight one Mar'li alone. The",
+    "world's eggs share phase 1 and the fixture lives in the lane's own phase, so each hero places eleven eggs",
+    "right after the pull. The Normal hero places all eleven within 2 yards: Hatch Eggs at 17 s claims the ten",
+    "nearest and hatches them 10 s later, so it sees ten spawns and the eleventh egg unclaimed. The Mythic hero",
+    "places ten within 2 yards and the eleventh 10 yd north; Hatch Eggs claims the ten, then the hero steps onto",
+    "the eleventh, the only free egg left for Evolve. On the old behaviour a spawn carrying Evolve appears at once",
+    "and no egg carries Evolve; with Growth it would make eleven Growth carriers."
   ],
   "timeout_ms": 150000,
   "location": {
@@ -155,116 +159,183 @@
       "actor": "mythic"
     },
     {
-      "action": "command",
-      "label": "The Normal hero places eleven Spider Eggs",
+      "action": "summon",
+      "label": "The Normal hero places eleven Spider Eggs within 2 yards",
       "actor": "normal",
-      "command": ".gobject add temp 179985 0"
+      "entry": 14915,
+      "as": "egg_normal_1",
+      "distance": 0.5,
+      "unowned": true
     },
     {
-      "action": "command",
+      "action": "summon",
       "actor": "normal",
-      "command": ".gobject add temp 179985 0"
+      "entry": 14915,
+      "as": "egg_normal_2",
+      "distance": 0.65,
+      "unowned": true
     },
     {
-      "action": "command",
+      "action": "summon",
       "actor": "normal",
-      "command": ".gobject add temp 179985 0"
+      "entry": 14915,
+      "as": "egg_normal_3",
+      "distance": 0.8,
+      "unowned": true
     },
     {
-      "action": "command",
+      "action": "summon",
       "actor": "normal",
-      "command": ".gobject add temp 179985 0"
+      "entry": 14915,
+      "as": "egg_normal_4",
+      "distance": 0.95,
+      "unowned": true
     },
     {
-      "action": "command",
+      "action": "summon",
       "actor": "normal",
-      "command": ".gobject add temp 179985 0"
+      "entry": 14915,
+      "as": "egg_normal_5",
+      "distance": 1.1,
+      "unowned": true
     },
     {
-      "action": "command",
+      "action": "summon",
       "actor": "normal",
-      "command": ".gobject add temp 179985 0"
+      "entry": 14915,
+      "as": "egg_normal_6",
+      "distance": 1.25,
+      "unowned": true
     },
     {
-      "action": "command",
+      "action": "summon",
       "actor": "normal",
-      "command": ".gobject add temp 179985 0"
+      "entry": 14915,
+      "as": "egg_normal_7",
+      "distance": 1.4,
+      "unowned": true
     },
     {
-      "action": "command",
+      "action": "summon",
       "actor": "normal",
-      "command": ".gobject add temp 179985 0"
+      "entry": 14915,
+      "as": "egg_normal_8",
+      "distance": 1.55,
+      "unowned": true
     },
     {
-      "action": "command",
+      "action": "summon",
       "actor": "normal",
-      "command": ".gobject add temp 179985 0"
+      "entry": 14915,
+      "as": "egg_normal_9",
+      "distance": 1.7,
+      "unowned": true
     },
     {
-      "action": "command",
+      "action": "summon",
       "actor": "normal",
-      "command": ".gobject add temp 179985 0"
+      "entry": 14915,
+      "as": "egg_normal_10",
+      "distance": 1.8499999999999999,
+      "unowned": true
     },
     {
-      "action": "command",
+      "action": "summon",
       "actor": "normal",
-      "command": ".gobject add temp 179985 0"
+      "entry": 14915,
+      "as": "egg_normal_11",
+      "distance": 2.0,
+      "unowned": true
     },
     {
-      "action": "command",
-      "label": "The Mythic hero places eleven Spider Eggs",
+      "action": "summon",
+      "label": "The Mythic hero places ten Spider Eggs within 2 yards",
       "actor": "mythic",
-      "command": ".gobject add temp 179985 0"
+      "entry": 14915,
+      "as": "egg_mythic_1",
+      "distance": 0.5,
+      "unowned": true
     },
     {
-      "action": "command",
+      "action": "summon",
       "actor": "mythic",
-      "command": ".gobject add temp 179985 0"
+      "entry": 14915,
+      "as": "egg_mythic_2",
+      "distance": 0.65,
+      "unowned": true
     },
     {
-      "action": "command",
+      "action": "summon",
       "actor": "mythic",
-      "command": ".gobject add temp 179985 0"
+      "entry": 14915,
+      "as": "egg_mythic_3",
+      "distance": 0.8,
+      "unowned": true
     },
     {
-      "action": "command",
+      "action": "summon",
       "actor": "mythic",
-      "command": ".gobject add temp 179985 0"
+      "entry": 14915,
+      "as": "egg_mythic_4",
+      "distance": 0.95,
+      "unowned": true
     },
     {
-      "action": "command",
+      "action": "summon",
       "actor": "mythic",
-      "command": ".gobject add temp 179985 0"
+      "entry": 14915,
+      "as": "egg_mythic_5",
+      "distance": 1.1,
+      "unowned": true
     },
     {
-      "action": "command",
+      "action": "summon",
       "actor": "mythic",
-      "command": ".gobject add temp 179985 0"
+      "entry": 14915,
+      "as": "egg_mythic_6",
+      "distance": 1.25,
+      "unowned": true
     },
     {
-      "action": "command",
+      "action": "summon",
       "actor": "mythic",
-      "command": ".gobject add temp 179985 0"
+      "entry": 14915,
+      "as": "egg_mythic_7",
+      "distance": 1.4,
+      "unowned": true
     },
     {
-      "action": "command",
+      "action": "summon",
       "actor": "mythic",
-      "command": ".gobject add temp 179985 0"
+      "entry": 14915,
+      "as": "egg_mythic_8",
+      "distance": 1.55,
+      "unowned": true
     },
     {
-      "action": "command",
+      "action": "summon",
       "actor": "mythic",
-      "command": ".gobject add temp 179985 0"
+      "entry": 14915,
+      "as": "egg_mythic_9",
+      "distance": 1.7,
+      "unowned": true
     },
     {
-      "action": "command",
+      "action": "summon",
       "actor": "mythic",
-      "command": ".gobject add temp 179985 0"
+      "entry": 14915,
+      "as": "egg_mythic_10",
+      "distance": 1.8499999999999999,
+      "unowned": true
     },
     {
-      "action": "command",
+      "action": "summon",
+      "label": "The Mythic hero places the eleventh Spider Egg 10 yd north",
       "actor": "mythic",
-      "command": ".gobject add temp 179985 0"
+      "entry": 14915,
+      "as": "egg_mythic_far",
+      "distance": 10,
+      "unowned": true
     },
     {
       "action": "set_health_pct",
@@ -299,24 +370,132 @@
       "equals": 1
     },
     {
-      "action": "assert",
-      "label": "DISCRIMINATING: the Mythic Mar'li casts Evolve about 22 s into the troll phase",
+      "action": "relocate",
+      "label": "The Mythic hero steps onto the eleventh egg, the only one Hatch Eggs left free",
       "actor": "mythic",
-      "metric": "spell_go_count",
-      "entry": 14510,
-      "spell": 2118116,
-      "min": 1,
-      "within_ms": 20000
+      "dx": 10
     },
     {
       "action": "assert",
-      "label": "The Spawn of Mar'li hatched from the egg carries Evolve",
+      "label": "DISCRIMINATING: about 22 s into the troll phase Mar'li casts Evolve on that egg",
+      "actor": "mythic",
+      "metric": "nearby_creature_count",
+      "entry": 14915,
+      "spell": 2118116,
+      "equals": 1,
+      "within_ms": 15000
+    },
+    {
+      "action": "assert",
+      "label": "DISCRIMINATING: the evolved egg casts Hatching",
+      "actor": "egg_mythic_far",
+      "metric": "casting",
+      "equals": 1,
+      "within_ms": 1000
+    },
+    {
+      "action": "assert",
+      "label": "DISCRIMINATING: no Spawn of Mar'li carrying Evolve appears with the swollen egg",
+      "actor": "mythic",
+      "metric": "nearby_creature_count",
+      "entry": 15041,
+      "spell": 2118116,
+      "equals": 0
+    },
+    {
+      "action": "wait",
+      "label": "Five seconds into the evolved egg's Hatching",
+      "ms": 5000
+    },
+    {
+      "action": "assert",
+      "label": "DISCRIMINATING: still no Spawn of Mar'li carrying Evolve 5 s after Evolve landed",
+      "actor": "mythic",
+      "metric": "nearby_creature_count",
+      "entry": 15041,
+      "spell": 2118116,
+      "equals": 0
+    },
+    {
+      "action": "assert",
+      "label": "The evolved egg is still there, still Hatching",
+      "actor": "egg_mythic_far",
+      "metric": "casting",
+      "equals": 1
+    },
+    {
+      "action": "assert",
+      "label": "About 10 s after Evolve landed, the egg hatches one Spawn of Mar'li carrying Evolve",
       "actor": "mythic",
       "metric": "nearby_creature_count",
       "entry": 15041,
       "spell": 2118116,
       "equals": 1,
-      "within_ms": 5000
+      "within_ms": 8000
+    },
+    {
+      "action": "assert",
+      "label": "CONTROL: the Mythic Mar'li cast Evolve",
+      "actor": "mythic",
+      "metric": "spell_go_count",
+      "entry": 14510,
+      "spell": 2118116,
+      "min": 1,
+      "within_ms": 2000
+    },
+    {
+      "action": "wait",
+      "label": "Past the evolved spawn's first Growth tick, 4 s after it engages",
+      "ms": 6000
+    },
+    {
+      "action": "assert",
+      "label": "CONTROL: ten Hatch Eggs spawns and the evolved spawn are alive",
+      "actor": "mythic",
+      "metric": "nearby_creature_count",
+      "entry": 15041,
+      "equals": 11
+    },
+    {
+      "action": "assert",
+      "label": "CONTROL: exactly one of them carries Evolve",
+      "actor": "mythic",
+      "metric": "nearby_creature_count",
+      "entry": 15041,
+      "spell": 2118116,
+      "equals": 1
+    },
+    {
+      "action": "assert",
+      "label": "DISCRIMINATING: the ten Hatch Eggs spawns carry Growth and the evolved spawn does not",
+      "actor": "mythic",
+      "metric": "nearby_creature_count",
+      "entry": 15041,
+      "spell": 2118117,
+      "equals": 10
+    },
+    {
+      "action": "wait",
+      "label": "Two more Growth ticks",
+      "ms": 8000
+    },
+    {
+      "action": "assert",
+      "label": "DISCRIMINATING: the evolved spawn still has no Growth",
+      "actor": "mythic",
+      "metric": "nearby_creature_count",
+      "entry": 15041,
+      "spell": 2118117,
+      "equals": 10
+    },
+    {
+      "action": "assert",
+      "label": "CONTROL: the evolved spawn still carries Evolve",
+      "actor": "mythic",
+      "metric": "nearby_creature_count",
+      "entry": 15041,
+      "spell": 2118116,
+      "equals": 1
     },
     {
       "action": "assert",
@@ -365,6 +544,15 @@
       "metric": "nearby_creature_count",
       "entry": 15041,
       "equals": 10
+    },
+    {
+      "action": "assert",
+      "label": "No Normal egg carries Evolve",
+      "actor": "normal",
+      "metric": "nearby_creature_count",
+      "entry": 14915,
+      "spell": 2118116,
+      "equals": 0
     }
   ]
 }

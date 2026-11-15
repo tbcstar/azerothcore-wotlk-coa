@@ -25,7 +25,7 @@ namespace CoAChallenges
         if (ruleset == AscensionRulesets::Ruleset::PvE ||
             !PlayerHasRule(player, "CHALLENGE_RULES_TYPE_PVE_ONLY"))
             return true;
-        NotifyPlayer(player, "你的挑战需要在 PvE 模式下进行。");
+        NotifyPlayer(player, "Your active challenge requires PvE mode.");
         return false;
     }
 
@@ -33,7 +33,7 @@ namespace CoAChallenges
     {
         if (kind != AscensionPersonalBank::REALM || !PlayerHasRule(player, "CHALLENGE_RULES_TYPE_NO_REALM_BANK"))
             return true;
-        NotifyPlayer(player, "你的挑战禁止使用服务器银行。");
+        NotifyPlayer(player, "Your challenge forbids using the realm bank.");
         return false;
     }
 
@@ -41,7 +41,7 @@ namespace CoAChallenges
     {
         if (!PlayerHasRule(looter, "CHALLENGE_RULES_TYPE_NO_HIGH_RISK_LOOT"))
             return true;
-        NotifyPlayer(looter, "你的挑战禁止拾取其他玩家在高风险模式下的战利品。");
+        NotifyPlayer(looter, "Your challenge forbids looting the spoils of other players in High-Risk.");
         return false;
     }
 
@@ -337,16 +337,16 @@ namespace CoAChallenges
                 // Ascension rotates these 10 warning phrases; the spell name is
                 // a red spell link, shown big on screen + in chat.
                 static char const* const kWarnings[] = {
-                    "轮盘已选定新的法术！{} 现已成为禁咒。",
-                    "严厉的警告：{} 已被诅咒缠绕——施放它后果自负。",
-                    "诅咒已转移！{} 现在施放极其危险——请留意警告。",
-                    "命运轮盘选出了下一个牺牲品：{}。切勿施放，否则死亡便是你的奖赏。",
-                    "诅咒已找到新的宿主！{} 现在施放将致命——请留意此兆。",
-                    "当心，旅人！法术 {} 现已被禁止——切勿施放，否则你将丧命。",
-                    "命运已束缚新的法术！不要施放 {}，否则你将走向毁灭。",
-                    "禁忌之印已转移！{} 现在必定致命。",
-                    "轮盘已转动！施放 {} 现在是一场致命的赌博。",
-                    "命运之风已变！{} 现在施放会致命。",
+                    "A new spell is bound by the roulette! {} is now a forbidden incantation.",
+                    "A dire warning: {} is now ensnared by the curse - cast it at your own peril.",
+                    "The curse has moved! {} is now perilous to cast - heed the warning.",
+                    "The roulette of fate has chosen its next victim: {}. Cast it not, lest death be your reward.",
+                    "The curse has found a new host! {} is now lethal to cast - heed this omen.",
+                    "Beware, traveler! The spell {} is now forbidden - cast it not, lest you perish.",
+                    "A new spell is bound by fate! Avoid casting {}, or meet your doom.",
+                    "The forbidden seal has shifted! {} is now a spell of certain demise.",
+                    "The roulette has spun! Casting {} is now a fatal gamble.",
+                    "The winds of fate have changed! {} is now deadly to invoke.",
                 };
                 std::string const link = "|cffff0000|Hspell:" + std::to_string(newMark)
                     + "|h[" + markInfo->SpellName[0] + "]|h|r";
@@ -890,7 +890,7 @@ namespace CoAChallenges
                 "SELECT deaths FROM coa_character_challenge WHERE guid = {} AND challengeId = {}",
                 guid, cid))
             deaths = r->Fetch()[0].Get<uint32>();
-        NotifyPlayer(player, "你离开了高风险模式，挑战失败。");
+        NotifyPlayer(player, "You left High Risk and failed your challenge.");
         FailChallenge(player, cid, level, deaths);
     }
 
@@ -1137,7 +1137,7 @@ namespace CoAChallenges
             && (PlayerHasRule(player, "CHALLENGE_RULES_TYPE_NO_MAIL")
                 || NoOutsideInteraction(player)))
         {
-            NotifyPlayer(player, "你的挑战禁止接收邮件。");
+            NotifyPlayer(player, "Your challenge forbids receiving mail.");
             return true;
         }
         return false;
@@ -1488,6 +1488,9 @@ namespace CoAChallenges
         {
             if (player)
             {
+                auto* snapshots = CharacterDatabase.GetPreparedStatement(CHAR_DEL_COA_CHALLENGE_FAILURE_SNAPSHOTS);
+                snapshots->SetData(0, player->GetGUID().GetCounter());
+                CharacterDatabase.DirectExecute(snapshots);
                 SendFailureList(player);
                 SendCriteriaState(player);
             }
@@ -1646,11 +1649,11 @@ namespace CoAChallenges
             // "safe" fall does not fail the trial.
             if (type == DAMAGE_FALL || type == DAMAGE_FALL_TO_VOID)
                 FailForEnvRule(player, "CHALLENGE_RULES_TYPE_FAILABLE_NO_FALLING", type,
-                    "你摔落了，挑战失败。");
+                    "You have fallen and failed your challenge.");
 
             if (type == DAMAGE_LAVA || type == DAMAGE_FIRE)
                 FailForEnvRule(player, "CHALLENGE_RULES_TYPE_FLOOR_IS_LAVA", type,
-                    "地面是岩浆！你的挑战已失败。");
+                    "The floor is lava! Your challenge has failed.");
 
             return true;
         }
@@ -1662,7 +1665,7 @@ namespace CoAChallenges
             if (PlayerHasRule(player, "CHALLENGE_RULES_TYPE_NO_MAIL")
                 || NoOutsideInteraction(player))
             {
-                NotifyPlayer(player, "你的挑战禁止使用邮箱。");
+                NotifyPlayer(player, "Your challenge forbids using the mailbox.");
                 return false;
             }
             return true;
@@ -1703,7 +1706,7 @@ namespace CoAChallenges
                 || NoOutsideInteraction(player)
                 || NoOutsideInteraction(target))
             {
-                NotifyPlayer(player, "你的挑战禁止交易。");
+                NotifyPlayer(player, "Your challenge forbids trading.");
                 return false;
             }
             if (PlayerHasRule(player, "CHALLENGE_RULES_TYPE_ONLY_TRADE_IF_SAME_CHALLENGES")
@@ -1713,7 +1716,7 @@ namespace CoAChallenges
                     != ActiveChallenges(target->GetGUID().GetCounter()))
                 {
                     NotifyPlayer(player,
-                        "交易受限：双方必须拥有相同的挑战。");
+                        "Trade is restricted: both players must share the same challenge(s).");
                     return false;
                 }
             }
@@ -1725,7 +1728,7 @@ namespace CoAChallenges
         {
             if (PlayerHasRule(player, "CHALLENGE_RULES_TYPE_NO_GROUP"))
             {
-                NotifyPlayer(player, "你的挑战禁止加入队伍。");
+                NotifyPlayer(player, "Your challenge forbids joining a group.");
                 return false;
             }
 
@@ -1733,12 +1736,12 @@ namespace CoAChallenges
 
             if (NoOutsideInteraction(player) || (target && NoOutsideInteraction(target)))
             {
-                NotifyPlayer(player, "你的挑战禁止与其他玩家互动。");
+                NotifyPlayer(player, "Your challenge forbids interacting with other players.");
                 return false;
             }
             if (GroupForDungeonsBlocked(player, target))
             {
-                NotifyPlayer(player, "你的挑战禁止在副本内组队。");
+                NotifyPlayer(player, "Your challenge forbids grouping inside a dungeon.");
                 return false;
             }
 
@@ -1751,7 +1754,7 @@ namespace CoAChallenges
                     != ActiveChallenges(target->GetGUID().GetCounter()))
             {
                 NotifyPlayer(player,
-                    "你只能与拥有相同挑战的玩家组队。");
+                    "You can only group with players in the same challenge.");
                 return false;
             }
 
@@ -1761,7 +1764,7 @@ namespace CoAChallenges
                 if (diff < 0) diff = -diff;
                 if (diff > 3)
                 {
-                    NotifyPlayer(player, "你的挑战只允许与等级相差不超过 3 级的玩家组队。");
+                    NotifyPlayer(player, "Your challenge only allows grouping within 3 levels.");
                     return false;
                 }
             }
@@ -1772,7 +1775,7 @@ namespace CoAChallenges
         {
             if (PlayerHasRule(player, "CHALLENGE_RULES_TYPE_NO_GROUP"))
             {
-                NotifyPlayer(player, "你的挑战禁止加入队伍。");
+                NotifyPlayer(player, "Your challenge forbids joining a group.");
                 return false;
             }
 
@@ -1780,12 +1783,12 @@ namespace CoAChallenges
 
             if (NoOutsideInteraction(player) || (leader && NoOutsideInteraction(leader)))
             {
-                NotifyPlayer(player, "你的挑战禁止与其他玩家互动。");
+                NotifyPlayer(player, "Your challenge forbids interacting with other players.");
                 return false;
             }
             if (GroupForDungeonsBlocked(player, leader))
             {
-                NotifyPlayer(player, "你的挑战禁止在副本内组队。");
+                NotifyPlayer(player, "Your challenge forbids grouping inside a dungeon.");
                 return false;
             }
 
@@ -1796,7 +1799,7 @@ namespace CoAChallenges
                     != ActiveChallenges(leader->GetGUID().GetCounter()))
             {
                 NotifyPlayer(player,
-                    "你只能与拥有相同挑战的玩家组队。");
+                    "You can only group with players in the same challenge.");
                 return false;
             }
 
@@ -1806,7 +1809,7 @@ namespace CoAChallenges
                 if (diff < 0) diff = -diff;
                 if (diff > 3)
                 {
-                    NotifyPlayer(player, "你的挑战只允许与等级相差不超过 3 级的玩家组队。");
+                    NotifyPlayer(player, "Your challenge only allows grouping within 3 levels.");
                     return false;
                 }
             }
@@ -1888,7 +1891,7 @@ namespace CoAChallenges
         {
             if (PlayerHasRule(player, "CHALLENGE_RULES_TYPE_NO_QUESTS"))
             {
-                NotifyPlayer(player, "你的挑战禁止完成任务。");
+                NotifyPlayer(player, "Your challenge forbids completing quests.");
                 return false;
             }
             if (Quest const* quest = sObjectMgr->GetQuestTemplate(quest_id))
@@ -1901,7 +1904,7 @@ namespace CoAChallenges
                 std::string rule = std::string("CHALLENGE_RULES_TYPE_NO_") + colors[c] + "_QUESTS";
                 if (PlayerHasRule(player, rule.c_str()))
                 {
-                    NotifyPlayer(player, "你的挑战禁止完成此任务。");
+                    NotifyPlayer(player, "Your challenge forbids completing this quest.");
                     return false;
                 }
             }
@@ -2052,7 +2055,7 @@ namespace CoAChallenges
             // Hearthstone (6948).
             if (proto->ItemId == 6948 && PlayerHasRule(player, "CHALLENGE_RULES_TYPE_NO_HEARTHSTONE"))
             {
-                NotifyPlayer(player, "你的挑战禁止使用炉石。");
+                NotifyPlayer(player, "Your challenge forbids using the hearthstone.");
                 return false;
             }
             // Boosting items (Tradesman's Scroll / Scroll of Experience).
@@ -2062,7 +2065,7 @@ namespace CoAChallenges
                 {
                     case 777998: case 2200018: case 1008036:
                     case 977065: case 991038:
-                        NotifyPlayer(player, "你的挑战禁止使用提升类物品。");
+                        NotifyPlayer(player, "Your challenge forbids using boosting items.");
                         return false;
                     default:
                         break;
@@ -2076,7 +2079,7 @@ namespace CoAChallenges
                     case 818059: case 2200021: case 2818059:
                     case 135060: case 818046: case 3818046: case 8180460:
                     case 696666: case 818050:
-                        NotifyPlayer(player, "你的挑战禁止使用经验加成物品。");
+                        NotifyPlayer(player, "Your challenge forbids bonus experience items.");
                         return false;
                     default:
                         break;
@@ -2086,21 +2089,21 @@ namespace CoAChallenges
             if (proto->Class == ITEM_CLASS_MISC && proto->SubClass == ITEM_SUBCLASS_JUNK_MOUNT
                 && PlayerHasRule(player, "CHALLENGE_RULES_TYPE_NO_MOUNTS"))
             {
-                NotifyPlayer(player, "你的挑战禁止使用坐骑。");
+                NotifyPlayer(player, "Your challenge forbids using mounts.");
                 return false;
             }
             // Cosmetic pets.
             if (proto->Class == ITEM_CLASS_MISC && proto->SubClass == ITEM_SUBCLASS_JUNK_PET
                 && PlayerHasRule(player, "CHALLENGE_RULES_TYPE_NO_COSMETIC_PET_ITEMS"))
             {
-                NotifyPlayer(player, "你的挑战禁止使用装饰性宠物。");
+                NotifyPlayer(player, "Your challenge forbids cosmetic pets.");
                 return false;
             }
             // Health potions.
             if (proto->Class == ITEM_CLASS_CONSUMABLE && proto->SubClass == ITEM_SUBCLASS_POTION
                 && PlayerHasRule(player, "CHALLENGE_RULES_TYPE_NO_HEALTH_POTIONS"))
             {
-                NotifyPlayer(player, "你的挑战禁止使用药水。");
+                NotifyPlayer(player, "Your challenge forbids using potions.");
                 return false;
             }
             return true;
@@ -2148,7 +2151,7 @@ namespace CoAChallenges
             {
                 item = 0;
                 player->SendBuyError(BUY_ERR_SELLER_DONT_LIKE_YOU, vendor, proto ? proto->ItemId : 0, 0);
-                NotifyPlayer(player, "你的挑战禁止从商人处购买。");
+                NotifyPlayer(player, "Your challenge forbids buying from vendors.");
                 return;
             }
             // NO_VENDOR_BUY_FOOD_OR_DRINK: block food/drink only.
@@ -2157,7 +2160,7 @@ namespace CoAChallenges
             {
                 item = 0;
                 player->SendBuyError(BUY_ERR_SELLER_DONT_LIKE_YOU, vendor, proto ? proto->ItemId : 0, 0);
-                NotifyPlayer(player, "你的挑战禁止从商人处购买食物或饮料。");
+                NotifyPlayer(player, "Your challenge forbids buying food or drinks from vendors.");
             }
         }
 
@@ -2168,7 +2171,7 @@ namespace CoAChallenges
             if (player && (PlayerHasRule(player, "CHALLENGE_RULES_TYPE_NO_VENDORS")
                 || NoOutsideInteraction(player)))
             {
-                NotifyPlayer(player, "你的挑战禁止使用商人。");
+                NotifyPlayer(player, "Your challenge forbids using vendors.");
                 return false;
             }
             return true;
@@ -2181,12 +2184,12 @@ namespace CoAChallenges
                 return true;
             if (entry->IsRaid() && PlayerHasRule(player, "CHALLENGE_RULES_TYPE_NO_RAIDS"))
             {
-                NotifyPlayer(player, "你的挑战禁止进入团队副本。");
+                NotifyPlayer(player, "Your challenge forbids entering raids.");
                 return false;
             }
             if (entry->IsDungeon() && !entry->IsRaid() && PlayerHasRule(player, "CHALLENGE_RULES_TYPE_NO_DUNGEONS"))
             {
-                NotifyPlayer(player, "你的挑战禁止进入副本。");
+                NotifyPlayer(player, "Your challenge forbids entering dungeons.");
                 return false;
             }
             return true;
@@ -2207,7 +2210,7 @@ namespace CoAChallenges
             if (dest && cur && dest->IsContinent() && cur->IsContinent()
                 && dest->MapID != cur->MapID)
             {
-                NotifyPlayer(player, "你的挑战禁止离开所在大陆。");
+                NotifyPlayer(player, "Your challenge forbids leaving the continent.");
                 return false;
             }
             return true;
@@ -2225,7 +2228,7 @@ namespace CoAChallenges
             if (PlayerHasRule(player, "CHALLENGE_RULES_TYPE_NO_NON_SELF_CRAFTED_ITEMS")
                 && pItem->GetGuidValue(ITEM_FIELD_CREATOR) != player->GetGUID())
             {
-                NotifyPlayer(player, "你的挑战只允许使用你自己制作的物品。");
+                NotifyPlayer(player, "Your challenge only allows items you crafted yourself.");
                 return false;
             }
             // NO_NON_LOOTED_ITEMS (Scavenger): only item instances the character
@@ -2233,17 +2236,17 @@ namespace CoAChallenges
             if (PlayerHasRule(player, "CHALLENGE_RULES_TYPE_NO_NON_LOOTED_ITEMS")
                 && !ItemWasLooted(player->GetGUID().GetCounter(), pItem->GetGUID().GetCounter()))
             {
-                NotifyPlayer(player, "你的挑战只允许使用你自己拾取的物品。");
+                NotifyPlayer(player, "Your challenge only allows items you looted yourself.");
                 return false;
             }
             if (proto->Class == ITEM_CLASS_ARMOR && PlayerHasRule(player, "CHALLENGE_RULES_TYPE_NO_EQUIP_ARMOR"))
             {
-                NotifyPlayer(player, "你的挑战禁止装备护甲。");
+                NotifyPlayer(player, "Your challenge forbids equipping armor.");
                 return false;
             }
             if (proto->Class == ITEM_CLASS_CONTAINER && PlayerHasRule(player, "CHALLENGE_RULES_TYPE_NO_BAGS"))
             {
-                NotifyPlayer(player, "你的挑战禁止使用额外的背包。");
+                NotifyPlayer(player, "Your challenge forbids additional bags.");
                 return false;
             }
             switch (proto->Quality)
@@ -2360,7 +2363,7 @@ namespace CoAChallenges
                 deaths = r->Fetch()[0].Get<uint32>();
 
             NotifyPlayer(player,
-                "你击杀了被禁止的生物，挑战失败。");
+                "You have slain a forbidden creature and failed your challenge.");
             LOG_INFO("module.coa_challenges",
                 "{}: {} killed creature {} (type {}), failing challenge {}",
                 rule, player->GetName(), killed->GetEntry(), uint32(killed->GetCreatureType()), cid);
@@ -2537,6 +2540,7 @@ namespace CoAChallenges
                 "coa_character_gamemode_lives", "coa_character_survival", "coa_character_fatigue",
                 "coa_character_looted_item", "coa_custom_trial", "coa_custom_trial_active",
                 "coa_custom_trial_entry", "coa_custom_trial_vote", "coa_custom_trial_completion",
+                "coa_challenge_failure_snapshot",
             };
             for (char const* table : kCharTables)
                 trans->Append("DELETE FROM {} WHERE guid = {}", table, guid);
@@ -2604,7 +2608,7 @@ namespace CoAChallenges
                 if (player && IsProfessionSkill(skillId)
                     && PlayerHasRule(player, "CHALLENGE_RULES_TYPE_CANNOT_UNLEARN_PROFESSIONS"))
                 {
-                    NotifyPlayer(player, "你的专业选择是永久的。");
+                    NotifyPlayer(player, "Your profession choices are permanent.");
                     LOG_INFO("module.coa_challenges", "CMSG_UNLEARN_SKILL from {}: blocked profession skill {}",
                         player->GetName(), skillId);
                     return false;
@@ -2655,7 +2659,7 @@ namespace CoAChallenges
                     || PlayerHasRule(player, "CHALLENGE_RULES_TYPE_NO_VENDORS")
                     || NoOutsideInteraction(player)))
                 {
-                    NotifyPlayer(player, "你的挑战禁止使用商人回购。");
+                    NotifyPlayer(player, "Your challenge forbids vendor buyback.");
                     return false;
                 }
                 return true;
@@ -2666,7 +2670,7 @@ namespace CoAChallenges
                 if (player && (PlayerHasRule(player, "CHALLENGE_RULES_TYPE_NO_BANK")
                     || NoOutsideInteraction(player)))
                 {
-                    NotifyPlayer(player, "你的挑战禁止使用银行。");
+                    NotifyPlayer(player, "Your challenge forbids using banks.");
                     return false;
                 }
                 return true;
@@ -2676,7 +2680,7 @@ namespace CoAChallenges
             {
                 if (player && PlayerHasRule(player, "CHALLENGE_RULES_TYPE_NO_REPAIR_ITEMS"))
                 {
-                    NotifyPlayer(player, "你的挑战禁止修理物品。");
+                    NotifyPlayer(player, "Your challenge forbids repairing items.");
                     return false;
                 }
                 return true;
@@ -2688,7 +2692,7 @@ namespace CoAChallenges
             {
                 if (player && PlayerHasRule(player, "CHALLENGE_RULES_TYPE_CANNOT_LOOT_ITEMS"))
                 {
-                    NotifyPlayer(player, "你的挑战禁止拾取物品。");
+                    NotifyPlayer(player, "Your challenge forbids looting items.");
                     return false;
                 }
                 return true;
@@ -2698,7 +2702,7 @@ namespace CoAChallenges
             {
                 if (player && PlayerHasRule(player, "CHALLENGE_RULES_TYPE_NO_FLIGHT_PATHS"))
                 {
-                    NotifyPlayer(player, "你的挑战禁止使用飞行路线。");
+                    NotifyPlayer(player, "Your challenge forbids using flight paths.");
                     return false;
                 }
                 return true;
@@ -2723,7 +2727,7 @@ namespace CoAChallenges
                         std::string rule = std::string("CHALLENGE_RULES_TYPE_NO_") + colors[c] + "_QUESTS";
                         if (PlayerHasRule(player, rule.c_str()))
                         {
-                            NotifyPlayer(player, "你的挑战禁止接受此任务。");
+                            NotifyPlayer(player, "Your challenge forbids accepting this quest.");
                             return false;
                         }
                     }
@@ -2848,7 +2852,7 @@ namespace CoAChallenges
                                     guid, challengeID))
                                 deaths = dr->Fetch()[0].Get<uint32>();
                             NotifyPlayer(player,
-                                "你放弃了 {}，挑战失败。", ChallengeName(challengeID));
+                                "You have abandoned {} and failed it.", ChallengeName(challengeID));
                             FailChallenge(player, challengeID, level, deaths);
                             return false;
                         }
@@ -2957,7 +2961,10 @@ namespace CoAChallenges
             static ChatCommandTable coaActionsTable =
             {
                 { "unlock", HandleCoAUnlockCommand, SEC_ADMINISTRATOR, Console::Yes },
-                { "check",  HandleCoACheckCommand,  SEC_ADMINISTRATOR, Console::Yes }
+                { "check",  HandleCoACheckCommand,  SEC_ADMINISTRATOR, Console::Yes },
+                { "objectives", HandleCoAObjectivesCommand, SEC_ADMINISTRATOR, Console::Yes },
+                { "credit", HandleCoACreditCommand, SEC_ADMINISTRATOR, Console::Yes },
+                { "restore", HandleCoARestoreCommand, SEC_ADMINISTRATOR, Console::Yes }
             };
             static ChatCommandTable coaChallengesTable =
             {
@@ -3003,7 +3010,7 @@ namespace CoAChallenges
             for (uint32 challengeID : ActiveChallenges(player->GetGUID().GetCounter()))
                 if (challengeID == 211 || challengeID == 425)
                     return ActivateChallenge(player, challengeID, level) == 0;
-            handler->SendErrorMessage("你没有正在进行中的冒险模式。");
+            handler->SendErrorMessage("You do not have an active Adventure Mode run.");
             return false;
         }
 
@@ -3014,7 +3021,7 @@ namespace CoAChallenges
                 player = PlayerIdentifier::FromTargetOrSelf(handler);
             if (!player)
             {
-                handler->SendErrorMessage("未指定玩家（请选中目标或自己执行）。");
+                handler->SendErrorMessage("No player (target someone or run it yourself).");
                 return false;
             }
 
@@ -3025,17 +3032,187 @@ namespace CoAChallenges
             CharacterDatabase.DirectExecute(
                 "DELETE FROM coa_challenge_failure WHERE guid = {} AND challengeId = {}",
                 guid, challengeId);
+            ForgetFailureSnapshot(guid, challengeId);
 
             if (had)
             {
                 if (Player* online = player->GetConnectedPlayer())
                     SendFailureList(online);
-                handler->PSendSysMessage("已从挑战 {} 解锁 {}。", player->GetName(), challengeId);
+                handler->PSendSysMessage("Unlocked {} from challenge {}.", player->GetName(), challengeId);
             }
             else
             {
-                handler->SendErrorMessage("{} 在挑战 {} 上没有失败锁定。", player->GetName(), challengeId);
+                handler->SendErrorMessage("{} had no failure lock on challenge {}.", player->GetName(), challengeId);
             }
+            return true;
+        }
+
+        // .coa <trial|challenge> objectives [player]
+        // Lists every active challenge of the player with its tracked objectives
+        // numbered as `.coa trial credit` expects them. Works for an offline
+        // character too (without the level-cap note, which needs the live level).
+        static bool HandleCoAObjectivesCommand(ChatHandler* handler, Optional<PlayerIdentifier> player)
+        {
+            if (!player)
+                player = PlayerIdentifier::FromTargetOrSelf(handler);
+            if (!player)
+            {
+                handler->PSendSysMessage("Syntax: .coa trial objectives [player]");
+                handler->SendErrorMessage("No player: target someone or name one, with a two-word name in quotes.");
+                return false;
+            }
+
+            uint32 const guid = player->GetGUID().GetCounter();
+            Player* online = player->GetConnectedPlayer();
+            std::set<uint32> const actives = ActiveChallenges(guid);
+            if (online)
+                handler->PSendSysMessage("{}, level {}, {} active challenge(s):",
+                    player->GetName(), online->GetLevel(), actives.size());
+            else
+                handler->PSendSysMessage("{} (offline), {} active challenge(s):", player->GetName(), actives.size());
+
+            uint32 const cappedGate = online ? NextGatedLevel(online) : 0;
+            uint32 const maxLevel = sWorld->getIntConfig(CONFIG_MAX_PLAYER_LEVEL);
+            for (uint32 challengeId : actives)
+            {
+                uint32 deaths = 0;
+                if (QueryResult r = CharacterDatabase.Query(
+                        "SELECT deaths FROM coa_character_challenge WHERE guid = {} AND challengeId = {}",
+                        guid, challengeId))
+                    deaths = r->Fetch()[0].Get<uint32>();
+                uint32 const lives = LivesTotal(challengeId);
+                handler->PSendSysMessage("{}, Challenge ID {}, level {}, deaths {}{}",
+                    ChallengeName(challengeId), challengeId, ActiveChallengeLevel(guid, challengeId), deaths,
+                    lives ? Acore::StringFormat(" of {} lives", lives) : std::string());
+
+                std::vector<Objective> const tracked = TrackedObjectives(challengeId);
+                if (tracked.empty())
+                {
+                    handler->PSendSysMessage("  (no tracked objectives)");
+                    continue;
+                }
+                bool allDone = true;
+                for (std::size_t i = 0; i < tracked.size(); ++i)
+                {
+                    Objective const& o = tracked[i];
+                    bool const done = IsObjectiveDone(guid, challengeId, o.key);
+                    allDone = allDone && done;
+                    uint32 const gate = CoAParse::ObjectiveGateLevel(o);
+                    handler->PSendSysMessage("  {}. [{}] {}, Objective ID {}{}", i + 1, done ? "done" : "pending",
+                        DescribeObjective(o), i + 1, (!done && gate && gate == cappedGate)
+                            ? Acore::StringFormat(" (levelling capped at {})", gate - 1) : std::string());
+                }
+                if (allDone && IsTrialChallenge(challengeId) && (!online || online->GetLevel() < maxLevel))
+                    handler->PSendSysMessage("  All objectives done; completes at level {}.", maxLevel);
+            }
+
+            // The failed challenges, newest first, with what a GM needs to pick
+            // the Challenge ID for `.coa trial restore`. The character level comes
+            // from the failure snapshot and is absent for older failures.
+            auto* selectFailed = CharacterDatabase.GetPreparedStatement(CHAR_SEL_COA_CHALLENGE_FAILURES);
+            selectFailed->SetData(0, guid);
+            PreparedQueryResult failed = CharacterDatabase.Query(selectFailed);
+            if (failed)
+            {
+                handler->PSendSysMessage("Failed challenges:");
+                uint32 const now = uint32(::time(nullptr));
+                do
+                {
+                    Field* f = failed->Fetch();
+                    uint32 const challengeId = f[0].Get<uint32>();
+                    uint32 const failTime = f[2].Get<uint32>();
+                    handler->PSendSysMessage("  {}, Challenge ID {}, level {}, failed {}{}",
+                        ChallengeName(challengeId), challengeId, f[1].Get<uint32>(),
+                        TimeAgo(failTime, now), f[3].IsNull() ? std::string()
+                            : Acore::StringFormat(" at character level {}", f[3].Get<uint32>()));
+                } while (failed->NextRow());
+            }
+            if (!actives.empty())
+                handler->PSendSysMessage("Credit an objective: {}", CreditSyntax);
+            if (failed)
+                handler->PSendSysMessage("Restore a failed challenge: {}", RestoreSyntax);
+            return true;
+        }
+
+        static std::string TimeAgo(uint32 then, uint32 now)
+        {
+            if (!then || then > now)
+                return "at an unknown time";
+            uint32 const seconds = now - then;
+            if (seconds < MINUTE)
+                return "less than a minute ago";
+            if (seconds < HOUR)
+                return Acore::StringFormat("{} minute(s) ago", seconds / MINUTE);
+            if (seconds < DAY)
+                return Acore::StringFormat("{} hour(s) ago", seconds / HOUR);
+            return Acore::StringFormat("{} day(s) ago", seconds / DAY);
+        }
+
+        static constexpr char const* CreditSyntax = ".coa trial credit <Challenge ID> <Objective ID> [player]";
+        static constexpr char const* RestoreSyntax = ".coa trial restore <Challenge ID> [player]";
+        static constexpr char const* ObjectivesHint =
+            "Use .coa trial objectives \"Player Name\" to find the IDs. The player defaults to your target.";
+
+        // .coa <trial|challenge> credit <id> <objective number> [player]
+        // Marks one tracked objective done, whatever the player's level.
+        static bool HandleCoACreditCommand(ChatHandler* handler, Optional<uint32> challengeId,
+            Optional<uint32> objectiveNumber, Optional<PlayerIdentifier> player)
+        {
+            if (!challengeId || !objectiveNumber)
+            {
+                handler->PSendSysMessage("Syntax: {}", CreditSyntax);
+                handler->SendErrorMessage("{}", ObjectivesHint);
+                return false;
+            }
+            if (!player)
+                player = PlayerIdentifier::FromTargetOrSelf(handler);
+            Player* p = player ? player->GetConnectedPlayer() : nullptr;
+            if (!p)
+            {
+                handler->SendErrorMessage("Player must be online to credit an objective.");
+                return false;
+            }
+
+            std::string message;
+            if (!CreditObjective(p, *challengeId, *objectiveNumber, message))
+            {
+                handler->SendErrorMessage("{}", message);
+                return false;
+            }
+            handler->PSendSysMessage("{}", message);
+            return true;
+        }
+
+        // .coa <trial|challenge> restore <id> [player]
+        // Puts a failed challenge back as active with the state it had at the
+        // failure, and resurrects the character when still dead. Refused when
+        // the character has since levelled past a pending objective's gate (see
+        // the module README).
+        static bool HandleCoARestoreCommand(ChatHandler* handler, Optional<uint32> challengeId,
+            Optional<PlayerIdentifier> player)
+        {
+            if (!challengeId)
+            {
+                handler->PSendSysMessage("Syntax: {}", RestoreSyntax);
+                handler->SendErrorMessage("{}", ObjectivesHint);
+                return false;
+            }
+            if (!player)
+                player = PlayerIdentifier::FromTargetOrSelf(handler);
+            Player* p = player ? player->GetConnectedPlayer() : nullptr;
+            if (!p)
+            {
+                handler->SendErrorMessage("Player must be online to restore a challenge.");
+                return false;
+            }
+
+            std::string message;
+            if (!RestoreFailedChallenge(p, *challengeId, message))
+            {
+                handler->SendErrorMessage("{}", message);
+                return false;
+            }
+            handler->PSendSysMessage("{}", message);
             return true;
         }
 
@@ -3047,28 +3224,28 @@ namespace CoAChallenges
             Player* p = player ? player->GetConnectedPlayer() : nullptr;
             if (!p)
             {
-                handler->SendErrorMessage("玩家必须在线才能检查条件。");
+                handler->SendErrorMessage("Player must be online to check conditions.");
                 return false;
             }
 
-            handler->PSendSysMessage("挑战 {}（{}）的条件：", challengeId, p->GetName());
+            handler->PSendSysMessage("Conditions for challenge {} ({}):", challengeId, p->GetName());
 
             std::vector<ConditionState> states = EvaluateConditions(p, challengeId);
             if (states.empty())
-                handler->PSendSysMessage("  （无）");
+                handler->PSendSysMessage("  (none)");
             for (ConditionState const& s : states)
             {
                 if (s.broken)
-                    handler->SendErrorMessage("  {}：已破坏（{}）", s.label, s.detail);
+                    handler->SendErrorMessage("  {}: BROKEN ({})", s.label, s.detail);
                 else
-                    handler->PSendSysMessage("  {}：正常（{}）", s.label, s.detail);
+                    handler->PSendSysMessage("  {}: ok ({})", s.label, s.detail);
             }
 
             std::string reason = CheckActivationConditions(p, challengeId);
             if (reason.empty())
-                handler->PSendSysMessage("  => 可以激活");
+                handler->PSendSysMessage("  => OK (can activate)");
             else
-                handler->SendErrorMessage("  => 被阻止：{}", reason);
+                handler->SendErrorMessage("  => BLOCKED: {}", reason);
             return true;
         }
 
@@ -3084,19 +3261,19 @@ namespace CoAChallenges
             Player* p = player ? player->GetConnectedPlayer() : nullptr;
             if (!p)
             {
-                handler->SendErrorMessage("玩家必须在线才能发送同步请求。");
+                handler->SendErrorMessage("Player must be online to send a sync request.");
                 return false;
             }
             if (!p->GetGroup())
             {
-                handler->SendErrorMessage("{} 不在队伍中。", p->GetName());
+                handler->SendErrorMessage("{} is not in a group.", p->GetName());
                 return false;
             }
 
             uint32 lvl = level.value_or(ActiveChallengeLevel(p->GetGUID().GetCounter(), challengeId));
             std::vector<std::pair<uint32, uint32>> pairs = { { challengeId, lvl } };
             SendChallengeSyncToGroup(p, 60000, false, pairs, false, {});
-            handler->PSendSysMessage("已为挑战 {} 等级 {} 向 {} 的队伍发送 CHALLENGES_SYNC（0x59B）。",
+            handler->PSendSysMessage("Sent CHALLENGES_SYNC (0x59B) for challenge {} level {} to {}'s party.",
                 challengeId, lvl, p->GetName());
             return true;
         }
@@ -3108,7 +3285,7 @@ namespace CoAChallenges
         static bool HandleCoAReloadCommand(ChatHandler* handler)
         {
             LoadChallengeDefinitions();
-            handler->PSendSysMessage("已从数据库重新加载 {} 个挑战定义。",
+            handler->PSendSysMessage("Reloaded {} challenge definition(s) from the database.",
                 DefCount());
             return true;
         }
@@ -3124,21 +3301,21 @@ namespace CoAChallenges
             Player* p = player ? player->GetConnectedPlayer() : nullptr;
             if (!p)
             {
-                handler->SendErrorMessage("玩家必须在线。");
+                handler->SendErrorMessage("Player must be online.");
                 return false;
             }
 
             GameModeDef const* mode = FindGameMode(modeName);
             if (!mode)
             {
-                handler->SendErrorMessage("未知的游戏模式 '{}'。", modeName);
+                handler->SendErrorMessage("Unknown game mode '{}'.", modeName);
                 return false;
             }
 
             bool enable = (onOff == "on" || onOff == "1" || onOff == "true" || onOff == "enable");
             ApplyGameModeToggle(p, mode, enable);
-            handler->PSendSysMessage("游戏模式 {} {}：{}。", modeName,
-                enable ? "启用" : "禁用", p->GetName());
+            handler->PSendSysMessage("Game mode {} {} for {}.", modeName,
+                enable ? "enabled" : "disabled", p->GetName());
             return true;
         }
 
@@ -3152,7 +3329,7 @@ namespace CoAChallenges
             Player* p = player ? player->GetConnectedPlayer() : nullptr;
             if (!p)
             {
-                handler->SendErrorMessage("玩家必须在线。");
+                handler->SendErrorMessage("Player must be online.");
                 return false;
             }
 
@@ -3166,7 +3343,7 @@ namespace CoAChallenges
                 auto it = FatigueStates.find(guid);
                 if (it == FatigueStates.end())
                 {
-                    handler->SendErrorMessage("{} 没有生效的 FATIGUED_UNLESS_RESTED 挑战。", p->GetName());
+                    handler->SendErrorMessage("{} has no active FATIGUED_UNLESS_RESTED challenge.", p->GetName());
                     return false;
                 }
                 if (value)
@@ -3179,7 +3356,7 @@ namespace CoAChallenges
             }
 
             SendFatigueBar(p, fatigue);
-            handler->PSendSysMessage("疲劳[{}] = {}/{}（休息中={}）",
+            handler->PSendSysMessage("Fatigue[{}] = {}/{} (resting={})",
                 p->GetName(), fatigue, FatigueMax(), resting ? "yes" : "no");
             return true;
         }
@@ -3188,22 +3365,23 @@ namespace CoAChallenges
         // GM-only: print the parsed reward entries for a challenge/level and,
         // when a player name is given (or target/self in-game), deliver them
         // (mail/achievement) using the same path as completion.
-        static bool HandleCoARewardCommand(ChatHandler* handler, uint32 challengeId, Optional<uint32> level, Optional<std::string> playerName)
+        static bool HandleCoARewardCommand(ChatHandler* handler, uint32 challengeId, Optional<uint32> level,
+            Optional<PlayerIdentifier> player)
         {
             uint32 lvl = level ? *level : 1;
             std::vector<RewardDef> rewards = GetChallengeRewards(challengeId, lvl);
             if (rewards.empty())
             {
-                handler->SendErrorMessage("挑战 {} 等级 {} 没有奖励数据。", challengeId, lvl);
+                handler->SendErrorMessage("Challenge {} level {} has no reward data.", challengeId, lvl);
                 return false;
             }
-            handler->PSendSysMessage("挑战 {} 等级 {} 的奖励（{} 项）：",
+            handler->PSendSysMessage("Rewards for challenge {} level {} ({} entries):",
                 challengeId, lvl, rewards.size());
             for (RewardDef const& r : rewards)
                 handler->PSendSysMessage("  item={} x{} ach={} special={} first={}",
                     r.itemId, r.amount, r.achievement, r.isSpecial ? 1 : 0, r.isFirst ? 1 : 0);
 
-            Player* p = playerName ? ObjectAccessor::FindPlayerByName(*playerName) : nullptr;
+            Player* p = player ? player->GetConnectedPlayer() : nullptr;
             if (!p)
             {
                 Optional<PlayerIdentifier> target = PlayerIdentifier::FromTargetOrSelf(handler);
@@ -3211,23 +3389,25 @@ namespace CoAChallenges
             }
             if (!p)
             {
-                handler->PSendSysMessage("仅列出（没有在线玩家；用法：.coa reward <ID> [等级] [玩家]）。");
+                handler->PSendSysMessage("Listed only (no online player; usage: .coa reward <id> [level] [player]).");
                 return true;
             }
             GrantChallengeRewards(p, challengeId, lvl, true, true);
-            handler->PSendSysMessage("已发放给 {}（请检查邮箱 / 成就）。", p->GetName());
+            handler->PSendSysMessage("Delivered to {} (check the mailbox / achievements).", p->GetName());
             return true;
         }
 
         // .coa e2e <player> <trialId> [intervalMs]
         // GM test harness (see CoAChallengeTests.cpp). Resets the character to
         // a freshly-created state and runs the trial's validation scenarios.
-        static bool HandleCoAE2ECommand(ChatHandler* handler, std::string playerName, uint32 challengeId, Optional<uint32> stepMs)
+        static bool HandleCoAE2ECommand(ChatHandler* handler, PlayerIdentifier player, uint32 challengeId,
+            Optional<uint32> stepMs)
         {
-            Player* p = ObjectAccessor::FindPlayerByName(playerName);
+            std::string const& playerName = player.GetName();
+            Player* p = player.GetConnectedPlayer();
             if (!p)
             {
-                handler->SendErrorMessage("玩家 '{}' 不在线。", playerName);
+                handler->SendErrorMessage("Player '{}' is not online.", playerName);
                 return false;
             }
             uint32 pauseMs = stepMs ? *stepMs : sConfigMgr->GetOption<uint32>("CoAChallenges.TestStepMs", 0);
@@ -3236,13 +3416,13 @@ namespace CoAChallenges
             // (challenge auras, gamemode/mode-lives, per-character tables,
             // client push, leaderboard, resurrect). Custom trials are kept.
             ResetCoaCharacterState(p);
-            handler->PSendSysMessage("E2E：请先重置 '{}'，再运行试炼 {}。", playerName, challengeId);
+            handler->PSendSysMessage("E2E: reset '{}' before running trial {}.", playerName, challengeId);
 
             // Money challenges run asynchronously (one step per world tick) so
             // the client renders every change.
             if (Test_StartVisualE2E(p, challengeId, pauseMs))
             {
-                handler->PSendSysMessage("E2E 试炼 {}（{}）：已安排，间隔 {} 毫秒。请观察客户端。",
+                handler->PSendSysMessage("E2E trial {} ({}): scheduled, interval {} ms. Watch the client.",
                     challengeId, playerName, pauseMs);
                 return true;
             }
@@ -3255,9 +3435,9 @@ namespace CoAChallenges
             if (int lg = Test_RunLevelGateE2E(p, challengeId); lg >= 0)
             {
                 if (lg == 1)
-                    handler->PSendSysMessage("E2E 通过");
+                    handler->PSendSysMessage("E2E PASS");
                 else
-                    handler->SendErrorMessage("E2E 失败");
+                    handler->SendErrorMessage("E2E FAIL");
                 return true;
             }
 
@@ -3265,7 +3445,7 @@ namespace CoAChallenges
             // (also used by `.coa e2emiss` with missPass=true).
             if (Test_StartLevelGateVisualE2E(p, challengeId, pauseMs, false))
             {
-                handler->PSendSysMessage("E2E 等级门 {}（{}）：已安排，间隔 {} 毫秒。请观察客户端。",
+                handler->PSendSysMessage("E2E level-gate {} ({}): scheduled, interval {} ms. Watch the client.",
                     challengeId, playerName, pauseMs);
                 return true;
             }
@@ -3273,16 +3453,16 @@ namespace CoAChallenges
             // Fatigue trials (Narcolepsy): fill the bar -> sleep death.
             if (Test_StartFatigueVisualE2E(p, challengeId, pauseMs))
             {
-                handler->PSendSysMessage("E2E 疲劳 {}（{}）：已安排，间隔 {} 毫秒。请观察客户端。",
+                handler->PSendSysMessage("E2E fatigue {} ({}): scheduled, interval {} ms. Watch the client.",
                     challengeId, playerName, pauseMs);
                 return true;
             }
 
             // Non-money challenges: synchronous completion smoke test.
             if (Test_RunCompletionE2E(p, challengeId))
-                handler->PSendSysMessage("E2E 通过");
+                handler->PSendSysMessage("E2E PASS");
             else
-                handler->SendErrorMessage("E2E 失败");
+                handler->SendErrorMessage("E2E FAIL");
             return true;
         }
 
@@ -3290,81 +3470,86 @@ namespace CoAChallenges
         // Sad path only (level-gated trials): every gate is force-leveled
         // WITHOUT its kill. Validates the XP-cap invariant that a reached-but-
         // unmet objective must not kill the character.
-        static bool HandleCoAE2EMissCommand(ChatHandler* handler, std::string playerName, uint32 challengeId, Optional<uint32> stepMs)
+        static bool HandleCoAE2EMissCommand(ChatHandler* handler, PlayerIdentifier player, uint32 challengeId,
+            Optional<uint32> stepMs)
         {
-            Player* p = ObjectAccessor::FindPlayerByName(playerName);
+            std::string const& playerName = player.GetName();
+            Player* p = player.GetConnectedPlayer();
             if (!p)
             {
-                handler->SendErrorMessage("玩家 '{}' 不在线。", playerName);
+                handler->SendErrorMessage("Player '{}' is not online.", playerName);
                 return false;
             }
             uint32 pauseMs = stepMs ? *stepMs : sConfigMgr->GetOption<uint32>("CoAChallenges.TestStepMs", 0);
 
             ResetCoaCharacterState(p);
-            handler->PSendSysMessage("E2E(miss)：请先重置 '{}'，再运行试炼 {}。", playerName, challengeId);
+            handler->PSendSysMessage("E2E(miss): reset '{}' before running trial {}.", playerName, challengeId);
 
             if (Test_StartLevelGateVisualE2E(p, challengeId, pauseMs, true))
             {
-                handler->PSendSysMessage("E2E 未命中 {}（{}）：已安排，间隔 {} 毫秒。请观察客户端。",
+                handler->PSendSysMessage("E2E miss {} ({}): scheduled, interval {} ms. Watch the client.",
                     challengeId, playerName, pauseMs);
                 return true;
             }
 
-            handler->SendErrorMessage("试炼 {} 不是等级门控试炼（没有未命中分支）。", challengeId);
+            handler->SendErrorMessage("Trial {} is not a level-gated trial (no miss path).", challengeId);
             return false;
         }
 
         // .coa ruletest <player> <id>
         // GM-only: activates the challenge and checks the custom rules through
         // the real hook dispatchers (NO_GUILD_BANK / NO_MANASTORM / NO_REALM_BANK).
-        static bool HandleCoARuleTestCommand(ChatHandler* handler, std::string playerName, uint32 challengeId)
+        static bool HandleCoARuleTestCommand(ChatHandler* handler, PlayerIdentifier player, uint32 challengeId)
         {
-            Player* p = ObjectAccessor::FindPlayerByName(playerName);
+            std::string const& playerName = player.GetName();
+            Player* p = player.GetConnectedPlayer();
             if (!p)
             {
-                handler->SendErrorMessage("玩家 '{}' 不在线。", playerName);
+                handler->SendErrorMessage("Player '{}' is not online.", playerName);
                 return false;
             }
             if (Test_CheckRuleGate(p, challengeId))
-                handler->PSendSysMessage("规则测试通过（挑战 {}）", challengeId);
+                handler->PSendSysMessage("RULE TEST PASS (challenge {})", challengeId);
             else
-                handler->SendErrorMessage("规则测试失败（挑战 {}）", challengeId);
+                handler->SendErrorMessage("RULE TEST FAIL (challenge {})", challengeId);
             return true;
         }
 
         // .coa ruletestall <player>
         // GM-only: runs a behavioral gate test for EVERY implemented rule,
         // driving the real hook dispatchers (see Test_RuleGates).
-        static bool HandleCoARuleTestAllCommand(ChatHandler* handler, std::string playerName)
+        static bool HandleCoARuleTestAllCommand(ChatHandler* handler, PlayerIdentifier player)
         {
-            Player* p = ObjectAccessor::FindPlayerByName(playerName);
+            std::string const& playerName = player.GetName();
+            Player* p = player.GetConnectedPlayer();
             if (!p)
             {
-                handler->SendErrorMessage("玩家 '{}' 不在线。", playerName);
+                handler->SendErrorMessage("Player '{}' is not online.", playerName);
                 return false;
             }
             if (Test_RuleGates(p))
-                handler->PSendSysMessage("规则门控通过");
+                handler->PSendSysMessage("RULE GATES PASS");
             else
-                handler->SendErrorMessage("规则门控失败（见上方各项规则输出）");
+                handler->SendErrorMessage("RULE GATES FAIL (see per-rule lines above)");
             return true;
         }
 
         // .coa conditiontest <player>
         // GM-only: exercises every implemented activation condition through the
         // real EvaluateConditions, using a synthetic condition string.
-        static bool HandleCoAConditionTestCommand(ChatHandler* handler, std::string playerName)
+        static bool HandleCoAConditionTestCommand(ChatHandler* handler, PlayerIdentifier player)
         {
-            Player* p = ObjectAccessor::FindPlayerByName(playerName);
+            std::string const& playerName = player.GetName();
+            Player* p = player.GetConnectedPlayer();
             if (!p)
             {
-                handler->SendErrorMessage("玩家 '{}' 不在线。", playerName);
+                handler->SendErrorMessage("Player '{}' is not online.", playerName);
                 return false;
             }
             if (Test_ConditionGates(p))
-                handler->PSendSysMessage("条件门控通过");
+                handler->PSendSysMessage("CONDITION GATES PASS");
             else
-                handler->SendErrorMessage("条件门控失败（见上方各项条件输出）");
+                handler->SendErrorMessage("CONDITION GATES FAIL (see per-condition lines above)");
             return true;
         }
 
@@ -3372,25 +3557,26 @@ namespace CoAChallenges
         // GM-only: set/clear a persistent activation-condition flag on a
         // character (e.g. OUTSIDE_BANK) to exercise the activation gate without
         // performing the real action. Then `.coa trial check <id>`.
-        static bool HandleCoAFlagCommand(ChatHandler* handler, std::string playerName,
+        static bool HandleCoAFlagCommand(ChatHandler* handler, PlayerIdentifier player,
             std::string flag, Optional<bool> on)
         {
-            Player* p = ObjectAccessor::FindPlayerByName(playerName);
+            std::string const& playerName = player.GetName();
+            Player* p = player.GetConnectedPlayer();
             if (!p)
             {
-                handler->SendErrorMessage("玩家 '{}' 不在线。", playerName);
+                handler->SendErrorMessage("Player '{}' is not online.", playerName);
                 return false;
             }
             uint32 const guid = p->GetGUID().GetCounter();
             if (!on || *on)
             {
                 SetConditionFlag(guid, flag.c_str());
-                handler->PSendSysMessage("已为 {} 设置条件标记 '{}'。", p->GetName(), flag);
+                handler->PSendSysMessage("Set condition flag '{}' for {}.", flag, p->GetName());
             }
             else
             {
                 ClearConditionFlag(guid, flag);
-                handler->PSendSysMessage("已清除条件标记 '{}'：{}。", flag, p->GetName());
+                handler->PSendSysMessage("Cleared condition flag '{}' for {}.", flag, p->GetName());
             }
             return true;
         }
@@ -3398,51 +3584,55 @@ namespace CoAChallenges
         // .coa ruletestparty <p1> <p2>
         // GM-only: drives the rules whose check needs a second player
         // (trade / group / PvP range). Both must be online.
-        static bool HandleCoARuleTestPartyCommand(ChatHandler* handler, std::string p1, std::string p2)
+        static bool HandleCoARuleTestPartyCommand(ChatHandler* handler, PlayerIdentifier first, PlayerIdentifier second)
         {
-            Player* a = ObjectAccessor::FindPlayerByName(p1);
-            Player* b = ObjectAccessor::FindPlayerByName(p2);
+            std::string const& p1 = first.GetName();
+            std::string const& p2 = second.GetName();
+            Player* a = first.GetConnectedPlayer();
+            Player* b = second.GetConnectedPlayer();
             if (!a || !b)
             {
-                handler->SendErrorMessage("两名玩家都必须在线（'{}' / '{}'）。", p1, p2);
+                handler->SendErrorMessage("Both players must be online ('{}' / '{}').", p1, p2);
                 return false;
             }
             if (Test_PartyRuleGates(a, b))
-                handler->PSendSysMessage("队伍规则门控通过");
+                handler->PSendSysMessage("PARTY RULE GATES PASS");
             else
-                handler->SendErrorMessage("队伍规则门控失败（见上方输出）");
+                handler->SendErrorMessage("PARTY RULE GATES FAIL (see lines above)");
             return true;
         }
 
         // .coa ruleaudit <player>
         // GM-only: sweeps every generated challenge ID and compares the
         // declared rules with the real hook dispatchers; prints divergences.
-        static bool HandleCoARuleAuditCommand(ChatHandler* handler, std::string playerName)
+        static bool HandleCoARuleAuditCommand(ChatHandler* handler, PlayerIdentifier player)
         {
-            Player* p = ObjectAccessor::FindPlayerByName(playerName);
+            std::string const& playerName = player.GetName();
+            Player* p = player.GetConnectedPlayer();
             if (!p)
             {
-                handler->SendErrorMessage("玩家 '{}' 不在线。", playerName);
+                handler->SendErrorMessage("Player '{}' is not online.", playerName);
                 return false;
             }
             Test_AuditAllRules(p);
-            handler->PSendSysMessage("{} 的规则审计已完成（请检查聊天/日志中的差异）。", playerName);
+            handler->PSendSysMessage("Rule audit finished for {} (check chat/log for divergences).", playerName);
             return true;
         }
 
         // .coa auditdefs <player>
         // GM-only: data-integrity sweep over every definition (rules/conditions/
         // objectives known + auras/rewards resolvable); prints divergences.
-        static bool HandleCoAAuditDefsCommand(ChatHandler* handler, std::string playerName)
+        static bool HandleCoAAuditDefsCommand(ChatHandler* handler, PlayerIdentifier player)
         {
-            Player* p = ObjectAccessor::FindPlayerByName(playerName);
+            std::string const& playerName = player.GetName();
+            Player* p = player.GetConnectedPlayer();
             if (!p)
             {
-                handler->SendErrorMessage("玩家 '{}' 不在线。", playerName);
+                handler->SendErrorMessage("Player '{}' is not online.", playerName);
                 return false;
             }
             Test_AuditAllDefs(p);
-            handler->PSendSysMessage("{} 的定义审计已完成（请检查聊天/日志中的差异）。", playerName);
+            handler->PSendSysMessage("Definition audit finished for {} (check chat/log for divergences).", playerName);
             return true;
         }
 
@@ -3450,35 +3640,37 @@ namespace CoAChallenges
         // GM-only: deterministically forces the cache TOCTOU window (an invalidation
         // between the DB load and the cache publish) and checks the generation guard,
         // running each cache with the guard OFF (bug must appear) and ON (bug gone).
-        static bool HandleCoACacheToctouCommand(ChatHandler* handler, std::string playerName)
+        static bool HandleCoACacheToctouCommand(ChatHandler* handler, PlayerIdentifier player)
         {
-            Player* p = ObjectAccessor::FindPlayerByName(playerName);
+            std::string const& playerName = player.GetName();
+            Player* p = player.GetConnectedPlayer();
             if (!p)
             {
-                handler->SendErrorMessage("玩家 '{}' 不在线。", playerName);
+                handler->SendErrorMessage("Player '{}' is not online.", playerName);
                 return false;
             }
             if (Test_CacheToctou(p))
-                handler->PSendSysMessage("缓存 TOCTOU 通过");
+                handler->PSendSysMessage("CACHE TOCTOU PASS");
             else
-                handler->SendErrorMessage("缓存 TOCTOU 失败（见上方输出）");
+                handler->SendErrorMessage("CACHE TOCTOU FAIL (see lines above)");
             return true;
         }
 
         // .coa pettest <player>
         // GM-only: regression test for Issue #4343 (trial auras applied to summons).
-        static bool HandleCoAPetTestCommand(ChatHandler* handler, std::string playerName)
+        static bool HandleCoAPetTestCommand(ChatHandler* handler, PlayerIdentifier player)
         {
-            Player* p = ObjectAccessor::FindPlayerByName(playerName);
+            std::string const& playerName = player.GetName();
+            Player* p = player.GetConnectedPlayer();
             if (!p)
             {
-                handler->SendErrorMessage("玩家 '{}' 不在线。", playerName);
+                handler->SendErrorMessage("Player '{}' is not online.", playerName);
                 return false;
             }
             if (Test_PetTrialAuras(p))
-                handler->PSendSysMessage("宠物试炼光环通过");
+                handler->PSendSysMessage("PET TRIAL AURAS PASS");
             else
-                handler->SendErrorMessage("宠物试炼光环失败（见上方输出）");
+                handler->SendErrorMessage("PET TRIAL AURAS FAIL (see lines above)");
             return true;
         }
 
@@ -3487,36 +3679,33 @@ namespace CoAChallenges
         //                             conditions + auras/meters)
         // .coa reset all <player>  -> also level 1, 0 money, no auras
         // Keeps inventory/equipment and bank in both modes.
-        static bool HandleCoAResetCommand(ChatHandler* handler, std::string first, Optional<std::string> second)
+        static bool HandleCoAResetCommand(ChatHandler* handler, Optional<EXACT_SEQUENCE("all")> allState,
+            Optional<PlayerIdentifier> player)
         {
-            bool all = false;
-            std::string playerName = first;
-            if (first == "all")
+            if (!player)
             {
-                if (!second)
-                {
-                    handler->SendErrorMessage("用法：.coa reset all <玩家>");
-                    return false;
-                }
-                all = true;
-                playerName = *second;
+                handler->SendErrorMessage("Usage: .coa reset [all] <player>");
+                return false;
             }
-            Player* p = ObjectAccessor::FindPlayerByName(playerName);
+            bool const all = allState.has_value();
+            std::string const& playerName = player->GetName();
+            Player* p = player->GetConnectedPlayer();
             if (!p)
             {
-                handler->SendErrorMessage("玩家 '{}' 不在线。", playerName);
+                handler->SendErrorMessage("Player '{}' is not online.", playerName);
                 return false;
             }
             if (all)
             {
                 HardResetCharacter(p);
                 handler->PSendSysMessage(
-                    "已对 {} 执行全面硬重置：等级 1、金钱清零、无 CoA 状态、修复、法术/天赋/技能已遗忘、任务日志已清空。", playerName);
+                    "Hard reset ALL for {}: level 1, 0 money, no CoA state, repairs, "
+                    "spells/talents/skills unlearned, quest log cleared.", playerName);
             }
             else
             {
                 ResetChallengeState(p);
-                handler->PSendSysMessage("已重置 {} 的挑战状态（等级/金钱/物品保留）。", playerName);
+                handler->PSendSysMessage("Reset challenge state for {} (level/money/items kept).", playerName);
             }
             return true;
         }
@@ -3532,7 +3721,7 @@ namespace CoAChallenges
             Player* p = player ? player->GetConnectedPlayer() : nullptr;
             if (!p)
             {
-                handler->SendErrorMessage("玩家必须在线。");
+                handler->SendErrorMessage("Player must be online.");
                 return false;
             }
 
@@ -3547,12 +3736,12 @@ namespace CoAChallenges
             if (on)
             {
                 p->AddAura(COA_PRESTIGE_AURA, p);
-                handler->PSendSysMessage("{} 现已处于转生状态（光环 {}）。", p->GetName(), COA_PRESTIGE_AURA);
+                handler->PSendSysMessage("{} is now PRESTIGED (aura {}).", p->GetName(), COA_PRESTIGE_AURA);
             }
             else
             {
                 p->RemoveAurasDueToSpell(COA_PRESTIGE_AURA);
-                handler->PSendSysMessage("{} 已不再是转生状态。", p->GetName());
+                handler->PSendSysMessage("{} is no longer prestiged.", p->GetName());
             }
             return true;
         }
@@ -3563,9 +3752,9 @@ namespace CoAChallenges
         // be validated without the client. type = EnviromentalDamage
         // (0 Exhausted, 1 Drowning, 2 Fall, 3 Lava, 4 Slime, 5 Fire, 6 FallToVoid).
         static bool HandleCoAEnvTestCommand(ChatHandler* handler, uint32 type,
-            Optional<uint32> damage, Optional<std::string> playerName)
+            Optional<uint32> damage, Optional<PlayerIdentifier> player)
         {
-            Player* p = playerName ? ObjectAccessor::FindPlayerByName(*playerName) : nullptr;
+            Player* p = player ? player->GetConnectedPlayer() : nullptr;
             if (!p)
             {
                 Optional<PlayerIdentifier> target = PlayerIdentifier::FromTargetOrSelf(handler);
@@ -3573,13 +3762,13 @@ namespace CoAChallenges
             }
             if (!p)
             {
-                handler->SendErrorMessage("玩家必须在线（用法：.coa envtest <类型> [伤害] [玩家]）。");
+                handler->SendErrorMessage("Player must be online (usage: .coa envtest <type> [damage] [player]).");
                 return false;
             }
 
             uint32 dmg = damage.value_or(p->GetMaxHealth());
             uint32 applied = p->EnvironmentalDamage(static_cast<EnviromentalDamage>(type), dmg);
-            handler->PSendSysMessage("已施加环境类型 {}（原始 {}）到 {}：{} 已生效。",
+            handler->PSendSysMessage("Applied environmental type {} ({} raw) to {}: {} applied.",
                 type, dmg, p->GetName(), applied);
             return true;
         }
@@ -3854,7 +4043,7 @@ namespace CoAChallenges
             // (trainer-gossip unlearning; the spellbook path is dropped in CanPacketReceive).
             if (unlearnSpec && PlayerHasRule(pl, "CHALLENGE_RULES_TYPE_CANNOT_UNLEARN_PROFESSIONS"))
             {
-                NotifyPlayer(pl, "你的专业选择是永久的。");
+                NotifyPlayer(pl, "Your profession choices are permanent.");
                 res = SPELL_FAILED_CANT_DO_THAT_RIGHT_NOW;
                 return;
             }

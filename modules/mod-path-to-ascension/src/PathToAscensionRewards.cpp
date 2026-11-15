@@ -164,6 +164,14 @@ namespace PathToAscension
             return true;
         }
 
+        void RefuseTrackedQuest(Player* player, std::vector<uint32> const& variants)
+        {
+            bool const claimed = std::any_of(variants.begin(), variants.end(),
+                [player](uint32 id) { return Claimed(player, id); });
+            SendResult(player, claimed ? "This tutorial reward has already been collected."
+                : "This tutorial is not available for your character.");
+        }
+
         void SendRewardedList(Player* player)
         {
             std::vector<uint32> claimed;
@@ -296,12 +304,7 @@ namespace PathToAscension
             return;
 
         if (!IsQuestAvailable(player, questId))
-        {
-            bool const claimed = std::any_of(found->second.begin(), found->second.end(),
-                [player](uint32 id) { return Claimed(player, id); });
-            return SendResult(player, claimed ? "该教学奖励已领取。"
-                : "该教学对你的角色不可用。");
-        }
+            return RefuseTrackedQuest(player, found->second);
 
         if (player->GetQuestStatus(questId) == QUEST_STATUS_NONE)
         {
@@ -315,6 +318,22 @@ namespace PathToAscension
 
         ActivateTracking(player, questId);
         player->SaveToDB(false, false);
+    }
+
+    void ShowTrackedQuest(Player* player, uint32 questId)
+    {
+        auto const found = trackingQuests.find(questId);
+        Quest const* quest = sObjectMgr->GetQuestTemplate(questId);
+        QuestStatus const status = player->GetQuestStatus(questId);
+        if (found == trackingQuests.end() || !quest
+            || (status != QUEST_STATUS_NONE && status != QUEST_STATUS_REWARDED))
+            return;
+
+        if (!IsQuestAvailable(player, questId))
+            return RefuseTrackedQuest(player, found->second);
+
+        if (player->CanTakeQuest(quest, true))
+            player->PlayerTalkClass->SendQuestGiverQuestDetails(quest, ObjectGuid::Empty, true);
     }
 
     uint32 NpcRewardTutorial(Player const* player, uint32 questId)
@@ -337,14 +356,14 @@ namespace PathToAscension
         if (!tutorial)
             return SendResult(player, "Unknown tutorial.");
         if (Claimed(player, id))
-            return SendResult(player, "该教学奖励已领取。");
+            return SendResult(player, "This tutorial reward has already been collected.");
         if (!Complete(player, id) || !Eligible(player, *tutorial))
-            return SendResult(player, "该教学奖励对你的角色不可用。");
+            return SendResult(player, "This tutorial reward is not available for your character.");
         if (!IsVerified(player, *tutorial) && !IsIntroduction(*tutorial)
             && !(id == InnkeeperTutorial && player->HasAchieved(InnkeeperAchievement)))
-            return SendResult(player, "该目标的原始完成条件尚未恢复。");
+            return SendResult(player, "This objective's original completion rule is not restored yet.");
         if (player->IsBeingTeleportedFar() || player->GetTradeData())
-            return SendResult(player, "请先完成转移或交易，再领取此奖励。");
+            return SendResult(player, "Finish your transfer or trade before collecting this reward.");
 
         std::vector<std::unique_ptr<Item>> prepared;
         std::vector<Item*> items;
@@ -352,17 +371,17 @@ namespace PathToAscension
         {
             ItemTemplate const* itemTemplate = sObjectMgr->GetItemTemplate(reward.itemId);
             if (!itemTemplate || !reward.count)
-                return SendResult(player, "原始奖励物品在本服务器上不可用。");
+                return SendResult(player, "The original reward item is unavailable on this server.");
 
             for (uint32 remaining = reward.count; remaining;)
             {
                 uint32 const count = std::min(remaining, itemTemplate->GetMaxStackSize());
                 if (!count || prepared.size() >= MaxRewardStacks)
-                    return SendResult(player, "无法准备原始奖励。");
+                    return SendResult(player, "The original reward could not be prepared.");
 
                 std::unique_ptr<Item> item(Item::CreateItem(reward.itemId, count, player));
                 if (!item)
-                    return SendResult(player, "无法准备原始奖励。");
+                    return SendResult(player, "The original reward could not be prepared.");
 
                 items.push_back(item.get());
                 prepared.push_back(std::move(item));
@@ -372,7 +391,7 @@ namespace PathToAscension
 
         uint32 limitedCategory = 0;
         if (player->CanStoreItems(items.data(), int(items.size()), &limitedCategory) != EQUIP_ERR_OK)
-            return SendResult(player, "背包空间不足，或已达到物品数量上限。");
+            return SendResult(player, "There is not enough room for this reward, or an item limit has been reached.");
 
         struct StoredPart
         {
@@ -394,7 +413,7 @@ namespace PathToAscension
                         player->DestroyItemCount(stored, part->count, true);
 
                 LOG_ERROR("module.pta", "Reward placement rejected for tutorial {}: {}", id, result);
-                return SendResult(player, "无法将奖励放入你的背包。未领取任何奖励。");
+                return SendResult(player, "The reward could not be placed in your inventory. No reward was collected.");
             }
 
             uint32 const count = item->GetCount();
@@ -591,6 +610,27 @@ public:
     }
 };
 
+class PathToAscensionQuestOffer final : public ServerScript
+{
+public:
+    PathToAscensionQuestOffer() : ServerScript("PathToAscensionQuestOffer", { SERVERHOOK_CAN_PACKET_RECEIVE }) { }
+
+    bool CanPacketReceive(WorldSession* session, WorldPacket const& packet) override
+    {
+        if (packet.GetOpcode() != CMSG_QUESTGIVER_QUERY_QUEST || packet.size() != 13 || packet.read<uint64>(0) != 0
+            || !session || !IsLoaded())
+            return true;
+
+        Player* player = session->GetPlayer();
+        uint32 const questId = packet.read<uint32>(8);
+        if (!player || !player->IsInWorld() || !IsTrackingQuest(questId))
+            return true;
+
+        ShowTrackedQuest(player, questId);
+        return false;
+    }
+};
+
 class PathToAscensionNetwork final : public ServerScript
 {
 public:
@@ -606,5 +646,6 @@ void AddPathToAscensionRewardScripts()
 {
     new PathToAscensionQuests();
     new PathToAscensionRewardPlayers();
+    new PathToAscensionQuestOffer();
     new PathToAscensionNetwork();
 }

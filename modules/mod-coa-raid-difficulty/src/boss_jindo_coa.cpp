@@ -9,7 +9,7 @@
  *                                                 hunts them, Shadow damage every
  *                                                 5s that doubles every 10s,
  *                                                 +350% damage against undead
- *   Brain Wash Totems     first 16s, every 60s    three around him (five above
+ *   Brain Wash Totems     first 16s, every 60s    three over the pit (five above
  *                                                 Normal), each casts Brainwash
  *                                                 on a player: stunned and
  *                                                 pacified while it stands
@@ -21,6 +21,7 @@
  *                                                 fight; they Fierce Blow too
  *   Fierce Blow           first 8s, every 8s      on the tank
  *   Friends On the Other Side  +2% damage for every shade alive
+ *   Berserk               at 15 minutes           Ascended only (2100213)
  *
  *   Every hit takes one health from a totem: a Brain Wash Totem has 5, the
  *   ward 15 (25 above Normal). The pit is empty before the fight, and he casts
@@ -34,8 +35,15 @@
  *     that the brain wash totem casts Brainwash and the ward casts Healing
  *     Stream is read from the spells' names and targets. Both auras last
  *     seven days in the data, so they end when their totem dies or despawns;
- *   - the totems stand ten yards from him, spread evenly; Mythic and Ascended
- *     use the Heroic totem counts and health;
+ *   - the totems spread over the Bloodfire Pit (tester 2026-11-14, marked on a
+ *     screenshot): each stands at a random point of the area its outer trash
+ *     pack spots enclose (tester 2026-11-15: random, not fixed spots), on the
+ *     floor those spots stand on, out of the water, in his sight and within its
+ *     spell's range of him, and at least 20 yards from the others of its wave
+ *     where the floor allows. The area and the spacing are estimated; the live
+ *     video does not show where the totems stand. Away from the pit they stand
+ *     ten yards around him. Mythic and Ascended use the Heroic totem counts and
+ *     health;
  *   - the Shade of Jin'do neither swings nor casts Shadow Shock: in the CoA logs
  *     of 2026-08-02 and 2026-08-24 it only casts Seeking Shadow Bolts (2118556,
  *     4s, interruptible) over and over, while every 4s each player takes a
@@ -46,17 +54,22 @@
 #include "CreatureScript.h"
 #include "GameTime.h"
 #include "PassiveAI.h"
+#include "PathGenerator.h"
 #include "ScriptedCreature.h"
 #include "SpellAuraEffects.h"
+#include "SpellMgr.h"
 #include "SpellScript.h"
 #include "SpellScriptLoader.h"
 #include "TemporarySummon.h"
 #include "../../../src/server/scripts/EasternKingdoms/ZulGurub/zulgurub.h"
 #include "zg_coa_common.h"
 
+#include <algorithm>
 #include <array>
+#include <cmath>
 #include <list>
 #include <map>
+#include <optional>
 #include <vector>
 
 using namespace coa_zg;
@@ -99,6 +112,7 @@ namespace
         EVENT_HEALING_STREAM,
         EVENT_FIERCE_BLOW,
         EVENT_DELUSIONS_GROW,
+        EVENT_BERSERK,
     };
 
     enum Npcs
@@ -111,6 +125,8 @@ namespace
     constexpr Milliseconds TROLL_CORPSE_DECAY = 5s;
     constexpr Milliseconds JINDO_FIERCE_BLOW  = 8s;
     constexpr float TOTEM_DISTANCE            = 10.0f;
+    constexpr float TOTEM_SPACING             = 20.0f;
+    constexpr float TOTEM_SPOT_TAKEN          = 3.0f;
     constexpr uint8 BRAIN_WASH_TOTEMS_NORMAL  = 3;
     constexpr uint8 BRAIN_WASH_TOTEMS_HEROIC  = 5;
     constexpr uint32 BRAIN_WASH_TOTEM_HEALTH  = 5;
@@ -119,6 +135,11 @@ namespace
     constexpr uint8 ANIMATED_TROLLS           = 8;
     constexpr Milliseconds SEEKING_SHADOW_BOLTS = 4s;
     constexpr float SEEKING_SHADOW_BOLTS_RANGE  = 200.0f;
+    constexpr float SHADE_SPAWN_MIN             = 15.0f;
+    constexpr float SHADE_SPAWN_MAX             = 30.0f;
+    constexpr float SHADE_SPOT_CLIMB            = 10.0f;
+    constexpr float SHADE_SPOT_ON_GROUND        = 1.5f;
+    constexpr uint8 SHADE_SPOT_ATTEMPTS         = 32;
 
     std::array<Position, 10> const BloodPitTrolls =
     { {
@@ -133,6 +154,35 @@ namespace
         { -11580.2f, -1250.6f, 77.6299f, 3.36848f },
         { -11580.6f, -1254.79f, 77.6299f, 2.28638f },
     } };
+
+    std::array<Position, 6> const BloodfirePitCorners =
+    { {
+        { -11613.4f, -1278.9f, 79.84f, 0.0f },
+        { -11571.1f, -1308.7f, 79.17f, 0.0f },
+        { -11537.6f, -1289.9f, 78.85f, 0.0f },
+        { -11532.0f, -1270.0f, 79.11f, 0.0f },
+        { -11550.1f, -1223.9f, 80.22f, 0.0f },
+        { -11601.1f, -1228.4f, 79.11f, 0.0f },
+    } };
+    constexpr float BLOODFIRE_PIT_FLOOR_LOW   = 76.6f;
+    constexpr float BLOODFIRE_PIT_FLOOR_HIGH  = 81.2f;
+    constexpr uint8 TOTEM_SPOT_ATTEMPTS       = 64;
+
+    bool InsideBloodfirePit(float x, float y)
+    {
+        bool left = false;
+        bool right = false;
+        for (std::size_t i = 0; i < BloodfirePitCorners.size(); ++i)
+        {
+            Position const& from = BloodfirePitCorners[i];
+            Position const& to = BloodfirePitCorners[(i + 1) % BloodfirePitCorners.size()];
+            float const side = (to.GetPositionX() - from.GetPositionX()) * (y - from.GetPositionY()) -
+                (to.GetPositionY() - from.GetPositionY()) * (x - from.GetPositionX());
+            left = left || side > 0.0f;
+            right = right || side < 0.0f;
+        }
+        return !(left && right);
+    }
 
     bool AboveNormal(Unit const* unit)
     {
@@ -164,6 +214,8 @@ namespace
             events.ScheduleEvent(EVENT_HEALING_STREAM, 21s);
             events.ScheduleEvent(EVENT_ANIMATE_BONES, 23s);
             events.ScheduleEvent(EVENT_DELUSIONS_GROW, 1s);
+            if (IsAscended(me))
+                events.ScheduleEvent(EVENT_BERSERK, ASCENDED_BERSERK_TIMER);
         }
 
         void JustSummoned(Creature* summon) override
@@ -172,7 +224,7 @@ namespace
             if (summon->GetEntry() == NPC_BRAIN_WASH_TOTEM)
             {
                 summon->SetReactState(REACT_PASSIVE);
-                if (Unit* target = BrainwashTarget())
+                if (Unit* target = BrainwashTarget(summon))
                     summon->CastSpell(target, SPELL_BRAINWASH, false);
             }
             else if (summon->GetEntry() == NPC_POWERFUL_HEALING_WARD)
@@ -181,23 +233,81 @@ namespace
                 DoZoneInCombat(summon);
         }
 
-        Unit* BrainwashTarget()
+        Unit* BrainwashTarget(Creature const* totem)
         {
             uint32 const skipTank = me->GetThreatMgr().GetThreatListSize() > 1 ? 1 : 0;
-            if (Unit* fresh = SelectTarget(SelectTargetMethod::Random, skipTank, 0.0f, true, true, -int32(SPELL_BRAINWASH)))
-                return fresh;
-            return SelectTarget(SelectTargetMethod::Random, skipTank, 0.0f, true);
+            float const range = sSpellMgr->AssertSpellInfo(SPELL_BRAINWASH)->GetMaxRange(false);
+            auto inReach = [totem, range](Unit const* target)
+            {
+                return totem->IsWithinDistInMap(target, range) && totem->IsWithinLOSInMap(target);
+            };
+            DefaultTargetSelector fresh(me, 0.0f, true, true, -int32(SPELL_BRAINWASH));
+            if (Unit* target = SelectTarget(SelectTargetMethod::Random, skipTank,
+                [&](Unit* unit) { return fresh(unit) && inReach(unit); }))
+                return target;
+            DefaultTargetSelector any(me, 0.0f, true, true, 0);
+            return SelectTarget(SelectTargetMethod::Random, skipTank,
+                [&](Unit* unit) { return any(unit) && inReach(unit); });
         }
 
-        void SummonAround(uint32 entry, uint8 count)
+        bool TotemStandsAt(Position const& spot) const
         {
+            for (ObjectGuid const& guid : summons)
+                if (Creature const* totem = ObjectAccessor::GetCreature(*me, guid))
+                    if (totem->IsAlive() && totem->GetExactDist2d(spot) < TOTEM_SPOT_TAKEN &&
+                        (totem->GetEntry() == NPC_BRAIN_WASH_TOTEM || totem->GetEntry() == NPC_POWERFUL_HEALING_WARD))
+                        return true;
+            return false;
+        }
+
+        std::optional<Position> RandomPitSpot(float reach) const
+        {
+            auto [lowX, highX] = std::minmax_element(BloodfirePitCorners.begin(), BloodfirePitCorners.end(),
+                [](Position const& a, Position const& b) { return a.GetPositionX() < b.GetPositionX(); });
+            auto [lowY, highY] = std::minmax_element(BloodfirePitCorners.begin(), BloodfirePitCorners.end(),
+                [](Position const& a, Position const& b) { return a.GetPositionY() < b.GetPositionY(); });
+            float const x = frand(lowX->GetPositionX(), highX->GetPositionX());
+            float const y = frand(lowY->GetPositionY(), highY->GetPositionY());
+            if (!InsideBloodfirePit(x, y))
+                return std::nullopt;
+
+            float const z = me->GetMap()->GetHeight(me->GetPhaseMask(), x, y, BLOODFIRE_PIT_FLOOR_HIGH);
+            if (z < BLOODFIRE_PIT_FLOOR_LOW || z > BLOODFIRE_PIT_FLOOR_HIGH)
+                return std::nullopt;
+
+            Position const spot(x, y, z, frand(0.0f, 2.0f * float(M_PI)));
+            if (me->GetExactDist2d(spot) > reach || !me->IsWithinLOS(x, y, z) ||
+                me->GetMap()->IsInWater(me->GetPhaseMask(), x, y, z, DEFAULT_COLLISION_HEIGHT))
+                return std::nullopt;
+            return spot;
+        }
+
+        std::vector<Position> SpreadTotemSpots(uint8 count, float reach) const
+        {
+            std::vector<Position> picked;
+            auto clear = [this, &picked](Position const& spot, float spacing)
+            {
+                return !TotemStandsAt(spot) && std::none_of(picked.begin(), picked.end(),
+                    [&spot, spacing](Position const& other) { return other.GetExactDist2d(spot) < spacing; });
+            };
+            for (float const spacing : { TOTEM_SPACING, TOTEM_SPOT_TAKEN })
+                for (uint8 attempt = 0; attempt < TOTEM_SPOT_ATTEMPTS && picked.size() < count; ++attempt)
+                    if (std::optional<Position> spot = RandomPitSpot(reach))
+                        if (clear(*spot, spacing))
+                            picked.push_back(*spot);
+            return picked;
+        }
+
+        void SummonSpread(uint32 entry, uint8 count, uint32 reachSpell)
+        {
+            float const reach = sSpellMgr->AssertSpellInfo(reachSpell)->GetMaxRange(false);
+            std::vector<Position> spots = SpreadTotemSpots(count, reach);
             float const step = 2.0f * float(M_PI) / count;
             float const start = frand(0.0f, step);
-            for (uint8 i = 0; i < count; ++i)
-            {
-                Position pos = me->GetNearPosition(TOTEM_DISTANCE, start + step * i);
-                me->SummonCreature(entry, pos, TEMPSUMMON_TIMED_DESPAWN, TOTEM_LIFETIME.count());
-            }
+            for (uint8 i = uint8(spots.size()); i < count; ++i)
+                spots.push_back(me->GetNearPosition(TOTEM_DISTANCE, start + step * i));
+            for (Position const& spot : spots)
+                me->SummonCreature(entry, spot, TEMPSUMMON_TIMED_DESPAWN, TOTEM_LIFETIME.count());
         }
 
         void AnimateBones()
@@ -256,13 +366,50 @@ namespace
             me->CastCustomSpell(me, SPELL_FRIENDS_ON_THE_OTHER_SIDE, nullptr, &bonus, nullptr, true);
         }
 
-        void TrackShades(Unit* summoner)
+        bool WalkableFromJindo(float x, float y, float z) const
         {
-            std::list<Creature*> shades;
-            summoner->GetCreatureListWithEntryInGrid(shades, NPC_SHADE_OF_JINDO, 5.0f);
-            for (Creature* shade : shades)
-                if (shade->IsSummon() && shade->ToTempSummon()->GetSummonerGUID() == summoner->GetGUID())
-                    _shadeGuids.insert(shade->GetGUID());
+            dtNavMeshQuery const* navMesh = me->GetMap()->GetMapCollisionData().GetMMapData().GetNavMeshQuery();
+            if (!navMesh)
+                return true;
+
+            float const spot[VERTEX_SIZE] = { y, z, x };
+            float const extents[VERTEX_SIZE] = { SHADE_SPOT_ON_GROUND, SHADE_SPOT_ON_GROUND, SHADE_SPOT_ON_GROUND };
+            dtQueryFilter const filter;
+            dtPolyRef ground = INVALID_POLYREF;
+            if (dtStatusFailed(navMesh->findNearestPoly(spot, extents, &filter, &ground, nullptr)) ||
+                ground == INVALID_POLYREF)
+                return false;
+
+            PathGenerator path(me);
+            path.CalculatePath(x, y, z);
+            return path.GetPathType() == PATHFIND_NORMAL;
+        }
+
+        Position RandomShadeSpot()
+        {
+            for (uint8 attempt = 0; attempt < SHADE_SPOT_ATTEMPTS; ++attempt)
+            {
+                float const angle = frand(0.0f, 2.0f * float(M_PI));
+                float const distance =
+                    std::sqrt(frand(SHADE_SPAWN_MIN * SHADE_SPAWN_MIN, SHADE_SPAWN_MAX * SHADE_SPAWN_MAX));
+                float const x = me->GetPositionX() + distance * std::cos(angle);
+                float const y = me->GetPositionY() + distance * std::sin(angle);
+                float const z =
+                    me->GetMap()->GetHeight(me->GetPhaseMask(), x, y, me->GetPositionZ() + SHADE_SPOT_CLIMB);
+                if (std::fabs(z - me->GetPositionZ()) <= SHADE_SPOT_CLIMB && me->IsWithinLOS(x, y, z) &&
+                    !me->GetMap()->IsInWater(me->GetPhaseMask(), x, y, z, DEFAULT_COLLISION_HEIGHT) &&
+                    WalkableFromJindo(x, y, z))
+                    return Position(x, y, z, Position::NormalizeOrientation(angle + float(M_PI)));
+            }
+            return me->GetFirstCollisionPosition(SHADE_SPAWN_MIN, frand(0.0f, 2.0f * float(M_PI)));
+        }
+
+        void SummonShade(Unit* cursed)
+        {
+            uint32 const lifetime = uint32(sSpellMgr->AssertSpellInfo(SPELL_SUMMON_SHADE_OF_JINDO)->GetDuration());
+            if (TempSummon* shade = cursed->SummonCreature(NPC_SHADE_OF_JINDO, RandomShadeSpot(),
+                TEMPSUMMON_TIMED_DESPAWN, lifetime))
+                _shadeGuids.insert(shade->GetGUID());
         }
 
         void OnSpellCast(SpellInfo const* spell) override
@@ -281,16 +428,16 @@ namespace
                         // effect, so reuse only that effect here.
                         me->AddAura(sSpellMgr->GetSpellInfo(SPELL_DELUSIONS_OF_JINDO), 1 << EFFECT_2, target);
                         me->CastSpell(target, SPELL_DELUSIONS_DOT, true);
-                        target->CastSpell(target, SPELL_SUMMON_SHADE_OF_JINDO, true);
-                        TrackShades(target);
+                        SummonShade(target);
                         _delusions[target->GetGUID()] = GameTime::GetGameTimeMS();
                     }
                     break;
                 case SPELL_SUMMON_BRAIN_WASH:
-                    SummonAround(NPC_BRAIN_WASH_TOTEM, AboveNormal(me) ? BRAIN_WASH_TOTEMS_HEROIC : BRAIN_WASH_TOTEMS_NORMAL);
+                    SummonSpread(NPC_BRAIN_WASH_TOTEM,
+                        AboveNormal(me) ? BRAIN_WASH_TOTEMS_HEROIC : BRAIN_WASH_TOTEMS_NORMAL, SPELL_BRAINWASH);
                     break;
                 case SPELL_SUMMON_HEALING_STREAM:
-                    SummonAround(NPC_POWERFUL_HEALING_WARD, 1);
+                    SummonSpread(NPC_POWERFUL_HEALING_WARD, 1, SPELL_HEALING_STREAM);
                     break;
                 case SPELL_ANIMATE_BONES:
                     AnimateBones();
@@ -389,6 +536,9 @@ namespace
                         UpdateFriends();
                         ReleaseTotemAuras(false);
                         events.ScheduleEvent(EVENT_DELUSIONS_GROW, 1s);
+                        break;
+                    case EVENT_BERSERK:
+                        DoCastSelf(SPELL_ASCENDED_BERSERK, true);
                         break;
                     default:
                         break;
@@ -493,6 +643,23 @@ namespace
                 SPELL_AURA_PERIODIC_TRIGGER_SPELL);
         }
     };
+
+    // The Shade detection borrowed from 24306 outlasts the vision; it ends with the vision, by expiry or dispel.
+    class spell_jindo_coa_delusions_vision : public AuraScript
+    {
+        PrepareAuraScript(spell_jindo_coa_delusions_vision);
+
+        void HandleRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
+        {
+            GetTarget()->RemoveAurasDueToSpell(SPELL_DELUSIONS_OF_JINDO);
+        }
+
+        void Register() override
+        {
+            AfterEffectRemove += AuraEffectRemoveFn(spell_jindo_coa_delusions_vision::HandleRemove, EFFECT_0,
+                SPELL_AURA_DUMMY, AURA_EFFECT_HANDLE_REAL);
+        }
+    };
 }
 
 void AddCoaJindoScripts()
@@ -501,4 +668,5 @@ void AddCoaJindoScripts()
     RegisterZulGurubCreatureAI(npc_jindo_coa_totem);
     RegisterZulGurubCreatureAI(npc_shade_of_jindo_coa);
     RegisterSpellScript(spell_jindo_coa_healing_stream);
+    RegisterSpellScript(spell_jindo_coa_delusions_vision);
 }

@@ -18,27 +18,30 @@
  *                                            the tank keeps his threat (the
  *                                            live log: 21 charges, never on
  *                                            his victim, 13 on ranged players)
- *   Whirlwind         as the charge lands     at once, 5 yards around him;
- *                                            in the charge's place when no
- *                                            one stands out of melee
+ *   Whirlwind         as the charge lands     a 6s spin, 100% weapon damage
+ *                                            (2118409) every second to all
+ *                                            within 5 yards, 1-6s in (live
+ *                                            logs); in the charge's place
+ *                                            when no one stands out of melee
  *   Mortal Strike     first 8s,  every 12s   the tank in melee range, -25%
  *                                            healing, stacks 3; it and
  *                                            Decapitate always hit (live:
  *                                            never dodged, parried or
  *                                            missed; SpellFix.cpp)
  *   Threatening Gaze  first 15s, every 20s   he stares at a player for 4s,
- *                                            then Menacing Gaze for 4s: an
- *                                            active hostile action (a spell
- *                                            with a power cost on the global
- *                                            cooldown) Sentences them to Die
- *                                            and he Decapitates them
+ *                                            then Menacing Gaze for 4s: a
+ *                                            hostile cast of a spell that
+ *                                            requires a power source and is
+ *                                            on the global cooldown (the
+ *                                            2118423 tooltip), free procs
+ *                                            like Clearcasting too, but no
+ *                                            heals or buffs, Sentences them
+ *                                            to Die and he Decapitates them
  *   Execute           the tank below 20%, every 7-14s
  *   Fierce Blow       first 30.7-31.6s, every 22.5-44s   the tank; later and
  *                                            rarer than on the other bosses
  *   Level Up!         +4% damage for every player who dies near him
  *   Frenzy            when Ohgan dies
- *   Mounted           while he rides Ohgan before the pull, on Ohgan's own
- *                     double-size display
  *   Bloodlord's Presence  at the pull, on enemies within 30 yards: no
  *                     durability loss; taken off when the fight ends
  *
@@ -48,8 +51,9 @@
  *     tooltip. These auras and Bloodlord's Presence are never logged (their
  *     spells are flagged so), which is why the log does not show them;
  *   - Bloodlord's Presence once at the pull; its aura lasts until removed;
- *   - Mounted only out of combat: the log has Ohgan fighting on his own from
- *     the first second;
+ *   - he stands unmounted before the pull and Mounted (2118412) is never cast
+ *     (tester and user, 2026-11-13); the log has Ohgan fighting on his own
+ *     from the first second;
  *   - Ohgan runs in from the arena entrance at the pull (tester, live,
  *     2026-11-04); the spot, the gap in the chained spirits' ring on the
  *     north-west side, is estimated;
@@ -83,11 +87,12 @@ namespace
     enum Says
     {
         SAY_AGGRO       = 0,
-        SAY_DING_KILL   = 1,
         SAY_WATCH       = 2,
         SAY_OHGAN_DEAD  = 4,
         SAY_GRATS_JINDO = 0
     };
+
+    constexpr uint32 BROADCAST_TEXT_DING = 10505;
 
     enum Spells
     {
@@ -100,11 +105,12 @@ namespace
         SPELL_EXECUTE_HIT       = 2118405,
         SPELL_BERSERKER_CHARGE  = 2118406,
         SPELL_WHIRLWIND         = 2118408,
+        SPELL_WHIRLWIND_HIT     = 2118409,
         SPELL_DECAPITATE        = 2118410,
-        SPELL_MOUNTED           = 2118412,
         SPELL_LEAP              = 2118413,
         SPELL_BLOODLORDS_PRESENCE = 2118415,
         SPELL_LEVEL_UP          = 2118416,
+        SPELL_STOCK_LEVEL_UP    = 24312,
         SPELL_FIRST_BLOOD       = 2118417,
         SPELL_KILLING_SPREE     = 2118418,
         SPELL_RAMPAGE           = 2118419,
@@ -136,7 +142,6 @@ namespace
     {
         ACTION_REVIVE        = 2,
         GUID_SENTENCED       = 1,
-        MODEL_OHGAN_MOUNT    = 215271,
         POINT_MANDOKIR_END   = 25,
         CHAINED_SPIRIT_COUNT = 20
     };
@@ -201,12 +206,16 @@ namespace
 
     struct boss_mandokir_coa : public BossAI
     {
-        boss_mandokir_coa(Creature* creature) : BossAI(creature, DATA_MANDOKIR) { }
+        boss_mandokir_coa(Creature* creature) : BossAI(creature, DATA_MANDOKIR),
+            _baseScale(creature->GetNativeObjectScale()),
+            _growthPerKill(sSpellMgr->AssertSpellInfo(SPELL_STOCK_LEVEL_UP)->Effects[EFFECT_1].CalcValue() / 100.0f)
+        { }
 
         void Reset() override
         {
             BossAI::Reset();
             _kills = 0;
+            me->SetObjectScale(_baseScale);
             _useExecute = false;
             _whirlwindOnLanding = false;
             _gazed.Clear();
@@ -228,8 +237,6 @@ namespace
                 me->RemoveAurasDueToSpell(streak);
             SetUntouchable(waitingForSpeaker);
             instance->SetBossState(DATA_OHGAN, NOT_STARTED);
-            me->Mount(MODEL_OHGAN_MOUNT);
-            DoCastSelf(SPELL_MOUNTED, true);
         }
 
         void SetUntouchable(bool untouchable)
@@ -282,8 +289,6 @@ namespace
 
             me->SetHomePosition(me->GetPositionX(), me->GetPositionY(), me->GetPositionZ(), me->GetOrientation());
             Talk(SAY_AGGRO);
-            me->Dismount();
-            me->RemoveAurasDueToSpell(SPELL_MOUNTED);
             DoCastSelf(SPELL_BLOODLORDS_PRESENCE, true);
             Position entrance = PosArenaEntrance;
             me->UpdateGroundPositionZ(entrance.GetPositionX(), entrance.GetPositionY(), entrance.m_positionZ);
@@ -302,8 +307,10 @@ namespace
             _reviveGUID = victim->GetGUID();
             RevivePlayer(victim, _reviveGUID);
 
-            AddStack(me, me, SPELL_LEVEL_UP);
+            DoCastSelf(SPELL_LEVEL_UP, true);
             ++_kills;
+            me->SetObjectScale(_baseScale * (1.0f + _growthPerKill * _kills));
+            me->Yell(BROADCAST_TEXT_DING);
             uint32 streak = 0;
             switch (_kills)
             {
@@ -317,7 +324,6 @@ namespace
             if (streak)
             {
                 DoCastSelf(streak, true);
-                Talk(SAY_DING_KILL);
                 if (_kills == 3)
                     if (Creature* jindo = ObjectAccessor::GetCreature(*me, instance->GetGuidData(DATA_JINDO)))
                         if (jindo->IsAlive())
@@ -507,7 +513,9 @@ namespace
         }
 
     private:
-        uint8 _kills = 0;
+        float const _baseScale;
+        float const _growthPerKill;
+        uint32 _kills = 0;
         bool _useExecute = false;
         bool _whirlwindOnLanding = false;
         ObjectGuid _gazed;
@@ -519,10 +527,24 @@ namespace
     public:
         mandokir_coa_menacing_gaze() : PlayerScript("mandokir_coa_menacing_gaze", { PLAYERHOOK_ON_SPELL_CAST }) { }
 
+        static bool IsActiveAction(SpellInfo const* info)
+        {
+            bool requiresPower = info->ManaCost || info->ManaCostPercentage || info->ManaCostPerlevel ||
+                info->ManaPerSecond || info->RuneCostID;
+            return requiresPower && info->StartRecoveryTime;
+        }
+
+        static bool IsHostile(Player* player, Spell* spell)
+        {
+            if (Unit* target = spell->m_targets.GetUnitTarget())
+                if (target != player && player->IsValidAttackTarget(target))
+                    return true;
+            return !spell->GetSpellInfo()->IsPositive();
+        }
+
         void OnPlayerSpellCast(Player* player, Spell* spell, bool /*skipCheck*/) override
         {
-            SpellInfo const* info = spell->GetSpellInfo();
-            if (spell->IsTriggered() || info->IsPositive() || !spell->GetPowerCost() || !info->StartRecoveryTime)
+            if (spell->IsTriggered() || !IsActiveAction(spell->GetSpellInfo()) || !IsHostile(player, spell))
                 return;
             Aura* gaze = player->GetAura(SPELL_MENACING_GAZE);
             if (!gaze)
@@ -530,6 +552,30 @@ namespace
             if (Creature* mandokir = ObjectAccessor::GetCreature(*player, gaze->GetCasterGUID()))
                 if (mandokir->IsAIEnabled)
                     mandokir->AI()->SetGUID(player->GetGUID(), GUID_SENTENCED);
+        }
+    };
+
+    // Whirlwind's periodic aura names 2118409, yet the stock trigger dealt no damage. Mandokir casts it on
+    // himself instead, so each tick hits everyone within 5 yards, once a second, 1 to 6 s into the spin.
+    class spell_mandokir_coa_whirlwind : public AuraScript
+    {
+        PrepareAuraScript(spell_mandokir_coa_whirlwind);
+
+        bool Validate(SpellInfo const* /*spellInfo*/) override
+        {
+            return ValidateSpellInfo({ SPELL_WHIRLWIND_HIT });
+        }
+
+        void HandleTick(AuraEffect const* /*aurEff*/)
+        {
+            PreventDefaultAction();
+            GetTarget()->CastSpell(GetTarget(), SPELL_WHIRLWIND_HIT, true);
+        }
+
+        void Register() override
+        {
+            OnEffectPeriodic += AuraEffectPeriodicFn(spell_mandokir_coa_whirlwind::HandleTick, EFFECT_1,
+                SPELL_AURA_PERIODIC_TRIGGER_SPELL);
         }
     };
 
@@ -557,5 +603,6 @@ void AddCoaMandokirScripts()
 {
     RegisterZulGurubCreatureAI(boss_mandokir_coa);
     RegisterSpellScript(spell_mandokir_coa_resurrection);
+    RegisterSpellScript(spell_mandokir_coa_whirlwind);
     new mandokir_coa_menacing_gaze();
 }

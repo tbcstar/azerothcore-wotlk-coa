@@ -164,12 +164,14 @@ MythicPlus.BossCastLog = 1
 #
 #    MythicPlus.DisabledAffixes
 #    MythicPlus.AffixSubstitutes
-#        Description: 每周被排除的词缀（MythicAffixes.dbc 的 ID，以空格或逗号分隔）。
-#                     每个词缀会取第一个其行中尚未拥有的替代词缀。
-#                     留空则保持飞升的轮换。服务器会在登录时发送更改后的 MythicAffixes.dbc 行，
-#                     因此客户端会显示相同的词缀。
-#        Default:     "80087"（微小），"80046 80044 80026 80024 80032"
-#                     （部落、复仇者、生命偷取、迅捷、真实视野）
+#        Description: Affixes left out of every week (MythicAffixes.dbc ids, space or comma separated).
+#                     Each takes the first substitute of its own tier (an affix the client also
+#                     lists from that keystone level in some week) that its week does not have
+#                     yet, and any substitute the week does not have when none fits. Empty keeps
+#                     Ascension's rotation. The server sends the changed MythicAffixes.dbc rows at
+#                     login, so the client shows the same affixes.
+#        Default:     "80087" (Tiny), "80046 80044 80026 80024 80032" (Horde, Avenger, Life Stealing,
+#                     Fast, True Sight)
 
 MythicPlus.DisabledAffixes = "80087"
 MythicPlus.AffixSubstitutes = "80046 80044 80026 80024 80032"

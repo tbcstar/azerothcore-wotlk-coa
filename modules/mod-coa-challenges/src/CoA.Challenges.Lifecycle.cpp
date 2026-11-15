@@ -2115,31 +2115,31 @@ namespace CoAChallenges
         if (o.type == "CHALLENGE_REQUIREMENT_TYPE_KILL_CREATURE_BEFORE_LEVEL")
         {
             CreatureTemplate const* creature = sObjectMgr->GetCreatureTemplate(target);
-            text = creature ? Acore::StringFormat("Kill {}", creature->Name)
-                : Acore::StringFormat("Kill creature {}", target);
+            text = creature ? Acore::StringFormat("击杀 {}", creature->Name)
+                : Acore::StringFormat("击杀生物 {}", target);
         }
         else if (o.type == "CHALLENGE_REQUIREMENT_TYPE_LOOT_ITEM_BEFORE_LEVEL")
         {
             ItemTemplate const* item = sObjectMgr->GetItemTemplate(target);
-            text = item ? Acore::StringFormat("Loot {}", item->Name1)
-                : Acore::StringFormat("Loot item {}", target);
+            text = item ? Acore::StringFormat("拾取 {}", item->Name1)
+                : Acore::StringFormat("拾取物品 {}", target);
         }
         else if (o.type == "CHALLENGE_REQUIREMENT_TYPE_COMPLETE_QUEST_BEFORE_LEVEL")
         {
             Quest const* quest = sObjectMgr->GetQuestTemplate(target);
-            text = quest ? Acore::StringFormat("Complete quest \"{}\"", quest->GetTitle())
-                : Acore::StringFormat("Complete quest {}", target);
+            text = quest ? Acore::StringFormat("完成任务 \"{}\"", quest->GetTitle())
+                : Acore::StringFormat("完成任务 {}", target);
         }
         else if (o.type == "CHALLENGE_REQUIREMENT_TYPE_EARN_MONEY_BEFORE_LEVEL")
-            text = Acore::StringFormat("Carry {}g {}s {}c", target / 10000, (target / 100) % 100, target % 100);
+            text = Acore::StringFormat("携带 {}金 {}银 {}铜", target / 10000, (target / 100) % 100, target % 100);
         else if (o.type == "CHALLENGE_REQUIREMENT_TYPE_DUO")
-            text = "Start in a party of two";
+            text = "以两人小队开始";
         else if (o.type == "CHALLENGE_REQUIREMENT_TYPE_TRIO")
-            text = "Start in a party of three";
+            text = "以三人小队开始";
         else
             text = o.key;
         if (gate)
-            text += Acore::StringFormat(" before level {}", gate);
+            text += Acore::StringFormat("（{} 级前）", gate);
         return text;
     }
 
@@ -2150,21 +2150,21 @@ namespace CoAChallenges
         uint32 const guid = player->GetGUID().GetCounter();
         if (!ActiveChallenges(guid).count(challengeID))
         {
-            message = Acore::StringFormat("Challenge {} is not active for {}.", challengeID, player->GetName());
+            message = Acore::StringFormat("挑战 {} 对 {} 未激活。", challengeID, player->GetName());
             return false;
         }
         std::vector<Objective> const tracked = TrackedObjectives(challengeID);
         if (!number || number > tracked.size())
         {
             message = Acore::StringFormat(
-                "Challenge {} has no Objective ID {} (it has {}); see .coa trial objectives.",
+                "挑战 {} 没有目标 ID {}（它只有 {} 个）；见 .coa trial objectives。",
                 challengeID, number, tracked.size());
             return false;
         }
         Objective const& o = tracked[number - 1];
         if (IsObjectiveDone(guid, challengeID, o.key))
         {
-            message = Acore::StringFormat("Objective {} ({}) is already done for {}.",
+            message = Acore::StringFormat("目标 {}（{}）对 {} 已完成。",
                 number, DescribeObjective(o), player->GetName());
             return false;
         }
@@ -2175,11 +2175,11 @@ namespace CoAChallenges
         SendCriteriaUpdatedForObjective(player, challengeID, ActiveChallengeLevel(guid, challengeID), o, true);
 
         uint32 const gate = CoAParse::ObjectiveGateLevel(o);
-        message = Acore::StringFormat("Credited objective {} ({}) on challenge {} for {}",
+        message = Acore::StringFormat("已将目标 {}（{}）记入挑战 {}，玩家 {}",
             number, DescribeObjective(o), challengeID, player->GetName());
         if (gate && player->GetLevel() >= gate)
-            message += Acore::StringFormat(" (past its level {} gate)", gate);
-        message += ".";
+            message += Acore::StringFormat("（已过 {} 级门槛）", gate);
+        message += "。";
 
         if (ObjectivesAllDone(guid, challengeID))
         {
@@ -2187,10 +2187,10 @@ namespace CoAChallenges
             if (!IsTrialChallenge(challengeID) || player->GetLevel() >= cap)
             {
                 CompleteChallenge(player, challengeID);
-                message += " All objectives done: challenge completed.";
+                message += "所有目标均已完成：挑战已完成。";
             }
             else
-                message += Acore::StringFormat(" All objectives done; completes at level {}.", cap);
+                message += Acore::StringFormat("所有目标均已完成；将在 {} 级完成。", cap);
         }
         return true;
     }
@@ -2233,12 +2233,12 @@ namespace CoAChallenges
         PreparedQueryResult failure = CharacterDatabase.Query(selectFailure);
         if (!failure)
         {
-            message = Acore::StringFormat("{} has no failure lock on challenge {}.", player->GetName(), challengeID);
+            message = Acore::StringFormat("{} 在挑战 {} 上没有失败锁定。", player->GetName(), challengeID);
             return false;
         }
         if (ActiveChallenges(guid).count(challengeID))
         {
-            message = Acore::StringFormat("Challenge {} is already active for {}.", challengeID, player->GetName());
+            message = Acore::StringFormat("挑战 {} 对 {} 已处于激活状态。", challengeID, player->GetName());
             return false;
         }
 
@@ -2264,7 +2264,7 @@ namespace CoAChallenges
         if (ConflictingExclusiveChallenge(guid, challengeID, conflictId))
         {
             message = Acore::StringFormat(
-                "Cannot restore challenge {} for {}: it conflicts with active challenge {}.",
+                "无法恢复挑战 {}（玩家 {}）：它与已激活的挑战 {} 冲突。",
                 challengeID, player->GetName(), conflictId);
             return false;
         }
@@ -2280,8 +2280,8 @@ namespace CoAChallenges
         if (levelAtFailure && currentLevel > levelAtFailure + levelAllowance)
         {
             message = Acore::StringFormat(
-                "Restore refused: {} was level {} when challenge {} failed and is now level {}, more than the {} "
-                "levels allowed since a failure (CoAChallenges.Restore.MaxLevelsGained).",
+                "恢复被拒绝：{} 当时为 {} 级，挑战 {} 失败，如今已是 {} 级，超过了"
+                "失败后允许的 {} 级（CoAChallenges.Restore.MaxLevelsGained）。",
                 player->GetName(), levelAtFailure, challengeID, currentLevel, levelAllowance);
             return false;
         }
@@ -2289,8 +2289,8 @@ namespace CoAChallenges
                 [](Objective const& o) { return CoAParse::ObjectiveGateLevel(o) != 0; }))
         {
             message = Acore::StringFormat(
-                "Restore refused: challenge {} failed for {} before failures recorded the character's level, "
-                "and it has no objective gates to check the levels gained since against.",
+                "恢复被拒绝：挑战 {} 对 {} 的失败发生在记录角色等级之前，"
+                "且该挑战没有可用于检查此后所得等级的目标门槛。",
                 challengeID, player->GetName());
             return false;
         }
@@ -2308,8 +2308,8 @@ namespace CoAChallenges
                 || IsObjectiveDone(guid, challengeID, tracked[i].key))
                 continue;
             message = Acore::StringFormat(
-                "Restore refused: {} is level {}, past the level {} gate of pending objective {} ({}) on "
-                "challenge {}. That objective can no longer be earned.",
+                "恢复被拒绝：{} 已是 {} 级，超过了 {} 级门槛"
+                "（待完成目标 {}（{}），挑战 {}）。该目标已无法再获得。",
                 player->GetName(), currentLevel, gate, i + 1, DescribeObjective(tracked[i]), challengeID);
             return false;
         }
@@ -2375,19 +2375,19 @@ namespace CoAChallenges
             challengeID, ChallengeName(challengeID), player->GetName(), level, deaths,
             fromSnapshot ? "from snapshot" : "no snapshot");
         message = Acore::StringFormat(
-            "Restored challenge {} ({}) for {}: level {}, deaths {}, {} of {} objectives done.",
+            "已恢复挑战 {}（{}），玩家 {}：{} 级，死亡 {} 次，{} / {} 个目标已完成。",
             challengeID, ChallengeName(challengeID), player->GetName(), level, deaths, done, tracked.size());
         if (resurrected)
-            message += " Resurrected.";
+            message += "已复活。";
         if (levelAtFailure && currentLevel > levelAtFailure)
-            message += Acore::StringFormat(" The character was level {} at the failure and is now level {}.",
+            message += Acore::StringFormat("角色在失败时为 {} 级，现在为 {} 级。",
                 levelAtFailure, currentLevel);
         if (hungerReset)
-            message += " Hunger and thirst start from zero.";
+            message += "饥饿与口渴从零开始。";
         if (fatigueReset)
-            message += " The fatigue bar is full.";
+            message += "疲劳条已充满。";
         if (!fromSnapshot)
-            message += " No snapshot existed for this failure: the run timer restarted.";
+            message += "此次失败没有快照：计时器已重新开始。";
         return true;
     }
 } // namespace CoAChallenges

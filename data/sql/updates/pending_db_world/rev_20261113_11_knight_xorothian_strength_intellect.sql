@@ -3,5 +3,5 @@
 -- description and the rank 1 aura text are rewritten here.
 DELETE FROM `coa_client_spell_description` WHERE `ID` IN (300382, 570100);
 INSERT INTO `coa_client_spell_description` (`ID`, `Description`, `ToolTip`) VALUES
-(300382, 'Increases your Strength and Intellect by $s1%.', 'Increases Strength and Intellect by ${$w1}%.'),
-(570100, 'Increases your Strength and Intellect by $s1%.', NULL);
+(300382, '使你的力量和智力提高 $s1%。', '使力量和智力提高 ${$w1}%。'),
+(570100, '使你的力量和智力提高 $s1%。', NULL);

@@ -1,31 +1,31 @@
 --
 DELETE FROM `command` WHERE `name` = 'coa trial objectives';
 INSERT INTO `command` (`name`, `security`, `help`) VALUES ('coa trial objectives', 3, CONCAT(
-    'Syntax: .coa trial objectives [player]. Lists the player''s active challenges with their Challenge ID, level ',
-    'and deaths, every objective with its Objective ID marked done or pending, and the Challenge IDs the player is ',
-    'locked out of. The player defaults to your target; quote a two-word name. Works for an offline character.'));
+    '用法：.coa trial objectives [玩家]。列出玩家进行中挑战的挑战ID、等级和死亡次数，',
+    '以及每个目标及其目标ID的已完成或待完成标记，还有该玩家被锁定无法参与的挑战ID。',
+    '玩家默认为你的目标；双词名字需加引号。对离线角色同样有效。'));
 
 DELETE FROM `command` WHERE `name` = 'coa trial credit';
 INSERT INTO `command` (`name`, `security`, `help`) VALUES ('coa trial credit', 3, CONCAT(
-    'Syntax: .coa trial credit <Challenge ID> <Objective ID> [player]. Marks one objective of the player''s ',
-    'active challenge as done, whatever the player''s level. Use .coa trial objectives to find the IDs. The ',
-    'player defaults to your target and must be online; quote a two-word name.'));
+    '用法：.coa trial credit <挑战ID> <目标ID> [玩家]。把玩家进行中挑战的某个目标标记为已完成，无论玩家等级如何。',
+    '用 .coa trial objectives 查找这些ID。',
+    '玩家默认为你的目标，且必须在线；双词名字需加引号。'));
 
 DELETE FROM `command` WHERE `name` = 'coa trial restore';
 INSERT INTO `command` (`name`, `security`, `help`) VALUES ('coa trial restore', 3, CONCAT(
-    'Syntax: .coa trial restore <Challenge ID> [player]. Makes a failed challenge active again with its level, ',
-    'objectives and run timer, restarts hunger, thirst and fatigue, and resurrects the character. Refused when ',
-    'the character has gained too many levels or passed a pending objective''s level since the failure. The ',
-    'player defaults to your target and must be online; quote a two-word name.'));
+    '用法：.coa trial restore <挑战ID> [玩家]。让失败的挑战带着它的等级、目标和计时器重新激活，重置饥饿、口渴与疲劳，',
+    '并复活角色。如果角色自失败以来升级过多，或已超过某个待完成目标的等级，',
+    '则会被拒绝。',
+    '玩家默认为你的目标，且必须在线；双词名字需加引号。'));
 
 DELETE FROM `command` WHERE `name` = 'coa challenge objectives';
 INSERT INTO `command` (`name`, `security`, `help`) VALUES ('coa challenge objectives', 3, CONCAT(
-    'Syntax: .coa challenge objectives [player]. Same as .coa trial objectives.'));
+    '用法：.coa challenge objectives [玩家]。等同于 .coa trial objectives。'));
 
 DELETE FROM `command` WHERE `name` = 'coa challenge credit';
 INSERT INTO `command` (`name`, `security`, `help`) VALUES ('coa challenge credit', 3, CONCAT(
-    'Syntax: .coa challenge credit <Challenge ID> <Objective ID> [player]. Same as .coa trial credit.'));
+    '用法：.coa challenge credit <挑战ID> <目标ID> [玩家]。等同于 .coa trial credit。'));
 
 DELETE FROM `command` WHERE `name` = 'coa challenge restore';
 INSERT INTO `command` (`name`, `security`, `help`) VALUES ('coa challenge restore', 3, CONCAT(
-    'Syntax: .coa challenge restore <Challenge ID> [player]. Same as .coa trial restore.'));
+    '用法：.coa challenge restore <挑战ID> [玩家]。等同于 .coa trial restore。'));

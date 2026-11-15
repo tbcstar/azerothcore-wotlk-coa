@@ -4,5 +4,5 @@
 -- description of both ranks is rewritten here. Focus has no aura text.
 DELETE FROM `coa_client_spell_description` WHERE `ID` IN (680936, 681477);
 INSERT INTO `coa_client_spell_description` (`ID`, `Description`, `ToolTip`) VALUES
-(680936, 'Increases your Strength, Intellect and Stamina by $s1%.', NULL),
-(681477, 'Increases your Strength, Intellect and Stamina by $s1%.', NULL);
+(680936, '使你的力量、智力和耐力提高 $s1%。', NULL),
+(681477, '使你的力量、智力和耐力提高 $s1%。', NULL);

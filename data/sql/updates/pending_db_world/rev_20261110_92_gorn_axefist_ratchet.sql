@@ -6,8 +6,8 @@
 -- John Stallion has no captured vendor list, so he is set dressing only.
 DELETE FROM `creature_template` WHERE `entry` IN (75132, 415000);
 INSERT INTO `creature_template` (`entry`, `name`, `subname`, `minlevel`, `maxlevel`, `faction`, `npcflag`, `unit_class`, `type`) VALUES
-(75132, 'John Stallion', 'Steed Salesman', 1, 1, 35, 0, 1, 7),
-(415000, 'Yerg the Ambassador', 'The Ambassador', 1, 1, 35, 128, 1, 7);
+(75132, '约翰·斯托林', '坐骑商人', 1, 1, 35, 0, 1, 7),
+(415000, '大使耶尔格', '大使', 1, 1, 35, 128, 1, 7);
 
 DELETE FROM `creature_template_model` WHERE `CreatureID` IN (75132, 415000);
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) VALUES

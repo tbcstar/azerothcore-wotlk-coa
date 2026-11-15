@@ -236,13 +236,12 @@ CoAChallenges.HungerDrinkSpell = 93176
 CoAChallenges.ThirstSecondsPerPoint = 10
 CoAChallenges.HungerSecondsPerPoint = 16
 
-# `.coa trial restore`: levels a character may have gained since its run failed
-# and still be restored. More than this refuses the restore, because those
-# levels were gained outside the challenge's rules. 0 requires the same level.
+# `.coa trial restore`：角色在其试炼失败后最多还可以涨的等级数，
+# 再高就拒绝恢复，因为这些等级是在挑战规则之外获得的。0 表示必须等级相同。
 # Default: 3
 CoAChallenges.Restore.MaxLevelsGained = 3
 
-# Restore per tick while the matching eat/drink aura is up. Range: 1-100.
+# 匹配的进食/饮水光环存在时，每 tick 的恢复量。范围：1-100。
 # Defaults: 1 / 1
 CoAChallenges.FoodRestore = 1
 CoAChallenges.DrinkRestore = 1

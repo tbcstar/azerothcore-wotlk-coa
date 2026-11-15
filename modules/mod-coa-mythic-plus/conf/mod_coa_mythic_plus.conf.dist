@@ -164,12 +164,11 @@ MythicPlus.BossCastLog = 1
 #
 #    MythicPlus.DisabledAffixes
 #    MythicPlus.AffixSubstitutes
-#        Description: Affixes left out of every week (MythicAffixes.dbc ids, space or comma separated).
-#                     Each takes the first substitute of its own tier (an affix the client also
-#                     lists from that keystone level in some week) that its week does not have
-#                     yet, and any substitute the week does not have when none fits. Empty keeps
-#                     Ascension's rotation. The server sends the changed MythicAffixes.dbc rows at
-#                     login, so the client shows the same affixes.
+#        Description: 每周都被剔除的增益（MythicAffixes.dbc 的 id，空格或逗号分隔）。
+#                     每个被剔除的增益由同层级的第一个替补顶替（客户端在某周也会从该钥石层
+#                     列出的增益），前提是该周对应位置还空着；若都不合适，则用该周尚未出现
+#                     的任一替补。留空则沿用 Ascension 的轮换。服务器在登录时下发改动过的
+#                     MythicAffixes.dbc 行，因此客户端显示的增益与服务器一致。
 #        Default:     "80087" (Tiny), "80046 80044 80026 80024 80032" (Horde, Avenger, Life Stealing,
 #                     Fast, True Sight)
 

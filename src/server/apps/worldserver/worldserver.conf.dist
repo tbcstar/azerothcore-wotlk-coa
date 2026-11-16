@@ -384,7 +384,7 @@ Updates.ExceptionShutdownDelay = 10000
 #        说明：网络线程数。
 #         默认：1 - （建议每 1000 个连接 1 个线程）
 
-Network.Threads = 4
+Network.Threads = 3
 
 #
 #    Network.OutKBuff
@@ -542,7 +542,7 @@ UseProcessors = 0
 #        Default:     1 - (High)
 #                     0 - (Normal)
 
-ProcessPriority = 1
+ProcessPriority = 0
 
 #
 #    Compression
@@ -842,7 +842,7 @@ Logger.playerbots=3,Console Playerbots
 #        Default:     0 - (Disabled)
 #                     1 - (Enabled)
 
-Log.Async.Enable = 0
+Log.Async.Enable = 1
 
 #
 ###################################################################################################
@@ -1203,7 +1203,7 @@ PacketSpoof.BanDuration = 86400
 #        Default:     1 - (Enabled)
 #                     0 - (Disabled)
 
-Warden.Enabled = 1
+Warden.Enabled = 0
 
 #
 #    Warden.NumMemChecks
@@ -1367,7 +1367,7 @@ MapUpdateInterval = 10
 #        Description: 更新地图的线程数。
 #        Default:     1
 
-MapUpdate.Threads = 2
+MapUpdate.Threads = 5
 
 #
 #    MoveMaps.Enable
@@ -1859,7 +1859,7 @@ PlayerSave.Stats.SaveOnlyOnLogout = 1
 #        默认：0 - （禁用）
 #                     7 - （以上所有）
 
-PlayerSave.AdditionalSaves = 7
+PlayerSave.AdditionalSaves = 3
 
 #
 #    CleanCharacterDB
@@ -4924,7 +4924,7 @@ ScourgeInvasion.CounterThird  = 150
 #        Description: 要生成的拍卖行搜索工作线程数量
 #        Default:     1
 
-AuctionHouse.WorkerThreads = 1
+AuctionHouse.WorkerThreads = 2
 
 #
 #    LevelReq.Auction

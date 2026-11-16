@@ -733,7 +733,7 @@ Logger.time.update=4,Console Server
 Logger.module=4,Console Server
 Logger.coa=4,Console Server
 Logger.spells.scripts=2,Console Errors
-Logger.playerbots=5,Console Playerbots
+Logger.playerbots=3,Console Playerbots
 # Logger.achievement=4,Console Server
 # Logger.addon=4,Console Server
 # Logger.auctionHouse=4,Console Server
@@ -3897,12 +3897,12 @@ OutdoorPvPCaptureRate = 1.0
 # WINTERGRASP-冬拥湖
 #
 #    Wintergrasp.Enable
-#        Description: Enable the Wintergrasp battlefield.
-#        Default:     1 - (Enabled, Experimental as of still being in development)
-#                     0 - (Battleground disabled, Wintergrasp world processing still occurs)
-#                     2 - (Disable all Wintergrasp processing)
+#        描述：启用冬拥湖战场。
+#        默认值：     1 - （启用，实验性，仍在开发中）
+#                     0 - （战场禁用，但冬拥湖世界处理仍会进行）
+#                     2 - （禁用所有冬拥湖处理）
 
-Wintergrasp.Enable = 1
+Wintergrasp.Enable = 2
 
 #
 #    Wintergrasp.PlayerMax
@@ -3920,8 +3920,8 @@ Wintergrasp.PlayerMin = 0
 
 #
 #    Wintergrasp.PlayerMinLvl
-#        Description: Required character level for the Wintergrasp battle.
-#        Default:     75
+#        描述：参加冬拥湖战斗所需的角色等级。
+#        默认值：     75
 
 Wintergrasp.PlayerMinLvl = 75
 

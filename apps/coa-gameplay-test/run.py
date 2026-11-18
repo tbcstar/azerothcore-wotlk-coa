@@ -56,9 +56,14 @@ SPAWN_TYPES = {'creature', 'gameobject'}
 MAX_PLACEMENT_TOLERANCE = 10
 PLACEMENT_AUDIT_METRICS = {'placement_audit_spawns', 'placement_audit_anomalies', 'placement_audit_event_spawns'}
 MAX_GAMEOBJECT_TYPE = 35
+CHAT_TYPES = {
+    'say', 'yell', 'emote', 'text_emote', 'whisper', 'party', 'party_leader', 'raid', 'raid_leader', 'raid_warning',
+    'battleground', 'battleground_leader', 'guild', 'officer', 'channel', 'mail',
+}
+CHAT_LOG_FLAGS = ('chat_has_position', 'chat_has_group', 'chat_has_guild', 'chat_has_mail_id')
 MAX_SPELL_MOD_OP = 31
 MIN_MUTANT_PERCENT = -100
-MAX_MUTANT_PERCENT = 1000
+MAX_MUTANT_PERCENT = 10000
 METRICS = TIMELINE_METRICS | EVENT_TIME_METRICS | {
     'spell_power_cost', 'position_o', 'avoidance_samples', 'spell_effect_kind', 'spell_effect_misc', 'movie_exists',
     'item_random_property', 'item_suffix_factor', 'item_enchantment', 'item_guid', 'item_soulbound', 'item_duration',
@@ -76,7 +81,7 @@ METRICS = TIMELINE_METRICS | EVENT_TIME_METRICS | {
     'battleground_team', 'team', 'name_query_race',
     'map_difficulty', 'nearby_creature_template', 'nearby_creature_max_health', 'nearby_creature_health_pct',
     'nearby_creature_sent_spellclick', 'nearby_creature_sent_gossip', 'nearby_creature_can_attack', 'nearby_creature_mount_display',
-    'nearby_creature_display', 'nearby_creature_aura_count', 'nearby_creature_at_client',
+    'nearby_creature_display', 'nearby_creature_scale', 'nearby_creature_aura_count', 'nearby_creature_at_client',
     'spawn_respawn_remaining',
     'spawn_placement', 'spawn_ground_gap', 'spawn_submerged', 'spawn_display_state', 'spawn_stand_state',
     'spawn_clearance', 'spawn_headroom', 'spawn_distance', 'point_placement', 'point_ground_gap',
@@ -102,7 +107,7 @@ METRICS = TIMELINE_METRICS | EVENT_TIME_METRICS | {
     'skill_line_ability', 'skill_line_ability_at', 'skill_line_after_initial', 'skill_line_after_learned',
     'pool_variant_count', 'pool_retired_item_count', 'pool_row_count', 'pool_item_present',
     'cache_token_count', 'cache_token_stage', 'cache_token_present',
-    'free_inventory_slots', 'mail_count', 'mail_item_count', 'mail_has_item',
+    'free_inventory_slots', 'mail_count', 'mail_item_count', 'mail_has_item', 'chat_log_rows',
     'account_character_count', 'account_other_item_count', 'account_other_bank_item_count',
     'account_other_mail_count', 'account_other_foreign_mail_count', 'account_other_at_login_flag',
     'mail_pool_item_count', 'notifications', 'notification_contains',
@@ -121,7 +126,7 @@ METRICS = TIMELINE_METRICS | EVENT_TIME_METRICS | {
     'owned_creature_spell_crit_chance', 'owned_creature_school_spell_crit_chance', 'owned_creature_react_state',
     'melee_crit_chance_against', 'threat_multiplier', 'owned_aura',
     'unit_scale', 'combat_reach',
-    'token_count', 'item_sell_price', 'item_spell_ppm', 'monster_chat_count', 'creature_model_scale', 'creature_model_display',
+    'token_count', 'item_sell_price', 'item_quality', 'item_spell_ppm', 'monster_chat_count', 'creature_model_scale', 'creature_model_display',
     'taxi_node', 'in_flight', 'taxi_destination', 'stabled_pet_count', 'stable_result', 'pet_rows', 'instance_binds_listed', 'pet_entry', 'pet_aura_stacks', 'pet_aura_duration_ms', 'pet_is_banker', 'pet_display', 'pet_flags', 'pet_mirror_image', 'pet_name_is',
     'pet_native_display', 'race', 'faction', 'pet_scale', 'pet_knows_spell', 'pet_distance', 'pet_bearing',
     'pet_casting', 'pet_loading', 'pet_spell_bar_count',
@@ -173,13 +178,15 @@ METRICS = TIMELINE_METRICS | EVENT_TIME_METRICS | {
     'has_aura_state', 'weapon_damage_min',
     'resistance',
     'attack_timer_ms',
-    'attack_time_ms', 'pet_attack_time_ms', 'run_speed_rate', 'flight_speed_rate', 'display_id', 'target_entry', 'mount_display_id', 'can_fly',
+    'attack_time_ms', 'pet_attack_time_ms', 'run_speed_rate', 'flight_speed_rate', 'display_id', 'target_entry', 'mount_display_id',
+    'vehicle_base_entry', 'can_fly',
     'aura_amplitude_ms', 'melee_crit_chance', 'melee_crit_chance_refreshed', 'dodge_chance', 'parry_chance',
     'expertise', 'combat_rating',
     'spell_modifier', 'spell_cast_time_ms', 'client_cast_time_ms', 'client_attributes', 'client_spell_targets', 'spell_max_range', 'spell_ignores_los', 'spell_max_stacks', 'spell_healing_done',
     'spell_duration_ms',
     'aura_crit_chance', 'aura_script_value', 'melee_hit_chance', 'spell_hit_chance', 'spell_power',
     'spell_done_crit_chance', 'spell_taken_crit_chance', 'spell_done_crit_chance_scripted', 'ranged_taken_crit_chance',
+    'melee_crit_taken_chance', 'daze_taken_chance',
     'melee_spell_damage_done', 'melee_spell_damage_done_scripted', 'script_melee_damage_taken',
     'script_melee_hit_taken', 'script_melee_damage_dealt',
     'script_spell_damage_taken', 'spell_id_for_difficulty', 'script_periodic_damage_taken', 'script_heal_received', 'spell_effect_value',
@@ -263,6 +270,8 @@ METRIC_FIELDS = {'actor', 'metric', 'spell', 'power', 'caster', 'effect', 'item'
                  'row', 'offset', 'skip_strings', 'from_end', 'x', 'y', 'min_required_level', 'max_required_level',
                  'flat_coefficient_modifier', 'dominant_stat', 'off_stat', 'below_armor_class', 'unwearable', 'spells',
                  'min_level', 'max_level', 'min_home_distance', 'spawn', 'entries', 'dead', 'radius',
+                 'chat_type', 'chat_text', 'chat_target', 'chat_channel', 'chat_subject', 'chat_emote', 'chat_name',
+                 'chat_target_name', *CHAT_LOG_FLAGS,
                   'guid', 'spawn_type', 'tolerance', 'map', 'z', 'glancing', 'blocked', 'resisted', 'victim_state',
                   'school_mask', 'rolls', 'stacks', 'target_entry'} \
     | TIMELINE_FIELDS | EVENT_TIME_FIELDS
@@ -288,6 +297,7 @@ ACTIONS = {
     'command': ({'actor', 'command'}, {'actor', 'command', 'rejected'}),
     'whisper': ({'actor', 'to', 'text'}, {'actor', 'to', 'text', 'language'}),
     'addon_message': ({'actor', 'prefix', 'text'}, {'actor', 'prefix', 'text'}),
+    'chat_log_cleanup': ({'actor', 'days_ahead'}, {'actor', 'days_ahead'}),
     'wait': ({'ms'}, {'ms'}),
     'snapshot': ({'actor', 'metric', 'save_as'}, METRIC_FIELDS | {'save_as'}),
     'assert': ({'actor', 'metric'}, METRIC_FIELDS | {'equals', 'min', 'max', 'within_ms'}),
@@ -308,7 +318,8 @@ ACTIONS = {
     'cast_no_target': ({'actor', 'spell'}, {'actor', 'spell'}),
     'attack': ({'actor', 'target'}, {'actor', 'target', 'pet'}),
     'pvp': ({'actor', 'enabled'}, {'actor', 'enabled'}),
-    'group': ({'actor', 'target'}, {'actor', 'target', 'loot_method', 'master_looter'}),
+    'group': ({'actor', 'target'}, {'actor', 'target', 'loot_method', 'master_looter', 'raid'}),
+    'guild': ({'actor', 'members'}, {'actor', 'members', 'name'}),
     'lfg_dungeon': ({'actor', 'dungeon'}, {'actor', 'dungeon', 'loot_method'}),
     'lfg_teleport': ({'actor'}, {'actor', 'out'}),
     'lfg_join': ({'actor', 'dungeons', 'roles'}, {'actor', 'dungeons', 'roles'}),
@@ -349,7 +360,7 @@ ACTIONS = {
     'spell_click_nearby': ({'actor', 'entry'}, {'actor', 'entry'}),
     'attack_owned_creature': ({'actor', 'target', 'entry'}, {'actor', 'target', 'entry'}),
     'move_point': ({'actor', 'dx'}, {'actor', 'dx', 'dy'}),
-    'attack_nearby': ({'actor', 'entry'}, {'actor', 'entry', 'kill', 'damage_pct'}),
+    'attack_nearby': ({'actor', 'entry'}, {'actor', 'entry', 'kill', 'all', 'radius', 'damage_pct'}),
     'select': ({'actor', 'target'}, {'actor', 'target'}),
     'select_nearby': ({'actor', 'entry'}, {'actor', 'entry', 'radius'}),
     'minion_kill': ({'actor', 'minion', 'target'}, {'actor', 'minion', 'target'}),
@@ -582,7 +593,7 @@ def validate(scenario, clock=REAL_CLOCK):
     keys(scenario, {'schema', 'name', 'players', 'steps'},
          {'schema', 'name', 'players', 'creatures', 'steps', 'timeout_ms', 'location', 'contract', 'hour',
           'creature_scaling', 'ptr_character_copy', 'ptr_character_copy_interruption', 'vanity_ownership',
-          'two_side', 'quest_log_size'},
+          'two_side', 'quest_log_size', 'chat_log'},
          'scenario')
     schema = scenario['schema']
     require(type(schema) is int and schema in MAX_PLAYERS, 'Unsupported scenario schema')
@@ -591,6 +602,7 @@ def validate(scenario, clock=REAL_CLOCK):
     if 'hour' in scenario:
         number(scenario['hour'], 'hour', 0, HOURS_PER_DAY - 1, True)
     require(type(scenario.get('creature_scaling', False)) is bool, 'creature_scaling must be boolean')
+    require(type(scenario.get('chat_log', False)) is bool, 'chat_log must be boolean')
     require(type(scenario.get('ptr_character_copy', False)) is bool, 'ptr_character_copy must be boolean')
     if 'ptr_character_copy_interruption' in scenario:
         require(scenario.get('ptr_character_copy') is True,
@@ -720,6 +732,17 @@ def validate(scenario, clock=REAL_CLOCK):
                     f'{where}: whisper needs a target and text')
             if 'language' in step:
                 number(step['language'], f'{where}.language', 0, 2**32 - 1, True)
+        if action == 'chat_log_cleanup':
+            number(step['days_ahead'], f'{where}.days_ahead', 0, 3650, True)
+        if action == 'group' and 'raid' in step:
+            require(type(step['raid']) is bool, f'{where}: raid must be boolean')
+        if action == 'guild':
+            require(step['actor'] in player_ids, f'{where}: guild needs a player leader')
+            require(type(step['members']) is list and step['members'] and all(m in player_ids and m != step['actor']
+                    for m in step['members']), f'{where}: guild members must be other players')
+            if 'name' in step:
+                require(isinstance(step['name'], str) and step['name'].isalpha() and 0 < len(step['name']) <= 24,
+                        f'{where}: guild name must be 1 to 24 letters')
         if action == 'addon_message':
             require(isinstance(step['prefix'], str) and step['prefix'].strip() and '\t' not in step['prefix']
                     and isinstance(step['text'], str), f'{where}: addon_message needs a prefix without tabs and text')
@@ -886,6 +909,12 @@ def validate(scenario, clock=REAL_CLOCK):
                 require(step['radius'] > 0, f'{where}: radius must be positive')
             require(not encounter_started, f'{where}: a scenario allows only one encounter_start')
             encounter_started = True
+        if action == 'attack_nearby':
+            if 'radius' in step:
+                number(step['radius'], f'{where}.radius', 0, MAX_NEAREST_CREATURE_RADIUS)
+                require(step['radius'] > 0, f'{where}: radius must be positive')
+            if 'all' in step:
+                require(type(step['all']) is bool, f'{where}: all must be boolean')
         if action == 'lfg_join':
             require(type(step['dungeons']) is list and 0 < len(step['dungeons']) <= 50,
                     f'{where}: dungeons must list 1-50 LFGDungeons ids')
@@ -1045,6 +1074,22 @@ def validate(scenario, clock=REAL_CLOCK):
                 validate_timeline_step(step, where, encounter_started, actor_ids)
             else:
                 require(not TIMELINE_FIELDS & step.keys(), f'{where}: event fields only apply to timeline metrics')
+            require(('chat_type' in step) == (metric == 'chat_log_rows'), f'{where}: chat_type belongs to chat_log_rows')
+            require(metric == 'chat_log_rows' or not {f for f in step if f.startswith('chat_')},
+                    f'{where}: chat fields belong to chat_log_rows')
+            if metric == 'chat_log_rows':
+                require(step['actor'] in player_ids, f'{where}: chat_log_rows needs a player')
+                require(step['chat_type'] in CHAT_TYPES, f'{where}: unknown chat_type')
+                if 'chat_target' in step:
+                    require(step['chat_target'] in player_ids, f'{where}: chat_target must name a player')
+                for field in ('chat_text', 'chat_channel', 'chat_subject', 'chat_name', 'chat_target_name'):
+                    if field in step:
+                        require(isinstance(step[field], str), f'{where}: {field} must be a string')
+                for field in CHAT_LOG_FLAGS:
+                    if field in step:
+                        require(type(step[field]) is bool, f'{where}: {field} must be boolean')
+                if 'chat_emote' in step:
+                    number(step['chat_emote'], f'{where}.chat_emote', 0, 65535, True)
             if metric in EVENT_TIME_METRICS:
                 validate_event_time_step(step, where, actor_ids, player_ids)
             else:
@@ -1088,7 +1133,7 @@ def validate(scenario, clock=REAL_CLOCK):
                 require(False, f'{where}: spells only applies to carried_aura_count')
             if 'periodic' in step:
                 require(metric in {'spell_damage_done', 'spell_damage_taken', 'spell_healing_done',
-                                   'spell_healing_taken'}
+                                   'spell_healing_taken', 'spell_damage_total', 'spell_damage_count'}
                         and type(step['periodic']) is bool,
                         f'{where}: periodic requires a damage/healing calculation and a boolean')
             require(metric in METRICS, f'{where}: unknown metric')
@@ -1116,12 +1161,12 @@ def validate(scenario, clock=REAL_CLOCK):
                           'nearby_creature_max_health',
                           'nearby_creature_health_pct', 'nearby_creature_sent_spellclick', 'nearby_creature_sent_gossip', 'nearby_creature_can_attack',
                           'nearby_creature_mount_display', 'nearby_creature_display', 'nearby_creature_aura_count',
-                          'nearby_creature_at_client', 'loot_gear_item_level'}:
+                          'nearby_creature_scale', 'nearby_creature_at_client', 'loot_gear_item_level'}:
                 require(step['actor'] in player_ids, f'{where}: dungeon/loot metric needs a player')
             if metric in {'nearby_creature_template', 'nearby_creature_max_health', 'nearby_creature_health_pct',
                           'nearby_creature_sent_spellclick', 'nearby_creature_sent_gossip', 'nearby_creature_can_attack',
                           'nearby_creature_mount_display', 'nearby_creature_display', 'nearby_creature_aura_count',
-                          'nearby_creature_at_client'}:
+                          'nearby_creature_scale', 'nearby_creature_at_client'}:
                 number(step.get('entry'), f'{where}.entry', 1, 2**32 - 1, True)
             if metric == 'nearby_creature_aura_count':
                 number(step.get('spell'), f'{where}.spell', 1, 2**31 - 1, True)

@@ -60,10 +60,18 @@
 #include <boost/asio/signal_set.hpp>
 #include <boost/program_options.hpp>
 #include <csignal>
+#include <cstdio>
+#include <cstdlib>
 #include <filesystem>
 #include <iostream>
 #include <openssl/crypto.h>
 #include <openssl/opensslv.h>
+
+#if AC_PLATFORM == AC_PLATFORM_UNIX
+#include <execinfo.h>
+#include <fcntl.h>
+#include <unistd.h>
+#endif
 
 #if AC_PLATFORM == AC_PLATFORM_WINDOWS
 #include "ServiceWin32.h"
@@ -121,11 +129,84 @@ void ShutdownCLIThread(std::thread* cliThread);
 void WorldUpdateLoop();
 variables_map GetConsoleArguments(int argc, char** argv, fs::path& configFile, [[maybe_unused]] std::string& cfg_service);
 
+namespace
+{
+#if AC_PLATFORM == AC_PLATFORM_UNIX
+constexpr size_t CrashBacktraceFrames = 64;
+
+char const* CrashSignalName(int signalNumber)
+{
+    switch (signalNumber)
+    {
+        case SIGSEGV: return "SIGSEGV";
+        case SIGBUS: return "SIGBUS";
+        case SIGILL: return "SIGILL";
+        case SIGFPE: return "SIGFPE";
+        default: return "UNKNOWN";
+    }
+}
+
+void WriteFaulted(int fileDescriptor, char const* text, size_t length)
+{
+    while (length)
+    {
+        ssize_t const written = ::write(fileDescriptor, text, length);
+        if (written <= 0)
+            return;
+        text += written;
+        length -= size_t(written);
+    }
+}
+
+[[noreturn]] void CrashSignalHandler(int signalNumber, siginfo_t* info, void* /*context*/)
+{
+    char header[192];
+    int const headerLength = std::snprintf(header, sizeof(header),
+        "\n######################## FATAL %s at address %p ########################\n",
+        CrashSignalName(signalNumber), info ? info->si_addr : nullptr);
+
+    void* frames[CrashBacktraceFrames];
+    int const frameCount = ::backtrace(frames, CrashBacktraceFrames);
+
+    int const crashLog = ::open("crash-backtrace.log", O_WRONLY | O_CREAT | O_APPEND, 0644);
+    for (int const fileDescriptor : { STDERR_FILENO, crashLog })
+    {
+        if (fileDescriptor < 0)
+            continue;
+
+        WriteFaulted(fileDescriptor, header, size_t(headerLength));
+        ::backtrace_symbols_fd(frames, frameCount, fileDescriptor);
+    }
+
+    if (crashLog >= 0)
+        ::close(crashLog);
+
+    ::signal(signalNumber, SIG_DFL);
+    ::raise(signalNumber);
+    ::_exit(EXIT_FAILURE);
+}
+
+void InstallCrashHandlers()
+{
+    struct sigaction action = {};
+    action.sa_sigaction = &CrashSignalHandler;
+    action.sa_flags = SA_SIGINFO | SA_RESETHAND;
+    sigemptyset(&action.sa_mask);
+
+    for (int const signalNumber : { SIGSEGV, SIGBUS, SIGILL, SIGFPE })
+        ::sigaction(signalNumber, &action, nullptr);
+}
+#else
+void InstallCrashHandlers() { }
+#endif
+}
+
 /// Launch the Azeroth server
 int main(int argc, char** argv)
 {
     Acore::Impl::CurrentServerProcessHolder::_type = SERVER_PROCESS_WORLDSERVER;
     signal(SIGABRT, &Acore::AbortHandler);
+    InstallCrashHandlers();
 
     // Command line parsing
     auto configFile = fs::path(sConfigMgr->GetConfigPath() + std::string(_ACORE_CORE_CONFIG));

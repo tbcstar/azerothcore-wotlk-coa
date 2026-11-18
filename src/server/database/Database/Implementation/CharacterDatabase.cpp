@@ -893,8 +893,10 @@ void CharacterDatabaseConnection::DoPrepareStatements()
         "INSERT INTO recovery_item_snapshot_receipt (recovery_id, owner_guid, mail_id) VALUES (?, ?, ?)", CONNECTION_BOTH);
     PrepareStatement(CHAR_DEL_EXACT_RECOVERY,
         "DELETE FROM recovery_item_snapshot WHERE id = ? AND owner_guid = ?", CONNECTION_BOTH);
+    PrepareStatement(CHAR_SEL_EXACT_RECOVERY_PRUNE_BOUNDARY,
+        "SELECT id FROM recovery_item_snapshot WHERE owner_guid = ? ORDER BY id DESC LIMIT 1 OFFSET 499", CONNECTION_SYNCH);
     PrepareStatement(CHAR_PRUNE_EXACT_RECOVERY,
-        "DELETE FROM recovery_item_snapshot WHERE owner_guid = ? AND id < COALESCE((SELECT oldest FROM (SELECT id AS oldest FROM recovery_item_snapshot WHERE owner_guid = ? ORDER BY id DESC LIMIT 1 OFFSET 499) AS retained), 0)", CONNECTION_BOTH);
+        "DELETE FROM recovery_item_snapshot WHERE owner_guid = ? AND id < ?", CONNECTION_BOTH);
 
     PrepareStatement(CHAR_SEL_HONORPOINTS, "SELECT totalHonorPoints FROM characters WHERE guid = ?", CONNECTION_SYNCH);
     PrepareStatement(CHAR_SEL_ARENAPOINTS, "SELECT arenaPoints FROM characters WHERE guid = ?", CONNECTION_SYNCH);

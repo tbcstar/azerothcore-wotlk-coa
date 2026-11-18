@@ -75,6 +75,21 @@ namespace
         pending[player->GetGUID().GetCounter()].returned.push_back(item->GetGUID().GetCounter());
     }
 
+    void Prune(uint32 ownerGuid)
+    {
+        auto* boundary = CharacterDatabase.GetPreparedStatement(CHAR_SEL_EXACT_RECOVERY_PRUNE_BOUNDARY);
+        boundary->SetData(0, ownerGuid);
+        PreparedQueryResult result = CharacterDatabase.Query(boundary);
+        if (!result)
+            return;
+
+        uint64 const oldest = result->Fetch()[0].Get<uint64>();
+        auto* prune = CharacterDatabase.GetPreparedStatement(CHAR_PRUNE_EXACT_RECOVERY);
+        prune->SetData(0, ownerGuid);
+        prune->SetData(1, oldest);
+        CharacterDatabase.Execute(prune);
+    }
+
     void Flush(Player* player, CharacterDatabaseTransaction trans)
     {
         Pending work;
@@ -86,6 +101,7 @@ namespace
             work = std::move(found->second);
             pending.erase(found);
         }
+        Prune(player->GetGUID().GetCounter());
         for (Snapshot const& snapshot : work.snapshots)
         {
             auto* stmt = CharacterDatabase.GetPreparedStatement(CHAR_INS_EXACT_RECOVERY);
@@ -107,10 +123,6 @@ namespace
             stmt->SetData(1, guid);
             trans->Append(stmt);
         }
-        auto* prune = CharacterDatabase.GetPreparedStatement(CHAR_PRUNE_EXACT_RECOVERY);
-        prune->SetData(0, player->GetGUID().GetCounter());
-        prune->SetData(1, player->GetGUID().GetCounter());
-        trans->Append(prune);
     }
 
     void Persist(Player* player)

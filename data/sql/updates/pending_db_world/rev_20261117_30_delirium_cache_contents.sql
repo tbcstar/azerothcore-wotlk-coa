@@ -2,7 +2,7 @@
 -- ScriptName and no contents, so opening it only started its cooldown (#12515). It holds the Tailored Purple Tabard,
 -- the Wanderer's Plum Scarf and the Wanderer's Plum Cloak, given at once like the other set caches. The name also
 -- loses its "Delerium" misspelling. A reapply leaves the result unchanged.
-UPDATE `item_template` SET `name` = 'Delirium Cache', `ScriptName` = 'item_ethereal_set_cache' WHERE `entry` = 421527;
+UPDATE `item_template` SET `name` = '梦魇藏匣', `ScriptName` = 'item_ethereal_set_cache' WHERE `entry` = 421527;
 UPDATE `item_template` SET `Flags` = `Flags` & ~4 WHERE `entry` = 421527 AND `Flags` & 4;
 
 DELETE FROM `ethereal_bazaar_set_cache` WHERE `cache_item` = 421527;

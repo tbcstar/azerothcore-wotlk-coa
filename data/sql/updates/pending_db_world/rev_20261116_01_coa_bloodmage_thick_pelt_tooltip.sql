@@ -2,5 +2,5 @@
 -- below 75 attack power it showed a negative reduction. Both texts now show the reduction the server applies.
 DELETE FROM `coa_client_spell_description` WHERE `ID` IN (556233, 704626);
 INSERT INTO `coa_client_spell_description` (`ID`, `Description`, `ToolTip`) VALUES
-(556233, 'Reduces Physical Damage taken from the next attack within $d by ${15+$AP*0.2}.', ''),
-(704626, 'Physical damage taken now reduces the Physical damage taken from the next attack within $556233d by ${15+$AP*0.2}.', '');
+(556233, '使你在 $d 内受到的下一次攻击的物理伤害降低 ${15+$AP*0.2} 点。', ''),
+(704626, '受到物理伤害后，你在 $556233d 内受到的下一次攻击的物理伤害降低 ${15+$AP*0.2} 点。', '');

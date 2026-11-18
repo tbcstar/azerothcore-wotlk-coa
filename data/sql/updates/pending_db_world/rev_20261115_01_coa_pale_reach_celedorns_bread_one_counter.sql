@@ -11,14 +11,14 @@ UPDATE `quest_poi` SET `ObjectiveIndex` = 0 WHERE `QuestID` = 175105 AND `id` IN
 DELETE FROM `spell_dbc` WHERE `ID` IN (9978010, 9978011, 9978012, 9978013);
 INSERT INTO `spell_dbc` (`ID`, `Attributes`, `CastingTimeIndex`, `DurationIndex`, `RangeIndex`, `EquippedItemClass`,
     `Effect_1`, `ImplicitTargetA_1`, `EffectAura_1`, `SchoolMask`, `Name_Lang_enUS`, `Name_Lang_Mask`) VALUES
-(9978010, 448, 1, 21, 1, -1, 6, 1, 4, 1, 'Celedorn''s Bread: Aldaria', 16712190),
-(9978011, 448, 1, 21, 1, -1, 6, 1, 4, 1, 'Celedorn''s Bread: Sylana', 16712190),
-(9978012, 448, 1, 21, 1, -1, 6, 1, 4, 1, 'Celedorn''s Bread: Findan', 16712190),
-(9978013, 448, 1, 21, 1, -1, 6, 1, 4, 1, 'Celedorn''s Bread: Remmos', 16712190);
+(9978010, 448, 1, 21, 1, -1, 6, 1, 4, 1, '塞莱多恩的面包：奥达莉亚', 16712190),
+(9978011, 448, 1, 21, 1, -1, 6, 1, 4, 1, '塞莱多恩的面包：希拉娜', 16712190),
+(9978012, 448, 1, 21, 1, -1, 6, 1, 4, 1, '塞莱多恩的面包：芬丹', 16712190),
+(9978013, 448, 1, 21, 1, -1, 6, 1, 4, 1, '塞莱多恩的面包：雷莫斯', 16712190);
 DELETE FROM `spell_dbc` WHERE `ID` = 9978014;
 INSERT INTO `spell_dbc` (`ID`, `Attributes`, `CastingTimeIndex`, `RangeIndex`, `EquippedItemClass`, `Effect_1`,
     `ImplicitTargetA_1`, `EffectMiscValue_1`, `SchoolMask`, `Name_Lang_enUS`, `Name_Lang_Mask`) VALUES
-(9978014, 384, 1, 1, -1, 90, 1, 164318, 1, 'Celedorn''s Bread: Credit', 16712190);
+(9978014, 384, 1, 1, -1, 90, 1, 164318, 1, '塞莱多恩的面包：结算', 16712190);
 
 -- Passive auras are not sent to the client; force saving keeps the marks through a relog.
 DELETE FROM `spell_custom_attr` WHERE `spell_id` IN (9978010, 9978011, 9978012, 9978013);

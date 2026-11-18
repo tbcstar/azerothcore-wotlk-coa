@@ -80,8 +80,8 @@ INSERT INTO `graveyard_zone` (`ID`, `GhostZone`, `Faction`, `Comment`) VALUES
 -- The shrine's words.
 DELETE FROM `npc_text` WHERE `ID` = 978070;
 INSERT INTO `npc_text` (`ID`, `text0_0`, `text0_1`) VALUES
-(978070, 'The shrine seems to notice your presence as you place your hand on its surface to attune to its power.',
-    'The shrine seems to notice your presence as you place your hand on its surface to attune to its power.');
+(978070, '当你把手放在神龛表面、试图与它的力量共鸣时，神龛似乎察觉到了你的存在。',
+    '当你把手放在神龛表面、试图与它的力量共鸣时，神龛似乎察觉到了你的存在。');
 
 -- His hologram above both shrines: ghostly (22650), flying in place with his wings beating.
 INSERT INTO `creature_template` (`entry`, `name`, `subname`, `minlevel`, `maxlevel`, `faction`, `npcflag`,

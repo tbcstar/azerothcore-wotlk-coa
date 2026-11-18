@@ -7123,7 +7123,7 @@ public:
     if (IsBrokenCosmeticPetToken(itemId))
     {
       ChatHandler(player->GetSession())
-          .SendSysMessage("That whistle is not available on this realm.");
+          .SendSysMessage("这只口哨在当前服务器上无法使用。");
       return;
     }
 

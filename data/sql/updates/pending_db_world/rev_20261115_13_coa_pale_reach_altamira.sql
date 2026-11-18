@@ -13,12 +13,12 @@ INSERT INTO `creature_display_preset` (`entry`, `display_id`, `race`, `gender`, 
 DELETE FROM `creature_text` WHERE `CreatureID` = 164432;
 INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`,
     `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
-(164432, 0, 0, 'Ah, a gift from de Friend of de Night. More souls for ma harem!', 14, 0, 100, 0, 0, 0, 0, 0, 'Necrotic Witch Altamira - Aggro'),
-(164432, 1, 0, 'How fittin\', dyin\' in a tomb...', 14, 0, 100, 0, 0, 0, 0, 0, 'Necrotic Witch Altamira - Killed Player'),
-(164432, 1, 1, 'De Father of Sleep be waitin\' for ya!', 14, 0, 100, 0, 0, 0, 0, 0, 'Necrotic Witch Altamira - Killed Player'),
-(164432, 1, 2, 'I be addin\' ya bones to ma ossuary!', 14, 0, 100, 0, 0, 0, 0, 0, 'Necrotic Witch Altamira - Killed Player'),
-(164432, 2, 0, 'Scream louder! Do it for me!', 14, 0, 100, 0, 0, 0, 0, 0, 'Necrotic Witch Altamira - 50% HP'),
-(164432, 3, 0, 'I feel... his... teeth... Ahhh!', 12, 0, 100, 0, 0, 0, 0, 0, 'Necrotic Witch Altamira - Death');
+(164432, 0, 0, '啊，暗夜之友送来的礼物。我的后宫又添灵魂了！', 14, 0, 100, 0, 0, 0, 0, 0, 'Necrotic Witch Altamira - Aggro'),
+(164432, 1, 0, '死在墓里，倒真是合适……', 14, 0, 100, 0, 0, 0, 0, 0, 'Necrotic Witch Altamira - Killed Player'),
+(164432, 1, 1, '沉睡之父正等着你呢！', 14, 0, 100, 0, 0, 0, 0, 0, 'Necrotic Witch Altamira - Killed Player'),
+(164432, 1, 2, '我要把你的骨头加进我的藏骨堂！', 14, 0, 100, 0, 0, 0, 0, 0, 'Necrotic Witch Altamira - Killed Player'),
+(164432, 2, 0, '叫得再响些！为我叫！', 14, 0, 100, 0, 0, 0, 0, 0, 'Necrotic Witch Altamira - 50% HP'),
+(164432, 3, 0, '我感觉到了……他的……牙齿……啊啊啊！', 12, 0, 100, 0, 0, 0, 0, 0, 'Necrotic Witch Altamira - Death');
 
 DELETE FROM `smart_scripts` WHERE (`entryorguid`,`source_type`) IN ((164432,0));
 INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase_mask`, `event_chance`, `event_flags`, `event_param1`, `event_param2`, `event_param3`, `event_param4`, `event_param5`, `event_param6`, `action_type`, `action_param1`, `action_param2`, `action_param3`, `action_param4`, `action_param5`, `action_param6`, `target_type`, `target_param1`, `target_param2`, `target_param3`, `target_param4`, `target_x`, `target_y`, `target_z`, `target_o`, `comment`) VALUES

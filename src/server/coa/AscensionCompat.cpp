@@ -1159,7 +1159,7 @@ public:
             if (entry.ClassId != player->getClass())
                 continue;
 
-            uint32 replacement = 0;
+            std::vector<uint32> reachedRanks;
             Aura const* aura = entry.RequiresAura ? player->GetAura(entry.ParentSpellId, player->GetGUID()) : nullptr;
             bool const parentOwned = entry.RequiresAura ?
                 aura && !aura->IsRemoved() && aura->GetStackAmount() >= entry.MinAuraStacks :
@@ -1171,17 +1171,26 @@ public:
                     continue;
                 candidates.insert(rank.SpellId);
                 if (allowed && rank.RequiredLevel <= player->GetLevel() && sSpellMgr->GetSpellInfo(rank.SpellId))
-                    replacement = rank.SpellId;
+                    reachedRanks.push_back(rank.SpellId);
             }
 
+            std::vector<uint32> activeOriginals;
             for (auto const& [id, spell] : player->GetSpellMap())
             {
                 if (sSpellMgr->GetFirstSpellInChain(id) != entry.OriginalSpellId)
                     continue;
                 replacements.try_emplace(id, 0);
-                if (replacement && player->HasActiveSpell(id))
-                    replacements[id] = replacement;
+                if (!reachedRanks.empty() && player->HasActiveSpell(id))
+                    activeOriginals.push_back(id);
             }
+
+            std::sort(activeOriginals.begin(), activeOriginals.end(), [](uint32 left, uint32 right)
+            {
+                return sSpellMgr->GetSpellRank(left) > sSpellMgr->GetSpellRank(right);
+            });
+            for (std::size_t index = 0; index < activeOriginals.size(); ++index)
+                replacements[activeOriginals[index]] =
+                    reachedRanks[reachedRanks.size() - 1 - std::min(index, reachedRanks.size() - 1)];
         }
 
         std::set<uint32> desired;
@@ -1189,7 +1198,11 @@ public:
         {
             if (replacement)
                 desired.insert(replacement);
-            if (player->GetTemporarySpellReplacement(id) != replacement)
+        }
+        for (auto const& [id, replacement] : replacements)
+        {
+            uint32 const current = player->GetTemporarySpellReplacement(id);
+            if (current != replacement && (!replacement || !desired.count(current)))
                 player->SetTemporarySpellReplacement(id, 0);
         }
 
@@ -4513,10 +4526,9 @@ private:
   static constexpr uint32 SPELL_EFFECT_TARGETS_FIELD = 86;
   static constexpr uint32 SPELL_EFFECT_TARGETS_B_FIELD = 89;
   static constexpr uint32 SPELL_FAMILY_NAME_FIELD = 208;
-  static constexpr std::array<uint32, 28> RANGED_PREPARATION_CLIENT_SPELLS = {
+  static constexpr std::array<uint32, 19> RANGED_PREPARATION_CLIENT_SPELLS = {
       504582, 572343, 572344, 572345, 572383, 680902, 680903, 680904, 680905, 806288,
-      572614, 804136, 806876, 806877, 806878, 806879, 806880, 806881, 524870, 804179,
-      680256, 680257, 680258, 680259, 680260, 680261, 680262, 681203};
+      572614, 804136, 806876, 806877, 806878, 806879, 806880, 806881, 524870};
   static constexpr uint32 SPELL_LEVEL_FIELD = 39;
   static constexpr uint32 SPELL_VISUAL_FIELD = 131;
   static constexpr uint32 VAULT_CLIENT_SPELL = 500085;
@@ -5692,8 +5704,11 @@ private:
       row.Strings[SPELL_WIRE_DESCRIPTION] = REPLENISHMENT_FIELD_DESCRIPTION;
     }
 
+    uint32 const firstRank = info->GetFirstRankSpell()->Id;
+    bool const witchHunterShot = info->SpellFamilyName == 21 && (firstRank == 804179 || firstRank == 805754);
     if ((info->Attributes & SPELL_ATTR0_USES_RANGED_SLOT) && !info->IsAutoRepeatRangedSpell() &&
-        info->CastTimeEntry && (info->CastTimeEntry->CastTime > 0 || !info->IsChanneled()))
+        !witchHunterShot && info->CastTimeEntry &&
+        (info->CastTimeEntry->CastTime > 0 || !info->IsChanneled()))
       if (uint32 const prepared = RangedPreparationCastTimeIndex(info->CastTimeEntry->CastTime))
         row.Values[SPELL_CAST_TIME_INDEX_FIELD] = prepared;
 
@@ -6610,10 +6625,27 @@ public:
         406, 203954, 203955, 503515, 1903513, 2903513, 8210192, 8210195, 8210196,
         8210197, 8210198, 8210199, 8210200, 8210201, 8210202, 8210203, 8210250 };
 
-    [[nodiscard]] static bool IsWithheldVanityItem(uint32 itemId)
+    [[nodiscard]] bool IsBrokenCosmeticPetToken(uint32 itemId) const
     {
-        return !AscensionFreepick::RealmOffersMysticAltars() &&
-            std::find(MysticAltarVanityItems.begin(), MysticAltarVanityItems.end(), itemId) != MysticAltarVanityItems.end();
+        auto const token = _petTokens.find(itemId);
+        if (token == _petTokens.end())
+            return false;
+
+        ItemTemplate const* proto = sObjectMgr->GetItemTemplate(itemId);
+        if (!proto || proto->Class != ITEM_CLASS_MISC || proto->SubClass != ITEM_SUBCLASS_JUNK_PET)
+            return false;
+
+        CreatureTemplate const* creature =
+            sObjectMgr->GetCreatureTemplate(_appearances.at(token->second).CreatureEntry);
+        return !creature || !creature->IsTameable(true);
+    }
+
+    [[nodiscard]] bool IsWithheldVanityItem(uint32 itemId) const
+    {
+        bool const withheldAltar = !AscensionFreepick::RealmOffersMysticAltars() &&
+            std::find(MysticAltarVanityItems.begin(), MysticAltarVanityItems.end(), itemId) !=
+                MysticAltarVanityItems.end();
+        return withheldAltar || IsBrokenCosmeticPetToken(itemId);
     }
 
     [[nodiscard]] static bool IsBrokenCompanionSpell(uint32 spellId)
@@ -7085,6 +7117,13 @@ public:
       ChatHandler(player->GetSession())
           .PSendSysMessage(
               "该外观物品（{}）不存在于当前客户端版本中。", itemId);
+      return;
+    }
+
+    if (IsBrokenCosmeticPetToken(itemId))
+    {
+      ChatHandler(player->GetSession())
+          .SendSysMessage("That whistle is not available on this realm.");
       return;
     }
 
@@ -9744,7 +9783,6 @@ public:
              PLAYERHOOK_ON_AFTER_SPEC_SLOT_CHANGED,
              PLAYERHOOK_ON_CREATE_INITIAL_ITEMS,
              PLAYERHOOK_ON_GET_AMMO_DISPLAY,
-             PLAYERHOOK_ON_AFTER_UPDATE_ATTACK_POWER_AND_DAMAGE,
              PLAYERHOOK_ON_SEND_INITIAL_PACKETS_BEFORE_ADD_TO_MAP,
              PLAYERHOOK_CAN_USE_ITEM,
              PLAYERHOOK_CHECK_ITEM_IN_SLOT_AT_LOAD_INVENTORY,
@@ -9832,13 +9870,6 @@ public:
             displayId = appearance;
             inventoryType = INVTYPE_AMMO;
         }
-    }
-
-    void OnPlayerAfterUpdateAttackPowerAndDamage(Player* player, float&, float&,
-        float& modifier, float&, bool ranged) override
-    {
-        if (ascensionCompatConfig.GetConfigValue<bool>(AscensionCompatConfig::ENABLED))
-            HandleAscensionBarbarianAttackPower(player, modifier, ranged);
     }
 
     void OnPlayerSendInitialPacketsBeforeAddToMap(Player* player, WorldPacket&) override
@@ -11426,6 +11457,31 @@ class spell_ascension_stick_on_a_carrot : public AuraScript
     }
 };
 
+class spell_ascension_enchant_strider : public AuraScript
+{
+    PrepareAuraScript(spell_ascension_enchant_strider);
+
+    static constexpr int32 SINGLE_TWO_HANDER_BONUS_PCT = 35;
+
+    void CalculateAmount(AuraEffect const*, int32& amount, bool&)
+    {
+        Player* player = GetUnitOwner()->ToPlayer();
+        if (!player)
+            return;
+
+        Item const* mainHand = player->GetItemByPos(INVENTORY_SLOT_BAG_0, EQUIPMENT_SLOT_MAINHAND);
+        if (mainHand && mainHand->GetTemplate()->InventoryType == INVTYPE_2HWEAPON &&
+            !player->GetItemByPos(INVENTORY_SLOT_BAG_0, EQUIPMENT_SLOT_OFFHAND))
+            AddPct(amount, SINGLE_TWO_HANDER_BONUS_PCT);
+    }
+
+    void Register() override
+    {
+        DoEffectCalcAmount += AuraEffectCalcAmountFn(spell_ascension_enchant_strider::CalculateAmount, EFFECT_0,
+            SPELL_AURA_MOD_STAT);
+    }
+};
+
 }
 
 namespace AscensionDisplayPatch
@@ -11775,6 +11831,7 @@ void AddAscensionCompatScripts() {
   RegisterSpellScript(spell_ascension_experience_potion);
   RegisterSpellScript(spell_ascension_vanity_use_restriction);
   RegisterSpellScript(spell_ascension_stick_on_a_carrot);
+  RegisterSpellScript(spell_ascension_enchant_strider);
   RegisterSpellScript(spell_ascension_local_mount);
   RegisterSpellScript(spell_ascension_specialization_slot);
   RegisterSpellScript(spell_ascension_masters_tome_specialization);

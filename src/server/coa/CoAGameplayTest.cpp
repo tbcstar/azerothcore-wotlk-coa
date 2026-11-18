@@ -25,6 +25,7 @@
 #include "CharmInfo.h"
 #include "Chat.h"
 #include "ClientDBC.h"
+#include "CoAChatLog.h"
 #include "CoACreatureScaling.h"
 #include "CoAPtrCharacterCopy.h"
 #include "Config.h"
@@ -44,6 +45,7 @@
 #include "Group.h"
 #include "GroupMgr.h"
 #include "Guild.h"
+#include "GuildMgr.h"
 #include "InstanceScript.h"
 #include "Item.h"
 #include "LFGMgr.h"
@@ -636,6 +638,24 @@ private:
     std::map<ServerConfigs, bool> _original;
 };
 
+class ChatLogConfig
+{
+public:
+    ChatLogConfig() : _original(CoAChatLog::SetEnabled(true)) { }
+
+    ChatLogConfig(ChatLogConfig const&) = delete;
+    ChatLogConfig& operator=(ChatLogConfig const&) = delete;
+
+    ~ChatLogConfig()
+    {
+        CoAChatLog::Flush(true);
+        CoAChatLog::SetEnabled(_original);
+    }
+
+private:
+    bool _original;
+};
+
 class QuestLogSizeConfig
 {
 public:
@@ -1002,6 +1022,7 @@ struct SpellDamageEvent
     bool critical = false;
     bool blocked = false;
     bool resisted = false;
+    bool periodic = false;
     uint32 casterEntry = 0;
     uint64 atMs = 0;
 };
@@ -1277,6 +1298,7 @@ void ObserveSpellDamage(Actor& actor, WorldPacket const& packet, Player* player)
         uint8 critical;
         response >> critical;
         event.critical = critical != 0;
+        event.periodic = true;
     }
     if (event.damage)
     {
@@ -1407,7 +1429,7 @@ void ObserveExtensionPacket(Actor& actor, WorldPacket const& packet)
         packet.GetOpcode() != SMSG_TOTEM_CREATED &&
         packet.GetOpcode() != SMSG_MIRRORIMAGE_DATA && packet.GetOpcode() != SMSG_TRIGGER_MOVIE &&
         packet.GetOpcode() != SMSG_ATTACKSTOP && packet.GetOpcode() != SMSG_GOSSIP_COMPLETE &&
-        packet.GetOpcode() != SMSG_SPELLDAMAGESHIELD)
+        packet.GetOpcode() != SMSG_SPELLDAMAGESHIELD && packet.GetOpcode() != SMSG_PLAY_SPELL_VISUAL)
         return;
 
     ++actor.extensionPackets[packet.GetOpcode()];
@@ -2101,6 +2123,8 @@ public:
         }
         if (auto twoSide = _scenario.get_child_optional("two_side"))
             _twoSide.emplace(*twoSide);
+        if (_scenario.get<bool>("chat_log", false))
+            _chatLog.emplace();
         if (auto questLogSize = _scenario.get_optional<uint32>("quest_log_size"))
         {
             Require(*questLogSize >= NATIVE_QUEST_LOG_SIZE && *questLogSize <= MAX_QUEST_LOG_SIZE,
@@ -3510,6 +3534,11 @@ private:
         }
         if (metric == "mount_display_id")
             return unit->GetMountID();
+        if (metric == "vehicle_base_entry")
+        {
+            Unit const* base = unit->GetVehicleBase();
+            return base ? base->GetEntry() : 0;
+        }
         if (metric == "can_fly")
             return unit->CanFly();
         if (metric == "unit_scale")
@@ -3935,8 +3964,9 @@ private:
             }
             uint32 count = 0;
             for (SpellCastEvent const& event : _actors.at(step.get<std::string>("actor")).spellCasts)
-                if (event.spell == spell && (entry ? event.caster.IsCreature() && event.caster.GetEntry() == *entry
-                                                   : event.caster == caster))
+                if (event.spell == spell
+                    && (entry ? event.caster.IsCreatureOrVehicle() && event.caster.GetEntry() == *entry
+                              : event.caster == caster))
                     ++count;
             return count;
         }
@@ -4650,6 +4680,12 @@ private:
             Require(creature != nullptr, "Creature display metric needs a living nearby creature");
             return creature->GetDisplayId();
         }
+        if (metric == "nearby_creature_scale")
+        {
+            Creature* creature = player->FindNearestCreature(step.get<uint32>("entry"), 60.0f, true);
+            Require(creature != nullptr, "Creature scale metric needs a living nearby creature");
+            return creature->GetObjectScale();
+        }
         if (metric == "nearby_creature_aura_count")
         {
             std::list<Creature*> creatures;
@@ -4907,6 +4943,10 @@ private:
         }
         if (metric == "ranged_taken_crit_chance")
             return player->GetUnitCriticalChance(RANGED_ATTACK, GetUnit(step.get<std::string>("target")));
+        if (metric == "melee_crit_taken_chance")
+            return GetUnit(step.get<std::string>("target"))->GetUnitCriticalChance(BASE_ATTACK, player);
+        if (metric == "daze_taken_chance")
+            return GetUnit(step.get<std::string>("target"))->GetMeleeDazeChance(player);
         if (metric == "dodge_chance")
             return player->GetFloatValue(PLAYER_DODGE_PERCENTAGE);
         if (metric == "parry_chance")
@@ -5047,13 +5087,15 @@ private:
             auto critical = step.get_optional<bool>("critical");
             auto blocked = step.get_optional<bool>("blocked");
             auto resisted = step.get_optional<bool>("resisted");
+            auto periodic = step.get_optional<bool>("periodic");
             uint64 value = 0;
             for (SpellDamageEvent const& event : _actors.at(step.get<std::string>("actor")).spellDamage)
                 if ((casterEntry ? event.casterEntry == *casterEntry : caster && event.caster == caster) &&
                     event.spell == spell && (!target || event.target == target) &&
                     (!targetEntry || (event.target.IsCreature() && event.target.GetEntry() == *targetEntry)) &&
                     (!critical || event.critical == *critical) &&
-                    (!blocked || event.blocked == *blocked) && (!resisted || event.resisted == *resisted))
+                    (!blocked || event.blocked == *blocked) && (!resisted || event.resisted == *resisted) &&
+                    (!periodic || event.periodic == *periodic))
                     value += metric == "spell_damage_count" ? 1 : event.damage;
             return double(value);
         }
@@ -5834,6 +5876,48 @@ private:
             return std::any_of(lines.begin(), lines.end(), [&needle](std::string const& line)
                 { return line.find(needle) != std::string::npos; }) ? 1.0 : 0.0;
         }
+        if (metric == "chat_log_rows")
+        {
+            std::optional<uint8> const type = CoAChatLog::TypeByName(step.get<std::string>("chat_type"));
+            Require(type.has_value(), "Unknown chat_log_rows type");
+            Require(CoAChatLog::Flush(true), "chat_log_rows could not write the pending rows");
+            Player* const sender = GetPlayer(step.get<std::string>("actor"));
+            auto const text = step.get_optional<std::string>("chat_text");
+            auto const channel = step.get_optional<std::string>("chat_channel");
+            auto const subject = step.get_optional<std::string>("chat_subject");
+            auto const emote = step.get_optional<uint32>("chat_emote");
+            auto const name = step.get_optional<std::string>("chat_name");
+            auto const targetName = step.get_optional<std::string>("chat_target_name");
+            std::optional<uint32> target;
+            if (auto const id = step.get_optional<std::string>("chat_target"))
+                target = GetPlayer(*id)->GetGUID().GetCounter();
+            auto const flag = [&step](char const* field) { return step.get_optional<bool>(field); };
+            auto const hasPosition = flag("chat_has_position");
+            auto const hasGroup = flag("chat_has_group");
+            auto const hasGuild = flag("chat_has_guild");
+            auto const hasMailId = flag("chat_has_mail_id");
+            QueryResult result = CharacterDatabase.Query("SELECT message, subject, channel, target_guid, x, y, z, group_id, "
+                "guild_id, mail_id, emote, name, target_name FROM coa_chat_log WHERE guid = {} AND type = {}", sender->GetGUID().GetCounter(), *type);
+            uint32 count = 0;
+            if (result)
+            {
+                do
+                {
+                    Field const* row = result->Fetch();
+                    bool const positioned = row[4].Get<float>() != 0.0f || row[5].Get<float>() != 0.0f || row[6].Get<float>() != 0.0f;
+                    if ((text && row[0].Get<std::string>() != *text) || (subject && row[1].Get<std::string>() != *subject)
+                        || (channel && row[2].Get<std::string>() != *channel) || (target && row[3].Get<uint32>() != *target)
+                        || (hasPosition && positioned != *hasPosition) || (hasGroup && (row[7].Get<uint32>() != 0) != *hasGroup)
+                        || (hasGuild && (row[8].Get<uint32>() != 0) != *hasGuild)
+                        || (hasMailId && (row[9].Get<uint32>() != 0) != *hasMailId) || (emote && row[10].Get<uint16>() != *emote)
+                        || (name && row[11].Get<std::string>() != *name)
+                        || (targetName && row[12].Get<std::string>() != *targetName))
+                        continue;
+                    ++count;
+                } while (result->NextRow());
+            }
+            return double(count);
+        }
         if (metric == "whispers_received")
         {
             ObjectGuid const from = GetPlayer(step.get<std::string>("from"))->GetGUID();
@@ -6104,12 +6188,12 @@ private:
             Require(slot < MAX_ITEM_PROTO_SPELLS, "Item spell slot out of range");
             return proto->Spells[slot].SpellPPMRate;
         }
-        if (metric == "item_sell_price")
+        if (metric == "item_sell_price" || metric == "item_quality")
         {
             uint32 item = step.get<uint32>("item");
             ItemTemplate const* proto = sObjectMgr->GetItemTemplate(item);
             Require(proto != nullptr, "Unknown item in metric");
-            return proto->SellPrice;
+            return metric == "item_quality" ? proto->Quality : proto->SellPrice;
         }
         if (metric == "creature_model_scale" || metric == "creature_model_display")
         {
@@ -7499,6 +7583,8 @@ private:
             if (group->IsFull() && !group->isRaidGroup())
                 group->ConvertToRaid();
             Require(group->AddMember(member), "Could not join fixture group");
+            if (step.get<bool>("raid", false) && !group->isRaidGroup())
+                group->ConvertToRaid();
             if (auto method = step.get_optional<uint32>("loot_method"))
             {
                 group->SetLootMethod(LootMethod(*method));
@@ -7506,6 +7592,22 @@ private:
                     group->SetMasterLooterGuid(GetPlayer(*looter)->GetGUID());
                 group->SendUpdate();
             }
+        }
+        else if (action == "guild")
+        {
+            std::string const name = step.get<std::string>("name", "Chatlogguild");
+            Require(!player->GetGuildId(), "Guild fixture needs a leader without a guild");
+            Guild* guild = new Guild();
+            if (!guild->Create(player, name))
+            {
+                delete guild;
+                throw std::runtime_error("Could not create fixture guild");
+            }
+            sGuildMgr->AddGuild(guild);
+            _consoleRestores.Add("guild delete \"" + name + "\"");
+            for (auto const& member : step.get_child("members"))
+                Require(guild->AddMember(GetPlayer(member.second.get_value<std::string>())->GetGUID()),
+                    "Could not add a fixture guild member");
         }
         else if (action == "lfg_dungeon")
         {
@@ -7633,6 +7735,11 @@ private:
                 << step.get<std::string>("to") << step.get<std::string>("text");
             player->GetSession()->HandleMessagechatOpcode(packet);
             record.put("result", "whisper sent; verify delivery with assertions");
+        }
+        else if (action == "chat_log_cleanup")
+        {
+            Require(CoAChatLog::Flush(true), "chat_log_cleanup could not write the pending rows");
+            CoAChatLog::Cleanup(uint32(GameTime::GetGameTime().count()) + step.get<uint32>("days_ahead") * DAY, true);
         }
         else if (action == "addon_message")
         {
@@ -7762,7 +7869,8 @@ private:
         else if (action == "attack_nearby" || action == "loot_nearby")
         {
             std::list<Creature*> creatures;
-            player->GetCreatureListWithEntryInGrid(creatures, step.get<uint32>("entry"), 40.0f);
+            player->GetCreatureListWithEntryInGrid(creatures, step.get<uint32>("entry"),
+                step.get<float>("radius", 40.0f));
             size_t found = creatures.size();
             creatures.remove_if([player, &action](Creature* creature)
             {
@@ -7786,10 +7894,16 @@ private:
                 Require(player->IsValidAttackTarget(creatures.front()), "Invalid melee attack target");
                 if (step.get<bool>("kill", false))
                 {
-                    Unit::DealDamage(player, creatures.front(), creatures.front()->GetMaxHealth() * 100u, nullptr, DIRECT_DAMAGE,
-                        SPELL_SCHOOL_MASK_NORMAL);
-                    Require(!creatures.front()->IsAlive(),
-                        "Killing blow did not kill, health left " + std::to_string(creatures.front()->GetHealth()));
+                    if (!step.get<bool>("all", false))
+                        creatures.resize(1);
+                    for (Creature* creature : creatures)
+                    {
+                        Require(player->IsValidAttackTarget(creature), "Invalid melee attack target");
+                        Unit::DealDamage(player, creature, creature->GetMaxHealth() * 100u, nullptr, DIRECT_DAMAGE,
+                            SPELL_SCHOOL_MASK_NORMAL);
+                        Require(!creature->IsAlive(),
+                            "Killing blow did not kill, health left " + std::to_string(creature->GetHealth()));
+                    }
                 }
                 else if (auto damagePct = step.get_optional<int32>("damage_pct"))
                 {
@@ -8864,6 +8978,7 @@ private:
     std::optional<PtrCharacterCopy::TestOverride> _ptrCharacterCopy;
     std::optional<AscensionVanityOwnership::TestOverride> _vanityOwnership;
     std::optional<TwoSideConfig> _twoSide;
+    std::optional<ChatLogConfig> _chatLog;
     std::optional<QuestLogSizeConfig> _questLogSize;
     GameEventStates _gameEvents;
     ConsoleRestores _consoleRestores;

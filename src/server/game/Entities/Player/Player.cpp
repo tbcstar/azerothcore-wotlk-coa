@@ -2948,6 +2948,7 @@ void Player::SendInitialSpells()
     std::size_t countPos = data.wpos();
     data << uint16(spellCount);                             // spell count placeholder
 
+    std::unordered_set<uint32> listedSpells;
     for (PlayerSpellMap::const_iterator itr = m_spells.begin(); itr != m_spells.end(); ++itr)
     {
         if (itr->second->State == PLAYERSPELL_REMOVED)
@@ -2957,7 +2958,12 @@ void Player::SendInitialSpells()
             !itr->second->IsInSpec(GetActiveSpec()) || IsTemporarySpellReplacementStandIn(itr->first))
             continue;
 
-        data << uint32(GetTemporarySpellReplacement(itr->first));
+        // Several ranks of one spell can share a temporary replacement; the client lists each spell once.
+        uint32 const listed = GetTemporarySpellReplacement(itr->first);
+        if (!listedSpells.insert(listed).second)
+            continue;
+
+        data << uint32(listed);
         data << uint16(0);                                  // it's not slot id
 
         ++spellCount;
@@ -10091,6 +10097,7 @@ void Player::Say(std::string_view text, Language language, WorldObject const* /*
     // Special handling for messages, do not use visibility map for stealthed units
     Acore::MessageDistDeliverer notifier(this, &data, sWorld->getFloatConfig(CONFIG_LISTEN_RANGE_SAY), Acore::TeamFilter::All, nullptr, true);
     Cell::VisitObjects(this, notifier, sWorld->getFloatConfig(CONFIG_LISTEN_RANGE_SAY));
+    sScriptMgr->OnPlayerAfterChat(this, CHAT_MSG_SAY, language, _text);
 }
 
 void Player::Say(uint32 textId, WorldObject const* target /*= nullptr*/)
@@ -10119,6 +10126,7 @@ void Player::Yell(std::string_view text, Language language, WorldObject const* /
     // Special handling for messages, do not use visibility map for stealthed units
     Acore::MessageDistDeliverer notifier(this, &data, sWorld->getFloatConfig(CONFIG_LISTEN_RANGE_YELL), Acore::TeamFilter::All, nullptr, true);
     Cell::VisitObjects(this, notifier, sWorld->getFloatConfig(CONFIG_LISTEN_RANGE_YELL));
+    sScriptMgr->OnPlayerAfterChat(this, CHAT_MSG_YELL, language, _text);
 }
 
 void Player::Yell(uint32 textId, WorldObject const* target /*= nullptr*/)
@@ -10166,6 +10174,7 @@ void Player::TextEmote(std::string_view text, WorldObject const* /*= nullptr*/, 
             Cell::VisitObjects(this, notifier, sWorld->getFloatConfig(CONFIG_LISTEN_RANGE_TEXTEMOTE));
         }
     }
+    sScriptMgr->OnPlayerAfterChat(this, CHAT_MSG_EMOTE, LANG_UNIVERSAL, _text);
 }
 
 void Player::TextEmote(uint32 textId, WorldObject const* target /*= nullptr*/, bool /*isBossEmote = false*/)
@@ -10194,6 +10203,7 @@ void Player::Whisper(std::string_view text, Language language, Player* target, b
     {
         ChatHandler::BuildChatPacket(data, CHAT_MSG_WHISPER, language, this, this, _text);
         target->SendDirectMessage(&data);
+        sScriptMgr->OnPlayerAfterChat(this, CHAT_MSG_WHISPER, language, _text, target);
     }
 
     // rest stuff shouldn't happen in case of addon message
@@ -14207,6 +14217,11 @@ void Player::SetTemporarySpellReplacement(uint32 original, uint32 replacement, b
         {
             return entry.first != original && entry.second == replacement && HasActiveSpell(entry.first);
         });
+    bool const previousShared = previous != original && std::any_of(m_temporarySpellReplacements.begin(),
+        m_temporarySpellReplacements.end(), [this, original, previous](auto const& entry)
+        {
+            return entry.first != original && entry.second == previous && HasActiveSpell(entry.first);
+        });
     if (!replacement)
     {
         m_temporarySpellReplacements.erase(original);
@@ -14233,9 +14248,15 @@ void Player::SetTemporarySpellReplacement(uint32 original, uint32 replacement, b
             sScriptMgr->OnPlayerTemporarySpellRemoveNotice(this, replacement, true);
         }
         sScriptMgr->OnPlayerTemporarySpellReplacementNotice(this, previous, replacement, false);
-        WorldPacket packet(SMSG_SUPERCEDED_SPELL, 8);
-        packet << previous << replacement;
-        GetSession()->SendPacket(&packet);
+        // Another rank still shows the previous spell, so its row stays and this rank gets a row of its own.
+        if (previousShared)
+            SendLearnPacket(replacement, true);
+        else
+        {
+            WorldPacket packet(SMSG_SUPERCEDED_SPELL, 8);
+            packet << previous << replacement;
+            GetSession()->SendPacket(&packet);
+        }
         sScriptMgr->OnPlayerTemporarySpellReplacementNotice(this, previous, replacement, true);
     }
 }

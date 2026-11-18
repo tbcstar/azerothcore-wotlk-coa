@@ -389,7 +389,9 @@ runs such a case exclusively because the setting is process-global. Optional
 `CoA.StarterVanityItems` for that case in the same way, and is likewise run exclusively. Optional
 `two_side: {"trade": true, "mail": false}` sets `AllowTwoSide.Trade` and `AllowTwoSide.Interaction.Mail` for that
 case (an omitted field is disabled) and is likewise run exclusively. Its optional `group` sets
-`AllowTwoSide.Interaction.Group`, which keeps the configured value when omitted. Optional
+`AllowTwoSide.Interaction.Group`, which keeps the configured value when omitted. Optional `chat_log: true`
+turns `CoA.ChatLog.Enable` on for that case and back to the configured state when it ends, and is likewise run
+exclusively. Optional
 `ptr_character_copy: true` makes this realm both the source and the target of `.ptr copy` for that case, with no
 cooldown, and is likewise run exclusively. Queued copies load and report within a 5-second poll, so wait after
 the command before asserting. With it, `ptr_character_copy_interruption: "before_load"` or `"after_load"` stops
@@ -497,11 +499,12 @@ assert stable maximums and final levels when testing damage coefficients.
 | `game_event` | `event`, `active`: start or stop a game event whatever the realm date, so a holiday case passes on any day; `event start`/`event stop` refuse an event already in that state. The case restores each event's original state when it ends and runs exclusively, because events are process-global. |
 | `command` | `actor`, `command` beginning with `.`: execute with the player's normal permissions. Optional `rejected: true` instead requires the command to be refused (unknown, malformed or answered with an error). |
 | `whisper` | Player `actor`, `to`, `text`, optional `language` (Common by default): the client's whisper packet, sent as typed. |
+| `chat_log_cleanup` | `actor`, `days_ahead` (0-3650): writes the chat log's pending rows, then runs its daily cleanup as if the realm clock were `days_ahead` days later, waiting for it: every `coa_chat_log` row older than `CoA.ChatLog.KeepDays` days at that time is deleted. |
 | `learn`, `unlearn` | `actor`, `spell`: configure learned spells/passives through player APIs. `unlearn` accepts `all_specs: true` to remove the fixture grant from every specialization before testing a lower weapon rank. |
 | `money` | `actor`, `copper`: fixture purse, so a priced trainer row can be bought on a character that starts with none. |
 | `set_player_setting` | `actor`, `source`, `index`, `value`: fixture a stored character setting, such as a value saved by an earlier build, before a `relog` reads it. |
 | `set_aura` | `actor`, `spell`, `stacks`: fixture aura state, within its stack limit; zero removes it. Optional `pet: true` selects the actor's current pet, `owned_entry` a creature the actor owns and `target` any scenario actor. Optional `amount` replaces the present aura's `effect` (default 0) amount, so a spell modifier aura can force a value no rank reaches. |
-| `spell_mod_mutant` | Player `actor`, `spell`, `op` (a native `SpellModOp`, 0-31), `percent` (a non-zero whole number from -100 to 1000): adds a player-scoped native `SPELLMOD_PCT` modifier of that operation with `targetSpellId` set to `spell`, so it reaches that spell only. Its owner aura is Dummy Aura - Target: Any - Permanent 100523 (a hidden permanent dummy aura without charges, procs or scripts), applied to the player, so `Player::ApplyModToSpell` can register the modifier inside a spell; removing that aura releases every mutant it owns, and the case end removes it. The step fails when the modifier does not reach the spell (`Player::IsAffectedBySpellmod`) or, for `SPELLMOD_EFFECT1..3` and `SPELLMOD_ALL_EFFECTS`, when the player already has an aura of the spell (an aura amount is computed when the aura is applied). The record holds `mutant_spell`, `mutant_op`, `mutant_percent`, `mutant_owner_aura` and `mutants_active`; the player metric `spell_mod_mutants` reads how many are active. The class conformance server mutants (`conformance/docs/generate-and-compare.md`, Server mutants and K3 consumption) are built on it; [scenarios/spell-mod-mutant-owner-aura.json](scenarios/spell-mod-mutant-owner-aura.json) keeps the owner aura as a regression. |
+| `spell_mod_mutant` | Player `actor`, `spell`, `op` (a native `SpellModOp`, 0-31), `percent` (a non-zero whole number from -100 to 10000; a forced roll above +1000% reaches 100% on a low chance, ADR 0752): adds a player-scoped native `SPELLMOD_PCT` modifier of that operation with `targetSpellId` set to `spell`, so it reaches that spell only. Its owner aura is Dummy Aura - Target: Any - Permanent 100523 (a hidden permanent dummy aura without charges, procs or scripts), applied to the player, so `Player::ApplyModToSpell` can register the modifier inside a spell; removing that aura releases every mutant it owns, and the case end removes it. The step fails when the modifier does not reach the spell (`Player::IsAffectedBySpellmod`) or, for `SPELLMOD_EFFECT1..3` and `SPELLMOD_ALL_EFFECTS`, when the player already has an aura of the spell (an aura amount is computed when the aura is applied). The record holds `mutant_spell`, `mutant_op`, `mutant_percent`, `mutant_owner_aura` and `mutants_active`; the player metric `spell_mod_mutants` reads how many are active. The class conformance server mutants (`conformance/docs/generate-and-compare.md`, Server mutants and K3 consumption) are built on it; [scenarios/spell-mod-mutant-owner-aura.json](scenarios/spell-mod-mutant-owner-aura.json) keeps the owner aura as a regression. |
 | `set_combat_avoidance` | Player `actor` (or its `target`, also a player), optional `dodge`/`parry` (default 0): fixture `Player::m_realDodge`/`m_realParry` directly (`SetRealDodgeParryForTest`), bypassing the normal rating/skill recompute, so a melee-class vehicle cast lands deterministically regardless of the target's own avoidance stats. |
 | `cancel_aura` | Player `actor`, `spell`: native `CMSG_CANCEL_AURA` handler; assert the resulting aura state. |
 | `cancel_mount` | Player `actor`: native `CMSG_CANCEL_MOUNT_AURA` handler, the dismount a client sends with a mounted cast. |
@@ -514,13 +517,15 @@ assert stable maximums and final levels when testing damage coefficients.
 | `cast` | `actor`, `spell`, optional `target` (self by default), `target_item` (an owned item entry) or `target_gameobject` (the nearest gameobject of that entry within 20 yards): normal session cast handler. |
 | `cast_no_target` | `actor`, `spell`: same handler with no explicit unit, item or gameobject target in the cast packet, so `Spell::InitExplicitTargets` (`src/server/game/Spells/Spell.cpp`) runs its own target correction instead of the harness supplying one — self when the spell's explicit mask needs an ally/party/raid target, the caster's own `GetVictim()` when the caster is a creature, otherwise none. For a player caster whose spell needs an ally-type target this still resolves to self (`InitExplicitTargets`' own "didn't find anything - let's use self as target" branch runs before any server script hook sees the target), so it does not reach a player's own `Unit::GetVictim()` fallback in a spell handler for such a spell; it reaches one for a spell with no ally/party/raid target in its explicit mask. |
 | `attack` | `actor`, `target`: native melee attack request; optional `pet: true` sends the pet's attack command. Verify combat or damage with assertions. |
+| `attack_nearby` | `actor`, `entry`, optional `radius` (default 40): native `CMSG_ATTACKSWING` on the nearest living creature of that entry. `kill: true` instead kills it through `Unit::DealDamage`, and with `all: true` every living one in range, as a raid clears trash before a boss; `damage_pct` (1..99) deals that share of its health. |
 | `stop_attack` | Player `actor`: native melee stop request. |
 | `pvp` | Player `actor`, boolean `enabled`: native PvP toggle request. Disabling retains the ordinary flag-removal timer. |
 | `set_moving` | Player `actor`, boolean `enabled`: fixture the native forward movement flag for cast restriction tests. Optional `flag`: `forward` (default), `backward`, `strafe_left`, `strafe_right` or `falling` (airborne, as during a jump). |
 | `relocate` | Player `actor`, optional `dx`, `dy`, `dz` (yards, -20 to 20): move the actor through the native position update a client movement packet applies, so movement and turning interrupts run; no packet is sent. |
 | `move_point` | Fixture creature `actor` (not `stationary`), `dx`, optional `dy` (yards, -100 to 100): a running point move from its position; speed auras apply to the move as it runs. |
 | `fall` | Player `actor`, `height` (yards, 1 to 60): a harness-simulated landing. The fall start is set `height` yards above the actor through `Player::UpdateFallInformationIfNeed` (as a client's first falling packet does), then `Player::HandleFall` is called with a landing `MovementInfo` at the actor's position, as `MSG_MOVE_FALL_LAND` reaches it in `WorldSession::ProcessMovementInfo`. Refused for a dead, GM, god-mode, hovering, feather-falling, flying, in-flight, swimming or physically immune player. The record carries `height`, `fall_time_ms`, `safe_fall` (SPELL_AURA_SAFE_FALL total), `fall_damage_rate` (Rate.Damage.Fall) and `health_lost`. |
-| `group` | `actor`, `target`, optional `loot_method` (0-4) and `master_looter` (a player id, read with `loot_method`): fixture party; creates the actor's group if needed, adds an ungrouped player and sets the loot method and master looter. |
+| `group` | `actor`, `target`, optional `loot_method` (0-4) and `master_looter` (a player id, read with `loot_method`) and `raid` (boolean): fixture party; creates the actor's group if needed, adds an ungrouped player and sets the loot method and master looter; `raid: true` then makes the group a raid. |
+| `guild` | Player `actor` (the leader, without a guild), `members` (other player ids), optional `name` (1-24 letters, default `Chatlogguild`): fixture guild with the actor as guild master and the members at the lowest rank; deleted when the case ends. |
 | `loot_roll` | Player `actor`, `item`, `vote` (0 pass, 1 need, 2 greed, 3 disenchant): native `CMSG_LOOT_ROLL` on the group's pending roll for that item (or a level-scaled copy) in which the actor takes part. |
 | `master_loot_give` | Player `actor` as master looter, `item`, `target` (a player id): native `CMSG_LOOT_MASTER_GIVE` of that item from the actor's open loot to the target. |
 | `send_mail` | Player `actor`, `target` (another player id): the actor mails the target a plain player letter, committed to the database at once. |
@@ -678,6 +683,7 @@ reports whether the player carries it (for example `8` customize, `64` faction c
 `health_pct` observes current health as a percentage of maximum health.
 `creature_type` reads the native type used by creature-type targeting and effects.
 `mount_display_id` reads the unit's actual mount display; zero means the unit is dismounted.
+`vehicle_base_entry` reads the entry of the unit the actor rides as a vehicle passenger; zero means it rides none.
 `can_fly` is 1 while the unit may fly, and `flight_speed_rate` reads its current flight speed rate.
 `cast_speed_multiplier` observes the native cast-time multiplier; smaller values mean faster casts.
 `spell_crit_chance` observes the player's Shadow spell critical chance, in percentage points.
@@ -695,7 +701,9 @@ skill line for that spell.
 `spell_crit_chance` optionally accepts `school` (0..6, default Shadow). `melee_crit_chance`, `dodge_chance` and
 `parry_chance` read the player's percentage fields. `melee_crit_chance_refreshed` first calls
 `Player::UpdateCritPercentage(BASE_ATTACK)`, the computation a stat update runs, and then reads the field: the query
-therefore writes `PLAYER_CRIT_PERCENTAGE`, which later melee crit rolls read. `expertise` reads main-hand
+therefore writes `PLAYER_CRIT_PERCENTAGE`, which later melee crit rolls read. `melee_crit_taken_chance` and
+`daze_taken_chance` require `target`, the attacker, and return its main-hand critical chance against the player and
+its chance to daze the player with a landed hit from behind (`Unit::GetMeleeDazeChance`). `expertise` reads main-hand
 expertise; `combat_rating` requires `rating` (0..24, native `CombatRating`) and reads the rating value. `stat` requires
 `stat` (0..4), `resistance` requires `school` (1..6); `item_armor_by_subclass` requires `subclass`
 (`ITEM_SUBCLASS_ARMOR_*`, 0..10) and reads a player's `Player::GetItemArmorBySubclass`, the raw item-sourced
@@ -775,7 +783,8 @@ damage events, or sum their post-mitigation damage, from the actor's native comb
 filters the victim, `pet: true` selects the actor's current pet as caster, `caster` selects another actor such
 as a creature fixture, and `critical` filters critical or noncritical hits. `blocked` keeps only the direct hits
 whose log reports (true) or lacks (false) a blocked amount; periodic damage is never blocked. `resisted` does the same
-with the log's resisted amount; periodic damage always reads unresisted. Values accumulate
+with the log's resisted amount; periodic damage always reads unresisted. `periodic` keeps only the periodic aura
+ticks (true) or only the direct hits (false) of the spell. Values accumulate
 throughout the scenario; use snapshots and `relative_to` around a cast.
 `caster_entry` (in place of `entry`, `pet` and `caster`) counts every caster of that creature entry from the recorded
 events, as the `owned_creature_*` metrics resolve it, without a live creature (a creature another unit summoned, alive
@@ -928,7 +937,8 @@ byte in `SMSG_FRIEND_STATUS` (104) after a native `CMSG_ADD_FRIEND` (105) reques
 `server_packet_float` uses the same fields to decode a finite IEEE 754 float. With `from_end: true`,
 `index: 0` reads the last float and `index: 1` the preceding float, independent of a packed GUID's size.
 The recorded core packets include damage shield hits (`SMSG_SPELLDAMAGESHIELD`, 591: attacker and shield owner
-GUIDs, then the spell at word 4 and the damage at word 5), duel request (359), countdown (695) and completion (362), and
+GUIDs, then the spell at word 4 and the damage at word 5), spell visual kits (`SMSG_PLAY_SPELL_VISUAL`, 499: unit
+GUID, then the SpellVisualKit at word 2), duel request (359), countdown (695) and completion (362), and
 `SMSG_MOVE_KNOCK_BACK` (239), whose final two floats are horizontal
 speed and the negated vertical speed. These observations do not simulate client movement or keyboard input.
 Besides the Ascension extension opcodes (0x520 and above), the recorded packets include the learned, superseded
@@ -999,6 +1009,12 @@ commands and reactions are excluded. It requires a pet with charm information an
 `bank_shows` counts the native bank windows the actor's session has been sent, which is what a
 banker click is answered with. `system_messages` counts the chat lines the session has been sent.
 `whispers_received` counts whispers the actor received from player `from` with exactly `text`.
+`chat_log_rows` writes the chat log's pending rows, then counts the `coa_chat_log` rows the actor sent of
+`chat_type` (`say`, `yell`, `emote`, `text_emote`, `whisper`, `party`, `party_leader`, `raid`, `raid_leader`,
+`raid_warning`, `battleground`, `battleground_leader`, `guild`, `officer`, `channel`, `mail`); optional
+`chat_text`, `chat_channel`, `chat_subject`, `chat_name` (the sender's name as written on the row) and `chat_target_name` must match exactly, `chat_target` names the player the row is
+addressed to, `chat_emote` is the text emote id, and `chat_has_position`, `chat_has_group`, `chat_has_guild` and
+`chat_has_mail_id` require that value to be set (true) or zero (false).
 `cast_failure` requires `spell` and reports the reason the client was told the last submitted cast of
 that spell was refused, or zero if it was not refused since (the record is cleared when the scenario
 submits that spell again).
@@ -1111,6 +1127,9 @@ Frost), `SpellDoneCritChance` with the magic probe `spell` and no victim: the ba
 and the owner's crit spell modifiers on the probe. It requires `spell`, a magic spell.
 `melee_crit_chance_against` reads the player's melee crit chance against the unit named by `target`
 (`GetUnitCriticalChance(BASE_ATTACK)`, the conditional crit modifiers included).
+`ranged_taken_crit_chance` reads the player's ranged crit chance against the unit named by `target`
+(`GetUnitCriticalChance(RANGED_ATTACK)`): own field plus target-side terms, contrast on the same target. Its evidence
+row is a state read promised by the crit words, proven by the learned contrast (ADR 0746).
 `owned_gameobject_count` requires a player and `entry`. It counts their summoned gameobjects of that entry
 in the same phase and within 100 yards. `gameobject_display` reads the native display id shared by every owned
 object of that entry and fails when they differ. `gameobject_scale` reads the single owned object's native
@@ -1502,7 +1521,8 @@ checked undamaged before its encounter. `nearby_creature_can_attack` returns 1 w
 `IsValidAttackTarget` lets the actor attack that creature, otherwise 0. `nearby_creature_at_client` returns 1 while
 that creature is in the actor's client-visible set, as the player would see it, otherwise 0; a creature hidden with
 `SetVisible(false)` stays 0 for a non-GM player. `nearby_creature_mount_display` reads
-that creature's mount display id (0 when on foot) and `nearby_creature_display` its current display id.
+that creature's mount display id (0 when on foot), `nearby_creature_display` its current display id and
+`nearby_creature_scale` its current object scale (its native display scale times any scale auras).
 `nearby_creature_aura_count` requires `spell` and counts the
 living creatures of the entry within 60 yards that carry that aura.
 `nearby_creature_sent_spellclick` reads that creature's NPC flags from the last values update the actor's client

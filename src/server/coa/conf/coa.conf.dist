@@ -1127,3 +1127,6 @@ XPHotspots.ActiveCount = 3
 XPHotspots.BuffSpell = 993945
 # Brand: 客户端与热点一起显示的简短标签（最多 32 个字符，不能包含“|”）；留空 = 无。
 XPHotspots.Brand = ""
+
+CoA.ChatLog.Enable = 0
+CoA.ChatLog.KeepDays = 30

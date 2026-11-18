@@ -1203,7 +1203,7 @@ PacketSpoof.BanDuration = 86400
 #        Default:     1 - (Enabled)
 #                     0 - (Disabled)
 
-Warden.Enabled = 0
+Warden.Enabled = 1
 
 #
 #    Warden.NumMemChecks
@@ -1256,7 +1256,7 @@ Warden.ClientCheckHoldOff = 30
 #                     1 - （踢出）
 #                     2 - （封禁）
 
-Warden.ClientCheckFailAction = 0
+Warden.ClientCheckFailAction = 1
 
 #
 #    Warden.BanDuration

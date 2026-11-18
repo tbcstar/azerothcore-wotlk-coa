@@ -910,9 +910,12 @@ Ascension.PrestigiousCache.TbcStages = 0
 #                     通过 .reload config 应用；客户端的难度列表在下次登录时更新。
 #                     .raidphase set <0-8> 会在 characters 数据库中覆盖此值，
 #                     直到 .raidphase clear；.raidphase 显示当前阶段。
+#        本服：2 = 已发布英雄与史诗地下城，经典团本仍关闭（祖尔格拉布从 3 起）。
+#        后续抬档只改这一行并 .reload config；若曾用 .raidphase set 覆盖过，
+#        必须先 .raidphase clear，否则覆盖值优先级更高。
 #        Default:     3
 
-Ascension.CallboardCache.ReleaseStage = 0
+Ascension.CallboardCache.ReleaseStage = 2
 #
 #    Ascension.CallboardCache.PreviousStageOnly
 #        说明：将每个通用 Callboard Cache 保持在已发布阶段低一个阶段。

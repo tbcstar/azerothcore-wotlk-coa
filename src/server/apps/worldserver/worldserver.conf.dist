@@ -2639,17 +2639,17 @@ Rate.XP.Profession.Inscription = 2.88
 Rate.XP.Profession.Woodcutting = 0.33
 Rate.XP.Profession.Woodworking = 1
 
-Rate.XP.Kill            = 1.0909091
-Rate.XP.Kill.TBC        = 1.0909091
-Rate.XP.Kill.WotLK      = 0.90909094
-Rate.XP.Elite           = 1.44
-Rate.XP.DungeonElite    = 2.175
-Rate.XP.Quest           = 1.26
-Rate.XP.Quest.TBC       = 1.26
-Rate.XP.Quest.WotLK     = 1.05
-Rate.XP.Quest.DF        = 1
+Rate.XP.Kill            = 2.0909091
+Rate.XP.Kill.TBC        = 2.0909091
+Rate.XP.Kill.WotLK      = 2.90909094
+Rate.XP.Elite           = 2.88
+Rate.XP.DungeonElite    = 4.175
+Rate.XP.Quest           = 2.26
+Rate.XP.Quest.TBC       = 2.26
+Rate.XP.Quest.WotLK     = 2.05
+Rate.XP.Quest.DF        = 2
 Rate.XP.Explore         = 4
-Rate.XP.Pet             = 1
+Rate.XP.Pet             = 2
 
 #
 #    Rate.XP.BattlegroundKill...
@@ -2657,19 +2657,19 @@ Rate.XP.Pet             = 1
 #                     仅在 Battleground.GiveXPForKills = 1 时有效
 #        Default:     1
 
-Rate.XP.BattlegroundKillAV   = 1
-Rate.XP.BattlegroundKillWSG  = 1
-Rate.XP.BattlegroundKillAB   = 1
-Rate.XP.BattlegroundKillEOTS = 1
-Rate.XP.BattlegroundKillSOTA = 1
-Rate.XP.BattlegroundKillIC   = 1
+Rate.XP.BattlegroundKillAV   = 2
+Rate.XP.BattlegroundKillWSG  = 2
+Rate.XP.BattlegroundKillAB   = 2
+Rate.XP.BattlegroundKillEOTS = 2
+Rate.XP.BattlegroundKillSOTA = 2
+Rate.XP.BattlegroundKillIC   = 2
 
 #
 #    Rate.XP.BattlegroundBonus
 #        Description: 战场目标（夺旗、占领基地等）的经验倍率。
 #        Default:     1
 
-Rate.XP.BattlegroundBonus = 1
+Rate.XP.BattlegroundBonus = 2
 
 #
 #    Rate.Pet.LevelXP

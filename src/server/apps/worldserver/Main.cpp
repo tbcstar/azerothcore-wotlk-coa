@@ -68,6 +68,8 @@
 #include <openssl/opensslv.h>
 
 #if AC_PLATFORM == AC_PLATFORM_UNIX
+#include <climits>
+#include <cstring>
 #include <execinfo.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -158,6 +160,29 @@ void WriteFaulted(int fileDescriptor, char const* text, size_t length)
     }
 }
 
+char const* CrashLogPath()
+{
+    static char path[PATH_MAX] = "/tmp/worldserver-crash-backtrace.log";
+
+    ssize_t const length = ::readlink("/proc/self/exe", path, sizeof(path) - 1);
+    if (length <= 0)
+        return path;
+
+    path[length] = '\0';
+    for (ssize_t index = length; index > 0; --index)
+    {
+        if (path[index - 1] == '/')
+        {
+            char const suffix[] = "crash-backtrace.log";
+            if (size_t(index) + sizeof(suffix) <= sizeof(path))
+                std::memcpy(path + index, suffix, sizeof(suffix));
+            return path;
+        }
+    }
+
+    return "/tmp/worldserver-crash-backtrace.log";
+}
+
 [[noreturn]] void CrashSignalHandler(int signalNumber, siginfo_t* info, void* /*context*/)
 {
     char header[192];
@@ -168,7 +193,7 @@ void WriteFaulted(int fileDescriptor, char const* text, size_t length)
     void* frames[CrashBacktraceFrames];
     int const frameCount = ::backtrace(frames, CrashBacktraceFrames);
 
-    int const crashLog = ::open("crash-backtrace.log", O_WRONLY | O_CREAT | O_APPEND, 0644);
+    int const crashLog = ::open(CrashLogPath(), O_WRONLY | O_CREAT | O_APPEND, 0644);
     for (int const fileDescriptor : { STDERR_FILENO, crashLog })
     {
         if (fileDescriptor < 0)

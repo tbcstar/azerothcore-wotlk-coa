@@ -227,6 +227,8 @@ constexpr uint16 SMSG_PATCH_SPELL_SHAPESHIFT_FORM = 0x0949;
 constexpr uint16 SMSG_PATCH_CREATURE_MODEL_DATA = 0x0974;
 constexpr uint16 SMSG_PATCH_VEHICLE = 0x097A;
 constexpr uint16 SMSG_PATCH_VEHICLE_SEAT = 0x097B;
+constexpr uint16 SMSG_PATCH_WORLD_MAP_AREA = 0x09AA;
+constexpr uint16 SMSG_PATCH_WORLD_MAP_OVERLAY = 0x09AC;
 constexpr uint32 CUSTOM_DISPLAY_ID_FALLBACK_MIN = 652000;
 constexpr uint32 DISPLAY_PATCH_FALLBACK_DELAY_MS = 5000;
 
@@ -1071,7 +1073,7 @@ public:
 
     learned += RestorePurchasedRanks(player);
     learned += SynchronizeTaughtAbilities(player);
-    learned += SynchronizeTalentReplacements(player);
+    SynchronizeTalentReplacements(player);
     RemoveAscensionPrimalistWeapons(player);
     SynchronizeAscensionRunemasterEchoes(player, GetActiveSpecialization(player));
 
@@ -1193,13 +1195,19 @@ public:
                     reachedRanks[reachedRanks.size() - 1 - std::min(index, reachedRanks.size() - 1)];
         }
 
+        std::vector<std::pair<uint32, uint32>> byRank(replacements.begin(), replacements.end());
+        std::stable_sort(byRank.begin(), byRank.end(), [](auto const& left, auto const& right)
+        {
+            return sSpellMgr->GetSpellRank(left.first) < sSpellMgr->GetSpellRank(right.first);
+        });
+
         std::set<uint32> desired;
         for (auto const& [id, replacement] : replacements)
         {
             if (replacement)
                 desired.insert(replacement);
         }
-        for (auto const& [id, replacement] : replacements)
+        for (auto const& [id, replacement] : byRank)
         {
             uint32 const current = player->GetTemporarySpellReplacement(id);
             if (current != replacement && (!replacement || !desired.count(current)))
@@ -1230,7 +1238,7 @@ public:
             }
         }
         bool barChanged = false;
-        for (auto const& [id, replacement] : replacements)
+        for (auto const& [id, replacement] : byRank)
         {
             player->SetTemporarySpellReplacement(id, replacement);
             if (!replacement)
@@ -4335,8 +4343,10 @@ public:
       if (CreatureDisplayInfoEntry const *entry =
               sCreatureDisplayInfoStore.LookupEntry(displayId)) {
         auto const textures = rows.CreatureDisplayTextures.find(displayId);
+        auto const alpha = rows.CreatureDisplayAlphas.find(displayId);
         bytes += SendDisplayInfoRow(player, *entry,
-            textures != rows.CreatureDisplayTextures.end() ? &textures->second : nullptr);
+            textures != rows.CreatureDisplayTextures.end() ? &textures->second : nullptr,
+            alpha != rows.CreatureDisplayAlphas.end() ? alpha->second : uint8(255));
         ++sent;
       }
     }
@@ -4385,14 +4395,22 @@ public:
     for (VehiclePatchRow const& row : rows.Vehicles)
       bytes += SendVehicleRow(player, row);
 
+    for (NamedDbcPatchRow const& row : rows.WorldMapAreas)
+      bytes += SendNamedDbcRow(player, SMSG_PATCH_WORLD_MAP_AREA, row);
+
+    for (NamedDbcPatchRow const& row : rows.WorldMapOverlays)
+      bytes += SendNamedDbcRow(player, SMSG_PATCH_WORLD_MAP_OVERLAY, row);
+
     LOG_INFO("coa",
              "Streamed {} CreatureModelData, {} CreatureDisplayInfo, {} ItemDisplayInfo, {} of {} Item, "
              "{} Spell, {} SuperTrack, {} QuestSuperTrack, {} SkillLineAbility, {} SpellShapeshiftForm, "
-             "{} VanityCollection, {} VehicleSeat and {} Vehicle patch rows ({} bytes) to {} in {} ms",
+             "{} VanityCollection, {} VehicleSeat, {} Vehicle, {} WorldMapArea and {} WorldMapOverlay "
+             "patch rows ({} bytes) to {} in {} ms",
              rows.CreatureModels.size(), sent, rows.ItemDisplayInfos.size(), sentItems.Rows,
              rows.Items.size(), sentSpells, rows.SuperTracks.size(), rows.QuestSuperTracks.size(),
              rows.SkillLineAbilities.size(), rows.ShapeshiftForms.size(), rows.VanityCollections.size(),
-             rows.VehicleSeats.size(), rows.Vehicles.size(), bytes,
+             rows.VehicleSeats.size(), rows.Vehicles.size(), rows.WorldMapAreas.size(),
+             rows.WorldMapOverlays.size(), bytes,
              player->GetName(), GetMSTimeDiffToNow(startTime));
 
     if (!rows.ShapeshiftForms.empty() && player->GetShapeshiftForm() != FORM_NONE)
@@ -4471,6 +4489,29 @@ private:
   };
 
   using VehicleSeatPatchRow = std::array<uint32, VEHICLE_SEAT_DBC_FIELD_COUNT>;
+
+  struct NamedDbcPatchRow {
+    std::vector<uint32> Values;
+    std::string Name;
+  };
+
+  struct NamedDbcPatchTable {
+    char const *Query;
+    char const *TableName;
+    uint32 FieldCount;
+    uint32 NameField;
+  };
+
+  static constexpr NamedDbcPatchTable WORLD_MAP_AREA_TABLE{
+      "SELECT `ID`, `MapID`, `AreaID`, `AreaName`, `LocLeft`, `LocRight`, `LocTop`, `LocBottom`, "
+      "`DisplayMapID`, `DefaultDungeonFloor`, `ParentWorldMapID` FROM `coa_client_world_map_area` ORDER BY `ID`",
+      "coa_client_world_map_area", 11, 3};
+
+  static constexpr NamedDbcPatchTable WORLD_MAP_OVERLAY_TABLE{
+      "SELECT `ID`, `MapAreaID`, `AreaID_1`, `AreaID_2`, `AreaID_3`, `AreaID_4`, `MapPointX`, `MapPointY`, "
+      "`TextureName`, `TextureWidth`, `TextureHeight`, `OffsetX`, `OffsetY`, `HitRectTop`, `HitRectLeft`, "
+      "`HitRectBottom`, `HitRectRight` FROM `coa_client_world_map_overlay` ORDER BY `ID`",
+      "coa_client_world_map_overlay", 17, 8};
 
   static constexpr uint32 VANITY_COLLECTION_DBC_FIELD_COUNT = 77;
   static constexpr uint32 VANITY_COLLECTION_DESCRIPTION_FIELD = 42;
@@ -4571,7 +4612,10 @@ private:
     std::vector<VanityCollectionPatchRow> VanityCollections;
     std::vector<VehicleSeatPatchRow> VehicleSeats;
     std::vector<VehiclePatchRow> Vehicles;
+    std::vector<NamedDbcPatchRow> WorldMapAreas;
+    std::vector<NamedDbcPatchRow> WorldMapOverlays;
     std::unordered_map<uint32, std::array<std::string, 4>> CreatureDisplayTextures;
+    std::unordered_map<uint32, uint8> CreatureDisplayAlphas;
   };
 
   static constexpr uint32 SPELL_ATTRIBUTES_FIELD = 4;
@@ -4908,7 +4952,8 @@ private:
 
   std::size_t SendDisplayInfoRow(Player *player,
                                  CreatureDisplayInfoEntry const &entry,
-                                 std::array<std::string, 4> const *textures) const {
+                                 std::array<std::string, 4> const *textures,
+                                 uint8 alpha = 255) const {
     WorldPacket packet(SMSG_PATCH_CREATURE_DISPLAY_INFO, 80);
 
     uint32 const soundId = 0;
@@ -4918,7 +4963,7 @@ private:
     std::memcpy(displayRow + 0x08, &soundId, sizeof(uint32));
     std::memcpy(displayRow + 0x0C, &entry.ExtendedDisplayInfoID, sizeof(uint32));
     std::memcpy(displayRow + 0x10, &entry.scale, sizeof(float));
-    displayRow[0x14] = 255;
+    displayRow[0x14] = alpha;
 
     packet.append(displayRow, sizeof(displayRow));
     for (uint8 stringIndex = 0; stringIndex < 4; ++stringIndex)
@@ -5244,6 +5289,35 @@ private:
     }
   }
 
+  std::size_t SendNamedDbcRow(Player *player, uint16 opcode, NamedDbcPatchRow const &row) const {
+    WorldPacket packet(opcode, (row.Values.size() + 1) * sizeof(uint32) + row.Name.size());
+    for (uint32 value : row.Values)
+      packet << value;
+    AppendSizedString(packet, row.Name);
+    return SendRowPacket(player, packet);
+  }
+
+  static std::vector<NamedDbcPatchRow> LoadNamedDbcPatchRows(NamedDbcPatchTable const &table) {
+    std::vector<NamedDbcPatchRow> rows;
+    QueryResult result = WorldDatabase.Query(table.Query);
+    if (!result)
+      return rows;
+
+    do {
+      Field *fields = result->Fetch();
+      NamedDbcPatchRow &row = rows.emplace_back();
+      row.Values.resize(table.FieldCount);
+      for (uint32 column = 0; column < table.FieldCount; ++column)
+      {
+        if (column == table.NameField)
+          row.Name = fields[column].Get<std::string>();
+        else
+          row.Values[column] = DbcColumnWord(fields[column]);
+      }
+    } while (result->NextRow());
+    return rows;
+  }
+
   static std::vector<VehiclePatchRow> LoadVehiclePatchRows() {
     std::vector<VehiclePatchRow> rows;
     QueryResult result = WorldDatabase.Query("SELECT * FROM `vehicle_dbc` ORDER BY `ID`");
@@ -5432,8 +5506,11 @@ private:
       _rows.VanityCollections = LoadVanityCollectionPatchRows();
       _rows.VehicleSeats = LoadVehicleSeatPatchRows();
       _rows.Vehicles = LoadVehiclePatchRows();
+      _rows.WorldMapAreas = LoadNamedDbcPatchRows(WORLD_MAP_AREA_TABLE);
+      _rows.WorldMapOverlays = LoadNamedDbcPatchRows(WORLD_MAP_OVERLAY_TABLE);
       _rows.CreatureModels = BuildCreatureModelPatchRows();
       _rows.CreatureDisplayTextures = LoadCreatureDisplayTextureRows();
+      _rows.CreatureDisplayAlphas = LoadCreatureDisplayAlphaRows();
       _rowsPrepared = true;
     }
     return _rows;
@@ -5604,6 +5681,22 @@ private:
       std::array<std::string, 4> &textures = rows[fields[0].Get<uint32>()];
       for (uint8 index = 0; index < 4; ++index)
         textures[index] = fields[index + 1].Get<std::string>();
+    } while (result->NextRow());
+
+    return rows;
+  }
+
+  static std::unordered_map<uint32, uint8> LoadCreatureDisplayAlphaRows() {
+    std::unordered_map<uint32, uint8> rows;
+    QueryResult result = WorldDatabase.Query(
+        "SELECT `ID`, `CreatureModelAlpha` FROM `creaturedisplayinfo_dbc` "
+        "WHERE `CreatureModelAlpha` BETWEEN 1 AND 254");
+    if (!result)
+      return rows;
+
+    do {
+      Field const *fields = result->Fetch();
+      rows[fields[0].Get<uint32>()] = uint8(fields[1].Get<int32>());
     } while (result->NextRow());
 
     return rows;

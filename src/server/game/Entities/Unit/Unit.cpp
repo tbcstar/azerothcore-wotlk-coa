@@ -12177,6 +12177,9 @@ bool Unit::_IsValidAssistTarget(Unit const* target, SpellInfo const* bySpell) co
     if (this == target)
         return true;
 
+    if (!sScriptMgr->CanUnitAssist(this, target, bySpell))
+        return false;
+
     // can't assist unattackable units or GMs
     if (target->HasUnitState(UNIT_STATE_UNATTACKABLE)
             || (target->IsPlayer() && target->ToPlayer()->IsGameMaster()))
@@ -14695,7 +14698,8 @@ void Unit::RestoreDisplayId()
     }
 
     // no auras found - set modelid to default
-    SetDisplayId(GetNativeDisplayId());
+    SetDisplayId(GetNativeDisplayId(), GetNativeObjectScale());
+    RecalculateObjectScale();
 }
 
 void Unit::AddComboPoints(Unit* target, int8 count)

@@ -536,6 +536,7 @@ assert stable maximums and final levels when testing damage coefficients.
 | `lfg_set_roles` | Player `actor` in a group, `roles` mask: native `CMSG_LFG_SET_ROLES` answer to the group role check. |
 | `lfg_accept` | Player `actor`: native `CMSG_LFG_PROPOSAL_RESULT` acceptance of the last Dungeon Finder proposal the actor received. |
 | `lfg_final_credit` | Player `actor` in a Dungeon Finder dungeon: credits the final encounter of the group's assigned dungeon, as `encounter_credit` does for that boss, when the proposal chose the dungeon. |
+| `end_battleground` | Player `actor` in a battleground in progress, `winner` (`alliance`, `horde` or `draw`): ends the match through native `EndBattleground` for that side, as a score or timer end would; `draw` ends it with no winner. |
 | `encounter_credit` | Player `actor` in a dungeon, creature `entry`: credits that dungeon boss kill to the actor's map through the native encounter update, as a boss death does, including the Dungeon Finder completion it triggers. |
 | `encounter_start` | Player `actor`, `boss_entry`, optional `radius` (yards, default 100, maximum 200): finds the nearest living creature of that entry in the actor's phase and starts recording its [encounter timeline](#encounter-timelines). It fails at once with `encounter_start found no creature <entry> within <radius> yards` when none is in range. A scenario has at most one; the case runs exclusively because the recorder is process-global. |
 | `leave_group` | Player `actor`: native `CMSG_GROUP_DISBAND` leave request; fails if the player stays grouped. |
@@ -593,6 +594,17 @@ superseded, removed and unlearned) leave it in the client's spellbook. `client_s
 and counts how many rows the client's spellbook holds for it: the client appends a row per announcement and only
 its highest-rank view hides a spell that has ranks, so an unranked spell announced twice (a learned-spell packet
 beside the superseded one that delivers it) is listed twice on screen.
+`client_cooldown_ready` requires `spell` and is 1 unless the client still shows it cooling down. The client
+starts its own cooldown when SMSG_SPELL_GO reports its own cast of a spell in its spellbook (the longer of the
+DBC recovery and category recovery times, shared with the spell's category) and drops it only on an
+SMSG_CLEAR_COOLDOWN for that spell that arrives later, so a clear sent before the cast's SMSG_SPELL_GO is lost.
+`client_cooldown_clears` requires `spell` and counts the SMSG_CLEAR_COOLDOWN packets for it that ended a
+cooldown the client was still showing. That includes a clear that a later SMSG_SPELL_GO of the same cast
+restarts at once, so it does not prove the player saw a reset.
+`client_cooldown_blocked_casts` requires `spell` and counts the actor's own SMSG_SPELL_GO packets for it whose
+`cast` or `cast_no_target` step found the client still showing it cooling down: casts the server allowed but
+the button refused. Readiness is read when the step submits the cast, before any packet of that cast, and an
+SMSG_SPELL_GO without such a step is judged at its arrival.
 XP-delta assertions must also keep the level stable, or crossing a level would wrap the XP bar.
 
 Every step accepts a descriptive `label`. Assertions optionally accept `within_ms`: poll until the expected
@@ -614,8 +626,8 @@ Metrics: `health`, `max_health`, `creature_type`, `power`, `max_power`, `alive`,
 `level`, `quest_objective_count` (needs `quest`, optional `index`), `knows_spell`, `spell_rank` (the spell's rank in its chain, 1 when unranked), `first_rank_spell` (the first rank of its chain, itself when unranked), `has_talent`, `talent_points`, `active_talent_spec`,
 `cooldown_ms`, `spell_cooldown_packet_ms`, `item_loot_releases`, `item_count`, `carried_item_count`, `bank_bag_slots`, `guild_bank_tabs`, `aura`, `aura_stacks`, `aura_charges`,
 `aura_duration_ms`, `aura_amount`, `pet_entry`, `pet_aura_stacks`, `owned_creature_count`, `owned_creature_spacing`,
-`charm_entry`, `charm_distance`, `charm_aura_stacks`, `owned_creature_sent_faction`, `controls_self`, `charmed`,
-`private_instance`, `dynamic_object`,
+`owned_creature_remaining_ms`, `charm_entry`, `charm_distance`, `charm_aura_stacks`, `owned_creature_sent_faction`,
+`controls_self`, `charmed`, `private_instance`, `dynamic_object`,
 `dynamic_object_duration_ms`, `dynamic_object_height`, `distance`, `spell_proc_count`, `spell_proc_chance`,
 `aura_proc_rate`, `spell_cast_count`, `temporary_spell_replacement`,
 `carried_aura_count` (how many of the `spells` list the unit carries, optionally only from `caster`; for an
@@ -811,6 +823,8 @@ that target. It reads position and nothing else, so displacement from a knockbac
 the difference between two observations; take a `snapshot` first and assert `relative_to` it. Height is excluded.
 `position_x`, `position_y` and `position_z` read the unit's native coordinates on its current map, so a
 teleport's landing can be held to its destination with `min`/`max` bounds; pair them with `map_id`.
+`object_scale` reads the unit's object scale (UNIT_FIELD_SCALE), e.g. a boss keeping its model size after a
+display change.
 `in_flight` is 1 while a player rides a taxi and `taxi_destination` is the last node of the route still
 ahead (0 when none). `discover_taxi_node` (player `actor`, TaxiNodes `entry`) marks a node discovered, as
 talking to its flight master does, so a scenario can request a route through it.
@@ -1065,6 +1079,10 @@ An optional `spell` restricts the count to creatures with that aura; `caster` ca
 in their ranged virtual equipment slot; subclass 2 means bows. This observes server equipment, not client rendering.
 `sheath_state` (0..2) restricts it to creatures whose server sheath state is unarmed, melee or ranged (2).
 `target` restricts it to creatures whose current victim is that scenario unit.
+`owned_creature_remaining_ms` requires a player and `entry`. It reads the remaining lifetime timer, in milliseconds,
+of the one living timed-despawn summon of that entry selected as `owned_creature_count` does, or -1 when none is
+present; it fails with more than one such creature or a summon of another despawn type. The timer counts down on the
+summon's own updates, so two reads taken at the same step after their casts compare lifetimes without the removal lag.
 `owned_creature_spacing` requires a player and `entry`. It reads the smallest 2D distance between two of those
 living creatures, selected as `owned_creature_count` does, or zero when fewer than two are present.
 `owned_creature_visible` requires a player and `entry` and reads one matching summon's server visibility,
@@ -1201,6 +1219,9 @@ selection holds it, otherwise 0.
 loot rule lets the actor roll Need on that item at the actor's position, otherwise 0. Outside a Dungeon Finder
 group or its dungeon every item returns 1.
 `in_arena` takes a player `actor` and returns 1 while that player is inside an arena match.
+`arena_points` takes a player `actor` and returns the arena points the player holds.
+`battleground_status` takes a player `actor` and returns the native status of the player's battleground
+(1 waiting for the queue, 2 preparation, 3 in progress, 4 ended and waiting to close), or -1 outside one.
 `battleground_team` takes a player `actor` and returns the side that player fights for inside a battleground or
 arena (0 Alliance, 1 Horde), or -1 outside one. `team` returns the player's current team (0 Alliance, 1 Horde),
 which a cross-faction battleground replaces while the player is inside it. `name_query_race` returns the race the

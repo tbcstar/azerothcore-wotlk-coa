@@ -1006,6 +1006,12 @@ enum class ActorStage
     Ready
 };
 
+struct ClientCooldown
+{
+    uint64 endMs = 0;
+    uint32 category = 0;
+};
+
 struct SpellCastEvent
 {
     ObjectGuid caster;
@@ -1150,6 +1156,10 @@ struct Actor
     std::vector<MeleeHitEvent> meleeHits;
     uint64 castPushbackMs = 0;
     std::vector<SpellCastEvent> spellCasts;
+    std::map<uint32, ClientCooldown> clientCooldowns;
+    std::map<uint32, uint32> clientCooldownClears;
+    std::map<uint32, uint32> clientCooldownBlockedCasts;
+    std::map<uint32, bool> clientReadyAtAttempt;
     std::vector<SpellDamageEvent> spellDamage;
     std::vector<SpellLogEvent> spellLogs;
     std::vector<SpellHealEvent> spellHeals;
@@ -1242,6 +1252,16 @@ uint32 ResolveLiveEntry(Player* player, ObjectGuid const& guid)
     return guid.GetEntry();
 }
 
+bool ClientCooldownReady(Actor const& actor, uint32 spell, uint64 now)
+{
+    SpellInfo const* info = sSpellMgr->GetSpellInfo(spell);
+    uint32 const category = info ? info->GetCategory() : 0;
+    for (auto const& [id, cooldown] : actor.clientCooldowns)
+        if (cooldown.endMs > now && (id == spell || (category && cooldown.category == category)))
+            return false;
+    return true;
+}
+
 void ObserveSpellCasts(Actor& actor, WorldPacket const& packet)
 {
     if (packet.GetOpcode() != SMSG_SPELL_GO)
@@ -1254,6 +1274,20 @@ void ObserveSpellCasts(Actor& actor, WorldPacket const& packet)
     response >> event.spell;
     event.atMs = GameNowMs();
     actor.spellCasts.push_back(event);
+    if (event.caster != actor.guid || !actor.clientSpells.count(event.spell))
+        return;
+    SpellInfo const* info = sSpellMgr->GetSpellInfo(event.spell);
+    if (!info)
+        return;
+    auto const attempt = actor.clientReadyAtAttempt.find(event.spell);
+    bool const ready = attempt != actor.clientReadyAtAttempt.end() ? attempt->second :
+        ClientCooldownReady(actor, event.spell, event.atMs);
+    if (attempt != actor.clientReadyAtAttempt.end())
+        actor.clientReadyAtAttempt.erase(attempt);
+    if (!ready)
+        ++actor.clientCooldownBlockedCasts[event.spell];
+    if (uint32 duration = std::max(info->RecoveryTime, info->CategoryRecoveryTime))
+        actor.clientCooldowns[event.spell] = { event.atMs + duration, info->GetCategory() };
 }
 
 void ObserveSpellDamage(Actor& actor, WorldPacket const& packet, Player* player)
@@ -1501,6 +1535,14 @@ void ObservePacket(Actor& actor, WorldPacket const& packet)
         actor.lfgProposalId = packet.read<uint32>(LfgProposalIdOffset);
     Player* observer = actor.session ? actor.session->GetPlayer() : nullptr;
     ObserveSpellCasts(actor, packet);
+    if (packet.GetOpcode() == SMSG_CLEAR_COOLDOWN && packet.size() >= sizeof(uint32))
+    {
+        uint32 const spell = packet.read<uint32>(0);
+        auto const cooling = actor.clientCooldowns.find(spell);
+        if (cooling != actor.clientCooldowns.end() && cooling->second.endMs > GameNowMs())
+            ++actor.clientCooldownClears[spell];
+        actor.clientCooldowns.erase(spell);
+    }
     ObserveSpellDamage(actor, packet, observer);
     ObserveSpellHealing(actor, packet, observer);
     ObserveSpellEnergize(actor, packet);
@@ -3336,6 +3378,14 @@ private:
 
     static Battleground* InvitedBattleground(Player* player)
     {
+        if (Battleground* battleground = FindInvitedBattleground(player))
+            return battleground;
+
+        throw std::runtime_error("Packet invited battleground type requires a battleground invitation");
+    }
+
+    static Battleground* FindInvitedBattleground(Player* player)
+    {
         for (uint32 slot = 0; slot < PLAYER_MAX_BATTLEGROUND_QUEUES; ++slot)
         {
             BattlegroundQueueTypeId const queueType = player->GetBattlegroundQueueTypeId(slot);
@@ -3350,7 +3400,7 @@ private:
                     return battleground;
         }
 
-        throw std::runtime_error("Packet invited battleground type requires a battleground invitation");
+        return nullptr;
     }
 
     WorldObject* GetQuestGiver(Player* player, Tree const& step)
@@ -3590,7 +3640,7 @@ private:
         {
             Unit* target = GetUnit(step.get<std::string>("target"));
             uint32 const probe = step.get<uint32>("id") - 1;
-            Require(probe <= 5, "Unknown native avoidance probe");
+            Require(probe <= 6, "Unknown native avoidance probe");
             SpellInfo const* info = sSpellMgr->GetSpellInfo(step.get<uint32>("spell", 78));
             Require(info != nullptr, "Avoidance probe spell missing");
             uint32 count = 0;
@@ -3610,6 +3660,8 @@ private:
                     SpellMissInfo const outcome = unit->MeleeSpellHitResult(target, info);
                     count += outcome == SPELL_MISS_DODGE || outcome == SPELL_MISS_PARRY || outcome == SPELL_MISS_BLOCK;
                 }
+                else if (probe == 6)
+                    count += unit->MagicSpellHitResult(target, info) == SPELL_MISS_DEFLECT;
                 else
                     count += unit->isSpellBlocked(target, info);
             }
@@ -3621,6 +3673,8 @@ private:
             return unit->GetPositionY();
         if (metric == "position_z")
             return unit->GetPositionZ();
+        if (metric == "object_scale")
+            return unit->GetObjectScale();
         if (metric == "combat")
             return unit->IsInCombat();
         if (metric == "can_attack")
@@ -3720,6 +3774,19 @@ private:
             ItemTemplate const* item = sObjectMgr->GetItemTemplate(step.get<uint32>("item"));
             Require(item != nullptr, "LFG Need metric needs a known item");
             return player->CanRollForItemInLFG(item, player) == EQUIP_ERR_OK ? 1 : 0;
+        }
+        if (metric == "battleground_status")
+        {
+            Player* player = unit->ToPlayer();
+            Require(player != nullptr, "Battleground status metric needs a player");
+            Battleground const* battleground = player->GetBattleground();
+            return battleground ? double(battleground->GetStatus()) : -1;
+        }
+        if (metric == "arena_points")
+        {
+            Player* player = unit->ToPlayer();
+            Require(player != nullptr, "Arena points metric needs a player");
+            return player->GetArenaPoints();
         }
         if (metric == "in_arena")
         {
@@ -4158,7 +4225,8 @@ private:
             metric == "spellbook_offers_spell" || metric == "spellbook_covers_spell" ||
             metric == "trainer_window_state" || metric == "trainer_window_ability" ||
             metric == "temporary_spell_replacement" || metric == "client_knows_spell" ||
-            metric == "client_spellbook_copies")
+            metric == "client_spellbook_copies" || metric == "client_cooldown_ready" ||
+            metric == "client_cooldown_clears" || metric == "client_cooldown_blocked_casts")
             Require(sSpellMgr->GetSpellInfo(spell) != nullptr, "Unknown spell in metric");
         if (metric == "knows_spell")
             return player->HasSpell(spell);
@@ -4199,6 +4267,16 @@ private:
         }
         if (metric == "client_knows_spell")
             return _actors.at(step.get<std::string>("actor")).clientSpells.count(spell) ? 1.0 : 0.0;
+        if (metric == "client_cooldown_ready")
+            return ClientCooldownReady(_actors.at(step.get<std::string>("actor")), spell, GameNowMs()) ? 1.0 : 0.0;
+        if (metric == "client_cooldown_clears" || metric == "client_cooldown_blocked_casts")
+        {
+            Actor const& actor = _actors.at(step.get<std::string>("actor"));
+            auto const& counts = metric == "client_cooldown_clears" ? actor.clientCooldownClears :
+                actor.clientCooldownBlockedCasts;
+            auto const found = counts.find(spell);
+            return found == counts.end() ? 0.0 : double(found->second);
+        }
         if (metric == "client_spellbook_copies")
         {
             auto const& copies = _actors.at(step.get<std::string>("actor")).clientSpellbookCopies;
@@ -4642,6 +4720,13 @@ private:
             return player->GetMapId();
         if (metric == "instance_id")
             return player->GetInstanceId();
+        if (metric == "battleground_queued")
+            return player->InBattlegroundQueue() ? 1 : 0;
+        if (metric == "battleground_invited_max_level")
+        {
+            Battleground const* battleground = FindInvitedBattleground(player);
+            return battleground ? battleground->GetMaxLevel() : 0;
+        }
         if (metric == "map_difficulty")
             return player->GetMap()->GetSpawnMode();
         if (metric == "nearby_creature_max_health")
@@ -5639,6 +5724,21 @@ private:
                     && (!ownerDisplay || creature->GetDisplayId() == player->GetDisplayId());
             });
         }
+        if (metric == "owned_creature_remaining_ms")
+        {
+            uint32 entry = step.get<uint32>("entry");
+            Require(sObjectMgr->GetCreatureTemplate(entry) != nullptr, "Unknown creature entry in metric");
+            std::list<Creature*> creatures;
+            player->GetCreatureListWithEntryInGrid(creatures, entry, 100.0f);
+            creatures.remove_if([player](Creature* creature) { return !IsLivingSummonOf(player, creature); });
+            Require(creatures.size() <= 1, "Remaining summon lifetime needs at most one owned creature");
+            if (creatures.empty())
+                return -1.0;
+            TempSummon* summon = creatures.front()->ToTempSummon();
+            Require(summon != nullptr && summon->GetSummonType() == TEMPSUMMON_TIMED_DESPAWN,
+                "Remaining summon lifetime needs a timed-despawn summon");
+            return summon->GetTimer();
+        }
         if (metric == "owned_creature_spacing")
         {
             uint32 entry = step.get<uint32>("entry");
@@ -6036,7 +6136,7 @@ private:
         }
         if (metric == "pet_entry" || metric == "pet_aura_stacks" || metric == "pet_aura_amount" ||
             metric == "pet_aura_amplitude_ms" || metric == "pet_aura_duration_ms" || metric == "pet_max_health" ||
-            metric == "pet_health" ||
+            metric == "pet_health" || metric == "pet_stat" ||
             metric == "pet_attack_power" || metric == "pet_run_speed_rate" || metric == "pet_is_banker" ||
             metric == "pet_display" || metric == "pet_native_display" || metric == "pet_scale" ||
             metric == "pet_flags" || metric == "pet_mirror_image" ||
@@ -6089,6 +6189,12 @@ private:
                 return player->GetExactDist2d(pet);
             if (metric == "pet_max_health")
                 return pet->GetMaxHealth();
+            if (metric == "pet_stat")
+            {
+                uint32 stat = step.get<uint32>("stat");
+                Require(stat < MAX_STATS, "Invalid stat index");
+                return pet->GetStat(Stats(stat));
+            }
             if (metric == "pet_health")
                 return pet->GetHealth();
             if (metric == "pet_attack_power")
@@ -7684,6 +7790,18 @@ private:
             record.put("dungeon", dungeon);
             record.put("entry", (*finalEncounter)->creditEntry);
         }
+        else if (action == "end_battleground")
+        {
+            Battleground* battleground = player->GetBattleground();
+            Require(battleground != nullptr && !battleground->isArena(), "end_battleground needs a battleground");
+            Require(battleground->GetStatus() == STATUS_IN_PROGRESS, "The battleground is not in progress");
+            std::string const winner = step.get<std::string>("winner");
+            Require(winner == "alliance" || winner == "horde" || winner == "draw",
+                "end_battleground winner must be alliance, horde or draw");
+            battleground->EndBattleground(winner == "alliance" ? PVP_TEAM_ALLIANCE
+                : winner == "horde" ? PVP_TEAM_HORDE : PVP_TEAM_NEUTRAL);
+            record.put("winner", winner);
+        }
         else if (action == "encounter_start")
         {
             uint32 const entry = step.get<uint32>("boss_entry");
@@ -8479,7 +8597,11 @@ private:
             }
             targets.Write(packet);
             if (action == "cast" || action == "cast_no_target")
+            {
+                Actor& actor = _actors.at(step.get<std::string>("actor"));
+                actor.clientReadyAtAttempt[spell] = ClientCooldownReady(actor, spell, GameNowMs());
                 player->GetSession()->HandleCastSpellOpcode(packet);
+            }
             else if (action == "cast_charm")
                 player->GetSession()->HandlePetCastSpellOpcode(packet);
             else

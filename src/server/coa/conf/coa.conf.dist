@@ -387,7 +387,28 @@ HighRisk.ResourceChance = 50
 HighRisk.GoldChance = 50
 
 ###################################################################################################
-# RATED SOLO ARENA-单排竞技场
+# BATTLEGROUND BRACKETS
+#
+#    CoA.Battleground.WideBrackets.Enable
+#        Description: 将 60 级以下原版每十级一个的战场区间合并为
+#                     CoA.Battleground.WideBrackets.Ranges 中更宽的区间。
+#                     竞技场以及60 级及以上的区间保持其原版范围。仅在启动时读取。
+#        Default:     1 - (Enabled)
+#                     0 - (Disabled, stock brackets)
+
+CoA.Battleground.WideBrackets.Enable = 1
+
+#    CoA.Battleground.WideBrackets.Ranges
+#        Description: 逗号分隔、升序排列的 1 到 59 级区间。
+#                     每个区间必须包含完整的原版区间（10-19、20-29……），
+#                     并在每个战场上保持相同的起始区间。
+#                     无效值会记录错误并保留原版区间。仅在启动时读取。
+#        Default:     "10-29,30-49,50-59"
+
+CoA.Battleground.WideBrackets.Ranges = "10-29,30-49,50-59"
+
+###################################################################################################
+# RATED SOLO ARENA
 #
 #    RatedSoloArena.RoleBalanceWaitSeconds
 #        Description: 最旧的评级单排队列条目在匹配可以忽略治疗平衡
@@ -1100,6 +1121,16 @@ CrowsCache.GoldenMarksOfWar = "10 10"
 #        Default:     400
 
 CrowsCache.BazaarTokens = 400
+
+#
+#    CrowsCache.WallRange
+#        Description: 鸦巢宝箱（箱子、携带者或掉落宝箱）周围的范围（码），
+#                     在此范围内一名“受雇佣兵！”玩家和一名没有该状态的玩家无法互相攻击、治疗或
+#                     施加增益，即使组队也不行。当两者中任一处于范围内时生效。
+#                     0 = no wall. Maximum 500.
+#        Default:     100
+
+CrowsCache.WallRange = 100
 CrowsCache.X = -7831
 CrowsCache.Y = -3465
 CrowsCache.Z = 56.87

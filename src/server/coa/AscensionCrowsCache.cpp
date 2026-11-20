@@ -3,6 +3,7 @@
 #include "AscensionBloodforged.h"
 #include "AscensionBazaarTokenCap.h"
 #include "AscensionCrowsCachePolicy.h"
+#include "AscensionMercenary.h"
 #include "Chat.h"
 #include "Config.h"
 #include "Containers.h"
@@ -22,7 +23,9 @@
 #include "Random.h"
 #include "ScriptMgr.h"
 #include "Spell.h"
+#include "SpellAuras.h"
 #include "SpellInfo.h"
+#include "SpellMgr.h"
 #include "SpellScript.h"
 #include "TemporarySummon.h"
 #include "World.h"
@@ -60,8 +63,16 @@ struct Reward
     uint32 count = 1;
 };
 
+struct WallPoint
+{
+    uint32 map = 0;
+    Position position;
+};
+
 std::recursive_mutex mutex;
+std::mutex wallMutex;
 std::map<uint32, Event> events;
+std::vector<WallPoint> wall;
 std::vector<Reward> materials;
 bool enabled = false;
 bool randomLocation = true;
@@ -71,6 +82,7 @@ uint32 warning = 1800;
 std::array<uint32, 2> silverMarks = {SilverMarksMin, SilverMarksMax};
 std::array<uint32, 2> goldenMarks = {GoldenMarks, GoldenMarks};
 uint32 bazaarTokens = DefaultBazaarTokens;
+float wallRange = DefaultWallRange;
 uint64 nextStart = 0;
 Position location(-7831.0f, -3465.0f, 56.87f, 0.0f);
 Position silithus(-7203.1616f, 372.38562f, 25.355282f, 4.4326873f);
@@ -171,12 +183,12 @@ std::string PinPayload(Event const& event, bool visible)
     if (!visible)
         return Acore::StringFormat("{{\"Apply\":false,\"ID\":\"crows-cache-{}\"}}", event.id);
     return Acore::StringFormat(
-        "{{\"Apply\":true,\"ZoneId\":{},\"ID\":\"crows-cache-{}\",\"Name\":\"乌鸦的宝藏\","
+        "{{\"Apply\":true,\"ZoneId\":{},\"ID\":\"crows-cache-{}\",\"Name\":\"Crow's Cache\","
         "\"Description\":\"{}\",\"X\":{:.4f},\"Y\":{:.4f},\"Z\":{:.4f},"
         "\"TextureId\":\"hr-event-gear-active\",\"Scale\":0.50,\"POIFlags\":{}}}",
         EventZone(event), event.id,
-        event.phase == Phase::Warning ? "高风险 60 级 PvP 事件：即将显现。"
-            : "高风险 60 级 PvP 事件：高风险模式的 60 级玩家可以领取。",
+        event.phase == Phase::Warning ? "High-Risk 60 PvP Event: materializing soon."
+            : "High-Risk 60 PvP Event: level-60 High-Risk Mercenaries can claim it.",
         event.position.GetPositionX(), event.position.GetPositionY(), event.position.GetPositionZ(), PinFlags);
 }
 
@@ -216,10 +228,10 @@ char const* LocationName(Event const& event)
 {
     switch (EventZone(event))
     {
-        case Silithus: return "希利苏斯·南风村";
-        case ThousandNeedles: return "千针石林·鼬鼠坑";
-        case Barrens: return "贫瘠之地";
-        default: return "塔纳利斯·深渊之沙";
+        case Silithus: return "Southwind Village, Silithus";
+        case ThousandNeedles: return "Weazel's Crater, Thousand Needles";
+        case Barrens: return "the Barrens";
+        default: return "Abyssal Sands, Tanaris";
     }
 }
 
@@ -243,8 +255,8 @@ void Announce(Event& event, uint64 now)
     event.announcements |= uint8((1u << (index + 1)) - 1);
     Save(event);
     BroadcastAnnouncement(Acore::StringFormat(
-        "乌鸦的宝藏将在 {} 分钟后于 {} 显现！",
-        LocationName(event), WarningSeconds[index] / 60).c_str());
+        "Crow's Cache is materializing in {} in {} minute{}!",
+        LocationName(event), WarningSeconds[index] / 60, index == 3 ? "" : "s").c_str());
 }
 
 bool Carries(Player const* player)
@@ -271,9 +283,109 @@ void UpdateCarrier(Player* player)
         player->RemoveAurasDueToSpell(Spite);
 }
 
+bool AppliesAura(SpellInfo const* info, AuraType first, AuraType second)
+{
+    for (SpellEffectInfo const& effect : info->GetEffects())
+        if (effect.ApplyAuraName == first || effect.ApplyAuraName == second)
+            return true;
+    return false;
+}
+
+bool AppliesHiding(SpellInfo const* info)
+{
+    return AppliesAura(info, SPELL_AURA_MOD_STEALTH, SPELL_AURA_MOD_INVISIBILITY);
+}
+
+bool AppliesImmunity(SpellInfo const* info)
+{
+    return AppliesAura(info, SPELL_AURA_SCHOOL_IMMUNITY, SPELL_AURA_DAMAGE_IMMUNITY);
+}
+
+bool Hides(SpellInfo const* info)
+{
+    if (AppliesHiding(info))
+        return true;
+    for (SpellEffectInfo const& effect : info->GetEffects())
+        if (effect.TriggerSpell)
+            if (SpellInfo const* triggered = sSpellMgr->GetSpellInfo(effect.TriggerSpell))
+                if (AppliesHiding(triggered))
+                    return true;
+    return false;
+}
+
+bool MovesCaster(SpellInfo const* info)
+{
+    for (SpellEffectInfo const& effect : info->GetEffects())
+        switch (effect.Effect)
+        {
+            case SPELL_EFFECT_TELEPORT_UNITS:
+            case SPELL_EFFECT_TELEPORT_UNITS_FACE_CASTER:
+            case SPELL_EFFECT_LEAP:
+            case SPELL_EFFECT_LEAP_BACK:
+            case SPELL_EFFECT_CHARGE:
+            case SPELL_EFFECT_CHARGE_DEST:
+            case SPELL_EFFECT_JUMP:
+            case SPELL_EFFECT_JUMP_DEST:
+                return true;
+            default:
+                break;
+        }
+    return false;
+}
+
 bool Eligible(Player const* player)
 {
     return Eligible(player->GetLevel(), player->HasAura(HighRisk), player->HasAura(Mercenary), player->IsAlive());
+}
+
+void RefreshWall()
+{
+    std::vector<WallPoint> points;
+    for (auto const& [id, event] : events)
+        if (WallPhase(event.phase))
+            points.push_back({event.map, event.position});
+    std::lock_guard lock(wallMutex);
+    wall.swap(points);
+}
+
+bool NearCache(WorldObject const* object)
+{
+    return std::any_of(wall.begin(), wall.end(), [object](WallPoint const& point)
+    {
+        return point.map == object->GetMapId() && object->GetExactDist(&point.position) <= wallRange;
+    });
+}
+
+bool Walled(Unit const* first, Unit const* second)
+{
+    if (!enabled || wallRange <= 0.0f || !first || !second)
+        return false;
+    Player const* firstPlayer = first->GetCharmerOrOwnerPlayerOrPlayerItself();
+    Player const* secondPlayer = second->GetCharmerOrOwnerPlayerOrPlayerItself();
+    if (!firstPlayer || !secondPlayer || firstPlayer == secondPlayer)
+        return false;
+    bool const firstMercenary = AscensionMercenary::Active(firstPlayer);
+    bool const secondMercenary = AscensionMercenary::Active(secondPlayer);
+    if (firstMercenary == secondMercenary)
+        return false;
+    std::lock_guard lock(wallMutex);
+    return Walled(firstMercenary, secondMercenary, NearCache(first) || NearCache(second));
+}
+
+void TrackCarrier(Player const* player)
+{
+    for (auto& [id, event] : events)
+        if (event.phase == Phase::Carried && event.carrier == player->GetGUID().GetCounter()
+            && event.map == player->GetMapId())
+            event.position.Relocate(player);
+}
+
+bool Jumps(SpellInfo const* info)
+{
+    for (SpellEffectInfo const& effect : info->GetEffects())
+        if (effect.Effect == SPELL_EFFECT_JUMP || effect.Effect == SPELL_EFFECT_JUMP_DEST)
+            return true;
+    return false;
 }
 
 Event* Find(GameObject const* object)
@@ -377,15 +489,34 @@ bool Claim(Player* player, GameObject* object, bool completedCast)
     event->item = cache->GetGUID().GetCounter();
     Save(*event, player);
     RemoveObjects(player->GetMap(), *event);
+    player->RemoveAurasByType(SPELL_AURA_MOD_STEALTH);
+    player->RemoveAurasByType(SPELL_AURA_MOD_INVISIBILITY);
     UpdateCarrier(player);
-    ChatHandler(player->GetSession()).PSendSysMessage("已认领乌鸦的宝藏。把它带到{}才能打开。",
+    RefreshWall();
+    ChatHandler(player->GetSession()).PSendSysMessage("Crow's Cache claimed. Carry it to {} to open it.",
         DeliveryTown(*event));
     return true;
 }
 
-void Drop(Player* player)
+char const* DropMessage(DropReason reason)
+{
+    switch (reason)
+    {
+        case DropReason::Immunity:
+            return "You dropped Crow's Cache: immunity effects cannot be used while carrying it.";
+        case DropReason::LeftMode:
+            return "You dropped Crow's Cache: carrying it requires High-Risk and Mercenary mode.";
+        case DropReason::LeftMap:
+            return "You dropped Crow's Cache: it cannot leave the open world it appeared in.";
+        default:
+            return nullptr;
+    }
+}
+
+void Drop(Player* player, DropReason reason)
 {
     std::lock_guard lock(mutex);
+    bool dropped = false;
     for (auto& [id, event] : events)
     {
         if (event.phase != Phase::Carried || event.carrier != player->GetGUID().GetCounter())
@@ -397,12 +528,35 @@ void Drop(Player* player)
         event.phase = Phase::Dropped;
         event.carrier = 0;
         event.item = 0;
-        event.map = player->GetMapId();
-        event.position.Relocate(player);
+        if (reason != DropReason::LeftMap)
+        {
+            event.map = player->GetMapId();
+            event.position.Relocate(player);
+        }
         Save(event, player);
-        Spawn(player->GetMap(), event);
+        if (reason != DropReason::LeftMap)
+            Spawn(player->GetMap(), event);
+        dropped = true;
     }
     UpdateCarrier(player);
+    RefreshWall();
+    if (char const* message = dropped ? DropMessage(reason) : nullptr)
+        ChatHandler(player->GetSession()).SendSysMessage(message);
+}
+
+template <typename Action>
+void OnceSettled(Player* player, Action action)
+{
+    ObjectGuid const guid = player->GetGUID();
+    player->m_Events.AddEventAtOffset([guid, action]()
+    {
+        Player* carrier = ObjectAccessor::FindPlayer(guid);
+        if (!carrier || !carrier->IsInWorld())
+            return;
+        std::lock_guard lock(mutex);
+        if (Carries(carrier))
+            action(carrier);
+    }, 0ms);
 }
 
 bool Open(Player* player, Item* cache)
@@ -416,7 +570,8 @@ bool Open(Player* player, Item* cache)
     if (!CanOpen(found != events.end(), Eligible(player), player->GetAreaId(), player->IsInCombat()))
     {
         ChatHandler(player->GetSession()).SendSysMessage(
-            "你必须是 60 级、处于高风险模式且脱离战斗，并身处加基森、塞纳里奥要塞或棘齿城，才能打开已认领的乌鸦的宝藏。");
+            "You must be level 60, in High-Risk and Mercenary mode and out of combat in Gadgetzan, "
+            "Cenarion Hold or Ratchet to open a claimed Crow's Cache.");
         return false;
     }
     std::vector<uint32> const newest = Bloodforged::NewestReleasedHeroicGear();
@@ -441,7 +596,7 @@ bool Open(Player* player, Item* cache)
     if (rewards.size() < RewardCount)
     {
         ChatHandler(player->GetSession()).SendSysMessage(
-            "这处乌鸦的宝藏暂时无法打开：尚未开放任何英雄血铸奖励。");
+            "This Crow's Cache cannot be opened yet: no Heroic Bloodforged rewards are released.");
         return false;
     }
     rewards.insert(rewards.end(), materials.begin(), materials.end());
@@ -496,7 +651,7 @@ bool Open(Player* player, Item* cache)
     UpdateCarrier(player);
     AscensionBazaarTokenCap::Give(player, bazaarTokens);
     ChatHandler(player->GetSession()).SendSysMessage(
-        "乌鸦的宝藏已打开：三件英雄血铸物品（其中一件来自最新开放的档位）、高风险材料、战争印记与市集代币。");
+        "Crow's Cache opened: three Heroic Bloodforged items, one of them from the newest released tier, High-Risk materials, Marks of War and Bazaar Tokens.");
     return true;
 }
 
@@ -543,7 +698,7 @@ bool Begin(uint32 seconds, Position const& point)
     if (std::none_of(std::begin(WarningSeconds), std::end(WarningSeconds), [seconds](unsigned value)
         { return value == seconds; }))
         BroadcastAnnouncement(Acore::StringFormat(
-            "乌鸦的宝藏将在 {} 秒后于 {} 显现！", LocationName(found->second), seconds).c_str());
+            "Crow's Cache is materializing in {} in {} seconds!", LocationName(found->second), seconds).c_str());
     return true;
 }
 
@@ -585,7 +740,7 @@ void UpdateEvents()
                             player->KnockbackFrom(event.position.GetPositionX(), event.position.GetPositionY(), 15, 6);
             BroadcastPin(event, true);
             BroadcastAnnouncement(Acore::StringFormat(
-                "乌鸦的宝藏已在 {} 出现！高风险模式的 60 级玩家可以领取。", LocationName(event)));
+                "Crow's Cache has appeared in {}! Level-60 High-Risk Mercenaries can claim it.", LocationName(event)));
         }
         else if ((event.phase == Phase::Carried || event.phase == Phase::Dropped) && event.deadline <= now)
         {
@@ -599,6 +754,7 @@ void UpdateEvents()
             Announce(event, now);
         ++it;
     }
+    RefreshWall();
 }
 
 bool ReadMarkRange(std::string const& key, std::array<uint32, 2>& range)
@@ -646,6 +802,7 @@ public:
         if (!enabled)
             return;
         bazaarTokens = sConfigMgr->GetOption<uint32>("CrowsCache.BazaarTokens", DefaultBazaarTokens);
+        wallRange = std::clamp(sConfigMgr->GetOption<float>("CrowsCache.WallRange", DefaultWallRange), 0.0f, 500.0f);
         if (!ReadMarkRange("CrowsCache.SilverMarksOfWar", silverMarks)
             || !ReadMarkRange("CrowsCache.GoldenMarksOfWar", goldenMarks))
         {
@@ -715,7 +872,11 @@ public:
             Spawn(map, event);
         for (auto const& reference : map->GetPlayers())
             if (Player* player = reference.GetSource())
+            {
                 UpdateCarrier(player);
+                TrackCarrier(player);
+            }
+        RefreshWall();
     }
 };
 
@@ -724,8 +885,20 @@ class Players final : public PlayerScript
 public:
     Players() : PlayerScript("crows_cache_players", {PLAYERHOOK_ON_PLAYER_JUST_DIED, PLAYERHOOK_ON_LOGIN,
         PLAYERHOOK_ON_UPDATE_AREA, PLAYERHOOK_CAN_INIT_TRADE, PLAYERHOOK_CAN_SEND_MAIL,
-        PLAYERHOOK_CAN_PLAYER_USE_PRIVATE_CHAT}) { }
-    void OnPlayerJustDied(Player* player) override { Drop(player); }
+        PLAYERHOOK_CAN_PLAYER_USE_PRIVATE_CHAT, PLAYERHOOK_ON_BEFORE_LOGOUT, PLAYERHOOK_ON_MAP_CHANGED}) { }
+    void OnPlayerJustDied(Player* player) override { Drop(player, DropReason::Death); }
+    void OnPlayerBeforeLogout(Player* player) override { Drop(player, DropReason::Logout); }
+    void OnPlayerMapChanged(Player* player) override
+    {
+        std::lock_guard lock(mutex);
+        bool const left = std::any_of(events.begin(), events.end(), [player](auto const& row)
+        {
+            return row.second.phase == Phase::Carried && row.second.carrier == player->GetGUID().GetCounter()
+                && LeftCacheMap(row.second.map, player->GetMapId(), player->GetMap()->Instanceable());
+        });
+        if (left)
+            Drop(player, DropReason::LeftMap);
+    }
     void OnPlayerLogin(Player* player) override
     {
         std::lock_guard lock(mutex);
@@ -774,7 +947,7 @@ public:
         if (!Eligible(player))
         {
             ChatHandler(player->GetSession()).SendSysMessage(
-                "只有存活的 60 级高风险玩家才能认领乌鸦的宝藏。");
+                "Only living level-60 High-Risk Mercenaries can claim Crow's Cache.");
             return true;
         }
         if (object->GetEntry() == DropEntry)
@@ -825,21 +998,79 @@ public:
                     result = SPELL_FAILED_BAD_TARGETS;
             }
         }
-        if (!player->HasAura(Spite))
+        SpellInfo const* info = spell->GetSpellInfo();
+        if (info->IsPassive())
             return;
-        for (SpellEffectInfo const& effect : spell->GetSpellInfo()->GetEffects())
-            if (effect.Effect == SPELL_EFFECT_TELEPORT_UNITS || effect.Effect == SPELL_EFFECT_TELEPORT_UNITS_FACE_CASTER
-                || effect.ApplyAuraName == SPELL_AURA_MOD_STEALTH || effect.ApplyAuraName == SPELL_AURA_MOD_INVISIBILITY)
-                result = SPELL_FAILED_NOT_HERE;
+        bool const hides = Hides(info);
+        bool const moves = MovesCaster(info);
+        if (!hides && !moves)
+            return;
+        std::lock_guard lock(mutex);
+        if (!Carries(player))
+            return;
+        Unit const* original = spell->GetOriginalCaster();
+        bool const pulled = (original && original != player) || (spell->IsTriggered() && Jumps(info));
+        if (hides || RefuseMovement(true, moves, pulled))
+            result = SPELL_FAILED_NOT_HERE;
     }
 };
 
-class Damage final : public UnitScript
+class Combat final : public UnitScript
 {
 public:
-    Damage() : UnitScript("crows_cache_damage", true, {UNITHOOK_ON_DAMAGE}) { }
-    void OnDamage(Unit*, Unit* victim, uint32& damage) override
+    Combat() : UnitScript("crows_cache_damage", true, {UNITHOOK_ON_DAMAGE, UNITHOOK_CAN_UNIT_ATTACK,
+        UNITHOOK_CAN_UNIT_ASSIST, UNITHOOK_MODIFY_HEAL_RECEIVED, UNITHOOK_MODIFY_PERIODIC_DAMAGE_AURAS_TICK,
+        UNITHOOK_ON_AURA_APPLY, UNITHOOK_ON_AURA_REMOVE}) { }
+    void OnAuraApply(Unit* unit, Aura* aura) override
     {
+        Player* player = unit->ToPlayer();
+        if (!player)
+            return;
+        SpellInfo const* info = aura->GetSpellInfo();
+        bool const hiding = AppliesHiding(info);
+        bool const immunity = AppliesImmunity(info);
+        if (!hiding && !immunity)
+            return;
+        std::lock_guard lock(mutex);
+        bool const carrying = Carries(player);
+        if (hiding && carrying)
+            OnceSettled(player, [id = info->Id](Player* carrier) { carrier->RemoveAurasDueToSpell(id); });
+        if (ImmunityDrops(carrying, immunity, aura->GetCasterGUID() == player->GetGUID()))
+            OnceSettled(player, [](Player* carrier) { Drop(carrier, DropReason::Immunity); });
+    }
+    void OnAuraRemove(Unit* unit, AuraApplication* application, AuraRemoveMode) override
+    {
+        uint32 const id = application->GetBase()->GetId();
+        Player* player = unit->ToPlayer();
+        if (player && (id == Mercenary || id == HighRisk))
+            OnceSettled(player, [](Player* carrier)
+            {
+                if (ModeDrops(true, carrier->HasAura(HighRisk), carrier->HasAura(Mercenary)))
+                    Drop(carrier, DropReason::LeftMode);
+            });
+    }
+    bool CanUnitAttack(Unit const* attacker, Unit const* target, SpellInfo const*) override
+    {
+        return !Walled(attacker, target);
+    }
+    bool CanUnitAssist(Unit const* assister, Unit const* target, SpellInfo const*) override
+    {
+        return !Walled(assister, target);
+    }
+    void ModifyHealReceived(Unit* target, Unit* healer, uint32& heal, SpellInfo const*) override
+    {
+        if (Walled(healer, target))
+            heal = 0;
+    }
+    void ModifyPeriodicDamageAurasTick(Unit* target, Unit* attacker, uint32& damage, SpellInfo const*) override
+    {
+        if (Walled(attacker, target))
+            damage = 0;
+    }
+    void OnDamage(Unit* attacker, Unit* victim, uint32& damage) override
+    {
+        if (Walled(attacker, victim))
+            damage = 0;
         if (!InterruptOpening(false, damage))
             return;
         Spell* spell = victim->GetCurrentSpell(CURRENT_GENERIC_SPELL);
@@ -880,12 +1111,23 @@ public:
                 return false;
             }
         }
+        if (packet.GetOpcode() == CMSG_SUMMON_RESPONSE || packet.GetOpcode() == CMSG_ACTIVATETAXI
+            || packet.GetOpcode() == CMSG_ACTIVATETAXIEXPRESS)
+        {
+            std::lock_guard lock(mutex);
+            if (Carries(player))
+            {
+                ChatHandler(session).SendSysMessage(
+                    "You cannot be summoned or take a flight while carrying Crow's Cache.");
+                return false;
+            }
+        }
         if (packet.GetOpcode() == CMSG_AUTOBANK_ITEM || packet.GetOpcode() == CMSG_AUTOSTORE_BANK_ITEM)
         {
             std::lock_guard lock(mutex);
             if (Carries(player))
             {
-                ChatHandler(session).SendSysMessage("请先打开你的乌鸦的宝藏，再使用银行。");
+                ChatHandler(session).SendSysMessage("Open your Crow's Cache before using the bank.");
                 return false;
             }
         }
@@ -919,15 +1161,15 @@ public:
         std::lock_guard lock(mutex);
         if (!enabled)
         {
-            handler->SendSysMessage("乌鸦的宝藏未启用，或没有有效的奖励池。");
+            handler->SendSysMessage("Crow's Cache is disabled or has no valid reward pool.");
             return false;
         }
         if (!Begin(std::clamp<uint32>(seconds.value_or(warning), 1, 3600), location))
         {
-            handler->SendSysMessage("乌鸦的宝藏需要史诗地下城（阶段 2），以及至少三项已开放的英雄血铸奖励。");
+            handler->SendSysMessage("Crow's Cache needs Mythic Dungeons (stage 2) and at least three released Heroic Bloodforged rewards.");
             return false;
         }
-        handler->SendSysMessage("乌鸦宝库警告已开始，使用 .crows visit 前往。");
+        handler->SendSysMessage("Crow's Cache warning started. Use .crows visit to reach it.");
         return true;
     }
     static bool StartSilithus(ChatHandler* handler, Optional<uint32> seconds)
@@ -937,10 +1179,10 @@ public:
             return false;
         if (!Begin(std::clamp<uint32>(seconds.value_or(warning), 1, 3600), silithus))
         {
-            handler->SendSysMessage("乌鸦的宝藏需要史诗地下城（阶段 2），以及至少三项已开放的英雄血铸奖励。");
+            handler->SendSysMessage("Crow's Cache needs Mythic Dungeons (stage 2) and at least three released Heroic Bloodforged rewards.");
             return false;
         }
-        handler->SendSysMessage("希利苏斯的乌鸦宝库警告已开始，使用 .crows visit 前往。");
+        handler->SendSysMessage("Silithus Crow's Cache warning started. Use .crows visit to reach it.");
         return true;
     }
     static bool StartNeedles(ChatHandler* handler, Optional<uint32> seconds)
@@ -950,10 +1192,10 @@ public:
             return false;
         if (!Begin(std::clamp<uint32>(seconds.value_or(warning), 1, 3600), needles))
         {
-            handler->SendSysMessage("乌鸦的宝藏需要史诗地下城（阶段 2），以及至少三项已开放的英雄血铸奖励。");
+            handler->SendSysMessage("Crow's Cache needs Mythic Dungeons (stage 2) and at least three released Heroic Bloodforged rewards.");
             return false;
         }
-        handler->SendSysMessage("乌鸦宝库警告已开始，使用 .crows visit 前往。");
+        handler->SendSysMessage("Crow's Cache warning started. Use .crows visit to reach it.");
         return true;
     }
     static bool StartBarrens(ChatHandler* handler, Optional<uint32> seconds)
@@ -963,10 +1205,10 @@ public:
             return false;
         if (!Begin(std::clamp<uint32>(seconds.value_or(warning), 1, 3600), barrens))
         {
-            handler->SendSysMessage("乌鸦的宝藏需要史诗地下城（阶段 2），以及至少三项已开放的英雄血铸奖励。");
+            handler->SendSysMessage("Crow's Cache needs Mythic Dungeons (stage 2) and at least three released Heroic Bloodforged rewards.");
             return false;
         }
-        handler->SendSysMessage("乌鸦宝库警告已开始，使用 .crows visit 前往。");
+        handler->SendSysMessage("Crow's Cache warning started. Use .crows visit to reach it.");
         return true;
     }
     static bool Here(ChatHandler* handler, Optional<uint32> seconds)
@@ -979,10 +1221,10 @@ public:
         std::lock_guard lock(mutex);
         if (!Begin(std::clamp<uint32>(seconds.value_or(warning), 1, 3600), *player))
         {
-            handler->SendSysMessage("乌鸦的宝藏需要史诗地下城（阶段 2），以及至少三项已开放的英雄血铸奖励。");
+            handler->SendSysMessage("Crow's Cache needs Mythic Dungeons (stage 2) and at least three released Heroic Bloodforged rewards.");
             return false;
         }
-        handler->SendSysMessage("乌鸦宝库警告已在你的当前位置开始。");
+        handler->SendSysMessage("Crow's Cache warning started at your current position.");
         return true;
     }
     static bool Visit(ChatHandler* handler)
@@ -1004,24 +1246,24 @@ public:
             return false;
         nextStart = Now() + std::clamp<uint32>(seconds.value_or(interval), 1, 31536000);
         SaveSchedule();
-        handler->SendSysMessage("下一次乌鸦宝库的自动出现已排定。");
+        handler->SendSysMessage("The next automatic Crow's Cache appearance has been scheduled.");
         return true;
     }
     static bool Cancel(ChatHandler* handler)
     {
         std::lock_guard lock(mutex);
         RemoveUnclaimed();
-        handler->SendSysMessage("未领取的乌鸦宝库测试事件已取消。已携带与已掉落的宝箱均保留。");
+        handler->SendSysMessage("Unclaimed Crow's Cache test events cancelled. Carried and dropped caches are preserved.");
         return true;
     }
     static bool Status(ChatHandler* handler)
     {
         std::lock_guard lock(mutex);
-        handler->PSendSysMessage("乌鸦宝库：已启用={}，最新档位池={}，已开放池={}，进行中事件={}，下一次自动宝箱在 {} 秒后。",
+        handler->PSendSysMessage("Crow's Cache: enabled={}, newest tier pool={}, released pool={}, active events={}, next automatic chest in {} seconds.",
             enabled, Bloodforged::NewestReleasedHeroicGear().size(), Bloodforged::ReleasedHeroicGear().size(), events.size(),
             nextStart > Now() ? nextStart - Now() : 0);
         for (auto const& [id, event] : events)
-            handler->PSendSysMessage("事件 {}：阶段={}，携带者={}，地图={}，坐标=({}, {}, {})。",
+            handler->PSendSysMessage("Event {}: phase={}, carrier={}, map={}, position=({}, {}, {}).",
                 id, unsigned(event.phase), event.carrier, event.map, event.position.GetPositionX(),
                 event.position.GetPositionY(), event.position.GetPositionZ());
         return true;
@@ -1037,7 +1279,7 @@ void AddSC_AscensionCrowsCache()
     new CrowsCache::Chest();
     RegisterSpellScript(CrowsCache::Opening);
     new CrowsCache::Casts();
-    new CrowsCache::Damage();
+    new CrowsCache::Combat();
     new CrowsCache::Cache();
     new CrowsCache::Packets();
     new CrowsCache::Commands();

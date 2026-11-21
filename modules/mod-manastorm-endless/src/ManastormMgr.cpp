@@ -1,9 +1,9 @@
+
 #include "ManastormClientBridge.h"
 #include "ManastormModuleConfig.h"
 #include "ManastormMgr.h"
 #include "ManastormPotionClient.h"
 #include "AscensionManastormGadgets.h"
-
 #include "ObjectAccessor.h"
 #include "Creature.h"
 #include "DynamicObject.h"
@@ -21,6 +21,7 @@
 #include "MapMgr.h"
 #include "ObjectMgr.h"
 #include "Player.h"
+#include "SpellAuraEffects.h"
 #include "SpellAuras.h"
 #include "SpellMgr.h"
 #include "ManastormDataStore.h"
@@ -30,7 +31,6 @@
 #include "ManastormExperience.h"
 #include "ManastormAffixEngine.h"
 #include "ManastormGreedyDemon.h"
-#include "ManastormVoiceOfMillhouse.h"
 #include "ManastormVoiceOfMillhouse.h"
 #include "ManastormSubstitutedObjectives.h"
 #include <algorithm>

@@ -6,12 +6,12 @@ DELETE FROM `npc_text` WHERE `ID` = 1153600;
 INSERT INTO `npc_text` (`ID`, `text0_0`, `text0_1`, `BroadcastTextID0`, `lang0`, `Probability0`, `VerifiedBuild`)
 VALUES
 (1153600,
-    'Greetings, $c.  I supply only those who serve the Dawn under an official commission.$B$B'
-    'Speak with Duke Nicholas Zverenhoff here at the chapel.  Once you carry the Dawn\'s commission, '
-    'my stores are open to you.',
-    'Greetings, $c.  I supply only those who serve the Dawn under an official commission.$B$B'
-    'Speak with Duke Nicholas Zverenhoff here at the chapel.  Once you carry the Dawn\'s commission, '
-    'my stores are open to you.',
+    '你好，$c。我只向持有正式委任状、为银色黎明效力的人供货。$B$B'
+    '去礼拜堂那边找尼古拉斯·兹维伦霍夫公爵谈谈。等你拿到银色黎明的委任状，'
+    '我的货架就为你敞开。',
+    '你好，$c。我只向持有正式委任状、为银色黎明效力的人供货。$B$B'
+    '去礼拜堂那边找尼古拉斯·兹维伦霍夫公爵谈谈。等你拿到银色黎明的委任状，'
+    '我的货架就为你敞开。',
     0, 0, 1, 0);
 
 DELETE FROM `gossip_menu` WHERE `MenuID` = 3461 AND `TextID` = 1153600;

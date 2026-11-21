@@ -138,7 +138,7 @@ public:
         ArenaReadiness& readiness = Readiness[bg->GetInstanceID()];
         readiness.ReadyPlayers.insert(player->GetGUID());
 
-        ChatHandler(player->GetSession()).PSendSysMessage("Ready: {}/{}", ReadyPresentPlayers(bg, readiness),
+        ChatHandler(player->GetSession()).PSendSysMessage("已就绪：{}/{}", ReadyPresentPlayers(bg, readiness),
             uint32(bg->GetArenaType()) * PVP_TEAMS_COUNT);
 
         if (BothTeamsReady(bg, readiness) && bg->GetStartDelayTime() > BG_START_DELAY_15S)

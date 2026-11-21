@@ -862,9 +862,11 @@ Bloodforged.BazaarTokens.EpicHiddenCache = 150
 #                     其自身内容的令牌，并且永远不会支付高于此层级的令牌，
 #                     因此 Classic 阶段的领域永远不会发放 Tier 6 令牌。
 #                     Tier2.5 计为 2.5，所以 3 仍然覆盖它。
+#        本服：1 = 尊崇宝箱只发第 1 档（英雄地下城档，1287304）的代币，
+#        与阶段 2（英雄 + 史诗地下城）对齐；抬到 3 起开团本时同步抬到 2。
 #        Default:     6
 
-Ascension.PrestigiousCache.ReleaseStage = 0
+Ascension.PrestigiousCache.ReleaseStage = 1
 
 #
 #    Ascension.PrestigiousCache.TokenChancePercent
@@ -940,6 +942,8 @@ Ascension.PrestigiousCache.TbcStages = 0
 #                     .raidphase set <0-8> 会在 characters 数据库中覆盖此值，
 #                     直到 .raidphase clear；.raidphase 显示当前阶段。
 #        本服：2 = 已发布英雄与史诗地下城，经典团本仍关闭（祖尔格拉布从 3 起）。
+#        与它对齐的旁路键：Ascension.PrestigiousCache.ReleaseStage = 1（尊崇宝箱第 1 档）、
+#        Ascension.PvPVendors.ReleaseStage = 1（第一阶段商人）、HighRisk.ReleaseStage = 0。
 #        后续抬档只改这一行并 .reload config；若曾用 .raidphase set 覆盖过，
 #        必须先 .raidphase clear，否则覆盖值优先级更高。
 #        Default:     3

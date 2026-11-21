@@ -22,7 +22,6 @@
 #include "ObjectMgr.h"
 #include "Player.h"
 #include "SpellAuras.h"
-#include "SpellAuraEffects.h"
 #include "SpellMgr.h"
 #include "ManastormDataStore.h"
 #include "ManastormGenerator.h"
@@ -31,6 +30,7 @@
 #include "ManastormExperience.h"
 #include "ManastormAffixEngine.h"
 #include "ManastormGreedyDemon.h"
+#include "ManastormVoiceOfMillhouse.h"
 #include "ManastormVoiceOfMillhouse.h"
 #include "ManastormSubstitutedObjectives.h"
 #include <algorithm>
@@ -4614,7 +4614,7 @@ void ManastormMgr::FailRun(
         std::ostringstream failureMessage;
 
         failureMessage
-            << "Manastorm: run failed";
+            << "法力风暴：冒险失败";
 
         if (!reason.empty())
         {
@@ -4820,7 +4820,7 @@ void ManastormMgr::FailRun(
 
             member->SendSystemMessage(
                 "法力风暴：本次冒险已失败，但将你移出失败的"
-                "法力风暴时出错。");
+                "法力风暴：本次冒险已失败，但未能将你移出失败的法力风暴。");
         }
     }
 
@@ -5045,7 +5045,7 @@ void ManastormMgr::GrantBaselineRunItems(
 
             player->SendSystemMessage(
                 "法力风暴：有件法力风暴工具无法放入你的背包。"
-                "请确认背包有足够空位。");
+                "法力风暴：未能将一件法力风暴工具放入你的背包。请确保背包留有足够的空位。");
         }
         else
         {
@@ -5293,7 +5293,7 @@ bool ManastormMgr::PrepareStage(
 
     if (!player || !player->GetSession())
     {
-        error = "A connected player is required to prepare the stage.";
+        error = "需要一名在线的玩家来准备该阶段。";
         return false;
     }
 
@@ -5306,13 +5306,13 @@ bool ManastormMgr::PrepareStage(
 
     if (!tele)
     {
-        error = "The selected segment start GameTele no longer exists.";
+        error = "所选段落起点的传送点已不存在。";
         return false;
     }
 
     if (tele->mapId != segment.MapId)
     {
-        error = "The selected segment GameTele points to a different map.";
+        error = "所选段落的传送点指向了另一张地图。";
         return false;
     }
 
@@ -5322,13 +5322,13 @@ bool ManastormMgr::PrepareStage(
 
     if (!mapEntry)
     {
-        error = "The selected segment map does not exist.";
+        error = "所选段落的地图不存在。";
         return false;
     }
 
     if (mapEntry->IsBattlegroundOrArena())
     {
-        error = "Battleground/arena maps cannot be used as Manastorm stages.";
+        error = "战场/竞技场地图不能作为法力风暴阶段。";
         return false;
     }
 
@@ -5336,14 +5336,14 @@ bool ManastormMgr::PrepareStage(
     {
         if (!mapEntry->IsDungeon())
         {
-            error = "The selected instanceable map is not a supported dungeon/raid stage.";
+            error = "所选可实例化地图不是受支持的副本/团队副本阶段。";
             return false;
         }
 
         if (!sObjectMgr->GetInstanceTemplate(
                 segment.MapId))
         {
-            error = "The selected dungeon/raid map has no instance_template row.";
+            error = "所选副本/团队副本地图缺少 instance_template 记录。";
             return false;
         }
     }
@@ -5747,25 +5747,25 @@ ManastormRun* ManastormMgr::StartRun(
 
     if (!ManastormModuleConfig::Enabled())
     {
-        error = "Manastorm is disabled by configuration.";
+        error = "法力风暴已被配置禁用。";
         return nullptr;
     }
 
     if (!player || !player->GetSession())
     {
-        error = "A connected player is required.";
+        error = "需要一名在线的玩家。";
         return nullptr;
     }
 
     if (!depth)
     {
-        error = "Depth must be at least 1.";
+        error = "深度至少为 1。";
         return nullptr;
     }
 
     if (!ManastormDataStore::Instance().IsLoaded() && !ReloadData())
     {
-        error = "Manastorm datastore is not loaded. Apply the world SQL and check server logs.";
+        error = "法力风暴数据未载入。请应用世界库 SQL 并检查服务器日志。";
         return nullptr;
     }
 
@@ -5808,7 +5808,7 @@ ManastormRun* ManastormMgr::StartRun(
     {
         if (!group->IsLeader(player->GetGUID()))
         {
-            error = "Only the group leader can start an Endless debug run.";
+            error = "只有队长可以启动无尽调试模式。";
             return nullptr;
         }
 
@@ -5824,7 +5824,7 @@ ManastormRun* ManastormMgr::StartRun(
 
     if (members.empty())
     {
-        error = "No run members could be resolved.";
+        error = "未能解析出任何队员。";
         return nullptr;
     }
 
@@ -5841,7 +5841,7 @@ ManastormRun* ManastormMgr::StartRun(
     {
         if (_memberRunIds.find(memberGuid) != _memberRunIds.end())
         {
-            error = "At least one member already belongs to an active Manastorm run.";
+            error = "至少有一名队员已在进行中的法力风暴冒险里。";
             return nullptr;
         }
     }
@@ -5892,7 +5892,7 @@ ManastormRun* ManastormMgr::StartRun(
 
         if (member->GetLevel() < 10)
         {
-            error = "Every run member must be at least level 10 to enter Manastorm.";
+            error = "所有队员都必须至少 10 级才能进入法力风暴。";
             return nullptr;
         }
 
@@ -6056,7 +6056,7 @@ ManastormRun* ManastormMgr::StartRun(
         Player* member = ObjectAccessor::FindConnectedPlayer(ObjectGuid::Create<HighGuid::Player>(guid));
         if (!member || !member->IsInWorld() || member->IsBeingTeleported())
         {
-            error = "Every run member must be connected and ready.";
+            error = "所有队员都必须在线并处于可进入状态。";
             return nullptr;
         }
         member->SaveRecallPosition();
@@ -6181,7 +6181,7 @@ void ManastormMgr::OnPlayerLogin(Player* player)
     if (!map || !map->IsScriptedPrivateInstance() || !location || !tele
         || !map->IsScriptedPrivateMember(player->GetGUID()))
     {
-        FailRun(*run, "The private stage is no longer available for reconnect.");
+        FailRun(*run, "私人阶段已无法用于重连。");
         return;
     }
     std::set<ObjectGuid> members;
@@ -6202,7 +6202,7 @@ void ManastormMgr::OnPlayerLogin(Player* player)
     player->SetScriptedPrivateInstanceId(run->GetInstanceId());
     if (!player->TeleportTo(map->GetId(), tele->position_x, tele->position_y,
         tele->position_z, tele->orientation, TELE_TO_GM_MODE, nullptr, true))
-        FailRun(*run, "Reconnect teleport failed.");
+        FailRun(*run, "重连传送失败。");
 }
 
 bool ManastormMgr::OnPlayerEnterMap(Map* map, Player* player)
@@ -6283,9 +6283,9 @@ bool ManastormMgr::OnPlayerEnterMap(Map* map, Player* player)
         std::ostringstream reason;
 
         reason
-            << "Player "
+            << "玩家 "
             << departingGuid
-            << " left the active Endless stage.";
+            << " 离开了进行中的无尽阶段。";
 
         if (run->GetMembers().size() > 1)
         {
@@ -6368,7 +6368,7 @@ bool ManastormMgr::OnPlayerEnterMap(Map* map, Player* player)
             {
                 FailRun(
                     *run,
-                    "Special encounter bootstrap failed: " +
+                    "特殊遭遇初始化失败：" +
                         bootstrapError);
 
                 return false;
@@ -6595,7 +6595,7 @@ bool ManastormMgr::OnPlayerEnterMap(Map* map, Player* player)
             {
                 FailRun(
                     *run,
-                    "Uldaman Archaedas native activation failed: " +
+                    "奥达曼阿扎达斯原生激活失败：" +
                         archaedasError);
                 return false;
             }
@@ -6838,7 +6838,7 @@ void ManastormMgr::OnPlayerLevelChanged(
         rescaledCount);
 
     player->SendSystemMessage(
-        "法力风暴：当前阶段生物等级已更新。");
+        "法力风暴：当前阶段的生物等级已更新。");
 }
 
 void ManastormMgr::OnPlayerGiveXP(
@@ -9188,7 +9188,7 @@ void ManastormMgr::OnUnitDeath(
 
         FailRun(
             *run,
-            "Progression persistence failed.");
+            "进度保存失败。");
 
         return;
     }
@@ -9289,7 +9289,7 @@ void ManastormMgr::OnUnitDeath(
             {
                 member->SendSystemMessage(
                     "法力风暴：目标已完成。"
-                    "现在使用传送门继续，否则下一层将在 5 秒后自动开始。");
+                    "法力风暴：目标已完成。现在可使用传送门继续，否则 5 秒后将自动开始下一层。");
             }
         }
 }
@@ -9388,13 +9388,13 @@ bool ManastormMgr::UseStagePortal(
 
             error =
                 transitionError.empty()
-                ? "The next Manastorm stage could not be prepared."
+                ? "无法准备下一个法力风暴阶段。"
                 : transitionError;
 
             FailRun(
                 *run,
                 std::string(
-                    "Stage transition failed after portal click: ") +
+                    "点击传送门后阶段切换失败：") +
                     error);
 
             return false;
@@ -9566,7 +9566,7 @@ bool ManastormMgr::TransitionToNextStage(
                         member->FindMap(),
                         member))
                 {
-                    error = "The Manastorm run ended during stage activation.";
+                    error = "法力风暴冒险在阶段激活期间已结束。";
                     return false;
                 }
 
@@ -9857,7 +9857,7 @@ bool ManastormMgr::TransitionToNextStage(
 
     creator->SendSystemMessage(
         "法力风暴：下一阶段已就绪。"
-        "其他队员可以在五秒兜底传送前穿过传送门。");
+        "法力风暴：下一阶段已准备就绪。其他成员可在 5 秒的兜底时间结束前通过。");
 
     return true;
 }
@@ -10009,7 +10009,7 @@ void ManastormMgr::Update(uint32 diff)
             {
                 FailRun(
                     run,
-                    "The private stage instance has expired.");
+                    "私人阶段实例已过期。");
             }
             else if (run.GetState() ==
                     ManastormRunState::Preparing &&
@@ -10195,7 +10195,7 @@ void ManastormMgr::Update(uint32 diff)
         FailRun(
             run,
             std::string(
-                "Stage transition fallback failed: ") +
+                "阶段切换兜底失败：") +
             error);
     }
 }
@@ -10346,7 +10346,7 @@ bool ManastormMgr::HandleReleaseAfterWipe(Player* player)
         return true;
     }
 
-    FailRun(*run, "All run members are dead.", 0, ManastormFailureExit::FactionHub);
+    FailRun(*run, "全体队员都已阵亡。", 0, ManastormFailureExit::FactionHub);
     return true;
 }
 
@@ -10356,14 +10356,14 @@ bool ManastormMgr::StopRun(Player* player, std::string& error)
 
     if (!player)
     {
-        error = "A player is required.";
+        error = "需要一名玩家。";
         return false;
     }
 
     ManastormRun* run = GetRunFor(player);
     if (!run)
     {
-        error = "You are not part of an active Manastorm run.";
+        error = "你不在进行中的法力风暴冒险里。";
         return false;
     }
 
@@ -10374,7 +10374,7 @@ bool ManastormMgr::StopRun(Player* player, std::string& error)
 
     if (run->GetState() == ManastormRunState::AwaitingExit)
     {
-        FailRun(*run, "All run members are dead.", 0, ManastormFailureExit::FactionHub);
+        FailRun(*run, "全体队员都已阵亡。", 0, ManastormFailureExit::FactionHub);
         return true;
     }
 
@@ -10538,7 +10538,7 @@ bool ManastormMgr::StopRun(Player* player, std::string& error)
                 returnO);
 
             member->SendSystemMessage(
-                "法力风暴：本次冒险已结束，但将你送回原位置时出错。");
+                "法力风暴：冒险已结束，但未能将你送回原来的位置。");
         }
     }
 

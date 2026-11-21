@@ -2596,8 +2596,9 @@ MaxGroupXPDistance = 74
 #        默认 0.9295，PR #4128 中捕获的领域倍率。
 #        CoA 新服：2 = 双倍经验。它乘在下面各来源的倍率之上，所以实际是
 #        击杀 1.0909091 × 2 = 2.18 倍、任务 1.26 × 2 = 2.52 倍、探索 4 × 2 = 8 倍
-#        （探索经验本来就少，占比可以忽略）。要精确 2 倍，就把下面各 Rate.XP.* 都改成 2、
-#        这一行改回 1。改完 .reload config 立即生效，不用重启。
+#        （探索经验本来就少，占比可以忽略）。下面各 Rate.XP.* 一律保持 CoA 原始倍率，
+#        想让全服变成三倍只改这一行（3），想回到原始就改回 1；不要再逐个调下面的值，
+#        否则会和这一行叠乘。改完 .reload config 立即生效，不用重启。
 Rate.XP.Global = 2
 
 #    Rate.XP.Profession
@@ -2639,17 +2640,17 @@ Rate.XP.Profession.Inscription = 2.88
 Rate.XP.Profession.Woodcutting = 0.33
 Rate.XP.Profession.Woodworking = 1
 
-Rate.XP.Kill            = 2.0909091
-Rate.XP.Kill.TBC        = 2.0909091
-Rate.XP.Kill.WotLK      = 2.90909094
-Rate.XP.Elite           = 2.88
-Rate.XP.DungeonElite    = 4.175
-Rate.XP.Quest           = 2.26
-Rate.XP.Quest.TBC       = 2.26
-Rate.XP.Quest.WotLK     = 2.05
-Rate.XP.Quest.DF        = 2
+Rate.XP.Kill            = 1.0909091
+Rate.XP.Kill.TBC        = 1.0909091
+Rate.XP.Kill.WotLK      = 0.90909094
+Rate.XP.Elite           = 1.44
+Rate.XP.DungeonElite    = 2.175
+Rate.XP.Quest           = 1.26
+Rate.XP.Quest.TBC       = 1.26
+Rate.XP.Quest.WotLK     = 1.05
+Rate.XP.Quest.DF        = 1
 Rate.XP.Explore         = 4
-Rate.XP.Pet             = 2
+Rate.XP.Pet             = 1
 
 #
 #    Rate.XP.BattlegroundKill...
@@ -2657,19 +2658,19 @@ Rate.XP.Pet             = 2
 #                     仅在 Battleground.GiveXPForKills = 1 时有效
 #        Default:     1
 
-Rate.XP.BattlegroundKillAV   = 2
-Rate.XP.BattlegroundKillWSG  = 2
-Rate.XP.BattlegroundKillAB   = 2
-Rate.XP.BattlegroundKillEOTS = 2
-Rate.XP.BattlegroundKillSOTA = 2
-Rate.XP.BattlegroundKillIC   = 2
+Rate.XP.BattlegroundKillAV   = 1
+Rate.XP.BattlegroundKillWSG  = 1
+Rate.XP.BattlegroundKillAB   = 1
+Rate.XP.BattlegroundKillEOTS = 1
+Rate.XP.BattlegroundKillSOTA = 1
+Rate.XP.BattlegroundKillIC   = 1
 
 #
 #    Rate.XP.BattlegroundBonus
 #        Description: 战场目标（夺旗、占领基地等）的经验倍率。
 #        Default:     1
 
-Rate.XP.BattlegroundBonus = 2
+Rate.XP.BattlegroundBonus = 1
 
 #
 #    Rate.Pet.LevelXP

@@ -497,6 +497,22 @@ bool HandleItemStatQuery(WorldSession* session, WorldPacket const& packet)
 
     if (PreviewOn() && level == proto->ItemLevel)
     {
+        uint32 owned = 0;
+        if (Player* player = session->GetPlayer())
+        {
+            ForEachCarriedItem(player, [&owned, itemId](Item const* item)
+            {
+                if (!owned && item->GetEntry() == itemId)
+                    owned = ClientLevel(item);
+            });
+        }
+
+        if (owned && owned != proto->ItemLevel)
+        {
+            SendStatReply(session, itemId, owned, proto, false);
+            return true;
+        }
+
         pendingStatQueries.Add(session->GetAccountId(), itemId);
         return true;
     }

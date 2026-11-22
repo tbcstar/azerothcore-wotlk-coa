@@ -802,7 +802,7 @@ public:
 
                 if (_player->GetScriptedPrivateMapId() != MAPID_INVALID && !_player->IsScriptedPrivateObserver())
                 {
-                    handler->SendErrorMessage("Leave your own private instance before you appear in another one.", false);
+                    handler->SendErrorMessage("你当前在自己的私密副本里，请先离开，才能出现在其他副本中。", false);
                     return false;
                 }
 
@@ -3135,7 +3135,7 @@ public:
             return false;
         }
 
-        handler->PSendSysMessage(LANG_MOVEGENS_LIST, (unit->IsPlayer() ? "Player" : "Creature"), unit->GetGUID().ToString());
+        handler->PSendSysMessage(LANG_MOVEGENS_LIST, (unit->IsPlayer() ? "玩家" : "生物"), unit->GetGUID().ToString());
 
         MotionMaster* motionMaster = unit->GetMotionMaster();
         float x, y, z;
@@ -3146,7 +3146,7 @@ public:
             MovementGenerator* movementGenerator = motionMaster->GetMotionSlot(i);
             if (!movementGenerator)
             {
-                handler->SendSysMessage("Empty");
+                handler->SendSysMessage("空");
                 continue;
             }
 

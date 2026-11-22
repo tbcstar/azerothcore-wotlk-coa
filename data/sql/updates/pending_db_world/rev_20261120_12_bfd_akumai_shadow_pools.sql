@@ -1,7 +1,7 @@
 DELETE FROM `creature_template` WHERE `entry` = 9604829;
 DROP TEMPORARY TABLE IF EXISTS `coa_copy_9604829`;
 CREATE TEMPORARY TABLE `coa_copy_9604829` AS SELECT * FROM `creature_template` WHERE `entry` = 16697;
-UPDATE `coa_copy_9604829` SET `entry` = 9604829, `name` = 'Shadow Pool', `subname` = NULL, `minlevel` = 61, `maxlevel` = 61, `faction` = 14, `HealthModifier` = 1, `unit_flags` = 33554434, `AIName` = 'SmartAI', `ScriptName` = '';
+UPDATE `coa_copy_9604829` SET `entry` = 9604829, `name` = '暗影之池', `subname` = NULL, `minlevel` = 61, `maxlevel` = 61, `faction` = 14, `HealthModifier` = 1, `unit_flags` = 33554434, `AIName` = 'SmartAI', `ScriptName` = '';
 INSERT INTO `creature_template` SELECT * FROM `coa_copy_9604829`;
 DROP TEMPORARY TABLE `coa_copy_9604829`;
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 9604829;
@@ -17,7 +17,7 @@ INSERT INTO `coa_dungeon_creature_damage` (`entry`, `spell_id`, `multiplier`, `c
 DELETE FROM `creature_template` WHERE `entry` = 9504829;
 DROP TEMPORARY TABLE IF EXISTS `coa_copy_9504829`;
 CREATE TEMPORARY TABLE `coa_copy_9504829` AS SELECT * FROM `creature_template` WHERE `entry` = 16697;
-UPDATE `coa_copy_9504829` SET `entry` = 9504829, `name` = 'Shadow Pool', `subname` = NULL, `minlevel` = 61, `maxlevel` = 61, `faction` = 14, `HealthModifier` = 1, `unit_flags` = 33554434, `AIName` = 'SmartAI', `ScriptName` = '';
+UPDATE `coa_copy_9504829` SET `entry` = 9504829, `name` = '暗影之池', `subname` = NULL, `minlevel` = 61, `maxlevel` = 61, `faction` = 14, `HealthModifier` = 1, `unit_flags` = 33554434, `AIName` = 'SmartAI', `ScriptName` = '';
 INSERT INTO `creature_template` SELECT * FROM `coa_copy_9504829`;
 DROP TEMPORARY TABLE `coa_copy_9504829`;
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 9504829;

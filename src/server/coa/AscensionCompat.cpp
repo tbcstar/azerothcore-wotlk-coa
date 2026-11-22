@@ -2010,7 +2010,7 @@ public:
       {
         error = Acore::StringFormat(
             "天赋条目 {} 的等级 {} 需要 {} 点 {}，但你在 {} 级的 {} 点中已用掉 {} 点。",
-            entryId, rank, cost, classTree ? "class" : "specialization", used, budget,
+            entryId, rank, cost, classTree ? "职业树" : "专精树", used, budget,
             uint32(player->GetLevel()));
         return false;
       }
@@ -3777,11 +3777,11 @@ public:
                 continue;
 
             handler->PSendSysMessage(
-                "Threshold {} ({} {}): {}",
+                "阈值 {}（{} {}）：{}",
                 threshold.ThresholdSpellId, threshold.Amount,
                 threshold.ResourceSpellId,
-                player->HasAura(threshold.ThresholdSpellId) ? "active" :
-                                                               "inactive");
+                player->HasAura(threshold.ThresholdSpellId) ? "生效" :
+                                                               "未生效");
         }
 
         if (!displayed && player->getClass() != CLASS_REAPER)
@@ -4328,8 +4328,7 @@ private:
   static constexpr uint32 VAULT_CLIENT_SPELL = 500085;
   static constexpr uint32 CHARGE_SPELL_VISUAL = 867;
   static constexpr char const* REPLENISHMENT_FIELD_DESCRIPTION =
-      "Nearby allies are restored: $/10;560751s1 Rage, Energy, Focus and Runic Power and $560819s1% base mana "
-      "every $560751T1 sec.";
+      "附近的盟友每 $560751T1 秒被恢复：$/10;560751s1 点怒气、能量、专注与符文能量，以及 $560819s1% 基础法力。";
   struct ClientSpellText {
     std::string Description;
     std::string ToolTip;
@@ -8673,7 +8672,7 @@ public:
 
     target->SendMessageToSet(&response, true);
     handler->PSendSysMessage("已变身为 entry %u 的生物外观预设（外观 %u，%s）。",
-        entry, preset->display_id, preset->gender == 1 ? "Female" : "Male");
+        entry, preset->display_id, preset->gender == 1 ? "女性" : "男性");
     return true;
   }
 

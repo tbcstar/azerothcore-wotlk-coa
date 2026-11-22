@@ -165,8 +165,8 @@ void AscensionBazaarTokenReserve::SendRefusal(Player* player)
 
     uint32 const reserve = GetReserve(player->GetSession()->GetAccountId());
     ChatHandler(player->GetSession()).PSendSysMessage(
-        "{} of your Bazaar Tokens are Realm Bound: spend them or mail them to your own characters. Only the tokens "
-        "above that amount can be given to other players.", reserve);
+        "你的市集代币中有 {} 枚已账号绑定：请把它们花掉，或邮寄给你自己的角色。只有超出这个数量的代币 "
+        "才能交给其他玩家。", reserve);
 }
 
 AscensionBazaarTokenReserve::SpendScope::SpendScope(Player* player, uint32 itemEntry)

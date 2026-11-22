@@ -682,7 +682,7 @@ namespace
             }
             _lastLine = _order[_nextLine++];
             std::string message = BuildAdvertisement(_lastLine, round.pot, round.ends - Now(), name,
-                _location.map == 1 ? "Orgrimmar" : "Stormwind");
+                _location.map == 1 ? "奥格瑞玛" : "暴风城");
             auto builder = [creature, &message](WorldPacket* packet, LocaleConstant locale)
             {
                 return ChatHandler::BuildChatPacket(*packet, CHAT_MSG_MONSTER_YELL, LANG_UNIVERSAL,

@@ -38,25 +38,25 @@ namespace CoALottery
     }
 
     constexpr auto AdvertisementLines = std::to_array<std::string_view>({
-        "{city}! Gallywix's lottery jackpot is up to {pot}! Goldilocks has your ticket to the big time!",
-        "{player}, you look like someone with expensive tastes! Ten gold for a ticket. Give Goldilocks a visit!",
-        "Only {time} until the draw! Stop counting your coppers and start dreaming about {pot}!",
-        "Tired of splitting loot with four other cheapskates? The winning ticket takes the entire pot!",
-        "The jackpot is {pot}, pal! That's a lot of repairs, mounts, and other questionable financial decisions!",
-        "Time is money, and you've got {time} left! Get your golden tickets from Goldilocks!",
-        "Rigged?! No, but of course I've got a feeeew house tickets... Same odds as yours... Read the rules!",
-        "{player}, your next big adventure could start at the mailbox! Winners get their gold mailed straight to them and I pay for postage out of sheer generosity!",
-        "The draw is in {time}! Buy more tickets for more chances. No guarantees and certainly no refunds!",
-        "Gallywix's lottery! {pot} in the pot! Goldilocks sells the tickets whilst I provide the entrepreneurial genius!",
-        "Someone wins? We mail the prize! I win on a house ticket? The pot gets destroyed! Nobody can say I hid the rules!",
-        "{player}, got ten gold and a dream? Talk to Goldilocks!",
-        "{time} left, {pot} at stake! Remember: a golden ticket buys a chance, not a guarantee!",
-        "It's demotions for everyone if the Sharks beat the Buccaneers or if this lottery does not reach gold cap!",
-        "Thank you for your hard work and dedication in fighting Azeroth's inflation. Unpaid overtime is approved for all!",
-        "Is that you, {player}? Have you signed up for this week's raffle?",
-        "You're all lazy! Get back to work. Especially you, {player}!",
-        "What's this I hear about a party? I wasn't invited!",
-        "All hail the greatest trade prince on Azeroth... me!"
+        "{city}！加里维克斯的彩票头奖已累积到 {pot}！找金发姑娘买张票，一夜暴富不是梦！",
+        "{player}，看你这派头就知道品味不便宜！一张票十金币，去找金发姑娘！",
+        "距离开奖只剩 {time}！别再数铜板了，开始梦想 {pot} 吧！",
+        "还在跟另外四个抠门的家伙分装备？中奖的彩票独吞整个奖池！",
+        "头奖已经 {pot} 了，伙计！够你修装备、买坐骑，再干一堆可疑的财务决策！",
+        "时间就是金钱，你还剩 {time}！去金发姑娘那儿买你的金票！",
+        "暗箱操作？！当然没有，只不过我手里确实有那么几张内部票……概率跟你一样……自己看规则去！",
+        "{player}，你的下一场大冒险可能就从邮箱开始！中奖者的金币直接邮寄到账，邮费我出于慷慨自掏腰包！",
+        "开奖就在 {time} 之后！多买多机会，不保底也绝不退款！",
+        "加里维克斯的彩票！奖池 {pot}！金发姑娘负责卖票，我负责提供天才般的商业头脑！",
+        "有人中奖？我们邮寄奖金！我自己中了内部票？奖池直接销毁！谁也不能说我把规则藏起来了！",
+        "{player}，十个金币加一个梦想，够不够？去找金发姑娘！",
+        "还剩 {time}，{pot} 悬在头上！记住：金票只买一个机会，不买一个保证！",
+        "要是鲨鱼队赢了海盗队，或者这期彩票没到金币上限，所有人都得降职！",
+        "感谢各位为对抗艾泽拉斯通货膨胀付出的辛勤劳动。所有人的无偿加班申请，批准！",
+        "是你吗，{player}？报名参加本周的抽奖了吗？",
+        "你们这帮懒虫！回去干活！尤其是你，{player}！",
+        "我听说有人在办派对？居然没请我！",
+        "向艾泽拉斯最伟大的贸易亲王致敬……也就是我！"
     });
 
     inline std::string AdvertisementTime(uint64_t remaining)
@@ -66,26 +66,26 @@ namespace CoALottery
         if (remaining > 86400)
         {
             amount = remaining / 86400;
-            unit = "day";
+            unit = "天";
         }
         else if (remaining > 3600)
         {
             amount = remaining / 3600;
-            unit = "hour";
+            unit = "小时";
         }
         else
         {
             amount = remaining ? std::max<uint64_t>(1, remaining / 60) : 0;
-            unit = "minute";
+            unit = "分钟";
         }
-        return std::to_string(amount) + " " + unit + (amount == 1 ? "" : "s");
+        return std::to_string(amount) + " " + unit;
     }
 
     inline std::string BuildAdvertisement(uint32_t index, uint32_t copper, uint64_t remaining,
-        std::string_view playerName, std::string_view cityName = "Stormwind")
+        std::string_view playerName, std::string_view cityName = "暴风城")
     {
         std::string message(AdvertisementLines[index % AdvertisementLines.size()]);
-        std::string pot = std::to_string(copper / 10000) + " gold";
+        std::string pot = std::to_string(copper / 10000) + " 金币";
         std::string time = AdvertisementTime(remaining);
         auto replace = [&message](std::string_view token, std::string_view value)
         {
@@ -99,7 +99,7 @@ namespace CoALottery
         replace("{city}", cityName);
         replace("{pot}", pot);
         replace("{time}", time);
-        replace("{player}", playerName.empty() ? std::string_view("You there") : playerName);
+        replace("{player}", playerName.empty() ? std::string_view("那位朋友") : playerName);
         return message;
     }
 }

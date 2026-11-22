@@ -54,10 +54,11 @@ CoA.LevelBoostNpc.RuneOfDescensionReward = 2000000
 # 在协议发现期间记录每个被消费的扩展包。
 CoA.LogConsumedPackets = 1
 
-# 来自精英战争宝箱（2977351）的服务器绑定集市代币。
-# 其中持有的 1500 个集市代币（975001）被视为每账号储备：
-# 购买时优先使用该储备，且仅当账号至少保留该储备时，代币才能被交易、邮寄给另一个账号、拍卖或存入公会银行。
-# 账号自身角色之间的邮件免费。超过储备的刷取代币仍可交易。
+# Realm Bound Bazaar Tokens from the Elite Warchest (2977351) and the Daily Login Reward. The 1500 Bazaar Tokens
+# (975001) the warchest holds and the reward's tokens are counted as a per-account reserve: purchases use the
+# reserve first, and tokens can only be traded, mailed to another account, auctioned or put in a guild bank while
+# the account keeps at least the reserve. Mail between the account's own characters is free. Refunded tokens come
+# back into the reserve. Farmed tokens above the reserve stay tradeable.
 CoA.BazaarTokens.WarchestRealmBound = 1
 
 CoA.BazaarTokens.HourlyCap.Amount = 0
@@ -279,19 +280,13 @@ CoA.ItemScaling.Native.RebornArmor = 1
 # 都会授予：书籍不出售它们。可重新加载。
 CoA.AutoProgression = 0
 
-# 流式传输已安装的 Ascension 客户端无法从其自身文件中解析的 CreatureDisplayInfo 补丁行
-# （自定义显示 ID）。该流在客户端扩展握手之后开始，
-# 如果始终未到达，则有一个简短的登录回退。
+# Send the per-player client rows that the client files cannot carry: spell notice
+# and swap rows, character advancement swap entries and race-restricted quest super
+# track rows. Static client data ships in the client MPQs.
 CoA.SendDisplayPatches = 1
 
-# 客户端 CreatureDisplayInfo.dbc 的未打补丁副本，用于精确流式传输客户端缺失的行。
-# 留空则选择 DataDir/dbc_clientset；当该副本不可用时，使用服务器自身的
-# DataDir/dbc/CreatureDisplayInfo.dbc，因此只流式传输通过
-# creaturedisplayinfo_dbc 添加的行。
-CoA.ClientDbcDirectory = ""
-
-# 从已安装客户端的操作码分发表中导出的扩展范围。
-# 请保持这些值为十进制，因为 ConfigMgr 数值会按十进制解析。
+# Extension range derived from the installed client's opcode dispatch table.
+# Keep these values decimal because ConfigMgr numeric values are parsed as decimal.
 CoA.FirstExtensionOpcode = 1311
 CoA.LastExtensionOpcode = 2515
 

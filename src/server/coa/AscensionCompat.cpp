@@ -5298,8 +5298,9 @@ public:
 
     if (queue.size() >= MAX_QUEUED_EXTENSION_PACKETS)
     {
-      RejectClientPacket(accountId, packet, "its queue is full");
-      return;
+      queue.pop_front();
+      LOG_DEBUG("coa", "Ascension extension queue for account {} is full ({} packets); dropped the oldest request.",
+                accountId, MAX_QUEUED_EXTENSION_PACKETS);
     }
 
     if (isWorldEntryNotice(packet))
@@ -5450,9 +5451,14 @@ public:
 
       std::size_t const replies = ExpectedReplies(queue.front());
       if (replies > budget)
-        break;
+      {
+        if (!packets.empty())
+          break;
 
-      budget -= replies;
+        budget = 0;
+      }
+      else
+        budget -= replies;
       packets.push_back(std::move(queue.front()));
       queue.pop_front();
       outfitPending |= outfit;

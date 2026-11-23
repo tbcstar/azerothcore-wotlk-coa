@@ -56,6 +56,7 @@
 #include "WorldPacket.h"
 #include "WorldSocket.h"
 #include "WorldState.h"
+#include <atomic>
 #include <zlib.h>
 
 namespace
@@ -309,7 +310,14 @@ void WorldSession::SendPacket(WorldPacket const* packet)
 {
     if (packet->GetOpcode() == NULL_OPCODE)
     {
-        LOG_ERROR("network.opcode", "{} send NULL_OPCODE", GetPlayerInfo());
+        // The opcode of these packets is decided at run time, so reviewing the send sites does not
+        // find the producer. Log the size of the first few and then every 500th drop, with the
+        // running total, so one restart identifies it without flooding the log.
+        static std::atomic<uint32> dropped { 0 };
+        uint32 const dropCount = ++dropped;
+        if (dropCount <= 10 || dropCount % 500 == 0)
+            LOG_ERROR("network.opcode", "{} send NULL_OPCODE (size {}, drops so far {})", GetPlayerInfo(),
+                      packet->size(), dropCount);
         return;
     }
 

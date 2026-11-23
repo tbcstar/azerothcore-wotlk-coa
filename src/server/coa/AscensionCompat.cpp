@@ -8373,11 +8373,11 @@ public:
     if (ascensionCompatConfig.GetConfigValue<bool>(
             AscensionCompatConfig::LOG_CONSUMED_PACKETS)) {
       char const *name = ExtensionOpcodeName(uint16(opcode));
-      LOG_INFO("coa",
-               "Consumed Ascension extension packet opcode=0x{:04X} ({}) "
-               "payload={} bytes [{}]",
-               opcode, name ? name : "unknown", packet.size(),
-               DescribePacketPayload(packet));
+      LOG_DEBUG("coa",
+                "Consumed Ascension extension packet opcode=0x{:04X} ({}) "
+                "payload={} bytes [{}]",
+                opcode, name ? name : "unknown", packet.size(),
+                DescribePacketPayload(packet));
     }
 
     return false;

@@ -6284,13 +6284,18 @@ void Player::CheckAreaExploreAndOutdoor()
         return;
     }
 
-    uint32 offset = areaEntry->exploreFlag / 32;
+    // CoA's AreaTable assigns AreaBit values up to 5370, past the client's 64 explored-zone words
+    // (2048 bits); those areas can never be recorded, and logging once per grid step spammed the
+    // server log with tens of thousands of errors.
+    uint32 const exploreFlag = areaEntry->exploreFlag;
 
-    if (offset >= PLAYER_EXPLORED_ZONES_SIZE)
+    if (exploreFlag >= PLAYER_EXPLORED_ZONES_SIZE * 32)
     {
-        LOG_ERROR("entities.player", "Wrong area flag {} in map data for (X: {} Y: {}) point to field PLAYER_EXPLORED_ZONES_1 + {} ( {} must be < {} ).", areaEntry->flags, GetPositionX(), GetPositionY(), offset, offset, PLAYER_EXPLORED_ZONES_SIZE);
+        LOG_DEBUG("entities.player", "Area {} has explore flag {} outside the client field range; it stays unexplored.", areaId, exploreFlag);
         return;
     }
+
+    uint32 const offset = exploreFlag / 32;
 
     uint32 val = (uint32)(1 << (areaEntry->exploreFlag % 32));
     uint32 currFields = GetUInt32Value(PLAYER_EXPLORED_ZONES_1 + offset);

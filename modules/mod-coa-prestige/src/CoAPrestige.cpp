@@ -757,12 +757,12 @@ public:
         AddGossipItemFor(player, GOSSIP_ICON_VENDOR, std::string(OptionRewards), GOSSIP_SENDER_MAIN, ACTION_REWARDS);
         AddGossipItemFor(player, GOSSIP_ICON_VENDOR, std::string(OptionExperienceItems), GOSSIP_SENDER_MAIN,
             ACTION_EXPERIENCE_ITEMS);
-        // The client matches this label with "^Today's Prestige Quest is (.*)$"
-        // to fill the daily tab; it is a label, not an actionable option.
+        // The client matches this label with "^今天的重生任务：(.*)$" to fill the daily tab; the
+        // addon (DescensionUI Gossips/PrestigeMode.lua) matches the same text and must keep in sync.
         if (uint32 const dailyId = ActiveDailyQuest())
             if (Quest const* daily = sObjectMgr->GetQuestTemplate(dailyId))
                 AddGossipItemFor(player, GOSSIP_ICON_CHAT,
-                    "Today's Prestige Quest is " + daily->GetTitle(), GOSSIP_SENDER_MAIN, ACTION_DAILY_LABEL);
+                    "今天的重生任务：" + daily->GetTitle(), GOSSIP_SENDER_MAIN, ACTION_DAILY_LABEL);
         SendPrestigeLevels(player);
         if (AscensionWildcard::IsWildcardHero(player))
             AscensionWildcard::SendPrestigeInfo(player);

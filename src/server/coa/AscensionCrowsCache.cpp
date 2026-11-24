@@ -735,8 +735,16 @@ void UpdateEvents()
             if (map)
                 for (auto const& reference : map->GetPlayers())
                     if (Player* player = reference.GetSource())
-                        if (player->IsAlive() && player->GetExactDist(&event.position) < 30)
-                            player->KnockbackFrom(event.position.GetPositionX(), event.position.GetPositionY(), 15, 6);
+                        if (player->IsAlive() && player->GetExactDist(&event.position) < AppearanceKnockbackRange)
+                        {
+                            player->KnockbackFrom(event.position.GetPositionX(), event.position.GetPositionY(),
+                                AppearanceKnockbackSpeedXY, AppearanceKnockbackSpeedZ);
+                            if (Aura* debuff = player->AddAura(AppearanceDebuff, player))
+                            {
+                                debuff->SetMaxDuration(AppearanceDebuffMs);
+                                debuff->SetDuration(AppearanceDebuffMs);
+                            }
+                        }
             BroadcastPin(event, true);
             BroadcastAnnouncement(Acore::StringFormat(
                 "乌鸦的宝藏已在 {} 出现！高风险模式的 60 级玩家可以领取。", LocationName(event)));

@@ -4,7 +4,7 @@
 -- chance is a maintainer decision (2026-11-23); respawn and animation follow the stock Felwood herb nodes.
 INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `IconName`, `castBarCaption`, `unk1`, `size`,
     `Data0`, `Data1`, `Data2`, `Data3`, `Data4`, `Data5`, `AIName`, `ScriptName`, `VerifiedBuild`) VALUES
-(254477, 3, 1040328, 'Emerald Amanita', '', '', '', 1, 2444, 254477, 0, 1, 1, 1, '', '', 12340)
+(254477, 3, 1040328, '翡翠鹅膏菌', '', '', '', 1, 2444, 254477, 0, 1, 1, 1, '', '', 12340)
 ON DUPLICATE KEY UPDATE `type` = VALUES(`type`), `displayId` = VALUES(`displayId`), `name` = VALUES(`name`),
     `size` = VALUES(`size`), `Data0` = VALUES(`Data0`), `Data1` = VALUES(`Data1`), `Data3` = VALUES(`Data3`),
     `Data4` = VALUES(`Data4`), `Data5` = VALUES(`Data5`);

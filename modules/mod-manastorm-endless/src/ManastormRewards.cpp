@@ -1111,7 +1111,7 @@ bool ManastormRewards::PrepareCoATokenReward(ObjectGuid::LowType characterGuid, 
 {
     if (!LoadCoATokenState(characterGuid, state))
     {
-        error = "Unable to read CoA Manastorm token allowance.";
+        error = "无法读取你的 CoA 法力风暴代币额度。";
         return false;
     }
     bool const first = IsCoAFirstClear(state, run.GetMode(), run.IsEndgame(), run.GetDepth());
@@ -1173,7 +1173,7 @@ bool ManastormRewards::AwardCoAGreedyReward(Player* player, ManastormRun const& 
     ManastormCoATokenState state;
     if (!LoadCoATokenState(guid, state))
     {
-        error = "Unable to read your Manastorm token allowance.";
+        error = "无法读取你的法力风暴代币额度。";
         return false;
     }
     auto transaction = CharacterDatabase.BeginTransaction();
@@ -1195,12 +1195,12 @@ bool ManastormRewards::AwardCoAGreedyReward(Player* player, ManastormRun const& 
     if (!CharacterDatabase.AsyncCommitTransaction(transaction).m_future.get())
     {
         player->SetMoney(previousGold);
-        error = "Greedy Demon reward claim failed or was already claimed.";
+        error = "贪婪恶魔的奖励领取失败，或已经被领取过。";
         return false;
     }
     claims.Keep();
     PublishCommitted(publications);
-    player->SendSystemMessage(Acore::StringFormat("Greedy Demon: +{} Bazaar Tokens.", quantity));
+    player->SendSystemMessage(Acore::StringFormat("贪婪恶魔：+{} 市集代币。", quantity));
     return true;
 }
 
@@ -1311,7 +1311,7 @@ bool ManastormRewards::PrepareNormalCacheReward(ObjectGuid::LowType characterGui
     allowance = {};
     if (endgame && !LoadWeeklyCacheAllowance(characterGuid, allowance))
     {
-        error = "Unable to read Manastorm weekly cache state.";
+        error = "无法读取你的法力风暴每周藏匣状态。";
         return false;
     }
     bool const canEarnNormalCache = allowance.CanEarn();
@@ -1712,7 +1712,7 @@ bool ManastormRewards::PrepareStageCompletion(
         ManastormWeeklyCacheAllowance allowance;
         if (!completed)
         {
-            error = "Unable to read Manastorm first-clear state.";
+            error = "无法读取你的法力风暴首通状态。";
             publications.clear();
             return false;
         }
@@ -1784,8 +1784,8 @@ bool ManastormRewards::PrepareStageCompletion(
                 PreparedQueryResult levelResult = CharacterDatabase.Query(statement);
                 if (!levelResult)
                 {
-                    error = "Unable to read offline Manastorm member level for cache rewards: character=" +
-                        std::to_string(characterGuid) + ".";
+                    error = "无法读取离线成员的法力风暴等级，无法发放藏匣奖励：角色=" +
+                        std::to_string(characterGuid) + "。";
                     publications.clear();
                     return false;
                 }
@@ -1804,8 +1804,8 @@ bool ManastormRewards::PrepareStageCompletion(
             {
                 if (run.IsEndgame())
                 {
-                    error = "No enabled Manastorm cache bracket matches track=" + std::to_string(uint32(track)) +
-                        " depth=" + std::to_string(run.GetDepth()) + ".";
+                    error = "没有已启用的法力风暴藏匣档位匹配 track=" + std::to_string(uint32(track)) +
+                        " depth=" + std::to_string(run.GetDepth()) + "。";
                     LOG_ERROR(LOG_FILTER, "Cannot resolve physical Manastorm cache for character {}: track={} depth={}.",
                         characterGuid, uint32(track), run.GetDepth());
                     publications.clear();
@@ -1814,8 +1814,8 @@ bool ManastormRewards::PrepareStageCompletion(
 
                 LOG_WARN(
                     LOG_FILTER,
-                    "No Manastorm cache bracket matches character {}: track={} depth={} level={}. "
-                    "The stage completes without a cache for this character.",
+                    "Cannot resolve physical Manastorm cache for "
+                    "character {}: track={} depth={} level={}.",
                     characterGuid,
                     uint32(track),
                     run.GetDepth(),
@@ -2381,7 +2381,7 @@ void ManastormRewards::PublishCommitted(
             ManastormWeeklyCacheAllowance const& allowance = publication->WeeklyAllowance;
             player->SendSystemMessage(Acore::StringFormat(
                 "Manastorm regular endgame caches: {}/{} earned this week; {} remaining. Reset: {} (server time). "
-                "Bonus caches are exempt.", allowance.Earned, allowance.Limit,
+                "法力风暴常规终局宝箱：本周已获得 {}/{}，剩余 {}。重置时间：{}（服务器时间）。奖励宝箱不占用此额度。", allowance.Earned, allowance.Limit,
                 allowance.Earned < allowance.Limit ? allowance.Limit - allowance.Earned : 0,
                 Acore::Time::TimeToTimestampStr(Seconds(allowance.ResetTime))).c_str());
         }

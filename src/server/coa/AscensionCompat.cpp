@@ -9818,7 +9818,7 @@ public:
         player->SendEquipError(EQUIP_ERR_NONE, item, nullptr);
         if (player->HasSpell(mountSpell))
         {
-            ChatHandler(player->GetSession()).SendNotification("You already know this mount.");
+            ChatHandler(player->GetSession()).SendNotification("你已经学会这种坐骑了。");
             return true;
         }
 

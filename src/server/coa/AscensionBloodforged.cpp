@@ -1004,7 +1004,7 @@ public:
             time_t const respawn = spawn.map->GetGORespawnTime(spawn.data->spawnId);
             std::string const state = go && go->isSpawned() ? "已刷出"
                 : respawn > now ? Acore::StringFormat("已打开，{} 分钟后刷新", (respawn - now + 59) / 60) : "未加载";
-            handler->PSendSysMessage("{} {} - {} - .go gameobject {} ({:.1f} {:.1f} {:.1f})",
+            handler->PSendSysMessage("{} {} - {} - .go gameobject {}（{:.1f} {:.1f} {:.1f}）",
                 HiddenCacheTierNames[spawn.tier], ZoneName(spawn.zone), state, spawn.data->spawnId,
                 spawn.data->posX, spawn.data->posY, spawn.data->posZ);
         }
@@ -1068,7 +1068,7 @@ public:
     {
         uint32 const stageOverride = uint32(sWorldState->getWorldState(WorldStateHighRiskStageOverride));
         handler->PSendSysMessage("高风险阶段 {}。配置 {}，覆盖值 {}。", highRiskStage.load(),
-            configuredHighRiskStage.load(), stageOverride ? std::to_string(stageOverride - 1) : std::string("none"));
+            configuredHighRiskStage.load(), stageOverride ? std::to_string(stageOverride - 1) : std::string("无"));
         return true;
     }
 

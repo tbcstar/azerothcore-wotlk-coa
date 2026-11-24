@@ -755,7 +755,7 @@ public:
 
         SendAscensionClientLuaFormatter(player, id, token, std::string(lua));
         handler->PSendSysMessage(
-            "Sent SMSG 0x05BC row {} token {}. Run it with /run ChallengeUtil.GetRequirementLocalization(\"{}\")", id,
+            "已发送 SMSG 0x05BC 行 {} 令牌 {}。用 /run ChallengeUtil.GetRequirementLocalization(\"{}\") 查看", id,
             token, token);
         return true;
     }
@@ -769,13 +769,13 @@ public:
         AscensionClientLuaRoute const route = GetAscensionClientLuaRoute(player->GetSession()->GetAccountId());
         RunWindowLua(player);
         if (route == AscensionClientLuaRoute::HotPatch)
-            handler->PSendSysMessage("Sent the Fel Commutation window as hot patch {}; /hotpatch lists what the client ran.",
+            handler->PSendSysMessage("邪能转换窗口已作为热补丁 {} 发送；/hotpatch 可查看客户端实际执行的内容。",
                 WindowBootstrapToken);
         else if (route == AscensionClientLuaRoute::Queue)
-            handler->PSendSysMessage("Queued hot patch {} until the client announces the hot-patch channel.",
+            handler->PSendSysMessage("已排队热补丁 {}，等客户端声明热补丁通道后再发送。",
                 WindowBootstrapToken);
         else
-            handler->PSendSysMessage("Hot patch {} not sent: this client has no hot-patch channel.", WindowBootstrapToken);
+            handler->PSendSysMessage("热补丁 {} 未发送：当前客户端没有热补丁通道。", WindowBootstrapToken);
         return true;
     }
 

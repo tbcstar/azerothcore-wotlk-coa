@@ -520,6 +520,7 @@ public: /* PlayerScript */
     void OnPlayerSetSkill(Player* player, uint32 skillId, uint32 value, uint32 max, uint32 step, uint32 newValue);
     bool OnPlayerCanResurrect(Player* player);
     bool OnPlayerCanEnterManastorm(Player* player);
+    bool OnPlayerCanReleaseSpirit(Player* player);
     void OnPlayerBankWithdraw(Player* player, uint8 kind);
     bool OnPlayerEnvironmentalDamage(Player* player, uint32 type, uint32 damage);
     bool OnPlayerBreathInverted(Player* player);
@@ -536,6 +537,7 @@ public: /* PlayerScript */
     void OnPlayerTakeMailItem(Player* player, Mail const* mail, uint32 itemEntry);
     bool OnPlayerCanTakeQuest(Player const* player, Quest const* quest);
     bool OnPlayerCanRewardQuest(Player const* player, Quest const* quest);
+    bool OnPlayerCanRepeatDailyQuest(Player const* player, Quest const* quest);
     bool OnPlayerQuestGiverChooseReward(Player* player, Object* questGiver, Quest const* quest, uint32 reward);
     bool OnPlayerRefreshQuestGiver(Player* player, Object* questGiver, Quest const* quest);
     void OnPlayerCoAProgress(Player* player, CoAProgressEvent event, uint32 value);

@@ -1192,7 +1192,10 @@ XPHotspots.Brand = ""
 
 CoA.ChatLog.Enable = 0
 CoA.ChatLog.KeepDays = 30
-# 频道名称，以及任意频道中频道消息的开头内容，聊天日志会跳过这些内容（以空格分隔）。
-# 默认值是 LootCollector、Questie 和 pfQuest 等插件的数据频道和消息。
+# Most rows held in memory while the character database writes earlier ones. Rows beyond it are not logged,
+# and the worldserver log reports how many once a minute; chat itself is never held back.
+CoA.ChatLog.MaxPendingRows = 20000
+# Channel names, and starts of channel messages in any channel, the chat log skips (separated by spaces).
+# The defaults are the data channels and messages of addons such as LootCollector, Questie and pfQuest.
 CoA.ChatLog.IgnoreChannels = "BBLC25C KLCE25C questiecomm FSK FSK-EVT xtensionxtooltip2 ConquestFinder JohnnysAddons CoARUru ALCSync K_LFGForwarder2IIll"
 CoA.ChatLog.IgnoreChannelMessagesStartingWith = "LC1: LCPOI1: LCR1 LCRD1 LCS3; PFQ6: DCOAS3; DCOAL31; DCOAR2"

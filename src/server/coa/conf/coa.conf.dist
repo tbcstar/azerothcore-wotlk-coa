@@ -54,11 +54,11 @@ CoA.LevelBoostNpc.RuneOfDescensionReward = 2000000
 # 在协议发现期间记录每个被消费的扩展包。
 CoA.LogConsumedPackets = 1
 
-# Realm Bound Bazaar Tokens from the Elite Warchest (2977351) and the Daily Login Reward. The 1500 Bazaar Tokens
-# (975001) the warchest holds and the reward's tokens are counted as a per-account reserve: purchases use the
-# reserve first, and tokens can only be traded, mailed to another account, auctioned or put in a guild bank while
-# the account keeps at least the reserve. Mail between the account's own characters is free. Refunded tokens come
-# back into the reserve. Farmed tokens above the reserve stay tradeable.
+# 来自精英战争宝箱（2977351）和每日登录奖励的服务器绑定集市代币。
+# 战争宝箱持有的 1500 枚集市代币（975001）以及奖励代币会计入每个账号的预留额度：
+# 购买时优先使用该预留额度，并且只有在账号至少保留该预留额度时，
+# 代币才能被交易、邮寄到另一个账号、拍卖或放入公会银行。同一账号自己角色之间的邮件免费。
+# 退还的代币会回到预留额度中。超出预留额度的获取代币仍可交易。
 CoA.BazaarTokens.WarchestRealmBound = 1
 
 CoA.BazaarTokens.HourlyCap.Amount = 0
@@ -280,13 +280,13 @@ CoA.ItemScaling.Native.RebornArmor = 1
 # 都会授予：书籍不出售它们。可重新加载。
 CoA.AutoProgression = 0
 
-# Send the per-player client rows that the client files cannot carry: spell notice
-# and swap rows, character advancement swap entries and race-restricted quest super
-# track rows. Static client data ships in the client MPQs.
+# 发送客户端文件无法承载的按玩家区分的客户端行：
+# 法术通知与交换行、角色成长交换条目，以及种族限制任务的超级追踪行。
+# 静态客户端数据随客户端 MPQ 文件发布。
 CoA.SendDisplayPatches = 1
 
-# Extension range derived from the installed client's opcode dispatch table.
-# Keep these values decimal because ConfigMgr numeric values are parsed as decimal.
+# 扩展操作码范围，来源于已安装客户端的操作码分发表。
+# 请保持这些值为十进制，因为 ConfigMgr 的数值会按十进制解析。
 CoA.FirstExtensionOpcode = 1311
 CoA.LastExtensionOpcode = 2515
 
@@ -403,10 +403,10 @@ CoA.Battleground.WideBrackets.Enable = 1
 CoA.Battleground.WideBrackets.Ranges = "10-29,30-49,50-59"
 
 #    CoA.Battleground.WideBrackets.MaxLiftLevels
-#        Description: Most levels the health lift and output scaling bridge for a player or pet below the
-#                     bracket top. Combat rolls still use the bracket top. Read at startup only.
+#        Description: 对于低于战场分组等级上限的玩家或宠物，生命值提升和输出缩放最多可跨越的等级数。
+#                     战斗判定仍然使用分组等级上限。仅在启动时读取。
 #        Default:     0 - (No cap)
-#                     N - (Lift to at most own level + N)
+#                     N - (最多提升至自身等级 + N)
 
 CoA.Battleground.WideBrackets.MaxLiftLevels = 0
 
@@ -508,6 +508,17 @@ Ascension.PvPVendors.ReleaseStage = 1
 
 HighRisk.FelCommutation.Enable = 1
 
+#    HighRisk.FelCommutation.InsureAllSlotsByDefault
+#        Description: 邪能交换始终开启，每个角色初始时所有装备槽位均已投保（衬衫和战袍除外）。
+#                     玩家可在邪能交换窗口中移除或重新添加槽位；
+#                     使用传送门只会打开该窗口。
+#                     每个角色仅会获得一次全部槽位。
+#                     当邪能交换或此设置关闭时，这些角色会被重置为无任何槽位。
+#        Default:     1 - (Enabled)
+#                     0 - (Disabled)
+
+HighRisk.FelCommutation.InsureAllSlotsByDefault = 1
+
 #    HighRisk.FelCommutation.FeeMultiplier
 #        Description: 应用于费用的倍率。费用为每次死亡一笔金额，如客户端显示的那样：
 #                     全部平均装备物品等级乘以该等级对应的客户端费率区间，加上
@@ -536,10 +547,11 @@ HighRisk.FelCommutation.AltarRange = 20
 HighRisk.FelCommutation.ToggleAnywhere = 0
 
 #    HighRisk.FelCommutation.ClickToggle
-#        Description: 在邪能置换窗口中显示一个激活/停用按钮，用于为所有已装备的装备切换邪能置换状态。
-#                     使用传送门只会打开或关闭该窗口。原版客户端在使用传送门时
-#                     仍会自行发送该开关（其 Extensions.dll 会触发
-#                     GAMEOBJECT_USED，其 Lua 会发送开关数据包）。
+#        Description: 在邪能交换窗口中显示一个“激活/停用”按钮，用于切换所有已装备物品的邪能交换状态。
+#                     使用传送门只会打开或关闭该窗口。
+#                     原版客户端在使用传送门时仍会自行发送切换请求
+#                     （其 Extensions.dll 会触发 GAMEOBJECT_USED，其 Lua 会发送切换数据包）。
+#                     当 HighRisk.FelCommutation.InsureAllSlotsByDefault = 1 时不显示。
 #        Default:     0 - (Disabled)
 #                     1 - (Enabled)
 
@@ -626,13 +638,13 @@ Bloodforged.EliteEpicPercent = 15
 Bloodforged.EliteHeroicUpgradePercent = 2.5
 
 #    Bloodforged.BlueMaxItemLevelByStage
-#        描述：掉落的精良（蓝色）Bloodforged 物品的最高物品等级，每个
-#              高风险发布阶段 0-8（HighRisk.ReleaseStage）对应一个值。允许的
-#              最低值为 57，即 60 级蓝色物品的最低物品等级：更低的值会被
-#              提升到 57 并记录日志。已发布团本的团本装备不受此限制。
-#        Default:     "57 57 57 57 57 57 57 57 57"
+#        Description: 掉落的稀有（蓝色）血铸物品的最高物品等级，每个高风险发布阶段 0-8
+#                     （HighRisk.ReleaseStage）对应一个值。允许的最低值为 57，即 60 级蓝色物品的
+#                      最低物品等级：低于该值的值会被提升至 57 并记录日志。
+#                     已开放团本的团本装备不受此限制。
+#        Default:     "60 60 60 60 60 60 60 60 60"
 
-Bloodforged.BlueMaxItemLevelByStage = "57 57 57 57 57 57 57 57 57"
+Bloodforged.BlueMaxItemLevelByStage = "60 60 60 60 60 60 60 60 60"
 
 #    Bloodforged.EpicMaxItemLevelByStage
 #        描述：掉落的史诗 Bloodforged 物品的最高物品等级，每个
@@ -736,17 +748,26 @@ Bloodforged.EndgameRareMinRequiredLevel = 60
 
 #    Bloodforged.RareHiddenCachePercent
 #    Bloodforged.EpicHiddenCachePercent
-#        描述：高风险隐藏宝箱（战利品 9670 / 9671 / 9672，用短暂钥匙开启）会添加
-#              需要 60 级的 Bloodforged 物品，且受阶段上限限制。隐藏宝箱始终
-#              给予一件精良（蓝色）物品。精良隐藏宝箱始终给予一件史诗物品，并有以下
-#              两个百分比几率：一件英雄 Bloodforged 物品、一件已发布
-#              团本的团本装备。史诗隐藏宝箱始终给予一件已发布团本的团本物品（在
-#              任何团本发布前为史诗物品）和一件史诗物品；这两个百分比几率分别对应团本
-#              物品为其英雄副本，以及该史诗物品为英雄 Bloodforged 物品。
+#        Description: 高风险隐藏宝箱（掉落 9670 / 9671 / 9672，用短暂钥匙开启）会在阶段上限内添加血铸物品。
+#                     隐藏宝箱始终给予一件稀有（蓝色）物品，其需求等级为Bloodforged.HiddenCacheBlueMinRequiredLevel 至 60；
+#                     其他宝箱给予需求等级为60 的物品。
+#                     稀有隐藏宝箱始终给予一件史诗物品，并有两个百分比几率：
+#                     一个用于获得英雄血铸物品，另一个用于获得已开放团本的团本装备。
+#                     史诗隐藏宝箱始终给予一件已开放团本的团本物品（在任意团本开放前则为史诗物品）和一件史诗物品；
+#                     两个百分比几率分别用于：
+#                     团本物品成为其英雄版本，以及史诗物品成为英雄血铸物品。
 #        Default:     "15 5", "5 15"
 
 Bloodforged.RareHiddenCachePercent = "15 5"
 Bloodforged.EpicHiddenCachePercent = "5 15"
+
+#    Bloodforged.HiddenCacheBlueMinRequiredLevel
+#        Description: 隐藏宝箱（掉落 9670）给予的稀有（蓝色）血铸物品的最低需求等级；
+#                     该物品的需求等级为此值至 60 级，并保持在
+#                     Bloodforged.BlueMaxItemLevelByStage 范围内。超过 60 的值按 60 计算。
+#        Default:     55
+
+Bloodforged.HiddenCacheBlueMinRequiredLevel = 55
 
 #    Bloodforged.EphemeralKeyPercent
 #        Description: 高风险玩家在开放世界中击杀生物时，获得一把短暂钥匙（967680，用于开启隐藏宝箱）
@@ -1171,3 +1192,7 @@ XPHotspots.Brand = ""
 
 CoA.ChatLog.Enable = 0
 CoA.ChatLog.KeepDays = 30
+# 频道名称，以及任意频道中频道消息的开头内容，聊天日志会跳过这些内容（以空格分隔）。
+# 默认值是 LootCollector、Questie 和 pfQuest 等插件的数据频道和消息。
+CoA.ChatLog.IgnoreChannels = "BBLC25C KLCE25C questiecomm FSK FSK-EVT xtensionxtooltip2 ConquestFinder JohnnysAddons CoARUru ALCSync K_LFGForwarder2IIll"
+CoA.ChatLog.IgnoreChannelMessagesStartingWith = "LC1: LCPOI1: LCR1 LCRD1 LCS3; PFQ6: DCOAS3; DCOAL31; DCOAR2"

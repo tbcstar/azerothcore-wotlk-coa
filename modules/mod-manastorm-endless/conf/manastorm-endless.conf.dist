@@ -14,9 +14,7 @@ Manastorm.CoALootMode.Repeat.Enabled = 1
 # 1 = 首通随个人窗口重置；0 = 终生首通。
 # 首通按角色、深度、难度以及普通/终局路线分别计算。
 Manastorm.CoALootMode.FirstClear.ResetWithWindow = 1
-# 每个角色跨所有难度/路线共享。范围 0..1000000；0 停止代币奖励。
-Manastorm.CoALootMode.TokenCap = 1000
-# 窗口在首次符合条件的完成时开始，然后在这么多小时后过期（1..168）。
+# 时间窗口从首次符合条件的完成开始计时，并在指定小时数后过期（1..168）。
 Manastorm.CoALootMode.WindowHours = 24
 # 奖励金额/深度覆盖/里程碑在 manastorm_coa_token_rewards 中。
 
@@ -44,7 +42,7 @@ Manastorm.ExperienceRate = 0.3
 # 贪婪恶魔战利品使用由已发布的启用终局宝箱区间推导出的物品等级上限。
 # 0 = 禁用发布阶段限制；现有的深度/解锁要求仍然适用。
 # 可重载。
-Manastorm.FollowReleaseStage = 1
+Manastorm.FollowReleaseStage = 2
 
 # 客户端集成模式（需要重启）：
 #   1 = 重建的 3.3.5 客户端插件传输（MANASTORM 插件前缀）

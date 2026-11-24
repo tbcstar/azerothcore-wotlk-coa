@@ -1197,6 +1197,17 @@ PacketSpoof.BanMode = 0
 PacketSpoof.BanDuration = 86400
 
 #
+#    CoA.Anticheat.AlertSummarySeconds
+#        说明：客户端通过 CMSG_ANTICHEAT_ALERT 上报的异常（调试器、注入 DLL 等）会写进
+#              acore_characters.player_anticheat_alert；本项每隔这么多秒把新增告警按账号
+#              汇总成一条提示，发给在线 GM（SEC_GAMEMASTER 及以上）。
+#              0 - （关闭汇总，此时仍可在数据库里自行查询）
+#        默认：300 - （5 分钟）
+#
+
+CoA.Anticheat.AlertSummarySeconds = 300
+
+#
 ###################################################################################################
 
 ###################################################################################################

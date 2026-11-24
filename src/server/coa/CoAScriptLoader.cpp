@@ -68,6 +68,7 @@ void AddSC_AscensionTreeOfLife();
 void AddSC_CoALfgStartPoint();
 void AddSC_CoAStatisticQuery();
 void AddSC_CoABossProbe();
+void AddSC_CoAAnticheatAlertSummary();
 void AddSC_CoADungeonSpellDamage();
 void AddSC_CoAGameObjectScale();
 void AddSC_CoABossLeash();
@@ -921,6 +922,7 @@ void AddCoAScripts()
     AddSC_CoALfgStartPoint();
     AddSC_CoAStatisticQuery();
     AddSC_CoABossProbe();
+    AddSC_CoAAnticheatAlertSummary();
     AddSC_CoADungeonSpellDamage();
     AddSC_CoAGameObjectScale();
     AddSC_CoABossLeash();

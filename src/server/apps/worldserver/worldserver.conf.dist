@@ -728,6 +728,8 @@ Logger.scripts.hotswap=4,Console Server
 Logger.server=4,Console Server
 # 本服：让「为什么踢人」写进 Server.log（默认只有 Error 级别，踢人在 INFO 级别被丢弃）。
 Logger.network.kick=5,Server
+# 本服：客户端自检告警（CMSG_ANTICHEAT_ALERT）也要进 Server.log；默认 root=2 只收 Error，WARN 会被丢弃。
+Logger.anticheat=3,Console Server
 Logger.sql.sql=2,Console Errors
 Logger.sql.updates=4,Console Server Errors
 Logger.sql=4,Console Server
@@ -1205,10 +1207,12 @@ PacketSpoof.BanDuration = 86400
 #        Default:     1 - (Enabled)
 #                     0 - (Disabled)
 
-# 本服：0 = 关闭。CoA64 客户端不回应 Warden 的校验包，服务端会在
-#       Warden.ClientResponseDelay 秒后静默踢人（表现为「上线约 10 分钟莫名掉线」，
-#       且默认日志级别下查不到原因）。若要保留校验，改设 Warden.ClientResponseDelay = 0。
-Warden.Enabled = 0
+# 本服：1 = 保持开启，但不做任何自动处罚（下面的 ClientResponseDelay = 0、
+#       ClientCheckFailAction = 0）。CoA64 客户端不回应 Warden 的校验包，所以校验本身
+#       拿不到结果；开启它的真正意义是保留客户端自检告警的接收：
+#       CMSG_ANTICHEAT_ALERT（Extensions.dll 的抗调试/注入 DLL 告警）→写入
+#       acore_characters.player_anticheat_alert 并提醒在线 GM，而这条通道受本开关控制。
+Warden.Enabled = 1
 
 #
 #    Warden.NumMemChecks
@@ -1240,7 +1244,7 @@ Warden.NumOtherChecks = 7
 #        Description: 客户端因未响应而被断开连接之前的时间（以秒为单位）。
 #        Default:     600 - (10 Minutes)
 #                     0 - (Disabled, client won't be kicked)
-# 本服：0 = 不发校验、也不因未回应踢人（与 Warden.Enabled = 0 配套；将来重新开启校验也不必改回）。
+# 本服：0 = 不因客户端未回应而踢人（CoA64 不回包，原值 600 会导致上线约 10 分钟静默掉线）。
 
 Warden.ClientResponseDelay = 0
 
@@ -1262,7 +1266,9 @@ Warden.ClientCheckHoldOff = 30
 #                     1 - （踢出）
 #                     2 - （封禁）
 
-Warden.ClientCheckFailAction = 1
+# 本服：0 = 只记日志，不自动踢/封（客户端与 warden_checks 不匹配时避免误伤玩家；
+#       真正的处置交给 GM，依据 player_anticheat_alert 表与 Server.log）。
+Warden.ClientCheckFailAction = 0
 
 #
 #    Warden.BanDuration

@@ -726,6 +726,8 @@ Logger.diff=3,Console Server
 Logger.mmaps=4,Server
 Logger.scripts.hotswap=4,Console Server
 Logger.server=4,Console Server
+# 本服：让「为什么踢人」写进 Server.log（默认只有 Error 级别，踢人在 INFO 级别被丢弃）。
+Logger.network.kick=5,Server
 Logger.sql.sql=2,Console Errors
 Logger.sql.updates=4,Console Server Errors
 Logger.sql=4,Console Server
@@ -1203,7 +1205,10 @@ PacketSpoof.BanDuration = 86400
 #        Default:     1 - (Enabled)
 #                     0 - (Disabled)
 
-Warden.Enabled = 1
+# 本服：0 = 关闭。CoA64 客户端不回应 Warden 的校验包，服务端会在
+#       Warden.ClientResponseDelay 秒后静默踢人（表现为「上线约 10 分钟莫名掉线」，
+#       且默认日志级别下查不到原因）。若要保留校验，改设 Warden.ClientResponseDelay = 0。
+Warden.Enabled = 0
 
 #
 #    Warden.NumMemChecks
@@ -1235,8 +1240,9 @@ Warden.NumOtherChecks = 7
 #        Description: 客户端因未响应而被断开连接之前的时间（以秒为单位）。
 #        Default:     600 - (10 Minutes)
 #                     0 - (Disabled, client won't be kicked)
+# 本服：0 = 不发校验、也不因未回应踢人（与 Warden.Enabled = 0 配套；将来重新开启校验也不必改回）。
 
-Warden.ClientResponseDelay = 600
+Warden.ClientResponseDelay = 0
 
 #
 #    Warden.ClientCheckHoldOff

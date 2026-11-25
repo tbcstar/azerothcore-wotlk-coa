@@ -1,6 +1,14 @@
 -- One indexed pass replaces 155 single-row UPDATEs on `item_template`.`description`.
-UPDATE `item_template` AS `a`
-JOIN (
+-- 派生表当 JOIN 右侧没有索引，优化器只能对每一行映射做一次全表扫描；
+-- 先落成带索引的辅助表，再让目标表只扫一遍。
+SET @@SESSION.`innodb_lock_wait_timeout` = 600;
+CREATE TABLE IF NOT EXISTS `zz_coa_zhcn_text_map` (
+    `src` varchar(1024) CHARACTER SET `utf8mb4` COLLATE `utf8mb4_unicode_ci` NOT NULL,
+    `dst` varchar(1024) CHARACTER SET `utf8mb4` COLLATE `utf8mb4_unicode_ci` NOT NULL,
+    KEY `src` (`src`(191))
+) ENGINE=InnoDB DEFAULT CHARSET=`utf8mb4` COLLATE=`utf8mb4_unicode_ci`;
+DELETE FROM `zz_coa_zhcn_text_map`;
+INSERT INTO `zz_coa_zhcn_text_map` (`src`, `dst`)
     SELECT 'Teaches Ambush (Rank 6)' AS `src`, '教你伏击（等级 6）' AS `dst`
     UNION ALL SELECT 'Teaches Amplify Magic (Rank 4)' AS `src`, '教你魔法增效（等级 4）' AS `dst`
     UNION ALL SELECT 'Teaches Ancestral Spirit (Rank 5)' AS `src`, '教你先祖之魂（等级 5）' AS `dst`
@@ -155,6 +163,9 @@ JOIN (
     UNION ALL SELECT 'Teaches Volley (Rank 3)' AS `src`, '教你乱射（等级 3）' AS `dst`
     UNION ALL SELECT 'Teaches Windfury Weapon (Rank 4)' AS `src`, '教你风怒武器（等级 4）' AS `dst`
     UNION ALL SELECT 'Teaches Wrath (Rank 8)' AS `src`, '教你愤怒（等级 8）' AS `dst`
-    UNION ALL SELECT 'Teaches Wyvern Sting (Rank 3)' AS `src`, '教你翼龙钉刺（等级 3）' AS `dst`
-) AS `m` ON `m`.`src` = `a`.`description`
+    UNION ALL SELECT 'Teaches Wyvern Sting (Rank 3)' AS `src`, '教你翼龙钉刺（等级 3）' AS `dst`;
+START TRANSACTION;
+UPDATE `item_template` AS `a` JOIN `zz_coa_zhcn_text_map` AS `m` ON `m`.`src` = `a`.`description`
 SET `a`.`description` = `m`.`dst`;
+COMMIT;
+DROP TABLE `zz_coa_zhcn_text_map`;

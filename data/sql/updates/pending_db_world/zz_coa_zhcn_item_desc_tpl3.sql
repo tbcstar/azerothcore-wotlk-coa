@@ -1,6 +1,14 @@
 -- One indexed pass replaces 167 single-row UPDATEs on `item_template`.`description`.
-UPDATE `item_template` AS `a`
-JOIN (
+-- 派生表当 JOIN 右侧没有索引，优化器只能对每一行映射做一次全表扫描；
+-- 先落成带索引的辅助表，再让目标表只扫一遍。
+SET @@SESSION.`innodb_lock_wait_timeout` = 600;
+CREATE TABLE IF NOT EXISTS `zz_coa_zhcn_text_map` (
+    `src` varchar(1024) CHARACTER SET `utf8mb4` COLLATE `utf8mb4_unicode_ci` NOT NULL,
+    `dst` varchar(1024) CHARACTER SET `utf8mb4` COLLATE `utf8mb4_unicode_ci` NOT NULL,
+    KEY `src` (`src`(191))
+) ENGINE=InnoDB DEFAULT CHARSET=`utf8mb4` COLLATE=`utf8mb4_unicode_ci`;
+DELETE FROM `zz_coa_zhcn_text_map`;
+INSERT INTO `zz_coa_zhcn_text_map` (`src`, `dst`)
     SELECT 'Activate your Azure Gossamer Wings.' AS `src`, '激活你的蔚蓝格桑花之翼。' AS `dst`
     UNION ALL SELECT 'Activate your Blazing Irie Wings.' AS `src`, '激活你的燃烧虹膜之翼。' AS `dst`
     UNION ALL SELECT 'Activate your Bloodfly Infested Visage.' AS `src`, '激活你的血蝇感染的面具。' AS `dst`
@@ -167,6 +175,9 @@ JOIN (
     UNION ALL SELECT 'Obtained by killing Thaddius.' AS `src`, '击杀塔迪乌斯后获得。' AS `dst`
     UNION ALL SELECT 'Obtained by killing The Prophet Skeram.' AS `src`, '击杀预言者斯克拉姆后获得。' AS `dst`
     UNION ALL SELECT 'Obtained by killing Vaelastrasz the Corrupt.' AS `src`, '击杀堕落者瓦拉斯塔兹后获得。' AS `dst`
-    UNION ALL SELECT 'Obtained by killing Viscidus.' AS `src`, '击杀维希度斯后获得。' AS `dst`
-) AS `m` ON `m`.`src` = `a`.`description`
+    UNION ALL SELECT 'Obtained by killing Viscidus.' AS `src`, '击杀维希度斯后获得。' AS `dst`;
+START TRANSACTION;
+UPDATE `item_template` AS `a` JOIN `zz_coa_zhcn_text_map` AS `m` ON `m`.`src` = `a`.`description`
 SET `a`.`description` = `m`.`dst`;
+COMMIT;
+DROP TABLE `zz_coa_zhcn_text_map`;

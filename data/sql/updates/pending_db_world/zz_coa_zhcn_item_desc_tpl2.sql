@@ -1,6 +1,14 @@
 -- One indexed pass replaces 668 single-row UPDATEs on `item_template`.`description`.
-UPDATE `item_template` AS `a`
-JOIN (
+-- 派生表当 JOIN 右侧没有索引，优化器只能对每一行映射做一次全表扫描；
+-- 先落成带索引的辅助表，再让目标表只扫一遍。
+SET @@SESSION.`innodb_lock_wait_timeout` = 600;
+CREATE TABLE IF NOT EXISTS `zz_coa_zhcn_text_map` (
+    `src` varchar(1024) CHARACTER SET `utf8mb4` COLLATE `utf8mb4_unicode_ci` NOT NULL,
+    `dst` varchar(1024) CHARACTER SET `utf8mb4` COLLATE `utf8mb4_unicode_ci` NOT NULL,
+    KEY `src` (`src`(191))
+) ENGINE=InnoDB DEFAULT CHARSET=`utf8mb4` COLLATE=`utf8mb4_unicode_ci`;
+DELETE FROM `zz_coa_zhcn_text_map`;
+INSERT INTO `zz_coa_zhcn_text_map` (`src`, `dst`)
     SELECT 'Unlocks the opportunity to switch to Specialization C and unlocks an additional Mystic Enchanting Specialization. This only affects the character using it.' AS `src`, '解锁切换至专精 C 的机会，并额外解锁一个神秘附魔专精。仅对使用它的角色生效。' AS `dst`
     UNION ALL SELECT 'Unlocks the opportunity to switch to Specialization CC and unlocks an additional Mystic Enchanting Specialization. This only affects the character using it.' AS `src`, '解锁切换至专精 CC 的机会，并额外解锁一个神秘附魔专精。仅对使用它的角色生效。' AS `dst`
     UNION ALL SELECT 'Unlocks the opportunity to switch to Specialization CCI and unlocks an additional Mystic Enchanting Specialization. This only affects the character using it.' AS `src`, '解锁切换至专精 CCI 的机会，并额外解锁一个神秘附魔专精。仅对使用它的角色生效。' AS `dst`
@@ -668,6 +676,9 @@ JOIN (
     UNION ALL SELECT 'Will grant you: Witch Burning' AS `src`, '将为你提供：焚烧女巫' AS `dst`
     UNION ALL SELECT 'Will grant you: Words of Healing' AS `src`, '将为你提供：治疗真言' AS `dst`
     UNION ALL SELECT 'Will grant you: Zany Zealot' AS `src`, '将为你提供：疯狂牧师' AS `dst`
-    UNION ALL SELECT 'Will grant you: Zephyr' AS `src`, '将为你提供：和风' AS `dst`
-) AS `m` ON `m`.`src` = `a`.`description`
+    UNION ALL SELECT 'Will grant you: Zephyr' AS `src`, '将为你提供：和风' AS `dst`;
+START TRANSACTION;
+UPDATE `item_template` AS `a` JOIN `zz_coa_zhcn_text_map` AS `m` ON `m`.`src` = `a`.`description`
 SET `a`.`description` = `m`.`dst`;
+COMMIT;
+DROP TABLE `zz_coa_zhcn_text_map`;

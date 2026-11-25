@@ -1,8 +1,14 @@
 -- 补充汉化：NPC 对白（npc_text.text0_N）。幂等：仅当当前仍是英文原文时更新。
 
 -- One indexed pass replaces 319 single-row UPDATEs on `npc_text`.`text0_0`.
-UPDATE `npc_text` AS `a`
-JOIN (
+SET @@SESSION.`innodb_lock_wait_timeout` = 600;
+CREATE TABLE IF NOT EXISTS `zz_coa_zhcn_text_map` (
+    `src` varchar(1024) CHARACTER SET `utf8mb4` COLLATE `utf8mb4_unicode_ci` NOT NULL,
+    `dst` varchar(1024) CHARACTER SET `utf8mb4` COLLATE `utf8mb4_unicode_ci` NOT NULL,
+    KEY `src` (`src`(191))
+) ENGINE=InnoDB DEFAULT CHARSET=`utf8mb4` COLLATE=`utf8mb4_unicode_ci`;
+DELETE FROM `zz_coa_zhcn_text_map`;
+INSERT INTO `zz_coa_zhcn_text_map` (`src`, `dst`)
     SELECT 'How may I help you?' AS `src`, '有什么可以帮你的吗？' AS `dst`
     UNION ALL SELECT 'Well, if it isn\'t a young, bristling $c, no doubt drawn here by talk of my exploits in fields of battle!$B$BNo time for stories now, for there are great, important deeds that need doing!  So if you\'re looking for glory, then luck shines on you today...' AS `src`, '哦，可不是个年轻气盛的 $c 嘛，多半是听说了我在战场上那些事迹才来到这儿的！$B$B不过现在没工夫讲故事，还有了不起的大事等着办呢！所以你要是来找荣耀的，今天可算走运了……' AS `dst`
     UNION ALL SELECT 'Another soldier on $ghis:her; way to Honor Hold... by Kurdran\'s beard, they can use the help!' AS `src`, '又一位士兵要踏上前往荣耀堡的路了……以库德兰的胡子起誓，他们确实需要帮手！' AS `dst`
@@ -321,12 +327,22 @@ JOIN (
     UNION ALL SELECT 'You were. The Eye is never wrong.$B$BYou are a $c after all. A powerful $c, if the Eye showed you this horrible memory.$B$BYou have come for redemption, yet you yourself do not realize this... Do you?' AS `src`, '你就是。这只眼睛从不出错。$B$B你毕竟是个 $c。如果这只眼睛让你看到这段可怕的记忆，那你就是个强大的 $c。$B$B你是来寻求救赎的，可你自己还没意识到……不是吗？' AS `dst`
     UNION ALL SELECT 'I know you will, $N.$B$BI myself am a priestess, though, unlike you I am long since gone from this world. My spirit, however, remains here, as do the spirits of the thousands who were brutally slain by the mad Prince, Arthas Menethil and his legion of undeath.' AS `src`, '我知道你会的，$N。$B$B我自己也是一位女祭司，只是不像你，我早已离开这个世界。不过我的灵魂仍留在这里，还有数千名被疯狂的阿尔萨斯·米奈希尔王子及其亡灵军团残杀者的灵魂也一样。' AS `dst`
     UNION ALL SELECT 'I never stated that you were here to redeem yourself, $c. You are here to redeem me and the innocents murdered while trying to escape Stratholme.$B$BMy spirit and the spirit of those lost are bound here, cursed to endlessly relive our own tragic deaths.' AS `src`, '我从没说过你是来为自己赎罪的，$c。你是来为我、为那些在逃离斯坦索姆时被杀害的无辜者赎罪的。$B$B我和那些亡者的灵魂被束缚在此，被诅咒着无休止地重演我们自己的惨死。' AS `dst`
-    UNION ALL SELECT 'You must do what I could not: Save the peasants that were cut down while fleeing from Stratholme.$B$BThey will walk towards the light, you must ensure their survival. Should too many fall, our cursed existence shall continue - you will have failed.$B$BEvery ability, prayer and spell that you have learned will be tested. May the Light protect you, $N.' AS `src`, '你必须做我做不到的事：救下那些在逃离斯坦索姆时被砍倒的农民。$B$B他们会走向光明，你必须确保他们活下来。如果倒下的人太多，我们这被诅咒的存在就将延续下去——你就失败了。$B$B你学到的每一样能力、每一句祈祷、每一个法术都将受到考验。愿圣光护佑你，$N。' AS `dst`
-) AS `m` ON `m`.`src` = `a`.`text0_0`
+    UNION ALL SELECT 'You must do what I could not: Save the peasants that were cut down while fleeing from Stratholme.$B$BThey will walk towards the light, you must ensure their survival. Should too many fall, our cursed existence shall continue - you will have failed.$B$BEvery ability, prayer and spell that you have learned will be tested. May the Light protect you, $N.' AS `src`, '你必须做我做不到的事：救下那些在逃离斯坦索姆时被砍倒的农民。$B$B他们会走向光明，你必须确保他们活下来。如果倒下的人太多，我们这被诅咒的存在就将延续下去——你就失败了。$B$B你学到的每一样能力、每一句祈祷、每一个法术都将受到考验。愿圣光护佑你，$N。' AS `dst`;
+START TRANSACTION;
+UPDATE `npc_text` AS `a` JOIN `zz_coa_zhcn_text_map` AS `m` ON `m`.`src` = `a`.`text0_0`
 SET `a`.`text0_0` = `m`.`dst`;
+COMMIT;
+DROP TABLE `zz_coa_zhcn_text_map`;
+
 -- One indexed pass replaces 19 single-row UPDATEs on `npc_text`.`text0_1`.
-UPDATE `npc_text` AS `a`
-JOIN (
+SET @@SESSION.`innodb_lock_wait_timeout` = 600;
+CREATE TABLE IF NOT EXISTS `zz_coa_zhcn_text_map` (
+    `src` varchar(1024) CHARACTER SET `utf8mb4` COLLATE `utf8mb4_unicode_ci` NOT NULL,
+    `dst` varchar(1024) CHARACTER SET `utf8mb4` COLLATE `utf8mb4_unicode_ci` NOT NULL,
+    KEY `src` (`src`(191))
+) ENGINE=InnoDB DEFAULT CHARSET=`utf8mb4` COLLATE=`utf8mb4_unicode_ci`;
+DELETE FROM `zz_coa_zhcn_text_map`;
+INSERT INTO `zz_coa_zhcn_text_map` (`src`, `dst`)
     SELECT 'Well, if it isn\'t a young, bristling $c, no doubt drawn here by talk of my exploits in fields of battle!$B$BNo time for stories now, for there are great, important deeds that need doing!  So if you\'re looking for glory, then luck shines on you today...' AS `src`, '哦，可不是个年轻气盛的 $c 嘛，多半是听说了我在战场上那些事迹才来到这儿的！$B$B不过现在没工夫讲故事，还有了不起的大事等着办呢！所以你要是来找荣耀的，今天可算走运了……' AS `dst`
     UNION ALL SELECT 'What?' AS `src`, '什么？' AS `dst`
     UNION ALL SELECT 'Welcome, champions! All of our attempts at grounding her have failed. We could use a hand in bringing her down with these harpoon guns.' AS `src`, '欢迎，勇士们！我们所有想把她拽下来的尝试都失败了。要是你们能用这些鱼叉炮帮忙把她打下来，那可就帮大忙了。' AS `dst`
@@ -345,6 +361,9 @@ JOIN (
     UNION ALL SELECT 'The celebration of the natural processes of the world is silly; it\'s going to happen whether we celebrate or not! But it\'s a great excuse for sugar!' AS `src`, '庆祝世界自然的进程这种事很傻；不管我们庆不庆祝，它都会发生！不过这是个吃糖的好借口！' AS `dst`
     UNION ALL SELECT 'Why do we celebrate Pilgrim\'s Bounty...? Who can say. Habit, I suppose. I certainly can\'t taste any of it.$B$BPumpkin pie, virulent plagues... Does it really matter WHAT we\'re cooking up?' AS `src`, '我们为什么要庆祝朝圣者的恩典……？谁知道呢。大概是习惯吧。反正我什么都尝不出来。$B$B南瓜派、致命的瘟疫……我们在做什么真的重要吗？' AS `dst`
     UNION ALL SELECT 'You lookin\' for trainin\'? No can do. I ain\'t your gal.' AS `src`, '你想学点什么？不行。我不是你要找的人。' AS `dst`
-    UNION ALL SELECT 'The horde have been relentless out here.  Feels like we are fighting two battles at one time.\r\n\r\n' AS `src`, '部落在这边毫不留情。感觉我们同时在打两场仗。\n\n' AS `dst`
-) AS `m` ON `m`.`src` = `a`.`text0_1`
+    UNION ALL SELECT 'The horde have been relentless out here.  Feels like we are fighting two battles at one time.\r\n\r\n' AS `src`, '部落在这边毫不留情。感觉我们同时在打两场仗。\n\n' AS `dst`;
+START TRANSACTION;
+UPDATE `npc_text` AS `a` JOIN `zz_coa_zhcn_text_map` AS `m` ON `m`.`src` = `a`.`text0_1`
 SET `a`.`text0_1` = `m`.`dst`;
+COMMIT;
+DROP TABLE `zz_coa_zhcn_text_map`;

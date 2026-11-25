@@ -1,6 +1,14 @@
 -- One indexed pass replaces 223 single-row UPDATEs on `item_template`.`description`.
-UPDATE `item_template` AS `a`
-JOIN (
+-- 派生表当 JOIN 右侧没有索引，优化器只能对每一行映射做一次全表扫描；
+-- 先落成带索引的辅助表，再让目标表只扫一遍。
+SET @@SESSION.`innodb_lock_wait_timeout` = 600;
+CREATE TABLE IF NOT EXISTS `zz_coa_zhcn_text_map` (
+    `src` varchar(1024) CHARACTER SET `utf8mb4` COLLATE `utf8mb4_unicode_ci` NOT NULL,
+    `dst` varchar(1024) CHARACTER SET `utf8mb4` COLLATE `utf8mb4_unicode_ci` NOT NULL,
+    KEY `src` (`src`(191))
+) ENGINE=InnoDB DEFAULT CHARSET=`utf8mb4` COLLATE=`utf8mb4_unicode_ci`;
+DELETE FROM `zz_coa_zhcn_text_map`;
+INSERT INTO `zz_coa_zhcn_text_map` (`src`, `dst`)
     SELECT 'Teaches you how to make a Warbot.' AS `src`, '教你制作战斗机器人。' AS `dst`
     UNION ALL SELECT 'Teaches you how to make a Wildclaw.' AS `src`, '教你制作野爪。' AS `dst`
     UNION ALL SELECT 'Teaches you how to craft Sha Leather.' AS `src`, '教你制作煞皮革。' AS `dst`
@@ -223,6 +231,9 @@ JOIN (
     UNION ALL SELECT 'Teaches you how to make a Masterwork Elementium Spellblade.' AS `src`, '教你制作精制源质法术之刃。' AS `dst`
     UNION ALL SELECT 'Teaches you how to make a Vicious Ornate Pyrium Breastplate.' AS `src`, '教你制作凶残精制源质胸甲。' AS `dst`
     UNION ALL SELECT 'Teaches you how to craft a Contender\'s Dragonscale Chestguard.' AS `src`, '教你制作挑战者的龙鳞胸甲。' AS `dst`
-    UNION ALL SELECT 'Teaches you how to make an Elementium Reinforced Shield Spike.' AS `src`, '教你制作源质强化盾刺。' AS `dst`
-) AS `m` ON `m`.`src` = `a`.`description`
+    UNION ALL SELECT 'Teaches you how to make an Elementium Reinforced Shield Spike.' AS `src`, '教你制作源质强化盾刺。' AS `dst`;
+START TRANSACTION;
+UPDATE `item_template` AS `a` JOIN `zz_coa_zhcn_text_map` AS `m` ON `m`.`src` = `a`.`description`
 SET `a`.`description` = `m`.`dst`;
+COMMIT;
+DROP TABLE `zz_coa_zhcn_text_map`;

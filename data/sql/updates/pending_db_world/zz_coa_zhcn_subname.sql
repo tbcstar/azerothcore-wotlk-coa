@@ -1,8 +1,16 @@
 -- 补充汉化：生物头衔（subname）。幂等：仅当当前仍是英文原文时更新。
 
 -- One indexed pass replaces 117 single-row UPDATEs on `creature_template`.`subname`.
-UPDATE `creature_template` AS `a`
-JOIN (
+-- 派生表当 JOIN 右侧没有索引，优化器只能对每一行映射做一次全表扫描；
+-- 先落成带索引的辅助表，再让目标表只扫一遍。
+SET @@SESSION.`innodb_lock_wait_timeout` = 600;
+CREATE TABLE IF NOT EXISTS `zz_coa_zhcn_text_map` (
+    `src` varchar(1024) CHARACTER SET `utf8mb4` COLLATE `utf8mb4_unicode_ci` NOT NULL,
+    `dst` varchar(1024) CHARACTER SET `utf8mb4` COLLATE `utf8mb4_unicode_ci` NOT NULL,
+    KEY `src` (`src`(191))
+) ENGINE=InnoDB DEFAULT CHARSET=`utf8mb4` COLLATE=`utf8mb4_unicode_ci`;
+DELETE FROM `zz_coa_zhcn_text_map`;
+INSERT INTO `zz_coa_zhcn_text_map` (`src`, `dst`)
     SELECT 'Priest' AS `src`, '牧师' AS `dst`
     UNION ALL SELECT 'Bounty Hunter' AS `src`, '赏金猎人' AS `dst`
     UNION ALL SELECT 'Paladin' AS `src`, '圣骑士' AS `dst`
@@ -119,6 +127,9 @@ JOIN (
     UNION ALL SELECT 'Portal: Orgrimmar Trainer' AS `src`, '传送门：奥格瑞玛训练师' AS `dst`
     UNION ALL SELECT 'Portal: Stormwind Trainer' AS `src`, '传送门：暴风城训练师' AS `dst`
     UNION ALL SELECT 'Portal: Thunder Bluff Trainer' AS `src`, '传送门：雷霆崖训练师' AS `dst`
-    UNION ALL SELECT 'Portal: Undercity Trainer' AS `src`, '传送门：幽暗城训练师' AS `dst`
-) AS `m` ON `m`.`src` = `a`.`subname`
+    UNION ALL SELECT 'Portal: Undercity Trainer' AS `src`, '传送门：幽暗城训练师' AS `dst`;
+START TRANSACTION;
+UPDATE `creature_template` AS `a` JOIN `zz_coa_zhcn_text_map` AS `m` ON `m`.`src` = `a`.`subname`
 SET `a`.`subname` = `m`.`dst`;
+COMMIT;
+DROP TABLE `zz_coa_zhcn_text_map`;

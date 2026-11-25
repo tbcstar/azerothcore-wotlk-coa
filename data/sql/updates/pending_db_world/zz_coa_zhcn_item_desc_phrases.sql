@@ -3,8 +3,16 @@
 -- idempotent and only touches rows that still carry the English value.
 
 -- One indexed pass replaces 160 single-row UPDATEs on `item_template`.`description`.
-UPDATE `item_template` AS `a`
-JOIN (
+-- 派生表当 JOIN 右侧没有索引，优化器只能对每一行映射做一次全表扫描；
+-- 先落成带索引的辅助表，再让目标表只扫一遍。
+SET @@SESSION.`innodb_lock_wait_timeout` = 600;
+CREATE TABLE IF NOT EXISTS `zz_coa_zhcn_text_map` (
+    `src` varchar(1024) CHARACTER SET `utf8mb4` COLLATE `utf8mb4_unicode_ci` NOT NULL,
+    `dst` varchar(1024) CHARACTER SET `utf8mb4` COLLATE `utf8mb4_unicode_ci` NOT NULL,
+    KEY `src` (`src`(191))
+) ENGINE=InnoDB DEFAULT CHARSET=`utf8mb4` COLLATE=`utf8mb4_unicode_ci`;
+DELETE FROM `zz_coa_zhcn_text_map`;
+INSERT INTO `zz_coa_zhcn_text_map` (`src`, `dst`)
     SELECT 'You get Skill Cards from Silas Darkmoon!\n\nYou can activate skill cards in the Skill Card Collection between levels 1 and 9.' AS `src`, '你可以从塞拉斯·暗月处获得技能卡！\n\n你可以在 1 到 9 级之间于技能卡收藏中激活技能卡。' AS `dst`
     UNION ALL SELECT 'Teaches you how to summon this companion.\n\nThis is a non-combat companion.' AS `src`, '教你如何召唤这个伙伴。\n\n这是一个非战斗伙伴。' AS `dst`
     UNION ALL SELECT 'A Cosmetic set meant to be used with Transmogrification. You can see what Cosmetic Sets look like in the Vanity Collection. These can be obtained from other players, the auctionhouse, or the Ascension shop.' AS `src`, '一套用于幻化的外观套装。你可以在收藏品中查看外观套装的样子。它们可以从其他玩家、拍卖行或飞升商店获得。' AS `dst`
@@ -164,6 +172,9 @@ JOIN (
     UNION ALL SELECT 'Allows you to purchase gear from the Rogue, Mage, and Druid armor collections.' AS `src`, '允许你购买潜行者、法师和德鲁伊的护甲系列装备。' AS `dst`
     UNION ALL SELECT 'A Cosmetic set meant to be used with Transmogrification. You can see what Cosmetic Sets look like in the Vanity Collection.' AS `src`, '一套用于幻化的外观套装。你可以在收藏品中查看外观套装的样子。' AS `dst`
     UNION ALL SELECT 'Teaches you how to transform into this mount. This mount is capable of Flying.' AS `src`, '教你如何变成这个坐骑形态。该坐骑可以飞行。' AS `dst`
-    UNION ALL SELECT 'Teaches you how to summon these Soul Wings.' AS `src`, '教你如何召唤这对灵魂之翼。' AS `dst`
-) AS `m` ON `m`.`src` = `a`.`description`
+    UNION ALL SELECT 'Teaches you how to summon these Soul Wings.' AS `src`, '教你如何召唤这对灵魂之翼。' AS `dst`;
+START TRANSACTION;
+UPDATE `item_template` AS `a` JOIN `zz_coa_zhcn_text_map` AS `m` ON `m`.`src` = `a`.`description`
 SET `a`.`description` = `m`.`dst`;
+COMMIT;
+DROP TABLE `zz_coa_zhcn_text_map`;

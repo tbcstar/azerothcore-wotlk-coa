@@ -1,6 +1,14 @@
 -- One indexed pass replaces 1066 single-row UPDATEs on `item_template`.`description`.
-UPDATE `item_template` AS `a`
-JOIN (
+-- 派生表当 JOIN 右侧没有索引，优化器只能对每一行映射做一次全表扫描；
+-- 先落成带索引的辅助表，再让目标表只扫一遍。
+SET @@SESSION.`innodb_lock_wait_timeout` = 600;
+CREATE TABLE IF NOT EXISTS `zz_coa_zhcn_text_map` (
+    `src` varchar(1024) CHARACTER SET `utf8mb4` COLLATE `utf8mb4_unicode_ci` NOT NULL,
+    `dst` varchar(1024) CHARACTER SET `utf8mb4` COLLATE `utf8mb4_unicode_ci` NOT NULL,
+    KEY `src` (`src`(191))
+) ENGINE=InnoDB DEFAULT CHARSET=`utf8mb4` COLLATE=`utf8mb4_unicode_ci`;
+DELETE FROM `zz_coa_zhcn_text_map`;
+INSERT INTO `zz_coa_zhcn_text_map` (`src`, `dst`)
     SELECT 'Teaches you how to make a Warbot.' AS `src`, '教你制作战斗机器人。' AS `dst`
     UNION ALL SELECT 'Teaches you how to summon Grinder.' AS `src`, '教你如何召唤格林德。' AS `dst`
     UNION ALL SELECT 'Teaches you how to bake a Rockfish.' AS `src`, '教你如何烘烤岩鱼。' AS `dst`
@@ -1066,6 +1074,9 @@ JOIN (
     UNION ALL SELECT 'Teaches you how to make an Elementium Reinforced Shield Spike.' AS `src`, '教你制作源质强化盾刺。' AS `dst`
     UNION ALL SELECT 'Teaches you how to craft an uncommon Flask of Manifesting Power' AS `src`, '教你如何制作显现之力合剂。' AS `dst`
     UNION ALL SELECT 'Teaches you how to craft an uncommon Flask of Unrelenting Power' AS `src`, '教你如何制作无情威能合剂。' AS `dst`
-    UNION ALL SELECT 'Teaches you how to craft an uncommon Flask of Shattering Thunder' AS `src`, '教你如何制作裂雷合剂。' AS `dst`
-) AS `m` ON `m`.`src` = `a`.`description`
+    UNION ALL SELECT 'Teaches you how to craft an uncommon Flask of Shattering Thunder' AS `src`, '教你如何制作裂雷合剂。' AS `dst`;
+START TRANSACTION;
+UPDATE `item_template` AS `a` JOIN `zz_coa_zhcn_text_map` AS `m` ON `m`.`src` = `a`.`description`
 SET `a`.`description` = `m`.`dst`;
+COMMIT;
+DROP TABLE `zz_coa_zhcn_text_map`;

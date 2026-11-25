@@ -3,8 +3,16 @@
 -- idempotent and only touches rows that still carry the English value.
 
 -- One indexed pass replaces 333 single-row UPDATEs on `item_template`.`description`.
-UPDATE `item_template` AS `a`
-JOIN (
+-- 派生表当 JOIN 右侧没有索引，优化器只能对每一行映射做一次全表扫描；
+-- 先落成带索引的辅助表，再让目标表只扫一遍。
+SET @@SESSION.`innodb_lock_wait_timeout` = 600;
+CREATE TABLE IF NOT EXISTS `zz_coa_zhcn_text_map` (
+    `src` varchar(1024) CHARACTER SET `utf8mb4` COLLATE `utf8mb4_unicode_ci` NOT NULL,
+    `dst` varchar(1024) CHARACTER SET `utf8mb4` COLLATE `utf8mb4_unicode_ci` NOT NULL,
+    KEY `src` (`src`(191))
+) ENGINE=InnoDB DEFAULT CHARSET=`utf8mb4` COLLATE=`utf8mb4_unicode_ci`;
+DELETE FROM `zz_coa_zhcn_text_map`;
+INSERT INTO `zz_coa_zhcn_text_map` (`src`, `dst`)
     SELECT 'Used to unlearn abilities in Specialization I by clicking the ability icon in Character Advancement, this will randomly select a new ability to take its place.\n\nYou can obtain scrolls from The Manastorm, Quests, Dungeons, Raids, Callboard Caches, Battlegrounds, High-Risk Open-World, and a Questchain on Silas Darkmoon in Capitals using Marks of Ascension.' AS `src`, '用于在角色进阶界面点击技能图标遗忘专精 I 中的技能，并随机选取一个新技能替代它。\n\n可在魔法风暴、任务、地下城、团队副本、公告板宝箱、战场、高危开放世界，以及在各大主城找西拉斯·暗月、使用飞升印记完成的任务链中获得卷轴。' AS `dst`
     UNION ALL SELECT 'Draws on the soul of the friendly target to shield them, absorbing  damage.  Lasts   While the shield holds, spellcasting will not be interrupted by damage.  Once shielded, the target cannot be shielded again for 8d.' AS `src`, '汲取友方目标的灵魂为其施加护盾，吸收  点伤害。  持续  。护盾存在期间，施法不会因受到伤害而被打断。  一旦被护盾保护，目标在 8 天内无法再次获得护盾。' AS `dst`
     UNION ALL SELECT 'Matches a Blue Socket.' AS `src`, '匹配一个蓝色插槽。' AS `dst`
@@ -337,6 +345,9 @@ JOIN (
     UNION ALL SELECT 'You leech heat from victims of your Frost Fever, so that when their melee attack speed is reduced, yours increases by  for the next 20 sec.' AS `src`, '你从霜热疫病的受害者身上吸取热量：当他们的近战攻击速度被降低时，你的攻击速度提高，持续 20 秒。' AS `dst`
     UNION ALL SELECT 'Your spells and abilities deal  more damage to targets infected with Frost Fever.  Also increases your expertise by' AS `src`, '你的法术和技能对感染霜热疫病的目标造成的伤害提高。此外，使你的精准提高。' AS `dst`
     UNION ALL SELECT 'Your auto attacks deal an additional  Shadow damage.' AS `src`, '你的自动攻击额外造成暗影伤害。' AS `dst`
-    UNION ALL SELECT 'Activate your Enchanted Wings.' AS `src`, '激活你的附魔之翼。' AS `dst`
-) AS `m` ON `m`.`src` = `a`.`description`
+    UNION ALL SELECT 'Activate your Enchanted Wings.' AS `src`, '激活你的附魔之翼。' AS `dst`;
+START TRANSACTION;
+UPDATE `item_template` AS `a` JOIN `zz_coa_zhcn_text_map` AS `m` ON `m`.`src` = `a`.`description`
 SET `a`.`description` = `m`.`dst`;
+COMMIT;
+DROP TABLE `zz_coa_zhcn_text_map`;

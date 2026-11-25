@@ -3,8 +3,16 @@
 -- idempotent and only touches rows that still carry the English value.
 
 -- One indexed pass replaces 1032 single-row UPDATEs on `item_template`.`description`.
-UPDATE `item_template` AS `a`
-JOIN (
+-- 派生表当 JOIN 右侧没有索引，优化器只能对每一行映射做一次全表扫描；
+-- 先落成带索引的辅助表，再让目标表只扫一遍。
+SET @@SESSION.`innodb_lock_wait_timeout` = 600;
+CREATE TABLE IF NOT EXISTS `zz_coa_zhcn_text_map` (
+    `src` varchar(1024) CHARACTER SET `utf8mb4` COLLATE `utf8mb4_unicode_ci` NOT NULL,
+    `dst` varchar(1024) CHARACTER SET `utf8mb4` COLLATE `utf8mb4_unicode_ci` NOT NULL,
+    KEY `src` (`src`(191))
+) ENGINE=InnoDB DEFAULT CHARSET=`utf8mb4` COLLATE=`utf8mb4_unicode_ci`;
+DELETE FROM `zz_coa_zhcn_text_map`;
+INSERT INTO `zz_coa_zhcn_text_map` (`src`, `dst`)
     SELECT 'Awarded for the services in the name of The Scale of the Sands.' AS `src`, '为表彰在流沙之鳞名义下所作的贡献而授予。' AS `dst`
     UNION ALL SELECT 'Awarded for the services in the name of The Violet Eye.' AS `src`, '为表彰在紫罗兰之眼名义下所作的贡献而授予。' AS `dst`
     UNION ALL SELECT 'Property of the Darkmoon Faire.' AS `src`, '暗月马戏团的财产。' AS `dst`
@@ -1036,6 +1044,9 @@ JOIN (
     UNION ALL SELECT 'Resurrects and converts your Ironman character to a normal character.' AS `src`, '一块古老的石碑，其上刻着发光的符文，脉动着太初之力。' AS `dst`
     UNION ALL SELECT 'Equip your Adventurer`s Backpack.' AS `src`, '一本神秘的书册。' AS `dst`
     UNION ALL SELECT 'Contains a brand new Ethereal Tool Dispenser!' AS `src`, '某种与魔法产生共鸣的宝石。' AS `dst`
-    UNION ALL SELECT 'A manuscript that crackles with contained lightning.' AS `src`, '它闪闪发亮。' AS `dst`
-) AS `m` ON `m`.`src` = `a`.`description`
+    UNION ALL SELECT 'A manuscript that crackles with contained lightning.' AS `src`, '它闪闪发亮。' AS `dst`;
+START TRANSACTION;
+UPDATE `item_template` AS `a` JOIN `zz_coa_zhcn_text_map` AS `m` ON `m`.`src` = `a`.`description`
 SET `a`.`description` = `m`.`dst`;
+COMMIT;
+DROP TABLE `zz_coa_zhcn_text_map`;

@@ -1,6 +1,14 @@
 -- One indexed pass replaces 169 single-row UPDATEs on `item_template`.`description`.
-UPDATE `item_template` AS `a`
-JOIN (
+-- 派生表当 JOIN 右侧没有索引，优化器只能对每一行映射做一次全表扫描；
+-- 先落成带索引的辅助表，再让目标表只扫一遍。
+SET @@SESSION.`innodb_lock_wait_timeout` = 600;
+CREATE TABLE IF NOT EXISTS `zz_coa_zhcn_text_map` (
+    `src` varchar(1024) CHARACTER SET `utf8mb4` COLLATE `utf8mb4_unicode_ci` NOT NULL,
+    `dst` varchar(1024) CHARACTER SET `utf8mb4` COLLATE `utf8mb4_unicode_ci` NOT NULL,
+    KEY `src` (`src`(191))
+) ENGINE=InnoDB DEFAULT CHARSET=`utf8mb4` COLLATE=`utf8mb4_unicode_ci`;
+DELETE FROM `zz_coa_zhcn_text_map`;
+INSERT INTO `zz_coa_zhcn_text_map` (`src`, `dst`)
     SELECT 'Teaches Purify.' AS `src`, '教你纯净术。' AS `dst`
     UNION ALL SELECT 'Teaches Rip (Rank 6)' AS `src`, '教你撕扯（等级 6）' AS `dst`
     UNION ALL SELECT 'Teaches Sap (Rank 3)' AS `src`, '教你闷棍（等级 3）' AS `dst`
@@ -169,6 +177,9 @@ JOIN (
     UNION ALL SELECT 'Teaches Nature Resistance Totem (Rank 3)' AS `src`, '教你自然抗性图腾（等级 3）' AS `dst`
     UNION ALL SELECT 'Teaches Strength of Earth Totem (Rank 4)' AS `src`, '教你大地之力图腾（等级 4）' AS `dst`
     UNION ALL SELECT 'Teaches Greater Blessing of Might (Rank 2)' AS `src`, '教你强效力量祝福（等级 2）' AS `dst`
-    UNION ALL SELECT 'Teaches Greater Blessing of Wisdom (Rank 2)' AS `src`, '教你强效智慧祝福（等级 2）' AS `dst`
-) AS `m` ON `m`.`src` = `a`.`description`
+    UNION ALL SELECT 'Teaches Greater Blessing of Wisdom (Rank 2)' AS `src`, '教你强效智慧祝福（等级 2）' AS `dst`;
+START TRANSACTION;
+UPDATE `item_template` AS `a` JOIN `zz_coa_zhcn_text_map` AS `m` ON `m`.`src` = `a`.`description`
 SET `a`.`description` = `m`.`dst`;
+COMMIT;
+DROP TABLE `zz_coa_zhcn_text_map`;

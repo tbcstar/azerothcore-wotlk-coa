@@ -1,6 +1,9 @@
+-- 一次显式事务包住整份改动：自动提交会让每条语句各刷一次 redo（数千次 fsync），
+-- 合并成一次提交后同样的改动只需一次落盘。
 -- One idempotent pass that translates the remaining English item flavor
 -- descriptions in `item_template`, keeping the `@...@` display markers.
 
+START TRANSACTION;
 UPDATE `item_template` SET `description` = '@The Burning Crusade@背包空格少于 6 个时请勿使用。' WHERE `entry` = 6 AND `description` = '@The Burning Crusade@Do not use with less than 6 inventory slots available.';
 UPDATE `item_template` SET `description` = '@The Burning Crusade@背包空格少于 6 个时请勿使用。' WHERE `entry` = 7 AND `description` = '@The Burning Crusade@Do not use with less than 6 inventory slots available.';
 UPDATE `item_template` SET `description` = '@The Burning Crusade@背包空格少于 6 个时请勿使用。' WHERE `entry` = 8 AND `description` = '@The Burning Crusade@Do not use with less than 6 inventory slots available.';
@@ -7501,3 +7504,4 @@ UPDATE `item_template` SET `description` = '一块刻着古老牛头人狂怒符
 UPDATE `item_template` SET `description` = '一本皮革装订的指南，标注着平原上的野兽足迹。' WHERE `entry` = 9200810 AND `description` = 'A leather-bound guide marked with beast tracks of the plains.';
 UPDATE `item_template` SET `description` = '一只破损的皮革挎包，表面因干涸的血而发硬。' WHERE `entry` = 9200811 AND `description` = 'A torn leather satchel, its surface stiff with dried blood.';
 UPDATE `item_template` SET `description` = '一本以深色皮革装订的古老书卷，刻着金色符文，书页散发着微弱的圣光气息。' WHERE `entry` = 9200812 AND `description` = 'An ancient tome bound in dark leather, inscribed with golden runes. The pages emanate a faint holy aura.';
+COMMIT;

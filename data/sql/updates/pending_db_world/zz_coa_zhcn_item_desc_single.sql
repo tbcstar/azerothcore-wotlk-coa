@@ -1,3 +1,5 @@
+-- 一次显式事务包住整份改动：自动提交会让每条语句各刷一次 redo（数千次 fsync），
+-- 合并成一次提交后同样的改动只需一次落盘。
 -- Idempotent description translation applied in bounded primary-key ranges.
 -- The src/dst map lives in a helper table so each statement touches at most
 -- 20000 item rows, keeping transaction duration and lock footprint small.
@@ -7,6 +9,7 @@ CREATE TABLE IF NOT EXISTS `zz_coa_zhcn_item_desc_map` (
     `dst` varchar(1024) CHARACTER SET `utf8mb4` COLLATE `utf8mb4_unicode_ci` NOT NULL,
     KEY `src` (`src`(255))
 ) ENGINE=InnoDB DEFAULT CHARSET=`utf8mb4` COLLATE=`utf8mb4_unicode_ci`;
+START TRANSACTION;
 DELETE FROM `zz_coa_zhcn_item_desc_map`;
 INSERT INTO `zz_coa_zhcn_item_desc_map` (`src`, `dst`) VALUES
     ('\nA Cosmetic Weapon set meant to be used with Transmogrification. You can see what they look like in the Vanity Collection.', '\n一套用于幻化的装饰性武器组合。你可以在幻化收藏中查看它们的样子。'),
@@ -5784,4 +5787,5 @@ UPDATE `item_template` AS `a` JOIN `zz_coa_zhcn_item_desc_map` AS `m` ON `m`.`sr
 UPDATE `item_template` AS `a` JOIN `zz_coa_zhcn_item_desc_map` AS `m` ON `m`.`src` = `a`.`description` SET `a`.`description` = `m`.`dst` WHERE `a`.`entry` BETWEEN 3940000 AND 3959999;
 UPDATE `item_template` AS `a` JOIN `zz_coa_zhcn_item_desc_map` AS `m` ON `m`.`src` = `a`.`description` SET `a`.`description` = `m`.`dst` WHERE `a`.`entry` BETWEEN 3960000 AND 3979999;
 UPDATE `item_template` AS `a` JOIN `zz_coa_zhcn_item_desc_map` AS `m` ON `m`.`src` = `a`.`description` SET `a`.`description` = `m`.`dst` WHERE `a`.`entry` BETWEEN 3980000 AND 3999999;
+COMMIT;
 DROP TABLE `zz_coa_zhcn_item_desc_map`;

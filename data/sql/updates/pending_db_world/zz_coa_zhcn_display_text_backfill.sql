@@ -1,3 +1,6 @@
+-- 一次显式事务包住整份改动：自动提交会让每条语句各刷一次 redo（数千次 fsync），
+-- 合并成一次提交后同样的改动只需一次落盘。
+START TRANSACTION;
 UPDATE `ascension_custom_class_spell` SET `name` = '拳套武器' WHERE `class` <=> 12 AND `entry_id` <=> 33263 AND `spell_id` <=> 15590 AND `required_level` <=> 1 AND `flags` <=> 8706 AND `name` <=> 'Fist Weapons';
 UPDATE `ascension_custom_class_spell` SET `name` = '先祖打击' WHERE `class` <=> 12 AND `entry_id` <=> 32076 AND `spell_id` <=> 801576 AND `required_level` <=> 1 AND `flags` <=> 41474 AND `name` <=> 'Ancestral Strike';
 UPDATE `ascension_custom_class_spell` SET `name` = '命中等级（Alpha）' WHERE `class` <=> 12 AND `entry_id` <=> 33265 AND `spell_id` <=> 804280 AND `required_level` <=> 1 AND `flags` <=> 8706 AND `name` <=> 'Hit Rating (Alpha)';
@@ -2215,3 +2218,4 @@ UPDATE `quest_request_items` SET `CompletionText` = '到现在有多少样本了
 UPDATE `quest_request_items` SET `CompletionText` = '申请书？还是卡特尔的人？让我看看。' WHERE `ID` <=> 176014 AND `CompletionText` <=> 'An application? From one of the Cartel? Let me see it.';
 UPDATE `npc_text` SET `text0_0` = '啊，迟早会有别人来，只是时间问题。$b$b别怕。我叫阿德拉津，邦桑迪的祭司。死亡之神亲自派我来铲除希尔埃克、丹巴拉和埃洛莎·无影的野心。' WHERE `ID` <=> 162933 AND `text0_0` <=> 'Ah, it be only a matter o\' time before someone else came.$b$bDo not fear. Me name be Adlazin, Priest of Bwonsamdi. Da Loa of Death himself sent me to cut down da dangerous ambitions of Hir\'eek, Dambala, and Elortha-no-Shadra.' AND `BroadcastTextID0` <=> 0 AND `lang0` <=> 0 AND `Probability0` <=> 1;
 UPDATE `creature_template` SET `name` = '彼岸之蝠' WHERE `entry` <=> 163814 AND `name` <=> 'Bat of the Other Side' AND `minlevel` <=> 15 AND `maxlevel` <=> 15 AND `faction` <=> 35 AND `unit_class` <=> 1 AND `type` <=> 1 AND `flags_extra` <=> 128;
+COMMIT;

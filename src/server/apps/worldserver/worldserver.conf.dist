@@ -3847,12 +3847,14 @@ Guild.BankEventLogRecordsCount = 25
 #
 #    MinPetitionSigns
 #        Description: Number of required signatures on charters to create a guild.
-#                     这个数字是「除公会创建者之外的额外签名数」，客户端只显示已签名数量，
-#                     够数后到公会注册员处提交即可；运行中可 .reload config 生效。
+#                     这是「除创建者之外的额外签名数」：2 表示创建者 + 2 人 = 3 人即可成会。
+#                     上限固定为 9 个签名（GUILD_CHARTER_TYPE），多签不受惩罚，
+#                     所以 5、6、9 个签名都能正常提交；客户端只显示已签数量。
+#                     运行中可 .reload config 生效。
 #        Range:       0-9
-#        Default:     3
+#        Default:     2
 
-MinPetitionSigns = 3
+MinPetitionSigns = 2
 
 #
 #    Guild.CharterCost

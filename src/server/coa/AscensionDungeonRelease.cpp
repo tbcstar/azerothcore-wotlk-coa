@@ -24,7 +24,7 @@ constexpr char const* PENDING_DUNGEON_RELEASE = "ascension_dungeon_release";
 constexpr float RELEASE_RESTORE_PERCENT = 0.5f;
 constexpr uint32 SPELL_CORPSE_RUNNER = 84015;
 constexpr char const* RAID_RELEASE_HOLD = "ascension_raid_release_hold";
-constexpr char const* RAID_RELEASE_REFUSED = "You cannot release your spirit during a boss fight.";
+constexpr char const* RAID_RELEASE_REFUSED = "首领战斗中无法释放灵魂。";
 
 struct PendingDungeonRelease : DataMap::Base { };
 

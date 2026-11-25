@@ -173,7 +173,7 @@ void WorldSession::HandleAnticheatAlert(WorldPacket& recvData)
     // RBAC-permission channel.
     WorldPacket gmData;
     ChatHandler::BuildChatPacket(gmData, CHAT_MSG_SYSTEM, LANG_UNIVERSAL, nullptr, nullptr, Acore::StringFormat(
-        "[Anticheat] {} (account {}, guid {}) reported {} ({} bytes)",
+        "[反作弊] {}（账号 {}，角色 {}）报告了 {}（{} 字节）",
         GetPlayerName(), GetAccountId(), guid.ToString(), reason, recvData.size()));
 
     for (auto const& itr : sWorldSessionMgr->GetAllSessions())

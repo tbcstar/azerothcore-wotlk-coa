@@ -722,7 +722,7 @@ public:
             return false;
         }
         sObjectMgr->AddCreatureToGrid(spawnId, sObjectMgr->GetCreatureData(spawnId));
-        handler->PSendSysMessage("Trap {} placed at {:.2f} {:.2f} {:.2f}, facing {:.3f}.", spawnId,
+        handler->PSendSysMessage("陷阱 {} 已放置于 {:.2f} {:.2f} {:.2f}，朝向 {:.3f}。", spawnId,
             player->GetPositionX(), player->GetPositionY(), player->GetPositionZ(), player->GetOrientation());
         return true;
     }
@@ -732,13 +732,13 @@ public:
         Creature* trap = handler->GetSession()->GetPlayer()->FindNearestCreature(NPC_VENOM_TRAP, TrapCommandReach);
         if (!trap || !trap->GetSpawnId())
         {
-            handler->SendErrorMessage("No placed trap within {:.0f} yards.", TrapCommandReach);
+            handler->SendErrorMessage("周围 {:.0f} 码内没有已放置的陷阱。", TrapCommandReach);
             return false;
         }
         ObjectGuid::LowType const spawnId = trap->GetSpawnId();
         trap->DeleteFromDB();
         trap->AddObjectToRemoveList();
-        handler->PSendSysMessage("Trap {} deleted.", spawnId);
+        handler->PSendSysMessage("陷阱 {} 已删除。", spawnId);
         return true;
     }
 
@@ -748,7 +748,7 @@ public:
         Creature* trap = player->FindNearestCreature(NPC_VENOM_TRAP, TrapListReach);
         if (!trap)
         {
-            handler->SendErrorMessage("No trap nearby.");
+            handler->SendErrorMessage("附近没有陷阱。");
             return false;
         }
         trap->SetFacingTo(trap->GetHomePosition().GetOrientation());
@@ -756,11 +756,11 @@ public:
         BreathCheck const check = CheckTrapBreath(trap, player);
         if (check.inside && !player->IsGameMaster())
             TrapBreathDamage(trap, player);
-        handler->PSendSysMessage("Trap {}: {:.1f} yd ahead of the mouth (max {:.0f}), {:.1f} yd to the side (max {:.0f}), "
-            "{:.1f} yd below it ({:.0f} to {:.0f}), sight {}; you are {}{}.",
+        handler->PSendSysMessage("陷阱 {}：距洞口前方 {:.1f} 码（上限 {:.0f}），侧向 {:.1f} 码（上限 {:.0f}），"
+            "低于洞口 {:.1f} 码（{:.0f} 到 {:.0f}），视线 {}；你处于{}{}。",
             trap->GetSpawnId(), check.ahead, TrapReach, check.side, TrapHalfWidth, check.drop, -TrapMaxRise, TrapMaxDrop,
-            check.sight ? "yes" : "no",
-            check.inside ? "inside" : "outside", player->IsGameMaster() ? " (GM mode: no damage)" : "");
+            check.sight ? "有" : "无",
+            check.inside ? "范围内" : "范围外", player->IsGameMaster() ? "（GM 模式：无伤害）" : "");
         return true;
     }
 
@@ -769,7 +769,7 @@ public:
         if (activeMs < TrapTickMs || activeMs > TrapMaxActiveMs || (pauseMs && *pauseMs > TrapMaxPauseMs)
             || (fadeMs && *fadeMs > TrapMaxActiveMs))
         {
-            handler->SendErrorMessage("Breaths last {} to {} ms; pauses at most {} ms; fades at most {} ms.", TrapTickMs,
+            handler->SendErrorMessage("吐息持续 {} 至 {} 毫秒；停顿最多 {} 毫秒；消散最多 {} 毫秒。", TrapTickMs,
                 TrapMaxActiveMs, TrapMaxPauseMs, TrapMaxActiveMs);
             return false;
         }
@@ -778,8 +778,8 @@ public:
             TrapPauseMs = *pauseMs;
         if (fadeMs)
             TrapFadeMs = *fadeMs;
-        handler->PSendSysMessage("Each statue breathes {} ms and keeps burning {} ms after its last breath, the next one up "
-            "{} ms later; {} ms pause after the top. Until the next restart.", TrapActiveMs.load(), TrapFadeMs.load(),
+        handler->PSendSysMessage("每座雕像吐息 {} 毫秒，最后一次吐息后继续燃烧 {} 毫秒，{} 毫秒后轮到上一座；"
+            "顶部结束后停顿 {} 毫秒。直至下次重启。", TrapActiveMs.load(), TrapFadeMs.load(),
             TrapGapMs, TrapPauseMs.load());
         return true;
     }
@@ -790,17 +790,17 @@ public:
         if (!number)
         {
             for (uint32 i = 0; i < count; ++i)
-                handler->PSendSysMessage("{}{}: {} (kit {})", i == BreathKitIndex.load() ? "> " : "  ", i + 1,
+                handler->PSendSysMessage("{}{}：{}（套件 {}）", i == BreathKitIndex.load() ? "> " : "  ", i + 1,
                     BreathKits[i].name, BreathKits[i].kit);
             return true;
         }
         if (*number < 1 || *number > count)
         {
-            handler->SendErrorMessage("Choose 1 to {}.", count);
+            handler->SendErrorMessage("请选择 1 到 {}。", count);
             return false;
         }
         BreathKitIndex = *number - 1;
-        handler->PSendSysMessage("Traps now breathe {}: {} (kit {}).", *number, BreathKits[*number - 1].name,
+        handler->PSendSysMessage("陷阱现在吐息 {}：{}（套件 {}）。", *number, BreathKits[*number - 1].name,
             BreathKits[*number - 1].kit);
         return true;
     }
@@ -820,7 +820,7 @@ public:
         }
         if (!trap || !trap->GetSpawnId() || !sObjectMgr->GetCreatureData(trap->GetSpawnId()))
         {
-            handler->SendErrorMessage("No placed trap within {:.0f} yards.", TrapCommandReach);
+            handler->SendErrorMessage("周围 {:.0f} 码内没有已放置的陷阱。", TrapCommandReach);
             return nullptr;
         }
         return trap;
@@ -846,7 +846,7 @@ public:
         stmt->SetData(3, o);
         stmt->SetData(4, trap->GetSpawnId());
         WorldDatabase.Execute(stmt);
-        handler->PSendSysMessage("Trap {} now at {:.2f} {:.2f} {:.2f}, facing {:.3f}.", trap->GetSpawnId(), x, y, z, o);
+        handler->PSendSysMessage("陷阱 {} 现在位于 {:.2f} {:.2f} {:.2f}，朝向 {:.3f}。", trap->GetSpawnId(), x, y, z, o);
     }
 
     static bool HandleTilt(ChatHandler* handler, Optional<uint32> number)
@@ -860,11 +860,11 @@ public:
         }
         if (*number >= count)
         {
-            handler->SendErrorMessage("Choose 0 to {}.", count - 1);
+            handler->SendErrorMessage("请选择 0 到 {}。", count - 1);
             return false;
         }
         TrapTiltIndex = *number;
-        handler->PSendSysMessage("Traps switch to {} within 5 seconds.", TrapTilts[*number].name);
+        handler->PSendSysMessage("陷阱将在 5 秒内切换为 {}。", TrapTilts[*number].name);
         return true;
     }
 
@@ -918,11 +918,11 @@ public:
         std::list<Creature*> traps;
         handler->GetSession()->GetPlayer()->GetCreatureListWithEntryInGrid(traps, NPC_VENOM_TRAP, TrapListReach);
         for (Creature* trap : traps)
-            handler->PSendSysMessage("Trap {}: {:.2f} {:.2f} {:.2f}, facing {:.3f}", trap->GetSpawnId(),
+            handler->PSendSysMessage("陷阱 {}：{:.2f} {:.2f} {:.2f}，朝向 {:.3f}", trap->GetSpawnId(),
                 trap->GetPositionX(), trap->GetPositionY(), trap->GetPositionZ(),
                 trap->GetHomePosition().GetOrientation());
-        handler->PSendSysMessage("{} traps; each breathes {} ms and burns {} ms longer, {} ms gap to the next, {} ms pause "
-            "after the top.", traps.size(), TrapActiveMs.load(), TrapFadeMs.load(), TrapGapMs, TrapPauseMs.load());
+        handler->PSendSysMessage("共 {} 个陷阱；每个吐息 {} 毫秒，并延长燃烧 {} 毫秒，间隔 {} 毫秒轮到下一座，"
+            "顶部结束后停顿 {} 毫秒。", traps.size(), TrapActiveMs.load(), TrapFadeMs.load(), TrapGapMs, TrapPauseMs.load());
         return true;
     }
 };

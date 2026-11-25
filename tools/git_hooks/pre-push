@@ -1,0 +1,33 @@
+#!/bin/sh
+set -u
+
+root=$(git rev-parse --show-toplevel 2>/dev/null) || exit 0
+cd "$root" || exit 0
+
+python=${PYTHON:-}
+if [ -z "$python" ]; then
+    if command -v python3 >/dev/null 2>&1; then python=python3
+    elif command -v python >/dev/null 2>&1; then python=python
+    else
+        echo "[pre-push] python not found; skipping the verification gate" >&2
+        exit 0
+    fi
+fi
+
+if [ "${SKIP_VERIFY:-0}" = "1" ]; then
+    echo "[pre-push] SKIP_VERIFY=1, verification gate skipped" >&2
+    exit 0
+fi
+
+base=${PUSH_GATE_BASE:-}
+if [ -z "$base" ]; then
+    base=$(git rev-parse --verify --quiet '@{upstream}' 2>/dev/null)
+fi
+if [ -z "$base" ] && [ -n "${1:-}" ] && [ -n "${2:-}" ] && [ "$1" != "0000000000000000000000000000000000000000" ]; then
+    base=$1
+fi
+if [ -z "$base" ]; then
+    base=origin/main
+fi
+
+exec "$python" -B tools/push_gate.py --base "$base"

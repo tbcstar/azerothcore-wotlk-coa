@@ -202,7 +202,7 @@ def run_command(arguments, root, environment):
     record = {'command': [sys.executable, '-B', *arguments], 'status': 'failed'}
     try:
         result = subprocess.run(record['command'], cwd=root, capture_output=True, text=True,
-                                timeout=120, env=environment)
+                                timeout=120, env=environment, encoding='utf-8', errors='replace')
         record.update(status='passed' if result.returncode == 0 else 'failed', returncode=result.returncode,
                       output=(result.stdout + result.stderr)[-20000:])
     except (OSError, subprocess.TimeoutExpired) as error:
@@ -214,6 +214,7 @@ def run_command(arguments, root, environment):
 def execute(commands, root=ROOT, jobs=None):
     environment = dict(os.environ)
     environment.pop('PYTHONOPTIMIZE', None)
+    environment['PYTHONIOENCODING'] = 'utf-8'
     workers = max(1, min(jobs or os.cpu_count() or 1, len(commands))) if commands else 1
     if workers <= 1:
         return [run_command(arguments, root, environment) for arguments in commands]

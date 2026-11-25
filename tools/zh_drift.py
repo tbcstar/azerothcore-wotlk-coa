@@ -197,11 +197,14 @@ def is_chinese(text):
     return bool(CJK.search(text))
 
 
-def collect(root):
+def collect(root, paths=None):
     sources = defaultdict(dict)
     translations = []
     pairs = []
-    files = sorted(Path(root).rglob('*.sql'))
+    if paths is not None:
+        files = [Path(path) for path in paths]
+    else:
+        files = sorted(Path(root).rglob('*.sql'))
     for path in files:
         try:
             text = read_text(path)
@@ -263,6 +266,23 @@ def check_pairs(pairs):
     return findings
 
 
+def check_source_conflicts(pairs):
+    findings = []
+    grouped = defaultdict(lambda: defaultdict(set))
+    for path, column, source, target in pairs:
+        if is_chinese(target):
+            grouped[(column, source)][target].add(path)
+    for (column, source), targets in grouped.items():
+        if len(targets) < 2:
+            continue
+        paths = sorted({path for owners in targets.values() for path in owners})
+        findings.append(('同一英文多译', paths[0], column, source,
+                         '%d 种译文：%s' % (len(targets), '；'.join('%s（%s）' % (text[:40], Path(p).name)
+                                                                    for text, owners in sorted(targets.items())
+                                                                    for p in sorted(owners)[:1]))))
+    return findings
+
+
 def check_rows(sources, translations):
     findings = []
     orphans = 0
@@ -302,9 +322,10 @@ def main(argv=None):
     parser.add_argument('--root', default='data/sql', help='扫描根目录，默认 data/sql')
     parser.add_argument('--json', action='store_true', help='输出 JSON')
     parser.add_argument('--limit', type=int, default=200, help='最多打印条数')
+    parser.add_argument('--paths', nargs='*', default=None, help='只检查这些 SQL 文件（默认扫描整个 --root）')
     arguments = parser.parse_args(argv)
-    sources, translations, pairs = collect(arguments.root)
-    pair_findings = check_pairs(pairs)
+    sources, translations, pairs = collect(arguments.root, arguments.paths)
+    pair_findings = check_pairs(pairs) + check_source_conflicts(pairs)
     row_findings, orphans, compared = check_rows(sources, translations)
     findings = pair_findings + row_findings
     summary = {

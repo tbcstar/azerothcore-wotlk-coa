@@ -1046,8 +1046,12 @@ SocketTimeOutTime = 900000
 #                     （以毫秒为单位）。
 #                     客户端每 30 秒发送保活数据包。不建议使用 <= 30 秒的值。
 #        Default:     60000 - (1 minute)
+#
+#    本服：60000 -> 180000。客户端侧停顿（全屏切换、网卡省电、Wi-Fi 微断）
+#    超过 60 秒就会被判为断线且不留任何日志；3 分钟可覆盖绝大多数能自愈的停顿。
+#    保守一点可用 120000（丢 4 次保活才判死）。改完 .reload config 即生效。
 
-SocketTimeOutTimeActive = 60000
+SocketTimeOutTimeActive = 180000
 
 #
 #    MaxOverspeedPings

@@ -6,11 +6,16 @@ cd "$root" || exit 0
 
 python=${PYTHON:-}
 if [ -z "$python" ]; then
-    if command -v python3 >/dev/null 2>&1; then python=python3
-    elif command -v python >/dev/null 2>&1; then python=python
-    else
-        exit 0
+    if command -v py >/dev/null 2>&1 && py -3.12 -c '' >/dev/null 2>&1; then
+        python="py -3.12"
+    elif command -v python3 >/dev/null 2>&1; then
+        python=python3
+    elif command -v python >/dev/null 2>&1; then
+        python=python
     fi
+fi
+if [ -z "$python" ]; then
+    exit 0
 fi
 
 if [ "${SKIP_COMMIT_CHECKS:-0}" = "1" ]; then
@@ -18,7 +23,7 @@ if [ "${SKIP_COMMIT_CHECKS:-0}" = "1" ]; then
     exit 0
 fi
 
-if ! "$python" -B tools/check_change_boundaries.py --base HEAD >/dev/null 2>&1; then
+if ! $python -B tools/check_change_boundaries.py --base HEAD >/dev/null 2>&1; then
     echo "[pre-commit] SQL changed outside data/sql/updates/pending_db_* or a module updates/custom directory." >&2
     echo "[pre-commit] run: $python -B tools/check_change_boundaries.py --base HEAD" >&2
     exit 1
@@ -26,7 +31,7 @@ fi
 
 staged=$(git diff --cached --name-only --diff-filter=ACM -- 'data/sql/*.sql' 'modules/*/data/sql/*.sql')
 if [ -n "$staged" ]; then
-    if ! printf '%s\n' "$staged" | xargs "$python" -B tools/zh_drift.py --limit 5 --paths >&2; then
+    if ! printf '%s\n' "$staged" | xargs $python -B tools/zh_drift.py --limit 5 --paths >&2; then
         echo "[pre-commit] localization drift in the staged SQL; run the same command for the full list." >&2
         exit 1
     fi

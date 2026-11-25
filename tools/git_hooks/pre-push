@@ -6,12 +6,17 @@ cd "$root" || exit 0
 
 python=${PYTHON:-}
 if [ -z "$python" ]; then
-    if command -v python3 >/dev/null 2>&1; then python=python3
-    elif command -v python >/dev/null 2>&1; then python=python
-    else
-        echo "[pre-push] python not found; skipping the verification gate" >&2
-        exit 0
+    if command -v py >/dev/null 2>&1 && py -3.12 -c '' >/dev/null 2>&1; then
+        python="py -3.12"
+    elif command -v python3 >/dev/null 2>&1; then
+        python=python3
+    elif command -v python >/dev/null 2>&1; then
+        python=python
     fi
+fi
+if [ -z "$python" ]; then
+    echo "[pre-push] python not found; skipping the verification gate" >&2
+    exit 0
 fi
 
 if [ "${SKIP_VERIFY:-0}" = "1" ]; then
@@ -30,4 +35,4 @@ if [ -z "$base" ]; then
     base=origin/main
 fi
 
-exec "$python" -B tools/push_gate.py --base "$base"
+exec $python -B tools/push_gate.py --base "$base"

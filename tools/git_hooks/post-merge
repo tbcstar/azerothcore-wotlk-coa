@@ -6,14 +6,19 @@ cd "$root" || exit 0
 
 python=${PYTHON:-}
 if [ -z "$python" ]; then
-    if command -v python3 >/dev/null 2>&1; then python=python3
-    elif command -v python >/dev/null 2>&1; then python=python
-    else
-        exit 0
+    if command -v py >/dev/null 2>&1 && py -3.12 -c '' >/dev/null 2>&1; then
+        python="py -3.12"
+    elif command -v python3 >/dev/null 2>&1; then
+        python=python3
+    elif command -v python >/dev/null 2>&1; then
+        python=python
     fi
+fi
+if [ -z "$python" ]; then
+    exit 0
 fi
 
 echo "[post-merge] an upstream merge landed; checking localization drift" >&2
-"$python" -B tools/zh_drift.py --limit 8 >&2 || true
+$python -B tools/zh_drift.py --limit 8 >&2 || true
 echo "[post-merge] translate the new player-visible English, then rerun verify_all --stages source" >&2
 exit 0

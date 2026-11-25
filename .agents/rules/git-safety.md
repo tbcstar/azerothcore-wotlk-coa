@@ -2,6 +2,8 @@
 
 Applies to every agent working in this repository and to every agent it dispatches.
 
+- Leave `upstream` alone: its branches and `upstream/main` are read-only reference, and nothing is merged from them
+  without an explicit request.
 - Work on `main` in the main checkout and commit work there. This fork takes changes directly on `main`, so do not
   create per-task branches, worktrees or PRs for ordinary changes; `git push origin main` after verification is
   the expected publication. Never push to `upstream`, never force-push, never merge a PR unless the user asks.

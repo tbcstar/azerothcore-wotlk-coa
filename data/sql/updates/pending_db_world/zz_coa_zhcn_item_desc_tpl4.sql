@@ -4,7 +4,7 @@ JOIN (
     SELECT 'Teaches Ambush (Rank 6)' AS `src`, '教你伏击（等级 6）' AS `dst`
     UNION ALL SELECT 'Teaches Amplify Magic (Rank 4)' AS `src`, '教你魔法增效（等级 4）' AS `dst`
     UNION ALL SELECT 'Teaches Ancestral Spirit (Rank 5)' AS `src`, '教你先祖之魂（等级 5）' AS `dst`
-    UNION ALL SELECT 'Teaches Arcane Explosion (Rank 6)' AS `src`, '教你奥爆术（等级 6）' AS `dst`
+    UNION ALL SELECT 'Teaches Arcane Explosion (Rank 6)' AS `src`, '教你魔爆术（等级 6）' AS `dst`
     UNION ALL SELECT 'Teaches Arcane Intellect (Rank 5)' AS `src`, '教你奥术智慧（等级 5）' AS `dst`
     UNION ALL SELECT 'Teaches Arcane Shot (Rank 8)' AS `src`, '教你奥术射击（等级 8）' AS `dst`
     UNION ALL SELECT 'Teaches Battle Shout (Rank 6)' AS `src`, '教你战斗怒吼（等级 6）' AS `dst`
@@ -19,7 +19,7 @@ JOIN (
     UNION ALL SELECT 'Teaches Conjure Water (Rank 6)' AS `src`, '教你造水术（等级 6）' AS `dst`
     UNION ALL SELECT 'Teaches Consecration (Rank 5)' AS `src`, '教你奉献（等级 5）' AS `dst`
     UNION ALL SELECT 'Teaches Corruption (Rank 6)' AS `src`, '教你腐蚀术（等级 6）' AS `dst`
-    UNION ALL SELECT 'Teaches Counterattack (Rank 3)' AS `src`, '教你震荡反击（等级 3）' AS `dst`
+    UNION ALL SELECT 'Teaches Counterattack (Rank 3)' AS `src`, '教你反击（等级 3）' AS `dst`
     UNION ALL SELECT 'Teaches Create Firestone (Rank 4)' AS `src`, '教你制造火焰石（等级 4）' AS `dst`
     UNION ALL SELECT 'Teaches Create Healthstone (Rank 5)' AS `src`, '教你制造治疗石（等级 5）' AS `dst`
     UNION ALL SELECT 'Teaches Create Soulstone (Rank 5)' AS `src`, '教你制造灵魂石（等级 5）' AS `dst`
@@ -57,7 +57,7 @@ JOIN (
     UNION ALL SELECT 'Teaches Frost Nova (Rank 4)' AS `src`, '教你冰霜新星（等级 4）' AS `dst`
     UNION ALL SELECT 'Teaches Frost Resistance Aura (Rank 3)' AS `src`, '教你冰霜抗性光环（等级 3）' AS `dst`
     UNION ALL SELECT 'Teaches Frost Resistance Totem (Rank 3)' AS `src`, '教你抗寒图腾（等级 3）' AS `dst`
-    UNION ALL SELECT 'Teaches Frost Ward (Rank 5)' AS `src`, '教你防护冰霜结界（等级 5）' AS `dst`
+    UNION ALL SELECT 'Teaches Frost Ward (Rank 5)' AS `src`, '教你冰霜防护结界（等级 5）' AS `dst`
     UNION ALL SELECT 'Teaches Frostbolt (Rank 10)' AS `src`, '教你寒冰箭（等级 10）' AS `dst`
     UNION ALL SELECT 'Teaches Garrote (Rank 6)' AS `src`, '教你绞喉（等级 6）' AS `dst`
     UNION ALL SELECT 'Teaches Greater Blessing of Might (Rank 2)' AS `src`, '教你强效力量祝福（等级 2）' AS `dst`
@@ -70,11 +70,11 @@ JOIN (
     UNION ALL SELECT 'Teaches Healing Wave (Rank 9)' AS `src`, '教你治疗波（等级 9）' AS `dst`
     UNION ALL SELECT 'Teaches Health Funnel (Rank 7)' AS `src`, '教你生命通道（等级 7）' AS `dst`
     UNION ALL SELECT 'Teaches Hellfire (Rank 3)' AS `src`, '教你地狱烈焰（等级 3）' AS `dst`
-    UNION ALL SELECT 'Teaches Hemorrhage (Rank 3)' AS `src`, '教你大出血（等级 3）' AS `dst`
+    UNION ALL SELECT 'Teaches Hemorrhage (Rank 3)' AS `src`, '教你出血（等级 3）' AS `dst`
     UNION ALL SELECT 'Teaches Heroic Strike (Rank 8)' AS `src`, '教你英勇打击（等级 8）' AS `dst`
     UNION ALL SELECT 'Teaches Hibernate (Rank 3)' AS `src`, '教你休眠（等级 3）' AS `dst`
     UNION ALL SELECT 'Teaches Holy Fire (Rank 8)' AS `src`, '教你神圣之火（等级 8）' AS `dst`
-    UNION ALL SELECT 'Teaches Holy Light (Rank 8)' AS `src`, '教你神圣之光（等级 8）' AS `dst`
+    UNION ALL SELECT 'Teaches Holy Light (Rank 8)' AS `src`, '教你圣光术（等级 8）' AS `dst`
     UNION ALL SELECT 'Teaches Holy Nova (Rank 6)' AS `src`, '教你神圣新星（等级 6）' AS `dst`
     UNION ALL SELECT 'Teaches Holy Shield (Rank 3)' AS `src`, '教你神圣之盾（等级 3）' AS `dst`
     UNION ALL SELECT 'Teaches Holy Shock (Rank 3)' AS `src`, '教你神圣震击（等级 3）' AS `dst`
@@ -83,7 +83,7 @@ JOIN (
     UNION ALL SELECT 'Teaches Hunter\'s Mark (Rank 4)' AS `src`, '教你猎人印记（等级 4）' AS `dst`
     UNION ALL SELECT 'Teaches Hurricane (Rank 3)' AS `src`, '教你飓风（等级 3）' AS `dst`
     UNION ALL SELECT 'Teaches Ice Armor (Rank 4)' AS `src`, '教你冰甲术（等级 4）' AS `dst`
-    UNION ALL SELECT 'Teaches Ice Barrier (Rank 4)' AS `src`, '教你寒冰护体（等级 4）' AS `dst`
+    UNION ALL SELECT 'Teaches Ice Barrier (Rank 4)' AS `src`, '教你寒冰屏障（等级 4）' AS `dst`
     UNION ALL SELECT 'Teaches Immolate (Rank 7)' AS `src`, '教你献祭（等级 7）' AS `dst`
     UNION ALL SELECT 'Teaches Immolation Trap (Rank 5)' AS `src`, '教你献祭陷阱（等级 5）' AS `dst`
     UNION ALL SELECT 'Teaches Inner Fire (Rank 6)' AS `src`, '教你心灵之火（等级 6）' AS `dst`
@@ -120,7 +120,7 @@ JOIN (
     UNION ALL SELECT 'Teaches Rejuvenation (Rank 10)' AS `src`, '教你回春术（等级 10）' AS `dst`
     UNION ALL SELECT 'Teaches Rend (Rank 7)' AS `src`, '教你撕裂（等级 7）' AS `dst`
     UNION ALL SELECT 'Teaches Renew (Rank 9)' AS `src`, '教你恢复（等级 9）' AS `dst`
-    UNION ALL SELECT 'Teaches Resurrection (Rank 5)' AS `src`, '教你复活（等级 5）' AS `dst`
+    UNION ALL SELECT 'Teaches Resurrection (Rank 5)' AS `src`, '教你复活术（等级 5）' AS `dst`
     UNION ALL SELECT 'Teaches Retribution Aura (Rank 5)' AS `src`, '教你惩戒光环（等级 5）' AS `dst`
     UNION ALL SELECT 'Teaches Rip (Rank 6)' AS `src`, '教你撕扯（等级 6）' AS `dst`
     UNION ALL SELECT 'Teaches Sap (Rank 3)' AS `src`, '教你闷棍（等级 3）' AS `dst`
@@ -144,7 +144,7 @@ JOIN (
     UNION ALL SELECT 'Teaches Stoneclaw Totem (Rank 6)' AS `src`, '教你石爪图腾（等级 6）' AS `dst`
     UNION ALL SELECT 'Teaches Stoneskin Totem (Rank 6)' AS `src`, '教你石肤图腾（等级 6）' AS `dst`
     UNION ALL SELECT 'Teaches Strength of Earth Totem (Rank 4)' AS `src`, '教你大地之力图腾（等级 4）' AS `dst`
-    UNION ALL SELECT 'Teaches Swipe (Bear) (Rank 5)' AS `src`, '教你揮擊(熊形態)（等级 5）' AS `dst`
+    UNION ALL SELECT 'Teaches Swipe (Bear) (Rank 5)' AS `src`, '教你横扫（熊）（等级 5）' AS `dst`
     UNION ALL SELECT 'Teaches Teleport: Dalaran.' AS `src`, '教你传送：达拉然。' AS `dst`
     UNION ALL SELECT 'Teaches Thorns (Rank 6)' AS `src`, '教你荆棘（等级 6）' AS `dst`
     UNION ALL SELECT 'Teaches Thunder Clap (Rank 6)' AS `src`, '教你雷霆一击（等级 6）' AS `dst`

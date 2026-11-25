@@ -88,7 +88,7 @@ JOIN (
     UNION ALL SELECT 'Teaches Tranquility (Rank 4)' AS `src`, '教你宁静（等级 4）' AS `dst`
     UNION ALL SELECT 'Teaches Battle Shout (Rank 6)' AS `src`, '教你战斗怒吼（等级 6）' AS `dst`
     UNION ALL SELECT 'Teaches Cone of Cold (Rank 5)' AS `src`, '教你冰锥术（等级 5）' AS `dst`
-    UNION ALL SELECT 'Teaches Conjure Food (Rank 6)' AS `src`, '教你制造食物（等级 6）' AS `dst`
+    UNION ALL SELECT 'Teaches Conjure Food (Rank 6)' AS `src`, '教你造食术（等级 6）' AS `dst`
     UNION ALL SELECT 'Teaches Consecration (Rank 5)' AS `src`, '教你奉献（等级 5）' AS `dst`
     UNION ALL SELECT 'Teaches Dampen Magic (Rank 5)' AS `src`, '教你魔法抑制（等级 5）' AS `dst`
     UNION ALL SELECT 'Teaches Greater Heal (Rank 4)' AS `src`, '教你强效治疗术（等级 4）' AS `dst`
@@ -103,7 +103,7 @@ JOIN (
     UNION ALL SELECT 'Teaches Tiger\'s Fury (Rank 4)' AS `src`, '教你猛虎之怒（等级 4）' AS `dst`
     UNION ALL SELECT 'Teaches Wyvern Sting (Rank 3)' AS `src`, '教你翼龙钉刺（等级 3）' AS `dst`
     UNION ALL SELECT 'Teaches Amplify Magic (Rank 4)' AS `src`, '教你魔法增效（等级 4）' AS `dst`
-    UNION ALL SELECT 'Teaches Conjure Water (Rank 6)' AS `src`, '教你制造水（等级 6）' AS `dst`
+    UNION ALL SELECT 'Teaches Conjure Water (Rank 6)' AS `src`, '教你造水术（等级 6）' AS `dst`
     UNION ALL SELECT 'Teaches Counterattack (Rank 3)' AS `src`, '教你反击（等级 3）' AS `dst`
     UNION ALL SELECT 'Teaches Devotion Aura (Rank 7)' AS `src`, '教你虔诚光环（等级 7）' AS `dst`
     UNION ALL SELECT 'Teaches Divine Spirit (Rank 4)' AS `src`, '教你神圣之灵（等级 4）' AS `dst`

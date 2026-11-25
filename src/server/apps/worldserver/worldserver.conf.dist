@@ -2391,6 +2391,16 @@ Achievement.RealmFirstRaceLimitOnePerCharacter = 1
 Achievement.RealmFirstBlockBots = 1
 
 #
+#    Achievement.BlockBots
+#        Description: 机器人完全不参与成就系统：既不累计任何成就进度，也不会完成、
+#                     不会领取成就奖励（物品/头衔），更不会占用任何一个成就的首杀、
+#                     首达名额。真人玩家的成就与奖励不受机器人影响。
+#        Default:     1 - (Enabled)
+#                     0 - (Disabled, bots earn achievements like any other character)
+
+Achievement.BlockBots = 1
+
+#
 ###################################################################################################
 
 ###################################################################################################

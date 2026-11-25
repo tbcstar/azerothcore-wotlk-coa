@@ -831,6 +831,8 @@ void AchievementMgr::UpdateAchievementCriteria(AchievementCriteriaTypes type, ui
         return;
     if (_player->GetSession()->HasPermission(rbac::RBAC_PERM_CANNOT_EARN_ACHIEVEMENTS))
         return;
+    if (sWorld->getBoolConfig(CONFIG_ACHIEVEMENT_BLOCK_BOTS) && _player->GetSession()->IsBot())
+        return;
 
     if (type >= ACHIEVEMENT_CRITERIA_TYPE_TOTAL)
     {
@@ -2301,6 +2303,8 @@ void AchievementMgr::CompletedAchievement(AchievementEntry const* achievement)
         return;
     }
     if (_player->GetSession()->HasPermission(rbac::RBAC_PERM_CANNOT_EARN_ACHIEVEMENTS))
+        return;
+    if (sWorld->getBoolConfig(CONFIG_ACHIEVEMENT_BLOCK_BOTS) && _player->GetSession()->IsBot())
         return;
 
     if (!sScriptMgr->OnPlayerBeforeAchievementComplete(GetPlayer(), achievement))

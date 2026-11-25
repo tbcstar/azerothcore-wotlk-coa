@@ -39,7 +39,8 @@ SUITES = {
         'paths': ['tools/check_*.py', 'tools/test_*.py', 'tools/comment_policy.py', 'tools/verify_*.py',
                   GAMEPLAY + 'batch.py', GAMEPLAY + 'catalog.py', GAMEPLAY + 'run.py'],
         'commands': [['tools/test_source.py'], ['tools/test_change_boundaries.py'], ['tools/test_registrations.py'],
-                     ['tools/test_comments.py'], ['tools/test_verify_all.py']],
+                     ['tools/test_comments.py'], ['tools/test_verify_all.py'], ['tools/test_zh_drift.py'],
+                     ['tools/test_soak_sample.py']],
     },
     'molten-core-sql': {
         'paths': ['data/sql/updates/pending_db_world/*molten_core*.sql'],

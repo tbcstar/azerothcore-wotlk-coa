@@ -1,9 +1,9 @@
-
 #include "ManastormClientBridge.h"
 #include "ManastormModuleConfig.h"
 #include "ManastormMgr.h"
 #include "ManastormPotionClient.h"
 #include "AscensionManastormGadgets.h"
+
 #include "ObjectAccessor.h"
 #include "Creature.h"
 #include "DynamicObject.h"
@@ -21,14 +21,16 @@
 #include "MapMgr.h"
 #include "ObjectMgr.h"
 #include "Player.h"
-#include "SpellAuraEffects.h"
+#include "ScriptMgr.h"
 #include "SpellAuras.h"
+#include "SpellAuraEffects.h"
 #include "SpellMgr.h"
 #include "ManastormDataStore.h"
 #include "ManastormGenerator.h"
 #include "ManastormProgression.h"
 #include "ManastormRewards.h"
 #include "ManastormExperience.h"
+#include "ManastormExperienceFormula.h"
 #include "ManastormAffixEngine.h"
 #include "ManastormGreedyDemon.h"
 #include "ManastormVoiceOfMillhouse.h"
@@ -37,6 +39,7 @@
 #include <cmath>
 #include <limits>
 #include <iterator>
+#include <mutex>
 #include <utility>
 #include "Random.h"
 #include "Chat.h"
@@ -150,44 +153,68 @@ namespace
         }
     }
 
-    //
-// Recovered Ascension Manastorm stage XP curve.
-//
-// Level 1 = 1.000 = +0.0%
-// Level 2 = 1.003 = +0.3%
-// Level 3 = 1.006 = +0.6%
-//
-// The recovered modifier sequence continues linearly:
-//
-//     1 + (0.003 * (depth - 1))
-//
-    constexpr double ENDLESS_XP_BONUS_PER_DEPTH = 0.003;
-
+    // Bounded hyperbolic depth XP curve:
+    //   1.0 + (depth - 1) / ((depth - 1) + 100)
+    // Depth 1 = 1.000 (+0%), Depth 101 = 1.500 (+50%), asymptotic cap = 2.000 (+100%).
     double GetEndlessExperienceMultiplier(
         uint32 depth)
     {
-        if (!depth)
-            return 1.0;
-
-        return 1.0 +
-            (double(depth - 1) *
-                ENDLESS_XP_BONUS_PER_DEPTH);
+        return 1.0 + ManastormExperienceFormula::DepthBonusFraction(depth);
     }
 
     uint64 GetEndlessExperienceBonusTenths(
         uint32 depth)
     {
-        if (!depth)
-            return 0;
+        return ManastormExperienceFormula::DepthBonusTenths(depth);
+    }
 
-        //
-        // Client wire format stores tenths of one percent:
-        //
-        // +0.3% = 3
-        // +0.6% = 6
-        // +0.9% = 9
-        //
-        return uint64(depth - 1) * 3ULL;
+    double ResolveExternalKillXPMultiplier(Player* player, uint32 maxLevel)
+    {
+        if (!player)
+            return 1.0;
+
+        if (sScriptMgr->OnPlayerHasNoBonusExperience(player))
+            return 1.0;
+
+        bool bonusControl = false;
+#if __has_include("destiny_weaver.h")
+        if (ManastormModuleConfig::ExperienceBonusControlEnabled())
+            bonusControl = player->GetPlayerSetting("core.destiny_weaver", 1).value == 1;
+#endif
+
+        bool const recruitAFriend = player->GetsRecruitAFriendBonus(true);
+        double external = 1.0;
+        if (!bonusControl)
+        {
+            constexpr int32 XP_SOURCE_MASK_KILL = 1;
+            external *= player->GetTotalAuraMultiplier(SPELL_AURA_MOD_XP_PCT,
+                [recruitAFriend](AuraEffect const* effect)
+                {
+                    if (effect->GetAmount() <= 0)
+                        return false;
+                    if ((effect->GetMiscValue() & XP_SOURCE_MASK_KILL) == 0)
+                        return false;
+                    if (effect->GetId() == 818059 && recruitAFriend)
+                        return false;
+                    return true;
+                });
+            if (recruitAFriend)
+                external *= 1.5;
+        }
+
+#if __has_include("CoA.Prestige.API.h") && __has_include("CoA.Challenges.Review.h")
+        constexpr uint32 SPELL_PRESTIGE_CHALLENGE = 9930831;
+        if (ManastormModuleConfig::PrestigeExperienceEnabled() &&
+            player->HasAura(SPELL_PRESTIGE_CHALLENGE) &&
+            player->GetLevel() < maxLevel)
+        {
+            external *= double(ManastormModuleConfig::PrestigeExperienceBonusPercent()) / 100.0;
+        }
+#else
+        (void)maxLevel;
+#endif
+
+        return std::isfinite(external) && external > 1.0 ? external : 1.0;
     }
 
     constexpr std::size_t
@@ -3671,23 +3698,17 @@ void ManastormMgr::SendClientState(
             run->GetState() ==
             ManastormRunState::StageComplete;
 
-        //
-        // Recovered Manastorm XP presentation curve:
-        //
-        // Depth 1 = +0.0%
-        // Depth 2 = +0.3%
-        // Depth 3 = +0.6%
-        // Depth 4 = +0.9%
-        //
-        // Wire format stores tenths of one percent:
-        //
-        // 3  = 0.3%
-        // 6  = 0.6%
-        // 9  = 0.9%
-        //
+        // Manastorm XP presentation curve (wire format stores tenths of 1%):
+        // bounded hyperbolic bonus capped by the player's personal depth in group runs.
+        uint32 const effectivePresentationDepth =
+            ManastormExperienceFormula::EffectiveDepth(
+                run->GetDepth(),
+                run->IsGroupRun(),
+                run->GetMemberPersonalBestDepth(player->GetGUID().GetCounter()));
+
         uint64 const xpBonusTenths =
             GetEndlessExperienceBonusTenths(
-                run->GetDepth());
+                effectivePresentationDepth);
 
         //
         // Existing Manastorm segment reward multiplier.
@@ -4639,28 +4660,17 @@ void ManastormMgr::FailRun(
     // ejection could be misread as another external
     // abandonment.
     //
-    for (ObjectGuid::LowType memberGuid :
-    members)
     {
-        auto itr =
-            _memberRunIds.find(
-                memberGuid);
-
-        if (itr !=
-            _memberRunIds.end() &&
-            itr->second == runId)
+        std::unique_lock lock(_runsMutex);
+        for (ObjectGuid::LowType memberGuid : members)
         {
-            _memberRunIds.erase(
-                itr);
+            auto itr = _memberRunIds.find(memberGuid);
+            if (itr != _memberRunIds.end() && itr->second == runId)
+                _memberRunIds.erase(itr);
         }
-    }
 
-    if (stageInstanceId)
-    {
-        _stageRunIds.erase(
-            MakeStageKey(
-                stageMapId,
-                stageInstanceId));
+        if (stageInstanceId)
+            _stageRunIds.erase(MakeStageKey(stageMapId, stageInstanceId));
     }
 
     for (ObjectGuid::LowType memberGuid :
@@ -4713,7 +4723,7 @@ void ManastormMgr::FailRun(
         std::ostringstream failureMessage;
 
         failureMessage
-            << "法力风暴：冒险失败";
+            << "Manastorm: run failed";
 
         if (!reason.empty())
         {
@@ -4918,8 +4928,9 @@ void ManastormMgr::FailRun(
                 returnO);
 
             member->SendSystemMessage(
-                "法力风暴：本次冒险已失败，但将你移出失败的"
-                "法力风暴：本次冒险已失败，但未能将你移出失败的法力风暴。");
+                "Manastorm: the run failed, but "
+                "ejecting you from the failed "
+                "Manastorm did not succeed.");
         }
     }
 
@@ -4965,8 +4976,11 @@ void ManastormMgr::FailRun(
     ManastormVoiceOfMillhouse::ClearRun(
         runId);
 
-    _runs.erase(
-        runId);
+    {
+        std::unique_lock lock(_runsMutex);
+        _runs.erase(runId);
+        RefreshRunCountersUnlocked();
+    }
 
     LOG_INFO(
         LOG_FILTER,
@@ -5082,7 +5096,7 @@ void ManastormMgr::HandlePlayerDeath(
             ObjectGuid::Create<HighGuid::Player>(guid));
         if (member)
             member->SendSystemMessage(
-                "法力风暴：你的冒险已结束。离开法力风暴或释放灵魂即可返回。");
+                "Manastorm: your run has ended. Leave Manastorm or release spirit to return.");
     }
 }
 
@@ -5143,8 +5157,9 @@ void ManastormMgr::GrantBaselineRunItems(
                 playerGuid);
 
             player->SendSystemMessage(
-                "法力风暴：有件法力风暴工具无法放入你的背包。"
-                "法力风暴：未能将一件法力风暴工具放入你的背包。请确保背包留有足够的空位。");
+                "Manastorm: I could not place one "
+                "of your Manastorm tools in your bags. "
+                "Make sure you have free inventory space.");
         }
         else
         {
@@ -5392,7 +5407,7 @@ bool ManastormMgr::PrepareStage(
 
     if (!player || !player->GetSession())
     {
-        error = "需要一名在线的玩家来准备该阶段。";
+        error = "A connected player is required to prepare the stage.";
         return false;
     }
 
@@ -5405,13 +5420,13 @@ bool ManastormMgr::PrepareStage(
 
     if (!tele)
     {
-        error = "所选段落起点的传送点已不存在。";
+        error = "The selected segment start GameTele no longer exists.";
         return false;
     }
 
     if (tele->mapId != segment.MapId)
     {
-        error = "所选段落的传送点指向了另一张地图。";
+        error = "The selected segment GameTele points to a different map.";
         return false;
     }
 
@@ -5421,13 +5436,13 @@ bool ManastormMgr::PrepareStage(
 
     if (!mapEntry)
     {
-        error = "所选段落的地图不存在。";
+        error = "The selected segment map does not exist.";
         return false;
     }
 
     if (mapEntry->IsBattlegroundOrArena())
     {
-        error = "战场/竞技场地图不能作为法力风暴阶段。";
+        error = "Battleground/arena maps cannot be used as Manastorm stages.";
         return false;
     }
 
@@ -5435,14 +5450,14 @@ bool ManastormMgr::PrepareStage(
     {
         if (!mapEntry->IsDungeon())
         {
-            error = "所选可实例化地图不是受支持的副本/团队副本阶段。";
+            error = "The selected instanceable map is not a supported dungeon/raid stage.";
             return false;
         }
 
         if (!sObjectMgr->GetInstanceTemplate(
                 segment.MapId))
         {
-            error = "所选副本/团队副本地图缺少 instance_template 记录。";
+            error = "The selected dungeon/raid map has no instance_template row.";
             return false;
         }
     }
@@ -5591,11 +5606,10 @@ bool ManastormMgr::PrepareStage(
     run.SetInstanceId(
         instanceId);
 
-    _stageRunIds[
-        MakeStageKey(
-            segment.MapId,
-            instanceId)] =
-        run.GetRunId();
+    {
+        std::unique_lock lock(_runsMutex);
+        _stageRunIds[MakeStageKey(segment.MapId, instanceId)] = run.GetRunId();
+    }
 
     for (Player* member :
         connected)
@@ -5814,10 +5828,10 @@ void ManastormMgr::FinishPreviousStageTransition(
     uint32 const previousInstanceId =
         run.GetPreviousInstanceId();
 
-    _stageRunIds.erase(
-        MakeStageKey(
-            previousMapId,
-            previousInstanceId));
+    {
+        std::unique_lock lock(_runsMutex);
+        _stageRunIds.erase(MakeStageKey(previousMapId, previousInstanceId));
+    }
 
     if (Map* previous =
         sMapMgr->FindMap(
@@ -5846,25 +5860,25 @@ ManastormRun* ManastormMgr::StartRun(
 
     if (!ManastormModuleConfig::Enabled())
     {
-        error = "法力风暴已被配置禁用。";
+        error = "Manastorm is disabled by configuration.";
         return nullptr;
     }
 
     if (!player || !player->GetSession())
     {
-        error = "需要一名在线的玩家。";
+        error = "A connected player is required.";
         return nullptr;
     }
 
     if (!depth)
     {
-        error = "深度至少为 1。";
+        error = "Depth must be at least 1.";
         return nullptr;
     }
 
     if (!ManastormDataStore::Instance().IsLoaded() && !ReloadData())
     {
-        error = "法力风暴数据未载入。请应用世界库 SQL 并检查服务器日志。";
+        error = "Manastorm datastore is not loaded. Apply the world SQL and check server logs.";
         return nullptr;
     }
 
@@ -5907,7 +5921,7 @@ ManastormRun* ManastormMgr::StartRun(
     {
         if (!group->IsLeader(player->GetGUID()))
         {
-            error = "只有队长可以启动无尽调试模式。";
+            error = "Only the group leader can start an Endless debug run.";
             return nullptr;
         }
 
@@ -5923,7 +5937,7 @@ ManastormRun* ManastormMgr::StartRun(
 
     if (members.empty())
     {
-        error = "未能解析出任何队员。";
+        error = "No run members could be resolved.";
         return nullptr;
     }
 
@@ -5936,12 +5950,15 @@ ManastormRun* ManastormMgr::StartRun(
         return nullptr;
     }
 
-    for (ObjectGuid::LowType memberGuid : members)
     {
-        if (_memberRunIds.find(memberGuid) != _memberRunIds.end())
+        std::shared_lock lock(_runsMutex);
+        for (ObjectGuid::LowType memberGuid : members)
         {
-            error = "至少有一名队员已在进行中的法力风暴冒险里。";
-            return nullptr;
+            if (_memberRunIds.find(memberGuid) != _memberRunIds.end())
+            {
+                error = "At least one member already belongs to an active Manastorm run.";
+                return nullptr;
+            }
         }
     }
 
@@ -5991,7 +6008,7 @@ ManastormRun* ManastormMgr::StartRun(
 
         if (member->GetLevel() < 10)
         {
-            error = "所有队员都必须至少 10 级才能进入法力风暴。";
+            error = "Every run member must be at least level 10 to enter Manastorm.";
             return nullptr;
         }
 
@@ -6060,6 +6077,67 @@ ManastormRun* ManastormMgr::StartRun(
             message.str();
 
         return nullptr;
+    }
+
+    uint8 const runTrackBit = ManastormGetTrackBit(endgame);
+    std::unordered_map<ObjectGuid::LowType, uint32> memberBestDepths;
+    memberBestDepths.emplace(ownerGuid, progression.BestCompletedDepth);
+    if (members.size() > 1)
+    {
+        std::ostringstream guidList;
+        bool firstGuid = true;
+        for (ObjectGuid::LowType memberGuid : members)
+        {
+            if (memberGuid == ownerGuid)
+                continue;
+            if (!firstGuid)
+                guidList << ", ";
+            guidList << memberGuid;
+            firstGuid = false;
+        }
+
+        if (!firstGuid)
+        {
+            if (QueryResult progressRows = CharacterDatabase.Query(
+                "SELECT `guid`, MAX(`best_completed_depth`) "
+                "FROM `character_manastorm_progress` "
+                "WHERE `guid` IN ({}) AND `track` = {} "
+                "GROUP BY `guid`",
+                guidList.str(), uint32(runTrackBit)))
+            {
+                do
+                {
+                    Field* fields = progressRows->Fetch();
+                    memberBestDepths[fields[0].Get<ObjectGuid::LowType>()] = fields[1].Get<uint32>();
+                }
+                while (progressRows->NextRow());
+            }
+        }
+
+        if (!bypassCheckpoint)
+        {
+            for (ObjectGuid::LowType memberGuid : members)
+            {
+                if (memberGuid == ownerGuid)
+                    continue;
+
+                ManastormProgressionSnapshot memberSnapshot{};
+                auto const bestItr = memberBestDepths.find(memberGuid);
+                memberSnapshot.BestCompletedDepth = bestItr != memberBestDepths.end() ? bestItr->second : 0;
+                if (ManastormProgression::IsDepthEnterable(memberSnapshot, depth))
+                    continue;
+
+                if (!ManastormProgression::LoadSnapshot(memberGuid, mode, endgame, memberSnapshot, error))
+                    return nullptr;
+
+                if (!ManastormProgression::IsDepthEnterable(memberSnapshot, depth))
+                {
+                    error = "Every run member must unlock Manastorm checkpoint depth " +
+                        std::to_string(depth) + " before entering.";
+                    return nullptr;
+                }
+            }
+        }
     }
 
     ManastormGenerator generator;
@@ -6150,12 +6228,17 @@ ManastormRun* ManastormMgr::StartRun(
         runId,
         progression.BestCompletedDepth == 0);
 
+    run->SetCheckpointBypassed(bypassCheckpoint);
+    run->SetGroupHealthMultiplier(
+        ManastormDataStore::Instance().GetGroupHealthMultiplier(
+            uint32(members.size()), endgame));
+
     for (auto guid : members)
     {
         Player* member = ObjectAccessor::FindConnectedPlayer(ObjectGuid::Create<HighGuid::Player>(guid));
         if (!member || !member->IsInWorld() || member->IsBeingTeleported())
         {
-            error = "所有队员都必须在线并处于可进入状态。";
+            error = "Every run member must be connected and ready.";
             return nullptr;
         }
         member->SaveRecallPosition();
@@ -6164,6 +6247,10 @@ ManastormRun* ManastormMgr::StartRun(
             WorldLocation(
                 member->GetMapId(),
                 member->GetPosition()));
+
+        auto const bestItr = memberBestDepths.find(guid);
+        uint32 const memberBestDepth = bestItr != memberBestDepths.end() ? bestItr->second : 0;
+        run->SetMemberXPBaseline(guid, memberBestDepth, member->GetLevel());
 
         ManastormRun::GadgetSlots slots{};
         auto* loadoutStatement =
@@ -6212,10 +6299,13 @@ ManastormRun* ManastormMgr::StartRun(
 // Teleporting can initialize the destination instance and add creatures
 // before StartRun() returns.
     ManastormRun* runPtr = run.get();
-    _runs.emplace(runId, std::move(run));
-
-    for (ObjectGuid::LowType memberGuid : runPtr->GetMembers())
-        _memberRunIds[memberGuid] = runId;
+    {
+        std::unique_lock lock(_runsMutex);
+        _runs.emplace(runId, std::move(run));
+        for (ObjectGuid::LowType memberGuid : runPtr->GetMembers())
+            _memberRunIds[memberGuid] = runId;
+        RefreshRunCountersUnlocked();
+    }
 
     for (ObjectGuid::LowType guid : runPtr->GetMembers())
     {
@@ -6280,7 +6370,7 @@ void ManastormMgr::OnPlayerLogin(Player* player)
     if (!map || !map->IsScriptedPrivateInstance() || !location || !tele
         || !map->IsScriptedPrivateMember(player->GetGUID()))
     {
-        FailRun(*run, "私人阶段已无法用于重连。");
+        FailRun(*run, "The private stage is no longer available for reconnect.");
         return;
     }
     std::set<ObjectGuid> members;
@@ -6301,7 +6391,7 @@ void ManastormMgr::OnPlayerLogin(Player* player)
     player->SetScriptedPrivateInstanceId(run->GetInstanceId());
     if (!player->TeleportTo(map->GetId(), tele->position_x, tele->position_y,
         tele->position_z, tele->orientation, TELE_TO_GM_MODE, nullptr, true))
-        FailRun(*run, "重连传送失败。");
+        FailRun(*run, "Reconnect teleport failed.");
 }
 
 bool ManastormMgr::OnPlayerEnterMap(Map* map, Player* player)
@@ -6382,9 +6472,9 @@ bool ManastormMgr::OnPlayerEnterMap(Map* map, Player* player)
         std::ostringstream reason;
 
         reason
-            << "玩家 "
+            << "Player "
             << departingGuid
-            << " 离开了进行中的无尽阶段。";
+            << " left the active Endless stage.";
 
         if (run->GetMembers().size() > 1)
         {
@@ -6468,7 +6558,7 @@ bool ManastormMgr::OnPlayerEnterMap(Map* map, Player* player)
             {
                 FailRun(
                     *run,
-                    "特殊遭遇初始化失败：" +
+                    "Special encounter bootstrap failed: " +
                         bootstrapError);
 
                 return false;
@@ -6699,7 +6789,7 @@ bool ManastormMgr::OnPlayerEnterMap(Map* map, Player* player)
             {
                 FailRun(
                     *run,
-                    "奥达曼阿扎达斯原生激活失败：" +
+                    "Uldaman Archaedas native activation failed: " +
                         archaedasError);
                 return false;
             }
@@ -6740,7 +6830,7 @@ bool ManastormMgr::OnPlayerEnterMap(Map* map, Player* player)
             segment.ObjectiveCreatureEntry);
 
         player->SendSystemMessage(
-            "法力风暴：阶段已激活，副本传送成功。");
+            "Manastorm: stage ACTIVE. Instance transport succeeded.");
 
         SendClientState(
             player,
@@ -6760,10 +6850,16 @@ void ManastormMgr::OnPlayerLevelChanged(
         return;
 
     ManastormRun* run = GetRunFor(player);
-    if (!run ||
-        (run->GetState() != ManastormRunState::Preparing &&
-            run->GetState() != ManastormRunState::Active))
+    if (!run)
         return;
+
+    run->UpdateMemberLevel(player->GetGUID().GetCounter(), player->GetLevel());
+
+    if (run->GetState() != ManastormRunState::Preparing &&
+        run->GetState() != ManastormRunState::Active)
+    {
+        return;
+    }
 
     uint8 const newCreatureLevel =
         ResolveCreatureLevel(
@@ -6942,7 +7038,7 @@ void ManastormMgr::OnPlayerLevelChanged(
         rescaledCount);
 
     player->SendSystemMessage(
-        "法力风暴：当前阶段的生物等级已更新。");
+        "Manastorm: active stage creature level updated.");
 }
 
 void ManastormMgr::OnPlayerGiveXP(
@@ -6984,47 +7080,86 @@ void ManastormMgr::OnPlayerGiveXP(
         return;
     }
 
-    ManastormRun* run =
-        GetRunFor(player);
+    Map const* playerMap = player->FindMap();
+    if (!playerMap || !playerMap->IsScriptedPrivateInstance())
+        return;
 
+    ManastormRun* run = GetRunFor(player);
     if (!run)
-        return;
-
-    //
-    // XP can be awarded immediately around the objective-death
-    // transition, so StageComplete remains a valid state here.
-    //
-    if (run->GetState() !=
-        ManastormRunState::Active &&
-        run->GetState() !=
-        ManastormRunState::StageComplete)
     {
+        if (GetRunForStage(creature->GetMapId(), creature->GetInstanceId()))
+            amount = 0;
         return;
     }
 
-    ManastormSegment const& segment =
-        run->GetSegment();
+    ManastormSegment const& segment = run->GetSegment();
+    bool const inCurrentStage =
+        player->GetMapId() == segment.MapId &&
+        player->GetInstanceId() == run->GetInstanceId() &&
+        creature->GetMapId() == segment.MapId &&
+        creature->GetInstanceId() == run->GetInstanceId();
+    bool const inPreviousStage =
+        run->HasPreviousStage() &&
+        player->GetMapId() == run->GetPreviousSegment().MapId &&
+        player->GetInstanceId() == run->GetPreviousInstanceId() &&
+        creature->GetMapId() == run->GetPreviousSegment().MapId &&
+        creature->GetInstanceId() == run->GetPreviousInstanceId();
 
-    //
-    // The player and XP victim must both belong to the exact
-    // current Endless stage.
-    //
-    if (player->GetMapId() !=
-        segment.MapId ||
-        player->GetInstanceId() !=
-        run->GetInstanceId() ||
-        creature->GetMapId() !=
-        segment.MapId ||
-        creature->GetInstanceId() !=
-        run->GetInstanceId())
+    if (inPreviousStage)
     {
+        amount = 0;
         return;
     }
+
+    if (!inCurrentStage)
+    {
+        if (GetRunForStage(creature->GetMapId(), creature->GetInstanceId()))
+            amount = 0;
+        return;
+    }
+
+    // XP can be awarded immediately around the objective-death transition,
+    // so StageComplete remains valid; non-active states (such as Preparing
+    // under Safety Bubble immunity) award no XP.
+    if (run->GetState() != ManastormRunState::Active &&
+        run->GetState() != ManastormRunState::StageComplete)
+    {
+        amount = 0;
+        return;
+    }
+
+    uint32 const memberCount = run->GetStageMemberCount();
+    ObjectGuid::LowType const playerGuid = player->GetGUID().GetCounter();
+    uint32 const maxLevel = sWorld->getIntConfig(CONFIG_MAX_PLAYER_LEVEL);
+    uint32 const effectiveDepth = ManastormExperienceFormula::EffectiveDepth(
+        run->GetDepth(),
+        run->IsGroupRun(),
+        run->GetMemberPersonalBestDepth(playerGuid));
+    double const externalMultiplier = effectiveDepth > 1
+        ? ResolveExternalKillXPMultiplier(player, maxLevel)
+        : 1.0;
+    uint8 const highestLevel = std::max(run->GetHighestMemberLevel(), player->GetLevel());
+    bool const withinKillRange = !run->IsGroupRun() ||
+        player->IsWithinDistInMap(creature, ManastormExperienceFormula::KillContributionRangeYards);
+    bool const isObjectiveCreature = IsObjectiveBoss(creature, *run) ||
+        creature->GetEntry() == segment.ObjectiveCreatureEntry;
+    bool const allowWarmup = memberCount <= ManastormExperienceFormula::RaidThreshold &&
+        !isObjectiveCreature &&
+        run->GetStageKillCount() == 0;
 
     double xpMultiplier =
-        GetEndlessExperienceMultiplier(
-            run->GetDepth()) *
-        ManastormModuleConfig::ExperienceRate();
+        ManastormExperienceFormula::AdditiveDepthMultiplier(effectiveDepth, externalMultiplier) *
+        ManastormModuleConfig::ExperienceRate() *
+        ManastormExperienceFormula::RaidSizeFactor(memberCount) *
+        ManastormExperienceFormula::LevelGapFactor(player->GetLevel(), highestLevel, maxLevel) *
+        ManastormExperienceFormula::CombatContributionFactor(
+            memberCount,
+            run->GetMemberDamageDealt(playerGuid),
+            run->GetTotalStageDamageDealt(),
+            run->GetMemberCreditedHeal(playerGuid),
+            run->GetTotalStageCreditedHeal(),
+            allowWarmup,
+            withinKillRange);
 
     // Match C_Manastorm.GetStageBonusExperience's first return:
     // ManastormModifiers word 11 * Manastorm word 6.
@@ -7495,9 +7630,12 @@ bool ManastormMgr::HasPersonalLevelScaling(Map const* map, Player const* viewer)
 
 bool ManastormMgr::IsPlayerProtectedDuringTransition(Player const* player) const
 {
-    ManastormRun const* run = GetRunFor(player);
     Map const* map = player ? player->FindMap() : nullptr;
-    if (!run || !map)
+    if (!map || !map->IsScriptedPrivateInstance())
+        return false;
+
+    ManastormRun const* run = GetRunFor(player);
+    if (!run)
         return false;
 
     if (run->GetState() == ManastormRunState::StageComplete &&
@@ -7511,6 +7649,36 @@ bool ManastormMgr::IsPlayerProtectedDuringTransition(Player const* player) const
         run->IsPendingStageTransfer(player->GetGUID().GetCounter()) &&
         map->GetId() == run->GetPreviousSegment().MapId &&
         map->GetInstanceId() == run->GetPreviousInstanceId();
+}
+
+void ManastormMgr::OnHeal(Unit* healer, Unit* receiver, uint32 gain)
+{
+    if (!gain || gain > uint32(std::numeric_limits<int32>::max()) || !healer || !receiver || healer == receiver ||
+        !_activeGroupRunCount.load(std::memory_order_relaxed))
+    {
+        return;
+    }
+
+    Player const* targetPlayer = receiver->ToPlayer();
+    if (!targetPlayer)
+        return;
+
+    Map const* map = targetPlayer->FindMap();
+    if (!map || !map->IsScriptedPrivateInstance() || !map->GetInstanceId())
+        return;
+
+    Player const* healerPlayer = healer->GetCharmerOrOwnerPlayerOrPlayerItself();
+    if (!healerPlayer || healerPlayer == targetPlayer || healerPlayer->FindMap() != map)
+        return;
+
+    ManastormRun* run = GetRunForStage(map->GetId(), map->GetInstanceId());
+    if (!run || !run->IsGroupRun() || run->GetState() != ManastormRunState::Active)
+        return;
+
+    run->RecordMemberCrossHeal(
+        healerPlayer->GetGUID().GetCounter(),
+        targetPlayer->GetGUID().GetCounter(),
+        ManastormExperienceFormula::CombatHealthBasisPoints(gain, targetPlayer->GetMaxHealth()));
 }
 
 void ManastormMgr::OnDamage(
@@ -7529,6 +7697,35 @@ void ManastormMgr::OnDamage(
 
     if (sManastormReflectDamageDispatch)
         return;
+
+    Map* stageMap = victim->FindMap();
+    if (!stageMap || !stageMap->IsScriptedPrivateInstance() || !stageMap->GetInstanceId())
+        return;
+
+    ManastormRun* stageRun = GetRunForStage(stageMap->GetId(), stageMap->GetInstanceId());
+    if (!stageRun)
+        return;
+
+    if (Player const* victimPlayer = victim->ToPlayer();
+        victimPlayer && attacker && attacker != victim &&
+        stageRun->IsGroupRun() && stageRun->GetState() == ManastormRunState::Active)
+    {
+        if (Creature const* creatureAttacker = attacker->ToCreature();
+            creatureAttacker &&
+            creatureAttacker->GetEntry() != NPC_MANASTORM_HEART &&
+            !creatureAttacker->IsTrigger() &&
+            !creatureAttacker->IsPet() &&
+            !IsPlayerControlledCreature(creatureAttacker) &&
+            attacker->FindMap() == stageMap &&
+            stageRun->IsStageCreature(creatureAttacker->GetGUID()))
+        {
+            stageRun->RecordMemberCreatureDamageTaken(
+                victimPlayer->GetGUID().GetCounter(),
+                ManastormExperienceFormula::CombatHealthBasisPoints(
+                    std::min(damage, victimPlayer->GetHealth()),
+                    victimPlayer->GetMaxHealth()));
+        }
+    }
 
     //
     // REFLECTING
@@ -7556,111 +7753,58 @@ void ManastormMgr::OnDamage(
                 !IsPlayerControlledCreature(
                     reflectingCreature) &&
                 reflectingCreature->HasAura(
-                    SPELL_MANASTORM_REFLECTIVE))
+                    SPELL_MANASTORM_REFLECTIVE) &&
+                attacker->FindMap() == stageMap &&
+                stageRun->GetState() == ManastormRunState::Active &&
+                stageRun->IsStageCreature(reflectingCreature->GetGUID()) &&
+                stageRun->HasCreatureAffix(reflectingCreature->GetGUID(), ManastormAffixIds::Reflecting))
             {
-                Map* reflectMap =
-                    reflectingCreature->GetMap();
+                ManastormAffixDefinition const* definition =
+                    ManastormDataStore::Instance().GetAffixById(ManastormAffixIds::Reflecting);
 
-                if (reflectMap &&
-                    reflectMap->GetInstanceId() &&
-                    attacker->GetMap() ==
-                        reflectMap)
+                uint32 reflectiveSpellId = SPELL_MANASTORM_REFLECTIVE;
+                if (definition)
                 {
-                    ManastormRun* reflectRun =
-                        GetRunForStage(
-                            reflectMap->GetId(),
-                            reflectMap->GetInstanceId());
+                    uint8 const rank = stageRun->GetStageAffixRank(ManastormAffixIds::Reflecting);
+                    uint32 const rankSpellId =
+                        definition->GetRankSpell(MANASTORM_AFFIX_PRIMARY_RANK_ROLE, rank);
+                    if (rankSpellId)
+                        reflectiveSpellId = rankSpellId;
+                }
 
-                    if (reflectRun &&
-                        reflectRun->GetState() ==
-                            ManastormRunState::Active &&
-                        reflectRun->IsStageCreature(
-                            reflectingCreature->GetGUID()) &&
-                        reflectRun->HasCreatureAffix(
-                            reflectingCreature->GetGUID(),
-                            ManastormAffixIds::Reflecting))
+                if (SpellInfo const* reflectiveInfo = sSpellMgr->GetSpellInfo(reflectiveSpellId))
+                {
+                    int32 const reflectPct =
+                        reflectiveInfo->Effects[EFFECT_0].CalcValue(reflectingCreature);
+                    if (reflectPct > 0)
                     {
-                        ManastormAffixDefinition const*
-                            definition =
-                                ManastormDataStore::Instance()
-                                    .GetAffixById(
-                                        ManastormAffixIds::Reflecting);
-
-                        uint32 reflectiveSpellId =
-                            SPELL_MANASTORM_REFLECTIVE;
-
-                        if (definition)
+                        uint32 const actualDamage = std::min(damage, victim->GetHealth());
+                        uint32 const reflectedDamage =
+                            uint32(uint64(actualDamage) * uint32(reflectPct) / 100ULL);
+                        if (reflectedDamage)
                         {
-                            uint8 const rank =
-                                reflectRun->GetStageAffixRank(
-                                    ManastormAffixIds::Reflecting);
-
-                            uint32 const rankSpellId =
-                                definition->GetRankSpell(
-                                    MANASTORM_AFFIX_PRIMARY_RANK_ROLE,
-                                    rank);
-
-                            if (rankSpellId)
-                                reflectiveSpellId =
-                                    rankSpellId;
-                        }
-
-                        if (SpellInfo const* reflectiveInfo =
-                            sSpellMgr->GetSpellInfo(
-                                reflectiveSpellId))
-                        {
-                            int32 const reflectPct =
-                                reflectiveInfo->Effects[EFFECT_0]
-                                    .CalcValue(
-                                        reflectingCreature);
-
-                            if (reflectPct > 0)
-                            {
-                                uint32 const actualDamage =
-                                    std::min(
-                                        damage,
-                                        victim->GetHealth());
-
-                                uint32 const reflectedDamage =
-                                    uint32(
-                                        uint64(actualDamage) *
-                                        uint32(reflectPct) /
-                                        100ULL);
-
-                                if (reflectedDamage)
-                                {
-                                    sManastormReflectDamageDispatch =
-                                        true;
-
-                                    reflectingCreature
-                                        ->SendSpellNonMeleeDamageLog(
-                                            attacker,
-                                            reflectiveInfo,
-                                            reflectedDamage,
-                                            reflectiveInfo
-                                                ->GetSchoolMask(),
-                                            0,
-                                            0,
-                                            true,
-                                            0,
-                                            false,
-                                            true);
-
-                                    Unit::DealDamage(
-                                        reflectingCreature,
-                                        attacker,
-                                        reflectedDamage,
-                                        nullptr,
-                                        NODAMAGE,
-                                        reflectiveInfo
-                                            ->GetSchoolMask(),
-                                        reflectiveInfo,
-                                        false);
-
-                                    sManastormReflectDamageDispatch =
-                                        false;
-                                }
-                            }
+                            sManastormReflectDamageDispatch = true;
+                            reflectingCreature->SendSpellNonMeleeDamageLog(
+                                attacker,
+                                reflectiveInfo,
+                                reflectedDamage,
+                                reflectiveInfo->GetSchoolMask(),
+                                0,
+                                0,
+                                true,
+                                0,
+                                false,
+                                true);
+                            Unit::DealDamage(
+                                reflectingCreature,
+                                attacker,
+                                reflectedDamage,
+                                nullptr,
+                                NODAMAGE,
+                                reflectiveInfo->GetSchoolMask(),
+                                reflectiveInfo,
+                                false);
+                            sManastormReflectDamageDispatch = false;
                         }
                     }
                 }
@@ -7694,94 +7838,44 @@ void ManastormMgr::OnDamage(
             !attackingCreature->IsTrigger() &&
             !attackingCreature->IsPet() &&
             !IsPlayerControlledCreature(
-                attackingCreature))
+                attackingCreature) &&
+            attackingCreature->FindMap() == stageMap &&
+            stageRun->GetState() == ManastormRunState::Active &&
+            stageRun->IsStageCreature(attackingCreature->GetGUID()) &&
+            stageRun->HasCreatureAffix(attackingCreature->GetGUID(), ManastormAffixIds::Leeching))
         {
-            Map* attackerMap =
-                attackingCreature->GetMap();
+            ManastormAffixDefinition const* definition =
+                ManastormDataStore::Instance().GetAffixById(ManastormAffixIds::Leeching);
 
-            if (attackerMap &&
-                attackerMap->GetInstanceId() &&
-                victim->GetMap() ==
-                    attackerMap)
+            uint32 leechSpellId = definition && definition->MarkerSpellId
+                ? definition->MarkerSpellId
+                : ManastormAffixIds::Leeching;
+            if (definition)
             {
-                ManastormRun* attackerRun =
-                    GetRunForStage(
-                        attackerMap->GetId(),
-                        attackerMap->GetInstanceId());
+                uint8 const rank = stageRun->GetStageAffixRank(ManastormAffixIds::Leeching);
+                uint32 const rankSpellId =
+                    definition->GetRankSpell(MANASTORM_AFFIX_PRIMARY_RANK_ROLE, rank);
+                if (rankSpellId)
+                    leechSpellId = rankSpellId;
+            }
 
-                if (attackerRun &&
-                    attackerRun->GetState() ==
-                        ManastormRunState::Active &&
-                    attackerRun->IsStageCreature(
-                        attackingCreature->GetGUID()) &&
-                    attackerRun->HasCreatureAffix(
-                        attackingCreature->GetGUID(),
-                        ManastormAffixIds::Leeching))
+            if (SpellInfo const* leechInfo = sSpellMgr->GetSpellInfo(leechSpellId))
+            {
+                int32 const leechPct = leechInfo->Effects[EFFECT_0].CalcValue(attackingCreature);
+                if (leechPct > 0)
                 {
-                    ManastormAffixDefinition const*
-                        definition =
-                            ManastormDataStore::Instance()
-                                .GetAffixById(
-                                    ManastormAffixIds::Leeching);
-
-                    uint32 leechSpellId =
-                        definition &&
-                        definition->MarkerSpellId
-                        ? definition->MarkerSpellId
-                        : ManastormAffixIds::Leeching;
-
-                    if (definition)
+                    uint32 const actualDamage = std::min(damage, victim->GetHealth());
+                    uint32 const healAmount =
+                        uint32(uint64(actualDamage) * uint32(leechPct) / 100ULL);
+                    if (healAmount)
                     {
-                        uint8 const rank =
-                            attackerRun->GetStageAffixRank(
-                                ManastormAffixIds::Leeching);
-
-                        uint32 const rankSpellId =
-                            definition->GetRankSpell(
-                                MANASTORM_AFFIX_PRIMARY_RANK_ROLE,
-                                rank);
-
-                        if (rankSpellId)
-                            leechSpellId =
-                                rankSpellId;
-                    }
-
-                    if (SpellInfo const* leechInfo =
-                        sSpellMgr->GetSpellInfo(
-                            leechSpellId))
-                    {
-                        int32 const leechPct =
-                            leechInfo->Effects[EFFECT_0]
-                                .CalcValue(
-                                    attackingCreature);
-
-                        if (leechPct > 0)
-                        {
-                            uint32 const actualDamage =
-                                std::min(
-                                    damage,
-                                    victim->GetHealth());
-
-                            uint32 const healAmount =
-                                uint32(
-                                    uint64(actualDamage) *
-                                    uint32(leechPct) /
-                                    100ULL);
-
-                            if (healAmount)
-                            {
-                                HealInfo healInfo(
-                                    attackingCreature,
-                                    attackingCreature,
-                                    healAmount,
-                                    leechInfo,
-                                    leechInfo->GetSchoolMask());
-
-                                attackingCreature->HealBySpell(
-                                    healInfo,
-                                    false);
-                            }
-                        }
+                        HealInfo healInfo(
+                            attackingCreature,
+                            attackingCreature,
+                            healAmount,
+                            leechInfo,
+                            leechInfo->GetSchoolMask());
+                        attackingCreature->HealBySpell(healInfo, false);
                     }
                 }
             }
@@ -7800,26 +7894,9 @@ void ManastormMgr::OnDamage(
         return;
     }
 
-    Map* map =
-        creature->GetMap();
-
-    if (!map ||
-        !map->GetInstanceId())
-    {
+    ManastormRun* run = stageRun;
+    if (!run->IsStageCreature(creature->GetGUID()))
         return;
-    }
-
-    ManastormRun* run =
-        GetRunForStage(
-            map->GetId(),
-            map->GetInstanceId());
-
-    if (!run ||
-        !run->IsStageCreature(
-            creature->GetGUID()))
-    {
-        return;
-    }
 
     //
     // Treat the first real player/player-controlled hit as explicit intent to
@@ -7893,8 +7970,16 @@ void ManastormMgr::OnDamage(
         return;
     }
 
-    ManastormSegment const& segment =
-        run->GetSegment();
+    if (attacker && attacker != victim && run->IsGroupRun())
+    {
+        if (Player const* sourcePlayer = attacker->GetCharmerOrOwnerPlayerOrPlayerItself();
+            sourcePlayer && sourcePlayer->FindMap() == stageMap)
+        {
+            run->RecordMemberDamageDealt(
+                sourcePlayer->GetGUID().GetCounter(),
+                ManastormExperienceFormula::CombatRealDamagePoints(damage, currentHealth));
+        }
+    }
 
     bool const isObjectiveBoss =
         IsObjectiveBoss(
@@ -9027,6 +9112,9 @@ void ManastormMgr::OnUnitDeath(
         return;
     }
 
+    if (run->IsStageCreature(creature->GetGUID()))
+        run->IncrementStageKillCount();
+
     //
     // Greedy Demon resolution is also completely separate from ordinary
     // trash death: no affix death event, Heart roll, Keeper roll, route
@@ -9292,10 +9380,12 @@ void ManastormMgr::OnUnitDeath(
 
         FailRun(
             *run,
-            "进度保存失败。");
+            "Progression persistence failed.");
 
         return;
     }
+
+    run->AdvanceMemberPersonalDepths();
 
     //
 // Progression persistence succeeded.
@@ -9392,8 +9482,9 @@ void ManastormMgr::OnUnitDeath(
             if (member)
             {
                 member->SendSystemMessage(
-                    "法力风暴：目标已完成。"
-                    "法力风暴：目标已完成。现在可使用传送门继续，否则 5 秒后将自动开始下一层。");
+                    "Manastorm: objective complete. "
+                    "Use the portal to continue now, or the next depth "
+                    "will begin automatically in 5 seconds.");
             }
         }
 }
@@ -9475,10 +9566,13 @@ bool ManastormMgr::UseStagePortal(
                 playerGuid,
                 false))
         {
-            if (_runs.find(runId) == _runs.end())
             {
-                error = transitionError;
-                return false;
+                std::shared_lock lock(_runsMutex);
+                if (_runs.find(runId) == _runs.end())
+                {
+                    error = transitionError;
+                    return false;
+                }
             }
 
             LOG_ERROR(
@@ -9492,13 +9586,13 @@ bool ManastormMgr::UseStagePortal(
 
             error =
                 transitionError.empty()
-                ? "无法准备下一个法力风暴阶段。"
+                ? "The next Manastorm stage could not be prepared."
                 : transitionError;
 
             FailRun(
                 *run,
                 std::string(
-                    "点击传送门后阶段切换失败：") +
+                    "Stage transition failed after portal click: ") +
                     error);
 
             return false;
@@ -9670,7 +9764,7 @@ bool ManastormMgr::TransitionToNextStage(
                         member->FindMap(),
                         member))
                 {
-                    error = "法力风暴冒险在阶段激活期间已结束。";
+                    error = "The Manastorm run ended during stage activation.";
                     return false;
                 }
 
@@ -9859,10 +9953,10 @@ bool ManastormMgr::TransitionToNextStage(
 
     // The completed map remains alive as a five-second portal waiting room,
     // but it no longer owns combat callbacks once the next stage exists.
-    _stageRunIds.erase(
-        MakeStageKey(
-            previousMapId,
-            previousInstanceId));
+    {
+        std::unique_lock lock(_runsMutex);
+        _stageRunIds.erase(MakeStageKey(previousMapId, previousInstanceId));
+    }
 
     run.SetState(
         ManastormRunState::Transitioning);
@@ -9877,6 +9971,9 @@ bool ManastormMgr::TransitionToNextStage(
         nextDepth,
         *nextSegment,
         nextScaling);
+    run.SetGroupHealthMultiplier(
+        ManastormDataStore::Instance().GetGroupHealthMultiplier(
+            uint32(run.GetMembers().size()), run.IsEndgame()));
 
     ManastormAffixEngine::Instance()
         .InitializeStage(
@@ -9960,21 +10057,30 @@ bool ManastormMgr::TransitionToNextStage(
         previousInstanceId);
 
     creator->SendSystemMessage(
-        "法力风暴：下一阶段已就绪。"
-        "法力风暴：下一阶段已准备就绪。其他成员可在 5 秒的兜底时间结束前通过。");
+        "Manastorm: next stage prepared. "
+        "Other members have until the five-second fallback to cross.");
 
     return true;
 }
 
 void ManastormMgr::UpdateHeartPickups(uint32 diff)
 {
-    for (auto& runPair : _runs)
+    std::vector<uint64> activeRunIds;
     {
-        if (!runPair.second)
+        std::shared_lock lock(_runsMutex);
+        activeRunIds.reserve(_runs.size());
+        for (auto const& [runId, runPtr] : _runs)
+            if (runPtr)
+                activeRunIds.push_back(runId);
+    }
+
+    for (uint64 runId : activeRunIds)
+    {
+        ManastormRun* runPtr = FindRunById(runId);
+        if (!runPtr)
             continue;
 
-        ManastormRun& run =
-            *runPair.second;
+        ManastormRun& run = *runPtr;
 
         if (run.GetState() != ManastormRunState::Active &&
             run.GetState() != ManastormRunState::StageComplete)
@@ -10068,16 +10174,22 @@ void ManastormMgr::UpdateHeartPickups(uint32 diff)
 
 void ManastormMgr::Update(uint32 diff)
 {
-    //
+    std::vector<uint64> activeRunIds;
+    if (_activeRunCount.load(std::memory_order_relaxed))
+    {
+        std::shared_lock lock(_runsMutex);
+        activeRunIds.reserve(_runs.size());
+        for (auto const& [runId, run] : _runs)
+            if (run)
+                activeRunIds.push_back(runId);
+    }
+
     // Live Ascension entry protection has a ~2 minute maximum. Movement or
     // player combat can request activation earlier; timeout is only the final
     // safeguard against an indefinitely protected PREPARING stage.
-    //
-    for (auto const& pair :
-        _runs)
+    for (uint64 runId : activeRunIds)
     {
-        ManastormRun* run =
-            pair.second.get();
+        ManastormRun* run = FindRunById(runId);
 
         if (!run ||
             run->GetState() !=
@@ -10105,16 +10217,18 @@ void ManastormMgr::Update(uint32 diff)
     if (_runValidationTimer <= diff)
     {
         _runValidationTimer = 1000;
-        for (auto itr = _runs.begin(); itr != _runs.end();)
+        for (uint64 runId : activeRunIds)
         {
-            ManastormRun& run = *itr->second;
-            ++itr;
+            ManastormRun* runPtr = FindRunById(runId);
+            if (!runPtr)
+                continue;
+            ManastormRun& run = *runPtr;
             if (run.GetInstanceId() &&
                 !sMapMgr->FindMap(run.GetSegment().MapId, run.GetInstanceId()))
             {
                 FailRun(
                     run,
-                    "私人阶段实例已过期。");
+                    "The private stage instance has expired.");
             }
             else if (run.GetState() ==
                     ManastormRunState::Preparing &&
@@ -10240,14 +10354,14 @@ void ManastormMgr::Update(uint32 diff)
     {
         uint64 const runId = itr->first;
 
-        auto runItr = _runs.find(runId);
-        if (runItr == _runs.end() || !runItr->second)
+        ManastormRun* runPtr = FindRunById(runId);
+        if (!runPtr)
         {
             itr = _transitionTimers.erase(itr);
             continue;
         }
 
-        ManastormRun& run = *runItr->second;
+        ManastormRun& run = *runPtr;
 
         bool const waitingForPortal =
             run.GetState() ==
@@ -10285,8 +10399,11 @@ void ManastormMgr::Update(uint32 diff)
             continue;
         }
 
-        if (_runs.find(runId) == _runs.end())
-            continue;
+        {
+            std::shared_lock lock(_runsMutex);
+            if (_runs.find(runId) == _runs.end())
+                continue;
+        }
 
         LOG_ERROR(
             LOG_FILTER,
@@ -10299,7 +10416,7 @@ void ManastormMgr::Update(uint32 diff)
         FailRun(
             run,
             std::string(
-                "阶段切换兜底失败：") +
+                "Stage transition fallback failed: ") +
             error);
     }
 }
@@ -10400,7 +10517,11 @@ bool ManastormMgr::LeaveRunMember(ManastormRun& run, Player* player, bool return
     _manastormPotionCharges.erase(guid);
     ClearRunUtilityAuras(player);
     run.RemoveMember(guid);
-    _memberRunIds.erase(guid);
+    {
+        std::unique_lock lock(_runsMutex);
+        _memberRunIds.erase(guid);
+        RefreshRunCountersUnlocked();
+    }
     std::set<ObjectGuid> members;
     for (ObjectGuid::LowType memberGuid : run.GetMembers())
         members.insert(ObjectGuid::Create<HighGuid::Player>(memberGuid));
@@ -10432,7 +10553,7 @@ bool ManastormMgr::LeaveRunMember(ManastormRun& run, Player* player, bool return
     SendClientState(player, nullptr);
     SendClientProgression(player);
     BroadcastClientState(run);
-    player->SendSystemMessage("法力风暴：你已离开本次冒险，其余队员可以继续。");
+    player->SendSystemMessage("Manastorm: you left the run. The remaining members can continue.");
     return true;
 }
 
@@ -10450,7 +10571,7 @@ bool ManastormMgr::HandleReleaseAfterWipe(Player* player)
         return true;
     }
 
-    FailRun(*run, "全体队员都已阵亡。", 0, ManastormFailureExit::FactionHub);
+    FailRun(*run, "All run members are dead.", 0, ManastormFailureExit::FactionHub);
     return true;
 }
 
@@ -10460,14 +10581,14 @@ bool ManastormMgr::StopRun(Player* player, std::string& error)
 
     if (!player)
     {
-        error = "需要一名玩家。";
+        error = "A player is required.";
         return false;
     }
 
     ManastormRun* run = GetRunFor(player);
     if (!run)
     {
-        error = "你不在进行中的法力风暴冒险里。";
+        error = "You are not part of an active Manastorm run.";
         return false;
     }
 
@@ -10478,7 +10599,7 @@ bool ManastormMgr::StopRun(Player* player, std::string& error)
 
     if (run->GetState() == ManastormRunState::AwaitingExit)
     {
-        FailRun(*run, "全体队员都已阵亡。", 0, ManastormFailureExit::FactionHub);
+        FailRun(*run, "All run members are dead.", 0, ManastormFailureExit::FactionHub);
         return true;
     }
 
@@ -10507,19 +10628,17 @@ bool ManastormMgr::StopRun(Player* player, std::string& error)
     BroadcastClientState(
         *run);
 
-    for (ObjectGuid::LowType memberGuid : members)
     {
-        auto itr = _memberRunIds.find(memberGuid);
-        if (itr != _memberRunIds.end() && itr->second == runId)
-            _memberRunIds.erase(itr);
-    }
+        std::unique_lock lock(_runsMutex);
+        for (ObjectGuid::LowType memberGuid : members)
+        {
+            auto itr = _memberRunIds.find(memberGuid);
+            if (itr != _memberRunIds.end() && itr->second == runId)
+                _memberRunIds.erase(itr);
+        }
 
-    if (run->GetInstanceId())
-    {
-        _stageRunIds.erase(
-            MakeStageKey(
-                run->GetSegment().MapId,
-                run->GetInstanceId()));
+        if (run->GetInstanceId())
+            _stageRunIds.erase(MakeStageKey(run->GetSegment().MapId, run->GetInstanceId()));
     }
 
     for (ObjectGuid::LowType memberGuid :
@@ -10642,7 +10761,8 @@ bool ManastormMgr::StopRun(Player* player, std::string& error)
                 returnO);
 
             member->SendSystemMessage(
-                "法力风暴：冒险已结束，但未能将你送回原来的位置。");
+                "Manastorm: the run ended, but returning "
+                "you to your previous location failed.");
         }
     }
 
@@ -10679,13 +10799,38 @@ bool ManastormMgr::StopRun(Player* player, std::string& error)
     ManastormVoiceOfMillhouse::ClearRun(
         runId);
 
-    _runs.erase(runId);
+    {
+        std::unique_lock lock(_runsMutex);
+        _runs.erase(runId);
+        RefreshRunCountersUnlocked();
+    }
 
     LOG_INFO(LOG_FILTER,
         "Stopped Manastorm run {} by player {}.",
         runId, player->GetGUID().GetCounter());
 
     return true;
+}
+
+ManastormRun* ManastormMgr::FindRunById(uint64 runId)
+{
+    if (!runId || !_activeRunCount.load(std::memory_order_relaxed))
+        return nullptr;
+
+    std::shared_lock lock(_runsMutex);
+    auto runItr = _runs.find(runId);
+    return runItr != _runs.end() ? runItr->second.get() : nullptr;
+}
+
+void ManastormMgr::RefreshRunCountersUnlocked() noexcept
+{
+    std::size_t groupRuns = 0;
+    for (auto const& [id, run] : _runs)
+        if (run && run->IsGroupRun())
+            ++groupRuns;
+
+    _activeRunCount.store(_runs.size(), std::memory_order_relaxed);
+    _activeGroupRunCount.store(groupRuns, std::memory_order_relaxed);
 }
 
 ManastormRun* ManastormMgr::GetRunFor(Player const* player)
@@ -10700,6 +10845,10 @@ ManastormRun const* ManastormMgr::GetRunFor(Player const* player) const
 
 ManastormRun* ManastormMgr::GetRunForGuid(ObjectGuid::LowType guid)
 {
+    if (!guid || !_activeRunCount.load(std::memory_order_relaxed))
+        return nullptr;
+
+    std::shared_lock lock(_runsMutex);
     auto indexItr = _memberRunIds.find(guid);
     if (indexItr == _memberRunIds.end())
         return nullptr;
@@ -10710,6 +10859,10 @@ ManastormRun* ManastormMgr::GetRunForGuid(ObjectGuid::LowType guid)
 
 ManastormRun const* ManastormMgr::GetRunForGuid(ObjectGuid::LowType guid) const
 {
+    if (!guid || !_activeRunCount.load(std::memory_order_relaxed))
+        return nullptr;
+
+    std::shared_lock lock(_runsMutex);
     auto indexItr = _memberRunIds.find(guid);
     if (indexItr == _memberRunIds.end())
         return nullptr;
@@ -10721,32 +10874,21 @@ ManastormRun const* ManastormMgr::GetRunForGuid(ObjectGuid::LowType guid) const
 ManastormRun* ManastormMgr::GetRunForStage(
     uint32 mapId, uint32 instanceId)
 {
-    if (!instanceId)
+    if (!instanceId || !_activeRunCount.load(std::memory_order_relaxed))
         return nullptr;
 
-    auto stageItr =
-        _stageRunIds.find(
-            MakeStageKey(mapId, instanceId));
-
+    std::shared_lock lock(_runsMutex);
+    auto stageItr = _stageRunIds.find(MakeStageKey(mapId, instanceId));
     if (stageItr == _stageRunIds.end())
         return nullptr;
 
     auto runItr = _runs.find(stageItr->second);
-    if (runItr == _runs.end() ||
-        !runItr->second)
-    {
-        _stageRunIds.erase(stageItr);
+    if (runItr == _runs.end() || !runItr->second)
         return nullptr;
-    }
 
     ManastormRun* run = runItr->second.get();
-
-    if (run->GetInstanceId() != instanceId ||
-        run->GetSegment().MapId != mapId)
-    {
-        _stageRunIds.erase(stageItr);
+    if (run->GetInstanceId() != instanceId || run->GetSegment().MapId != mapId)
         return nullptr;
-    }
 
     return run;
 }

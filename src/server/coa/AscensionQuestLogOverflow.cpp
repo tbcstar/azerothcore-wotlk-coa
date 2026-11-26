@@ -334,7 +334,7 @@ public:
 
     void OnPlayerUpdate(Player* player, uint32 diff) override
     {
-        if (player->GetSession()->IsHeadlessBot() || !player->IsInWorld())
+        if (player->GetSession()->IsHeadlessBot() || !player->IsInWorld() || player->IsQuestLogExtended())
             return;
 
         OverflowView* view = player->CustomData.Get<OverflowView>(ViewKey);
@@ -394,12 +394,14 @@ private:
         uint16 const slot = questId ? player->FindQuestSlot(questId) : MAX_QUEST_LOG_SIZE;
         bool const overflow = slot >= NATIVE_QUEST_LOG_SIZE && slot < MAX_QUEST_LOG_SIZE;
 
-        if (action == "PROMOTE" && overflow && !player->PromoteQuestToNativeLog(questId))
-            SendAddon(player, "ERROR 你的任务日志中没有能腾出空位的任务。");
+        bool const window = !player->IsQuestLogExtended();
+        if (action == "PROMOTE" && overflow && !player->PromoteQuestToNativeLog(questId) && window)
+            SendAddon(player, "ERROR Your quest log has no quest that can make room.");
         else if (action == "ABANDON" && overflow)
             player->GetSession()->AbandonQuestLogSlot(slot);
 
-        Refresh(player, *player->CustomData.GetDefault<OverflowView>(ViewKey), action == "LIST");
+        if (window)
+            Refresh(player, *player->CustomData.GetDefault<OverflowView>(ViewKey), action == "LIST");
     }
 };
 }

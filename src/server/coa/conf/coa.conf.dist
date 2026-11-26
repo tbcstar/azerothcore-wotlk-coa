@@ -280,13 +280,19 @@ CoA.ItemScaling.Native.RebornArmor = 1
 # 都会授予：书籍不出售它们。可重新加载。
 CoA.AutoProgression = 0
 
-# 发送客户端文件无法承载的按玩家区分的客户端行：
-# 法术通知与交换行、角色成长交换条目，以及种族限制任务的超级追踪行。
-# 静态客户端数据随客户端 MPQ 文件发布。
+# Stream the CreatureDisplayInfo patch rows the installed Ascension client cannot
+# resolve from its own files (custom display ids). The stream starts after the
+# client's extension handshake, with a short login fallback when it never arrives.
 CoA.SendDisplayPatches = 1
 
-# 扩展操作码范围，来源于已安装客户端的操作码分发表。
-# 请保持这些值为十进制，因为 ConfigMgr 的数值会按十进制解析。
+# Unpatched copy of the client's CreatureDisplayInfo.dbc, used to stream exactly
+# the rows the client is missing. Empty selects DataDir/dbc_clientset; when the
+# copy is unavailable, the server's own DataDir/dbc/CreatureDisplayInfo.dbc is used,
+# so only rows added through creaturedisplayinfo_dbc are streamed.
+CoA.ClientDbcDirectory = ""
+
+# Extension range derived from the installed client's opcode dispatch table.
+# Keep these values decimal because ConfigMgr numeric values are parsed as decimal.
 CoA.FirstExtensionOpcode = 1311
 CoA.LastExtensionOpcode = 2515
 

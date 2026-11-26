@@ -1,6 +1,7 @@
 #include "GrootCoin.h"
 #include "GrootCoinInternal.h"
 
+#include "AscensionClientSpellPatches.h"
 #include "Chat.h"
 #include "Configuration/Config.h"
 #include "CryptoRandom.h"
@@ -60,7 +61,10 @@ namespace GrootCoin
                 Fail(Acore::StringFormat("item_dbc 中没有 {} 对应的行，客户端无法显示这种货币。", COIN_ITEM));
             else if (client->ClassID != coin->Class || client->SubclassID != coin->SubClass
                 || client->DisplayInfoID != coin->DisplayInfoID || client->InventoryType != coin->InventoryType)
-                Fail(Acore::StringFormat("item_dbc 的 {} 与 item_template 不一致。", COIN_ITEM));
+                Fail(Acore::StringFormat("item_dbc {} does not match item_template.", COIN_ITEM));
+
+            if (!Ascension::ClientItemPatches::Instance().Contains(COIN_ITEM))
+                Fail(Acore::StringFormat("item {} is not registered for the client item patch stream.", COIN_ITEM));
         }
 
         void ValidateTokenTemplate()
@@ -185,11 +189,12 @@ namespace GrootCoin
             AwardsAvailable() ? "已启用" : "已禁用", ExchangeAvailable() ? "已启用" : "已禁用");
         handler->PSendSysMessage("配置：GrootCoin.Enable={} GrootCoin.ExchangeEnable={} TokensPerCoin={} MaxAward={}。",
             settings.enable ? 1 : 0, settings.exchangeEnable ? 1 : 0, settings.tokensPerCoin, settings.maxAward);
-        handler->PSendSysMessage("物品：货币 {}（显示 {}），市集代币 {}。",
-            COIN_ITEM, COIN_DISPLAY, BAZAAR_TOKEN_ITEM);
-        handler->PSendSysMessage("外部发放（groot_coin_award_queue）：{}，每 {} 秒轮询一次。",
-            ShouldPollQueue(AwardsAvailable(), settings.externalAwardsEnable) ? "开启" : "关闭", settings.queuePollSeconds);
-        handler->PSendSysMessage("待处理：{} 笔发放（其中 {} 笔来自队列）。", Internal::PendingAwards(),
+        handler->PSendSysMessage("Items: coin {} (display {}), Bazaar Token {}. Client item patch registered: {}.",
+            COIN_ITEM, COIN_DISPLAY, BAZAAR_TOKEN_ITEM,
+            Ascension::ClientItemPatches::Instance().Contains(COIN_ITEM) ? "yes" : "no");
+        handler->PSendSysMessage("External awards (groot_coin_award_queue): {}, polled every {} s.",
+            ShouldPollQueue(AwardsAvailable(), settings.externalAwardsEnable) ? "on" : "off", settings.queuePollSeconds);
+        handler->PSendSysMessage("Pending: {} award(s) ({} from the queue).", Internal::PendingAwards(),
             Internal::QueuedInFlight());
         if (!exchangeBlocked.empty())
             handler->PSendSysMessage("兑换已被阻断：{}", exchangeBlocked);

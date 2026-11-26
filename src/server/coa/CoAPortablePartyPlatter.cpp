@@ -27,12 +27,12 @@ namespace
     };
 
     constexpr std::array<Treat, 6> Treats = {{
-        {"Slice of Cake", 9978102},
-        {"Blubbery Muffin", 9978103},
-        {"Rocks on the Rocks", 9978104},
-        {"Sugarfree Firewater Sorbet", 9978105},
-        {"Snow in a Cone", 9978107},
-        {"Party Peripherals", 9978106},
+        {"蛋糕切片", 9978102},
+        {"油滋滋松饼", 9978103},
+        {"岩石加冰", 9978104},
+        {"无糖烈酒雪葩", 9978105},
+        {"甜筒雪", 9978107},
+        {"派对周边", 9978106},
     }};
 
     constexpr std::array<uint32, 4> Cones = {9978107, 9978108, 9978109, 9978110};

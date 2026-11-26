@@ -64,7 +64,7 @@ namespace GrootCoin
                 Fail(Acore::StringFormat("item_dbc {} does not match item_template.", COIN_ITEM));
 
             if (!Ascension::ClientItemPatches::Instance().Contains(COIN_ITEM))
-                Fail(Acore::StringFormat("item {} is not registered for the client item patch stream.", COIN_ITEM));
+                Fail(Acore::StringFormat("物品 {} 未注册到客户端物品补丁流。", COIN_ITEM));
         }
 
         void ValidateTokenTemplate()
@@ -189,12 +189,12 @@ namespace GrootCoin
             AwardsAvailable() ? "已启用" : "已禁用", ExchangeAvailable() ? "已启用" : "已禁用");
         handler->PSendSysMessage("配置：GrootCoin.Enable={} GrootCoin.ExchangeEnable={} TokensPerCoin={} MaxAward={}。",
             settings.enable ? 1 : 0, settings.exchangeEnable ? 1 : 0, settings.tokensPerCoin, settings.maxAward);
-        handler->PSendSysMessage("Items: coin {} (display {}), Bazaar Token {}. Client item patch registered: {}.",
+        handler->PSendSysMessage("物品：硬币 {}（模型 {}），集市代币 {}。客户端物品补丁已注册：{}。",
             COIN_ITEM, COIN_DISPLAY, BAZAAR_TOKEN_ITEM,
-            Ascension::ClientItemPatches::Instance().Contains(COIN_ITEM) ? "yes" : "no");
-        handler->PSendSysMessage("External awards (groot_coin_award_queue): {}, polled every {} s.",
-            ShouldPollQueue(AwardsAvailable(), settings.externalAwardsEnable) ? "on" : "off", settings.queuePollSeconds);
-        handler->PSendSysMessage("Pending: {} award(s) ({} from the queue).", Internal::PendingAwards(),
+            Ascension::ClientItemPatches::Instance().Contains(COIN_ITEM) ? "是" : "否");
+        handler->PSendSysMessage("外部奖励（groot_coin_award_queue）：{}，每 {} 秒轮询一次。",
+            ShouldPollQueue(AwardsAvailable(), settings.externalAwardsEnable) ? "开启" : "关闭", settings.queuePollSeconds);
+        handler->PSendSysMessage("待处理：{} 笔奖励（其中 {} 笔来自队列）。", Internal::PendingAwards(),
             Internal::QueuedInFlight());
         if (!exchangeBlocked.empty())
             handler->PSendSysMessage("兑换已被阻断：{}", exchangeBlocked);

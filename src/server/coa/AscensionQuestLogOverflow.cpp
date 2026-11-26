@@ -410,7 +410,7 @@ private:
 
         bool const window = !player->IsQuestLogExtended();
         if (action == "PROMOTE" && overflow && !player->PromoteQuestToNativeLog(questId) && window)
-            SendAddon(player, "ERROR Your quest log has no quest that can make room.");
+            SendAddon(player, "ERROR 你的任务日志中没有能腾出空位的任务。");
         else if (action == "ABANDON" && overflow)
             player->GetSession()->AbandonQuestLogSlot(slot);
 

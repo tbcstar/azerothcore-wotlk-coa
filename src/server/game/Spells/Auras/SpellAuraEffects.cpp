@@ -2221,8 +2221,12 @@ void AuraEffect::HandleAuraModShapeshift(AuraApplication const* aurApp, uint8 mo
         case FORM_MOONKIN:                                  // 0x1F
         case FORM_SPIRITOFREDEMPTION:                       // 0x20
         // CoA custom forms above the Venomancer pair; they ride the class default resource policy.
+        case 0x31:
+        case 0x32:
         case 0x36:
         case 0x37:
+        case 0x38:
+        case 0x39:
         case 0x3A:
         case 0x3B:
         case 0x3C:

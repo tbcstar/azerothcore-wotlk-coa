@@ -109,7 +109,14 @@ void ArenaSeasonMgr::LoadRewards()
 void ArenaSeasonMgr::LoadActiveSeason()
 {
     QueryResult result = CharacterDatabase.Query("SELECT season_id, season_state FROM active_arena_season");
-    ASSERT(result, "active_arena_season can't be empty");
+    if (!result)
+    {
+        LOG_WARN("server.loading",
+                 ">> Loaded 0 active arena season. DB table `active_arena_season` is empty, arena season features "
+                 "stay on season {}",
+                 _currentSeason);
+        return;
+    }
 
     Field* fields = result->Fetch();
     _currentSeason      = fields[0].Get<uint8>();

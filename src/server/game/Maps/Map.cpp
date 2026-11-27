@@ -2367,7 +2367,12 @@ void InstanceMap::PermBindAllPlayers()
 
 void InstanceMap::UnloadAll()
 {
-    ASSERT(!HavePlayers());
+    if (HavePlayers())
+    {
+        LOG_ERROR("maps", "InstanceMap::UnloadAll: map {} instance {} still has players, unload skipped", GetId(),
+                  GetInstanceId());
+        return;
+    }
 
     if (m_resetAfterUnload)
     {

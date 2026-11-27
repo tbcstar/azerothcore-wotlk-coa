@@ -967,25 +967,28 @@ void Battleground::EndBattleground(PvPTeamId winnerTeamId)
 
         if (isBattleground() && sWorld->getBoolConfig(CONFIG_BATTLEGROUND_STORE_STATISTICS_ENABLE))
         {
-            stmt = CharacterDatabase.GetPreparedStatement(CHAR_INS_PVPSTATS_PLAYER);
             auto const& score = PlayerScores.find(player->GetGUID().GetCounter());
+            if (score != PlayerScores.end())
+            {
+                stmt = CharacterDatabase.GetPreparedStatement(CHAR_INS_PVPSTATS_PLAYER);
 
-            stmt->SetData(0, battlegroundId);
-            stmt->SetData(1, player->GetGUID().GetCounter());
-            stmt->SetData(2, bgTeamId == GetTeamId(winnerTeamId));
-            stmt->SetData(3, score->second->GetKillingBlows());
-            stmt->SetData(4, score->second->GetDeaths());
-            stmt->SetData(5, score->second->GetHonorableKills());
-            stmt->SetData(6, score->second->GetBonusHonor());
-            stmt->SetData(7, score->second->GetDamageDone());
-            stmt->SetData(8, score->second->GetHealingDone());
-            stmt->SetData(9, score->second->GetAttr1());
-            stmt->SetData(10, score->second->GetAttr2());
-            stmt->SetData(11, score->second->GetAttr3());
-            stmt->SetData(12, score->second->GetAttr4());
-            stmt->SetData(13, score->second->GetAttr5());
+                stmt->SetData(0, battlegroundId);
+                stmt->SetData(1, player->GetGUID().GetCounter());
+                stmt->SetData(2, bgTeamId == GetTeamId(winnerTeamId));
+                stmt->SetData(3, score->second->GetKillingBlows());
+                stmt->SetData(4, score->second->GetDeaths());
+                stmt->SetData(5, score->second->GetHonorableKills());
+                stmt->SetData(6, score->second->GetBonusHonor());
+                stmt->SetData(7, score->second->GetDamageDone());
+                stmt->SetData(8, score->second->GetHealingDone());
+                stmt->SetData(9, score->second->GetAttr1());
+                stmt->SetData(10, score->second->GetAttr2());
+                stmt->SetData(11, score->second->GetAttr3());
+                stmt->SetData(12, score->second->GetAttr4());
+                stmt->SetData(13, score->second->GetAttr5());
 
-            CharacterDatabase.Execute(stmt);
+                CharacterDatabase.Execute(stmt);
+            }
         }
 
         WorldPacket data;

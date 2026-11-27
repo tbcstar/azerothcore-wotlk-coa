@@ -4772,7 +4772,14 @@ void Unit::_UpdateAutoRepeatSpell()
     // Check for ranged attack timer
     if (isAttackReady(RANGED_ATTACK))
     {
-        SpellCastResult result = m_currentSpells[CURRENT_AUTOREPEAT_SPELL]->CheckCast(true);
+        Spell* autoRepeat = m_currentSpells[CURRENT_AUTOREPEAT_SPELL];
+        if (!autoRepeat->UpdatePointers() || !autoRepeat->m_targets.GetUnitTarget())
+        {
+            InterruptSpell(CURRENT_AUTOREPEAT_SPELL);
+            return;
+        }
+
+        SpellCastResult result = autoRepeat->CheckCast(true);
         if (result != SPELL_CAST_OK)
         {
             if (spellProto->Id != HUNTER_AUTOSHOOT)

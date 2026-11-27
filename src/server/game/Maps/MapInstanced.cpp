@@ -307,6 +307,12 @@ bool MapInstanced::DestroyInstance(InstancedMaps::iterator& itr)
 
     sScriptMgr->OnDestroyInstance(this, itr->second);
 
+    if (itr->second->HavePlayers())
+    {
+        ++itr;
+        return false;
+    }
+
     itr->second->UnloadAll();
 
     // erase map

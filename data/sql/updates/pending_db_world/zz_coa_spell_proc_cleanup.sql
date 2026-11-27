@@ -116,7 +116,8 @@ UPDATE `spell_proc`
 SET `DisableEffectsMask` = `DisableEffectsMask` & ~2
 WHERE `SpellId` = 801242 AND (`DisableEffectsMask` & 2) <> 0;
 
--- 该法术在客户端数据里不存在，`spell_proc` 的整行都没有意义。
-DELETE FROM `spell_proc` WHERE `SpellId` = 71761;
+-- 法术 71761 在 `spell_proc` 里有一行，但客户端 `Spell.dbc` 查不到这条法术记录。
+-- 该法术由 `spell_mage.cpp` 引用（Deep Freeze 免疫状态），可能是数据缺口而不是脏数据，
+-- 因此这里保留这一行，只删除真正重复和无效的掩码。
 
 COMMIT;

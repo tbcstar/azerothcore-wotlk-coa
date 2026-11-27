@@ -65,7 +65,9 @@ public:
     };
 
     /// Reads a WDBC file whose records hold at least `minimumDWords` DWORDs. Logs and returns false otherwise.
-    bool Load(std::string const& path, uint32 minimumDWords);
+    /// `reportMissingAsError = false` keeps a missing file silent for callers whose fallback is the expected state;
+    /// unreadable or malformed files are still reported.
+    bool Load(std::string const& path, uint32 minimumDWords, bool reportMissingAsError = true);
 
     [[nodiscard]] uint32 GetRecordCount() const { return _recordCount; }
     [[nodiscard]] uint32 GetRecordSize() const { return _recordSize; }

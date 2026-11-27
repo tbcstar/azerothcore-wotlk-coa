@@ -5536,9 +5536,10 @@ private:
   }
 
   static std::optional<std::unordered_set<uint32>>
-  LoadDbcIds(std::filesystem::path const &path, uint32 minimumDWords) {
+  LoadDbcIds(std::filesystem::path const &path, uint32 minimumDWords,
+             bool reportMissingAsError = false) {
     ClientDBC file;
-    if (!file.Load(path.string(), minimumDWords))
+    if (!file.Load(path.string(), minimumDWords, reportMissingAsError))
       return std::nullopt;
 
     std::unordered_set<uint32> ids;
@@ -5563,7 +5564,7 @@ private:
         LoadDbcIds(clientDbc, ITEM_DISPLAY_INFO_FIELD_COUNT);
     if (!clientIds)
     {
-      LOG_WARN("coa",
+      LOG_INFO("coa",
                "Client DBC copy {} is unavailable; streaming only the "
                "itemdisplayinfo_dbc rows",
                clientDbc.generic_string());
@@ -5721,7 +5722,7 @@ private:
         LoadDbcIds(clientDbc, std::tuple_size_v<ItemPatchRow>);
     if (!clientIds)
     {
-      LOG_WARN("coa",
+      LOG_INFO("coa",
                "Client DBC copy {} is unavailable; streaming only the item_dbc "
                "rows",
                clientDbc.generic_string());

@@ -384,7 +384,10 @@ class spell_wildcard_cauterizing_heal : public SpellScript
     }
     void Register() override
     {
-        OnEffectHitTarget += SpellEffectFn(spell_wildcard_cauterizing_heal::Heal, EFFECT_0, SPELL_EFFECT_HEAL);
+        if (SpellInfo const* info = sSpellMgr->GetSpellInfo(m_scriptSpellId))
+            for (uint8 i = 0; i < MAX_SPELL_EFFECTS; ++i)
+                if (info->Effects[i].Effect == SPELL_EFFECT_HEAL)
+                    OnEffectHitTarget += SpellEffectFn(spell_wildcard_cauterizing_heal::Heal, SpellEffIndex(i), SPELL_EFFECT_HEAL);
     }
 };
 class aura_wildcard_cauterizing_hot : public AuraScript
@@ -397,8 +400,11 @@ class aura_wildcard_cauterizing_hot : public AuraScript
     }
     void Register() override
     {
-        OnEffectPeriodic += AuraEffectPeriodicFn(aura_wildcard_cauterizing_hot::Tick,
-            EFFECT_1, SPELL_AURA_PERIODIC_HEAL);
+        if (SpellInfo const* info = sSpellMgr->GetSpellInfo(m_scriptSpellId))
+            for (uint8 i = 0; i < MAX_SPELL_EFFECTS; ++i)
+                if (info->Effects[i].ApplyAuraName == SPELL_AURA_PERIODIC_HEAL)
+                    OnEffectPeriodic += AuraEffectPeriodicFn(aura_wildcard_cauterizing_hot::Tick,
+                        SpellEffIndex(i), SPELL_AURA_PERIODIC_HEAL);
     }
 };
 

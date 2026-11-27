@@ -567,12 +567,27 @@ class spell_ascension_mystic_atonement_heal : public SpellScript
 
     void Register() override
     {
-        OnObjectAreaTargetSelect += SpellObjectAreaTargetSelectFn(spell_ascension_mystic_atonement_heal::SelectLowest,
-            EFFECT_ALL, TARGET_UNIT_SRC_AREA_ALLY);
-        OnObjectAreaTargetSelect += SpellObjectAreaTargetSelectFn(spell_ascension_mystic_atonement_heal::SelectLowest,
-            EFFECT_ALL, TARGET_UNIT_DEST_AREA_ALLY);
-        OnObjectAreaTargetSelect += SpellObjectAreaTargetSelectFn(spell_ascension_mystic_atonement_heal::SelectLowest,
-            EFFECT_ALL, TARGET_UNIT_DEST_AREA_ENTRY);
+        SpellInfo const* info = sSpellMgr->GetSpellInfo(m_scriptSpellId);
+        if (!info)
+            return;
+
+        auto hasTarget = [info](uint32 targetType)
+        {
+            for (SpellEffectInfo const& effect : info->Effects)
+                if (effect.TargetA.GetTarget() == targetType || effect.TargetB.GetTarget() == targetType)
+                    return true;
+            return false;
+        };
+
+        if (hasTarget(TARGET_UNIT_SRC_AREA_ALLY))
+            OnObjectAreaTargetSelect += SpellObjectAreaTargetSelectFn(spell_ascension_mystic_atonement_heal::SelectLowest,
+                EFFECT_ALL, TARGET_UNIT_SRC_AREA_ALLY);
+        if (hasTarget(TARGET_UNIT_DEST_AREA_ALLY))
+            OnObjectAreaTargetSelect += SpellObjectAreaTargetSelectFn(spell_ascension_mystic_atonement_heal::SelectLowest,
+                EFFECT_ALL, TARGET_UNIT_DEST_AREA_ALLY);
+        if (hasTarget(TARGET_UNIT_DEST_AREA_ENTRY))
+            OnObjectAreaTargetSelect += SpellObjectAreaTargetSelectFn(spell_ascension_mystic_atonement_heal::SelectLowest,
+                EFFECT_ALL, TARGET_UNIT_DEST_AREA_ENTRY);
     }
 };
 

@@ -14972,6 +14972,13 @@ void Player::_LoadSkills(PreparedQueryResult result)
             uint16 max      = fields[2].Get<uint16>();
 
             SkillRaceClassInfoEntry const* rcEntry = GetSkillRaceClassInfo(skill, getRace(), getClass());
+            if (!rcEntry && IsAscensionClass(getClass()))
+            {
+                Classes legacyClass = GetLegacyClassForCustomClass(Classes(getClass()));
+                if (legacyClass != Classes(getClass()))
+                    rcEntry = GetSkillRaceClassInfo(skill, getRace(), uint8(legacyClass));
+            }
+
             if (!rcEntry)
             {
                 LOG_ERROR("entities.player", "Player {} (GUID: {}), has skill ({}) that is invalid for the race/class combination (Race: {}, Class: {}). Will be deleted.",

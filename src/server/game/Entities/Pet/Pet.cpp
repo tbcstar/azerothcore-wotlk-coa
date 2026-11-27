@@ -1085,6 +1085,11 @@ bool Guardian::InitStatsForLevel(uint8 petlevel)
                 {
                     petType = HUNTER_PET;
                 }
+                else if (IsAscensionClass(owner->getClass()))
+                {
+                    petType = GetLegacyClassForCustomClass(Classes(owner->getClass())) == CLASS_HUNTER ? HUNTER_PET
+                                                                                                   : SUMMON_PET;
+                }
             }
 
             if (petType == HUNTER_PET)
